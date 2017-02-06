@@ -1,0 +1,778 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Session，Cookie，jsessionid，Url重写 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam hu">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="Session&amp;#xFF0C;Cookie&amp;#xFF0C;jsessionid&amp;#xFF0C;Url&amp;#x91CD;&amp;#x5199;\
+
+&amp;#x5728;&amp;#x4E00;&amp;#x4E9B;&amp;#x6295;&amp;#x7968;&amp;#x4E4B;&amp;#x7C7B;&amp;#x7684;&amp;#x573A;&amp;#x5408;&amp;#xFF0C;&amp;#x6211;&amp;#x4EEC;&amp;#x5F80;&amp;#x5F80;&amp;#x56E0;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Session，Cookie，jsessionid，Url重写">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/03/30/Session，Cookie，jsessionid，Url重写/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="Session&amp;#xFF0C;Cookie&amp;#xFF0C;jsessionid&amp;#xFF0C;Url&amp;#x91CD;&amp;#x5199;\
+
+&amp;#x5728;&amp;#x4E00;&amp;#x4E9B;&amp;#x6295;&amp;#x7968;&amp;#x4E4B;&amp;#x7C7B;&amp;#x7684;&amp;#x573A;&amp;#x5408;&amp;#xFF0C;&amp;#x6211;&amp;#x4EEC;&amp;#x5F80;&amp;#x5F80;&amp;#x56E0;&amp;#x">
+<meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Session，Cookie，jsessionid，Url重写">
+<meta name="twitter:description" content="Session&amp;#xFF0C;Cookie&amp;#xFF0C;jsessionid&amp;#xFF0C;Url&amp;#x91CD;&amp;#x5199;\
+
+&amp;#x5728;&amp;#x4E00;&amp;#x4E9B;&amp;#x6295;&amp;#x7968;&amp;#x4E4B;&amp;#x7C7B;&amp;#x7684;&amp;#x573A;&amp;#x5408;&amp;#xFF0C;&amp;#x6211;&amp;#x4EEC;&amp;#x5F80;&amp;#x5F80;&amp;#x56E0;&amp;#x">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">技术分享与学习，聚沙成塔!</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/" title="Session，Cookie，jsessionid，Url重写" itemprop="url">Session，Cookie，jsessionid，Url重写</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Session，Cookie，jsessionid，Url重写"><span class="toc-number">1.</span> <span class="toc-text">Session，Cookie，jsessionid，Url重写</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Session&#xFF0C;Cookie&#xFF0C;jsessionid&#xFF0C;Url&#x91CD;&#x5199;"><a href="#Session&#xFF0C;Cookie&#xFF0C;jsessionid&#xFF0C;Url&#x91CD;&#x5199;" class="headerlink" title="Session&#xFF0C;Cookie&#xFF0C;jsessionid&#xFF0C;Url&#x91CD;&#x5199;"></a>Session&#xFF0C;Cookie&#xFF0C;jsessionid&#xFF0C;Url&#x91CD;&#x5199;</h1><div><br><br>\<br><br></div>
+
+<div><br><br>&#x5728;&#x4E00;&#x4E9B;&#x6295;&#x7968;&#x4E4B;&#x7C7B;&#x7684;&#x573A;&#x5408;&#xFF0C;&#x6211;&#x4EEC;&#x5F80;&#x5F80;&#x56E0;&#x4E3A;&#x516C;&#x5E73;&#x7684;&#x539F;&#x5219;&#x8981;&#x6C42;&#x6BCF;&#x4EBA;&#x53EA;&#x80FD;&#x6295;&#x4E00;&#x7968;&#xFF0C;&#x5728;&#x4E00;&#x4E9B;WEB&#x5F00;&#x53D1;&#x4E2D;&#x4E5F;&#x6709;&#x7C7B;&#x4F3C;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x901A;&#x5E38;&#x4F1A;&#x4F7F;&#x7528;COOKIE&#x6765;&#x5B9E;&#x73B0;&#xFF0C;&#x4F8B;&#x5982;&#x5982;&#x4E0B;&#x7684;&#x4EE3;&#x7801;&#xFF1A;<br><br></div>
+
+<p>&lt; % cookie[]cookies = request.getCookies();</p>
+<p>if (cookies.lenght == 0 || cookies == null){</p>
+<p>doStuffForNewbie();</p>
+<p>//&#x6CA1;&#x6709;&#x8BBF;&#x95EE;&#x8FC7;</p>
+<p>}else{</p>
+<p>doStuffForReturnVisitor(); //&#x5DF2;&#x7ECF;&#x8BBF;&#x95EE;&#x8FC7;&#x4E86;</p>
+<p>}</p>
+<p>% &gt;</p>
+<p>&#x8FD9;&#x662F;&#x5F88;&#x6D45;&#x663E;&#x6613;&#x61C2;&#x7684;&#x9053;&#x7406;&#xFF0C;&#x68C0;&#x6D4B;COOKIE&#x7684;&#x5B58;&#x5728;&#xFF0C;&#x5982;&#x679C;&#x5B58;&#x5728;&#x8BF4;&#x660E;&#x5DF2;&#x7ECF;&#x8FD0;&#x884C;&#x8FC7;&#x5199;&#x5165;COOKIE&#x7684;&#x4EE3;&#x7801;&#x4E86;&#xFF0C;&#x7136;&#x800C;&#x8FD0;&#x884C;&#x4EE5;&#x4E0A;&#x7684;&#x4EE3;&#x7801;&#x540E;&#xFF0C;&#x65E0;&#x8BBA;&#x4F55;&#x65F6;&#x7ED3;&#x679C;&#x90FD;&#x662F;&#x6267;&#x884C;<br>doStuffForReturnVisitor()&#xFF0C;&#x901A;&#x8FC7;&#x63A7;&#x5236;&#x9762;&#x677F;-Internet&#x9009;&#x9879;-&#x8BBE;&#x7F6E;-&#x5BDF;&#x770B;&#x6587;&#x4EF6;&#x5374;&#x59CB;&#x7EC8;&#x770B;&#x4E0D;&#x5230;&#x751F;&#x6210;&#x7684;cookie&#x6587;&#x4EF6;&#xFF0C;&#x5947;&#x602A;&#xFF0C;<br>&#x4EE3;&#x7801;&#x660E;&#x660E;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x4E0D;&#x8FC7;&#x65E2;&#x7136;&#x6709;cookie&#xFF0C;&#x90A3;&#x5C31;&#x663E;&#x793A;&#x51FA;&#x6765;&#x770B;&#x770B;&#x3002;<br><a id="more"></a></p>
+<p>cookie[]cookies = request.getCookies();</p>
+<p>if (cookies.lenght == 0 || cookies == null)</p>
+<p>out.println(&#x201C;Has not visited this website&#x201D;);</p>
+<p>}else{</p>
+<p>for (int i = 0; i &lt; cookie.length; i++){</p>
+<p>out.println(&#x201C;cookie name:&#x201D; + cookies[i].getName() + &#x201C;cookie value:&#x201D; +</p>
+<p>cookie[i].getValue());</p>
+<p>}</p>
+<p>}</p>
+<p>&#x8FD0;&#x884C;&#x7ED3;&#x679C;:</p>
+<p>cookie name:JSESSIONID cookie value:KWJHUG6JJM65HS2K6</p>
+<p>&#x4E3A;&#x4EC0;&#x4E48;&#x4F1A;&#x6709;cookie&#x5462;,&#x5927;&#x5BB6;&#x90FD;&#x77E5;&#x9053;&#xFF0C;http&#x662F;&#x65E0;&#x72B6;&#x6001;&#x7684;&#x534F;&#x8BAE;&#xFF0C;&#x5BA2;&#x6237;&#x6BCF;&#x6B21;&#x8BFB;&#x53D6;web&#x9875;&#x9762;&#x65F6;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x90FD;&#x6253;&#x5F00;&#x65B0;&#x7684;&#x4F1A;&#x8BDD;&#xFF0C;&#x800C;&#x4E14;&#x670D;&#x52A1;&#x5668;&#x4E5F;&#x4E0D;&#x4F1A;&#x81EA;&#x52A8;&#x7EF4;&#x62A4;&#x5BA2;&#x6237;<br>&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x4FE1;&#x606F;&#xFF0C;&#x90A3;&#x4E48;&#x8981;&#x600E;&#x4E48;&#x624D;&#x80FD;&#x5B9E;&#x73B0;&#x7F51;&#x4E0A;&#x5546;&#x5E97;&#x4E2D;&#x7684;&#x8D2D;&#x7269;&#x8F66;&#x5462;&#xFF0C;session&#x5C31;&#x662F;&#x4E00;&#x79CD;&#x4FDD;&#x5B58;&#x4E0A;&#x4E0B;&#x6587;&#x4FE1;&#x606F;&#x7684;&#x673A;&#x5236;&#xFF0C;&#x5B83;&#x662F;&#x9488;&#x5BF9;&#x6BCF;&#x4E00;&#x4E2A;&#x7528;&#x6237;&#x7684;&#xFF0C;<span style="color: #ff0000;">&#x53D8;<br>&#x91CF;&#x7684;&#x503C;&#x4FDD;&#x5B58;&#x5728;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#xFF0C;&#x901A;&#x8FC7;SessionID&#x6765;&#x533A;&#x5206;&#x4E0D;&#x540C;&#x7684;&#x5BA2;&#x6237;,session&#x662F;&#x4EE5;cookie&#x6216;URL&#x91CD;&#x5199;&#x4E3A;&#x57FA;&#x7840;&#x7684;&#xFF0C;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;cookie&#x6765;&#x5B9E;&#x73B0;&#xFF0C;&#x7CFB;<br>&#x7EDF;&#x4F1A;&#x521B;&#x9020;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;JSESSIONID&#x7684;&#x8F93;&#x51FA;cookie&#xFF0C;&#x6211;&#x4EEC;&#x53EB;&#x505A;session<br>cookie,&#x4EE5;&#x533A;&#x522B;persistent cookies,&#x4E5F;&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x901A;&#x5E38;&#x6240;&#x8BF4;&#x7684;cookie,&#x6CE8;&#x610F;session<br>cookie&#x662F;&#x5B58;&#x50A8;&#x4E8E;&#x6D4F;&#x89C8;&#x5668;&#x5185;&#x5B58;&#x4E2D;&#x7684;&#xFF0C;&#x5E76;&#x4E0D;&#x662F;&#x5199;&#x5230;&#x786C;&#x76D8;&#x4E0A;&#x7684;&#xFF0C;&#x8FD9;&#x4E5F;&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x521A;&#x624D;&#x770B;&#x5230;&#x7684;JSESSIONID&#xFF0C;&#x6211;&#x4EEC;&#x901A;&#x5E38;&#x60C5;&#x662F;&#x770B;&#x4E0D;&#x5230;JSESSIONID&#x7684;&#xFF0C;&#x4F46;<br>&#x662F;&#x5F53;&#x6211;&#x4EEC;&#x628A;&#x6D4F;&#x89C8;&#x5668;&#x7684;cookie&#x7981;&#x6B62;&#x540E;&#xFF0C;web&#x670D;&#x52A1;&#x5668;&#x4F1A;&#x91C7;&#x7528;URL&#x91CD;&#x5199;&#x7684;&#x65B9;&#x5F0F;&#x4F20;&#x9012;Sessionid&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x5728;&#x5730;&#x5740;&#x680F;&#x770B;&#x5230;<br>sessionid=KWJHUG6JJM65HS2K6&#x4E4B;&#x7C7B;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</span></p>
+<p>&#x660E;&#x767D;&#x4E86;&#x539F;&#x7406;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x7684;&#x5206;&#x8FA8;&#x51FA;persistent cookies&#x548C;session<br>cookie&#x7684;&#x533A;&#x522B;&#x4E86;&#xFF0C;&#x7F51;&#x4E0A;&#x90A3;&#x4E9B;&#x5173;&#x4E8E;&#x4E24;&#x8005;&#x5B89;&#x5168;&#x6027;&#x7684;&#x8BA8;&#x8BBA;&#x4E5F;&#x5C31;&#x4E00;&#x76EE;&#x4E86;&#x7136;&#x4E86;&#xFF0C;<span style="color: #ff0000;">session<br>cookie&#x9488;&#x5BF9;&#x67D0;&#x4E00;&#x6B21;&#x4F1A;&#x8BDD;&#x800C;&#x8A00;&#xFF0C;&#x4F1A;&#x8BDD;&#x7ED3;&#x675F;session<br>cookie&#x4E5F;&#x5C31;&#x968F;&#x7740;&#x6D88;&#x5931;&#x4E86;&#xFF0C;&#x800C;persistent<br>cookie&#x53EA;&#x662F;&#x5B58;&#x5728;&#x4E8E;&#x5BA2;&#x6237;&#x7AEF;&#x786C;&#x76D8;&#x4E0A;&#x7684;&#x4E00;&#x6BB5;&#x6587;&#x672C;&#xFF08;&#x901A;&#x5E38;&#x662F;&#x52A0;&#x5BC6;&#x7684;&#xFF09;&#xFF0C;&#x800C;&#x4E14;&#x53EF;&#x80FD;&#x4F1A;&#x906D;&#x5230;cookie&#x6B3A;&#x9A97;&#x4EE5;&#x53CA;&#x9488;&#x5BF9;cookie&#x7684;&#x8DE8;&#x7AD9;&#x811A;&#x672C;&#x653B;&#x51FB;&#xFF0C;&#x81EA;&#x7136;&#x4E0D;&#x5982;<br>session cookie&#x5B89;&#x5168;&#x4E86;&#x3002;</span></p>
+<p><span style="color: #ff0000;">&#x901A;&#x5E38;session<br>cookie&#x662F;&#x4E0D;&#x80FD;&#x8DE8;&#x7A97;&#x53E3;&#x4F7F;&#x7528;&#x7684;&#xFF0C;&#x5F53;&#x4F60;&#x65B0;&#x5F00;&#x4E86;&#x4E00;&#x4E2A;&#x6D4F;&#x89C8;&#x5668;&#x7A97;&#x53E3;&#x8FDB;&#x5165;&#x76F8;&#x540C;&#x9875;&#x9762;&#x65F6;&#xFF0C;&#x7CFB;&#x7EDF;&#x4F1A;&#x8D4B;&#x4E88;&#x4F60;&#x4E00;&#x4E2A;&#x65B0;&#x7684;sessionid&#xFF0C;&#x8FD9;&#x6837;&#x6211;&#x4EEC;&#x4FE1;&#x606F;&#x5171;&#x4EAB;&#x7684;&#x76EE;&#x7684;&#x5C31;&#x8FBE;&#x4E0D;&#x5230;<br>&#x4E86;&#xFF0C;&#x6B64;&#x65F6;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5148;&#x628A;sessionid&#x4FDD;&#x5B58;&#x5728;persistent<br>cookie&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x65B0;&#x7A97;&#x53E3;&#x4E2D;&#x8BFB;&#x51FA;&#x6765;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x4E0A;&#x4E00;&#x4E2A;&#x7A97;&#x53E3;SessionID&#x4E86;&#xFF0C;&#x8FD9;&#x6837;&#x901A;&#x8FC7;session<br>cookie&#x548C;persistent cookie&#x7684;&#x7ED3;&#x5408;&#x6211;&#x4EEC;&#x5C31;&#x5B9E;&#x73B0;&#x4E86;&#x8DE8;&#x7A97;&#x53E3;&#x7684;session<br>tracking&#xFF08;&#x4F1A;&#x8BDD;&#x8DDF;&#x8E2A;&#xFF09;&#x3002;</span></p>
+<pre><code>&#x5728;&#x4E00;&#x4E9B;web&#x5F00;&#x53D1;&#x7684;&#x4E66;&#x4E2D;&#xFF0C;&#x5F80;&#x5F80;&#x53EA;&#x662F;&#x7B80;&#x5355;&#x7684;&#x628A;Session&#x548C;cookie&#x4F5C;&#x4E3A;&#x4E24;&#x79CD;&#x5E76;&#x5217;&#x7684;http&#x4F20;&#x9001;&#x4FE1;&#x606F;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;session
+</code></pre><p>cookies&#x4F4D;&#x4E8E;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#xFF0C;persistent<br>cookie&#x4F4D;&#x4E8E;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x53EF;&#x662F;session&#x53C8;&#x662F;&#x4EE5;cookie&#x4E3A;&#x57FA;&#x7840;&#x7684;&#xFF0C;&#x660E;&#x767D;&#x7684;&#x4E24;&#x8005;&#x4E4B;&#x95F4;&#x7684;&#x8054;&#x7CFB;&#x548C;&#x533A;&#x522B;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x4E0D;&#x96BE;&#x9009;&#x62E9;&#x5408;&#x9002;&#x7684;&#x6280;&#x672F;&#x6765;&#x5F00;&#x53D1;web<br>service&#x4E86;&#x3002;</p>
+<p><strong><span style="font-size: large;">cookie&#x548C;session&#x673A;&#x5236;&#x4E4B;&#x95F4;&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;</span></strong></p>
+<pre><code>&lt;span
+</code></pre><p>style=&#x201D;color: #ff0000;&#x201D;&gt;&#x5177;&#x4F53;&#x6765;&#x8BF4;cookie&#x673A;&#x5236;&#x91C7;&#x7528;&#x7684;&#x662F;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x4FDD;&#x6301;&#x72B6;&#x6001;&#x7684;&#x65B9;&#x6848;&#x3002;&#x5B83;&#x662F;&#x5728;&#x7528;&#x6237;&#x7AEF;&#x7684;&#x4F1A;&#x8BDD;&#x72B6;&#x6001;&#x7684;&#x5B58;&#x8D2E;&#x673A;&#x5236;&#xFF0C;&#x4ED6;&#x9700;&#x8981;&#x7528;&#x6237;&#x6253;&#x5F00;&#x5BA2;&#x6237;&#x7AEF;&#x7684;cookie&#x652F;&#x6301;&#x3002;cookie&#x7684;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;HTTP&#x534F;&#x8BAE;&#x65E0;&#x72B6;&#x6001;&#x7684;&#x7F3A;&#x9677;&#x6240;&#x4F5C;&#x7684;&#x52AA;&#x529B;.</p>
+<pre><code>&lt;span
+</code></pre><p>style=&#x201D;color: #ff0000;&#x201D;&gt;&#x800C;session&#x673A;&#x5236;&#x91C7;&#x7528;&#x7684;&#x662F;&#x4E00;&#x79CD;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x4E0E;&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x95F4;&#x4FDD;&#x6301;&#x72B6;&#x6001;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;&#x540C;&#x65F6;&#x6211;&#x4EEC;&#x4E5F;&#x770B;&#x5230;&#xFF0C;<span style="color: #ff0000;">&#x7531;&#x4E8E;&#x91C7;&#x7528;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x4FDD;&#x6301;&#x72B6;&#x6001;&#x7684;&#x65B9;&#x6848;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x4E5F;&#x9700;&#x8981;&#x4FDD;&#x5B58;&#x4E00;&#x4E2A;&#x6807;&#x8BC6;&#xFF0C;&#x6240;&#x4EE5;session&#x673A;&#x5236;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x501F;&#x52A9;&#x4E8E;cookie&#x673A;&#x5236;&#x6765;&#x8FBE;&#x5230;&#x4FDD;&#x5B58;&#x6807;&#x8BC6;&#x7684;&#x76EE;&#x7684;&#x3002;</span>&#x800C;session&#x63D0;&#x4F9B;&#x4E86;&#x65B9;&#x4FBF;&#x7BA1;&#x7406;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x7684;&#x65B9;&#x5F0F;</p>
+<p>&#x3000;&#x3000;<span style="color: #ff0000;">session&#x662F;&#x9488;&#x5BF9;&#x6BCF;&#x4E00;&#x4E2A;&#x7528;&#x6237;&#x7684;&#xFF0C;&#x53D8;&#x91CF;&#x7684;&#x503C;&#x4FDD;&#x5B58;&#x5728;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#xFF0C;&#x7528;&#x4E00;&#x4E2A;sessionID&#x6765;&#x533A;&#x5206;&#x662F;&#x54EA;&#x4E2A;&#x7528;&#x6237;session&#x53D8;&#x91CF;,&#x8FD9;&#x4E2A;&#x503C;&#x662F;&#x901A;&#x8FC7;&#x7528;&#x6237;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x5728;&#x8BBF;&#x95EE;&#x7684;&#x65F6;&#x5019;&#x8FD4;&#x56DE;&#x7ED9;&#x670D;&#x52A1;&#x5668;</span>&#xFF0C;&#x5F53;&#x5BA2;&#x6237;&#x7981;&#x7528;cookie&#x65F6;&#xFF0C;&#x8FD9;&#x4E2A;&#x503C;&#x4E5F;&#x53EF;&#x80FD;&#x8BBE;&#x7F6E;&#x4E3A;&#x7531;get&#x6765;&#x8FD4;&#x56DE;&#x7ED9;&#x670D;&#x52A1;&#x5668;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x5C31;&#x5B89;&#x5168;&#x6027;&#x6765;&#x8BF4;&#xFF1A;&#x5F53;&#x4F60;&#x8BBF;&#x95EE;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;session<br>&#x7684;&#x7AD9;&#x70B9;&#xFF0C;&#x540C;&#x65F6;&#x5728;&#x81EA;&#x5DF1;&#x673A;&#x5B50;&#x4E0A;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;cookie&#xFF0C;&#x5EFA;&#x8BAE;&#x5728;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x7684;SESSION&#x673A;&#x5236;&#x66F4;&#x5B89;&#x5168;&#x4E9B;.&#x56E0;&#x4E3A;&#x5B83;&#x4E0D;&#x4F1A;&#x4EFB;&#x610F;&#x8BFB;&#x53D6;&#x5BA2;&#x6237;&#x5B58;&#x50A8;&#x7684;&#x4FE1;&#x606F;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x6B63;&#x7EDF;&#x7684;cookie&#x5206;&#x53D1;&#x662F;&#x901A;&#x8FC7;&#x6269;&#x5C55;HTTP&#x534F;&#x8BAE;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x901A;&#x8FC7;&#x5728;HTTP&#x7684;&#x54CD;&#x5E94;&#x5934;&#x4E2D;&#x52A0;&#x4E0A;&#x4E00;&#x884C;&#x7279;&#x6B8A;&#x7684;&#x6307;&#x793A;&#x4EE5;&#x63D0;&#x793A;&#x6D4F;&#x89C8;&#x5668;&#x6309;&#x7167;&#x6307;&#x793A;&#x751F;&#x6210;&#x76F8;&#x5E94;&#x7684;<br>cookie&#x3002;&#x7136;&#x800C;&#x7EAF;&#x7CB9;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x811A;&#x672C;&#x5982;JavaScript&#x6216;&#x8005;VBScript&#x4E5F;&#x53EF;&#x4EE5;&#x751F;&#x6210;cookie&#x3002;&#x800C;cookie&#x7684;&#x4F7F;&#x7528;&#x662F;&#x7531;&#x6D4F;&#x89C8;&#x5668;&#x6309;&#x7167;&#x4E00;&#x5B9A;&#x7684;&#x539F;&#x5219;<br>&#x5728;&#x540E;&#x53F0;&#x81EA;&#x52A8;&#x53D1;&#x9001;&#x7ED9;&#x670D;&#x52A1;&#x5668;&#x7684;&#x3002;&#x6D4F;&#x89C8;&#x5668;&#x68C0;&#x67E5;&#x6240;&#x6709;&#x5B58;&#x50A8;&#x7684;cookie&#xFF0C;&#x5982;&#x679C;&#x67D0;&#x4E2A;cookie&#x6240;&#x58F0;&#x660E;&#x7684;&#x4F5C;&#x7528;&#x8303;&#x56F4;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;&#x5C06;&#x8981;&#x8BF7;&#x6C42;&#x7684;&#x8D44;&#x6E90;&#x6240;&#x5728;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5219;&#x628A;&#x8BE5;<br>cookie&#x9644;&#x5728;&#x8BF7;&#x6C42;&#x8D44;&#x6E90;&#x7684;HTTP&#x8BF7;&#x6C42;&#x5934;&#x4E0A;&#x53D1;&#x9001;&#x7ED9;&#x670D;&#x52A1;&#x5668;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x4ECE;&#x7F51;&#x7EDC;&#x670D;&#x52A1;&#x5668;&#x89C2;&#x70B9;&#x770B;&#x6240;&#x6709;HTTP&#x8BF7;&#x6C42;&#x90FD;&#x72EC;&#x7ACB;&#x4E8E;&#x5148;&#x524D;&#x8BF7;&#x6C42;&#x3002;&#x5C31;&#x662F;&#x8BF4;&#x6BCF;&#x4E00;&#x4E2A;HTTP&#x54CD;&#x5E94;&#x5B8C;&#x5168;&#x4F9D;&#x8D56;&#x4E8E;&#x76F8;&#x5E94;&#x8BF7;&#x6C42;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x4FE1;&#x606F;&#x72B6;&#x6001;&#x7BA1;&#x7406;&#x673A;&#x5236;&#x514B;&#x670D;&#x4E86;HTTP&#x7684;&#x4E00;&#x4E9B;&#x9650;&#x5236;&#x5E76;&#x5141;&#x8BB8;&#x7F51;&#x7EDC;&#x5BA2;&#x6237;&#x7AEF;&#x53CA;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x7EF4;&#x62A4;&#x8BF7;&#x6C42;&#x95F4;&#x7684;&#x5173;&#x7CFB;&#x3002;&#x5728;&#x8FD9;&#x79CD;&#x5173;&#x7CFB;&#x7EF4;&#x6301;&#x7684;&#x671F;&#x95F4;&#x53EB;&#x505A;&#x4F1A;&#x8BDD;(session)&#x3002;</p>
+<p>&#x3000;&#x3000;Cookies&#x662F;&#x670D;&#x52A1;&#x5668;&#x5728;&#x672C;&#x5730;&#x673A;&#x5668;&#x4E0A;&#x5B58;&#x50A8;&#x7684;&#x5C0F;&#x6BB5;&#x6587;&#x672C;&#x5E76;&#x968F;&#x6BCF;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x53D1;&#x9001;&#x81F3;&#x540C;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x3002;IETF<br>RFC 2965 HTTP State Management Mechanism<br>&#x662F;&#x901A;&#x7528;cookie&#x89C4;&#x8303;&#x3002;&#x7F51;&#x7EDC;&#x670D;&#x52A1;&#x5668;&#x7528;HTTP&#x5934;&#x5411;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x9001;cookies&#xFF0C;&#x5728;&#x5BA2;&#x6237;&#x7EC8;&#x7AEF;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x89E3;&#x6790;&#x8FD9;&#x4E9B;cookies&#x5E76;&#x5C06;&#x5B83;&#x4EEC;&#x4FDD;&#x5B58;&#x4E3A;&#x4E00;&#x4E2A;&#x672C;&#x5730;&#x6587;&#x4EF6;&#xFF0C;&#x5B83;<br>&#x4F1A;&#x81EA;&#x52A8;&#x5C06;&#x540C;&#x4E00;&#x670D;&#x52A1;&#x5668;&#x7684;&#x4EFB;&#x4F55;&#x8BF7;&#x6C42;&#x7F1A;&#x4E0A;&#x8FD9;&#x4E9B;cookies&#x3002;</p>
+<p>cookie&#x7684;&#x5185;&#x5BB9;&#x4E3B;&#x8981;&#x5305;&#x62EC;&#xFF1A;&#x540D;&#x5B57;&#xFF0C;&#x503C;&#xFF0C;&#x8FC7;&#x671F;&#x65F6;&#x95F4;&#xFF0C;&#x8DEF;&#x5F84;&#x548C;&#x57DF;&#x3002;&#x8DEF;&#x5F84;&#x4E0E;&#x57DF;&#x4E00;&#x8D77;&#x6784;&#x6210;cookie&#x7684;&#x4F5C;&#x7528;&#x8303;&#x56F4;&#x3002;&#x82E5;&#x4E0D;&#x8BBE;&#x7F6E;&#x8FC7;&#x671F;&#x65F6;&#x95F4;&#xFF0C;&#x5219;&#x8868;&#x793A;&#x8FD9;&#x4E2A;cookie&#x7684;&#x751F;&#x547D;<br>&#x671F;&#x4E3A;&#x6D4F;&#x89C8;&#x5668;&#x4F1A;&#x8BDD;&#x671F;&#x95F4;&#xFF0C;&#x5173;&#x95ED;&#x6D4F;&#x89C8;&#x5668;&#x7A97;&#x53E3;&#xFF0C;cookie&#x5C31;&#x6D88;&#x5931;&#x3002;&#x8FD9;&#x79CD;&#x751F;&#x547D;&#x671F;&#x4E3A;&#x6D4F;&#x89C8;&#x5668;&#x4F1A;&#x8BDD;&#x671F;&#x7684;cookie&#x88AB;&#x79F0;&#x4E3A;&#x4F1A;&#x8BDD;cookie&#x3002;&#x4F1A;&#x8BDD;cookie&#x4E00;&#x822C;&#x4E0D;&#x5B58;&#x50A8;<br>&#x5728;&#x786C;&#x76D8;&#x4E0A;&#x800C;&#x662F;&#x4FDD;&#x5B58;&#x5728;&#x5185;&#x5B58;&#x91CC;&#xFF0C;&#x5F53;&#x7136;&#x8FD9;&#x79CD;&#x884C;&#x4E3A;&#x5E76;&#x4E0D;&#x662F;&#x89C4;&#x8303;&#x89C4;&#x5B9A;&#x7684;&#x3002;&#x82E5;&#x8BBE;&#x7F6E;&#x4E86;&#x8FC7;&#x671F;&#x65F6;&#x95F4;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x5C31;&#x4F1A;&#x628A;cookie&#x4FDD;&#x5B58;&#x5230;&#x786C;&#x76D8;&#x4E0A;&#xFF0C;&#x5173;&#x95ED;&#x540E;&#x518D;&#x6B21;&#x6253;&#x5F00;&#x6D4F;&#x89C8;&#x5668;&#xFF0C;&#x8FD9;&#x4E9B;<br>cookie&#x4ECD;&#x7136;&#x6709;&#x6548;&#x76F4;&#x5230;&#x8D85;&#x8FC7;&#x8BBE;&#x5B9A;&#x7684;&#x8FC7;&#x671F;&#x65F6;&#x95F4;&#x3002;&#x5B58;&#x50A8;&#x5728;&#x786C;&#x76D8;&#x4E0A;&#x7684;cookie&#x53EF;&#x4EE5;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x8FDB;&#x7A0B;&#x95F4;&#x5171;&#x4EAB;&#xFF0C;&#x6BD4;&#x5982;&#x4E24;&#x4E2A;IE&#x7A97;&#x53E3;&#x3002;&#x800C;&#x5BF9;&#x4E8E;&#x4FDD;&#x5B58;&#x5728;&#x5185;&#x5B58;&#x91CC;&#x7684;<br>cookie&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x6D4F;&#x89C8;&#x5668;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x5904;&#x7406;&#x65B9;&#x5F0F;&#x3002;</p>
+<pre><code>session&#x673A;&#x5236;&#x3002;session&#x673A;&#x5236;&#x662F;&#x4E00;&#x79CD;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x7684;&#x673A;&#x5236;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x4F7F;&#x7528;&#x4E00;&#x79CD;&#x7C7B;&#x4F3C;&#x4E8E;&#x6563;&#x5217;&#x8868;&#x7684;&#x7ED3;&#x6784;&#xFF08;&#x4E5F;&#x53EF;&#x80FD;&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x6563;&#x5217;&#x8868;&#xFF09;&#x6765;&#x4FDD;&#x5B58;&#x4FE1;&#x606F;&#x3002;
+</code></pre><p>&#x5F53;&#x7A0B;&#x5E8F;&#x9700;&#x8981;&#x4E3A;&#x67D0;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8BF7;&#x6C42;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;session&#x65F6;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x9996;&#x5148;&#x68C0;&#x67E5;&#x8FD9;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8BF7;&#x6C42;&#x91CC;&#x662F;&#x5426;&#x5DF2;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A;session&#x6807;&#x8BC6;&#xFF08;&#x79F0;&#x4E3A;<br>session<br>id&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x5DF2;&#x5305;&#x542B;&#x5219;&#x8BF4;&#x660E;&#x4EE5;&#x524D;&#x5DF2;&#x7ECF;&#x4E3A;&#x6B64;&#x5BA2;&#x6237;&#x7AEF;&#x521B;&#x5EFA;&#x8FC7;session&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x5C31;&#x6309;&#x7167;session<br>id&#x628A;&#x8FD9;&#x4E2A;session&#x68C0;&#x7D22;&#x51FA;&#x6765;&#x4F7F;&#x7528;&#xFF08;&#x68C0;&#x7D22;&#x4E0D;&#x5230;&#xFF0C;&#x4F1A;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x5BA2;&#x6237;&#x7AEF;&#x8BF7;&#x6C42;&#x4E0D;&#x5305;&#x542B;session<br>id&#xFF0C;&#x5219;&#x4E3A;&#x6B64;&#x5BA2;&#x6237;&#x7AEF;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;session&#x5E76;&#x4E14;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x4E0E;&#x6B64;session&#x76F8;&#x5173;&#x8054;&#x7684;session<br>id&#xFF0C;session<br>id&#x7684;&#x503C;&#x5E94;&#x8BE5;&#x662F;&#x4E00;&#x4E2A;&#x65E2;&#x4E0D;&#x4F1A;&#x91CD;&#x590D;&#xFF0C;&#x53C8;&#x4E0D;&#x5BB9;&#x6613;&#x88AB;&#x627E;&#x5230;&#x89C4;&#x5F8B;&#x4EE5;&#x4EFF;&#x9020;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x8FD9;&#x4E2A;session<br>id&#x5C06;&#x88AB;&#x5728;&#x672C;&#x6B21;&#x54CD;&#x5E94;&#x4E2D;&#x8FD4;&#x56DE;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#x4FDD;&#x5B58;&#x3002;</p>
+<p>&#x4FDD;&#x5B58;&#x8FD9;&#x4E2A;session<br>id&#x7684;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x91C7;&#x7528;cookie&#xFF0C;&#x8FD9;&#x6837;&#x5728;&#x4EA4;&#x4E92;&#x8FC7;&#x7A0B;&#x4E2D;&#x6D4F;&#x89C8;&#x5668;&#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x7684;&#x6309;&#x7167;&#x89C4;&#x5219;&#x628A;&#x8FD9;&#x4E2A;&#x6807;&#x8BC6;&#x53D1;&#x6325;&#x7ED9;&#x670D;&#x52A1;&#x5668;&#x3002;&#x4E00;&#x822C;&#x8FD9;&#x4E2A;cookie&#x7684;&#x540D;&#x5B57;&#x90FD;&#x662F;&#x7C7B;&#x4F3C;&#x4E8E;<br>SEEESIONID&#x3002;&#x4F46;cookie&#x53EF;&#x4EE5;&#x88AB;&#x4EBA;&#x4E3A;&#x7684;&#x7981;&#x6B62;&#xFF0C;&#x5219;&#x5FC5;&#x987B;&#x6709;&#x5176;&#x4ED6;&#x673A;&#x5236;&#x4EE5;&#x4FBF;&#x5728;cookie&#x88AB;&#x7981;&#x6B62;&#x65F6;&#x4ECD;&#x7136;&#x80FD;&#x591F;&#x628A;session<br>id&#x4F20;&#x9012;&#x56DE;&#x670D;&#x52A1;&#x5668;&#x3002;</p>
+<p>&#x7ECF;&#x5E38;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#x4E00;&#x79CD;&#x6280;&#x672F;&#x53EB;&#x505A;URL&#x91CD;&#x5199;&#xFF0C;&#x5C31;&#x662F;&#x628A;session<br>id&#x76F4;&#x63A5;&#x9644;&#x52A0;&#x5728;URL&#x8DEF;&#x5F84;&#x7684;&#x540E;&#x9762;&#x3002;&#x8FD8;&#x6709;&#x4E00;&#x79CD;&#x6280;&#x672F;&#x53EB;&#x505A;&#x8868;&#x5355;&#x9690;&#x85CF;&#x5B57;&#x6BB5;&#x3002;&#x5C31;&#x662F;&#x670D;&#x52A1;&#x5668;&#x4F1A;&#x81EA;&#x52A8;&#x4FEE;&#x6539;&#x8868;&#x5355;&#xFF0C;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x9690;&#x85CF;&#x5B57;&#x6BB5;&#xFF0C;&#x4EE5;&#x4FBF;&#x5728;&#x8868;&#x5355;&#x63D0;&#x4EA4;&#x65F6;&#x80FD;&#x591F;&#x628A;session<br>id&#x4F20;&#x9012;&#x56DE;&#x670D;&#x52A1;&#x5668;&#x3002;&#x6BD4;&#x5982;&#xFF1A;</p>
+<p>&lt;form name=&#x201D;testform&#x201D; action=&#x201D;/xxx&#x201D;&gt;</p>
+<p>&lt;input type=&#x201D;hidden&#x201D; name=&#x201D;jsessionid&#x201D;<br>value=&#x201D;ByOK3vjFD75aPnrF7C2HmdnV6QZcEbzWoWiBYEnLerjQ99zWpBng!-145788764&#x201D;&gt;</p>
+<p>&lt;input type=&#x201D;text&#x201D;&gt;</p>
+<p>&lt;/form&gt;</p>
+<p>&#x4EC0;&#x4E48;&#x662F;Url&#x91CD;&#x5199;?</p>
+<p>&#x670D;&#x52A1;&#x5668;&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;URL&#x91CD;&#x5199;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x4F20;&#x9012;SessionID&#x7684;&#x503C;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x662F;&#x5B8C;&#x5168;&#x4F9D;&#x8D56;Cookie&#x3002;&#x5982;&#x679C;&#x5BA2;&#x6237;&#x7AEF;Cookie&#x7981;&#x7528;&#xFF0C;&#x5219;&#x670D;&#x52A1;&#x5668;&#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x901A;&#x8FC7;&#x91CD;&#x5199;URL&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x4FDD;&#x5B58;Session&#x7684;&#x503C;&#xFF0C;&#x5E76;&#x4E14;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x5BF9;&#x7A0B;&#x5E8F;&#x5458;&#x900F;&#x660E;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x8BD5;&#x4E00;&#x4E0B;&#xFF0C;&#x5373;&#x4F7F;&#x4E0D;&#x5199;Cookie&#xFF0C;&#x5728;&#x4F7F;&#x7528;request.getCookies();&#x53D6;&#x51FA;&#x7684;Cookie&#x6570;&#x7EC4;&#x7684;&#x957F;&#x5EA6;&#x4E5F;&#x662F;1&#xFF0C;&#x800C;&#x8FD9;&#x4E2A;Cookie&#x7684;&#x540D;&#x5B57;&#x5C31;&#x662F;JSESSIONID&#xFF0C;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x5F88;&#x957F;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x662F;SessionID&#x7684;&#x503C;&#x3002;</p>
+<p>&#x5B9E;&#x8D28;&#x4E0A; URL &#x91CD;&#x5199;&#x662F;&#x901A;&#x8FC7;&#x5411; URL &#x8FDE;&#x63A5;&#x6DFB;&#x52A0;&#x53C2;&#x6570;&#xFF0C;&#x5E76;&#x628A; session ID<br>&#x4F5C;&#x4E3A;&#x503C;&#x5305;&#x542B;&#x5728;&#x8FDE;&#x63A5;&#x4E2D;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x4E3A;&#x4F7F;&#x8FD9;&#x751F;&#x6548;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x4E3A;&#x4F60;&#x7684; servlet<br>&#x54CD;&#x5E94;&#x90E8;&#x5206;&#x7684;&#x6BCF;&#x4E2A;&#x8FDE;&#x63A5;&#x6DFB;&#x52A0; session ID.</p>
+<p>&#x5229;&#x7528;Url&#x8FDB;&#x884C;Session&#x91CD;&#x5199;&#x5982;&#x4F55;&#x5B9E;&#x73B0;?</p>
+<p>JSP&#x5B9E;&#x73B0;</p>
+<p>&#x628A; session ID &#x52A0;&#x5230;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E00;&#x5BF9;&#x65B9;&#x6CD5;&#x6765;&#x7B80;&#x5316;&#xFF1A;<span style="color: #ff0000;">response.encodeURL() &#x4F7F; URL&#x5305;&#x542B; session<br>ID&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x91CD;&#x5B9A;&#x5411;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; response.encodeRedirectURL ()&#x6765;&#x5BF9; URL<br>&#x8FDB;&#x884C;&#x7F16;&#x7801;&#x3002;encodeURL () &#x53CA; encodeRedirectedURL () &#x65B9;&#x6CD5;&#x9996;&#x5148;&#x5224;&#x65AD;<br>cookie&#x662F;&#x5426;&#x88AB;&#x6D4F;&#x89C8;&#x5668;&#x652F;&#x6301;&#xFF1B;&#x5982;&#x679C;&#x652F;&#x6301;&#xFF0C;&#x5219;&#x53C2;&#x6570; URL &#x88AB;&#x539F;&#x6837;&#x8FD4;&#x56DE;&#xFF0C;session ID<br>&#x5C06;&#x901A;&#x8FC7; cookies &#x6765;&#x7EF4;&#x6301;&#x3002;</span></p>
+<p>&#x4EE3;&#x7801;&#x793A;&#x4F8B;:</p>
+<p>&#x4E0D;&#x4F7F;&#x7528;Url&#x91CD;&#x5199;:&lt;a<br>href=<a href="http://wwww.myserver.com/servelet/user;userName=awaysrain&gt;Link&lt;/a&amp;gt" target="_blank" rel="external">http://wwww.myserver.com/servelet/user;userName=awaysrain&gt;Link&lt;/a&amp;gt</a>;</p>
+<p>&#x4F7F;&#x7528;Url&#x91CD;&#x5199;:&#x901A;&#x8FC7;HttpServletResponse&#x63A5;&#x53E3;&#x4E2D;&#x7684;encodeURL()&#x65B9;&#x6CD5;&#x7F16;&#x7801;.</p>
+<p>String myURL =<br>response.encodeURL(<a href="http://wwww.myserver.com/servelet/user" target="_blank" rel="external">http://wwww.myserver.com/servelet/user</a>);</p>
+<p>&lt;a href= &lt;%=myURL%&gt; _fcksavedurl=&#x201D; &lt;%=myURL%&gt;&#x201D;<br>_fcksavedurl=&#x201D; &lt;%=myURL%&gt;&#x201D; _fcksavedurl=&#x201D; &lt;%=myURL%&gt;&#x201D; &gt;</p>
+<p>JSTL&#x5B9E;&#x73B0;</p>
+<p>&lt;c:url&gt;&#x53EF;&#x4EE5;&#x4E3A;&#x4F1A;&#x8BDD;&#x7BA1;&#x7406;&#x91CD;&#x5199; URL</p>
+<p>&lt;a href=&#x201D;&lt;c:url value=&#x2019;/content/sitemap.jsp&#x2019;/&gt;&#x201D;&gt;View<br>sitemap&lt;/a&gt;</p>
+<p>Struts&#x5B9E;&#x73B0;:</p>
+<p>struts&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#xFF1A;&#x8BBE;&#x7F6E;&#x5C5E;&#x6027;redirect, contextRelative</p>
+<p>&lt;forward name=&#x201D;listArticlesForBlog&#x201D;</p>
+<p>path=&#x201D;/template/listArticlesForBlog.jsp&#x201D;</p>
+<p>redirect=&#x201D;true&#x201D;</p>
+<p>contextRelative=&#x201D;true&#x201D;/&gt;</p>
+<p>&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x6BD4;&#x8F83;&#x641E;&#x7684;&#x95EE;&#x9898;:</p>
+<p>&#x90A3;&#x4E48;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x5141;&#x8BB8;cookie&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4E0D;&#x8981;&#x6C42;&#x6D4F;&#x89C8;&#x5668;&#x5173;&#x95ED;cookie&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x4F7F;&#x7528;</p>
+<p>url&#x91CD;&#x5199;&#x5982;&#x4F55;&#x5B9E;&#x73B0;?</p>
+<p><a href="http://tomcat.apache.org/tomcat-5.5-doc/config/context.html" target="_blank" rel="external">http://tomcat.apache.org/tomcat-5.5-doc/config/context.html</a></p>
+<p><span style="color: #ff0000;">Context&#x652F;&#x6301;cookies&#x53C2;&#x6570;&#x3002;<br>&#x8BBE;&#x7F6E;cookies=&#x201D;false&#x201D;&#xFF0C;&#x5F3A;&#x5236;&#x53EA;&#x4ECE;url&#x89E3;&#x6790;sessionid&#x3002;</span></p>
+<p>cookies</p>
+<p>Set to true if you want cookies to be used for session identifierContext</p>
+<p>communication if supported by the client (this is the default). Set to</p>
+<p>false if you want to disable the use of cookies for session identifier</p>
+<p>communication, and rely only on URL rewriting by the application.</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.huguiqi.com/2016/03/30/Session，Cookie，jsessionid，Url重写/" data-title="Session，Cookie，jsessionid，Url重写 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/" title="SVN客户端命令行设置忽略文件列表">
+  <strong>上一篇：</strong><br/>
+  <span>
+  SVN客户端命令行设置忽略文件列表</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/03/30/TCP_IP中的长链接与短链接/"  title="TCP_IP中的长链接与短链接">
+ <strong>下一篇：</strong><br/> 
+ <span>TCP_IP中的长链接与短链接
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/30/Session，Cookie，jsessionid，Url重写/" data-title="Session，Cookie，jsessionid，Url重写" data-url="http://blog.huguiqi.com/2016/03/30/Session，Cookie，jsessionid，Url重写/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Session，Cookie，jsessionid，Url重写"><span class="toc-number">1.</span> <span class="toc-text">Session，Cookie，jsessionid，Url重写</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker实践-docker教程/" title="docker实践 docker教程">docker实践 docker教程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		
+		<a href="/about" target="_blank" title="sam hu">sam hu</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

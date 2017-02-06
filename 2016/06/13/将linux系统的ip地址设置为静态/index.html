@@ -1,0 +1,756 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>将linux系统的ip地址设置为静态 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam hu">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="&amp;#x5C06;linux&amp;#x7CFB;&amp;#x7EDF;&amp;#x7684;ip&amp;#x5730;&amp;#x5740;&amp;#x8BBE;&amp;#x7F6E;&amp;#x4E3A;&amp;#x9759;&amp;#x6001;&amp;#x53C2;&amp;#x8003;&amp;#x8FD9;&amp;#x91CC;
+Disable Network Manager
+First stop and disable the gnome network manager">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将linux系统的ip地址设置为静态">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/06/13/将linux系统的ip地址设置为静态/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="&amp;#x5C06;linux&amp;#x7CFB;&amp;#x7EDF;&amp;#x7684;ip&amp;#x5730;&amp;#x5740;&amp;#x8BBE;&amp;#x7F6E;&amp;#x4E3A;&amp;#x9759;&amp;#x6001;&amp;#x53C2;&amp;#x8003;&amp;#x8FD9;&amp;#x91CC;
+Disable Network Manager
+First stop and disable the gnome network manager">
+<meta property="og:updated_time" content="2016-06-13T10:06:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="将linux系统的ip地址设置为静态">
+<meta name="twitter:description" content="&amp;#x5C06;linux&amp;#x7CFB;&amp;#x7EDF;&amp;#x7684;ip&amp;#x5730;&amp;#x5740;&amp;#x8BBE;&amp;#x7F6E;&amp;#x4E3A;&amp;#x9759;&amp;#x6001;&amp;#x53C2;&amp;#x8003;&amp;#x8FD9;&amp;#x91CC;
+Disable Network Manager
+First stop and disable the gnome network manager">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">技术分享与学习，聚沙成塔!</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/将linux系统的ip地址设置为静态/" title="将linux系统的ip地址设置为静态" itemprop="url">将linux系统的ip地址设置为静态</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#将linux系统的ip地址设置为静态"><span class="toc-number">1.</span> <span class="toc-text">将linux系统的ip地址设置为静态</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Disable-Network-Manager"><span class="toc-number">1.1.</span> <span class="toc-text">Disable Network Manager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-the-Static-Address"><span class="toc-number">1.2.</span> <span class="toc-text">Set the Static Address</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configure-DNS"><span class="toc-number">1.3.</span> <span class="toc-text">Configure DNS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#遇到的问题"><span class="toc-number">1.3.1.</span> <span class="toc-text">遇到的问题</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="&#x5C06;linux&#x7CFB;&#x7EDF;&#x7684;ip&#x5730;&#x5740;&#x8BBE;&#x7F6E;&#x4E3A;&#x9759;&#x6001;"><a href="#&#x5C06;linux&#x7CFB;&#x7EDF;&#x7684;ip&#x5730;&#x5740;&#x8BBE;&#x7F6E;&#x4E3A;&#x9759;&#x6001;" class="headerlink" title="&#x5C06;linux&#x7CFB;&#x7EDF;&#x7684;ip&#x5730;&#x5740;&#x8BBE;&#x7F6E;&#x4E3A;&#x9759;&#x6001;"></a>&#x5C06;linux&#x7CFB;&#x7EDF;&#x7684;ip&#x5730;&#x5740;&#x8BBE;&#x7F6E;&#x4E3A;&#x9759;&#x6001;</h1><p><a href="http://danielgibbs.co.uk/2014/01/fedora-20-set-static-ip-address/" target="_blank" rel="external">&#x53C2;&#x8003;&#x8FD9;&#x91CC;</a></p>
+<h2 id="Disable-Network-Manager"><a href="#Disable-Network-Manager" class="headerlink" title="Disable Network Manager"></a>Disable Network Manager</h2><ol>
+<li><p>First stop and disable the gnome network manager from running on boot.</p>
+<pre><code>systemctl stop NetworkManagerservice
+
+systemctl disable NetworkManagerservice
+</code></pre></li>
+<li><p>Now start and enable the network service to run on boot.</p>
+<pre><code>systemctl restart networkservice
+
+systemctl enable networkservice
+</code></pre></li>
+</ol>
+<h2 id="Set-the-Static-Address"><a href="#Set-the-Static-Address" class="headerlink" title="Set the Static Address"></a>Set the Static Address</h2><ol>
+<li>Check which interface(s) you want to set as static.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">root@server  ifconfig</div><div class="line">em1 flags192.1681.148 netmask 255.255255.0 broadcast 192.1681.255</div><div class="line">inet6 fe80dd4c prefixlen  scopeid  ether d8 txqueuelen Ethernet</div><div class="line">RX packets  bytes 90374</div><div class="line">RX errors  dropped  overruns  frame</div><div class="line">TX packets  bytes 130252127.1</div><div class="line">TX errors  dropped  overruns  carrier  collisions</div><div class="line">device interrupt  flags73mtu16436127.0 netmask 255.0</div><div class="line">inet6  prefixlen  scopeid</div><div class="line">loop txqueuelen LocalLoopback</div><div class="line">RX packets  bytes</div><div class="line">RX errors  dropped  overruns  frame</div><div class="line">TX packets  bytes</div><div class="line">TX errors  dropped  overruns  carrier  collisions</div></pre></td></tr></table></figure>
+<ol>
+<li>Next edit the config file for the required interface.</li>
+</ol>
+<p>sysconfignetworkscriptsifcfg</p>
+<ol>
+<li>Edit the config file to look similar to the following.</li>
+</ol>
+<p>Change the BOOTPROTO from &#x201C;dhcp&#x201D; to &#x201C;static&#x201D;. Also adding IPADDR, NETMASK, BROADCAST and NETWORK variables and make sure ONBOOT is set to yes.</p>
+<pre><code>&quot;e88f1292-1f87-4576-97aa-bb8b2be34bd3&quot;
+NM_CONTROLLED&quot;yes&quot;
+HWADDR&quot;D8:D3:85:AE:DD:4C&quot;
+BOOTPROTO&quot;static&quot;
+DEVICE&quot;em1&quot;
+ONBOOT&quot;yes&quot;
+IPADDR192.168
+NETMASK255.255255.0
+BROADCAST192.1681.255
+NETWORK192.168
+GATEWAY192.168
+</code></pre><p>Apply the Settings</p>
+<p>Restart the network service to apply the settings.</p>
+<p>systemctl restart networkservice</p>
+<h2 id="Configure-DNS"><a href="#Configure-DNS" class="headerlink" title="Configure DNS"></a>Configure DNS</h2><p>Make sure the correct DNS servers are configured to allow Fedora to resolve domains.</p>
+<p>resolv</p>
+<p>nameserver 192.168<br>nameserver</p>
+<a id="more"></a>
+<h3 id="&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;"><a href="#&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;" class="headerlink" title="&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;"></a>&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;</h3><p>&#x5728;&#x8FDB;&#x884C; Disable Network Manager &#x64CD;&#x4F5C;&#x7684;&#x7B2C;&#x4E8C;&#x6B65;restart&#x65F6;&#x51FA;&#x73B0;&#x4E00;&#x4E2A;&#x9519;&#x8BEF;&#xFF1A;</p>
+<pre><code>[root@aleks network-scripts]# systemctl restart network.service 
+Job failed. See system journal and &apos;systemctl status&apos; for details.
+</code></pre><p>&#x51FA;&#x73B0;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x7684;&#x539F;&#x56E0;&#x662F;&#xFF1A;</p>
+<p>&#x7F51;&#x7EDC;&#x914D;&#x7F6E;&#x5668; em1 &#x4E2D;&#x7684;mac&#x5730;&#x5740;&#x4E0E;&#x786C;&#x4EF6;&#x7684;mac&#x5730;&#x5740;&#x4E0D;&#x4E00;&#x6837;&#x5BFC;&#x81F4;&#x7684;<br>&#x6267;&#x884C;&#xFF1A;</p>
+<pre><code>ip address show
+</code></pre><p>&#x4E0E;&#x7F51;&#x7EDC;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x6BD4;&#x8F83;&#x4E00;&#x4E0B;     </p>
+<pre><code>sudo vi /etc/sysconfig/network-scripts/ifcfg-em1
+</code></pre><p>&#x5982;&#x679C;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x5C06;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x7684; HWADDR &#x9879;&#x7684;&#x503C;&#x6539;&#x6210;&#x4E00;&#x6837;&#x7684;</p>
+<p>&#x7136;&#x540E;&#x518D;&#x6267;&#x884C;&#xFF0C;</p>
+<pre><code>ifup em1
+</code></pre><p>&#x597D;&#x4E86;&#x4EE5;&#x540E;&#x518D;&#x6267;&#x884C;</p>
+<pre><code>systemctl restart networkservice
+</code></pre><p>&#x641E;&#x5B9A;&#x3002;&#x3002;&#x3002;&#x3002;&#x3002;</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/设置系统IP地址为静态地址/">设置系统IP地址为静态地址</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.huguiqi.com/2016/06/13/将linux系统的ip地址设置为静态/" data-title="将linux系统的ip地址设置为静态 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/" title="外网访问内网的解决方式">
+  <strong>上一篇：</strong><br/>
+  <span>
+  外网访问内网的解决方式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/"  title="关于MacBook电池的正确使用方法">
+ <strong>下一篇：</strong><br/> 
+ <span>关于MacBook电池的正确使用方法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/06/13/将linux系统的ip地址设置为静态/" data-title="将linux系统的ip地址设置为静态" data-url="http://blog.huguiqi.com/2016/06/13/将linux系统的ip地址设置为静态/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#将linux系统的ip地址设置为静态"><span class="toc-number">1.</span> <span class="toc-text">将linux系统的ip地址设置为静态</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Disable-Network-Manager"><span class="toc-number">1.1.</span> <span class="toc-text">Disable Network Manager</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-the-Static-Address"><span class="toc-number">1.2.</span> <span class="toc-text">Set the Static Address</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configure-DNS"><span class="toc-number">1.3.</span> <span class="toc-text">Configure DNS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#遇到的问题"><span class="toc-number">1.3.1.</span> <span class="toc-text">遇到的问题</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker实践-docker教程/" title="docker实践 docker教程">docker实践 docker教程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		
+		<a href="/about" target="_blank" title="sam hu">sam hu</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

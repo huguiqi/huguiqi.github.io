@@ -1,0 +1,735 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>keySet()和entrySet()比较 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam hu">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="keySet()&amp;#x548C;entrySet()&amp;#x6BD4;&amp;#x8F83;### keySet()&amp;#x548C;entrySet()&amp;#x6BD4;&amp;#x8F83;\
+
+\
+
+&amp;#x5728;HashMap&amp;#x4E2D;&amp;#x6709;&amp;#x8FD9;&amp;#x6837;&amp;#x4E00;&amp;#x79CD;&amp;#x79C1;&amp;#x6709;&amp;#x5185;&amp;#x90E8;&amp;#x7C7B;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="keySet()和entrySet()比较">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/03/30/keySet()和entrySet()比较/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="keySet()&amp;#x548C;entrySet()&amp;#x6BD4;&amp;#x8F83;### keySet()&amp;#x548C;entrySet()&amp;#x6BD4;&amp;#x8F83;\
+
+\
+
+&amp;#x5728;HashMap&amp;#x4E2D;&amp;#x6709;&amp;#x8FD9;&amp;#x6837;&amp;#x4E00;&amp;#x79CD;&amp;#x79C1;&amp;#x6709;&amp;#x5185;&amp;#x90E8;&amp;#x7C7B;&amp;#x">
+<meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="keySet()和entrySet()比较">
+<meta name="twitter:description" content="keySet()&amp;#x548C;entrySet()&amp;#x6BD4;&amp;#x8F83;### keySet()&amp;#x548C;entrySet()&amp;#x6BD4;&amp;#x8F83;\
+
+\
+
+&amp;#x5728;HashMap&amp;#x4E2D;&amp;#x6709;&amp;#x8FD9;&amp;#x6837;&amp;#x4E00;&amp;#x79CD;&amp;#x79C1;&amp;#x6709;&amp;#x5185;&amp;#x90E8;&amp;#x7C7B;&amp;#x">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">技术分享与学习，聚沙成塔!</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/keySet()和entrySet()比较/" title="keySet()和entrySet()比较" itemprop="url">keySet()和entrySet()比较</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#keySet-和entrySet-比较"><span class="toc-number">1.</span> <span class="toc-text">keySet()和entrySet()比较</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="keySet-&#x548C;entrySet-&#x6BD4;&#x8F83;"><a href="#keySet-&#x548C;entrySet-&#x6BD4;&#x8F83;" class="headerlink" title="keySet()&#x548C;entrySet()&#x6BD4;&#x8F83;"></a>keySet()&#x548C;entrySet()&#x6BD4;&#x8F83;</h1><div><br><br>### <a href="http://haofenglemon.iteye.com/blog/727318" target="_blank" rel="external">keySet()&#x548C;entrySet()&#x6BD4;&#x8F83;</a><br><br><div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5728;HashMap&#x4E2D;&#x6709;&#x8FD9;&#x6837;&#x4E00;&#x79CD;&#x79C1;&#x6709;&#x5185;&#x90E8;&#x7C7B;&#x2014;&#x2014;KeySet&#x3002;<br><br>&#x3000;&#x3000;Java&#x4EE3;&#x7801;&#x3000;&#x3000;&#x3000;<br><br><div><br><br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div>                                | <div>                                |<br>|                                      |                                      |<br>| \                                    | <code>public``&#x3000;``class``&#x3000;HashMap&lt;K,V&gt;{</code> |<br>|                                      |                                      |<br>| </div>                               |                                      |<br>|                                      | </div>                               |<br>| <div>                                |                                      |<br>|                                      | <div>                                |<br><a id="more"></a><br>| \                                    |                                      |<br>|                                      | <code>``private``&#x3000;``class``&#x3000;KeySet</code> |<br>| </div>                               | <code>extends``&#x3000;AbstractSet&lt;K&gt;&#x3000;{</code>     |<br>|                                      |                                      |<br>| <div>                                | </div>                               |<br>|                                      |                                      |<br>| \                                    | <div>                                |<br>|                                      |                                      |<br>| </div>                               | <code>....</code>             |<br>|                                      |                                      |<br>| <div>                                | </div>                               |<br>|                                      |                                      |<br>| \                                    | <div>                                |<br>|                                      |                                      |<br>| </div>                               | <code>}</code>                      |<br>|                                      |                                      |<br>| <div>                                | </div>                               |<br>|                                      |                                      |<br>| \                                    | <div>                                |<br>|                                      |                                      |<br>| </div>                               | <span |="" style="font-family: monospace;">}                                 |<br>|                                      |                                      |<br>|                                      | </span></div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br><br>: &#x53CC;&#x51FB;&#x4EE3;&#x7801;&#x5168;&#x9009;<br><br></div>
+
+<p>&#x3000;&#x3000;KeySet&#x5B9E;&#x73B0;&#x4E86;Set&#x63A5;&#x53E3;&#xFF0C;&#x4F3C;&#x4E4E;&#x597D;&#x50CF;&#x662F;&#x4E00;&#x79CD;&#x65B0;&#x7684;Set&#x7C7B;&#x3002;&#x5176;&#x5B9E;&#x4E0D;&#x7136;&#xFF0C;KeySet&#x5E76;&#x4E0D;&#x540C;&#x4E8E;TreeSet&#x6216;HashSet&#x3002;&#x5B83;&#x6CA1;&#x6709;&#x7279;&#x6B8A;&#x7684;&#x7EC4;&#x7EC7;&#x6570;&#x636E;&#x7684;&#x529F;&#x80FD;&#x3002;&#x800C;&#x4E14;&#x5916;&#x90E8;&#x662F;&#x65E0;&#x6CD5;&#x76F4;&#x63A5;&#x83B7;&#x53D6;&#x4E00;&#x4E2A;KeySet&#x5BF9;&#x8C61;&#x3002;</p>
+<p>&#x3000;&#x3000;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;KeySet&#x662F;&#x4E3A;&#x4E86;&#x6211;&#x4EEC;&#x80FD;&#x591F;&#x65B9;&#x4FBF;&#x7684;&#x83B7;&#x5F97;HahMap&#x4E2D;&#x6240;&#x6709;&#x7684;&#x952E;&#x800C;&#x8BBE;&#x7F6E;&#x7684;&#x3002;&#x5B83;&#x5C31;&#x662F;&#x7528;Set&lt;K&gt;(K&#x4E3A;HashMap&#x4E2D;key&#x7684;&#x7C7B;&#x578B;)&#x4F5C;&#x4E3A;&#x952E;&#x96C6;&#x3002;</p>
+<p>&#x3000;&#x3000;Java&#x4EE3;&#x7801;&#x3000;&#x3000;</p>
+<div><br><br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div>                                | <div>                                |<br>|                                      |                                      |<br>| \                                    | <code>public``&#x3000;Set&lt;K&gt;&#x3000;keySet()&#x3000;{</code>    |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>|                                      |                                      |<br>| <div>                                | <div>                                |<br>|                                      |                                      |<br>| \                                    | <code>Set&lt;K&gt;&#x3000;ks&#x3000;=&#x3000;keySet;</code>     |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>|                                      |                                      |<br>| <div>                                | <div>                                |<br>|                                      |                                      |<br>| \                                    | <code>``return``&#x3000;(ks&#x3000;!=&#x3000;``null``&#x3000;?&#x3000;ks&#x3000; |
+|                                      | :&#x3000;(keySet&#x3000;=&#x3000;``new``&#x3000;KeySet()));</code> |<br>| </div>                               |                                      |<br>|                                      |                                      |<br>| <div>                                | </div>                               |<br>|                                      |                                      |<br>| \                                    | <div>                                |<br>|                                      |                                      |<br>| </div>                               | <code>}</code>                                  |<br>|                                      |                                      |<br>|                                      | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br><br>: &#x53CC;&#x51FB;&#x4EE3;&#x7801;&#x5168;&#x9009;<br><br></div>
+
+<p>&#x3000;&#x3000;&#x6211;&#x4EEC;&#x80FD;&#x8FC7;&#x901A;&#x8FC7;&#x8C03;&#x7528;hashMap.KeySet()&#x65B9;&#x6CD5;&#xFF0C;&#x5C06;&#x6620;&#x5C04;&#x8868;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x952E;&#x7EC4;&#x7EC7;&#x6210;Set&#x7ED3;&#x6784;&#x3002;&#x6211;&#x4EEC;&#x5C06;&#x8FD9;&#x79CD;&#x96C6;&#x5408;&#x5185;&#x90E8;&#x7684;&#x96C6;&#x5408;&#x79F0;&#x4E3A;&#x89C6;&#x56FE;&#x3002;&#x5173;&#x4E8E;&#x89C6;&#x56FE;&#x7684;&#x66F4;&#x591A;&#x6982;&#x5FF5;&#x53EF;&#x4EE5;&#x53C2;&#x7167;&#x300A;Java<br>2&#x6838;&#x5FC3;&#x6280;&#x672F;&#x3000; &#x5377;&#x4E8C; P106&#x300B;&#x3002;</p>
+<div><br><br>&#x3000;&#x3000;&#x9664;&#x4E86;KeySet&#x89C6;&#x56FE;&#x5916;&#xFF0C;&#x8FD8;&#x6709;EntrySet&#xFF0C;Value&#x89C6;&#x56FE;&#x3002;&#x6211;&#x4EEC;&#x5343;&#x4E07;&#x4E0D;&#x8981;&#x8BA4;&#x4E3A;KeySet&#xFF0C;EntrySet&#x662F;&#x65B0;&#x7684;&#x96C6;&#x5408;&#x7C7B;&#xFF0C;&#x53EA;&#x8981;&#x628A;&#x4ED6;&#x4EEC;&#x770B;&#x505A;HashMap&#x4E2D;&#x90E8;&#x5206;&#x6570;&#x636E;&#x7684;&#x7EC4;&#x7EC7;&#x5F62;&#x5F0F;&#xFF0C;&#x65B9;&#x4FBF;&#x8FED;&#x4EE3;&#x67E5;&#x627E;&#x64CD;&#x4F5C;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;<br><br></div>
+
+<p></p></div><p></p>
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><a href="http://www.iteye.com/blogs/tag/%E5%A4%9A%E7%BA%BF%E7%A8%8B" target="_blank" rel="external">&#x4F8B;</a><br><br></div>
+
+<p></p></div><p></p>
+<div><br><br>\<br><br></div>
+
+<div><br><br>import java.util.Calendar;      \<br> import java.util.Date;      \<br> import java.util.HashMap;      \<br> import java.util.Iterator;      \<br> import java.util.Map.Entry;      \<br> /**\<br> * &#x6D4B;&#x8BD5;keySet()&#x4E0E;entrySet()&#x7684;&#x8FED;&#x4EE3;&#x65F6;&#x95F4;\<br> * keySet():&#x8FED;&#x4EE3;&#x540E;&#x53EA;&#x80FD;&#x901A;&#x8FC7;get()&#x53D6;key\<br> *<br>entrySet()&#xFF1A;&#x8FED;&#x4EE3;&#x540E;&#x53EF;&#x4EE5;e.getKey()&#xFF0C;e.getValue()&#x53D6;key&#x548C;value&#x3002;&#x8FD4;&#x56DE;&#x7684;&#x662F;Entry&#x63A5;&#x53E3;\<br> *<br>&#x6700;&#x540E;&#x8BF4;&#x660E;&#x4E0B;keySet()&#x7684;&#x901F;&#x5EA6;&#x6BD4;entrySet()&#x6162;&#x4E86;&#x5F88;&#x591A;&#x3002;&#x770B;&#x6765;&#x4EE5;&#x540E;&#x8981;&#x8003;&#x8651;&#x7528;entrySet()&#x4E86;\<br> *  author GLK\<br> */    \<br> public class HashMapTest              \<br> {      \<br>       public static void main(String[] args)      \<br>         {      \<br>                 HashMap kmap = new HashMap();      \<br>                 HashMap emap = new HashMap();      \<br>                      \<br>               //&#x88C5;&#x6570;&#x636E;      \<br>               for (int i = 0; i &lt; 1000; i++)      \<br>                 {      \<br>                         kmap.put(&#x201C;&#x201D;+i, &#x201C;GLK&#x201D;);      \<br>                 }      \<br>               for (int i = 0; i &lt; 1000; i++)      \<br>                 {      \<br>                         emap.put(&#x201C;&#x201D;+i, &#x201C;HF&#x201D;);      \<br>                 }      \<br>                      \<br>               long stimes = System.currentTimeMillis();      \<br>               long ctimes =<br>Calendar.getInstance().getTimeInMillis();      \<br>               long dtimes = new Date().getTime();      \<br>                      \<br>               //&#x521D;&#x59CB;&#x65F6;&#x95F4; &#x8FD9;&#x91CC;&#x6211;&#x7528;&#x4E86;&#x4E09;&#x79CD;&#x53D6;&#x503C;&#x65B9;&#x5F0F;<br>&#x6700;&#x540E;&#x53D1;&#x73B0;System.currentTimeMillis();&#x662F;&#x6700;&#x76F4;&#x63A5;&#x7684;&#x53D6;&#x503C;&#x65B9;&#x6CD5;      \<br>                 System.out.println(stimes+&#x201D; &#x201C;+ctimes+&#x201D;<br>&#x201C;+dtimes);      \<br>                      \<br>                 Iterator ktor = kmap.keySet().iterator();      \<br>               while(ktor.hasNext())      \<br>                 {      \<br>                         System.out.println(ktor.next());      \<br>                 }      \<br>                      \<br>               long stimes1 = System.currentTimeMillis();      \<br>               long ctimes1 =<br>Calendar.getInstance().getTimeInMillis();      \<br>               long dtimes1 = new Date().getTime();      \<br>                      \<br>               //&#x7ED3;&#x675F;&#x4E16;&#x754C;&#x5E76;&#x4E14;&#x4E5F;&#x662F;entrySet&#x7684;&#x5F00;&#x59CB;&#x65F6;&#x95F4;      \<br>                 System.out.println((stimes1-stimes)+&#x201D;<br>&#x201C;+(ctimes1-ctimes)+&#x201D;         &#x201C;+(dtimes1-dtimes));      \<br>                 System.out.println(stimes1+&#x201D;         &#x201C;+ctimes1+&#x201D;<br>&#x201C;+dtimes1);      \<br>                      \<br>                 Iterator&gt; itor = emap.entrySet().iterator();      \<br>               while(itor.hasNext())      \<br>                 {      \<br>                         Entry e = itor.next();      \<br>                       //System.out.println(e.getKey());      \<br>                         System.out.println(e.getValue());      \<br>                 }      \<br>                      \<br>               long stimes2 = System.currentTimeMillis();      \<br>               long ctimes2 =<br>Calendar.getInstance().getTimeInMillis();      \<br>               long dtimes2 = new Date().getTime();      \<br>                 System.out.println(stimes2+&#x201D;         &#x201C;+ctimes2+&#x201D;<br>&#x201C;+dtimes2);      \<br>                 System.out.println((stimes2-stimes1)+&#x201D;<br>&#x201C;+(ctimes2-ctimes1)+&#x201D;       &#x201C;+(dtimes2-dtimes1));      \<br>         }      \<br> }    \<br>\<br>\<br><br>&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;\<br>\<br> Map&#x7684;keySet&#x65B9;&#x6CD5;\<br> &#x6709;&#x4E00;&#x4E2A;Map&#x5BF9;&#x8C61;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x4F7F;&#x7528;keySet()&#x65B9;&#x6CD5;&#x83B7;&#x53D6;&#x6240;&#x6709;&#x7684;key&#x503C;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;\<br>     Map map = new HashMap();\<br>     map.put(1, &#x201C;a&#x201D;);\<br>     map.put(2, &#x201C;b&#x201D;);\<br>     map.put(3, &#x201C;c&#x201D;);\<br>     map.put(4, &#x201C;d&#x201D;);\<br>     Set keys1 = map.keySet();\<br>     Set keys2 = map.keySet();\<br>     Set keys3 = map.keySet();\<br><br>&#x4E0A;&#x9762;&#x4E09;&#x4E2A;set&#x5BF9;&#x8C61;key1&#xFF0C;key2&#xFF0C;key3&#x5F15;&#x7528;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x3002;&#x8FD9;&#x662F;map&#x7684;keySet()&#x65B9;&#x6CD5;&#x53EA;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;set&#x5B9E;&#x4F8B;&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x4ECE;key1&#x4E2D;&#x5220;&#x9664;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x65F6;&#x5019;&#xFF0C;key2&#x548C;key3&#x5C06;&#x4F1A;&#x53D7;&#x5230;&#x5F71;&#x54CD;&#x3002;\<br>     keys1.remove(1);\<br>     System.out.println(keys1);\<br>     System.out.println(keys2);\<br>     System.out.println(keys3);\<br> &#x6253;&#x5370;&#x7ED3;&#x679C;&#x4E3A;&#xFF1A;\<br> [2, 4, 3]\<br> [2, 4, 3]\<br> [2, 4, 3]\<br>\<br>\<br> &#x6458;&#x81EA;API&#x6587;&#x6863;\<br> keySet\<br> public Set&lt;K&gt; keySet()&#x8FD4;&#x56DE;&#x6B64;&#x6620;&#x5C04;&#x4E2D;&#x6240;&#x5305;&#x542B;&#x7684;&#x952E;&#x7684; set<br>&#x89C6;&#x56FE;&#x3002;&#x8BE5;&#x96C6;&#x5408;&#x53D7;&#x6620;&#x5C04;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x6240;&#x4EE5;&#x6620;&#x5C04;&#x7684;&#x53D8;&#x5316;&#x4E5F;&#x53CD;&#x6620;&#x5728;&#x8BE5;&#x96C6;&#x5408;&#x4E2D;&#xFF0C;&#x53CD;&#x4E4B;&#x4EA6;&#x7136;&#x3002;&#x8BE5;&#x96C6;&#x5408;&#x652F;&#x6301;&#x5143;&#x7D20;&#x7684;&#x79FB;&#x9664;&#xFF0C;&#x901A;&#x8FC7;Iterator.remove&#x3001;<br>Set.remove&#x3001;removeAll&#x3001;retainAll &#x548C; clear<br>&#x64CD;&#x4F5C;&#xFF0C;&#x4ECE;&#x8BE5;&#x6620;&#x5C04;&#x4E2D;&#x79FB;&#x9664;&#x76F8;&#x5E94;&#x7684;&#x6620;&#x5C04;&#x5173;&#x7CFB;&#x3002;&#x5B83;&#x4E0D;&#x652F;&#x6301; add &#x6216; addAll &#x64CD;&#x4F5C;&#x3002;\<br> &#x6307;&#x5B9A;&#x8005;&#xFF1A;\<br> &#x63A5;&#x53E3; Map&lt;K,V&gt; &#x4E2D;&#x7684; keySet\<br> &#x8986;&#x76D6;&#xFF1A;\<br> &#x7C7B; AbstractMap&lt;K,V&gt; &#x4E2D;&#x7684; keySet\<br> &#x8FD4;&#x56DE;&#xFF1A;\<br> &#x6B64;&#x6620;&#x5C04;&#x6240;&#x5305;&#x542B;&#x7684;&#x952E;&#x7684; set &#x89C6;&#x56FE;&#x3002;\<br>\<br>\<br>\<br>\<br> Map&#x4F7F;&#x7528;&#x6CE8;&#x610F;                    \<br><br>&#x4ECA;&#x5929;&#x7684;&#x7A0B;&#x5E8F;&#x51FA;&#x73B0;&#x5F02;&#x5E38;&#x201C;java.util.ConcurrentModificationException&#x201D;&#xFF0C;&#x4F46;&#x975E;&#x5E38;&#x5947;&#x602A;&#x56E0;&#x4E3A;&#x5728;&#x591A;&#x7EBF;&#x7A0B;&#x4E4B;&#x95F4;&#x90FD;&#x505A;&#x4E86;&#x540C;&#x6B65;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8FD8;&#x4F1A;&#x6709;&#x8FD9;&#x6837;&#x7684;&#x9519;&#x8BEF;&#x5462;&#xFF1F;&#x7A81;&#x7136;&#x53D1;&#x73B0;&#x7C7B;&#x4F3C;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;\<br>     Set keySet = map.keySet();\<br>   for (String key : keySet) {\<br>           // some codes &#x2026;\<br>           map.remove(key);\<br>   }\<br>\<br> &#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x600E;&#x4E48;&#x770B;&#x90FD;&#x6BD4;&#x8F83;&#x53EF;&#x7591;&#xFF0C;&#x4E8E;&#x662F;&#x5199;&#x4E86;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;\<br>\<br>     Map map = new HashMap();\<br>\<br>   map.put(&#x201C;key1&#x201D;, &#x201C;value1&#x201D;);\<br>\<br>   map.put(&#x201C;key2&#x201D;, &#x201C;value2&#x201D;);\<br>\<br>   map.put(&#x201C;key3&#x201D;, &#x201C;value3&#x201D;);\<br>\<br>   Set keySet = map.keySet();\<br>\<br>   for (String key : keySet) {\<br>\<br>           // some codes &#x2026;\<br>\<br>           map.remove(key);\<br>\<br>   }\<br>\<br><br>&#x679C;&#x7136;&#x4E00;&#x8FD0;&#x884C;&#x5C31;&#x51FA;&#x73B0;&#x4E0A;&#x9762;&#x7684;&#x5F02;&#x5E38;&#xFF0C;&#x539F;&#x6765;&#x662F;&#x56E0;&#x4E3A;&#x5220;&#x9664;&#x4E86;&#x4E00;&#x4E2A;Entry&#x4E4B;&#x540E;&#xFF0C;&#x56E0;&#x4E3A;ketSet&#x4E0D;&#x6B63;&#x786E;&#xFF0C;&#x5728;for&#x5FAA;&#x73AF;&#x65F6;&#x51FA;&#x7684;&#x95EE;&#x9898;&#x3002;&#x6539;&#x6210;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x95EE;&#x9898;&#x89E3;&#x51B3;&#xFF1A;\<br>\<br>     Map map = new HashMap();\<br>\<br>   map.put(&#x201C;key1&#x201D;, &#x201C;value1&#x201D;);\<br>\<br>   map.put(&#x201C;key2&#x201D;, &#x201C;value2&#x201D;);\<br>\<br>   map.put(&#x201C;key3&#x201D;, &#x201C;value3&#x201D;);\<br>\<br>   String[] keySet = map.keySet().toArray(new String[0]);\<br>\<br>   for (String key : keySet) {\<br>\<br>           // some codes &#x2026;\<br>\<br>           map.remove(key);\<br>\<br>   }\<br>\<br><br>&#x6B63;&#x5982;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x56E0;&#x4E3A;&#x52A0;&#x4E86;toArray&#x6240;&#x4EE5;&#x65B0;&#x7684;&#x96C6;&#x5408;&#x548C;&#x539F;&#x6765;&#x7684;keySet&#x5C31;&#x6CA1;&#x6709;&#x4E86;&#x5173;&#x7CFB;&#xFF0C;&#x6240;&#x4EE5;&#x4E5F;&#x4E0D;&#x4F1A;&#x51FA;&#x9519;&#x4E86;&#x3002;&#x7C7B;&#x4F3C;&#x4E8E;&#x8FD9;&#x6837;&#x7684;&#x4EE3;&#x7801;&#x5927;&#x5BB6;&#x90FD;&#x8981;&#x6CE8;&#x610F;&#x554A;&#xFF0C;&#x563F;&#x563F;&#x3002;<br><br></div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.huguiqi.com/2016/03/30/keySet()和entrySet()比较/" data-title="keySet()和entrySet()比较 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/30/linux 安装web环境/" title="linux 安装web环境">
+  <strong>上一篇：</strong><br/>
+  <span>
+  linux 安装web环境</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/03/30/linux 查看系统信息命令(比较全)/"  title="linux 查看系统信息命令(比较全)">
+ <strong>下一篇：</strong><br/> 
+ <span>linux 查看系统信息命令(比较全)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/30/keySet()和entrySet()比较/" data-title="keySet()和entrySet()比较" data-url="http://blog.huguiqi.com/2016/03/30/keySet()和entrySet()比较/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#keySet-和entrySet-比较"><span class="toc-number">1.</span> <span class="toc-text">keySet()和entrySet()比较</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker实践-docker教程/" title="docker实践 docker教程">docker实践 docker教程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		
+		<a href="/about" target="_blank" title="sam hu">sam hu</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

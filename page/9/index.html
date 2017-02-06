@@ -1,0 +1,1204 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam hu">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="markdown 技术积累基地">
+<meta property="og:type" content="website">
+<meta property="og:title" content="小黑的技术博客">
+<meta property="og:url" content="http://blog.huguiqi.com/page/9/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="markdown 技术积累基地">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小黑的技术博客">
+<meta name="twitter:description" content="markdown 技术积累基地">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">技术分享与学习，聚沙成塔!</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/@synthesize和@dynamic区别/" title="synthesize和 dynamic区别" itemprop="url">synthesize和 dynamic区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="synthesize&#x548C;-dynamic&#x533A;&#x522B;"><a href="#synthesize&#x548C;-dynamic&#x533A;&#x522B;" class="headerlink" title="synthesize&#x548C; dynamic&#x533A;&#x522B;"></a>synthesize&#x548C; dynamic&#x533A;&#x522B;</h1><p><span style="font: 16.0px Verdana; font-kerning: none; color: #6466b3; -webkit-text-stroke: 0px #6466b3"><a href="http://www.cnblogs.com/xiaodao/archive/2012/10/09/2716244.html" target="_blank" rel="external"><strong> synthesize&#x548C; dynamic&#x533A;&#x522B;</strong></a></span><span style="font: 16.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646"><strong>\
+</strong></span><span style="font: 12.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">\<br></span><span style="font: 14.0px Verdana; font-kerning: none; color: #393939; -webkit-text-stroke: 0px #393939">&#x5728;&#x58F0;&#x660E;property&#x5C5E;&#x6027;&#x540E;&#xFF0C;&#x6709;2&#x79CD;&#x5B9E;&#x73B0;&#x9009;&#x62E9;\<br>  synthesize\<br> &#x7F16;&#x8BD1;&#x5668;&#x671F;&#x95F4;&#xFF0C;&#x8BA9;&#x7F16;&#x8BD1;&#x5668;&#x81EA;&#x52A8;&#x751F;&#x6210;getter/setter&#x65B9;&#x6CD5;&#x3002;\<br> &#x5F53;&#x6709;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x5B58;&#x6216;&#x53D6;&#x65B9;&#x6CD5;&#x65F6;&#xFF0C;&#x81EA;&#x5B9A;&#x4E49;&#x4F1A;&#x5C4F;&#x853D;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x8BE5;&#x65B9;&#x6CD5;\<br>  \<br>  dynamic\<br> &#x544A;&#x8BC9;&#x7F16;&#x8BD1;&#x5668;&#xFF0C;&#x4E0D;&#x81EA;&#x52A8;&#x751F;&#x6210;getter/setter&#x65B9;&#x6CD5;&#xFF0C;&#x907F;&#x514D;&#x7F16;&#x8BD1;&#x671F;&#x95F4;&#x4EA7;&#x751F;&#x8B66;&#x544A;\<br> &#x7136;&#x540E;&#x7531;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;&#x5B58;&#x53D6;&#x65B9;&#x6CD5;\</span></p>
+<p>&#x6216;&#x5B58;&#x53D6;&#x65B9;&#x6CD5;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x52A8;&#x6001;&#x521B;&#x5EFA;&#x7ED1;&#x5B9A;&#xFF1A;&#x4E3B;&#x8981;&#x4F7F;&#x7528;&#x5728;CoreData&#x7684;&#x5B9E;&#x73B0;NSManagedObject&#x5B50;&#x7C7B;&#x65F6;&#x4F7F;&#x7528;&#xFF0C;&#x7531;Core<br>Data&#x6846;&#x67B6;&#x5728;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x7684;&#x65F6;&#x52A8;&#x6001;&#x751F;&#x6210;&#x5B50;&#x7C7B;&#x5C5E;&#x6027;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/@synthesize和@dynamic区别/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/@synthesize和@dynamic区别/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/coreData for sqlite/" title="coreData for sqlite" itemprop="url">coreData for sqlite</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="coreData-for-sqlite"><a href="#coreData-for-sqlite" class="headerlink" title="coreData for sqlite"></a>coreData for sqlite</h1><div><br><br>//&#x597D;&#x7528;&#x7684;database Sqlite&#x5BA2;&#x6237;&#x7AEF;<br><br></div>
+
+<p><a href="http://sourceforge.net/projects/sqlitebrowser/?source=typ_redirect" target="_blank" rel="external">http://sourceforge.net/projects/sqlitebrowser/?source=typ_redirect</a>\</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/coreData for sqlite/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/coreData for sqlite/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/chrome代理设置/" title="chrome代理设置" itemprop="url">chrome代理设置</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="chrome&#x4EE3;&#x7406;&#x8BBE;&#x7F6E;"><a href="#chrome&#x4EE3;&#x7406;&#x8BBE;&#x7F6E;" class="headerlink" title="chrome&#x4EE3;&#x7406;&#x8BBE;&#x7F6E;"></a>chrome&#x4EE3;&#x7406;&#x8BBE;&#x7F6E;</h1><p><a href="http://blog.163.com/vicky\_jingxu/blog/static/161828006201043133956227/" target="_blank" rel="external">http://blog.163.com/vicky\_jingxu/blog/static/161828006201043133956227/</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/chrome代理设置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/chrome代理设置/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/3月份面试题po出/" title="三月份的面试题目" itemprop="url">三月份的面试题目</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="3&#x6708;&#x4EFD;&#x9762;&#x8BD5;&#x9898;PO&#x51FA;"><a href="#3&#x6708;&#x4EFD;&#x9762;&#x8BD5;&#x9898;PO&#x51FA;" class="headerlink" title="3&#x6708;&#x4EFD;&#x9762;&#x8BD5;&#x9898;PO&#x51FA;"></a>3&#x6708;&#x4EFD;&#x9762;&#x8BD5;&#x9898;PO&#x51FA;</h1><p>&#x4E0A;&#x5468;&#x53BB;&#x9762;&#x8BD5;&#x4E86;&#xFF0C;&#x672C;&#x6765;&#x5E94;&#x8BE5;&#x4E0A;&#x5468;&#x672A;&#x5C31;&#x5E94;&#x8BE5;&#x628A;&#x8FD9;&#x4E9B;&#x9898;&#x76EE;&#x90FD;&#x7814;&#x7A76;&#x4E0B;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x843D;&#x9B44;&#x4E86;<br>&#x6211;&#x9762;&#x8BD5;&#x7684;&#x662F;&#x5168;&#x6808;&#x5DE5;&#x7A0B;&#x5E08;&#xFF0C;&#x7ED3;&#x679C;&#x662F;&#x6251;&#x8857;&#x4E86;&#x3002;&#x3002;&#x3002;&#x3002;&#x3002;&#x53EF;&#x80FD;&#x662F;&#x56E0;&#x4E3A;&#x804A;&#x5929;&#x65F6;&#x6CA1;&#x53D1;&#x6325;&#x597D;&#xFF0C;&#x4E0B;&#x6B21;&#x8981;&#x6CE8;&#x610F;&#x4E86;&#xFF0C;&#x8981;&#x6709;&#x6FC0;&#x60C5;&#x3002;&#x3002;&#x3002;&#x3002;&#x3002;</p>
+<p>&#x9762;&#x8BD5;&#x5185;&#x5BB9;&#xFF1A;</p>
+<h2 id="&#x4E00;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x8DE8;&#x57DF;&#x95EE;&#x9898;&#x600E;&#x4E48;&#x89E3;&#x51B3;"><a href="#&#x4E00;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x8DE8;&#x57DF;&#x95EE;&#x9898;&#x600E;&#x4E48;&#x89E3;&#x51B3;" class="headerlink" title="&#x4E00;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x8DE8;&#x57DF;&#x95EE;&#x9898;&#x600E;&#x4E48;&#x89E3;&#x51B3;"></a>&#x4E00;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x8DE8;&#x57DF;&#x95EE;&#x9898;&#x600E;&#x4E48;&#x89E3;&#x51B3;</h2><p>&#x5148;&#x6765;&#x8BF4;&#x8BF4;&#xFF0C;&#x4EC0;&#x4E48;&#x662F;&#x8DE8;&#x57DF;&#x95EE;&#x9898;&#xFF1F;</p>
+<h3 id="&#x4EC0;&#x4E48;&#x662F;&#x8DE8;&#x57DF;&#xFF1F;"><a href="#&#x4EC0;&#x4E48;&#x662F;&#x8DE8;&#x57DF;&#xFF1F;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;&#x8DE8;&#x57DF;&#xFF1F;"></a>&#x4EC0;&#x4E48;&#x662F;&#x8DE8;&#x57DF;&#xFF1F;</h3><p>&#x6982;&#x5FF5;&#xFF1A;&#x53EA;&#x8981;&#x534F;&#x8BAE;&#x3001;&#x57DF;&#x540D;&#x3001;&#x7AEF;&#x53E3;&#x6709;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;&#x4E0D;&#x540C;&#xFF0C;&#x90FD;&#x88AB;&#x5F53;&#x4F5C;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x57DF;&#x3002;</p>
+<p>&#x8A00;&#x7B80;&#x610F;&#x9A87;&#x5427;<br>&#x6765;&#x770B;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">URL                      &#x8BF4;&#x660E;       &#x662F;&#x5426;&#x5141;&#x8BB8;&#x901A;&#x4FE1;</div><div class="line">http://www.a.com/a.js</div><div class="line">http://www.a.com/b.js     &#x540C;&#x4E00;&#x57DF;&#x540D;&#x4E0B;   &#x5141;&#x8BB8;</div><div class="line">http://www.a.com/lab/a.js</div><div class="line">http://www.a.com/script/b.js &#x540C;&#x4E00;&#x57DF;&#x540D;&#x4E0B;&#x4E0D;&#x540C;&#x6587;&#x4EF6;&#x5939; &#x5141;&#x8BB8;</div><div class="line">http://www.a.com:8000/a.js</div><div class="line">http://www.a.com/b.js     &#x540C;&#x4E00;&#x57DF;&#x540D;&#xFF0C;&#x4E0D;&#x540C;&#x7AEF;&#x53E3;  &#x4E0D;&#x5141;&#x8BB8;</div><div class="line">http://www.a.com/a.js</div><div class="line">https://www.a.com/b.js &#x540C;&#x4E00;&#x57DF;&#x540D;&#xFF0C;&#x4E0D;&#x540C;&#x534F;&#x8BAE; &#x4E0D;&#x5141;&#x8BB8;</div><div class="line">http://www.a.com/a.js</div><div class="line">http://70.32.92.74/b.js &#x57DF;&#x540D;&#x548C;&#x57DF;&#x540D;&#x5BF9;&#x5E94;ip &#x4E0D;&#x5141;&#x8BB8;</div><div class="line">http://www.a.com/a.js</div><div class="line">http://script.a.com/b.js &#x4E3B;&#x57DF;&#x76F8;&#x540C;&#xFF0C;&#x5B50;&#x57DF;&#x4E0D;&#x540C; &#x4E0D;&#x5141;&#x8BB8;</div><div class="line">http://www.a.com/a.js</div><div class="line">http://a.com/b.js &#x540C;&#x4E00;&#x57DF;&#x540D;&#xFF0C;&#x4E0D;&#x540C;&#x4E8C;&#x7EA7;&#x57DF;&#x540D;&#xFF08;&#x540C;&#x4E0A;&#xFF09; &#x4E0D;&#x5141;&#x8BB8;&#xFF08;cookie&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x4E5F;&#x4E0D;&#x5141;&#x8BB8;&#x8BBF;&#x95EE;&#xFF09;</div><div class="line">http://www.cnblogs.com/a.js</div><div class="line">http://www.a.com/b.js &#x4E0D;&#x540C;&#x57DF;&#x540D; &#x4E0D;&#x5141;&#x8BB8;</div></pre></td></tr></table></figure>
+<p><em>ps:&#x5BF9;&#x4E8E;&#x7AEF;&#x53E3;&#x548C;&#x534F;&#x8BAE;&#x7684;&#x4E0D;&#x540C;&#xFF0C;&#x53EA;&#x80FD;&#x901A;&#x8FC7;&#x540E;&#x53F0;&#x6765;&#x89E3;&#x51B3;&#x3002;</em></p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/3月份面试题po出/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/面试题/">面试题</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/面试题-全栈/">面试题 全栈</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/3月份面试题po出/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/3月份面试题po出/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/AOP的实现机制/" title="AOP的实现机制" itemprop="url">AOP的实现机制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;"><a href="#AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;" class="headerlink" title="AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;"></a>AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;</h1><div><br><br><strong><span lang="EN-US" style="font-family:">AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;</span></strong><br><br></div>
+
+<div><br><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><br><br></div>
+
+<div><br><br><strong><span lang="EN-US" style="font-family:">1 AOP</span><span style="font-family: &#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x5404;&#x79CD;&#x7684;&#x5B9E;&#x73B0;</span></strong><br><br></div>
+
+<p><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5C31;&#x662F;&#x9762;&#x5411;&#x5207;&#x9762;&#x7F16;&#x7A0B;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4ECE;&#x51E0;&#x4E2A;&#x5C42;&#x9762;&#x6765;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x3002;</span></p>
+<p><span lang="EN-US" style="font-family:"><img src="/2016/03/30/AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg" alt=""></span></p>
+<p><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x7F16;&#x8BD1;&#x5668;&#x4FEE;&#x6539;&#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x524D;&#x4FEE;&#x6539;&#x5B57;&#x8282;&#x7801;&#x6216;&#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x540E;&#x52A8;&#x6001;&#x521B;&#x5EFA;&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x5B57;&#x8282;&#x7801;&#xFF0C;&#x4EE5;&#x4E0B;&#x662F;&#x5404;&#x79CD;&#x5B9E;&#x73B0;&#x673A;&#x5236;&#x7684;&#x6BD4;&#x8F83;&#x3002;</span><span lang="EN-US" style="font-family:">  </span></p>
+<p><span lang="EN-US" style="font-family:">  </span><br></p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/AOP的实现机制/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/AOP的实现机制/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/AOP的实现机制/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/elnet 命令使用详解/" title="elnet 命令使用详解" itemprop="url">elnet 命令使用详解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="elnet-&#x547D;&#x4EE4;&#x4F7F;&#x7528;&#x8BE6;&#x89E3;"><a href="#elnet-&#x547D;&#x4EE4;&#x4F7F;&#x7528;&#x8BE6;&#x89E3;" class="headerlink" title="elnet &#x547D;&#x4EE4;&#x4F7F;&#x7528;&#x8BE6;&#x89E3;"></a>elnet &#x547D;&#x4EE4;&#x4F7F;&#x7528;&#x8BE6;&#x89E3;</h1><div><br><br> <a href="http://blog.chinaunix.net/uid-26167002-id-3054040.html">telnet<br>&#x547D;&#x4EE4;&#x4F7F;&#x7528;&#x8BE6;&#x89E3;</a> 2012-01-05<br>18:31:46<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5206;&#x7C7B;&#xFF1A; WINDOWS<br><br></div>
+
+<div><br><br></div>
+
+<div><br><br><strong>1&#x3001;&#x4EC0;&#x4E48;&#x662F;Telnet&#xFF1F;</strong><br><br></div>
+
+<div><br><br>\<br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/elnet 命令使用详解/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/elnet 命令使用详解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/elnet 命令使用详解/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/fwrite$UNIX2003 referenced from/" title="fwrite$UNIX2003 referenced from" itemprop="url">fwrite$UNIX2003 referenced from</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="fwrite-UNIX2003-referenced-from"><a href="#fwrite-UNIX2003-referenced-from" class="headerlink" title="fwrite$UNIX2003 referenced from"></a>fwrite$UNIX2003 referenced from</h1><div><br><br>&#x5728;AppDelegate.m&#x6700;&#x4E0B;&#x65B9;&#x6DFB;&#x52A0;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;<br><br></div><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/fwrite$UNIX2003 referenced from/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/fwrite$UNIX2003 referenced from/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/fwrite$UNIX2003 referenced from/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/" title="App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎" itemprop="url">App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="App&#x63D0;&#x4EA4;-App-Store-&#x5BA1;&#x6838;&#xFF0C;&#x9047;&#x5230;&#x8FC7;&#x54EA;&#x4E9B;&#x5751;&#xFF1F;-&#x5E94;&#x7528;&#xFF08;&#x8F6F;&#x4EF6;&#xFF09;-&#x77E5;&#x4E4E;"><a href="#App&#x63D0;&#x4EA4;-App-Store-&#x5BA1;&#x6838;&#xFF0C;&#x9047;&#x5230;&#x8FC7;&#x54EA;&#x4E9B;&#x5751;&#xFF1F;-&#x5E94;&#x7528;&#xFF08;&#x8F6F;&#x4EF6;&#xFF09;-&#x77E5;&#x4E4E;" class="headerlink" title="App&#x63D0;&#x4EA4; App Store &#x5BA1;&#x6838;&#xFF0C;&#x9047;&#x5230;&#x8FC7;&#x54EA;&#x4E9B;&#x5751;&#xFF1F; - &#x5E94;&#x7528;&#xFF08;&#x8F6F;&#x4EF6;&#xFF09; - &#x77E5;&#x4E4E;"></a>App&#x63D0;&#x4EA4; App Store &#x5BA1;&#x6838;&#xFF0C;&#x9047;&#x5230;&#x8FC7;&#x54EA;&#x4E9B;&#x5751;&#xFF1F; - &#x5E94;&#x7528;&#xFF08;&#x8F6F;&#x4EF6;&#xFF09; - &#x77E5;&#x4E4E;</h1><p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>App&#x63D0;&#x4EA4; App Store &#x5BA1;&#x6838;&#xFF0C;&#x9047;&#x5230;&#x8FC7;&#x54EA;&#x4E9B;&#x5751;&#xFF1F;<br>======================================<br><br><div><br><br><div><br><br></div>
+
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p>ios&#x5BA1;&#x6838;&#x6EE1;&#x773C;&#x662F;&#x5751;&#xFF01;&#xFF01;&#xFF01; &#x5927;&#x5BB6;&#x8D5E;&#x4E86;&#xFF0C;&#x90A3;&#x6211;&#x5C31;&#x5728;&#x591A;&#x586B;&#x4E9B;&#x5751;&#x3002;&#x89C9;&#x5F97;&#x6709;&#x7528;&#x5C31;&#x62FF;&#x8D70;&#x5427;&#x3002;\<br>&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;&#xFF1D;\<br>&#x4E00;&#x4E2A;&#x60B2;&#x4F24;&#x7684;&#x6545;&#x4E8B;&#xFF1A;&#x4E00;&#x5BB6;&#x516C;&#x53F8;14&#x5E74;&#x521D;&#x5F00;&#x53D1;app&#x5386;&#x65F6;&#x4E00;&#x5E74;&#x8FD8;&#x6CA1;&#x6709;&#x63D0;&#x4EA4;appstore&#x6210;&#x529F;&#xFF0C;&#x7136;&#x540E;&#x88AB;&#x8FEB;&#x8F6C;&#x578B;&#x4E86;\<br>&#x81EA;&#x5DF1;&#x9047;&#x5230;&#x8FC7;&#x7684;&#xFF1A;\<br>1.&#x7269;&#x5316;&#x5973;&#x6027;&#x3002;&#x8F6F;&#x4EF6;&#x5185;&#x59D1;&#x5A18;&#x592A;&#x591A;&#x5BFC;&#x81F4;&#x7684;&#x3002;so&#x3002;&#x3002;&#x3002;&#x4E00;&#x5B9A;&#x8981;&#x6709;&#x5E05;&#x54E5;&#x3002;&#x54EA;&#x6015;&#x9996;&#x9875;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x3002;\<br>2.&#x8F6F;&#x4EF6;&#x540D;&#x5B57;&#x51B2;&#x7A81;&#x3002;&#x63D0;&#x4EA4;&#x65F6;&#x53D1;&#x73B0;&#x6709;&#x8F6F;&#x4EF6;&#x540D;&#x5B57;&#x4E00;&#x6837;&#x3002;&#x4E2B;&#x505C;&#x7684;&#x3002;&#x53EA;&#x80FD;&#x6362;&#x3002;&#x60F3;&#x597D;&#x8F6F;&#x4EF6;&#x540D;&#x5B57;&#x641C;&#x4E00;&#x4E0B;&#x5148;&#x3002;\<br>3.&#x7B49;&#x7EA7;&#x8BC4;&#x5B9A;&#xFF0C;&#x5A31;&#x4E50;&#x76F8;&#x5173;&#x6240;&#x4EE5;&#x4E0D;&#x8981;&#x4F60;&#x52FE;&#x9009;&#x540E;&#x53D1;&#x73B0;4+&#x53EF;&#x4EE5;&#x3002;&#x7136;&#x5E76;&#x4E71;&#x3002;&#x5FC5;&#x987B;17+&#x8D70;&#x8D77;\<br>4.&#x652F;&#x4ED8;&#x4E0A;&#xFF0C;&#x8981;&#x6C42;&#x7528;&#x6237;&#x5373;&#x4F7F;&#x6362;&#x624B;&#x673A;&#x6216;&#x5378;&#x8F7D;&#x8F6F;&#x4EF6;&#xFF0C;&#x6240;&#x8D2D;&#x4E70;&#x7684;&#x7269;&#x54C1;&#x8FD8;&#x53EF;&#x4EE5;&#x7EE7;&#x7EED;&#x4F7F;&#x7528;&#x3002;\<br>5.&#x4E0D;&#x8981;&#x7528;&#x7B2C;&#x4E09;&#x65B9;&#x767B;&#x5F55;&#xFF0C;&#x5C24;&#x5176;&#x662F;QQ&#xFF0C;&#x7528;&#x6237;&#x6CA1;&#x6709;&#x5B89;&#x88C5;qq&#xFF0C;&#x4F1A;&#x5F15;&#x5BFC;&#x4F60;&#x4E0B;&#x8F7D;&#xFF0C;&#x7136;&#x540E;&#x5C31;&#x4F1A;&#x88AB;&#x9000;&#x56DE;&#x3002;\<br>6.&#x6709;&#x65F6;&#x7B2C;&#x4E09;&#x65B9;&#x7684;&#x7EDF;&#x8BA1;&#x4EC0;&#x4E48;&#x4F1A;&#x8C03;&#x7528;idfa&#x3002;&#x8FD9;&#x4E2A;&#x53EA;&#x8981;&#x4F60;&#x8C03;&#x7528;&#x4E86;&#x5C31;&#x5FC5;&#x987B;&#x6709;&#x5E7F;&#x544A;&#xFF0C;&#x4E0D;&#x7136;&#x4F1A;&#x88AB;&#x6253;&#x56DE;&#x3002;\<br>&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;&#xFF0D;\<br></p></div></div></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/git reset/" title="git reset" itemprop="url">git reset</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h1><p>git reset&#xFF08;&#x56DE;&#x9000;add&#x64CD;&#x4F5C;&#xFF09;</p>
+<div><br><br>&#x5206;&#x7C7B;&#xFF1A; &#x7F16;&#x7A0B;&#x5DE5;&#x5177;&#x5E93;&#x4F7F;&#x7528;&#x6280;&#x5DE7; 2014-08-23 13:12 2709&#x4EBA;&#x9605;&#x8BFB; &#x8BC4;&#x8BBA;(0) &#x6536;&#x85CF; &#x4E3E;&#x62A5;<br><br></div>
+
+<div><br><br>&#x5728;git&#x7684;&#x4E00;&#x822C;&#x4F7F;&#x7528;&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x73B0;&#x9519;&#x8BEF;&#x7684;&#x5C06;&#x4E0D;&#x60F3;&#x63D0;&#x4EA4;&#x7684;&#x6587;&#x4EF6;add&#x8FDB;&#x5165;index&#x4E4B;&#x540E;&#xFF0C;&#x60F3;&#x56DE;&#x9000;&#x53D6;&#x6D88;&#xFF0C;&#x5219;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#xFF1A;git<br>reset HEAD &lt;file&gt;&#x2026;&#xFF0C;&#x540C;&#x65F6;git<br>add&#x5B8C;&#x6BD5;&#x4E4B;&#x540E;&#xFF0C;git&#x4E5F;&#x4F1A;&#x505A;&#x76F8;&#x5E94;&#x7684;&#x63D0;&#x793A;&#xFF0C;&#x6BD4;&#x5982;&#xFF1A;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5F15;&#x7528;<br><br></div>
+
+<div><br><br>\<br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/git reset/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/git reset/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/git reset/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/gitrm和 rm的区别yang3wei的专栏/" title="gitrm和 rm的区别yang3wei的专栏" itemprop="url">gitrm和 rm的区别yang3wei的专栏</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="gitrm&#x548C;-rm&#x7684;&#x533A;&#x522B;yang3wei&#x7684;&#x4E13;&#x680F;"><a href="#gitrm&#x548C;-rm&#x7684;&#x533A;&#x522B;yang3wei&#x7684;&#x4E13;&#x680F;" class="headerlink" title="gitrm&#x548C; rm&#x7684;&#x533A;&#x522B;yang3wei&#x7684;&#x4E13;&#x680F;"></a>gitrm&#x548C; rm&#x7684;&#x533A;&#x522B;yang3wei&#x7684;&#x4E13;&#x680F;</h1><p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>&#x201C;git rm&#x201D; &#x548C; &#x201C;rm&#x201D; &#x7684;&#x533A;&#x522B;<br>=======================<br><br><div><br><br><div><br><br></div>
+
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p><span>Feb 3, 2013</span> |<br><a href="http://yang3wei.github.io/blog/2013/02/03/git-rm-he-rm-de-qu-bie/#disqus_thread">Comments</a></p>
+<div><br><br>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x6BD4;&#x8F83;&#x80A4;&#x6D45;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x5BF9;&#x4E8E; git &#x521D;&#x5B66;&#x8005;&#x6765;&#x8BF4;&#xFF0C;&#x8FD8;&#x662F;&#x6709;&#x5FC5;&#x8981;&#x63D0;&#x4E00;&#x4E0B;&#x7684;&#x3002;<br><br>&#x7528; <code>git rm</code> &#x6765;&#x5220;&#x9664;&#x6587;&#x4EF6;&#xFF0C;&#x540C;&#x65F6;&#x8FD8;&#x4F1A;&#x5C06;&#x8FD9;&#x4E2A;&#x5220;&#x9664;&#x64CD;&#x4F5C;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;&#xFF1B;\<br> &#x7528; <code>rm</code> &#x6765;&#x5220;&#x9664;&#x6587;&#x4EF6;&#xFF0C;&#x4EC5;&#x4EC5;&#x662F;&#x5220;&#x9664;&#x4E86;&#x7269;&#x7406;&#x6587;&#x4EF6;&#xFF0C;&#x6CA1;&#x6709;&#x5C06;&#x5176;&#x4ECE; git &#x7684;&#x8BB0;&#x5F55;&#x4E2D;&#x5254;&#x9664;&#x3002;<br><br>&#x76F4;&#x89C2;&#x7684;&#x6765;&#x8BB2;&#xFF0C;<code>git rm</code> &#x5220;&#x9664;&#x8FC7;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x6267;&#x884C; <code>git commit -m &quot;abc&quot;</code> &#x63D0;&#x4EA4;&#x65F6;&#xFF0C;\<br></div></div></div></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/gitrm和 rm的区别yang3wei的专栏/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/gitrm和 rm的区别yang3wei的专栏/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/gitrm和 rm的区别yang3wei的专栏/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/8/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/10/">Next<span></span></a>
+  </nav>
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker实践-docker教程/" title="docker实践 docker教程">docker实践 docker教程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		
+		<a href="/about" target="_blank" title="sam hu">sam hu</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+    <div id="disqus_thread"></div>
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//huguiqicom.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+<script id="dsq-count-scr" src="//huguiqicom.disqus.com/count.js" async></script>
+
+    
+  </body>
+ </html>

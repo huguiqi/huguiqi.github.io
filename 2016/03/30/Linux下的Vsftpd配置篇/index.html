@@ -1,0 +1,1261 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Linux下的Vsftpd配置篇 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam hu">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="Linux&amp;#x4E0B;&amp;#x7684;Vsftpd&amp;#x914D;&amp;#x7F6E;&amp;#x7BC7;Linux&amp;#x4E0B;&amp;#x7684;Vsftpd&amp;#x914D;&amp;#x7F6E;&amp;#x7BC7;
+
+
+2010-10-1222:59:02
+
+
+\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下的Vsftpd配置篇">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="Linux&amp;#x4E0B;&amp;#x7684;Vsftpd&amp;#x914D;&amp;#x7F6E;&amp;#x7BC7;Linux&amp;#x4E0B;&amp;#x7684;Vsftpd&amp;#x914D;&amp;#x7F6E;&amp;#x7BC7;
+
+
+2010-10-1222:59:02
+
+
+\">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/6AF8707F-3022-4234-9170-E624D78AFFD7.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/76A94C65-BB18-4149-9814-7DE83526A31B.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/45BDBBD3-4D05-4237-90CB-AE46D1FC1139.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/A89B21E3-8B05-4BD7-86A6-C8520719F4AA.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/390F5005-229D-4039-9F2E-1ACED770705A.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/5320C1CB-6E9C-475C-9415-1901345AAD73.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/BCF845A3-7A39-4E1F-AC24-D2D33016333A.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC716900-0435-45C5-9FDC-2B7069D71C71.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/8DABC853-8A14-40FD-AFD9-9C35C45787DD.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/4E329797-C896-46FA-8F1E-9556F85BC0F1.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/E22971D9-AEFA-4A77-A1C0-AD2F4E56DFE6.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/D186F78B-D820-428E-BAD2-FBD8514806FA.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/DB5054A3-CBD3-4537-9B96-33198A15886C.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/002FA0B1-C936-4033-A51C-9F6BFE9FF862.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/59792794-D088-47C5-888F-6146C02661CF.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/E9695190-5E1B-4D2C-A207-E21CFF265790.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/57E6B25F-FF66-4F0F-B7F1-D3BCEBFDBCA4.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/5004A8D3-1355-41FA-AD06-9833C5D99857.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/24E9395F-4D0C-4A6A-BAA5-F2940D9BC191.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/5E02E704-C21C-4874-91E7-9A28253F5CEC.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/ED125838-77D1-4C32-A499-4CA66DD66451.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/A71A0288-3D02-4228-8E36-51FC03F72043.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/9AF462A5-8243-4108-94C1-57980ED25F51.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/5BDA519F-4D50-45AF-841D-1150D86F1887.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/7831C294-A7FF-4A1C-AE9C-E6F95EE08C3D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/A219A734-ED5C-4BA0-854D-1C397DDF23CF.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/D13E655A-9142-4A6C-BB54-D925DFA6B78C.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/5EFCE770-A563-4FF3-AF84-7DE9A6851AF4.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/E7BEEFC7-54D0-4386-B8B3-97B7F2A9F5DC.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/0F4507F7-BD1A-48E9-892B-D973EF0E345F.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/F6B9617B-DE68-4AB0-BA25-2ACE6AD4FFF8.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/9524D7DD-4C00-4BB5-ACDC-27737484ACAE.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/ACE3A2D5-4B56-49D1-9FAE-CC707EF0EC40.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/A219A734-ED5C-4BA0-854D-1C397DDF23CF.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/96C6FC04-12CE-4557-917A-27F00CF63A26.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/BD94F522-AE3E-4AAD-954C-BB379970CF34.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/78C4B5C1-72ED-4D3B-A3B1-B9A15DA1839C.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/01AF8106-AE81-43EA-878F-636D34960535.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/5B49E08A-9994-4AB5-A80E-7F773702D588.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/5517A47C-662A-466F-A7CC-153800166094.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/993F7D44-E803-4A88-9E93-76D35A11A936.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/0F4507F7-BD1A-48E9-892B-D973EF0E345F.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/229D0622-2C0B-416F-A168-0747D46835A7.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/90399520-FAD8-483A-885F-65020FB3979D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/C19C4FF6-9A55-4CB6-A7B6-12F23F29E924.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/58817929-831E-4E29-9BE9-226F47ED0BF8.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/BC878760-BDFE-4FB2-9F62-67F0F9DAE46F.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/F789767B-72DD-4836-B744-984CCC341BDD.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/EEFA9185-415D-49B4-A6BE-3BA04749D7B0.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/2A622196-88D5-4784-95A1-7050095BC584.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/C2EB24E3-536B-403D-BCCC-3829D8CDE8A3.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/A9281FDC-6A45-417A-8E58-F2E60A8E3442.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/D61479EB-D726-4565-9596-C2773FE9E04F.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/671A346C-5A07-4717-A046-F834D758FD9F.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/90819313-4070-42AC-A8E1-75B4B1BC8471.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/CDCC0C1A-5AB1-45C4-953F-AA69E4A008F9.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/87559937-F3CA-4D6C-AB8F-42FB35D37947.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/D8F3E142-82D5-441A-9D32-F7A6211073B0.jpg">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/C0297AB4-D7E5-4259-9B20-39AD8439D8BA.jpg">
+<meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux下的Vsftpd配置篇">
+<meta name="twitter:description" content="Linux&amp;#x4E0B;&amp;#x7684;Vsftpd&amp;#x914D;&amp;#x7F6E;&amp;#x7BC7;Linux&amp;#x4E0B;&amp;#x7684;Vsftpd&amp;#x914D;&amp;#x7F6E;&amp;#x7BC7;
+
+
+2010-10-1222:59:02
+
+
+\">
+<meta name="twitter:image" content="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/6AF8707F-3022-4234-9170-E624D78AFFD7.jpg">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">技术分享与学习，聚沙成塔!</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/Linux下的Vsftpd配置篇/" title="Linux下的Vsftpd配置篇" itemprop="url">Linux下的Vsftpd配置篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux下的Vsftpd配置篇"><span class="toc-number">1.</span> <span class="toc-text">Linux下的Vsftpd配置篇</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;"><a href="#Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;" class="headerlink" title="Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;"></a>Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;</h1><div><br><br><div style="padding: 0px; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: rgb(204, 204, 204); color: rgb(44, 44, 44); font-family: &#x5B8B;&#x4F53;, &apos;Arial Narrow&apos;, arial, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><br><div style="padding: 20px 0px 0px; overflow: hidden; text-align: center;"><br><br><div style="padding: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 20px; font-family: SimSun;"><br><br>Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;<br><br></div>
+
+<p></p></div><p></p>
+<p><span style="padding: 0px 25px 0px 0px; color: rgb(102, 102, 102); float: right;">2010-10-12<br>22:59:02</span></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<div style="padding: 0px; color: rgb(44, 44, 44); font-family: &#x5B8B;&#x4F53;, &apos;Arial Narrow&apos;, arial, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><br><div><br><br>\<br><br></div><br><a id="more"></a><br><br></div>
+
+<div style="padding: 0px; font-size: 14px; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: rgb(217, 217, 217); word-wrap: break-word; word-break: normal; color: rgb(44, 44, 44); font-family: &#x5B8B;&#x4F53;, &apos;Arial Narrow&apos;, arial, serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><br><div style="padding: 0px;"><br><br><span style="padding: 0px;">1.<span style="padding: 0px;">         </span></span>&#x4E3B;&#x52A8;&#x4E0E;&#x88AB;&#x52A8;&#x6A21;&#x5F0F;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">1)<span style="padding: 0px;">         </span></span>&#x4E3B;&#x52A8;&#x6A21;&#x5F0F;(PORT&#x65B9;&#x5F0F;)<br><br></div>
+
+<div style="padding: 0px;"><br><br>&#x8FDE;&#x63A5;&#x8FC7;&#x7A0B;&#x4E3A;&#xFF1A;&#x5BA2;&#x6237;&#x7AEF;&#x5411;&#x670D;&#x52A1;&#x5668;FTP&#x7AEF;&#x53E3;(&#x9ED8;&#x8BA4;&#x662F;21)&#x53D1;&#x9001;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x63A5;&#x53D7;&#x8FDE;&#x63A5;&#xFF0C;&#x5EFA;&#x7ACB;&#x4E00;&#x6761;&#x547D;&#x4EE4;&#x94FE;&#x8DEF;&#x3002;&#x5F53;&#x9700;&#x8981;&#x4F20;&#x9001;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x5728;&#x547D;&#x4EE4;&#x94FE;&#x8DEF;&#x4E0A;&#x7528;PORT&#x547D;&#x4EE4;&#x544A;&#x8BC9;&#x670D;&#x52A1;&#x5668;&#xFF1A;&#x6211;&#x6253;&#x5F00;&#x4E86;XX&#x7AEF;&#x53E3;&#xFF0C;&#x4F60;&#x8FC7;&#x6765;&#x8FDE;&#x63A5;&#x6211;&#xFF0C;&#x4E8E;&#x662F;&#x670D;&#x52A1;&#x5668;&#x4ECE;20&#x53F7;&#x7AEF;&#x53E3;&#x5411;&#x5BA2;&#x6237;&#x7AEF;&#x7684;XX&#x7AEF;&#x53E3;&#x53D1;&#x9001;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#xFF0C;&#x5EFA;&#x7ACB;&#x4E00;&#x6761;&#x6570;&#x636E;&#x94FE;&#x8DEF;&#x6765;&#x4F20;&#x9001;&#x6570;&#x636E;&#x3002;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">2)<span style="padding: 0px;">         </span></span>&#x88AB;&#x52A8;&#x6A21;&#x5F0F;(PASV&#x65B9;&#x5F0F;)<br><br></div>
+
+<div style="padding: 0px;"><br><br>&#x8FDE;&#x63A5;&#x8FC7;&#x7A0B;&#x4E3A;&#xFF1A;&#x5BA2;&#x6237;&#x7AEF;&#x5411;&#x670D;&#x52A1;&#x5668;FTP&#x7AEF;&#x53E3;(&#x9ED8;&#x8BA4;&#x662F;21)&#x53D1;&#x9001;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x63A5;&#x53D7;&#x8FDE;&#x63A5;&#xFF0C;&#x5EFA;&#x7ACB;&#x4E00;&#x6761;&#x547D;&#x4EE4;&#x94FE;&#x8DEF;&#x3002;&#x5F53;&#x9700;&#x8981;&#x4F20;&#x9001;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x5728;&#x547D;&#x4EE4;&#x94FE;&#x8DEF;&#x4E0A;&#x7528;PASV&#x547D;&#x4EE4;&#x544A;&#x8BC9;&#x5BA2;&#x6237;&#x7AEF;&#xFF1A;&#x6211;&#x6253;&#x5F00;&#x4E86;XX&#x7AEF;&#x53E3;&#xFF0C;&#x4F60;&#x8FC7;&#x6765;&#x8FDE;&#x63A5;&#x6211;&#xFF0C;&#x4E8E;&#x662F;&#x5BA2;&#x6237;&#x7AEF;&#x5411;&#x670D;&#x52A1;&#x5668;&#x7684;XX&#x7AEF;&#x53E3;&#x53D1;&#x9001;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#xFF0C;&#x5EFA;&#x7ACB;&#x4E00;&#x6761;&#x6570;&#x636E;&#x94FE;&#x8DEF;&#x6765;&#x4F20;&#x9001;&#x6570;&#x636E;&#x3002;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">2.<span style="padding: 0px;">         </span></span>&#x5B89;&#x88C5;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">1)<span style="padding: 0px;">         </span></span>&#x67E5;&#x770B;&#x662F;&#x5426;&#x5B89;&#x88C5;<br><br></div>
+
+<div style="padding: 0px;"><br><br>&#x6253;&#x5F00;&#x547D;&#x4EE4;&#x884C;&#xFF0C;&#x8F93;&#x5165;rpm -q vsftpd&#xFF0C;&#x51FA;&#x73B0;&#xFF1A;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220313876.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/6AF8707F-3022-4234-9170-E624D78AFFD7.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x8FD8;&#x6CA1;&#x5B89;&#x88C5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220328940.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/76A94C65-BB18-4149-9814-7DE83526A31B.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">2)<span style="padding: 0px;">         </span></span>&#x5B89;&#x88C5;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x8F7D;&#x5165;&#x5149;&#x76D8;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220351982.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/45BDBBD3-4D05-4237-90CB-AE46D1FC1139.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x8BBE;&#x7F6E;&#x5149;&#x76D8;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220412956.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/A89B21E3-8B05-4BD7-86A6-C8520719F4AA.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5355;&#x51FB;&#x865A;&#x62DF;&#x673A;&#x53F3;&#x4E0B;&#x89D2;&#x7684;&#x5149;&#x76D8;&#x56FE;&#x6807;&#xFF0C;&#x9009;&#x62E9;Settings&#xFF0C;&#x5728;Device<br>status&#x4E2D;&#x5C06;Connected&#x52FE;&#x9009;&#xFF0C;&#x5728;Connection&#x4E2D;&#x9009;&#x62E9;Use ISO image<br>file&#xFF0C;&#x7136;&#x540E;&#x5355;&#x51FB;Browse&#x9009;&#x62E9;Linux&#x7684;&#x5B89;&#x88C5;&#x5305;&#xFF0C;&#x5355;&#x51FB;OK<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x5B89;&#x88C5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220544107.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/390F5005-229D-4039-9F2E-1ACED770705A.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5B89;&#x88C5;&#x5B8C;&#x6210;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">3.<span style="padding: 0px;">         </span></span>&#x6587;&#x4EF6;&#x7ED3;&#x6784;&#x4E0E;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">1)<span style="padding: 0px;">         </span></span>&#x6587;&#x4EF6;&#x7ED3;&#x6784;<br><br></div>
+
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x540D;                           | &#x529F;&#x80FD;                                 |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| /usr/sbin/vsftpd                     | vsftpd&#x7684;&#x4E3B;&#x7A0B;&#x5E8F;                       |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| /etc/rc.d/init.d/vsftpd              | &#x542F;&#x52A8;&#x811A;&#x672C;                             |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| /etc/vsftpd/vsftpd.conf              | &#x4E3B;&#x914D;&#x7F6E;&#x6587;&#x4EF6;                           |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| /etc/pam.d/vsftpd                    | PAM&#x8BA4;&#x8BC1;&#x6587;&#x4EF6;                          |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| /etc/vsftpd.ftpusers                 | &#x7981;&#x6B62;&#x4F7F;&#x7528;vsftpd&#x7684;&#x7528;&#x6237;&#x5217;&#x8868;&#x6587;&#x4EF6;         |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| /etc/vsftpd.user_list               | &#x7981;&#x6B62;&#x6216;&#x5141;&#x8BB8;&#x4F7F;&#x7528;vsftpd&#x7684;&#x7528;&#x6237;&#x5217;&#x8868;&#x6587;&#x4EF6;   |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| /var/ftp                             | &#x533F;&#x540D;&#x7528;&#x6237;&#x4E3B;&#x76EE;&#x5F55;                       |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| /var/ftp/pub                         | &#x533F;&#x540D;&#x7528;&#x6237;&#x7684;&#x4E0B;&#x8F7D;&#x76EE;&#x5F55;                   |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| /etc/logrotate.d/vsftpd.log          | vsftpd&#x7684;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;                     |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">2)<span style="padding: 0px;">         </span></span>&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x67E5;&#x770B;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220624163.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/5320C1CB-6E9C-475C-9415-1901345AAD73.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/220637621.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/BCF845A3-7A39-4E1F-AC24-D2D33016333A.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x4EE5;#&#x53F7;&#x5F00;&#x5934;&#x7684;&#x4E3A;&#x6CE8;&#x91CA;&#xFF0C;&#x8FD9;&#x91CC;&#x628A;&#x975E;&#x914D;&#x7F6E;&#x53C2;&#x6570;&#x6CE8;&#x91CA;&#x90FD;&#x53BB;&#x6389;&#x4E86;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x53C2;&#x6570;&#x542B;&#x4E49;<br><br></div>
+
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| &#x53C2;&#x6570;                                 | &#x542B;&#x4E49;                                 |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| anonymous_enable=YES                | &#x662F;&#x5426;&#x5141;&#x8BB8;&#x4F7F;&#x7528;&#x533F;&#x540D;&#x8D26;&#x6237;                 |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| local_enable=YES                    | &#x662F;&#x5426;&#x5141;&#x8BB8;&#x672C;&#x5730;&#x7528;&#x6237;&#x767B;&#x5F55;                 |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| write_enable=YES                    | &#x662F;&#x5426;&#x5141;&#x8BB8;&#x5199;&#x5165;                         |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| local_umask=022                     | &#x672C;&#x5730;umask&#x503C;&#x4E3A;022                     |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #anon_upload_enable=YES           | &#x533F;&#x540D;&#x7528;&#x6237;&#x662F;&#x5426;&#x53EF;&#x4E0A;&#x4F20;&#x6587;&#x4EF6;               |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #anon_mkdir_write_enable=YES     | &#x533F;&#x540D;&#x7528;&#x6237;&#x662F;&#x5426;&#x53EF;&#x5EFA;&#x7ACB;&#x76EE;&#x5F55;               |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| dirmessage_enable=YES               | &#x8FDB;&#x5165;&#x6BCF;&#x4E2A;&#x76EE;&#x5F55;&#x663E;&#x793A;&#x6B22;&#x8FCE;&#x4FE1;&#x606F;&#xFF0C;&#x5728;&#x6BCF;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;&#x5EFA;&#x7ACB;.message&#x6587;&#x4EF6;&#x5728;&#x91CC;&#x9762;&#x5199;&#x6B22; |<br>|                                      | &#x8FCE;&#x4FE1;&#x606F;                               |<br>| </div>                               |                                      |<br>|                                      | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| xferlog_enable=YES                  | &#x4E0A;&#x4F20;/&#x4E0B;&#x8F7D;&#x6587;&#x4EF6;&#x65F6;&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;              |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| connect_from_port_20=YES          | &#x662F;&#x5426;&#x4F7F;&#x7528;20&#x7AEF;&#x53E3;&#x4F20;&#x8F93;&#x6570;&#x636E;(&#x662F;&#x5426;&#x4F7F;&#x7528;&#x4E3B;&#x52A8;&#x6A21;&#x5F0F;) |<br>|                                      |                                      |<br>| </div>                               |                                      |<br>|                                      | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #chown_uploads=YES                 | &#x4FEE;&#x6539;&#x533F;&#x540D;&#x7528;&#x6237;&#x4E0A;&#x4F20;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x6587;&#x4EF6;&#x7684;&#x62E5;&#x6709;&#x8005; |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">                                              |<br>|                                                                          |<br>| #chown_username=whoever                                                |<br>|                                                                          |<br>| </div>                                                                   |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #xferlog_file=/var/log/xferlog     | &#x65E5;&#x5FD7;&#x6587;&#x4EF6;                             |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| xferlog_std_format=YES             | &#x4F7F;&#x7528;&#x6807;&#x51C6;&#x6587;&#x4EF6;&#x65E5;&#x5FD7;                     |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #idle_session_timeout=600         | &#x4F1A;&#x8BDD;&#x8D85;&#x65F6;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;&#x5230;ftp&#x4F46;&#x672A;&#x64CD;&#x4F5C;    |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #data_connection_timeout=120      | &#x6570;&#x636E;&#x4F20;&#x8F93;&#x8D85;&#x65F6;                         |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #nopriv_user=ftpsecure             | &#x6307;&#x5B9A;vsftpd&#x670D;&#x52A1;&#x7684;&#x8FD0;&#x884C;&#x5E10;&#x6237;&#xFF0C;&#x4E0D;&#x6307;&#x5B9A;&#x65F6;&#x4F7F;&#x7528;ftp |<br>|                                      |                                      |<br>| </div>                               |                                      |<br>|                                      | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #async_abor_enable=YES            | &#x662F;&#x5426;&#x5141;&#x8BB8;&#x5BA2;&#x6237;&#x7AEF;&#x4F7F;&#x7528;sync&#x7B49;&#x547D;&#x4EE4;         |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #ascii_upload_enable=YES          | &#x662F;&#x5426;&#x5141;&#x8BB8;&#x4E0A;&#x4F20;/&#x4E0B;&#x8F7D;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;          |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">                                              |<br>|                                                                          |<br>| #ascii_download_enable=YES                                            |<br>|                                                                          |<br>| </div>                                                                   |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #ftpd_banner=Welcome to blah FTP   | &#x767B;&#x5F55;&#x63D0;&#x793A;&#x8BED;                           |<br>| service.                             |                                      |<br>|                                      | </div>                               |<br>| </div>                               |                                      |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #deny_email_enable=YES            | &#x62D2;&#x7EDD;&#x4F7F;&#x7528;banned_email_file&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x4E2D;&#x6240;&#x5217;&#x51FA;&#x7684;e- |<br>|                                      | mail&#x5730;&#x5740;&#x8FDB;&#x884C;&#x767B;&#x5F55;&#x7684;&#x533F;&#x540D;&#x7528;&#x6237;&#x3002;&#x5373;&#xFF0C;&#x5F53;&#x533F;&#x540D;&#x7528;&#x6237;&#x4F7F;&#x7528;banned_ema |<br>| </div>                               | il_file&#x6587;&#x4EF6;&#x4E2D;&#x6240;&#x5217;&#x51FA;&#x7684;e-mail&#x8FDB;&#x884C;&#x767B;&#x5F55;&#x65F6;&#xFF0C;&#x88AB;&#x62D2;&#x7EDD;&#x3002; |<br>|                                      |                                      |<br>|                                      |                                      |<br>|                                      | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">                                              |<br>|                                                                          |<br>| #banned_email_file=/etc/vsftpd/banned_emails                         |<br>|                                                                          |<br>| </div>                                                                   |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #chroot_list_enable=YES           | &#x9501;&#x5B9A;&#x767B;&#x9646;&#x7528;&#x6237;&#x5728;&#x5176;&#x4E3B;&#x76EE;&#x5F55;&#xFF0C;&#x5C06;&#x7528;&#x6237;&#x540D;&#x4E00;&#x4E2A;&#x4E00;&#x884C;&#x5199;&#x5728;/etc/vsftpd/ch |<br>|                                      | root_list&#x6587;&#x4EF6;&#x91CC;&#xFF0C;&#x4F7F;&#x7528;&#x6B64;&#x65B9;&#x6CD5;&#x65F6;&#x5FC5;&#x987B;chroot_local\ |<br>| </div>                               | _user=YES                            |<br>|                                      |                                      |<br>|                                      | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">                                              |<br>|                                                                          |<br>| #chroot_list_file=/etc/vsftpd/chroot_list                            |<br>|                                                                          |<br>| </div>                                                                   |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #ls_recurse_enable=YES            | &#x662F;&#x5426;&#x5141;&#x8BB8;&#x4F7F;&#x7528;ls -R&#x7B49;&#x547D;&#x4EE4;              |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| listen=YES                           | &#x5F00;&#x542F;ipv4&#x76D1;&#x542C;                         |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| #listen_ipv6=YES                   | &#x5F00;&#x542F;ipv6&#x76D1;&#x542C;                         |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| pam_service_name=vsftpd            | &#x4F7F;&#x7528;pam&#x6A21;&#x5757;&#x63A7;&#x5236;&#xFF0C;vsftpd&#x6587;&#x4EF6;&#x5728;/etc/pam.d&#x76EE;&#x5F55;&#x4E0B; |<br>|                                      |                                      |<br>| </div>                               |                                      |<br>|                                      | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| userlist_enable=YES                 | &#x4E0E;&#x5176;&#x4ED6;&#x4E2D;userlist_deny=YES&#x5171;&#x540C;&#x63A7;&#x5236;&#x8BBF;&#x95EE;&#x7528;&#x6237;&#xFF0C;&#x8BE6;&#x89C1;use |<br>|                                      | rlist_deny=YES&#x53C2;&#x6570;&#x542B;&#x4E49;              |<br>| </div>                               |                                      |<br>|                                      | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| tcp_wrappers=YES                    | &#x662F;&#x5426;&#x5141;&#x8BB8;tcp_wrappers&#x7BA1;&#x7406;            |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div align="center" style="padding: 0px;">                               |<br>|                                                                          |<br>| &#x5176;&#x4ED6;                                                                     |<br>|                                                                          |<br>| </div>                                                                   |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| listen_address=ip address           | &#x6307;&#x5B9A;&#x4FA6;&#x542C;IP                           |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| listen_port=port_value             | &#x6307;&#x5B9A;&#x4FA6;&#x542C;&#x7AEF;&#x53E3;&#xFF0C;&#x9ED8;&#x8BA4;21                 |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| chroot_local_user=YES              | &#x9650;&#x5236;&#x6240;&#x6709;&#x7684;&#x672C;&#x5730;&#x7528;&#x6237;&#x5728;&#x81EA;&#x5BB6;&#x76EE;&#x5F55;         |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| userlist_deny=YES                   | &#x51B3;&#x5B9A;&#x7981;&#x6B62;&#x8FD8;&#x662F;&#x53EA;&#x5141;&#x8BB8;&#x7531;userlist_file&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x7528;&#x6237;&#x767B;&#x5F55;FT |<br>|                                      | P&#x670D;&#x52A1;&#x5668;&#x3002;&#x6B64;&#x9009;&#x9879;&#x5728;userlist_enable&#x9009;&#x9879;&#x542F;&#x52A8;&#x540E;&#x624D;&#x751F;&#x6548;&#x3002;YE |<br>| </div>                               | S&#x4E3A;&#x9ED8;&#x8BA4;&#x503C;&#xFF0C;&#x7981;&#x6B62;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x7528;&#x6237;&#x767B;&#x5F55;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x4E0D;&#x5411;&#x8FD9;&#x4E9B;&#x7528;&#x6237;&#x53D1;&#x51FA;&#x8F93;&#x5165;&#x5BC6;&#x7801;&#x7684;&#x63D0;&#x793A;&#x3002; |<br>|                                      | NO&#x8868;&#x793A;&#x53EA;&#x5141;&#x8BB8;&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x7528;&#x6237;&#x767B;&#x5F55;FTP&#x670D;&#x52A1;&#x5668; |<br>|                                      |                                      |<br>|                                      |                                      |<br>|                                      | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| local_root=/home/ftp                | &#x6240;&#x6709;&#x7528;&#x6237;&#x7684;&#x6839;&#x76EE;&#x5F55;&#xFF0C;&#x5BF9;&#x533F;&#x540D;&#x7528;&#x6237;&#x65E0;&#x6548;     |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| anon_max_rate=value                | &#x533F;&#x540D;&#x7528;&#x6237;&#x7684;&#x6700;&#x5927;&#x4F20;&#x8F93;&#x901F;&#x5EA6;&#xFF0C;&#x5355;&#x4F4D;&#x662F;Byts/s |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| local_max_rate=value               | &#x672C;&#x5730;&#x7528;&#x6237;&#x7684;&#x6700;&#x5927;&#x4F20;&#x8F93;&#x901F;&#x5EA6;&#xFF0C;&#x5355;&#x4F4D;&#x662F;Byts/s |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div style="padding: 0px;">          | <div style="padding: 0px;">          |<br>|                                      |                                      |<br>| download_enable=YES                 | &#x662F;&#x5426;&#x5141;&#x8BB8;&#x4E0B;&#x8F7D;                         |<br>|                                      |                                      |<br>| </div>                               | </div>                               |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">3)<span style="padding: 0px;">         </span></span>&#x8FDE;&#x63A5;&#x4FE1;&#x606F;<br><br></div>
+
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| &#x4EE3;&#x7801;               | &#x542B;&#x4E49;               | &#x4EE3;&#x7801;               | &#x542B;&#x4E49;               |<br>|                    |                    |                    |                    |<br>| </div>             | </p></div>             |              |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<p></p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 110                | &#x91CD;&#x65B0;&#x542F;&#x52A8;&#x6807;&#x8BB0;&#x5E94;&#x7B54;   | 120                | &#x670D;&#x52A1;&#x5728;&#x591A;&#x4E45;&#x65F6;&#x95F4;&#x5185;ready |<br>|                    |                    |                    |                    |<br>| </div>             |              |              |                    |<br>|                    |                    |                    |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 125                | &#x6570;&#x636E;&#x94FE;&#x8DEF;&#x57E0;&#x5F00;&#x542F;&#xFF0C;&#x51C6;&#x5907;&#x4F20;&#x9001; | 150          | &#x6587;&#x4EF6;&#x72B6;&#x6001;&#x6B63;&#x5E38;&#xFF0C;&#x5F00;&#x542F;&#x6570;&#x636E;&#x8FDE;&#x63A5;&#x7AEF;&#x53E3; |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |                    |<br>|                    |              |                    |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 200                | &#x547D;&#x4EE4;&#x6267;&#x884C;&#x6210;&#x529F;       | 202                | &#x547D;&#x4EE4;&#x6267;&#x884C;&#x5931;&#x8D25;       |<br>|                    |                    |                    |                    |<br>| </div>             |              |              |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 211                | &#x7CFB;&#x7EDF;&#x72B6;&#x6001;&#x6216;&#x662F;&#x7CFB;&#x7EDF;&#x6C42;&#x52A9;&#x54CD;&#x5E94; | 212          | &#x76EE;&#x5F55;&#x7684;&#x72B6;&#x6001;         |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |              |<br>|                    |              |                    |                    |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 213                | &#x6587;&#x4EF6;&#x7684;&#x72B6;&#x6001;         | 214                | &#x6C42;&#x52A9;&#x7684;&#x4FE1;&#x606F;         |<br>|                    |                    |                    |                    |<br>| </div>             |              |              |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 215                | &#x540D;&#x79F0;&#x7CFB;&#x7EDF;&#x7C7B;&#x578B;       | 220                | &#x65B0;&#x7684;&#x8054;&#x673A;&#x670D;&#x52A1;ready  |<br>|                    |                    |                    |                    |<br>| </div>             |              |              |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 221                | &#x670D;&#x52A1;&#x7684;&#x63A7;&#x5236;&#x8FDE;&#x63A5;&#x57E0;&#x5173;&#x95ED;&#xFF0C;&#x53EF;&#x4EE5;&#x6CE8;&#x9500; | 225    | &#x6570;&#x636E;&#x8FDE;&#x7ED3;&#x5F00;&#x542F;&#xFF0C;&#x4F46;&#x65E0;&#x4F20;&#x8F93;&#x52A8;&#x4F5C; |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |                    |<br>|                    |              |                    |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 226                | &#x5173;&#x95ED;&#x6570;&#x636E;&#x8FDE;&#x63A5;&#x7AEF;&#x53E3;&#xFF0C;&#x8BF7;&#x6C42;&#x7684;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x6210;&#x529F; | 227 | &#x8FDB;&#x5165;passive mode |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |              |<br>|                    |              |                    |                    |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 230                | &#x4F7F;&#x7528;&#x8005;&#x767B;&#x5F55;         | 250                | &#x8BF7;&#x6C42;&#x7684;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x5B8C;&#x6210; |<br>|                    |                    |                    |                    |<br>| </div>             |              |              |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 257                | &#x663E;&#x793A;&#x76EE;&#x524D;&#x7684;&#x8DEF;&#x5F84;&#x540D;&#x79F0; | 331                | &#x7528;&#x6237;&#x540D;&#x79F0;&#x6B63;&#x786E;&#xFF0C;&#x9700;&#x8981;&#x5BC6;&#x7801; |<br>|                    |                    |                    |                    |<br>| </div>             |              |              |                    |<br>|                    |                    |                    |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 332                | &#x767B;&#x5165;&#x65F6;&#x9700;&#x8981;&#x8D26;&#x53F7;&#x4FE1;&#x606F; | 350                | &#x8BF7;&#x6C42;&#x7684;&#x64CD;&#x4F5C;&#x9700;&#x8981;&#x8FDB;&#x4E00;&#x90E8;&#x7684;&#x547D;&#x4EE4; |<br>|                    |                    |                    |                    |<br>| </div>             |              |              |                    |<br>|                    |                    |                    |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 421                | &#x65E0;&#x6CD5;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#xFF0C;&#x5173;&#x95ED;&#x63A7;&#x5236;&#x8FDE;&#x7ED3; | 425        | &#x65E0;&#x6CD5;&#x5F00;&#x542F;&#x6570;&#x636E;&#x94FE;&#x8DEF;   |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |              |<br>|                    |              |                    |                    |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 426                | &#x5173;&#x95ED;&#x8054;&#x673A;&#xFF0C;&#x7EC8;&#x6B62;&#x4F20;&#x8F93; | 450                | &#x8BF7;&#x6C42;&#x7684;&#x64CD;&#x4F5C;&#x672A;&#x6267;&#x884C;   |<br>|                    |                    |                    |                    |<br>| </div>             |              |              |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 451                | &#x547D;&#x4EE4;&#x7EC8;&#x6B62;&#xFF1A;&#x6709;&#x672C;&#x5730;&#x7684;&#x9519;&#x8BEF; | 452            | &#x672A;&#x6267;&#x884C;&#x547D;&#x4EE4;&#xFF1A;&#x78C1;&#x76D8;&#x7A7A;&#x95F4;&#x4E0D;&#x8DB3; |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |                    |<br>|                    |              |                    |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 500                | &#x683C;&#x5F0F;&#x9519;&#x8BEF;&#xFF0C;&#x65E0;&#x6CD5;&#x8BC6;&#x522B;&#x547D;&#x4EE4; | 501            | &#x53C2;&#x6570;&#x8BED;&#x6CD5;&#x9519;&#x8BEF;       |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |              |<br>|                    |              |                    |                    |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 502                | &#x547D;&#x4EE4;&#x6267;&#x884C;&#x5931;&#x8D25;       | 503                | &#x547D;&#x4EE4;&#x987A;&#x5E8F;&#x9519;&#x8BEF;       |<br>|                    |                    |                    |                    |<br>| </div>             |              |              |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 504                | &#x547D;&#x4EE4;&#x6240;&#x63A5;&#x7684;&#x53C2;&#x6570;&#x4E0D;&#x6B63;&#x786E; | 530              | &#x672A;&#x767B;&#x5F55;             |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |              |<br>|                    |              |                    |                    |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 532                | &#x50A8;&#x5B58;&#x6587;&#x4EF6;&#x9700;&#x8981;&#x8D26;&#x6237;&#x767B;&#x5F55; | 550              | &#x672A;&#x6267;&#x884C;&#x8BF7;&#x6C42;&#x7684;&#x64CD;&#x4F5C;   |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |              |<br>|                    |              |                    |                    |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 551                | &#x8BF7;&#x6C42;&#x7684;&#x547D;&#x4EE4;&#x7EC8;&#x6B62;&#xFF0C;&#x7C7B;&#x578B;&#x672A;&#x77E5; | 552          | &#x8BF7;&#x6C42;&#x7684;&#x6587;&#x4EF6;&#x7EC8;&#x6B62;&#xFF0C;&#x50A8;&#x5B58;&#x4F4D;&#x6EA2;&#x51FA; |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |                    |<br>|                    |              |                    |              |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<p>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+<br>| <div |="" <div="" style="padding: 0p | style=" padding:="" 0p="" x;"="">               | x;&quot;&gt;               | x;&#x201D;&gt;               | x;&#x201D;&gt;               |<br>|                    |                    |                    |                    |<br>| 553                | &#x672A;&#x6267;&#x884C;&#x8BF7;&#x6C42;&#x7684;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x540D;&#x79F0;&#x4E0D;&#x6B63;&#x786E; |        |                    |<br>|                    |                    |                    |                    |<br>| </div>             |                    |              |              |<br>|                    |              |                    |                    |<br>+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2013;+</p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">4.<span style="padding: 0px;">         </span></span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">1)<span style="padding: 0px;">         </span></span>&#x533F;&#x540D;&#x7528;&#x6237;&#x767B;&#x5F55;FTP<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x914D;&#x7F6E;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220752284.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC716900-0435-45C5-9FDC-2B7069D71C71.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5B89;&#x88C5;&#x5B8C;&#x6210;&#x540E;&#xFF0C;service vsftpd start&#x542F;&#x52A8;&#x670D;&#x52A1;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220813512.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/8DABC853-8A14-40FD-AFD9-9C35C45787DD.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5728;XP&#x4E0B;&#x8FDE;&#x63A5;FTP&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x767B;&#x9646;&#x6210;&#x529F;&#xFF0C;&#x7528;&#x6237;&#x540D;&#x4E3A;ftp&#xFF0C;&#x5373;&#x4E3A;&#x533F;&#x540D;&#x7528;&#x6237;&#xFF0C;anonymous&#x4E5F;&#x4E3A;&#x533F;&#x540D;&#x7528;&#x6237;&#xFF0C;vsFTP&#x9ED8;&#x8BA4;&#x7684;&#x914D;&#x7F6E;&#x533F;&#x540D;&#x7528;&#x6237;&#x5C31;&#x53EF;&#x767B;&#x5F55;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">2)<span style="padding: 0px;">         </span></span>&#x5B9E;&#x540D;&#x7528;&#x6237;&#x767B;&#x5F55;FTP<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x914D;&#x7F6E;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220921438.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/4E329797-C896-46FA-8F1E-9556F85BC0F1.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>mkdir -p /var/ftp/pub/zwb&#xFF1A;&#x5EFA;&#x7ACB;&#x7528;&#x6237;&#x767B;&#x5F55;&#x6839;&#x76EE;&#x5F55;<br><br></div>
+
+<div style="padding: 0px;"><br><br>useradd -G ftp -d /var/ftp/pub/zwb -M zwb&#xFF1A;&#x5EFA;&#x7ACB;&#x5B9E;&#x540D;&#x7528;&#x6237;<br><br></div>
+
+<div style="padding: 0px;"><br><br>passwd zwb&#xFF1A;&#x8BBE;&#x7F6E;&#x5B9E;&#x540D;&#x7528;&#x6237;&#x767B;&#x5F55;&#x5BC6;&#x7801;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/220949891.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/E22971D9-AEFA-4A77-A1C0-AD2F4E56DFE6.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">3)<span style="padding: 0px;">         </span></span>&#x53EA;&#x5141;&#x8BB8;&#x533F;&#x540D;&#x767B;&#x5F55;&#xFF0C;&#x4E0D;&#x5141;&#x8BB8;&#x5B9E;&#x540D;&#x767B;&#x5F55;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/221117141.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/221127192.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/D186F78B-D820-428E-BAD2-FBD8514806FA.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5C06;local_enable=YES&#x6539;&#x4E3A;NO&#xFF0C;&#x4FDD;&#x5B58;&#x9000;&#x51FA;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x91CD;&#x542F;&#x670D;&#x52A1;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/221143152.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/221207528.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/DB5054A3-CBD3-4537-9B96-33198A15886C.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">4)<span style="padding: 0px;">         </span></span>&#x4E0D;&#x5141;&#x8BB8;&#x533F;&#x540D;&#x767B;&#x5F55;&#xFF0C;&#x53EA;&#x5141;&#x8BB8;&#x5B9E;&#x540D;&#x767B;&#x5F55;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/221424654.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/221435822.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/002FA0B1-C936-4033-A51C-9F6BFE9FF862.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5C06;local_enable=NO&#x6539;&#x4E3A;YES&#xFF0C;anonymous_enable=YES&#x6539;&#x4E3A;NO&#xFF0C;&#x9000;&#x51FA;&#x4FDD;&#x5B58;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x91CD;&#x542F;&#x670D;&#x52A1;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/221528643.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/221547700.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/59792794-D088-47C5-888F-6146C02661CF.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">5)<span style="padding: 0px;">         </span></span>&#x9ED1;&#x3001;&#x767D;&#x540D;&#x5355;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x9ED1;&#x540D;&#x5355;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/221618677.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/221630800.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/E9695190-5E1B-4D2C-A207-E21CFF265790.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>anonymous_enable=NO&#x6539;&#x4E3A;anonymous_enable=YES&#xFF0C;&#x8FD8;&#x539F;&#x521D;&#x59CB;&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x6DFB;&#x52A0;&#x9ED1;&#x540D;&#x5355;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/221914993.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/57E6B25F-FF66-4F0F-B7F1-D3BCEBFDBCA4.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5C06;zwb&#x7528;&#x6237;&#x8FFD;&#x52A0;&#x8FDB;&#x9ED1;&#x540D;&#x5355;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/221946623.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/5004A8D3-1355-41FA-AD06-9833C5D99857.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>zwb&#x7528;&#x6237;&#x767B;&#x5F55;&#x5931;&#x8D25;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x767D;&#x540D;&#x5355;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8FD8;&#x539F;&#x8BBE;&#x7F6E;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/222042965.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/24E9395F-4D0C-4A6A-BAA5-F2940D9BC191.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/222110961.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/5E02E704-C21C-4874-91E7-9A28253F5CEC.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5C06;&#x4E0A;&#x9762;&#x8FFD;&#x52A0;&#x8FDB;&#x9ED1;&#x540D;&#x5355;&#x7684;&#x7528;&#x6237;zwb&#x79FB;&#x9664;&#x5E76;&#x4FDD;&#x5B58;&#x9000;&#x51FA;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8BBE;&#x7F6E;&#x767D;&#x540D;&#x5355;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/222154987.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/222214596.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/ED125838-77D1-4C32-A499-4CA66DD66451.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x6DFB;&#x52A0;userlist_deny=NO&#x4E0E;userlist_file=/etc/vsftpd/user_list&#x8FD9;2&#x884C;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x6DFB;&#x52A0;&#x767D;&#x540D;&#x5355;<br><br></div>
+
+<p> <a href="http://img1.51cto.com/attachment/201010/222455284.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/A71A0288-3D02-4228-8E36-51FC03F72043.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x9664;user_list&#x91CC;&#x7684;&#x7528;&#x6237;&#x5916;&#xFF0C;&#x90FD;&#x4E0D;&#x53EF;&#x767B;&#x9646;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x91CD;&#x542F;&#x670D;&#x52A1;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/222432741.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/222622721.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/9AF462A5-8243-4108-94C1-57980ED25F51.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">6)<span style="padding: 0px;">         </span></span>&#x9650;&#x5236;&#x5BA2;&#x6237;&#x6570;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x8FD8;&#x539F;&#x8BBE;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8FD8;&#x539F;&#x767D;&#x540D;&#x5355;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/222738261.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/5BDA519F-4D50-45AF-841D-1150D86F1887.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/222747488.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/7831C294-A7FF-4A1C-AE9C-E6F95EE08C3D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5C06;&#x4E0A;&#x9762;&#x8FFD;&#x52A0;&#x8FDB;&#x9ED1;&#x540D;&#x5355;&#x7684;&#x7528;&#x6237;zwb&#x79FB;&#x9664;&#x5E76;&#x4FDD;&#x5B58;&#x9000;&#x51FA;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8FD8;&#x539F;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/222857224.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/222907349.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/A219A734-ED5C-4BA0-854D-1C397DDF23CF.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x53BB;&#x6389;userlist_deny=NO&#x4E0E;userlist_file=/etc/vsftpd/user_list<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/222946906.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/222957247.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/D13E655A-9142-4A6C-BB54-D925DFA6B78C.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x6DFB;&#x52A0;max_clients=1&#xFF0C;&#x6307;&#x660E;&#x6700;&#x5927;&#x5BA2;&#x6237;&#x8FDE;&#x63A5;&#x6570;&#x91CF;&#x4E3A;1<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x91CD;&#x542F;&#x670D;&#x52A1;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/223105993.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/223128578.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/5EFCE770-A563-4FF3-AF84-7DE9A6851AF4.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>ftp&#x7528;&#x6237;&#x767B;&#x5F55;&#x6210;&#x529F;&#xFF0C;&#x4E0D;&#x8981;&#x9000;&#x51FA;&#xFF0C;&#x518D;&#x6B21;&#x5F00;&#x542F;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x884C;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/223155871.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/E7BEEFC7-54D0-4386-B8B3-97B7F2A9F5DC.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5728;&#x624D;&#x5F00;&#x542F;&#x7684;&#x547D;&#x4EE4;&#x884C;&#x4E0A;&#x8FDE;&#x63A5;FTP&#xFF0C;&#x9519;&#x8BEF;&#x4EE3;&#x7801;421&#xFF0C;&#x63D0;&#x793A;There are too many connected<br>users,please try<br>later(&#x6709;&#x592A;&#x591A;&#x7684;&#x7528;&#x6237;&#x8FDE;&#x63A5;&#xFF0C;&#x7A0D;&#x540E;&#x518D;&#x8BD5;)&#xFF0C;&#x4F7F;&#x7528;zwb&#x7528;&#x6237;&#x767B;&#x5F55;Connection closed by<br>remote host(&#x8FDC;&#x7A0B;&#x4E3B;&#x673A;&#x8FDE;&#x63A5;&#x5173;&#x95ED;)<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">7)<span style="padding: 0px;">         </span></span>&#x901F;&#x7387;&#x9650;&#x5236;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x533F;&#x540D;&#x7528;&#x6237;&#x4E0E;&#x5B9E;&#x540D;&#x7528;&#x6237;&#x901F;&#x7387;&#x9650;&#x5236;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8FD8;&#x539F;&#x8BBE;&#x7F6E;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/223231601.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/223243752.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/0F4507F7-BD1A-48E9-892B-D973EF0E345F.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x53BB;&#x6389;max_clients=1<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/223331252.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/223341896.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/F6B9617B-DE68-4AB0-BA25-2ACE6AD4FFF8.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5355;&#x4F4D;&#x4E3A;bytes&#xFF0C;local_max_rate&#x8868;&#x793A;&#x5B9E;&#x540D;&#x7528;&#x6237;&#x7684;&#x4E0B;&#x8F7D;&#x901F;&#x5EA6;&#xFF0C;anon_max_rate&#x8868;&#x793A;&#x533F;&#x540D;&#x7528;&#x6237;&#x7684;&#x4E0B;&#x8F7D;&#x901F;&#x5EA6;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x91CD;&#x542F;&#x670D;&#x52A1;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/223410331.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x521B;&#x5EFA;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/223500220.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/9524D7DD-4C00-4BB5-ACDC-27737484ACAE.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>dd if=/dev/zero of=get_test bs=126k<br>count=1&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5927;&#x5C0F;&#x4E3A;126k&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x7528;0&#x586B;&#x6EE1;&#xFF0C;&#x4F5C;&#x4E3A;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#xFF0C;&#x5B9E;&#x9645;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;129k&#x7684;&#x6587;&#x4EF6;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/223528351.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/ACE3A2D5-4B56-49D1-9FAE-CC707EF0EC40.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>zwb&#x7528;&#x6237;&#x7528;&#x65F6;&#x4E3A;0.77Seconds&#xFF0C;&#x901F;&#x7387;&#x4E3A;168.44Kbytes/sec&#x3002;ftp&#x7528;&#x6237;&#x7528;&#x65F6;&#x4E3A;6.20Seconds&#xFF0C;&#x901F;&#x7387;&#x4E3A;20.80Kbytes/sec<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x4E0D;&#x540C;&#x5B9E;&#x540D;&#x7528;&#x6237;&#x5206;&#x7B49;&#x7EA7;&#x4E0B;&#x8F7D;&#x9650;&#x5236;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8FD8;&#x539F;&#x8BBE;&#x7F6E;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/223605333.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/223909128.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/A219A734-ED5C-4BA0-854D-1C397DDF23CF.jpg" alt=""></a></p>
+<p>&#x53BB;&#x6389;local_max_rate&#x4E0E;anon_max_rate</p>
+<p><span style="padding: 0px;">u </span>&#x6DFB;&#x52A0;&#x7528;&#x6237;</p>
+<div style="padding: 0px;"><br><br><a href="http://img1.51cto.com/attachment/201010/223618175.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/96C6FC04-12CE-4557-917A-27F00CF63A26.jpg" alt=""></a><br><br></div>
+
+<div style="padding: 0px;"><br><br>&#x5EFA;&#x7ACB;zzj&#x7528;&#x6237;&#x7684;&#x7528;&#x6237;&#x6839;&#x76EE;&#x5F55;&#xFF0C;&#x6DFB;&#x52A0;zzj&#x7528;&#x6237;&#xFF0C;&#x8BBE;&#x7F6E;zzj&#x7528;&#x6237;&#x5BC6;&#x7801;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224038698.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/224047579.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/BD94F522-AE3E-4AAD-954C-BB379970CF34.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x6DFB;&#x52A0;user_config_dir=/etc/vsftpd&#xFF0C;&#x8BBE;&#x7F6E;&#x7528;&#x6237;&#x914D;&#x7F6E;&#x76EE;&#x5F55;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x6DFB;&#x52A0;&#x7528;&#x6237;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">n </span>&#x4E3A;zwb&#x7528;&#x6237;&#x6DFB;&#x52A0;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224210133.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/78C4B5C1-72ED-4D3B-A3B1-B9A15DA1839C.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/224219334.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/01AF8106-AE81-43EA-878F-636D34960535.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">n </span>&#x4E3A;zzj&#x7528;&#x6237;&#x6DFB;&#x52A0;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224232319.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/5B49E08A-9994-4AB5-A80E-7F773702D588.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/224240466.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/5517A47C-662A-466F-A7CC-153800166094.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x91CD;&#x542F;&#x670D;&#x52A1;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224340636.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224404882.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/993F7D44-E803-4A88-9E93-76D35A11A936.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>zwb&#x7528;&#x6237;&#x7528;&#x65F6;&#x4E3A;0.78Seconds&#xFF0C;&#x901F;&#x7387;&#x4E3A;165.20Kbytes/sec&#x3002;zzj&#x7528;&#x6237;&#x7528;&#x65F6;&#x4E3A;6.20Seconds&#xFF0C;&#x901F;&#x7387;&#x4E3A;20.80Kbytes/sec<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">8)<span style="padding: 0px;">         </span></span>&#x4E0A;&#x4F20;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x533F;&#x540D;&#x7528;&#x6237;&#x4E0A;&#x4F20;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8FD8;&#x539F;&#x8BBE;&#x7F6E;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224532538.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/224609979.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/0F4507F7-BD1A-48E9-892B-D973EF0E345F.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x628A;user_config_dir=/etc/vsftpd&#x53BB;&#x6389;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224625564.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/224641127.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/229D0622-2C0B-416F-A168-0747D46835A7.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x53D6;&#x6D88;anon_upload_enable=YES&#x4E0E;anon_mkdir_write_enable=YES&#x524D;&#x7684;&#x6CE8;&#x91CA;&#xFF0C;&#x6DFB;&#x52A0;anon_other_write_enable=YES&#xFF0C;&#x8868;&#x793A;&#x5141;&#x8BB8;&#x6587;&#x4EF6;&#x6539;&#x540D;&#x3001;&#x5220;&#x9664;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x6743;&#x9650;&#x914D;&#x7F6E;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224715812.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/90399520-FAD8-483A-885F-65020FB3979D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>chmod -R 777 pub&#xFF1A;<br><br></div>
+
+<div style="padding: 0px;"><br><br>&#x5C06;pub&#x76EE;&#x5F55;&#x6539;&#x4E3A;777&#x7684;&#x6743;&#x9650;<br><br></div>
+
+<div style="padding: 0px;"><br><br>chcon -R -t public_content_rw_t pub&#xFF1A;<br><br></div>
+
+<div style="padding: 0px;"><br><br>&#x5C06;pub&#x76EE;&#x5F55;&#x7684;&#x6587;&#x4EF6;&#x7C7B;&#x578B;&#x6539;&#x4E3A;public_content_rw_t<br><br></div>
+
+<div style="padding: 0px;"><br><br>getsebool -a | grep ftp&#xFF1A;<br><br></div>
+
+<div style="padding: 0px;"><br><br>&#x67E5;&#x770B;sebool&#x503C;&#x4E2D;&#x5173;&#x4E8E;ftp&#x7684;&#x503C;<br><br></div>
+
+<div style="padding: 0px;"><br><br>setsebool -P allow_ftpd_anon_write on:<br><br></div>
+
+<div style="padding: 0px;"><br><br>&#x4FEE;&#x6539;sebool&#x4E2D;allow_ftpd_anon_write&#x7684;&#x503C;&#x4E3A;on<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x91CD;&#x542F;&#x670D;&#x52A1;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224816661.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x521B;&#x5EFA;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224840991.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/C19C4FF6-9A55-4CB6-A7B6-12F23F29E924.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/224852955.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/58817929-831E-4E29-9BE9-226F47ED0BF8.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x533F;&#x540D;&#x7528;&#x6237;&#x9700;&#x8981;&#x4E0A;&#x4F20;&#x5728;pub&#x76EE;&#x5F55;&#x4E0B;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x5B9E;&#x540D;&#x7528;&#x6237;&#x4E0A;&#x4F20;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8FD8;&#x539F;&#x8BBE;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">n </span>&#x8FD8;&#x539F;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<div style="padding: 0px;"><br><br><a href="http://img1.51cto.com/attachment/201010/224951887.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a><br><br></div>
+
+<div style="padding: 0px;"><br><br><a href="http://img1.51cto.com/attachment/201010/225004480.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/BC878760-BDFE-4FB2-9F62-67F0F9DAE46F.jpg" alt=""></a><br><br></div>
+
+<div style="padding: 0px;"><br><br>&#x5C06;anonymous_enable=YES&#x6CE8;&#x91CA;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225119736.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/F789767B-72DD-4836-B744-984CCC341BDD.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5C06;anon_upload_enable=YES&#x4E0E;anon_mkdir_write_enable=YES&#x6CE8;&#x91CA;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">n </span>&#x8FD8;&#x539F;sebool&#x503C;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225141830.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/EEFA9185-415D-49B4-A6BE-3BA04749D7B0.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8BBE;&#x7F6E;sebool&#x503C;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225223810.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/2A622196-88D5-4784-95A1-7050095BC584.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x8BBE;&#x7F6E;&#x7528;&#x6237;&#x6839;&#x76EE;&#x5F55;&#x6743;&#x9650;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225234630.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/C2EB24E3-536B-403D-BCCC-3829D8CDE8A3.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5C06;&#x7528;&#x6237;&#x4E3B;&#x76EE;&#x5F55;/var/ftp/pub/zwb&#x6539;&#x6210;777&#x7684;&#x6743;&#x9650;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">u </span>&#x91CD;&#x542F;&#x670D;&#x52A1;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225306919.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225322631.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/A9281FDC-6A45-417A-8E58-F2E60A8E3442.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">9)<span style="padding: 0px;">         </span></span>&#x66F4;&#x6539;&#x9ED8;&#x8BA4;&#x5171;&#x4EAB;&#x76EE;&#x5F55;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x914D;&#x7F6E;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x8FD8;&#x539F;&#x8BBE;&#x7F6E;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225400574.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/225411870.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/D61479EB-D726-4565-9596-C2773FE9E04F.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225453178.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/FC726DC7-16FE-4566-97B3-85CE2447675E.jpg" alt=""></a> </p>
+<p><a href="http://img1.51cto.com/attachment/201010/225504741.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/671A346C-5A07-4717-A046-F834D758FD9F.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x91CD;&#x542F;&#x670D;&#x52A1;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225532393.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/54F19E87-1B95-4600-AF8D-ED031AA8AC2D.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x521B;&#x5EFA;&#x5B9E;&#x540D;&#x7528;&#x6237;&#x6839;&#x76EE;&#x5F55;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225618259.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/90819313-4070-42AC-A8E1-75B4B1BC8471.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x4FEE;&#x6539;&#x76EE;&#x5F55;&#x7C7B;&#x578B;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225631897.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/CDCC0C1A-5AB1-45C4-953F-AA69E4A008F9.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">&#xD8; </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x521B;&#x5EFA;&#x6587;&#x4EF6;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225711794.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/87559937-F3CA-4D6C-AB8F-42FB35D37947.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br><span style="padding: 0px;">l </span>&#x6D4B;&#x8BD5;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225722779.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/D8F3E142-82D5-441A-9D32-F7A6211073B0.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x5B9E;&#x540D;&#x7528;&#x6237;&#x767B;&#x5F55;&#x540E;ls&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6587;&#x4EF6;A&#xFF0C;&#x8BC1;&#x660E;&#x5728;/home/zwb&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x6216;&#x8005;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;pwd&#x547D;&#x4EE4;&#xFF0C;&#x67E5;&#x770B;&#x5F53;&#x524D;&#x6240;&#x5728;&#x76EE;&#x5F55;<br><br></div>
+
+<p><a href="http://img1.51cto.com/attachment/201010/225747295.jpg" target="_blank" rel="external"><img src="/2016/03/30/Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;/C0297AB4-D7E5-4259-9B20-39AD8439D8BA.jpg" alt=""></a></p>
+<div style="padding: 0px;"><br><br>&#x533F;&#x540D;&#x7528;&#x6237;ftp&#x767B;&#x5F55;&#x540E;&#xFF0C;ls&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6587;&#x4EF6;B&#xFF0C;&#x8BC1;&#x660E;&#x5728;/home&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x4E0B;<br><br></div>
+
+<p></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/" data-title="Linux下的Vsftpd配置篇 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/" title="Obj-c与swift的语法比较和产生的新特性">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Obj-c与swift的语法比较和产生的新特性</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/"  title="强大的负载均衡+静态文件WEB服务器nginx实战">
+ <strong>下一篇：</strong><br/> 
+ <span>强大的负载均衡+静态文件WEB服务器nginx实战
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/30/Linux下的Vsftpd配置篇/" data-title="Linux下的Vsftpd配置篇" data-url="http://blog.huguiqi.com/2016/03/30/Linux下的Vsftpd配置篇/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux下的Vsftpd配置篇"><span class="toc-number">1.</span> <span class="toc-text">Linux下的Vsftpd配置篇</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker实践-docker教程/" title="docker实践 docker教程">docker实践 docker教程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		
+		<a href="/about" target="_blank" title="sam hu">sam hu</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

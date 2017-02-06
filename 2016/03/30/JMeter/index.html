@@ -1,0 +1,710 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JMeter | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam hu">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="JMeter\
+
+JMeter&amp;#x662F;Apache&amp;#x7EC4;&amp;#x7EC7;&amp;#x7684;&amp;#x5F00;&amp;#x653E;&amp;#x6E90;&amp;#x4EE3;&amp;#x7801;&amp;#x9879;&amp;#x76EE;&amp;#xFF0C;&amp;#x5B83;&amp;#x662F;&amp;#x529F;&amp;#x80FD;&amp;#x548C;&amp;#x6027;&amp;#x80FD;&amp;#x6D4B;&amp;#x8BD5;&amp;#x7684;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMeter">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/03/30/JMeter/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="JMeter\
+
+JMeter&amp;#x662F;Apache&amp;#x7EC4;&amp;#x7EC7;&amp;#x7684;&amp;#x5F00;&amp;#x653E;&amp;#x6E90;&amp;#x4EE3;&amp;#x7801;&amp;#x9879;&amp;#x76EE;&amp;#xFF0C;&amp;#x5B83;&amp;#x662F;&amp;#x529F;&amp;#x80FD;&amp;#x548C;&amp;#x6027;&amp;#x80FD;&amp;#x6D4B;&amp;#x8BD5;&amp;#x7684;&amp;#x">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/JMeter/C8F26B0C-7D0C-46B8-A82E-1C89A88AE852.png">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/JMeter/69E53055-210B-4437-BEEE-9D1E908C8DAF.png">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/JMeter/956F0C66-281B-4B31-96CB-79DAAEE653A6.png">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/JMeter/733230BF-26F7-4FA2-98CB-7CD7778E201F.png">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/JMeter/E9C43E1A-94C4-4869-BDA2-1A05F8DC4487.png">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/JMeter/A93AC134-2D8B-4AAA-B537-CB6B28083DFA.png">
+<meta property="og:image" content="http://blog.huguiqi.com/2016/03/30/JMeter/05473A8C-4BB8-4992-984F-CA1E1E1D1379.png">
+<meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JMeter">
+<meta name="twitter:description" content="JMeter\
+
+JMeter&amp;#x662F;Apache&amp;#x7EC4;&amp;#x7EC7;&amp;#x7684;&amp;#x5F00;&amp;#x653E;&amp;#x6E90;&amp;#x4EE3;&amp;#x7801;&amp;#x9879;&amp;#x76EE;&amp;#xFF0C;&amp;#x5B83;&amp;#x662F;&amp;#x529F;&amp;#x80FD;&amp;#x548C;&amp;#x6027;&amp;#x80FD;&amp;#x6D4B;&amp;#x8BD5;&amp;#x7684;&amp;#x">
+<meta name="twitter:image" content="http://blog.huguiqi.com/2016/03/30/JMeter/C8F26B0C-7D0C-46B8-A82E-1C89A88AE852.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">技术分享与学习，聚沙成塔!</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/JMeter/" title="JMeter" itemprop="url">JMeter</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter"><span class="toc-number">1.</span> <span class="toc-text">JMeter</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="JMeter"><a href="#JMeter" class="headerlink" title="JMeter"></a>JMeter</h1><div><br><br>\<br><br></div>
+
+<div><br><br>JMeter&#x662F;Apache&#x7EC4;&#x7EC7;&#x7684;&#x5F00;&#x653E;&#x6E90;&#x4EE3;&#x7801;&#x9879;&#x76EE;&#xFF0C;&#x5B83;&#x662F;&#x529F;&#x80FD;&#x548C;&#x6027;&#x80FD;&#x6D4B;&#x8BD5;&#x7684;&#x5DE5;&#x5177;&#xFF0C;100%&#x7684;&#x7528;java&#x5B9E;&#x73B0;&#xFF0C;&#x6700;&#x65B0;&#x7684;&#x7248;&#x672C;&#x662F;1.9.1&#xFF0C;&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x5230;<br><a href="http://jakarta.apache.org/jmeter/index.html" target="_blank" rel="external">http://jakarta.apache.org/jmeter/index.html</a>&#x4E0B;&#x8F7D;&#x6E90;&#x4EE3;&#x7801;&#x548C;&#x67E5;&#x770B;&#x76F8;&#x5173;&#x6587;&#x6863;&#x3002;<br><br><span>JMeter&#x4F5C;&#x7528;&#x9886;&#x57DF;</span><br><br>JMeter&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x6D4B;&#x8BD5;&#x9759;&#x6001;&#x6216;&#x8005;&#x52A8;&#x6001;&#x8D44;&#x6E90;&#x7684;&#x6027;&#x80FD;&#xFF08;&#x6587;&#x4EF6;&#x3001;Servlets&#x3001;Perl&#x811A;&#x672C;&#x3001;java&#x5BF9;&#x8C61;&#x3001;&#x6570;&#x636E;&#x5E93;&#x548C;&#x67E5;&#x8BE2;&#x3001;<br>ftp&#x670D;&#x52A1;&#x5668;&#x6216;&#x8005;&#x5176;&#x4ED6;&#x7684;&#x8D44;&#x6E90;&#xFF09;&#x3002;JMeter&#x7528;&#x4E8E;&#x6A21;&#x62DF;&#x5728;&#x670D;&#x52A1;&#x5668;&#x3001;&#x7F51;&#x7EDC;&#x6216;&#x8005;&#x5176;&#x4ED6;&#x5BF9;&#x8C61;&#x4E0A;&#x9644;&#x52A0;&#x9AD8;&#x8D1F;&#x8F7D;&#x4EE5;&#x6D4B;&#x8BD5;&#x4ED6;&#x4EEC;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x7684;&#x53D7;&#x538B;&#x80FD;&#x529B;&#xFF0C;&#x6216;&#x8005;&#x5206;&#x6790;&#x4ED6;&#x4EEC;&#x63D0;&#x4F9B;&#x7684;&#x670D;&#x52A1;&#x5728;&#x4E0D;<br>&#x540C;&#x8D1F;&#x8F7D;&#x6761;&#x4EF6;&#x4E0B;&#x7684;&#x603B;&#x6027;&#x80FD;&#x60C5;&#x51B5;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x7528;JMeter&#x63D0;&#x4F9B;&#x7684;&#x56FE;&#x5F62;&#x5316;&#x754C;&#x9762;&#x5206;&#x6790;&#x6027;&#x80FD;&#x6307;&#x6807;&#x6216;&#x8005;&#x5728;&#x9AD8;&#x8D1F;&#x8F7D;&#x60C5;&#x51B5;&#x4E0B;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x5668;/&#x811A;&#x672C;/&#x5BF9;&#x8C61;&#x7684;&#x884C;&#x4E3A;&#x3002;<br><br><a href="http://www.ibm.com/developerworks/cn/java/l-jmeter/#ibm-pcon" target="_blank" rel="external">&#x56DE;&#x9875;&#x9996;</a><br><br><span>&#x4F7F;&#x7528;JMeter&#x6D4B;&#x8BD5;Web&#x5E94;&#x7528;</span><br><br>&#x63A5;&#x4E0B;&#x6765;&#x7684;&#x7AE0;&#x8282;&#x91CC;&#xFF0C;&#x4F5C;&#x8005;&#x5C06;&#x8BE6;&#x7EC6;&#x7684;&#x6F14;&#x793A;&#x5982;&#x4F55;&#x4F7F;&#x7528;JMeter&#x6765;&#x6D4B;&#x8BD5;Web&#x5E94;&#x7528;&#x7684;&#x5B8C;&#x6574;&#x8FC7;&#x7A0B;&#x3002;<br><br><span>2.1 &#x6D4B;&#x8BD5;&#x73AF;&#x5883;</span><br><br>&#x4F5C;&#x8005;&#x4F7F;&#x7528;&#x4E86;Tomcat&#x4F5C;&#x4E3A;Web&#x670D;&#x52A1;&#x5668;&#x8FDB;&#x884C;&#x6D4B;&#x8BD5;&#xFF0C;&#x88AB;&#x6D4B;&#x8BD5;&#x7684;&#x5185;&#x5BB9;&#x662F;&#x4E00;&#x4E2A;jsp&#x6587;&#x4EF6;&#x548C;&#x4E00;&#x4E2A;servlet&#xFF0C;jsp&#x6587;&#x4EF6;&#x8C03;&#x7528;<br>JavaBean&#x3001;&#x6253;&#x5370;&#x76F8;&#x5173;&#x4FE1;&#x606F;&#xFF0C;servlet&#x63A5;&#x53D7;&#x7528;&#x6237;&#x53C2;&#x6570;&#x3001;&#x8C03;&#x7528;javabean&#x3001;&#x8F93;&#x51FA;&#x76F8;&#x5173;&#x4FE1;&#x606F;&#x3002;&#x8BE6;&#x7EC6;&#x7684;&#x5185;&#x5BB9;&#x8BF7;&#x53C2;&#x8003;&#x4F5C;&#x8005;&#x63D0;&#x4F9B;&#x7684;JMeter.war&#x7684;<br>&#x5185;&#x5BB9;&#x3002;<br><br><span>2.2 &#x5B89;&#x88C5;&#x542F;&#x52A8;JMeter</span><br><br>&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x5230;&#x901A;&#x8FC7;<a href="http://apache.linuxforum.net/dist/jakarta/jmeter" target="_blank" rel="external">http://apache.linuxforum.net/dist/jakarta/jmeter</a><br>/binaries/jakarta-jmeter-1.9.1.zip&#x4E0B;&#x8F7D;JMeter&#x7684;release&#x7248;&#x672C;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x4E0B;&#x8F7D;&#x7684;.zip&#x6587;&#x4EF6;&#x89E3;&#x538B;&#x7F29;&#x5230;C:<br><a id="more"></a><br>/JMeter&#xFF08;&#x540E;&#x9762;&#x7684;&#x6587;&#x7AE0;&#x4E2D;&#x5C06;&#x4F7F;&#x7528;%JMeter%&#x6765;&#x5F15;&#x7528;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#xFF09;&#x76EE;&#x5F55;&#x4E0B;&#x3002;<br><br>&#x73B0;&#x5728;&#xFF0C;&#x8BF7;&#x4F7F;&#x7528;%JMeter%/bin&#x4E0B;&#x9762;&#x7684;jmeter.bat&#x6279;&#x5904;&#x7406;&#x6587;&#x4EF6;&#x6765;&#x542F;&#x52A8;JMeter&#x7684;&#x53EF;&#x89C6;&#x5316;&#x754C;&#x9762;&#xFF0C;&#x4E0B;&#x9762;&#x7684;&#x5DE5;&#x4F5C;&#x90FD;&#x5C06;&#x5728;&#x8FD9;&#x4E2A;&#x53EF;&#x89C6;&#x5316;&#x754C;&#x9762;&#x754C;&#x9762;&#x4E0A;&#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#x3002;&#x4E0B;&#x9762;&#x7684;&#x56FE;&#x7247;&#x662F;JMeter&#x7684;&#x53EF;&#x89C6;&#x5316;&#x754C;&#x9762;&#x7684;&#x5C4F;&#x5E55;&#x622A;&#x56FE;&#x3002;<br><br>\<br><strong>&#x56FE;&#x4E00;&#xFF1A; JMeter&#x6253;&#x5F00;&#x65F6;&#x7684;&#x5C4F;&#x5E55;&#x622A;&#x56FE;</strong>\<br><img src="/2016/03/30/JMeter/C8F26B0C-7D0C-46B8-A82E-1C89A88AE852.png" alt="">\<br><span>2.3 &#x5EFA;&#x7ACB;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#xFF08;Test Plan&#xFF09;</span><br><br>&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x63CF;&#x8FF0;&#x4E86;&#x6267;&#x884C;&#x6D4B;&#x8BD5;&#x8FC7;&#x7A0B;&#x4E2D;JMeter&#x7684;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x548C;&#x6B65;&#x9AA4;&#xFF0C;&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x5305;&#x62EC;&#x4E00;&#x4E2A;&#x6216;&#x8005;&#x591A;&#x4E2A;&#x7EBF;&#x7A0B;&#x7EC4;(Thread<br>Groups)&#x3001;&#x903B;&#x8F91;&#x63A7;&#x5236;&#xFF08;Logic Controller&#xFF09;&#x3001;&#x5B9E;&#x4F8B;&#x4EA7;&#x751F;&#x63A7;&#x5236;&#x5668;&#xFF08;Sample Generating<br>Controllers&#xFF09;&#x3001;&#x4FA6;&#x542C;&#x5668;(Listener)&#x3001;&#x5B9A;&#x65F6;&#x5668;&#xFF08;Timer&#xFF09;&#x3001;&#x6BD4;&#x8F83;&#xFF08;Assertions&#xFF09;&#x3001;&#x914D;&#x7F6E;&#x5143;&#x7D20;&#xFF08;Config<br>Elements&#xFF09;&#x3002;&#x6253;&#x5F00;JMeter&#x65F6;&#xFF0C;&#x5B83;&#x5DF2;&#x7ECF;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x9ED8;&#x8BA4;&#x7684;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;,&#x4E00;&#x4E2A;JMeter&#x5E94;&#x7528;&#x7684;&#x5B9E;&#x4F8B;&#x53EA;&#x80FD;&#x5EFA;&#x7ACB;&#x6216;&#x8005;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x3002;<br><br>&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x5F00;&#x59CB;&#x586B;&#x5145;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x8FD9;&#x4E2A;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x5411;&#x4E00;&#x4E2A;jsp&#x6587;&#x4EF6;&#x548C;&#x4E00;&#x4E2A;servlet&#x53D1;&#x51FA;&#x8BF7;&#x6C42;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;JMeter&#x6A21;&#x62DF;&#x4E94;&#x4E2A;&#x8BF7;&#x6C42;&#x8005;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x4E94;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF09;&#xFF0C;&#x6BCF;&#x4E2A;&#x8BF7;&#x6C42;&#x8005;&#x8FDE;&#x7EED;&#x8BF7;&#x6C42;&#x4E24;&#x6B21;&#xFF0C;&#x4E0B;&#x9762;&#x7684;&#x7AE0;&#x8282;&#x4ECB;&#x7ECD;&#x4E86;&#x8BE6;&#x7EC6;&#x7684;&#x64CD;&#x4F5C;&#x6B65;&#x9AA4;&#x3002;<br><br><span>2.4 &#x589E;&#x52A0;&#x8D1F;&#x8F7D;&#x4FE1;&#x606F;&#x8BBE;&#x7F6E;</span><br><br>&#x8FD9;&#x4E00;&#x6B65;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x5411;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x4E2D;&#x589E;&#x52A0;&#x76F8;&#x5173;&#x8D1F;&#x8F7D;&#x8BBE;&#x7F6E;,&#x662F;Jmeter&#x77E5;&#x9053;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x6A21;&#x62DF;&#x4E94;&#x4E2A;&#x8BF7;&#x6C42;&#x8005;&#xFF0C;&#x6BCF;&#x4E2A;&#x8BF7;&#x6C42;&#x8005;&#x5728;&#x6D4B;&#x8BD5;&#x8FC7;&#x7A0B;&#x4E2D;&#x8FDE;&#x7EED;&#x8BF7;&#x6C42;&#x4E24;&#x6B21;&#x3002;&#x8BE6;&#x7EC6;&#x6B65;&#x9AA4;&#x5982;&#x4E0B;&#xFF1A;<br><br>1. &#x9009;&#x4E2D;&#x53EF;&#x89C6;&#x5316;&#x754C;&#x9762;&#x4E2D;&#x5DE6;&#x8FB9;&#x6811;&#x7684;Test Plan&#x8282;&#x70B9;&#xFF0C;&#x5355;&#x51FB;&#x53F3;&#x952E;&#xFF0C;&#x9009;&#x62E9;Add&#x2019;Thread<br>Group&#xFF0C;&#x754C;&#x9762;&#x53F3;&#x8FB9;&#x5C06;&#x4F1A;&#x51FA;&#x73B0;&#x4ED6;&#x7684;&#x8BBE;&#x7F6E;&#x4FE1;&#x606F;&#x6846;&#x3002;<br><br>2. Thread Group&#x6709;&#x4E09;&#x4E2A;&#x548C;&#x8D1F;&#x8F7D;&#x4FE1;&#x606F;&#x76F8;&#x5173;&#x7684;&#x53C2;&#x6570;&#xFF1A;\<br> Number of Threads&#xFF1A; &#x8BBE;&#x7F6E;&#x53D1;&#x9001;&#x8BF7;&#x6C42;&#x7684;&#x7528;&#x6237;&#x6570;&#x76EE;\<br> Ramp-up period&#xFF1A;<br>&#x6BCF;&#x4E2A;&#x8BF7;&#x6C42;&#x53D1;&#x751F;&#x7684;&#x603B;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#xFF0C;&#x5355;&#x4F4D;&#x662F;&#x79D2;&#x3002;&#x6BD4;&#x5982;&#x4F60;&#x7684;&#x8BF7;&#x6C42;&#x6570;&#x76EE;&#x662F;5&#xFF0C;&#x800C;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x662F;10&#xFF0C;&#x90A3;&#x4E48;&#x6BCF;&#x4E2A;&#x8BF7;&#x6C42;&#x4E4B;&#x95F4;&#x7684;&#x95F4;&#x9694;&#x5C31;&#x662F;10&#xFF0F;5&#xFF0C;&#x4E5F;&#x5C31;&#x662F;2&#x79D2;\<br> Loop Count&#xFF1A; &#x8BF7;&#x6C42;&#x53D1;&#x751F;&#x7684;&#x91CD;&#x590D;&#x6B21;&#x6570;&#xFF0C;&#x5982;&#x679C;&#x9009;&#x62E9;&#x540E;&#x9762;&#x7684;forever&#xFF08;&#x9ED8;&#x8BA4;&#xFF09;&#xFF0C;&#x90A3;&#x4E48;<br>&#x8BF7;&#x6C42;&#x5C06;&#x4E00;&#x76F4;&#x7EE7;&#x7EED;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x9009;&#x62E9;forever&#xFF0C;&#x800C;&#x5728;&#x8F93;&#x5165;&#x6846;&#x4E2D;&#x8F93;&#x5165;&#x6570;&#x5B57;&#xFF0C;&#x90A3;&#x4E48;&#x8BF7;&#x6C42;&#x5C06;&#x91CD;&#x590D;<br>&#x6307;&#x5B9A;&#x7684;&#x6B21;&#x6570;&#xFF0C;&#x5982;&#x679C;&#x8F93;&#x5165;0&#xFF0C;&#x90A3;&#x4E48;&#x8BF7;&#x6C42;&#x5C06;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x3002;<br><br>&#x6839;&#x636E;&#x6211;&#x4EEC;&#x6F14;&#x793A;&#x4F8B;&#x5B50;&#x7684;&#x8BBE;&#x8BA1;&#xFF0C;&#x6211;&#x4EEC;&#x5E94;&#x8BE5;&#x5C06;Number of Threads&#x8BBE;&#x7F6E;&#x4E3A;5&#xFF0C;Ramp-up<br>period&#x8BBE;&#x7F6E;&#x4E3A;0&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x540C;&#x65F6;&#x5E76;&#x53D1;&#x8BF7;&#x6C42;&#xFF09;&#xFF0C;&#x4E0D;&#x9009;&#x4E2D;forever&#xFF0C;&#x5728;Loop<br>Count&#x540E;&#x9762;&#x7684;&#x8F93;&#x5165;&#x6846;&#x4E2D;&#x8F93;&#x5165;2&#xFF0C;&#x8BBE;&#x7F6E;&#x540E;&#x7684;&#x5C4F;&#x5E55;&#x622A;&#x56FE;&#x5982;&#x4E0B;&#xFF1A;<br><br>\<br><strong>&#x56FE;&#x4E8C;&#xFF1A;&#x8BBE;&#x7F6E;&#x597D;&#x53C2;&#x6570;&#x7684;Thread Group&#x3002;</strong>\<br><img src="/2016/03/30/JMeter/69E53055-210B-4437-BEEE-9D1E908C8DAF.png" alt="">\<br><span>2.5 &#x589E;&#x52A0;&#x9ED8;&#x8BA4;Http&#x5C5E;&#x6027;&#xFF08;&#x53EF;&#x9009;&#xFF09;</span><br><br>&#x5B9E;&#x9645;&#x7684;&#x6D4B;&#x8BD5;&#x5DE5;&#x4F5C;&#x5F80;&#x5F80;&#x662F;&#x9488;&#x5BF9;&#x540C;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x4E0A;Web&#x5E94;&#x7528;&#x5C55;&#x5F00;&#x7684;,&#x6240;&#x4EE5;Jmeter&#x63D0;&#x4F9B;&#x4E86;&#x8FD9;&#x6837;&#x4E00;&#x79CD;&#x8BBE;&#x7F6E;,<br>&#x5728;&#x9ED8;&#x8BA4;Http&#x5C5E;&#x6027;&#x8BBE;&#x7F6E;&#x9700;&#x8981;&#x88AB;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x5668;&#x7684;&#x76F8;&#x5173;&#x5C5E;&#x6027;&#xFF0C;&#x4EE5;&#x540E;&#x7684;http&#x8BF7;&#x6C42;&#x8BBE;&#x7F6E;&#x4E2D;&#x5C31;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#x8FD9;&#x4E9B;&#x76F8;&#x540C;&#x53C2;&#x6570;&#x7684;&#x8BBE;&#x7F6E;,&#x51CF;&#x5C11;&#x8BBE;&#x7F6E;&#x53C2;&#x6570;&#x5F55;&#x5165;&#x7684;&#x65F6;&#x95F4;&#x3002;<br><br>&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x5C06;&#x91C7;&#x7528;&#x8FD9;&#x79CD;&#x5C5E;&#x6027;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0B;&#x9762;&#x7684;&#x6B65;&#x9AA4;&#x6765;&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;http&#x5C5E;&#x6027;&#xFF1A;<br><br>1. &#x9009;&#x4E2D;&#x53EF;&#x89C6;&#x5316;&#x754C;&#x9762;&#x4E2D;&#x5DE6;&#x8FB9;&#x6811;&#x7684;Test Plan&#x8282;&#x70B9;&#xFF0C;&#x5355;&#x51FB;&#x53F3;&#x952E;&#xFF0C;&#x9009;&#x62E9;Add&#x2019;config<br>element&#x2019;http request defaults&#xFF0C;&#x754C;&#x9762;&#x53F3;&#x8FB9;&#x5C06;&#x4F1A;&#x51FA;&#x73B0;&#x4ED6;&#x7684;&#x8BBE;&#x7F6E;&#x4FE1;&#x606F;&#x6846;&#x3002;<br><br>2. &#x9ED8;&#x8BA4;http&#x5C5E;&#x6027;&#x7684;&#x4E3B;&#x8981;&#x53C2;&#x6570;&#x8BF4;&#x660E;&#x5982;&#x4E0B;&#xFF1A;\<br> protocal&#xFF1A;&#x53D1;&#x9001;&#x6D4B;&#x8BD5;&#x8BF7;&#x6C42;&#x65F6;&#x4F7F;&#x7528;&#x7684;&#x534F;&#x8BAE;\<br> server name or ip&#xFF1A;&#x88AB;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x5668;&#x7684;ip&#x5730;&#x5740;&#x6216;&#x8005;&#x540D;&#x5B57;\<br> path&#xFF1A;<br>&#x9ED8;&#x8BA4;&#x7684;&#x8D77;&#x59CB;&#x4F4D;&#x7F6E;&#x3002;&#x6BD4;&#x5982;&#x5C06;path&#x8BBE;&#x7F6E;&#x4E3A;&#xFF0F;jmeter&#xFF0C;&#x90A3;&#x4E48;&#x6240;&#x6709;&#x7684;http&#x8BF7;&#x6C42;&#x7684;url&#x4E2D;&#x90FD;&#x5C06;&#x589E;&#x52A0;&#xFF0F;jmeter&#x8DEF;&#x5F84;&#x3002;\<br> port number&#xFF1A; &#x670D;&#x52A1;&#x5668;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x7684;&#x7AEF;&#x53E3;&#x53F7;<br><br>&#x6211;&#x4EEC;&#x7684;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x5C06;&#x9488;&#x5BF9;&#x672C;&#x673A;&#x7684;Web&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x7684;Web&#x5E94;&#x7528;&#x8FDB;&#x884C;&#x6D4B;&#x8BD5;&#xFF0C;&#x6240;&#x4EE5;protocal&#x5E94;&#x8BE5;&#x662F;http&#xFF0C;ip&#x4F7F;&#x7528;<br>localhost&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x4E2A;web&#x5E94;&#x7528;&#x53D1;&#x5E03;&#x7684;context&#x8DEF;&#x5F84;&#x662F;&#xFF0F;jmeter&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x7684;path&#x8BBE;&#x7F6E;&#x4E3A;&#xFF0F;jmeter&#xFF0C;&#x56E0;&#x4E3A;&#x4F7F;&#x7528;Tomcat&#x670D;&#x52A1;<br>&#x5668;&#xFF0C;&#x6240;&#x4EE5;port number&#x662F;8080&#x3002;&#x8BBE;&#x7F6E;&#x540E;&#x7684;&#x5C4F;&#x5E55;&#x622A;&#x56FE;&#x5982;&#x4E0B;&#xFF1A;<br><br>\<br><strong>&#x56FE;&#x4E09;&#xFF1A; &#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x9ED8;&#x8BA4;Http&#x53C2;&#x6570;</strong>\<br><img src="/2016/03/30/JMeter/956F0C66-281B-4B31-96CB-79DAAEE653A6.png" alt="">\<br><span>2.6 &#x589E;&#x52A0;Http&#x8BF7;&#x6C42;</span><br><br>&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x589E;&#x52A0;http&#x8BF7;&#x6C42;&#x4E86;&#xFF0C;&#x4ED6;&#x4E5F;&#x662F;&#x6211;&#x4EEC;&#x6D4B;&#x8BD5;&#x7684;&#x5185;&#x5BB9;&#x4E3B;&#x4F53;&#x90E8;&#x5206;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0B;&#x9762;&#x7684;&#x6B65;&#x9AA4;&#x6765;&#x589E;&#x52A0;&#x6027;&#x7684;http&#x8BF7;&#x6C42;&#xFF1A;<br><br>1. &#x9009;&#x4E2D;&#x53EF;&#x89C6;&#x5316;&#x754C;&#x9762;&#x4E2D;&#x5DE6;&#x8FB9;&#x6811;&#x7684;Thread<br>Group&#x8282;&#x70B9;&#xFF0C;&#x5355;&#x51FB;&#x53F3;&#x952E;&#xFF0C;&#x9009;&#x62E9;Add&#x2019;sampler&#x2019;http<br>request&#xFF0C;&#x754C;&#x9762;&#x53F3;&#x8FB9;&#x5C06;&#x4F1A;&#x51FA;&#x73B0;&#x4ED6;&#x7684;&#x8BBE;&#x7F6E;&#x4FE1;&#x606F;&#x6846;&#x3002;<br><br>2.<br>&#x4ED6;&#x7684;&#x53C2;&#x6570;&#x548C;2.5&#x4E2D;&#x4ECB;&#x7ECD;&#x7684;http&#x5C5E;&#x6027;&#x5DEE;&#x4E0D;&#x591A;&#xFF0C;&#x589E;&#x52A0;&#x7684;&#x5C5E;&#x6027;&#x4E2D;&#x6709;&#x53D1;&#x9001;http&#x65F6;&#x65B9;&#x6CD5;&#x7684;&#x9009;&#x62E9;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x4E3A;get&#x6216;&#x8005;post&#x3002;<br><br>&#x6211;&#x4EEC;&#x73B0;&#x5728;&#x589E;&#x52A0;&#x4E24;&#x4E2A;http<br>&#x8BF7;&#x6C42;&#xFF0C;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x8BBE;&#x7F6E;&#x4E86;&#x9ED8;&#x8BA4;&#x7684;http&#x5C5E;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x548C;&#x9ED8;&#x8BA4;http&#x5C5E;&#x6027;&#x4E2D;&#x76F8;&#x540C;&#x7684;&#x5C5E;&#x6027;&#x4E0D;&#x518D;&#x91CD;&#x590D;&#x8BBE;&#x7F6E;&#x3002;&#x8BBE;&#x7F6E;&#x540E;&#x7684;&#x5C4F;&#x5E55;&#x622A;&#x56FE;&#x5982;&#x4E0B;&#xFF1A;<br><br>\<br><strong>&#x56FE;&#x56DB;&#xFF1A;&#x8BBE;&#x7F6E;&#x597D;&#x7684;jsp&#x6D4B;&#x8BD5;&#x8BF7;&#x6C42;</strong>\<br><img src="/2016/03/30/JMeter/733230BF-26F7-4FA2-98CB-7CD7778E201F.png" alt="">\<br>\<br><strong>&#x56FE;&#x4E94;&#xFF1A;&#x8BBE;&#x7F6E;&#x597D;&#x7684;Servlet&#x6D4B;&#x8BD5;&#x8BF7;&#x6C42;&#xFF08;&#x5E26;&#x53C2;&#x6570;&#xFF09;</strong>\<br><img src="/2016/03/30/JMeter/E9C43E1A-94C4-4869-BDA2-1A05F8DC4487.png" alt="">\<br><span>2.7 &#x589E;&#x52A0;Listener</span><br><br>&#x589E;&#x52A0;listener&#x662F;&#x4E3A;&#x4E86;&#x8BB0;&#x5F55;&#x6D4B;&#x8BD5;&#x4FE1;&#x606F;&#x5E76;&#x4E14;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;Jmeter&#x63D0;&#x4F9B;&#x7684;&#x53EF;&#x89C6;&#x5316;&#x754C;&#x9762;&#x67E5;&#x770B;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#xFF0C;&#x91CC;&#x9762;&#x6709;&#x597D;&#x51E0;&#x79CD;&#x7ED3;&#x679C;&#x5206;&#x6790;&#x65B9;<br>&#x5F0F;&#x53EF;&#x4F9B;&#x9009;&#x62E9;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x81EA;&#x5DF1;&#x4E60;&#x60EF;&#x7684;&#x5206;&#x6790;&#x65B9;&#x5F0F;&#x9009;&#x62E9;&#x4E0D;&#x540C;&#x7684;&#x7ED3;&#x679C;&#x663E;&#x793A;&#x65B9;&#x5F0F;&#xFF0C;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x8868;&#x683C;&#x7684;&#x5F62;&#x5F0F;&#x6765;&#x67E5;&#x770B;&#x548C;&#x5206;&#x6790;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0B;&#x9762;&#x7684;&#x6B65;&#x9AA4;&#x6765;&#x589E;&#x52A0;<br>listener&#xFF1A;<br><br>1. &#x9009;&#x4E2D;&#x53EF;&#x89C6;&#x5316;&#x754C;&#x9762;&#x4E2D;&#x5DE6;&#x8FB9;&#x6811;&#x7684;Test<br>Plan&#x8282;&#x70B9;&#xFF0C;&#x5355;&#x51FB;&#x53F3;&#x952E;&#xFF0C;&#x9009;&#x62E9;Add&#x2019;listener&#x2019;view result in<br>table&#xFF0C;&#x754C;&#x9762;&#x53F3;&#x8FB9;&#x5C06;&#x4F1A;&#x51FA;&#x73B0;&#x4ED6;&#x7684;&#x8BBE;&#x7F6E;&#x4FE1;&#x606F;&#x548C;&#x7ED3;&#x679C;&#x663E;&#x793A;&#x6846;&#x3002;<br><br>2. &#x4F60;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x754C;&#x9762;&#x4E0A;&#x9762;&#x7684;filename&#x5C5E;&#x6027;&#x8BBE;&#x7F6E;&#x5C06;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#x4FDD;&#x5B58;&#x5230;&#x67D0;&#x4E2A;&#x6587;&#x4EF6;&#x4E2D;<br>&#x754C;&#x9762;&#x4E0B;&#x9762;&#x5C06;&#x4F7F;&#x7528;&#x8868;&#x683C;&#x663E;&#x793A;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#xFF0C;&#x8868;&#x683C;&#x7684;&#x7B2C;&#x4E00;&#x5217;sampleno&#x663E;&#x793A;&#x8BF7;&#x6C42;&#x6267;&#x884C;&#x7684;&#x987A;&#x5E8F;&#x548C;&#x7F16;&#x53F7;&#xFF0C;url&#x663E;&#x793A;&#x8BF7;&#x6C42;&#x53D1;&#x9001;&#x7684;&#x76EE;&#x6807;&#xFF0C;sample&#xFF0D;ms&#x5217;&#x663E;&#x793A;&#x8FD9;&#x4E2A;&#x8BF7;&#x6C42;&#x5B8C;&#x6210;&#x8017;&#x8D39;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x6700;&#x540E;&#x7684;success&#x5217;&#x663E;&#x793A;&#x6539;&#x8BF7;&#x6C42;&#x662F;&#x5426;&#x6210;&#x529F;&#x6267;&#x884C;&#x3002;<br><br>&#x754C;&#x9762;&#x7684;&#x6700;&#x4E0B;&#x9762;&#x4F60;&#x8FD8;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x4E00;&#x4E9B;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x6700;&#x5173;&#x5FC3;&#x7684;&#x5E94;&#x8BE5;&#x662F;Average&#x5427;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x76F8;&#x5E94;&#x7684;&#x5E73;&#x5747;&#x65F6;&#x95F4;&#x3002;<br><br><span>2.8 &#x5F00;&#x59CB;&#x6267;&#x884C;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;</span><br><br>&#x73B0;&#x5728;&#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5355;&#x51FB;&#x83DC;&#x5355;&#x680F;run -&gt;<br>Start&#x5F00;&#x59CB;&#x6267;&#x884C;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x4E86;&#x3002;&#x4E0B;&#x9762;&#x8FD9;&#x4E24;&#x4E2A;&#x56FE;&#x662F;&#x4F5C;&#x8005;&#x7B2C;&#x4E00;&#x6B21;&#x3001;&#x7B2C;&#x4E8C;&#x6B21;&#x6267;&#x884C;&#x8BE5;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#x7684;&#x7ED3;&#x679C;&#x56FE;:<br><br>\<br><strong>&#x56FE;&#x516D;&#xFF1A;&#x7B2C;&#x4E00;&#x6B21;&#x6267;&#x884C;&#x540E;&#x7684;&#x7ED3;&#x679C;&#x663E;&#x793A;</strong>\<br><img src="/2016/03/30/JMeter/A93AC134-2D8B-4AAA-B537-CB6B28083DFA.png" alt="">\<br>\<br><strong>&#x56FE;&#x4E03;&#xFF1A;&#x7B2C;&#x4E8C;&#x6B21;&#x6267;&#x884C;&#x7684;&#x7ED3;&#x679C;&#x663E;&#x793A;</strong>\<br><img src="/2016/03/30/JMeter/05473A8C-4BB8-4992-984F-CA1E1E1D1379.png" alt="">\<br>&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7B2C;&#x4E00;&#x6B21;&#x6267;&#x884C;&#x65F6;&#x7684;&#x51E0;&#x4E2A;&#x5927;&#x65F6;&#x95F4;&#x503C;&#x5747;&#x6765;&#x81EA;&#x4E8E;jsp<br>request&#xFF0C;&#x8FD9;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0B;&#x9762;&#x7684;&#x7406;&#x7531;&#x8FDB;&#x884C;&#x89E3;&#x91CA;&#xFF1A;jsp&#x6267;&#x884C;&#x524D;&#x90FD;&#x9700;&#x8981;&#x88AB;&#x7F16;&#x8BD1;&#x6210;.class&#x6587;&#x4EF6;&#x3002;&#x6240;&#x4EE5;&#x7B2C;&#x4E8C;&#x6B21;&#x7684;&#x7ED3;&#x679C;&#x624D;&#x662F;&#x6B63;&#x5E38;&#x7684;&#x7ED3;&#x679C;&#x3002;<br><br><a href="http://www.ibm.com/developerworks/cn/java/l-jmeter/#ibm-pcon" target="_blank" rel="external">&#x56DE;&#x9875;&#x9996;</a><br><br><span>&#x603B;&#x7ED3;</span><br><br>JMeter&#x7528;&#x4E8E;&#x8FDB;&#x884C;&#x4F9B;&#x80FD;&#x6216;&#x8005;&#x6027;&#x80FD;&#x6D4B;&#x8BD5;&#xFF0C;&#x901A;&#x8FC7;&#x4F7F;&#x7528;JMeter&#x63D0;&#x4F9B;&#x7684;&#x4F9B;&#x80FD;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x53EF;&#x89C6;&#x5316;&#x7684;&#x5236;&#x5B9A;&#x6D4B;&#x8BD5;&#x8BA1;&#x5212;&#xFF1A;&#x5305;&#x62EC;&#x89C4;&#x5B9A;&#x4F7F;&#x7528;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x8D1F;&#x8F7D;&#x3001;&#x6D4B;&#x8BD5;&#x4EC0;&#x4E48;&#x5185;&#x5BB9;&#x3001;&#x4F20;&#x5165;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x540C;&#x65F6;&#xFF0C;&#x4ED6;&#x63D0;&#x4F9B;&#x4E86;&#x597D;&#x591A;&#x79CD;&#x56FE;&#x5F62;&#x5316;&#x7684;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#x663E;&#x793A;&#x65B9;&#x5F0F;&#xFF0C;&#x4F7F;&#x6211;&#x4EEC;&#x80FD;&#x591F;&#x7B80;&#x5355;&#x7684;&#x5F00;&#x59CB;&#x6D4B;&#x8BD5;&#x5DE5;&#x4F5C;&#x548C;&#x5206;&#x6790;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#x3002;<br><br>&#x672C;&#x6587;&#x4E2D;&#xFF0C;&#x4F5C;&#x8005;&#x6839;&#x636E;&#x81EA;&#x5DF1;&#x7684;&#x4F7F;&#x7528;&#x7ECF;&#x9A8C;&#xFF0C;&#x8BE6;&#x7EC6;&#x6F14;&#x793A;&#x4E86;&#x5982;&#x4F55;&#x4F7F;&#x7528;JMeter&#x6765;&#x8FDB;&#x884C;Web&#x6D4B;&#x8BD5;&#x7684;&#x5168;&#x90E8;&#x8FC7;&#x7A0B;&#xFF0C;&#x7B80;&#x5355;&#x7684;&#x4ECB;&#x7ECD;&#x4E86;JMeter<br>&#x63D0;&#x4F9B;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#x7684;&#x56FE;&#x5F62;&#x5316;&#x663E;&#x793A;&#x754C;&#x9762;&#x4E2D;&#x76F8;&#x5173;&#x53C2;&#x6570;&#x7684;&#x542B;&#x4E49;&#x3002;&#x5E0C;&#x671B;&#x80FD;&#x591F;&#x5E2E;&#x52A9;&#x5927;&#x5BB6;&#x5B66;&#x4F1A;&#x4F7F;&#x7528;JMeter&#x7684;&#x57FA;&#x672C;&#x77E5;&#x8BC6;&#xFF0C;&#x540C;&#x65F6;&#xFF0C;&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x53C2;&#x8003;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x548C;JMeter&#x7684;&#x5E2E;&#x52A9;&#x6587;&#x6863;<br>&#x6765;&#x5B9E;&#x73B0;&#x5BF9;java&#x5BF9;&#x8C61;&#x3001;&#x6570;&#x636E;&#x5E93;&#x7B49;&#x7684;&#x6D4B;&#x8BD5;&#x8FC7;&#x7A0B;&#x3002;<br><br></div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.huguiqi.com/2016/03/30/JMeter/" data-title="JMeter | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/30/xcode快捷器收藏/" title="xcode快捷器收藏">
+  <strong>上一篇：</strong><br/>
+  <span>
+  xcode快捷器收藏</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/03/30/xcode模拟器/"  title="xcode模拟器">
+ <strong>下一篇：</strong><br/> 
+ <span>xcode模拟器
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/30/JMeter/" data-title="JMeter" data-url="http://blog.huguiqi.com/2016/03/30/JMeter/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JMeter"><span class="toc-number">1.</span> <span class="toc-text">JMeter</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker实践-docker教程/" title="docker实践 docker教程">docker实践 docker教程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		
+		<a href="/about" target="_blank" title="sam hu">sam hu</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,790 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>javascript高级特性与原理指引 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam hu">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="ios&amp;#x4EE3;&amp;#x7801;&amp;#x89C4;&amp;#x8303;&amp;#x4E00;&amp;#x3001;&amp;#x547D;&amp;#x540D;&amp;#x89C4;&amp;#x8303;1. &amp;#x7C7B;&amp;#x547D;&amp;#x540D;
+&amp;#x9996;&amp;#x5B57;&amp;#x6BCD;&amp;#x5927;&amp;#x5199;,&amp;#x4E4B;&amp;#x540E;&amp;#x6BCF;&amp;#x4E2A;&amp;#x5355;&amp;#x8BCD;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript高级特性与原理指引">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/05/17/ios代码规范/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="ios&amp;#x4EE3;&amp;#x7801;&amp;#x89C4;&amp;#x8303;&amp;#x4E00;&amp;#x3001;&amp;#x547D;&amp;#x540D;&amp;#x89C4;&amp;#x8303;1. &amp;#x7C7B;&amp;#x547D;&amp;#x540D;
+&amp;#x9996;&amp;#x5B57;&amp;#x6BCD;&amp;#x5927;&amp;#x5199;,&amp;#x4E4B;&amp;#x540E;&amp;#x6BCF;&amp;#x4E2A;&amp;#x5355;&amp;#x8BCD;">
+<meta property="og:updated_time" content="2016-05-20T07:12:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript高级特性与原理指引">
+<meta name="twitter:description" content="ios&amp;#x4EE3;&amp;#x7801;&amp;#x89C4;&amp;#x8303;&amp;#x4E00;&amp;#x3001;&amp;#x547D;&amp;#x540D;&amp;#x89C4;&amp;#x8303;1. &amp;#x7C7B;&amp;#x547D;&amp;#x540D;
+&amp;#x9996;&amp;#x5B57;&amp;#x6BCD;&amp;#x5927;&amp;#x5199;,&amp;#x4E4B;&amp;#x540E;&amp;#x6BCF;&amp;#x4E2A;&amp;#x5355;&amp;#x8BCD;">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">技术分享与学习，聚沙成塔!</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/17/ios代码规范/" title="javascript高级特性与原理指引" itemprop="url">javascript高级特性与原理指引</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-17T09:42:32.000Z" itemprop="datePublished"> 发表于 2016-05-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ios代码规范"><span class="toc-number">1.</span> <span class="toc-text">ios代码规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、命名规范"><span class="toc-number">1.1.</span> <span class="toc-text">一、命名规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-类命名"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 类命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Categroy-类别-命名"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. Categroy(类别)命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-协议-委托-命名"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 协议(委托)命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-方法命名"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 方法命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-方法参数命名"><span class="toc-number">1.1.5.</span> <span class="toc-text">6. 方法参数命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-变量命名"><span class="toc-number">1.1.6.</span> <span class="toc-text">7.变量命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-常量"><span class="toc-number">1.1.7.</span> <span class="toc-text">8.常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-图片命名"><span class="toc-number">1.1.8.</span> <span class="toc-text">9.图片命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-分组命名"><span class="toc-number">1.1.9.</span> <span class="toc-text">10.分组命名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、书写规范"><span class="toc-number">1.2.</span> <span class="toc-text">二、书写规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-注释"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-方法"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-其他规范"><span class="toc-number">1.2.3.</span> <span class="toc-text">3.其他规范</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="ios&#x4EE3;&#x7801;&#x89C4;&#x8303;"><a href="#ios&#x4EE3;&#x7801;&#x89C4;&#x8303;" class="headerlink" title="ios&#x4EE3;&#x7801;&#x89C4;&#x8303;"></a>ios&#x4EE3;&#x7801;&#x89C4;&#x8303;</h1><h2 id="&#x4E00;&#x3001;&#x547D;&#x540D;&#x89C4;&#x8303;"><a href="#&#x4E00;&#x3001;&#x547D;&#x540D;&#x89C4;&#x8303;" class="headerlink" title="&#x4E00;&#x3001;&#x547D;&#x540D;&#x89C4;&#x8303;"></a>&#x4E00;&#x3001;&#x547D;&#x540D;&#x89C4;&#x8303;</h2><h3 id="1-&#x7C7B;&#x547D;&#x540D;"><a href="#1-&#x7C7B;&#x547D;&#x540D;" class="headerlink" title="1. &#x7C7B;&#x547D;&#x540D;"></a>1. &#x7C7B;&#x547D;&#x540D;</h3><blockquote>
+<p>&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5199;,&#x4E4B;&#x540E;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x9996;&#x5B57;&#x6BCD;&#x90FD;&#x5927;&#x5199; </p>
+<ul>
+<li>&#x4F7F;&#x7528;&#x80FD;&#x591F;&#x53CD;&#x6620;&#x7C7B;&#x529F;&#x80FD;&#x7684;&#x540D;&#x8BCD;&#x77ED;&#x8BED;</li>
+<li><p>&#x6587;&#x4EF6;&#x548C;&#x7C7B;&#x540C;&#x540D;</p>
+<p>&#x4E3E;&#x4F8B;:BaseC*ient&#x3001;ImageStore</p>
+</li>
+</ul>
+</blockquote>
+<p>&#x5982;&#x679C;&#x662F;&#x89C6;&#x56FE;&#x63A7;&#x5236;&#x5668;&#x7684;&#x5B50;&#x7C7B;&#x5E94;&#x6DFB;&#x52A0;&#x540E;&#x7F00;&#x201C;ViewContro<strong>er&#x201D;&#x6216;&#x8005;&#x201C;Contro</strong>er&#x201D; * &#x5982;&#x679C;&#x662F;&#x89C6;&#x56FE;&#x7684;&#x5B50;&#x7C7B;&#x5E94;&#x6DFB;&#x52A0;&#x540E;&#x7F00;&#x201C;View&#x201D;<br> &#x5982;&#x679C;&#x662F;&#x6309;&#x94AE;&#x7684;&#x5B50;&#x7C7B;&#x5E94;&#x6DFB;&#x52A0;&#x540E;&#x7F00;&#x201C;Btn&#x201D;<br>&#x2026;&#x2026;</p>
+<blockquote>
+<p>&#x4E3E;&#x4F8B;:SettingsViewContro**er&#x3001;NavigationView</p>
+</blockquote>
+<h3 id="2-Categroy-&#x7C7B;&#x522B;-&#x547D;&#x540D;"><a href="#2-Categroy-&#x7C7B;&#x522B;-&#x547D;&#x540D;" class="headerlink" title="2. Categroy(&#x7C7B;&#x522B;)&#x547D;&#x540D;"></a>2. Categroy(&#x7C7B;&#x522B;)&#x547D;&#x540D;</h3><p><strong>&#x4E0E;&#x7C7B;&#x547D;&#x540D;&#x76F8;&#x540C;,&#x6B64;&#x5916;&#x9700;&#x6DFB;&#x52A0;&#x8981;&#x6269;&#x5C55;&#x7684;&#x7C7B;&#x540D;&#x548C;&#x201C;+&#x201D; </strong></p>
+<blockquote>
+<p>&#x4E3E;&#x4F8B;:NSString+UR*Encoding</p>
+</blockquote>
+<h3 id="3-&#x534F;&#x8BAE;-&#x59D4;&#x6258;-&#x547D;&#x540D;"><a href="#3-&#x534F;&#x8BAE;-&#x59D4;&#x6258;-&#x547D;&#x540D;" class="headerlink" title="3. &#x534F;&#x8BAE;(&#x59D4;&#x6258;)&#x547D;&#x540D;"></a>3. &#x534F;&#x8BAE;(&#x59D4;&#x6258;)&#x547D;&#x540D;</h3><blockquote>
+<p>&#x4E0E;&#x7C7B;&#x547D;&#x540D;&#x76F8;&#x540C;,&#x6B64;&#x5916;&#x9700;&#x6DFB;&#x52A0;&#x201C;De*egate&#x201D;&#x540E;&#x7F00; </p>
+</blockquote>
+<p>&#x4E3E;&#x4F8B;:Rep<em>yViewDe</em>egate</p>
+<h3 id="4-&#x65B9;&#x6CD5;&#x547D;&#x540D;"><a href="#4-&#x65B9;&#x6CD5;&#x547D;&#x540D;" class="headerlink" title="4. &#x65B9;&#x6CD5;&#x547D;&#x540D;"></a>4. &#x65B9;&#x6CD5;&#x547D;&#x540D;</h3><p>&#x9996;&#x5B57;&#x6BCD;&#x5C0F;&#x5199;,&#x4E4B;&#x540E;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x9996;&#x5B57;&#x6BCD;&#x90FD;&#x5927;&#x5199;&#xFF0C; &#x5177;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x8BF4;&#x660E;&#x6027;</p>
+<ul>
+<li>&#x9996;&#x5B57;&#x6BCD;&#x5C0F;&#x5199;,&#x4E4B;&#x540E;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x9996;&#x5B57;&#x6BCD;&#x90FD;&#x5927;&#x5199; * &#x65B9;&#x6CD5;&#x540D;&#x4F7F;&#x7528;&#x52A8;&#x8BCD;&#x77ED;&#x8BED;<blockquote>
+<p>&#x4E3E;&#x4F8B;:- (void)setPostVa<em>ue:(int)va</em>ue</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="6-&#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x547D;&#x540D;"><a href="#6-&#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x547D;&#x540D;" class="headerlink" title="6. &#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x547D;&#x540D;"></a>6. &#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x547D;&#x540D;</h3><p> &#x9996;&#x5B57;&#x6BCD;&#x5C0F;&#x5199;,&#x4E4B;&#x540E;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x9996;&#x5B57;&#x6BCD;&#x90FD;&#x5927;&#x5199;</p>
+<ul>
+<li>&#x5177;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x8BF4;&#x660E;&#x6027;</li>
+<li>&#x4E0D;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x7C7B;&#x578B;&#x524D;&#x7F00;<blockquote>
+<p>&#x4E3E;&#x4F8B;:- (void)sendUserInfo:(NSDictionary *)userInfo</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="7-&#x53D8;&#x91CF;&#x547D;&#x540D;"><a href="#7-&#x53D8;&#x91CF;&#x547D;&#x540D;" class="headerlink" title="7.&#x53D8;&#x91CF;&#x547D;&#x540D;"></a>7.&#x53D8;&#x91CF;&#x547D;&#x540D;</h3><ul>
+<li>&#x9996;&#x5B57;&#x6BCD;&#x5C0F;&#x5199;,&#x4E4B;&#x540E;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x9996;&#x5B57;&#x6BCD;&#x90FD;&#x5927;&#x5199; * &#x5177;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x8BF4;&#x660E;&#x6027;<ul>
+<li>&#x6210;&#x5458;&#x53D8;&#x91CF;&#x4E0D;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x201C;_m&#x201D;&#x524D;&#x7F00;</li>
+<li>&#x6210;&#x5458;&#x53D8;&#x91CF;&#x6DFB;&#x52A0;&#x201C;_&#x201D;&#x524D;&#x7F00;</li>
+</ul>
+</li>
+</ul>
+<h3 id="8-&#x5E38;&#x91CF;"><a href="#8-&#x5E38;&#x91CF;" class="headerlink" title="8.&#x5E38;&#x91CF;"></a>8.&#x5E38;&#x91CF;</h3><ul>
+<li>&#x5E38;&#x91CF;(&#x9884;&#x5B9A;&#x4E49;,&#x5C40;&#x90E8;&#x5E38;&#x91CF;&#x7B49;)&#x4F7F;&#x7528;&#x5C0F;&#x5199;k&#x5F00;&#x5934;&#x7684;&#x9A7C;&#x5CF0;&#x6CD5;<blockquote>
+<p>&#x4E3E;&#x4F8B;:kInva<em>idHand</em>e , kWritePerm</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x547D;&#x540D;&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5199;,&#x4E4B;&#x540E;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x9996;&#x5B57;&#x6BCD;&#x90FD;&#x5927;&#x5199;,&#x6700;&#x540E;&#x52A0;&#x201C;s&#x201D;</li>
+<li><p>&#x679A;&#x4E3E;&#x53D8;&#x91CF;&#x4F7F;&#x7528;&#x679A;&#x4E3E;&#x7C7B;&#x578B;&#x53BB;&#x6389;&#x201C;s&#x201D;&#x4F5C;&#x4E3A;&#x524D;&#x7F00;,&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5199;,&#x4E2D;&#x95F4;&#x4E0D;&#x5141;&#x8BB8;&#x52A0;&#x4E0B;&#x5212; &#x7EBF;</p>
+<h3 id="9-&#x56FE;&#x7247;&#x547D;&#x540D;"><a href="#9-&#x56FE;&#x7247;&#x547D;&#x540D;" class="headerlink" title="9.&#x56FE;&#x7247;&#x547D;&#x540D;"></a>9.&#x56FE;&#x7247;&#x547D;&#x540D;</h3><h3 id="10-&#x5206;&#x7EC4;&#x547D;&#x540D;"><a href="#10-&#x5206;&#x7EC4;&#x547D;&#x540D;" class="headerlink" title="10.&#x5206;&#x7EC4;&#x547D;&#x540D;"></a>10.&#x5206;&#x7EC4;&#x547D;&#x540D;</h3><blockquote>
+<p>&#x4E3E;&#x4F8B;:<br>typedef enum UIContro<em>Events{ UIContro</em>EventTouchDown, UIContro<em>EventTouchUpInside }UIContro</em>Events;</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>&#x4F7F;&#x7528;&#x82F1;&#x6587;,&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5199;,&#x4E4B;&#x540E;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x9996;&#x5B57;&#x6BCD;&#x90FD;&#x5927;&#x5199; * &#x6DFB;&#x52A0;&#x6A21;&#x5757;&#x540D;&#x4F5C;&#x4E3A;&#x524D;&#x7F00;,&#x907F;&#x514D;&#x51B2;&#x7A81;<ul>
+<li>&#x56FE;&#x7247;&#x5E94;&#x8BE5;&#x4E0E;&#x7C7B;&#x6587;&#x4EF6;&#x4E00;&#x6837;,&#x6309;&#x6A21;&#x5757;&#x5206;&#x7EC4;&#x653E;&#x7F6E;<br>&#x4F7F;&#x7528;&#x82F1;&#x6587;,&#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5199;,&#x4E4B;&#x540E;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x9996;&#x5B57;&#x6BCD;&#x90FD;&#x5927;&#x5199; &#x6BCF;&#x4E2A;&#x5206;&#x7EC4;&#x4F7F;&#x7528;&#x6A21;&#x5757;&#x7684;&#x540D;&#x5B57; &#x4F7F;&#x7528;&#x7684;&#x5F00;&#x6E90;&#x5E93;&#x7EDF;&#x4E00;&#x653E;&#x5728;&#x201C;<em>ibrary&#x201D;&#x5206;&#x7EC4;&#x4E0B; &#x4F7F;&#x7528;&#x7684;&#x516C;&#x5171;&#x7EC4;&#x4EF6;&#x7EDF;&#x4E00;&#x653E;&#x5728;&#x201C;Common&#x201D;&#x5206;&#x7EC4;&#x4E0B; &#x89C6;&#x56FE;&#x63A7;&#x5236;&#x5668;&#x53CA; AppDe</em>egate &#x7EDF;&#x4E00;&#x653E;&#x5728;&#x201C;Contro**ers&#x201D;&#x5206;&#x7EC4;&#x4E0B;</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x4E8C;&#x3001;&#x4E66;&#x5199;&#x89C4;&#x8303;"><a href="#&#x4E8C;&#x3001;&#x4E66;&#x5199;&#x89C4;&#x8303;" class="headerlink" title="&#x4E8C;&#x3001;&#x4E66;&#x5199;&#x89C4;&#x8303;"></a>&#x4E8C;&#x3001;&#x4E66;&#x5199;&#x89C4;&#x8303;</h2><h3 id="1-&#x6CE8;&#x91CA;"><a href="#1-&#x6CE8;&#x91CA;" class="headerlink" title="1. &#x6CE8;&#x91CA;"></a>1. &#x6CE8;&#x91CA;</h3><pre><code> * &#x6587;&#x4EF6;&#x90FD;&#x5305;&#x542B;&#x6587;&#x4EF6;&#x5934;,&#x8981;&#x8BF4;&#x660E;&#x6587;&#x4EF6;&#x540D;&#x3001;&#x4F5C;&#x8005;&#x3001;&#x521B;&#x5EFA;&#x65F6;&#x95F4;&#x3001;&#x53D8;&#x66F4;&#x8BB0;&#x5F55;
+ * &#x591A;&#x4EBA;&#x534F;&#x4F5C;&#x5B8C;&#x6210;&#x9879;&#x76EE;&#x65F6;,pub*ic &#x63A5;&#x53E3;&#x7684;&#x6BCF;&#x4E2A;&#x65B9;&#x6CD5;&#x90FD;&#x5E94;&#x8BE5;&#x6DFB;&#x52A0;&#x5173;&#x4E8E;&#x51FD;&#x6570;,&#x53C2;&#x6570;,&#x8FD4;&#x56DE;&#x503C;&#x4EE5; &#x53CA;&#x526F;&#x4F5C;&#x7528;&#x7684;&#x6CE8;&#x91CA;
+
+* &#x5F53;if&#x8BED;&#x53E5;&#x7684;&#x5224;&#x65AD;&#x6761;&#x4EF6;&#x590D;&#x6742;&#x65F6;,&#x9700;&#x8981;&#x7528;&#x6CE8;&#x91CA;&#x8BF4;&#x660E;&#x5224;&#x65AD;&#x5185;&#x5BB9;
+* &#x63A5;&#x53E3;&#x7C7B;(&#x7EE7;&#x627F;&#x4E8E;BaseC*ient)&#x7684;&#x5934;&#x6587;&#x4EF6;&#x6BCF;&#x4E2A;&#x65B9;&#x6CD5;&#x524D;&#x90FD;&#x5E94;&#x8BE5;&#x6CE8;&#x660E;&#x65B9;&#x6CD5;&#x7684;&#x4F5C;&#x7528;
+</code></pre><h3 id="2-&#x65B9;&#x6CD5;"><a href="#2-&#x65B9;&#x6CD5;" class="headerlink" title="2. &#x65B9;&#x6CD5;"></a>2. &#x65B9;&#x6CD5;</h3><ul>
+<li>&#x7559;&#x4E00;&#x4E2A;&#x7A7A;&#x683C;&#x5728;-&#x6216;+&#x548C;&#x8FD4;&#x56DE;&#x7C7B;&#x578B;&#x4E4B;&#x95F4;,&#x4F46;&#x53C2;&#x6570;&#x5217;&#x8868;&#x91CC;&#x7684;&#x53C2;&#x6570;&#x4E4B;&#x95F4;&#x4E0D;&#x8981;&#x7559;&#x95F4;&#x9694;,&#x6BCF;&#x4E2A;&#x5192;&#x53F7; &#x4E4B;&#x524D;&#x90FD;&#x5FC5;&#x987B;&#x6709;&#x5BF9;&#x8BE5;&#x53C2;&#x6570;&#x7684;&#x8BF4;&#x660E;&#x8BCD;,&#x5982;:</li>
+</ul>
+<pre><code>- (void)doSomethingWithString:(NSString *)string number:(int)num
+</code></pre><ul>
+<li><p>&#x5982;&#x679C;&#x53C2;&#x6570;&#x8FC7;&#x591A;,&#x63A8;&#x8350;&#x6BCF;&#x4E2A;&#x53C2;&#x6570;&#x5404;&#x5360;&#x4E00;&#x884C;&#x3002;&#x4F7F;&#x7528;&#x591A;&#x884C;&#x7684;&#x60C5;&#x51B5;&#x4E0B;,&#x5728;&#x53C2;&#x6570;&#x524D;&#x52A0;&#x5192;&#x53F7;&#x7528;&#x4E8E;&#x5BF9; &#x9F50;,&#x5982;:</p>
+<pre><code>-(void)doSomethingWith:(GTMFoo *)theFoo rect:(NSRect)theRect
+interva:(foat)theInterva*
+</code></pre></li>
+</ul>
+<h3 id="3-&#x5176;&#x4ED6;&#x89C4;&#x8303;"><a href="#3-&#x5176;&#x4ED6;&#x89C4;&#x8303;" class="headerlink" title="3.&#x5176;&#x4ED6;&#x89C4;&#x8303;"></a>3.&#x5176;&#x4ED6;&#x89C4;&#x8303;</h3><ul>
+<li>&#x64CD;&#x4F5C;&#x7B26;&#x524D;&#x540E;&#x90FD;&#x8981;&#x52A0;&#x7A7A;&#x683C;<ul>
+<li>&#x907F;&#x514D;&#x76F8;&#x540C;&#x7684;&#x4EE3;&#x7801;&#x6BB5;&#x5728;&#x591A;&#x4E2A;&#x5730;&#x65B9;&#x51FA;&#x73B0;</li>
+<li>&#x8BED;&#x53E5;&#x5D4C;&#x5957;&#x5C42;&#x6B21;&#x4E0D;&#x5F97;&#x8D85;&#x8FC7; 3 &#x5C42;</li>
+<li>&#x6BCF;&#x4E2A;&#x5B9E;&#x73B0;&#x6587;&#x4EF6;&#x5EFA;&#x8BAE;&#x5728; 500 &#x884C;&#x4EE5;&#x5185;,&#x4E0D;&#x80FD;&#x8D85;&#x8FC7; 1000 &#x884C;,&#x8D85;&#x8FC7;&#x4E4B;&#x540E;&#x5E94;&#x8003;&#x8651;&#x901A;&#x8FC7;&#x62BD;&#x8C61;&#x7C7B;&#x5BF9; &#x4EE3;&#x7801;&#x8FDB;&#x884C;&#x91CD;&#x6784;</li>
+<li>&#x53CA;&#x65F6;&#x5220;&#x9664;&#x6216;&#x6CE8;&#x91CA;&#x6389;&#x65E0;&#x7528;&#x7684;&#x4EE3;&#x7801;</li>
+</ul>
+</li>
+<li>UITab<em>eViewCe*</em> &#x91CC;&#x9762;&#x7684; network cient &#x90FD;&#x8981;&#x59D4;&#x6258;&#x51FA;&#x6765;<ul>
+<li>&#x70B9;&#x51FB;&#x6309;&#x94AE;&#x4E4B;&#x540E;&#x9700;&#x8981;&#x5207;&#x6362;&#x6309;&#x94AE;&#x56FE;&#x7247;,&#x5F53;&#x8FD9;&#x4E24;&#x5F20;&#x56FE;&#x7247;&#x6CA1;&#x6709;&#x5173;&#x8054;&#x65F6;(&#x4F8B;&#x5982;&#x4E00;&#x5F20;&#x56FE;&#x7247;&#x76F8;&#x6BD4;&#x53E6;&#x4E00;<br>&#x5F20;&#x56FE;&#x7247;&#x6709;&#x9009;&#x4E2D;&#x6548;&#x679C;),&#x4E0D;&#x5E94;&#x8BE5;&#x8BBE;&#x7F6E;&#x4E3A; UIContro<em>Se</em>ected * &#x63A7;&#x4EF6;&#x5E03;&#x5C40;&#x4F7F;&#x7528;&#x76F8;&#x5BF9;&#x5750;&#x6807;</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>&#x786E;&#x5B9A;&#x4E0D;&#x4F7F;&#x7528;&#x7684;&#x4EE3;&#x7801;&#x5E94;&#x8BE5;&#x5220;&#x9664;</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/javascript/">javascript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/javascript-原型编程/">javascript&原型编程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.huguiqi.com/2016/05/17/ios代码规范/" data-title="javascript高级特性与原理指引 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/05/20/java&android_代码规范/" title="">
+  <strong>上一篇：</strong><br/>
+  <span>
+  (no title)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/05/16/接口文档/"  title="">
+ <strong>下一篇：</strong><br/> 
+ <span>(no title)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/05/17/ios代码规范/" data-title="javascript高级特性与原理指引" data-url="http://blog.huguiqi.com/2016/05/17/ios代码规范/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ios代码规范"><span class="toc-number">1.</span> <span class="toc-text">ios代码规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、命名规范"><span class="toc-number">1.1.</span> <span class="toc-text">一、命名规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-类命名"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 类命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Categroy-类别-命名"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. Categroy(类别)命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-协议-委托-命名"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 协议(委托)命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-方法命名"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 方法命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-方法参数命名"><span class="toc-number">1.1.5.</span> <span class="toc-text">6. 方法参数命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-变量命名"><span class="toc-number">1.1.6.</span> <span class="toc-text">7.变量命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-常量"><span class="toc-number">1.1.7.</span> <span class="toc-text">8.常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-图片命名"><span class="toc-number">1.1.8.</span> <span class="toc-text">9.图片命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-分组命名"><span class="toc-number">1.1.9.</span> <span class="toc-text">10.分组命名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、书写规范"><span class="toc-number">1.2.</span> <span class="toc-text">二、书写规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-注释"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-方法"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-其他规范"><span class="toc-number">1.2.3.</span> <span class="toc-text">3.其他规范</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker实践-docker教程/" title="docker实践 docker教程">docker实践 docker教程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		
+		<a href="/about" target="_blank" title="sam hu">sam hu</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

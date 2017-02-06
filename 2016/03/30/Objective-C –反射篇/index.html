@@ -1,0 +1,1380 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Objective-C –反射篇 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam hu">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="Objective-C &amp;#x2013;&amp;#x53CD;&amp;#x5C04;&amp;#x7BC7;Objective-C &amp;#x2013;&amp;#x53CD;&amp;#x5C04;&amp;#x7BC7; (2013-08-21 15:57:36)&amp;#x8F6C;&amp;#x8F7D;&amp;#x25BC;
+&amp;#x6807;&amp;#x7B7E;&amp;#xFF1A; &amp;#x6742;&amp;#x8C08;     &amp;#x5206;&amp;#x7C7B;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C –反射篇">
+<meta property="og:url" content="http://blog.huguiqi.com/2016/03/30/Objective-C –反射篇/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="Objective-C &amp;#x2013;&amp;#x53CD;&amp;#x5C04;&amp;#x7BC7;Objective-C &amp;#x2013;&amp;#x53CD;&amp;#x5C04;&amp;#x7BC7; (2013-08-21 15:57:36)&amp;#x8F6C;&amp;#x8F7D;&amp;#x25BC;
+&amp;#x6807;&amp;#x7B7E;&amp;#xFF1A; &amp;#x6742;&amp;#x8C08;     &amp;#x5206;&amp;#x7C7B;&amp;#x">
+<meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C –反射篇">
+<meta name="twitter:description" content="Objective-C &amp;#x2013;&amp;#x53CD;&amp;#x5C04;&amp;#x7BC7;Objective-C &amp;#x2013;&amp;#x53CD;&amp;#x5C04;&amp;#x7BC7; (2013-08-21 15:57:36)&amp;#x8F6C;&amp;#x8F7D;&amp;#x25BC;
+&amp;#x6807;&amp;#x7B7E;&amp;#xFF1A; &amp;#x6742;&amp;#x8C08;     &amp;#x5206;&amp;#x7C7B;&amp;#x">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">技术分享与学习，聚沙成塔!</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/Objective-C –反射篇/" title="Objective-C –反射篇" itemprop="url">Objective-C –反射篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective-C-–反射篇"><span class="toc-number">1.</span> <span class="toc-text">Objective-C –反射篇</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Objective-C-&#x2013;&#x53CD;&#x5C04;&#x7BC7;"><a href="#Objective-C-&#x2013;&#x53CD;&#x5C04;&#x7BC7;" class="headerlink" title="Objective-C &#x2013;&#x53CD;&#x5C04;&#x7BC7;"></a>Objective-C &#x2013;&#x53CD;&#x5C04;&#x7BC7;</h1><p>Objective-C &#x2013;&#x53CD;&#x5C04;&#x7BC7; (2013-08-21 15:57:36)&#x8F6C;&#x8F7D;&#x25BC;</p>
+<div><br><br>&#x6807;&#x7B7E;&#xFF1A; &#x6742;&#x8C08;     &#x5206;&#x7C7B;&#xFF1A; iphone&#x5F00;&#x53D1;<br><br></div>
+
+<div><br><br><a href="http://zephyrleavesblog.sinaapp.com/?p=676" target="_blank" rel="external">http://zephyrleavesblog.sinaapp.com/?p=676</a><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x4ECA;&#x5929;&#x6211;&#x4EEC;&#x6765;&#x8BB2;&#x8BB2;Objective-C&#x7684;&#x53CD;&#x5C04;,<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><a id="more"></a><br>&#x4E00;&#x822C;Java&#x5F00;&#x53D1;&#x5DE5;&#x7A0B;&#x5E08;&#x542C;&#x5230;Objective-C&#x652F;&#x6301;&#x53CD;&#x5C04;&#x4E00;&#x5B9A;&#x5F88;&#x5174;&#x594B;&#x5427;!<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x57FA;&#x672C;&#x53CD;&#x5C04;<br><br></div>
+
+<div><br><br>&#x57FA;&#x672C;&#x53CD;&#x5C04;&#x5305;&#x62EC;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x83B7;&#x53D6;Class &#x6216; &#x6839;&#x636E;&#x5B57;&#x7B26;&#x4E32;&#x83B7;&#x53D6;Class<br><br></div>
+
+<div><br><br>&#x68C0;&#x67E5;&#x662F;&#x5426;&#x6709;selector &#x4EE5;&#x53CA; &#x6839;&#x636E;&#x5B57;&#x7B26;&#x4E32; &#x83B7;&#x53D6;selector &#x5E76;&#x6267;&#x884C;<br><br></div>
+
+<div><br><br>&#x68C0;&#x67E5;&#x7EE7;&#x627F;&#x5173;&#x7CFB;<br><br></div>
+
+<div><br><br>&#x57FA;&#x672C;&#x53CD;&#x5C04;&#x5C31;&#x662F;&#x80FD;&#x901A;&#x8FC7;NSObject&#x7684;&#x4E00;&#x4E9B;&#x65B9;&#x6CD5;&#x548C;&#x7B80;&#x5355;&#x5C01;&#x88C5;&#x597D;&#x7684;&#x65B9;&#x6CD5;&#x76F4;&#x63A5;&#x80FD;&#x8FDB;&#x884C;&#x53CD;&#x5C04;&#x7684;&#x64CD;&#x4F5C;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>Class&#x76F8;&#x5173;&#x7684;&#x4E00;&#x4E9B;&#x64CD;&#x4F5C;<br><br></div>
+
+<div><br><br>&#x9996;&#x5148;&#x5C31;&#x662F;&#x83B7;&#x53D6;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#x7684;Class: [self class]<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x8FD9;&#x4E2A;&#x5C31;&#x662F;&#x83B7;&#x53D6;self&#x5BF9;&#x5E94;&#x5B9E;&#x4F8B;&#x7684;Class&#x7C7B;&#x578B;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x4E5F;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;[&#x7C7B;&#x540D; class]&#x7684;&#x65B9;&#x5F0F;&#x83B7;&#x53D6;Class,&#x6BD4;&#x5982;[UIView<br>class]&#x548C;[[[UIView alloc] init] class]&#x83B7;&#x53D6;&#x5230;&#x7684;Class&#x662F;&#x4E00;&#x6837;&#x7684;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5F53;&#x7136;&#x6700;&#x4E3B;&#x8981;&#x8FD8;&#x5F97;&#x6709;&#x7C7B;&#x4F3C;Java&#x7684;Class.forName(String)&#x901A;&#x8FC7;&#x5B57;&#x7B26;&#x4E32;&#x76F4;&#x63A5;&#x83B7;&#x53D6;&#x5230;Class<br>: NSClassFromString<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x6BD4;&#x5982;&#x83B7;&#x53D6;UIView&#x7684;Class&#x53EF;&#x4EE5; NSClassFromString( &#x201C;UIView&#x201D;)<br>&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#x7684;&#x5C31;&#x662F;UIView&#x7684;Class<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x90A3;&#x4E48;&#x83B7;&#x53D6;&#x5230;Class&#x6709;&#x4EC0;&#x4E48;&#x7528;&#x5462;?<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x76F4;&#x63A5;&#x901A;&#x8FC7;Class&#x6765;&#x5B9E;&#x4F8B;&#x5316;&#x5BF9;&#x8C61;<br><br></div>
+
+<div><br><br>&#x901A;&#x8FC7;Class &#x4F60;&#x53EF;&#x4EE5;&#x77E5;&#x9053;Class&#x4E0B;&#x9762;&#x90A3;&#x4E9B;&#x65B9;&#x6CD5; &#x5C5E;&#x6027; &#x548C; &#x53D8;&#x91CF;<br>,&#x5E76;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x4ED6;&#x4EEC;(&#x4F1A;&#x5728;&#x540E;&#x9762;&#x7684;&#x641E;&#x57FA;&#x53CD;&#x5C04;&#x91CC;&#x9762;&#x8BB2;)<br><br></div>
+
+<div><br><br>&#x901A;&#x8FC7;Class &#x76F4;&#x63A5;&#x5B9E;&#x4F8B;&#x5316;&#x5BF9;&#x8C61; &#x5F88;&#x7B80;&#x5355; &#x6BD4;&#x5982;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> Class viewClass = NSClassFromString( &#x201C;UIView&#x201D;);<br><br></div>
+
+<div><br><br> UIView *view = [viewClass alloc] init] ;<br><br></div>
+
+<div><br><br>&#x53EF;&#x4EE5;&#x770B;&#x5230;viewClass&#x548C;UIView&#x662F;&#x7B49;&#x4EF7;&#x7684;,&#x5305;&#x62EC;&#x5BF9; + &#x7C7B;&#x578B;&#x65B9;&#x6CD5;&#x7684;&#x8C03;&#x7528;&#x4E5F;&#x662F;&#x5373; [UIView<br>layerClass]&#x548C;[NSClassFromString( &#x201C;UIView&#x201D;) layerClass]&#x662F;&#x7B49;&#x4EF7;&#x7684;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>selector&#x76F8;&#x5173;<br><br></div>
+
+<div><br><br>selector&#x5BF9;&#x5E94;&#x7684;&#x5C31;&#x662F;Java&#x4E2D;&#x7684;Method&#x4E86; &#x5BF9;&#x5E94;Method&#x8FD9;&#x4E2A;&#x7C7B; &#x5728;Objective-C&#x4E2D;&#x662F;SEL<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>SEL&#x662F;&#x4E00;&#x4E2A;&#x7ED3;&#x6784;&#x4F53;&#x7684;&#x6307;&#x9488;typedef struct objc_selector *SEL;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>SEL &#x53EF;&#x4EE5;&#x901A;&#x8FC7;  selector&#x548C;NSSelectorFromString&#x6765;&#x76F4;&#x63A5;&#x83B7;&#x53D6;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x800C;SEL&#x548C;Method&#x7684;&#x4E0D;&#x540C;&#x5728;&#x4E8E; SEL&#x5728;Mac&#x7CFB;&#x7EDF;&#x4E2D;&#x662F;&#x5355;&#x4F8B;&#x7684; .<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5373;[Foo count]&#x548C;[Bar count] &#x91CC;&#x9762;&#x7684;count &#x6307;&#x5411;&#x7684;&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x6307;&#x9488;,<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5305;&#x62EC; selector(count)&#x548C;NSSelectorFromString( &#x201C;count&#x201D;)&#x6307;&#x5411;&#x7684;&#x4E5F;&#x90FD;&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x6307;&#x9488;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x8FD9;&#x548C;Java&#x6BCF;&#x4E2A;Class&#x7528;getMethod&#x53D6;&#x51FA;&#x7684;Method&#x90FD;&#x662F;&#x5355;&#x72EC;&#x7684;&#x5B9E;&#x4F8B;&#x662F;&#x4E0D;&#x540C;&#x7684;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>SEL&#x5BF9;&#x5E94;&#x7684;&#x5C31;&#x662F;&#x65B9;&#x6CD5;&#x7684;&#x540D;&#x5B57; ,<br>&#x8FD9;&#x548C;Objective-C&#x7684;&#x5B9E;&#x73B0;&#x6709;&#x5173;,&#x5C31;&#x662F;&#x65B9;&#x6CD5;&#x5BF9;&#x5E94;&#x7684;&#x662F;&#x6D88;&#x606F;,&#x800C;SEL&#x5C31;&#x662F;&#x6D88;&#x606F;&#x7684;&#x540D;&#x79F0;,&#x6240;&#x4EE5;&#x4E0D;&#x540C;&#x7684;&#x5B9E;&#x4F8B;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x6D88;&#x606F;&#x540D;,&#x800C;&#x6D88;&#x606F;&#x540D;&#x672C;&#x8EAB;&#x662F;&#x5355;&#x4F8B;&#x7684;,&#x4E0D;&#x548C;&#x5B9E;&#x4F8B;&#x672C;&#x8EAB;&#x4EA7;&#x751F;&#x5173;&#x7CFB;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x7136;&#x540E;&#x901A;&#x8FC7;- (BOOL)respondsToSelector:(SEL)aSelector<br>&#x53EF;&#x4EE5;&#x5224;&#x65AD;&#x5B9E;&#x4F8B;&#x662F;&#x5426;&#x771F;&#x7684;&#x6709;&#x5BF9;&#x4E8E;selector&#x7684;&#x5B9E;&#x73B0;,&#x4E0D;&#x7BA1;&#x662F;&#x5426;&#x6709;&#x88AB;&#x58F0;&#x660E;.<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x800C;&#x8981;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#x4E00;&#x4E2A;selector&#x5219;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E00;&#x7CFB;&#x5217;&#x7684;performSelector:&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x5B9E;&#x73B0;<br>&#x6BD4;&#x5982;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x7EE7;&#x627F;&#x5173;&#x7CFB;<br><br></div>
+
+<div><br><br>&#x7C7B;&#x4F3C;Java &#x7684; instanceOf Objective-C &#x4E5F;&#x6709;&#x7C7B;&#x4F3C;&#x7684;&#x65B9;&#x6CD5;,&#x6709;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (BOOL)isKindOfClass:(Class)aClass<br><br></div>
+
+<div><br><br>- (BOOL)isMemberOfClass:(Class)aClass<br><br></div>
+
+<div><br><br>+ (BOOL)isSubclassOfClass:(Class)aClass<br><br></div>
+
+<div><br><br>- (BOOL)conformsToProtocol:(Protocol *)aProtocol<br><br></div>
+
+<div><br><br>&#x8FD9;&#x51E0;&#x4E2A;&#x65B9;&#x6CD5;&#x90FD;&#x662F;&#x5B9A;&#x4E49;&#x5728;NSObject&#x4E0A;&#x7684;,&#x533A;&#x522B;&#x5728;&#x4E8E;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>isKindOfClass &#x57FA;&#x672C;&#x548C;Java &#x7684; instanceOf&#x7684;&#x529F;&#x80FD;&#x4E00;&#x81F4; ,<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x800C;isMemberOfClass &#x4E0D;&#x80FD;&#x8BC6;&#x522B;&#x5230;&#x7236;&#x7C7B; &#x53EA;&#x80FD;&#x8868;&#x660E;&#x5230;&#x5E95;&#x662F;&#x4E0D;&#x662F;&#x8FD9;&#x4E2A;Class ,<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x800C;isSubclassOfClass&#x662F;+&#x7C7B;&#x578B;&#x7684;&#x65B9;&#x6CD5;&#x548C;isKindOfClass&#x4E00;&#x6837;&#x7684;,&#x4E0D;&#x8FC7;&#x5C31;&#x662F;&#x901A;&#x8FC7;Class&#x6765;&#x8FDB;&#x884C;&#x8C03;&#x7528;,<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>conformsToProtocol&#x5219;&#x662F;&#x8BC6;&#x522B;&#x5B9E;&#x4F8B;&#x662F;&#x5426;&#x7B26;&#x5408;&#x7279;&#x5B9A;&#x534F;&#x8BAE;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x9AD8;&#x7EA7;&#x53CD;&#x5C04;<br><br></div>
+
+<div><br><br>&#x9AD8;&#x7EA7;&#x53CD;&#x5C04;&#x57FA;&#x672C;&#x5C31;&#x662F;&#x7C7B;&#x4F3C;&#x4E8E;Java&#x7684;&#x6574;&#x4E2A;&#x53CD;&#x5C04;&#x4F53;&#x7CFB;&#x4E86;,&#x53EA;&#x4E0D;&#x8FC7;Objective-C&#x7684;&#x8FD9;&#x90E8;&#x5206;&#x53CD;&#x5C04;&#x90FD;&#x662F;&#x901A;&#x8FC7;C&#x8C03;&#x7528;&#x5B9E;&#x73B0;&#x7684;,&#x6BD4;&#x8D77;&#x6765;&#x6BD4;&#x8F83;&#x82E6;&#x903C;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x4E3B;&#x8981;&#x7684;&#x4E00;&#x4E9B;&#x51FD;&#x6570;&#x6709;:<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>objc_msgSend &#x7CFB;&#x5217;<br><br></div>
+
+<div><br><br>class/protocol &#x7CFB;&#x5217;<br><br></div>
+
+<div><br><br>method/SEL/IMP &#x7CFB;&#x5217;<br><br></div>
+
+<div><br><br>ivar /property&#x7CFB;&#x5217;<br><br></div>
+
+<div><br><br>&#x5927;&#x90E8;&#x5206;&#x7684;&#x8C03;&#x7528;&#x8D70;&#x5305;&#x542B;&#x5728;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>#import<br><br></div>
+
+<div><br><br>#import<br><br></div>
+
+<div><br><br>&#x8FD9;&#x4E24;&#x4E2A;&#x5934;&#x6587;&#x4EF6;&#x91CC;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>objc_msgSend<br><br></div>
+
+<div><br><br>&#x770B;&#x540D;&#x5B57;&#x5C31;&#x80FD;&#x77E5;&#x9053; &#x8FD9;&#x4E2A;&#x662F;objective-c&#x7684;&#x6D88;&#x606F;&#x53D1;&#x9001;&#x51FD;&#x6570;<br>,&#x4E0A;&#x4E00;&#x7BC7;&#x4E5F;&#x8BB2;&#x5230;&#x6240;&#x6709;&#x7684;Objective-C&#x7684;&#x8C03;&#x7528;&#x5168;&#x662F;&#x901A;&#x8FC7;objc_msgSend&#x6765;&#x5B9E;&#x73B0;&#x7684;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>objc_msgSend&#x7684;&#x4F7F;&#x7528;&#x8FD8;&#x662F;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#x7684;,&#x770B;id objc_msgSend(id theReceiver, SEL<br>theSelector, &#x2026;)&#x5C31;&#x80FD;&#x77E5;&#x9053;.<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x8FD9;&#x91CC;&#x5C31;&#x4ECB;&#x7ECD;&#x4E00;&#x4E9B;&#x6280;&#x5DE7;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x7531;&#x4E8E;objc_msgSend &#x8FD4;&#x56DE;&#x7684;&#x662F;id &#x90A3;&#x4E48;&#x5982;&#x679C;&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x7684;&#x662F; &#x57FA;&#x672C;&#x7C7B;&#x578B;&#x600E;&#x4E48;&#x529E;?<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x770B;&#x4E2A;&#x6837;&#x4F8B;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> unsigned retForUnsigned = ((unsigned ( *)(id, SEL))<br>objc_msgSend)(self, NSSelectorFromString(nsPropertyName));<br><br></div>
+
+<div><br><br>&#x901A;&#x8FC7;&#x8FD9;&#x79CD;cast&#x5C31;&#x53EF;&#x4EE5;&#x8FD4;&#x56DE;cast&#x4E3A;&#x5BF9;&#x4E8E;&#x7684;&#x57FA;&#x672C;&#x7C7B;&#x578B;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x800C;&#x5982;&#x679C;&#x8FD4;&#x56DE;&#x662F;&#x6D6E;&#x70B9;&#x7684;&#x8BDD; &#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8C03;&#x7528;double objc_msgSend_fpret(id self,<br>SEL op, &#x2026;)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x90A3;&#x4E48;&#x8FD8;&#x6709;&#x4E00;&#x79CD;&#x60C5;&#x51B5;&#x5C31;&#x662F;&#x8FD4;&#x56DE;&#x7684;&#x662F;&#x4E00;&#x4E2A;struct&#x7684;&#x8BDD; &#x9700;&#x8981;&#x8C03;&#x7528; void<br>objc_msgSend_stret(void * stretAddr, id theReceiver, SEL theSelector,<br>&#x2026;) &#x6765;&#x5B8C;&#x6210;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5F53;&#x7136; &#x4ED6;&#x4EEC;&#x90FD;&#x6709;&#x5BF9;&#x5E94;&#x7684;super&#x51FD;&#x6570;&#x6765;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x7236;&#x7C7B;&#x7684;&#x65B9;&#x6CD5;,&#x5982;objc_msgSendSuper<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5B9E;&#x9645;&#x4E0A;objc_XXX/object_XXX&#x65B9;&#x6CD5;&#x7B49;&#x65B9;&#x6CD5;&#x90FD;&#x80FD;&#x627E;&#x5230;&#x5BF9;&#x4E8E;&#x7684;Objective-C&#x7684;&#x65B9;&#x6CD5;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x4E0D;&#x8FC7;&#x6709;&#x4E00;&#x4E2A;&#x6BD4;&#x8F83;&#x6709;&#x610F;&#x601D;&#x7684; &#x53EF;&#x4EE5;&#x5411;&#x5927;&#x5BB6;&#x4ECB;&#x7ECD;&#x4E00;&#x4E0B;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x90A3;&#x5C31;&#x662F;void objc_setAssociatedObject(id object, const void *key, id<br>value, objc_AssociationPolicy policy) &#x548C; id<br>objc_getAssociatedObject(id object, const void *key)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x4F7F;&#x7528;&#x8FD9;&#x4E00;&#x5BF9;&#x51FD;&#x6570;&#x5C31;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x7684;&#x4E3A;&#x5BF9;&#x8C61;&#x52A0;getter/setter&#x65B9;&#x6CD5;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5927;&#x5BB6;&#x77E5;&#x9053;&#x4F7F;&#x7528;Categroy&#x662F;&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x52A0;property&#x7684;,&#x4F46;&#x662F;&#x901A;&#x8FC7;&#x4E0A;&#x9762;&#x4E00;&#x5BF9;&#x5C31;&#x53EF;&#x4EE5;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x53EF;&#x4EE5;&#x770B;AFNetworking&#x4E2D;&#x7684;&#x4EE3;&#x7801;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>static char kAFImageRequestOperationObjectKey;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> interface UIImageView (_AFNetworking)<br><br></div>
+
+<div><br><br>     property(readwrite, nonatomic, retain, setter =<br>af_setImageRequestOperation:) AFImageRequestOperation<br>*af_imageRequestOperation;<br><br></div>
+
+<div><br><br> end<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> implementation UIImageView (_AFNetworking)<br><br></div>
+
+<div><br><br> dynamic af_imageRequestOperation;<br><br></div>
+
+<div><br><br> end<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>#pragma mark -<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> implementation UIImageView (AFNetworking)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (AFHTTPRequestOperation *)af_imageRequestOperation {<br><br></div>
+
+<div><br><br>    return (AFHTTPRequestOperation *)<br>objc_getAssociatedObject(self,&amp;kAFImageRequestOperationObjectKey);<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (void)af_setImageRequestOperation:(AFImageRequestOperation<br>*)imageRequestOperation {<br><br></div>
+
+<div><br><br>    objc_setAssociatedObject(self,<br>&amp;kAFImageRequestOperationObjectKey,imageRequestOperation,<br>OBJC_ASSOCIATION_RETAIN_NONATOMIC);<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>&#x4E0D;&#x662F;&#x8BBE;&#x7F6E; synthesize&#x800C;&#x662F;&#x8BBE;&#x7F6E; dynamic +<br>objc_getAssociatedObject/objc_setAssociatedObject &#x6765;&#x5B8C;&#x6210;&#x52A8;&#x6001;&#x7684;&#x5C5E;&#x6027;&#x6DFB;&#x52A0;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>class/protocol<br><br></div>
+
+<div><br><br>&#x5BF9;&#x5E94;&#x7684;class_XXX&#x548C;protocol_XXX&#x51FD;&#x6570; &#x8FD9;&#x91CC;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x57FA;&#x672C;NS&#x90FD;&#x5305;&#x542B;&#x4E86;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x4E0D;&#x8FC7;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x770B;&#x4E00;&#x4E2A;&#x58F0;&#x660E;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>struct objc_class {<br><br></div>
+
+<div><br><br>    Class isa;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>#if !__OBJC2__<br><br></div>
+
+<div><br><br>    Class super_class<br>OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>    const char *name                              OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>    long version<br>OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>    long info<br>OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>    long instance_size                             OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>    struct objc_ivar_list *ivars                OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>    struct objc_method_list **methodLists<br>OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>    struct objc_cache *cache                      OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>    struct objc_protocol_list *protocols<br>OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>#endif<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>} OBJC2_UNAVAILABLE;<br><br></div>
+
+<div><br><br>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;objectc class&#x7684;&#x539F;&#x59CB;&#x5B9A;&#x4E49; &#x4ECE;&#x91CC;&#x9762;&#x5C31;&#x80FD;&#x770B;&#x5230;&#x4E00;&#x4E2A;Class<br>&#x90FD;&#x5305;&#x542B;&#x4E86;&#x90A3;&#x4E9B;&#x4E1C;&#x897F;&#x54E6;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>method/SEL/IMP<br><br></div>
+
+<div><br><br>&#x8FD9;&#x91CC;&#x8BF4;&#x4E00;&#x4E0B;&#x6982;&#x5FF5;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>Method&#x5C31;&#x662F;&#x65B9;&#x6CD5; &#x5B9E;&#x9645;&#x4E0A;&#x4ED6;&#x5305;&#x542B;&#x4E86;SEL&#x548C;IMP &#x4E0D;&#x540C;&#x4E8E;SEL&#x5B83;&#x662F;&#x6709;&#x5BBF;&#x4E3B;&#x7684;,&#x5E76;&#x4E0D;&#x662F;&#x5355;&#x4F8B;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>SEL&#x5728;&#x4E0A;&#x9762;&#x5DF2;&#x7ECF;&#x4ECB;&#x7ECD;&#x4E86;&#x5B9E;&#x9645;&#x4E0A;&#x4ED6;&#x5C31;&#x662F;&#x7B49;&#x4EF7;&#x4E8E;&#x65B9;&#x6CD5;&#x7684;&#x540D;&#x5B57;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x800C;IMP&#x5B9E;&#x9645;&#x5C31;&#x662F;&#x65B9;&#x6CD5;&#x7684;&#x771F;&#x6B63;&#x5B9E;&#x73B0;&#x4E86;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5982;&#x679C;&#x8981;&#x505A;&#x52A8;&#x6001;&#x65B9;&#x6CD5;&#x89E3;&#x6790; &#x90A3;&#x4E48;&#x5C31;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x4F5C;IMP&#x6765;&#x8F6C;&#x6362;SEL&#x5BF9;&#x4E8E;&#x7684;&#x5B9E;&#x73B0;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>ivar /property<br><br></div>
+
+<div><br><br>ivar&#x5C31;&#x662F;&#x5B9A;&#x4E49;&#x7684;&#x53D8;&#x91CF;,&#x800C;property&#x5C31;&#x662F;&#x5C5E;&#x6027;&#x4E86;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x8FD9;&#x91CC;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x5C31;&#x662F;&#x53D6;&#x51FA;&#x4E00;&#x4E2A;class&#x7684;ivar/property &#x7528;&#x5230;&#x7684;&#x7C7B;&#x4F3C;&#x51FD;&#x6570;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>objc_property_t *class_copyPropertyList(Class cls, unsigned int<br>*outCount)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x6CE8;&#x610F;&#x5230;&#x5B83;&#x662F;copy&#x7684;,&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x8FD9;&#x5757;&#x5185;&#x5B58;&#x662F;copy &#x4F60;&#x5F97;&#x81EA;&#x5DF1;&#x8D1F;&#x8D23;&#x6700;&#x540E;&#x53BB;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x4F8B;&#x5B50;:<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> unsigned int propertyCount;<br><br></div>
+
+<div><br><br> objc_property_t *pProperty = class_copyPropertyList(class,<br>&amp;propertyCount);<br><br></div>
+
+<div><br><br> if (pProperty &amp;&amp; propertyCount &gt; 0) {<br><br></div>
+
+<div><br><br>     for (unsigned int i = 0; i &lt;&lt;/span&gt; propertyCount; i++) {<br><br></div>
+
+<div><br><br>         [self setPropertyToObject:o pProperty:pProperty[i]<br>withDepth:depth AndClass:class];<br><br></div>
+
+<div><br><br>     }<br><br></div>
+
+<div><br><br> }<br><br></div>
+
+<div><br><br> if (pProperty) {<br><br></div>
+
+<div><br><br>     free(pProperty);<br><br></div>
+
+<div><br><br> }<br><br></div>
+
+<div><br><br>&#x4E0D;&#x8FC7;&#x8FD9;&#x91CC;&#x6709;&#x4E2A;&#x6BD4;&#x8F83;&#x82E6;&#x903C;&#x7684;&#x4E8B;&#x60C5;&#x5C31;&#x662F;<br>&#x53BB;&#x7684;ivar/property&#x7684;&#x7C7B;&#x578B;&#x503C;,&#x8FD9;&#x91CC;Objective-C&#x4F7F;&#x7528;&#x5C5E;&#x6027;&#x7C7B;&#x578B;&#x7F16;&#x7801;&#x6765;&#x533A;&#x5206;&#x7C7B;&#x578B;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x6240;&#x4EE5;&#x6700;&#x540E;&#x901A;&#x8FC7;const char *property_getAttributes(objc_property_t<br>property)&#x53D6;&#x5230;&#x7684;&#x662F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;, &#x5F97;&#x81EA;&#x5DF1;&#x89E3;&#x6790;&#x8FD9;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x6765;&#x53D6;&#x5F97;&#x7C7B;&#x578B;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5BF9;&#x4E8E;&#x7684;&#x7F16;&#x7801;:<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>&#x5C5E;&#x6027;&#x58F0;&#x660E;<br><br></div>
+
+<div><br><br>&#x5C5E;&#x6027;&#x63CF;&#x8FF0;<br><br></div>
+
+<div><br><br> property char charDefault;<br><br></div>
+
+<div><br><br>Tc,VcharDefault<br><br></div>
+
+<div><br><br> property double doubleDefault;<br><br></div>
+
+<div><br><br>Td,VdoubleDefault<br><br></div>
+
+<div><br><br> property enum FooManChu enumDefault;<br><br></div>
+
+<div><br><br>Ti,VenumDefault<br><br></div>
+
+<div><br><br> property float floatDefault;<br><br></div>
+
+<div><br><br>Tf,VfloatDefault<br><br></div>
+
+<div><br><br> property int intDefault;<br><br></div>
+
+<div><br><br>Ti,VintDefault<br><br></div>
+
+<div><br><br> property long longDefault;<br><br></div>
+
+<div><br><br>Tl,VlongDefault<br><br></div>
+
+<div><br><br> property short shortDefault;<br><br></div>
+
+<div><br><br>Ts,VshortDefault<br><br></div>
+
+<div><br><br> property signed signedDefault;<br><br></div>
+
+<div><br><br>Ti,VsignedDefault<br><br></div>
+
+<div><br><br> property struct YorkshireTeaStruct structDefault;<br><br></div>
+
+<div><br><br>T{YorkshireTeaStruct=&#x201D;pot&#x201D;i&#x201D;lady&#x201D;c},VstructDefault<br><br></div>
+
+<div><br><br> property YorkshireTeaStructType typedefDefault;<br><br></div>
+
+<div><br><br>T{YorkshireTeaStruct=&#x201D;pot&#x201D;i&#x201D;lady&#x201D;c},VtypedefDefault<br><br></div>
+
+<div><br><br> property union MoneyUnion unionDefault;<br><br></div>
+
+<div><br><br>T(MoneyUnion=&#x201D;alone&#x201D;f&#x201D;down&#x201D;d),VunionDefault<br><br></div>
+
+<div><br><br> property unsigned unsignedDefault;<br><br></div>
+
+<div><br><br>TI,VunsignedDefault<br><br></div>
+
+<div><br><br> property int (*functionPointerDefault)(char *);<br><br></div>
+
+<div><br><br>T\\^?,VfunctionPointerDefault<br><br></div>
+
+<div><br><br> property id idDefault; Note: the compiler warns: no &#x2018;assign&#x2019;, &#x2018;retain&#x2019;,<br>or &#x2018;copy&#x2019; attribute is specified &#x2013; &#x2018;assign&#x2019; is assumed&#x201D;<br><br></div>
+
+<div><br><br>T ,VidDefault<br><br></div>
+
+<div><br><br> property int *intPointer;<br><br></div>
+
+<div><br><br>T\\^i,VintPointer<br><br></div>
+
+<div><br><br> property void *voidPointerDefault;<br><br></div>
+
+<div><br><br>T\\^v,VvoidPointerDefault<br><br></div>
+
+<div><br><br> property int intSynthEquals;<br><br></div>
+
+<div><br><br>In the implementation block:<br><br></div>
+
+<div><br><br> synthesize intSynthEquals=_intSynthEquals;<br><br></div>
+
+<div><br><br>Ti,V_intSynthEquals<br><br></div>
+
+<div><br><br> property(getter=intGetFoo, setter=intSetFoo:) int intSetterGetter;<br><br></div>
+
+<div><br><br>Ti,GintGetFoo,SintSetFoo:,VintSetterGetter<br><br></div>
+
+<div><br><br> property(readonly) int intReadonly;<br><br></div>
+
+<div><br><br>Ti,R,VintReadonly<br><br></div>
+
+<div><br><br> property(getter=isIntReadOnlyGetter, readonly) int intReadonlyGetter;<br><br></div>
+
+<div><br><br>Ti,R,GisIntReadOnlyGetter<br><br></div>
+
+<div><br><br> property(readwrite) int intReadwrite;<br><br></div>
+
+<div><br><br>Ti,VintReadwrite<br><br></div>
+
+<div><br><br> property(assign) int intAssign;<br><br></div>
+
+<div><br><br>Ti,VintAssign<br><br></div>
+
+<div><br><br> property(retain) id idRetain;<br><br></div>
+
+<div><br><br>T ,&amp;,VidRetain<br><br></div>
+
+<div><br><br> property(copy) id idCopy;<br><br></div>
+
+<div><br><br>T ,C,VidCopy<br><br></div>
+
+<div><br><br> property(nonatomic) int intNonatomic;<br><br></div>
+
+<div><br><br>Ti,VintNonatomic<br><br></div>
+
+<div><br><br> property(nonatomic, readonly, copy) id idReadonlyCopyNonatomic;<br><br></div>
+
+<div><br><br>T ,R,C,VidReadonlyCopyNonatomic<br><br></div>
+
+<div><br><br> property(nonatomic, readonly, retain) id idReadonlyRetainNonatomic;<br><br></div>
+
+<div><br><br>T ,R,&amp;,VidReadonlyRetainNonatomic<br><br></div>
+
+<div><br><br>&#x4E0B;&#x9762;&#x6709;&#x4E2A;&#x5C0F;&#x7A0B;&#x5E8F;&#x7528;&#x6765;&#x89E3;&#x6790;&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#x7F16;&#x7801;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>+ (PropertyAttributeInfo *)analyseProperty:(objc_property_t)pProperty<br>WithClass:(Class)aClass {<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>NSString *propertyAttributes = [NSString<br>stringWithUTF8String:property_getAttributes(pProperty)];<br><br></div>
+
+<div><br><br>NSMutableString *propertyName = [NSMutableString<br>stringWithUTF8String:property_getName(pProperty)];<br><br></div>
+
+<div><br><br>PropertyAttributeInfo *info;<br><br></div>
+
+<div><br><br>if ((info = [[PropertyAttributeInfoCache instance]<br>getFromCacheWithClass:aClass<br><br></div>
+
+<div><br><br><br>AndPropertyName:propertyName]) != nil) {<br><br></div>
+
+<div><br><br>    return info;<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>TypeOfProperty typeOfProperty = NIL;<br><br></div>
+
+<div><br><br>Class class = nil;<br><br></div>
+
+<div><br><br>BOOL readOnly = NO;<br><br></div>
+
+<div><br><br>Class arrayClass = nil;<br><br></div>
+
+<div><br><br>NSString *dicPropertyName = propertyName;<br><br></div>
+
+<div><br><br>NSArray *array = [propertyAttributes<br>componentsSeparatedByString: &#x201C;,&#x201D;];<br><br></div>
+
+<div><br><br>NSString *typeAtt = [array objectAtIndex:0];<br><br></div>
+
+<div><br><br>if ([typeAtt hasPrefix: &#x201C;Tc&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = CHAR;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;Td&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = DOUBLE;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;Ti&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = INT;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;Tf&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = FLOAT;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;Tl&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = LONG;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;Ts&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = SHORT;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;T{&#x201C;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = STRUCT;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;TI&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = UNSIGNED;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;T\^i&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = INT_P;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;T\^v&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = VOID_P;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;T\^?&#x201D;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = BLOCK;<br><br></div>
+
+<div><br><br>} else if ([typeAtt hasPrefix: &#x201C;T &#x201C;]) {<br><br></div>
+
+<div><br><br>    typeOfProperty = ID;<br><br></div>
+
+<div><br><br>    if ([typeAtt length] &gt; 4) {<br><br></div>
+
+<div><br><br>        class = NSClassFromString([typeAtt<br>substringWithRange:NSMakeRange(3, [typeAtt length] - 4)]);<br><br></div>
+
+<div><br><br>        if ([class isSubclassOfClass:[NSArray class]]) {<br><br></div>
+
+<div><br><br>            NSUInteger location = [propertyName<br>rangeOfString: &#x201C;\$&#x201D;].location;<br><br></div>
+
+<div><br><br>            if (location != NSNotFound) {<br><br></div>
+
+<div><br><br>                arrayClass = NSClassFromString([propertyName<br>substringWithRange:NSMakeRange(location + 1,<br><br></div>
+
+<div><br><br>                        [propertyName length] - location - 1)]);<br><br></div>
+
+<div><br><br>                dicPropertyName = [NSString<br>stringWithString:[propertyName substringWithRange:NSMakeRange(0,<br><br></div>
+
+<div><br><br>                        location)]];<br><br></div>
+
+<div><br><br>            }<br><br></div>
+
+<div><br><br>        }<br><br></div>
+
+<div><br><br>    }<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>if ([array count] &gt; 2) {<br><br></div>
+
+<div><br><br>    for (NSUInteger i = 1; i &lt;&lt;/span&gt; [array count] - 1; i++)<br>{<br><br></div>
+
+<div><br><br>        NSString *att = [array objectAtIndex:i];<br><br></div>
+
+<div><br><br>        if ([att isEqualToString: &#x201C;R&#x201D;]) {<br><br></div>
+
+<div><br><br>            readOnly = YES;<br><br></div>
+
+<div><br><br>        }<br><br></div>
+
+<div><br><br>    }<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>info = [[PropertyAttributeInfo alloc] init];<br><br></div>
+
+<div><br><br>info.readOnly = readOnly;<br><br></div>
+
+<div><br><br>info.class = class;<br><br></div>
+
+<div><br><br>info.type = typeOfProperty;<br><br></div>
+
+<div><br><br>info.arrayClass = arrayClass;<br><br></div>
+
+<div><br><br>info.dicPropertyName = dicPropertyName;<br><br></div>
+
+<div><br><br>info.oriPropertyName = propertyName;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>[[PropertyAttributeInfoCache instance] putToCacheWithClass:aClass<br>AndPropertyName:propertyName<br><br></div>
+
+<div><br><br>                                                  WithInfo:info];<br><br></div>
+
+<div><br><br>return info;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>}<br><br></div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://blog.huguiqi.com/2016/03/30/Objective-C –反射篇/" data-title="Objective-C –反射篇 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/30/Oracle中TO_DATE格式/" title="Oracle中TO_DATE格式">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Oracle中TO_DATE格式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/03/30/RESTEasy入门/"  title="RESTEasy入门">
+ <strong>下一篇：</strong><br/> 
+ <span>RESTEasy入门
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/30/Objective-C –反射篇/" data-title="Objective-C –反射篇" data-url="http://blog.huguiqi.com/2016/03/30/Objective-C –反射篇/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Objective-C-–反射篇"><span class="toc-number">1.</span> <span class="toc-text">Objective-C –反射篇</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker实践-docker教程/" title="docker实践 docker教程">docker实践 docker教程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		
+		<a href="/about" target="_blank" title="sam hu">sam hu</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
