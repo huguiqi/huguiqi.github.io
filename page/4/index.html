@@ -84,6 +84,104 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <hr>
+<p>title: linux&#x5B89;&#x88C5;mysql<br>date: 1465812376000<br>categories: &#x7CFB;&#x7EDF;&amp;&#x8FD0;&#x7EF4;</p>
+<h2 id="tags-linux&#x4E0E;mysql"><a href="#tags-linux&#x4E0E;mysql" class="headerlink" title="tags: linux&#x4E0E;mysql"></a>tags: linux&#x4E0E;mysql</h2><h1 id="fodera20&#x5B89;&#x88C5;mysql"><a href="#fodera20&#x5B89;&#x88C5;mysql" class="headerlink" title="fodera20&#x5B89;&#x88C5;mysql"></a>fodera20&#x5B89;&#x88C5;mysql</h1><p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>&#x67E5;&#x770B;mysql&#x8FD0;&#x884C;&#x72B6;&#x6001;&#xFF1A;</p>
+<pre><code>service mysql start    
+</code></pre><p>&#x5982;&#x679C;&#x51FA;&#x73B0;&#x542F;&#x52A8;&#x5931;&#x8D25;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5219;&#x901A;&#x8FC7;&#x4EE5;&#x4E0B;&#x89E3;&#x51B3;&#xFF1A;</p>
+<pre><code> [root@localhost download]# mysql
+ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
+[root@localhost download]# service mysql status
+MySQL is not running                                       [&#x5931;&#x8D25;]
+[root@localhost download]# service mysql start
+Starting MySQL.The server quit without updating PID file (/[&#x5931;&#x8D25;]b/mysql/localhost.localdomain.pid).
+[root@localhost download]# reboot
+</code></pre><p>&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;mysql&#x5B89;&#x88C5;&#x5931;&#x8D25;&#xFF0C;&#x6709;&#x4E24;&#x79CD;&#x60C5;&#x51B5;&#xFF1A;</p>
+<ol>
+<li>&#x5B89;&#x88C5;&#x5305;&#x4E0E;&#x7CFB;&#x7EDF;&#x4E0D;&#x517C;&#x5BB9;</li>
+<li>&#x7CFB;&#x7EDF;&#x4E0A;&#x6709;mysql&#x6570;&#x636E;&#x5E93;&#x6216;&#x8005;&#x6709;&#x672A;&#x5220;&#x9664;&#x5E72;&#x51C0;&#x7684;mysql&#x6B8B;&#x4F59;&#x6587;&#x4EF6;</li>
+</ol>
+<p>mysql&#x5728;linux&#x4E0A;&#x7684;&#x5B89;&#x88C5;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<ul>
+<li>yum &#x65B9;&#x5F0F;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#x82E5;&#x7CFB;&#x7EDF;&#x6709;&#x81EA;&#x5E26;&#x7684;mysql&#x6216;libs&#xFF0C;&#x53EF;&#x9009;&#x62E9;&#x5148;&#x5378;&#x8F7D;&#x518D;&#x5B89;&#x88C5;</div><div class="line"> rpm -qa | grep mysql           //&#x67E5;&#x770B;&#x8BE5;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E0A;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;&#x4E86;mysql&#x6570;&#x636E;&#x5E93;</div><div class="line"> rpm -e mysql                     //&#x666E;&#x901A;&#x5220;&#x9664;&#x6A21;&#x5F0F;</div><div class="line"> rpm -e --nodeps mysql         // &#x5F3A;&#x529B;&#x5220;&#x9664;&#x6A21;&#x5F0F;</div><div class="line"> yum -y remove mysql-libs-*   //&#x5220;&#x9664;&#x6240;&#x6709;&#x5305;</div><div class="line"> rpm -e --nodeps mysql</div><div class="line"></div><div class="line"> &#x5B89;&#x88C5;</div><div class="line">//&#x67E5;&#x770B;yum&#x4E0A;&#x63D0;&#x4F9B;&#x7684;mysql&#x6570;&#x636E;&#x5E93;&#x53EF;&#x4E0B;&#x8F7D;&#x7684;&#x7248;&#x672C;</div><div class="line"> yum list | grep mysql</div><div class="line"></div><div class="line"> yum -y install mysql-server    //&#x63D0;&#x793A;&quot;Complete!&quot;&#x5219;&#x5B89;&#x88C5;&#x6210;&#x529F;    rpm -qi mysql-server            //&#x67E5;&#x770B;&#x5B89;&#x88C5;&#x7248;&#x672C;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>&#x901A;&#x7528;&#x5B89;&#x88C5;</p>
+<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
+</code></pre></li>
+</ul>
+<ul>
+<li>npm&#x5305; &#x5B89;&#x88C5; </li>
+</ul>
+<p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>&#x5B89;&#x88C5;&#x5B8C;&#x6210;&#x540E;&#x542F;&#x52A8;mysql:</p>
+<pre><code>service mysql start
+</code></pre><p>&#x5982;&#x679C;&#x662F;&#x521A;&#x521A;&#x5220;&#x9664;&#x4E86;&#x539F;&#x6765;&#x7684;mysql&#x6587;&#x4EF6;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x91CD;&#x542F;&#x4E00;&#x4E0B;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x4E0D;&#x7136;&#x4F1A;&#x65E0;&#x6CD5;&#x542F;&#x52A8;&#x3002;&#x3002;&#x3002;&#x3002;</p>
+<p>&#x5C06;mysql&#x670D;&#x52A1;&#x6DFB;&#x52A0;&#x5230;&#x7CFB;&#x7EDF;&#x5F00;&#x673A;&#x542F;&#x52A8;&#xFF1A;<br>&#x67E5;&#x770B;&#x4E0B;&#xFF1A;</p>
+<pre><code># chkconfig --list mysql
+
+mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
+</code></pre><p>2&#x3001;3&#x3001;4&#x3001;5&#x90FD;&#x662F;on&#xFF0C;&#x8BF4;&#x660E;&#x5DF2;&#x7ECF;&#x52A0;&#x5165;&#x5230;&#x5F00;&#x673A;&#x542F;&#x52A8;</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/13/如何添加brewcask没有的软件/" title="如何添加brewcask没有的软件" itemprop="url">如何添加brewcask没有的软件</a>
   </h1>
   <p class="article-author">By
@@ -1627,141 +1725,9 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/15/javascript高级特性与原理指引/" title="javascript高级特性与原理指引" itemprop="url">javascript高级特性与原理指引</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-15T08:34:38.000Z" itemprop="datePublished"> 发表于 2016-05-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="javascript&#x9AD8;&#x7EA7;&#x7279;&#x6027;&#x4E0E;&#x539F;&#x7406;&#x6307;&#x5F15;"><a href="#javascript&#x9AD8;&#x7EA7;&#x7279;&#x6027;&#x4E0E;&#x539F;&#x7406;&#x6307;&#x5F15;" class="headerlink" title="javascript&#x9AD8;&#x7EA7;&#x7279;&#x6027;&#x4E0E;&#x539F;&#x7406;&#x6307;&#x5F15;"></a>javascript&#x9AD8;&#x7EA7;&#x7279;&#x6027;&#x4E0E;&#x539F;&#x7406;&#x6307;&#x5F15;</h2><table>
-<thead>
-<tr>
-<th>&#x53C2;&#x6570;&#x540D;&#x79F0;</th>
-<th>&#x662F;&#x5426;&#x5FC5;&#x987B;</th>
-<th>&#x63CF;&#x8FF0;</th>
-<th>&#x7528;&#x9014;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sign</td>
-<td>&#x662F;</td>
-<td>&#x7B7E;&#x540D;</td>
-<td>md5(uid + token)</td>
-</tr>
-<tr>
-<td>token</td>
-<td>&#x662F;</td>
-<td>&#x4EE4;&#x724C;key</td>
-<td>&#x5206;&#x53D1;&#x7ED9;&#x8BBF;&#x95EE;&#x6E20;&#x9053;&#x7684;&#x4EE4;&#x724C;</td>
-</tr>
-<tr>
-<td>uid</td>
-<td>&#x662F;</td>
-<td>&#x7528;&#x6237;ID&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;0</td>
-<td>&#x552F;&#x4E00;&#x6807;&#x8BC6;&#x7528;&#x6237;</td>
-</tr>
-<tr>
-<td>p</td>
-<td>&#x5426;</td>
-<td>&#x9875;&#x7801;</td>
-<td>&#x5206;&#x9875;&#x67E5;&#x8BE2;&#x4F7F;&#x7528;</td>
-</tr>
-<tr>
-<td>r</td>
-<td>&#x5426;</td>
-<td>&#x6BCF;&#x9875;&#x663E;&#x793A;&#x6761;&#x6570;</td>
-<td>&#x5206;&#x9875;&#x67E5;&#x8BE2;&#x4F7F;&#x7528;</td>
-</tr>
-<tr>
-<td>channel</td>
-<td>&#x662F;</td>
-<td>&#x5BA2;&#x6237;&#x7AEF;&#x8BBF;&#x95EE;&#x6E20;&#x9053;:ios,android,wechat,mobileWeb</td>
-<td>&#x533A;&#x5206;&#x8BBF;&#x95EE;&#x6765;&#x6E90;</td>
-</tr>
-<tr>
-<td>version</td>
-<td>&#x5426;</td>
-<td>&#x7248;&#x672C;&#x53F7;</td>
-<td>&#x53EA;&#x6709;app&#x6709;&#x503C;</td>
-</tr>
-</tbody>
-</table>
-<p>&#x8FD4;&#x56DE;&#x503C;&#xFF1A;</p>
-<ol>
-<li>javascript</li>
-</ol>
-<ul>
-<li>&#x539F;&#x578B;&#x7F16;&#x7A0B;</li>
-<li>javascript &#x57FA;&#x672C;&#x5355;&#x5143;&#x6709;&#x54EA;&#x4E9B;</li>
-<li>javascript &#x652F;&#x6301;&#x54EA;&#x4E9B;&#x7279;&#x6027;&#xFF0C;&#x5982;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x3001;var&#x2014;&gt;&#x4E0E;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x5173;&#x7CFB;</li>
-<li>var&#x2013;&gt;Object&#x4EC0;&#x4E48;&#x5173;&#x7CFB;</li>
-<li>Object&#x2014;&gt;instance&#x4EC0;&#x4E48;&#x5173;&#x7CFB;</li>
-</ul>
-<p>javascript&#x539F;&#x578B;&#x5355;&#x5143;&#xFF1A;</p>
-<p>function &#x2014;-&gt;</p>
-<p>var objcA = {&#x5C5E;&#x6027;A:value,&#x5C5E;&#x6027;B:value};<br>objcA&#x2014;&gt;function</p>
-<p>javascript&#x2014;&gt;instance&#x2014;&gt;function</p>
-<p>prototype&#x2014;-&gt;instance&#x2014;&gt;function</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/javascript/">javascript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/javascript-原型编程/">javascript&原型编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/15/javascript高级特性与原理指引/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/15/javascript高级特性与原理指引/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
   </nav>
 
 </div>
@@ -1803,6 +1769,10 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 		  
 		
 		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
@@ -1823,11 +1793,9 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 		  
 		
 		  
-			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>2</sup></a></li>
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>3</sup></a></li>
 		  
 		
-		  
-			<li><a href="/categories/测试/" title="测试">测试<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1872,6 +1840,10 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 			
 		
 			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -1881,10 +1853,6 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 		
 			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>2</sup></a></li>
 			
 		
 			
