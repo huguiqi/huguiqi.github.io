@@ -84,7 +84,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Linux下的Vsftpd配置篇/" title="Linux下的Vsftpd配置篇" itemprop="url">Linux下的Vsftpd配置篇</a>
+      <a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/" title="强大的负载均衡+静态文件WEB服务器nginx实战" itemprop="url">强大的负载均衡+静态文件WEB服务器nginx实战</a>
   </h1>
   <p class="article-author">By
        
@@ -97,18 +97,20 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;"><a href="#Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;" class="headerlink" title="Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;"></a>Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;</h1><div><br><br><div style="padding: 0px; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: rgb(204, 204, 204); color: rgb(44, 44, 44); font-family: &#x5B8B;&#x4F53;, &apos;Arial Narrow&apos;, arial, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><br><div style="padding: 20px 0px 0px; overflow: hidden; text-align: center;"><br><br><div style="padding: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 20px; font-family: SimSun;"><br><br>Linux&#x4E0B;&#x7684;Vsftpd&#x914D;&#x7F6E;&#x7BC7;<br><br></div>
+        <h1 id="&#x5F3A;&#x5927;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;-&#x9759;&#x6001;&#x6587;&#x4EF6;WEB&#x670D;&#x52A1;&#x5668;nginx&#x5B9E;&#x6218;"><a href="#&#x5F3A;&#x5927;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;-&#x9759;&#x6001;&#x6587;&#x4EF6;WEB&#x670D;&#x52A1;&#x5668;nginx&#x5B9E;&#x6218;" class="headerlink" title="&#x5F3A;&#x5927;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;+&#x9759;&#x6001;&#x6587;&#x4EF6;WEB&#x670D;&#x52A1;&#x5668;nginx&#x5B9E;&#x6218;"></a>&#x5F3A;&#x5927;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;+&#x9759;&#x6001;&#x6587;&#x4EF6;WEB&#x670D;&#x52A1;&#x5668;nginx&#x5B9E;&#x6218;</h1><p><span style="font: 16.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>&#x5F3A;&#x5927;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;+&#x9759;&#x6001;&#x6587;&#x4EF6;WEB&#x670D;&#x52A1;&#x5668;nginx&#x5B9E;&#x6218;</strong></span></p>
+<div><br><br>\<br><br></div>
 
-<p></p></div><p></p>
-<p><span style="padding: 0px 25px 0px 0px; color: rgb(102, 102, 102); float: right;">2010-10-12<br>22:59:02</span></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<div style="padding: 0px; color: rgb(44, 44, 44); font-family: &#x5B8B;&#x4F53;, &apos;Arial Narrow&apos;, arial, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><br><div><br><br>\<br><br></div><br></div>
+<div><br><br>\<br><br></div>
+
+<div><br><br><span style="font-family: Helvetica;">    </span><br><br></div>
+
+<p><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">&#x6A21;&#x5757;&#x4F9D;&#x8D56;&#xFF1A;\<br> 1 gzip&#x652F;&#x6301;&#xFF0C;&#x9700;&#x8981;zlib <a href="http://www.zlib.net/">http://www.zlib.net/</a> &#x4E0B;&#x8F7D;&#x6700;&#x65B0;&#x7248;&#x5373;&#x53EF;\<br> 2 rewrite module requires pcre library <a href="http://www.pcre.org/">http://www.pcre.org/</a><br>&#x4E0B;&#x8F7D;&#x6700;&#x65B0;&#x7248;&#x5373;&#x53EF;\<br> 3 ssl &#x529F;&#x80FD;&#x9700;&#x8981; openssl &#x5E93; <a href="http://www.openssl.org/">http://www.openssl.org/</a> =&gt;<br><a href="http://www.openssl.org/source/">http://www.openssl.org/source/</a> LASTEST&#x7248;&#x672C;&#x5373;&#x53EF;\<br>  \<br> &#x5B89;&#x88C5;&#x8FC7;&#x7A0B;&#xFF1A;\</span></p>
+<p>#&#x4E0B;&#x8F7D;&#x4EE5;&#x4E0A;source&#x5230;/usr/local/src/nginx/&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x89E3;&#x538B;&#xFF0C;&#x5219;&#x8BE5;&#x76EE;&#x5F55;&#x4E0B;&#x60C5;&#x51B5;&#x5982;&#x4E0B;&#xFF1A;\<br> [root s16 nginx]# ls\<br> nginx-0.6.32  nginx-0.6.32.tar.gz  openssl-0.9.8i<br></p>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Linux下的Vsftpd配置篇/#more">Read More</a>
+            <a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/#more">Read More</a>
           
        </p>
     </div>
@@ -134,7 +136,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Linux下的Vsftpd配置篇/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Linux下的Vsftpd配置篇/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -218,7 +220,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/javascript正则快速入门教程/" title="javascript正则快速入门教程" itemprop="url">javascript正则快速入门教程</a>
+      <a href="/2016/03/30/maven + tomcat + linux/" title="maven + tomcat + linux" itemprop="url">maven + tomcat + linux</a>
   </h1>
   <p class="article-author">By
        
@@ -231,18 +233,17 @@
 </header>
     <div class="article-content">
         
-        <h1 id="javascript&#x6B63;&#x5219;&#x5FEB;&#x901F;&#x5165;&#x95E8;&#x6559;&#x7A0B;"><a href="#javascript&#x6B63;&#x5219;&#x5FEB;&#x901F;&#x5165;&#x95E8;&#x6559;&#x7A0B;" class="headerlink" title="javascript&#x6B63;&#x5219;&#x5FEB;&#x901F;&#x5165;&#x95E8;&#x6559;&#x7A0B;"></a>javascript&#x6B63;&#x5219;&#x5FEB;&#x901F;&#x5165;&#x95E8;&#x6559;&#x7A0B;</h1><p>&#x5C0F;&#x9ED1;_spring &#x901A;&#x8FC7; <a href="http://note.sdo.com/">&#x9EA6;&#x5E93;</a> &#x53D1;&#x9001;&#x3002; [ <a href="http://note.sdo.com/u/634601439002161431">&#x67E5;&#x770B;<br>&#x5C0F;&#x9ED1;_spring &#x7684;&#x5171;&#x4EAB;&#x8D44;&#x6599;&#x5E93;</a> ]</p>
-<hr>
-<p><span lang="EN-US" style="font-family:Simsun;color:black;font-size:12pt;mso-font-kerning:0pt;mso-bidi-font-family:&#x5B8B;&#x4F53;;mso-bidi-language:HI;">javascript&#x6B63;&#x5219;&#x5FEB;&#x901F;&#x5165;&#x95E8;&#x6559;&#x7A0B;(1</span></p>
-<p><span lang="EN-US" style="font-family:Simsun;color:black;font-size:12pt;mso-font-kerning:0pt;mso-bidi-font-family:&#x5B8B;&#x4F53;;mso-bidi-language:HI;">30</span><span style="font-family:&#x5B8B;&#x4F53;;color:black;font-size:12pt;mso-font-kerning:0pt;mso-bidi-font-family:&#x5B8B;&#x4F53;;mso-bidi-language:HI;mso-ascii-font-family:Simsun;mso-hansi-font-family:Simsun;">&#x5206;&#x949F;&#x5185;&#x8BA9;&#x4F60;&#x660E;&#x767D;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x662F;&#x4EC0;&#x4E48;&#xFF0C;&#x5E76;&#x5BF9;&#x5B83;&#x6709;&#x4E00;&#x4E9B;&#x57FA;&#x672C;&#x7684;&#x4E86;&#x89E3;&#xFF0C;&#x8BA9;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x81EA;&#x5DF1;&#x7684;&#x7A0B;&#x5E8F;&#x6216;&#x7F51;&#x9875;&#x91CC;&#x4F7F;&#x7528;&#x5B83;&#x3002;</span><span lang="EN-US" style="font-family:Simsun;color:black;font-size:12pt;mso-font-kerning:0pt;mso-bidi-font-family:&#x5B8B;&#x4F53;;mso-bidi-language:HI;"></span></p>
-<div style="border-bottom:gray 1pt solid;border-left:medium none;padding-bottom:0cm;padding-left:0cm;padding-right:0cm;background:#eeeeee;border-top:medium none;border-right:gray 1pt solid;padding-top:0cm;mso-element:para-border-div;mso-border-bottom-alt:solid gray .75pt;mso-border-right-alt:solid gray .75pt;"><br><br><strong><span style="font-family:&#x5B8B;&#x4F53;;color:black;font-size:18pt;mso-font-kerning:0pt;mso-bidi-font-family:&#x5B8B;&#x4F53;;mso-bidi-language:HI;mso-ascii-font-family:Simsun;mso-hansi-font-family:Simsun;">&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x672C;&#x6559;&#x7A0B;</span><span lang="EN-US" style="font-family:Simsun;color:black;font-size:18pt;mso-font-kerning:0pt;mso-bidi-font-family:&#x5B8B;&#x4F53;;mso-bidi-language:HI;"></span></strong><br><br></div>
+        <h1 id="maven-tomcat-linux"><a href="#maven-tomcat-linux" class="headerlink" title="maven + tomcat + linux"></a>maven + tomcat + linux</h1><div><br><br>&#x4F7F;&#x7528;maven&#x81EA;&#x52A8;&#x90E8;&#x7F72;war&#x81F3;tomcat6<br><br></div>
 
-<div style="border-bottom:gray 1pt solid;border-left:gray 1pt solid;padding-bottom:4pt;padding-left:4pt;padding-right:4pt;background:#eeeeee;margin-left:15pt;border-top:gray 1pt solid;margin-right:15pt;border-right:gray 1pt solid;padding-top:4pt;mso-element:para-border-div;mso-border-alt:solid gray .75pt;"><br><br><span style="font-family:&#x5B8B;&#x4F53;;color:orange;font-size:12pt;mso-font-kerning:0pt;mso-bidi-font-family:&#x5B8B;&#x4F53;;mso-bidi-language:HI;mso-ascii-font-family:Simsun;mso-hansi-font-family:Simsun;">&#x6700;&#x91CD;&#x8981;&#x7684;&#x662F;</span><span lang="EN-US" style="font-family:Simsun;color:orange;font-size:12pt;mso-font-kerning:0pt;mso-bidi-font-family:&#x5B8B;&#x4F53;;mso-bidi-language:HI;">&#x2014;&#x2014;</span><span style="font-family:&#x5B8B;&#x4F53;;color:orange;font-size:12pt;mso-font-kerning:0pt;mso-bidi-font-family:&#x5B8B;&#x4F53;;mso-bidi-language:HI;mso-ascii-font-family:Simsun;mso-hansi-font-family:Simsun;">&#x8BF7;&#x7ED9;&#x6211;</span><strong></strong></div>
+<div><br><br>mvn tomcat6:deploy<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/03/30/javascript正则快速入门教程/#more">Read More</a>
           
        </p>
     </div>
@@ -268,7 +269,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/javascript正则快速入门教程/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/javascript正则快速入门教程/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/maven + tomcat + linux/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/maven + tomcat + linux/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -566,6 +567,10 @@ $ hexo server
 			
 		
 			
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
 			
 		
@@ -574,19 +579,15 @@ $ hexo server
 			
 		
 			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/路由转发端口到内网服务器/" title="路由转发端口到内网服务器">路由转发端口到内网服务器<sup>1</sup></a></li>
+				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
 			
 		
 			
@@ -610,15 +611,15 @@ $ hexo server
 			
 		
 			
+				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/oh-my-zsh-vim-macos/" title="oh-my-zsh vim macos">oh-my-zsh vim macos<sup>1</sup></a></li>
 			
 		
 		</ul>
