@@ -11,33 +11,36 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="nodejs &amp;#x5F02;&amp;#x6B65;&amp;#x5F02;&amp;#x5E38;&amp;#x5904;&amp;#x7406; &amp;#x73AF;&amp;#x5883;&amp;#xFF1A;
+    <meta name="description" content="nodejs 异步异常处理 环境：
 
 nodejs : 4.4.4express :4.1.13
 pm2 :1.1.3
 
-nodejs&amp;#x5230;&amp;#x76EE;&amp;#x524D;&amp;#x4E3A;&amp;#x6B62;&amp;#x5DF2;&amp;#x7ECF;&amp;#x53D1;&amp;#x884">
+nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。
+那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nodejs异步异常处理">
 <meta property="og:url" content="http://www.huguiqi.com/2016/07/27/nodejs_异步异常处理/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="nodejs &amp;#x5F02;&amp;#x6B65;&amp;#x5F02;&amp;#x5E38;&amp;#x5904;&amp;#x7406; &amp;#x73AF;&amp;#x5883;&amp;#xFF1A;
+<meta property="og:description" content="nodejs 异步异常处理 环境：
 
 nodejs : 4.4.4express :4.1.13
 pm2 :1.1.3
 
-nodejs&amp;#x5230;&amp;#x76EE;&amp;#x524D;&amp;#x4E3A;&amp;#x6B62;&amp;#x5DF2;&amp;#x7ECF;&amp;#x53D1;&amp;#x884">
+nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。
+那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处">
 <meta property="og:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/10004.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0003.png">
 <meta property="og:updated_time" content="2016-07-27T13:38:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nodejs异步异常处理">
-<meta name="twitter:description" content="nodejs &amp;#x5F02;&amp;#x6B65;&amp;#x5F02;&amp;#x5E38;&amp;#x5904;&amp;#x7406; &amp;#x73AF;&amp;#x5883;&amp;#xFF1A;
+<meta name="twitter:description" content="nodejs 异步异常处理 环境：
 
 nodejs : 4.4.4express :4.1.13
 pm2 :1.1.3
 
-nodejs&amp;#x5230;&amp;#x76EE;&amp;#x524D;&amp;#x4E3A;&amp;#x6B62;&amp;#x5DF2;&amp;#x7ECF;&amp;#x53D1;&amp;#x884">
+nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。
+那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/10004.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
@@ -121,27 +124,27 @@ nodejs&amp;#x5230;&amp;#x76EE;&amp;#x524D;&amp;#x4E3A;&amp;#x6B62;&amp;#x5DF2;&a
 		
 		</div>
 		
-		<h1 id="nodejs-&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x5904;&#x7406;"><a href="#nodejs-&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x5904;&#x7406;" class="headerlink" title="nodejs &#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x5904;&#x7406;"></a>nodejs &#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x5904;&#x7406;</h1><p> &#x73AF;&#x5883;&#xFF1A;</p>
+		<h1 id="nodejs-异步异常处理"><a href="#nodejs-异步异常处理" class="headerlink" title="nodejs 异步异常处理"></a>nodejs 异步异常处理</h1><p> 环境：</p>
 <blockquote>
 <p>nodejs : 4.4.4<br>express :4.1.13</p>
 <p>pm2 :1.1.3</p>
 </blockquote>
-<p>nodejs&#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#x5DF2;&#x7ECF;&#x53D1;&#x884C;&#x7684;&#x7A33;&#x5B9A;&#x7248;&#x672C;&#x662F;4.4.4&#xFF0C;&#x800C;&#x7528;nodejs&#x5F00;&#x53D1;&#x7684;&#x7CFB;&#x7EDF;&#x7684;&#x7A33;&#x5065;&#x6027;&#x4E00;&#x76F4;&#x662F;&#x88AB;&#x4EBA;&#x6240;&#x8BDF;&#x75C5;&#x7684;&#xFF0C;&#x73B0;&#x5728;&#x6211;&#x9879;&#x76EE;&#x4E2D;&#x5C31;&#x51FA;&#x73B0;&#x4E00;&#x6709;&#x4E9B;&#x8FD0;&#x884C;&#x9519;&#x8BEF;&#x6216;&#x8005;&#x5F02;&#x5E38;&#xFF0C;&#x5C31;&#x5BFC;&#x81F4;&#x4E86;&#x6574;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x9000;&#x51FA;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
-<p>&#x90A3;nodejs&#x53EF;&#x4E0D;&#x53EF;&#x4EE5;&#x50CF;java&#x4E00;&#x6837;&#xFF0C;&#x6709;&#x4E00;&#x4E2A;&#x7EDF;&#x4E00;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x7684;handller,&#x628A;&#x6240;&#x6709;&#x7684;&#x6CA1;&#x6709;&#x4E1A;&#x52A1;&#x5904;&#x7406;&#x7684;&#x5F02;&#x5E38;&#x629B;&#x51FA;&#x7ED9;&#x7EDF;&#x4E00;&#x7684;ExceptionHandler&#x53BB;&#x5904;&#x7406;&#x5462;&#xFF1F;</p>
-<p><strong>&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x91CC;&#x8981;&#x5904;&#x7406;&#x7684;&#x90FD;&#x662F;&#x5F02;&#x6B65;&#x7684;&#x4E1A;&#x52A1;&#x5F02;&#x5E38;&#xFF0C;&#x540C;&#x6B65;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x4E0D;&#x5728;&#x8FD9;&#x91CC;&#x8BA8;&#x8BBA;</strong></p>
-<p>&#x540C;&#x6B65;&#x5F02;&#x5E38;&#x5904;&#x7406;&#xFF1A;</p>
-<pre><code>//&#x5904;&#x7406;&#x6240;&#x6709;&#x540C;&#x6B65;&#x5F02;&#x5E38;
+<p>nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。</p>
+<p>那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处理的异常抛出给统一的ExceptionHandler去处理呢？</p>
+<p><strong>注意，这里要处理的都是异步的业务异常，同步的异常处理不在这里讨论</strong></p>
+<p>同步异常处理：</p>
+<pre><code>//处理所有同步异常
 app.use(function (err, req, res, next) {
-// &#x5E26;&#x6709;&#x56DB;&#x4E2A;&#x53C2;&#x6570;&#x7684; middleware &#x4E13;&#x95E8;&#x7528;&#x6765;&#x5904;&#x7406;&#x5F02;&#x5E38;
+// 带有四个参数的 middleware 专门用来处理异常
 res.json(&quot;{&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;}&quot;);
 });
-</code></pre><h2 id="&#x600E;&#x4E48;&#x89E3;&#x51B3;"><a href="#&#x600E;&#x4E48;&#x89E3;&#x51B3;" class="headerlink" title="&#x600E;&#x4E48;&#x89E3;&#x51B3;"></a>&#x600E;&#x4E48;&#x89E3;&#x51B3;</h2><p>&#x76EE;&#x524D;&#x5176;&#x5B9E;&#x8FD8;&#x6CA1;&#x6709;&#x5B8C;&#x7F8E;&#x7684;&#x65B9;&#x6CD5;&#x53BB;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x603B;&#x662F;&#x6709;&#x66FF;&#x4EE3;&#x7684;&#x6216;&#x8005;&#x76F8;&#x4F3C;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#xFF1A;</p>
+</code></pre><h2 id="怎么解决"><a href="#怎么解决" class="headerlink" title="怎么解决"></a>怎么解决</h2><p>目前其实还没有完美的方法去解决这个问题，但总是有替代的或者相似的解决方案：</p>
 <ul>
-<li>uncaughtException&#x4E8B;&#x4EF6;&#x76D1;&#x542C;</li>
-<li>&#x4F7F;&#x7528;domain&#x6A21;&#x5757;&#x6355;&#x6349;&#x5F02;&#x5E38;</li>
+<li>uncaughtException事件监听</li>
+<li>使用domain模块捕捉异常</li>
 </ul>
-<h3 id="uncaughtException&#x4E8B;&#x4EF6;&#x76D1;&#x542C;"><a href="#uncaughtException&#x4E8B;&#x4EF6;&#x76D1;&#x542C;" class="headerlink" title="uncaughtException&#x4E8B;&#x4EF6;&#x76D1;&#x542C;"></a>uncaughtException&#x4E8B;&#x4EF6;&#x76D1;&#x542C;</h3><p>uncaughtException &#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x53E4;&#x8001;&#x7684;&#x4E8B;&#x4EF6;&#x3002;&#x5F53; Node &#x53D1;&#x73B0;&#x4E00;&#x4E2A;&#x672A;&#x6355;&#x83B7;&#x7684;&#x5F02;&#x5E38;&#x65F6;&#xFF0C;&#x4F1A;&#x89E6;&#x53D1;&#x8FD9;&#x4E2A;&#x4E8B;&#x4EF6;&#x3002;&#x5E76;&#x4E14;&#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x4E8B;&#x4EF6;&#x5B58;&#x5728;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;Node &#x5C31;&#x4E0D;&#x4F1A;&#x5F3A;&#x5236;&#x7ED3;&#x675F;&#x8FDB;&#x7A0B;&#x3002;</p>
-<p>&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x5C06;&#x6709;&#x53EF;&#x80FD;&#x51FA;&#x9519;&#x7684;&#x4EE3;&#x7801;&#x653E;&#x5230;try/catch&#x5757;&#x91CC;&#x3002;&#x4F46;&#x662F;&#x5230;&#x4E86;Node.js&#xFF0C;&#x7531;&#x4E8E;try/catch&#x65E0;&#x6CD5;&#x6355;&#x6349;&#x5F02;&#x6B65;&#x56DE;&#x8C03;&#x91CC;&#x7684;&#x5F02;&#x5E38;&#xFF0C;Node.js&#x539F;&#x751F;&#x63D0;&#x4F9B;uncaughtException&#x4E8B;&#x4EF6;&#x6302;&#x5230;process&#x5BF9;&#x8C61;&#x4E0A;&#xFF0C;&#x7528;&#x4E8E;&#x6355;&#x83B7;&#x6240;&#x6709;&#x672A;&#x5904;&#x7406;&#x7684;&#x5F02;&#x5E38;&#xFF0C;&#x4EE5;&#x4E0B;&#x662F;&#x4E00;&#x4E2A;&#x6A21;&#x4F3C;&#x4E00;&#x4E2A;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#xFF1A;</p>
+<h3 id="uncaughtException事件监听"><a href="#uncaughtException事件监听" class="headerlink" title="uncaughtException事件监听"></a>uncaughtException事件监听</h3><p>uncaughtException 是一个非常古老的事件。当 Node 发现一个未捕获的异常时，会触发这个事件。并且如果这个事件存在回调函数，Node 就不会强制结束进程。</p>
+<p>一般情况下，我们会将有可能出错的代码放到try/catch块里。但是到了Node.js，由于try/catch无法捕捉异步回调里的异常，Node.js原生提供uncaughtException事件挂到process对象上，用于捕获所有未处理的异常，以下是一个模似一个异步异常：</p>
 <pre><code>process.on(&apos;uncaughtException&apos;, function(err) {
 console.error(&apos;Error caught in uncaughtException event:&apos;, err);
 });
@@ -156,21 +159,21 @@ process.nextTick(function() {
 } catch(e) {
 console.error(&apos;Error caught by catch block:&apos;, e);
 }
-</code></pre><p>&#x6267;&#x884C;&#x7684;&#x7ED3;&#x679C;&#x662F;&#x4EE3;&#x7801;&#x8FDB;&#x5230;&#x4E86;uncaughtException&#x7684;&#x56DE;&#x8C03;&#x91CC;&#x800C;&#x4E0D;&#x662F;catch&#x5757;&#x3002; uncaughtException&#x867D;&#x7136;&#x80FD;&#x591F;&#x6355;&#x83B7;&#x5F02;&#x5E38;&#xFF0C;&#x4F46;&#x662F;&#x6B64;&#x65F6;&#x9519;&#x8BEF;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x5DF2;&#x7ECF;&#x4E22;&#x5931;&#xFF0C;&#x5373;&#x4F7F;&#x770B;&#x5230;&#x9519;&#x8BEF;&#x4E5F;&#x4E0D;&#x77E5;&#x9053;&#x54EA;&#x513F;&#x62A5;&#x7684;&#x9519;&#xFF0C;&#x5B9A;&#x4F4D;&#x95EE;&#x9898;&#x975E;&#x5E38;&#x7684;&#x4E0D;&#x5229;&#x3002;&#x800C;&#x4E14;&#x4E00;&#x65E6;uncaughtException&#x4E8B;&#x4EF6;&#x89E6;&#x53D1;&#xFF0C;&#x800C;&#x4E14;&#x6211;&#x4EEC;&#x6CA1;&#x6709;&#x81EA;&#x5B9A;&#x4E49;&#x91CD;&#x5199;process&#x7684;uncaughtException&#x6302;&#x8F7D;&#x7684;&#x8BDD;&#xFF0C;&#x6574;&#x4E2A;node&#x8FDB;&#x7A0B;&#x5C06;crash&#x6389;&#x3002;</p>
-<p>NodeJS&#x5BF9;&#x4E8E;&#x672A;&#x6355;&#x83B7;&#x5F02;&#x5E38;&#x7684;&#x9ED8;&#x8BA4;&#x5904;&#x7406;&#x662F;&#xFF1A; - &#x89E6;&#x53D1; uncaughtException &#x4E8B;&#x4EF6; - &#x5982;&#x679C; uncaughtException &#x6CA1;&#x6709;&#x88AB;&#x76D1;&#x542C;&#xFF0C;&#x90A3;&#x4E48; - &#x6253;&#x5370;&#x5F02;&#x5E38;&#x7684;&#x5806;&#x6808;&#x4FE1;&#x606F; - &#x89E6;&#x53D1;&#x8FDB;&#x7A0B;&#x7684; exit &#x4E8B;&#x4EF6;;<br><a id="more"></a></p>
-<p>&#x5728;app.js&#x91CC;&#x76D1;&#x542C;&#x4E86;uncaughtException&#x65B9;&#x6CD5;&#x7684;&#x8BDD;&#xFF0C;&#x8FDB;&#x7A0B;&#x662F;&#x4E0D;&#x4F1A;&#x9000;&#x51FA;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x540E;&#x9762;&#x5185;&#x5B58;&#x4F1A;&#x4E00;&#x76F4;&#x98D9;&#x5347;&#xFF0C;&#x6BD4;&#x5982;&#xFF0C;&#x6211;&#x8BF7;&#x6C42;&#x4E86;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x91CC;&#x9762;&#x6A21;&#x4F3C;&#x4E86;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x629B;&#x51FA;&#xFF1A;</p>
+</code></pre><p>执行的结果是代码进到了uncaughtException的回调里而不是catch块。 uncaughtException虽然能够捕获异常，但是此时错误的上下文已经丢失，即使看到错误也不知道哪儿报的错，定位问题非常的不利。而且一旦uncaughtException事件触发，而且我们没有自定义重写process的uncaughtException挂载的话，整个node进程将crash掉。</p>
+<p>NodeJS对于未捕获异常的默认处理是： - 触发 uncaughtException 事件 - 如果 uncaughtException 没有被监听，那么 - 打印异常的堆栈信息 - 触发进程的 exit 事件;<br><a id="more"></a></p>
+<p>在app.js里监听了uncaughtException方法的话，进程是不会退出的，但是后面内存会一直飙升，比如，我请求了一个接口，里面模似了异步异常抛出：</p>
 <pre><code>app.get(&apos;/&apos;, function (req, res) {
  setTimeout(function () {
-     throw new Error(&apos;async exception&apos;); // &#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x5F02;&#x6B65;&#x5F02;&#x5E38;
+     throw new Error(&apos;async exception&apos;); // 抛出一个异步异常
  }, 1000);
 
 });
-</code></pre><p>&#x6267;&#x884C;&#x5B8C;&#x4E86;&#x4EE5;&#x540E;&#xFF0C;&#x5C31;&#x4F1A;&#x89E6;&#x53D1;&#xFF1A;uncaughtException&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x4E0D;&#x4F1A;&#x7ACB;&#x9A6C;&#x9000;&#x51FA;&#xFF0C;&#x7528;pm2&#x76D1;&#x63A7;&#x4E86;&#x4ED6;&#x7684;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x60C5;&#x51B5;&#xFF0C;&#x4ECE;19M&#x5230; 50.309 MB&#x7684;&#x5185;&#x5B58;&#x5360;&#x7528;&#xFF0C;&#x4F30;&#x8BA1;&#x968F;&#x7740;&#x65F6;&#x95F4;&#x7684;&#x589E;&#x52A0;&#xFF0C;&#x5185;&#x5B58;&#x4F1A;&#x4E00;&#x76F4;&#x6500;&#x5347;&#x3002;</p>
+</code></pre><p>执行完了以后，就会触发：uncaughtException方法，但不会立马退出，用pm2监控了他的内存使用情况，从19M到 50.309 MB的内存占用，估计随着时间的增加，内存会一直攀升。</p>
 <p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/10004.png" alt="image"></p>
-<h3 id="&#x4F7F;&#x7528;domain&#x6A21;&#x5757;&#x6355;&#x6349;&#x5F02;&#x5E38;"><a href="#&#x4F7F;&#x7528;domain&#x6A21;&#x5757;&#x6355;&#x6349;&#x5F02;&#x5E38;" class="headerlink" title="&#x4F7F;&#x7528;domain&#x6A21;&#x5757;&#x6355;&#x6349;&#x5F02;&#x5E38;"></a>&#x4F7F;&#x7528;domain&#x6A21;&#x5757;&#x6355;&#x6349;&#x5F02;&#x5E38;</h3><h2 id="&#x4F7F;&#x7528;pm2&#x6765;&#x89E3;&#x51B3;&#x7A0B;&#x5E8F;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x81EA;&#x52A8;&#x9000;&#x51FA;"><a href="#&#x4F7F;&#x7528;pm2&#x6765;&#x89E3;&#x51B3;&#x7A0B;&#x5E8F;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x81EA;&#x52A8;&#x9000;&#x51FA;" class="headerlink" title="&#x4F7F;&#x7528;pm2&#x6765;&#x89E3;&#x51B3;&#x7A0B;&#x5E8F;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x81EA;&#x52A8;&#x9000;&#x51FA;"></a>&#x4F7F;&#x7528;pm2&#x6765;&#x89E3;&#x51B3;&#x7A0B;&#x5E8F;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x81EA;&#x52A8;&#x9000;&#x51FA;</h2><p>&#x5F53;&#x6709;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x5BFC;&#x81F4;&#x670D;&#x52A1;&#x8FDB;&#x7A0B;&#x81EA;&#x52A8;&#x9000;&#x51FA;&#x65F6;&#xFF0C;pm2&#x4F1A;&#x81EA;&#x52A8;&#x91CD;&#x542F;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x6211;&#x8BF7;&#x6C42;&#x4E86;&#x4E24;&#x6B21;&#x6709;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x7684;&#x63A5;&#x53E3;(&#x4F1A;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x9000;&#x51FA;)&#xFF0C;&#x6BCF;&#x8BF7;&#x6C42;&#x4E00;&#x6B21;&#xFF0C;&#x5B8C;&#x4E86;&#x540E;&#xFF0C;&#x5728;&#x7EC8;&#x7AEF;&#x6267;&#x884C;&#xFF1A;<code>pm2 show testExpress</code>,&#x5F97;&#x5230;&#x5982;&#x4E0B;&#x7ED3;&#x679C;&#xFF1A;</p>
+<h3 id="使用domain模块捕捉异常"><a href="#使用domain模块捕捉异常" class="headerlink" title="使用domain模块捕捉异常"></a>使用domain模块捕捉异常</h3><h2 id="使用pm2来解决程序异步异常自动退出"><a href="#使用pm2来解决程序异步异常自动退出" class="headerlink" title="使用pm2来解决程序异步异常自动退出"></a>使用pm2来解决程序异步异常自动退出</h2><p>当有异步异常导致服务进程自动退出时，pm2会自动重启应用程序，我请求了两次有异步异常的接口(会导致程序退出)，每请求一次，完了后，在终端执行：<code>pm2 show testExpress</code>,得到如下结果：</p>
 <p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0003.png" alt="image"></p>
-<p>&#x8FD9;&#x662F;&#x4E3A;&#x4EC0;&#x4E48;&#xFF1F;&#x4E0D;&#x8981;&#x95EE;&#x6211;&#x4E3A;&#x4EC0;&#x4E48;&#xFF0C;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;pm2 0.7.1 &#x5F00;&#x59CB;&#xFF0C;&#x5BF9;&#x56E0;&#x4E3A;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#x89E6;&#x53D1;uncaughtException&#x65B9;&#x6CD5;&#x5BFC;&#x81F4;&#x7684;&#x7A0B;&#x5E8F;&#x9000;&#x51FA;&#x4F5C;&#x4E86;&#x4F18;&#x5316;&#xFF0C;&#x53EA;&#x8981;&#x8FDB;&#x7A0B;&#x9000;&#x51FA;&#xFF0C;&#x5C31;&#x4F1A;&#x901A;&#x8FC7;pm2&#x81EA;&#x52A8;&#x91CD;&#x542F;&#x5F53;&#x524D;&#x7A0B;&#x5E8F;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7528;&#x4E86;nodejs&#x7684;cluster&#x81EA;&#x5E26;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#xFF0C;&#x5219;&#x4F1A;&#x91CD;&#x542F;&#x5F53;&#x524D;&#x5206;&#x914D;&#x7684;&#x670D;&#x52A1;&#x3002;</p>
-<p>&#x6240;&#x4EE5;&#xFF0C;&#x6B63;&#x786E;&#x7684;&#x5BF9;uncaughtException&#x7684;&#x5904;&#x7406;&#x662F;&#xFF1A;</p>
+<p>这是为什么？不要问我为什么，这是因为pm2 0.7.1 开始，对因为异步异常触发uncaughtException方法导致的程序退出作了优化，只要进程退出，就会通过pm2自动重启当前程序，如果你用了nodejs的cluster自带的负载均衡，则会重启当前分配的服务。</p>
+<p>所以，正确的对uncaughtException的处理是：</p>
 <pre><code>process.on(&apos;uncaughtException&apos;, function(err) {
 
 try {
@@ -189,12 +192,12 @@ try {
     console.log(&apos;error when exit&apos;, e.stack);
 }
 });
-</code></pre><p>&#x90A3;&#x914D;&#x5408;pm2&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x7EDD;&#x5BF9;&#x795E;&#x4F5C;&#x3002;&#x3002;&#x3002;&#x3002;</p>
-<p>&#x5BF9;&#x4E8E;&#x4E00;&#x822C;&#x7684;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#xFF0C;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x9000;&#x51FA;&#x7684;&#x4E1A;&#x52A1;&#x5F02;&#x5E38;&#xFF0C;&#x5219;&#x7528;domain&#x6765;&#x89E3;&#x51B3;&#xFF1A;</p>
-<p>&#x6BD4;&#x5982;&#x8FD9;&#x4E2A;&#x5F02;&#x6B65;&#x5F02;&#x5E38;&#xFF1A;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">app.get(&apos;/&apos;, function (req, res) {</div><div class="line">    // if(!req.params.name)</div><div class="line">    //     throw new Error(&apos;sync exception&apos;); // &#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x540C;&#x6B65;&#x5F02;&#x5E38;</div><div class="line">    //</div><div class="line">    setTimeout(function () {</div><div class="line">        throw new Error(&apos;async exception&apos;); // &#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x5F02;&#x6B65;&#x5F02;&#x5E38;</div><div class="line">    }, 1000);</div><div class="line"></div><div class="line">});</div></pre></td></tr></table></figure>
-<p>&#x8FD9;&#x4E2A;&#x81EA;&#x5B9A;&#x4E49;&#x7684;error&#x5F02;&#x5E38;&#xFF0C;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x7A0B;&#x5E8F;&#x9000;&#x51FA;&#xFF0C;&#x4E5F;&#x5C31;&#x4E0D;&#x4F1A;&#x8C03;&#x7528;uncaughtException&#x65B9;&#x6CD5;&#x3002;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">// &#x4F7F;&#x7528; domain &#x6765;&#x6355;&#x83B7;&#x5927;&#x90E8;&#x5206;&#x5F02;&#x5E38;</div><div class="line">app.use(function (req, res, next) {</div><div class="line">    var reqDomain = domain.create();</div><div class="line">    reqDomain.on(&apos;error&apos;, function (err) { // &#x4E0B;&#x9762;&#x629B;&#x51FA;&#x7684;&#x5F02;&#x5E38;&#x5728;&#x8FD9;&#x91CC;&#x88AB;&#x6355;&#x83B7;,&#x53EA;&#x6709;&#x5F02;&#x6B65;&#x5F02;&#x5E38;</div><div class="line">        res.send(&quot;{&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;}&quot;); // &#x6210;&#x529F;&#x7ED9;&#x7528;&#x6237;&#x8FD4;&#x56DE;&#x4E86; 500</div><div class="line">        try {</div><div class="line">            // &#x5F3A;&#x5236;&#x9000;&#x51FA;&#x673A;&#x5236;</div><div class="line">            var killTimer = setTimeout(function () {</div><div class="line">                process.exit(1);</div><div class="line">            }, 30000);</div><div class="line">            killTimer.unref(); // &#x975E;&#x5E38;&#x91CD;&#x8981;</div><div class="line">        </div><div class="line">            // &#x81EA;&#x52A8;&#x9000;&#x51FA;&#x673A;&#x5236;&#xFF0C;&#x505C;&#x6B62;&#x63A5;&#x6536;&#x65B0;&#x94FE;&#x63A5;&#xFF0C;&#x7B49;&#x5F85;&#x5F53;&#x524D;&#x5DF2;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x7684;&#x5173;&#x95ED;</div><div class="line">            server.close(function () {</div><div class="line">                // &#x6B64;&#x65F6;&#x6240;&#x6709;&#x8FDE;&#x63A5;&#x5747;&#x5DF2;&#x5173;&#x95ED;&#xFF0C;&#x6B64;&#x65F6; Node &#x4F1A;&#x81EA;&#x52A8;&#x9000;&#x51FA;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x518D;&#x8C03;&#x7528;</div><div class="line">                process.exit(1); //&#x6765;&#x7ED3;&#x675F;&#x8FDB;&#x7A0B;</div><div class="line">            });</div><div class="line">        } catch(e) {</div><div class="line">            console.log(&apos;err&apos;, e.stack);</div><div class="line">        }</div><div class="line"></div><div class="line">    });</div><div class="line"></div><div class="line">    reqDomain.run(next);</div><div class="line"></div><div class="line">});</div></pre></td></tr></table></figure>  
+</code></pre><p>那配合pm2一起使用，绝对神作。。。。</p>
+<p>对于一般的异步异常，不会导致程序退出的业务异常，则用domain来解决：</p>
+<p>比如这个异步异常：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">app.get(&apos;/&apos;, function (req, res) &#123;</div><div class="line">    // if(!req.params.name)</div><div class="line">    //     throw new Error(&apos;sync exception&apos;); // 抛出一个同步异常</div><div class="line">    //</div><div class="line">    setTimeout(function () &#123;</div><div class="line">        throw new Error(&apos;async exception&apos;); // 抛出一个异步异常</div><div class="line">    &#125;, 1000);</div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这个自定义的error异常，不会导致程序退出，也就不会调用uncaughtException方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">// 使用 domain 来捕获大部分异常</div><div class="line">app.use(function (req, res, next) &#123;</div><div class="line">    var reqDomain = domain.create();</div><div class="line">    reqDomain.on(&apos;error&apos;, function (err) &#123; // 下面抛出的异常在这里被捕获,只有异步异常</div><div class="line">        res.send(&quot;&#123;&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;&#125;&quot;); // 成功给用户返回了 500</div><div class="line">        try &#123;</div><div class="line">            // 强制退出机制</div><div class="line">            var killTimer = setTimeout(function () &#123;</div><div class="line">                process.exit(1);</div><div class="line">            &#125;, 30000);</div><div class="line">            killTimer.unref(); // 非常重要</div><div class="line">        </div><div class="line">            // 自动退出机制，停止接收新链接，等待当前已建立连接的关闭</div><div class="line">            server.close(function () &#123;</div><div class="line">                // 此时所有连接均已关闭，此时 Node 会自动退出，不需要再调用</div><div class="line">                process.exit(1); //来结束进程</div><div class="line">            &#125;);</div><div class="line">        &#125; catch(e) &#123;</div><div class="line">            console.log(&apos;err&apos;, e.stack);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    reqDomain.run(next);</div><div class="line"></div><div class="line">&#125;);</div></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -230,10 +233,10 @@ try {
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/07/27/无标题/" title="git 撤销commit">
+ <a href="/2016/08/05/实现js的map类/" title="实现JS的Map类">
   <strong>上一篇：</strong><br/>
   <span>
-  git 撤销commit</span>
+  实现JS的Map类</span>
 </a>
 </div>
 
@@ -310,11 +313,23 @@ try {
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -326,7 +341,7 @@ try {
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -383,6 +398,14 @@ try {
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -395,15 +418,7 @@ try {
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -415,7 +430,7 @@ try {
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -427,7 +442,7 @@ try {
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			

@@ -11,17 +11,17 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="CocoaPods &amp;#x7684;&amp;#x4E00;&amp;#x4E9B;&amp;#x7565;&amp;#x4E3A;&amp;#x9AD8;&amp;#x7EA7;&amp;#x4E00;&amp;#x4E01;&amp;#x70B9;&amp;#x7684;&amp;#x4F7F;&amp;#x7528;&amp;#x8BB0;&amp;#x5F97;&amp;#x6211;&amp;#x521A;&amp;#x5F00;&amp;#x59CB;&amp;#x505A;iOS&amp;#x5F00;&amp;#x53D1;&amp;#x7684;&amp;#x">
+    <meta name="description" content="CocoaPods 的一些略为高级一丁点的使用记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当中早已经出现，甚至成为了开发的标配，尽管如此，CocoaPods依然是对iOS/Mac开发做出了巨大的贡献，在此为Coc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CocoaPods 的一些略为高级一丁点的使用">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="CocoaPods &amp;#x7684;&amp;#x4E00;&amp;#x4E9B;&amp;#x7565;&amp;#x4E3A;&amp;#x9AD8;&amp;#x7EA7;&amp;#x4E00;&amp;#x4E01;&amp;#x70B9;&amp;#x7684;&amp;#x4F7F;&amp;#x7528;&amp;#x8BB0;&amp;#x5F97;&amp;#x6211;&amp;#x521A;&amp;#x5F00;&amp;#x59CB;&amp;#x505A;iOS&amp;#x5F00;&amp;#x53D1;&amp;#x7684;&amp;#x">
+<meta property="og:description" content="CocoaPods 的一些略为高级一丁点的使用记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当中早已经出现，甚至成为了开发的标配，尽管如此，CocoaPods依然是对iOS/Mac开发做出了巨大的贡献，在此为Coc">
 <meta property="og:image" content="http://7xjazj.com1.z0.glb.clouddn.com/cocoapods-xcode-plugin.png">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CocoaPods 的一些略为高级一丁点的使用">
-<meta name="twitter:description" content="CocoaPods &amp;#x7684;&amp;#x4E00;&amp;#x4E9B;&amp;#x7565;&amp;#x4E3A;&amp;#x9AD8;&amp;#x7EA7;&amp;#x4E00;&amp;#x4E01;&amp;#x70B9;&amp;#x7684;&amp;#x4F7F;&amp;#x7528;&amp;#x8BB0;&amp;#x5F97;&amp;#x6211;&amp;#x521A;&amp;#x5F00;&amp;#x59CB;&amp;#x505A;iOS&amp;#x5F00;&amp;#x53D1;&amp;#x7684;&amp;#x">
+<meta name="twitter:description" content="CocoaPods 的一些略为高级一丁点的使用记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当中早已经出现，甚至成为了开发的标配，尽管如此，CocoaPods依然是对iOS/Mac开发做出了巨大的贡献，在此为Coc">
 <meta name="twitter:image" content="http://7xjazj.com1.z0.glb.clouddn.com/cocoapods-xcode-plugin.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
@@ -105,24 +105,24 @@
 		
 		</div>
 		
-		<h1 id="CocoaPods-&#x7684;&#x4E00;&#x4E9B;&#x7565;&#x4E3A;&#x9AD8;&#x7EA7;&#x4E00;&#x4E01;&#x70B9;&#x7684;&#x4F7F;&#x7528;"><a href="#CocoaPods-&#x7684;&#x4E00;&#x4E9B;&#x7565;&#x4E3A;&#x9AD8;&#x7EA7;&#x4E00;&#x4E01;&#x70B9;&#x7684;&#x4F7F;&#x7528;" class="headerlink" title="CocoaPods &#x7684;&#x4E00;&#x4E9B;&#x7565;&#x4E3A;&#x9AD8;&#x7EA7;&#x4E00;&#x4E01;&#x70B9;&#x7684;&#x4F7F;&#x7528;"></a>CocoaPods &#x7684;&#x4E00;&#x4E9B;&#x7565;&#x4E3A;&#x9AD8;&#x7EA7;&#x4E00;&#x4E01;&#x70B9;&#x7684;&#x4F7F;&#x7528;</h1><p>&#x8BB0;&#x5F97;&#x6211;&#x521A;&#x5F00;&#x59CB;&#x505A;iOS&#x5F00;&#x53D1;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x662F;&#x6CA1;&#x6709;&#x9879;&#x76EE;&#x4F9D;&#x8D56;&#x7BA1;&#x7406;&#x5DE5;&#x5177;&#x3002;&#x5F53;&#x9700;&#x8981;&#x5F15;&#x5165;&#x7B2C;&#x4E09;&#x65B9;&#x5E93;&#x7684;&#x65F6;&#x5019;&#x662F;&#x76F8;&#x5F53;&#x9EBB;&#x70E6;&#x7684;&#xFF0C;&#x4E0D;&#x662F;&#x76F4;&#x63A5;&#x62F7;&#x8D1D;&#x5E93;&#x8FD1;&#x6765;&#xFF0C;&#x5C31;&#x662F;&#x6DFB;&#x52A0;&#x4F9D;&#x8D56;&#x5DE5;&#x7A0B;&#xFF0C;&#x76F4;&#x5230;CocoaPods&#x51FA;&#x6765;&#x624D;&#x6539;&#x53D8;&#x8FD9;&#x4E2A;&#x72B6;&#x51B5;&#x3002;&#x9879;&#x76EE;&#x4F9D;&#x8D56;&#x7BA1;&#x7406;&#x4E0D;&#x662F;CocoaPods&#x9996;&#x521B;&#xFF0C;&#x5728;&#x5F88;&#x591A;&#x5176;&#x4ED6;&#x5DE5;&#x7A0B;&#x5F00;&#x53D1;&#x5F53;&#x4E2D;&#x65E9;&#x5DF2;&#x7ECF;&#x51FA;&#x73B0;&#xFF0C;&#x751A;&#x81F3;&#x6210;&#x4E3A;&#x4E86;&#x5F00;&#x53D1;&#x7684;&#x6807;&#x914D;&#xFF0C;&#x5C3D;&#x7BA1;&#x5982;&#x6B64;&#xFF0C;CocoaPods&#x4F9D;&#x7136;&#x662F;&#x5BF9;iOS/Mac&#x5F00;&#x53D1;&#x505A;&#x51FA;&#x4E86;&#x5DE8;&#x5927;&#x7684;&#x8D21;&#x732E;&#xFF0C;&#x5728;&#x6B64;&#x4E3A;CocoaPods&#x505A;&#x51FA;&#x8D21;&#x732E;&#x7684;&#x4EBA;&#x8868;&#x793A;&#x611F;&#x8C22;&#x3002;</p>
-<p>CocoaPods&#x529F;&#x80FD;&#x4E0D;&#x7B97;&#x592A;&#x5F3A;&#x5927;&#xFF0C;&#x4F46;&#x5927;&#x90E8;&#x5206;&#x65F6;&#x5019;&#x8DB3;&#x591F;&#x597D;&#x7528;&#xFF0C;&#x4EC5;&#x4EC5;&#x662F;&#x6700;&#x57FA;&#x672C;&#x7684;&#x6837;&#x4F8B;&#x914D;&#x7F6E;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x6EE1;&#x8DB3;&#x4F60;&#x9879;&#x76EE;&#x7684;&#x5927;&#x90E8;&#x5206;&#x9700;&#x6C42;&#xFF0C;&#x4F46;&#x4E86;&#x89E3;&#x66F4;&#x591A;&#x7684;&#x4E00;&#x4E00;&#x4E9B;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x4F1A;&#x8BA9;&#x4F60;&#x66F4;&#x5F97;&#x5FC3;&#x5E94;&#x624B;&#x3002;</p>
-<h4 id="&#x6307;&#x5B9A;&#x6E90;"><a href="#&#x6307;&#x5B9A;&#x6E90;" class="headerlink" title="&#x6307;&#x5B9A;&#x6E90;"></a>&#x6307;&#x5B9A;&#x6E90;</h4><p>CocoaPods&#x652F;&#x6301;&#x79C1;&#x6709; Spec<br>&#x4ED3;&#x5E93;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5EFA;&#x7ACB;&#x81EA;&#x5DF1;&#x7684;&#x6E90;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x975E;&#x5B98;&#x65B9;&#x7684;&#x6E90;&#xFF0C;&#x53EA;&#x8981;&#x662F;&#x7B26;&#x5408;&#x89C4;&#x5B9A;&#x7684;&#x90FD;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x3002;</p>
-<h4 id="&#x6291;&#x5236;&#x8B66;&#x544A;"><a href="#&#x6291;&#x5236;&#x8B66;&#x544A;" class="headerlink" title="&#x6291;&#x5236;&#x8B66;&#x544A;"></a>&#x6291;&#x5236;&#x8B66;&#x544A;</h4><p>inhibit_warnings&#x53C2;&#x6570;&#x80FD;&#x591F;&#x6709;&#x6548;&#x7684;&#x6291;&#x5236;CocoaPods&#x5F15;&#x5165;&#x7684;&#x7B2C;&#x4E09;&#x65B9;&#x4EE3;&#x7801;&#x5E93;&#x4EA7;&#x751F;&#x7684;warning&#x3002;</p>
-<p>&#x53EF;&#x4EE5;&#x5168;&#x90E8;&#x6307;&#x5B9A;&#x3002;</p>
-<p>&#x4E5F;&#x53EF;&#x4EE5;&#x9488;&#x5BF9;&#x6307;&#x5B9A;&#x3002;</p>
-<h4 id="&#x4F7F;&#x7528;git&#x7684;HEAD&#x6307;&#x5411;&#x7684;&#x5206;&#x652F;"><a href="#&#x4F7F;&#x7528;git&#x7684;HEAD&#x6307;&#x5411;&#x7684;&#x5206;&#x652F;" class="headerlink" title="&#x4F7F;&#x7528;git&#x7684;HEAD&#x6307;&#x5411;&#x7684;&#x5206;&#x652F;"></a>&#x4F7F;&#x7528;git&#x7684;HEAD&#x6307;&#x5411;&#x7684;&#x5206;&#x652F;</h4><h4 id="&#x4F7F;&#x7528;-master-&#x5206;&#x652F;"><a href="#&#x4F7F;&#x7528;-master-&#x5206;&#x652F;" class="headerlink" title="&#x4F7F;&#x7528; master &#x5206;&#x652F;"></a>&#x4F7F;&#x7528; master &#x5206;&#x652F;</h4><h3 id="&#x6307;&#x5B9A;branch"><a href="#&#x6307;&#x5B9A;branch" class="headerlink" title="&#x6307;&#x5B9A;branch"></a>&#x6307;&#x5B9A;branch</h3><h4 id="&#x6307;&#x5B9A;tag"><a href="#&#x6307;&#x5B9A;tag" class="headerlink" title="&#x6307;&#x5B9A;tag"></a>&#x6307;&#x5B9A;tag</h4><h3 id="&#x6307;&#x5B9A;commit"><a href="#&#x6307;&#x5B9A;commit" class="headerlink" title="&#x6307;&#x5B9A;commit"></a>&#x6307;&#x5B9A;commit</h3><h4 id="&#x4F7F;&#x7528;&#x5B50;&#x5E93;"><a href="#&#x4F7F;&#x7528;&#x5B50;&#x5E93;" class="headerlink" title="&#x4F7F;&#x7528;&#x5B50;&#x5E93;"></a>&#x4F7F;&#x7528;&#x5B50;&#x5E93;</h4><p>&#x53EF;&#x4EE5;&#x8FD9;&#x6837;</p>
-<p>&#x4E5F;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x6307;&#x5B9A;&#x591A;&#x4E2A;&#x5B50;&#x5E93;</p>
+		<h1 id="CocoaPods-的一些略为高级一丁点的使用"><a href="#CocoaPods-的一些略为高级一丁点的使用" class="headerlink" title="CocoaPods 的一些略为高级一丁点的使用"></a>CocoaPods 的一些略为高级一丁点的使用</h1><p>记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当中早已经出现，甚至成为了开发的标配，尽管如此，CocoaPods依然是对iOS/Mac开发做出了巨大的贡献，在此为CocoaPods做出贡献的人表示感谢。</p>
+<p>CocoaPods功能不算太强大，但大部分时候足够好用，仅仅是最基本的样例配置，就可以满足你项目的大部分需求，但了解更多的一一些的特性，会让你更得心应手。</p>
+<h4 id="指定源"><a href="#指定源" class="headerlink" title="指定源"></a>指定源</h4><p>CocoaPods支持私有 Spec<br>仓库的，我们可以建立自己的源，也可以使用非官方的源，只要是符合规定的都可以指定。</p>
+<h4 id="抑制警告"><a href="#抑制警告" class="headerlink" title="抑制警告"></a>抑制警告</h4><p>inhibit_warnings参数能够有效的抑制CocoaPods引入的第三方代码库产生的warning。</p>
+<p>可以全部指定。</p>
+<p>也可以针对指定。</p>
+<h4 id="使用git的HEAD指向的分支"><a href="#使用git的HEAD指向的分支" class="headerlink" title="使用git的HEAD指向的分支"></a>使用git的HEAD指向的分支</h4><h4 id="使用-master-分支"><a href="#使用-master-分支" class="headerlink" title="使用 master 分支"></a>使用 master 分支</h4><h3 id="指定branch"><a href="#指定branch" class="headerlink" title="指定branch"></a>指定branch</h3><h4 id="指定tag"><a href="#指定tag" class="headerlink" title="指定tag"></a>指定tag</h4><h3 id="指定commit"><a href="#指定commit" class="headerlink" title="指定commit"></a>指定commit</h3><h4 id="使用子库"><a href="#使用子库" class="headerlink" title="使用子库"></a>使用子库</h4><p>可以这样</p>
+<p>也可以这样指定多个子库</p>
 <a id="more"></a>
-<h4 id="&#x4F7F;&#x7528;&#x672C;&#x5730;&#x4EE3;&#x7801;"><a href="#&#x4F7F;&#x7528;&#x672C;&#x5730;&#x4EE3;&#x7801;" class="headerlink" title="&#x4F7F;&#x7528;&#x672C;&#x5730;&#x4EE3;&#x7801;"></a>&#x4F7F;&#x7528;&#x672C;&#x5730;&#x4EE3;&#x7801;</h4><p>&#x901A;&#x8FC7;:path&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x672C;&#x5730;&#x4EE3;&#x7801;&#xFF0C;&#x4E0D;&#x8FC7;&#x9700;&#x8981;&#x786E;&#x4FDD;&#x76EE;&#x5F55;&#x5305;&#x542B;podspec&#x6587;&#x4EF6;&#x3002;</p>
-<h4 id="&#x6307;&#x5B9A;target&#x7684;&#x4F9D;&#x8D56;&#x5E93;"><a href="#&#x6307;&#x5B9A;target&#x7684;&#x4F9D;&#x8D56;&#x5E93;" class="headerlink" title="&#x6307;&#x5B9A;target&#x7684;&#x4F9D;&#x8D56;&#x5E93;"></a>&#x6307;&#x5B9A;target&#x7684;&#x4F9D;&#x8D56;&#x5E93;</h4><h4 id="&#x6392;&#x9664;taget"><a href="#&#x6392;&#x9664;taget" class="headerlink" title="&#x6392;&#x9664;taget"></a>&#x6392;&#x9664;taget</h4><h4 id="&#x6307;&#x5B9A;xcodeproj"><a href="#&#x6307;&#x5B9A;xcodeproj" class="headerlink" title="&#x6307;&#x5B9A;xcodeproj"></a>&#x6307;&#x5B9A;xcodeproj</h4><p>&#x9ED8;&#x8BA4;&#x4F1A;&#x4F7F;&#x7528;Podfile&#x6587;&#x4EF6;&#x540C;&#x7EA7;&#x76EE;&#x5F55;&#x4E0B;&#x7B2C;&#x4E00;&#x4E2A;xcodeproj&#xFF0C;&#x4F46;&#x4E5F;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;</p>
-<h4 id="&#x6307;&#x5B9A;&#x8FDE;&#x63A5;&#x7684;target"><a href="#&#x6307;&#x5B9A;&#x8FDE;&#x63A5;&#x7684;target" class="headerlink" title="&#x6307;&#x5B9A;&#x8FDE;&#x63A5;&#x7684;target"></a>&#x6307;&#x5B9A;&#x8FDE;&#x63A5;&#x7684;target</h4><p>&#x5982;&#x679C;&#x4E0D;&#x663E;&#x5F0F;&#x6307;&#x5B9A;&#x8FDE;&#x63A5;&#x7684;target&#xFF0C;Pods&#x4F1A;&#x9ED8;&#x8BA4;&#x8FDE;&#x63A5;project&#x7684;&#x7B2C;&#x4E00;&#x4E2A;target&#x3002;&#x5982;&#x679C;&#x9700;&#x8981;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;link_with&#x6307;&#x5B9A;&#x8FDE;&#x63A5;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;target</p>
-<h4 id="&#x6307;&#x5B9A;&#x4F9D;&#x8D56;&#x5E93;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;"><a href="#&#x6307;&#x5B9A;&#x4F9D;&#x8D56;&#x5E93;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;" class="headerlink" title="&#x6307;&#x5B9A;&#x4F9D;&#x8D56;&#x5E93;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;"></a>&#x6307;&#x5B9A;&#x4F9D;&#x8D56;&#x5E93;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h4><h3 id="&#x6307;&#x5B9A;target&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;"><a href="#&#x6307;&#x5B9A;target&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;" class="headerlink" title="&#x6307;&#x5B9A;target&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;"></a>&#x6307;&#x5B9A;target&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h3><h4 id="&#x4F7F;&#x7528;Dynamic-Frameworks&#x4EE3;&#x66FF;Static-Libraries"><a href="#&#x4F7F;&#x7528;Dynamic-Frameworks&#x4EE3;&#x66FF;Static-Libraries" class="headerlink" title="&#x4F7F;&#x7528;Dynamic Frameworks&#x4EE3;&#x66FF;Static Libraries"></a>&#x4F7F;&#x7528;Dynamic Frameworks&#x4EE3;&#x66FF;Static Libraries</h4><p>&#x901A;&#x8FC7;&#x6807;&#x5FD7;use_frameworks!&#x5C31;&#x53EF;&#x77E5;&#x5F00;&#x542F;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x3002;&#x5982;&#x679C;&#x9700;&#x8981;&#x4F7F;&#x7528;Swift&#x7684;&#x5E93;&#xFF0C;&#x5C31;&#x5FC5;&#x987B;&#x52A0;&#x4E0A;&#x8FD9;&#x4E2A;&#x6807;&#x5FD7;&#x4E86;&#x3002;</p>
-<h4 id="&#x52A0;&#x5FEB;pod-install-update-&#x901F;&#x5EA6;"><a href="#&#x52A0;&#x5FEB;pod-install-update-&#x901F;&#x5EA6;" class="headerlink" title="&#x52A0;&#x5FEB;pod install/update &#x901F;&#x5EA6;"></a>&#x52A0;&#x5FEB;pod install/update &#x901F;&#x5EA6;</h4><p>&#x4F7F;&#x7528;CocoaPods&#x6765;&#x6DFB;&#x52A0;&#x7B2C;&#x4E09;&#x65B9;&#x7C7B;&#x5E93;&#xFF0C;&#x65E0;&#x8BBA;&#x662F;&#x6267;&#x884C;pod install&#x8FD8;&#x662F;pod<br>updat&#x5F88;&#x591A;&#x65F6;&#x5019;&#x90FD;&#x5361;&#x5728;&#x4E86;Analyzing dependencies&#x4E0D;&#x52A8;&#xFF0C;&#x8FD9;&#x662F;&#x66F4;&#x65B0;&#x672C;&#x5730;&#x7684;pod<br>spec&#x6240;&#x4EE5;&#x6587;&#x4EF6;&#x5BFC;&#x81F4;&#x7684;&#x3002;&#x901A;&#x8FC7;&#x2013;no-repo-update&#x6807;&#x5FD7;&#x53EF;&#x4EE5;&#x4E0D;&#x66F4;&#x65B0;&#x672C;&#x5730;pod<br>spec&#x7D22;&#x5F15;&#x3002;&#x5F53;&#x7136;&#x9996;&#x6B21;install&#x4E0D;&#x5E94;&#x8BE5;&#x6DFB;&#x52A0;&#x8FD9;&#x4E2A;&#x6807;&#x5FD7;&#xFF0C;&#x540E;&#x7EED;&#x4FEE;&#x6539;Podfile&#x7684;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x9002;&#x5F53;&#x4F7F;&#x7528;&#xFF0C;&#x52A0;&#x5FEB;pod&#x901F;&#x5EA6;&#x3002;</p>
-<h4 id="&#x8F93;&#x51FA;&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;"><a href="#&#x8F93;&#x51FA;&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;" class="headerlink" title="&#x8F93;&#x51FA;&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;"></a>&#x8F93;&#x51FA;&#x8BE6;&#x7EC6;&#x65E5;&#x5FD7;</h4><h4 id="XCode&#x7684;Cocoapods&#x63D2;&#x4EF6;"><a href="#XCode&#x7684;Cocoapods&#x63D2;&#x4EF6;" class="headerlink" title="XCode&#x7684;Cocoapods&#x63D2;&#x4EF6;"></a>XCode&#x7684;Cocoapods&#x63D2;&#x4EF6;</h4><p><a href="https://github.com/kattrali/cocoapods-xcode-plugin" target="_blank" rel="external">cocoapods-xcode-plugin</a>&#x662F;&#x4E00;&#x4E2A;XCode&#x7684;&#x63D2;&#x4EF6;&#xFF0C;&#x8BA9;&#x4F60;&#x65B9;&#x4FBF;&#x64CD;&#x4F5C;Cocoapods&#xFF0C;&#x90A3;&#x662F;&#x76F8;&#x5F53;&#x597D;&#x7528;&#x7684;&#x4E00;&#x4E2A;&#x63D2;&#x4EF6;&#x3002;</p>
+<h4 id="使用本地代码"><a href="#使用本地代码" class="headerlink" title="使用本地代码"></a>使用本地代码</h4><p>通过:path可以指定本地代码，不过需要确保目录包含podspec文件。</p>
+<h4 id="指定target的依赖库"><a href="#指定target的依赖库" class="headerlink" title="指定target的依赖库"></a>指定target的依赖库</h4><h4 id="排除taget"><a href="#排除taget" class="headerlink" title="排除taget"></a>排除taget</h4><h4 id="指定xcodeproj"><a href="#指定xcodeproj" class="headerlink" title="指定xcodeproj"></a>指定xcodeproj</h4><p>默认会使用Podfile文件同级目录下第一个xcodeproj，但也可以指定</p>
+<h4 id="指定连接的target"><a href="#指定连接的target" class="headerlink" title="指定连接的target"></a>指定连接的target</h4><p>如果不显式指定连接的target，Pods会默认连接project的第一个target。如果需要，可以使用link_with指定连接一个或多个target</p>
+<h4 id="指定依赖库的配置文件"><a href="#指定依赖库的配置文件" class="headerlink" title="指定依赖库的配置文件"></a>指定依赖库的配置文件</h4><h3 id="指定target的配置文件"><a href="#指定target的配置文件" class="headerlink" title="指定target的配置文件"></a>指定target的配置文件</h3><h4 id="使用Dynamic-Frameworks代替Static-Libraries"><a href="#使用Dynamic-Frameworks代替Static-Libraries" class="headerlink" title="使用Dynamic Frameworks代替Static Libraries"></a>使用Dynamic Frameworks代替Static Libraries</h4><p>通过标志use_frameworks!就可知开启这个功能。如果需要使用Swift的库，就必须加上这个标志了。</p>
+<h4 id="加快pod-install-update-速度"><a href="#加快pod-install-update-速度" class="headerlink" title="加快pod install/update 速度"></a>加快pod install/update 速度</h4><p>使用CocoaPods来添加第三方类库，无论是执行pod install还是pod<br>updat很多时候都卡在了Analyzing dependencies不动，这是更新本地的pod<br>spec所以文件导致的。通过–no-repo-update标志可以不更新本地pod<br>spec索引。当然首次install不应该添加这个标志，后续修改Podfile的时候可以适当使用，加快pod速度。</p>
+<h4 id="输出详细日志"><a href="#输出详细日志" class="headerlink" title="输出详细日志"></a>输出详细日志</h4><h4 id="XCode的Cocoapods插件"><a href="#XCode的Cocoapods插件" class="headerlink" title="XCode的Cocoapods插件"></a>XCode的Cocoapods插件</h4><p><a href="https://github.com/kattrali/cocoapods-xcode-plugin" target="_blank" rel="external">cocoapods-xcode-plugin</a>是一个XCode的插件，让你方便操作Cocoapods，那是相当好用的一个插件。</p>
 <p><img src="http://7xjazj.com1.z0.glb.clouddn.com/cocoapods-xcode-plugin.png" alt="image"></p>
-<h3 id="END"><a href="#END" class="headerlink" title="END"></a>END</h3><p>&#x4E0D;&#x624D;&#x6C34;&#x5E73;&#x6709;&#x6B20;&#xFF0C;&#x5982;&#x6709;&#x9519;&#x8BEF;&#xFF0C;&#x8BF7;&#x65A7;&#x6B63;&#x3002;</p>
-<p><a href="http://toutiao.io/r/wutrq" target="_blank" rel="external">&#x67E5;&#x770B;&#x539F;&#x6587;</a></p>
+<h3 id="END"><a href="#END" class="headerlink" title="END"></a>END</h3><p>不才水平有欠，如有错误，请斧正。</p>
+<p><a href="http://toutiao.io/r/wutrq" target="_blank" rel="external">查看原文</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -159,18 +159,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/javascript正则表达式与java正则表达式的细微差异写法/" title="javascript正则表达式与java正则表达式的细微差异写法">
+ <a href="/2016/03/30/centos 开启防火墙后ftp无法访问解决方案/" title="centos 开启防火墙后ftp无法访问解决方案">
   <strong>上一篇：</strong><br/>
   <span>
-  javascript正则表达式与java正则表达式的细微差异写法</span>
+  centos 开启防火墙后ftp无法访问解决方案</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/jenkins 重复执行job/"  title="jenkins 重复执行job">
+<a href="/2016/03/30/chrome代理设置/"  title="chrome代理设置">
  <strong>下一篇：</strong><br/> 
- <span>jenkins 重复执行job
+ <span>chrome代理设置
 </span>
 </a>
 </div>
@@ -239,11 +239,23 @@
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -255,7 +267,7 @@
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -312,6 +324,14 @@
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -324,15 +344,7 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -344,7 +356,7 @@
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -356,7 +368,7 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			

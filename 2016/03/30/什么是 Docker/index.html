@@ -11,12 +11,14 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="Docker &amp;#x2014;&amp;#x2014; &amp;#x4ECE;&amp;#x5165;&amp;#x95E8;&amp;#x5230;&amp;#x5B9E;&amp;#x8DF5;&amp;#x4E00;.&amp;#x4EC0;&amp;#x4E48;&amp;#x662F; DockerDocker &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5F00;&amp;#x6E90;&amp;#x9879;&amp;#x76EE;&amp;#xFF0C;&amp;#x8BDE;&amp;#x751F;&amp;">
+    <meta name="description" content="Docker —— 从入门到实践一.什么是 DockerDocker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。
+Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker —— 从入门到实践">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/什么是 Docker/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="Docker &amp;#x2014;&amp;#x2014; &amp;#x4ECE;&amp;#x5165;&amp;#x95E8;&amp;#x5230;&amp;#x5B9E;&amp;#x8DF5;&amp;#x4E00;.&amp;#x4EC0;&amp;#x4E48;&amp;#x662F; DockerDocker &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5F00;&amp;#x6E90;&amp;#x9879;&amp;#x76EE;&amp;#xFF0C;&amp;#x8BDE;&amp;#x751F;&amp;">
+<meta property="og:description" content="Docker —— 从入门到实践一.什么是 DockerDocker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。
+Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后">
 <meta property="og:image" content="http://dockerpool.com/static/books/docker_practice/_images/virtualization.png">
 <meta property="og:image" content="http://www.huguiqi.com/2016/03/30/什么是 Docker/">
 <meta property="og:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/AB9680CF-AF2D-42FF-BB71-948C9C26B032.png">
@@ -24,7 +26,8 @@
 <meta property="og:updated_time" content="2016-04-25T10:16:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker —— 从入门到实践">
-<meta name="twitter:description" content="Docker &amp;#x2014;&amp;#x2014; &amp;#x4ECE;&amp;#x5165;&amp;#x95E8;&amp;#x5230;&amp;#x5B9E;&amp;#x8DF5;&amp;#x4E00;.&amp;#x4EC0;&amp;#x4E48;&amp;#x662F; DockerDocker &amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5F00;&amp;#x6E90;&amp;#x9879;&amp;#x76EE;&amp;#xFF0C;&amp;#x8BDE;&amp;#x751F;&amp;">
+<meta name="twitter:description" content="Docker —— 从入门到实践一.什么是 DockerDocker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。
+Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后">
 <meta name="twitter:image" content="http://dockerpool.com/static/books/docker_practice/_images/virtualization.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
@@ -108,65 +111,65 @@
 		
 		</div>
 		
-		<h2 id="Docker-&#x2014;&#x2014;-&#x4ECE;&#x5165;&#x95E8;&#x5230;&#x5B9E;&#x8DF5;"><a href="#Docker-&#x2014;&#x2014;-&#x4ECE;&#x5165;&#x95E8;&#x5230;&#x5B9E;&#x8DF5;" class="headerlink" title="Docker &#x2014;&#x2014; &#x4ECE;&#x5165;&#x95E8;&#x5230;&#x5B9E;&#x8DF5;"></a>Docker &#x2014;&#x2014; &#x4ECE;&#x5165;&#x95E8;&#x5230;&#x5B9E;&#x8DF5;</h2><h3 id="&#x4E00;-&#x4EC0;&#x4E48;&#x662F;-Docker"><a href="#&#x4E00;-&#x4EC0;&#x4E48;&#x662F;-Docker" class="headerlink" title="&#x4E00;.&#x4EC0;&#x4E48;&#x662F; Docker"></a>&#x4E00;.&#x4EC0;&#x4E48;&#x662F; Docker</h3><p>Docker &#x662F;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x9879;&#x76EE;&#xFF0C;&#x8BDE;&#x751F;&#x4E8E; 2013 &#x5E74;&#x521D;&#xFF0C;&#x6700;&#x521D;&#x662F; dotCloud &#x516C;&#x53F8;&#x5185;&#x90E8;&#x7684;&#x4E00;&#x4E2A;&#x4E1A;&#x4F59;&#x9879;&#x76EE;&#x3002;&#x5B83;&#x57FA;&#x4E8E; Google &#x516C;&#x53F8;&#x63A8;&#x51FA;&#x7684; Go &#x8BED;&#x8A00;&#x5B9E;&#x73B0;&#x3002; &#x9879;&#x76EE;&#x540E;&#x6765;&#x52A0;&#x5165;&#x4E86; Linux &#x57FA;&#x91D1;&#x4F1A;&#xFF0C;&#x9075;&#x4ECE;&#x4E86; Apache 2.0 &#x534F;&#x8BAE;&#xFF0C;&#x9879;&#x76EE;&#x4EE3;&#x7801;&#x5728; GitHub &#x4E0A;&#x8FDB;&#x884C;&#x7EF4;&#x62A4;&#x3002;</p>
-<p>Docker &#x81EA;&#x5F00;&#x6E90;&#x540E;&#x53D7;&#x5230;&#x5E7F;&#x6CDB;&#x7684;&#x5173;&#x6CE8;&#x548C;&#x8BA8;&#x8BBA;&#xFF0C;&#x4EE5;&#x81F3;&#x4E8E; dotCloud &#x516C;&#x53F8;&#x540E;&#x6765;&#x90FD;&#x6539;&#x540D;&#x4E3A; Docker Inc&#x3002;Redhat &#x5DF2;&#x7ECF;&#x5728;&#x5176; RHEL6.5 &#x4E2D;&#x96C6;&#x4E2D;&#x652F;&#x6301; Docker&#xFF1B;Google &#x4E5F;&#x5728;&#x5176; PaaS &#x4EA7;&#x54C1;&#x4E2D;&#x5E7F;&#x6CDB;&#x5E94;&#x7528;&#x3002;</p>
-<p>Docker &#x9879;&#x76EE;&#x7684;&#x76EE;&#x6807;&#x662F;&#x5B9E;&#x73B0;&#x8F7B;&#x91CF;&#x7EA7;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x865A;&#x62DF;&#x5316;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002; Docker &#x7684;&#x57FA;&#x7840;&#x662F; Linux &#x5BB9;&#x5668;&#xFF08;LXC&#xFF09;&#x7B49;&#x6280;&#x672F;&#x3002;<br><a id="more"></a><br>&#x5728; LXC &#x7684;&#x57FA;&#x7840;&#x4E0A; Docker &#x8FDB;&#x884C;&#x4E86;&#x8FDB;&#x4E00;&#x6B65;&#x7684;&#x5C01;&#x88C5;&#xFF0C;&#x8BA9;&#x7528;&#x6237;&#x4E0D;&#x9700;&#x8981;&#x53BB;&#x5173;&#x5FC3;&#x5BB9;&#x5668;&#x7684;&#x7BA1;&#x7406;&#xFF0C;&#x4F7F;&#x5F97;&#x64CD;&#x4F5C;&#x66F4;&#x4E3A;&#x7B80;&#x4FBF;&#x3002;&#x7528;&#x6237;&#x64CD;&#x4F5C; Docker &#x7684;&#x5BB9;&#x5668;&#x5C31;&#x50CF;&#x64CD;&#x4F5C;&#x4E00;&#x4E2A;&#x5FEB;&#x901F;&#x8F7B;&#x91CF;&#x7EA7;&#x7684;&#x865A;&#x62DF;&#x673A;&#x4E00;&#x6837;&#x7B80;&#x5355;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x7684;&#x56FE;&#x7247;&#x6BD4;&#x8F83;&#x4E86; Docker &#x548C;&#x4F20;&#x7EDF;&#x865A;&#x62DF;&#x5316;&#x65B9;&#x5F0F;&#x7684;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#xFF0C;&#x53EF;&#x89C1;&#x5BB9;&#x5668;&#x662F;&#x5728;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5C42;&#x9762;&#x4E0A;&#x5B9E;&#x73B0;&#x865A;&#x62DF;&#x5316;&#xFF0C;&#x76F4;&#x63A5;&#x590D;&#x7528;&#x672C;&#x5730;&#x4E3B;&#x673A;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#xFF0C;&#x800C;&#x4F20;&#x7EDF;&#x65B9;&#x5F0F;&#x5219;&#x662F;&#x5728;&#x786C;&#x4EF6;&#x5C42;&#x9762;&#x5B9E;&#x73B0;&#x3002;</p>
-<p><img src="http://dockerpool.com/static/books/docker_practice/_images/virtualization.png" alt="&#x5BF9;&#x6BD4;"></p>
-<h3 id="&#x4E8C;-&#x4EC0;&#x4E48;&#x662F;boot2docker"><a href="#&#x4E8C;-&#x4EC0;&#x4E48;&#x662F;boot2docker" class="headerlink" title="&#x4E8C;.&#x4EC0;&#x4E48;&#x662F;boot2docker?"></a>&#x4E8C;.&#x4EC0;&#x4E48;&#x662F;boot2docker?</h3><p>&#x56E0;&#x4E3A;docker&#x662F;&#x8FD0;&#x884C;&#x5728;linux&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4E0A;&#x7684;&#x5BB9;&#x5668;&#x8F6F;&#x4EF6;&#xFF0C;&#x4E0D;&#x652F;&#x6301;windows&#x3001;unix&#xFF08;macos&#xFF09;,&#x6240;&#x4EE5;&#x8981;&#x60F3;&#x5728;windows&#x7535;&#x8111;&#x4E0A;&#x6216;&#x8005;mac&#x7535;&#x8111;&#x4E0A;&#x5B89;&#x88C5;doker,&#x5C31;&#x8981;&#x6709;linux&#x73AF;&#x5883;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;linux&#x7684;docker&#x8FD0;&#x884C;&#x73AF;&#x5883;  </p>
+		<h2 id="Docker-——-从入门到实践"><a href="#Docker-——-从入门到实践" class="headerlink" title="Docker —— 从入门到实践"></a>Docker —— 从入门到实践</h2><h3 id="一-什么是-Docker"><a href="#一-什么是-Docker" class="headerlink" title="一.什么是 Docker"></a>一.什么是 Docker</h3><p>Docker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。</p>
+<p>Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后来都改名为 Docker Inc。Redhat 已经在其 RHEL6.5 中集中支持 Docker；Google 也在其 PaaS 产品中广泛应用。</p>
+<p>Docker 项目的目标是实现轻量级的操作系统虚拟化解决方案。 Docker 的基础是 Linux 容器（LXC）等技术。<br><a id="more"></a><br>在 LXC 的基础上 Docker 进行了进一步的封装，让用户不需要去关心容器的管理，使得操作更为简便。用户操作 Docker 的容器就像操作一个快速轻量级的虚拟机一样简单。</p>
+<p>下面的图片比较了 Docker 和传统虚拟化方式的不同之处，可见容器是在操作系统层面上实现虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现。</p>
+<p><img src="http://dockerpool.com/static/books/docker_practice/_images/virtualization.png" alt="对比"></p>
+<h3 id="二-什么是boot2docker"><a href="#二-什么是boot2docker" class="headerlink" title="二.什么是boot2docker?"></a>二.什么是boot2docker?</h3><p>因为docker是运行在linux操作系统上的容器软件，不支持windows、unix（macos）,所以要想在windows电脑上或者mac电脑上安装doker,就要有linux环境，那么这需要一个基于linux的docker运行环境  </p>
 <ul>
-<li><p><em>boot2docker&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;linux&#x5185;&#x6838;&#x7684;docker&#x5BB9;&#x5668;&#x73AF;&#x5883;</em></p>
+<li><p><em>boot2docker就是一个基于linux内核的docker容器环境</em></p>
 </li>
-<li><p><em>&#x8FD9;&#x4E2A;&#x73AF;&#x5883;&#x53EA;&#x6709;&#x5B89;&#x88C5;&#x5728;&#x4E00;&#x4E2A;&#x865A;&#x4F3C;&#x673A;&#x4E0A;&#xFF1A;virtualBox</em></p>
+<li><p><em>这个环境只有安装在一个虚似机上：virtualBox</em></p>
 </li>
 </ul>
-<p>boot2docker&#x4EE3;&#x7801;&#x6258;&#x7BA1;&#x5728;github&#x4E0A;&#xFF0C;&#x5730;&#x5740;&#x4E3A;&#xFF1A;<br><a href="https://github.com/boot2docker/boot2docker" target="_blank" rel="external">https://github.com/boot2docker/boot2docker</a></p>
-<p><code>&#x5B89;&#x88C5;&#x8BF7;&#x53C2;&#x8003;github&#x4E0A;&#x4ECB;&#x7ECD;</code></p>
-<h3 id="&#x4E09;-&#x600E;&#x4E48;&#x7528;&#xFF1F;"><a href="#&#x4E09;-&#x600E;&#x4E48;&#x7528;&#xFF1F;" class="headerlink" title="&#x4E09;.&#x600E;&#x4E48;&#x7528;&#xFF1F;"></a>&#x4E09;.&#x600E;&#x4E48;&#x7528;&#xFF1F;</h3><h3 id="1-&#x542F;&#x52A8;docker"><a href="#1-&#x542F;&#x52A8;docker" class="headerlink" title="1. &#x542F;&#x52A8;docker"></a>1. &#x542F;&#x52A8;docker</h3><ol>
-<li>&#x6253;&#x5F00;&#x547D;&#x4EE4;&#x884C;&#xFF0C;&#x8F93;&#x5165;&#xFF1A;boot2docker start</li>
-<li>&#x68C0;&#x67E5;&#x5BB9;&#x5668;&#x662F;&#x5426;&#x542F;&#x52A8;&#xFF1A;boot2docker status</li>
-<li>&#x767B;&#x9646;&#x8FDE;&#x63A5;docker&#x5BB9;&#x5668;&#xFF1A;boot2docker ssh</li>
-<li>&#x6210;&#x529F;&#x8FDB;&#x5165;&#x540E;&#x4F1A;&#x6709;&#x51FA;&#x73B0;&#x5982;&#x4E0B;&#x753B;&#x9762;&#xFF1A;<br><img src="/2016/03/30/&#x4EC0;&#x4E48;&#x662F; Docker/" alt="docker"></li>
+<p>boot2docker代码托管在github上，地址为：<br><a href="https://github.com/boot2docker/boot2docker" target="_blank" rel="external">https://github.com/boot2docker/boot2docker</a></p>
+<p><code>安装请参考github上介绍</code></p>
+<h3 id="三-怎么用？"><a href="#三-怎么用？" class="headerlink" title="三.怎么用？"></a>三.怎么用？</h3><h3 id="1-启动docker"><a href="#1-启动docker" class="headerlink" title="1. 启动docker"></a>1. 启动docker</h3><ol>
+<li>打开命令行，输入：boot2docker start</li>
+<li>检查容器是否启动：boot2docker status</li>
+<li>登陆连接docker容器：boot2docker ssh</li>
+<li>成功进入后会有出现如下画面：<br><img src="/2016/03/30/什么是 Docker/" alt="docker"></li>
 </ol>
-<h3 id="2-&#x4E0B;&#x8F7D;centos&#x5E76;&#x5236;&#x4F5C;os&#x955C;&#x50CF;"><a href="#2-&#x4E0B;&#x8F7D;centos&#x5E76;&#x5236;&#x4F5C;os&#x955C;&#x50CF;" class="headerlink" title="2. &#x4E0B;&#x8F7D;centos&#x5E76;&#x5236;&#x4F5C;os&#x955C;&#x50CF;"></a>2. &#x4E0B;&#x8F7D;centos&#x5E76;&#x5236;&#x4F5C;os&#x955C;&#x50CF;</h3><ol>
+<h3 id="2-下载centos并制作os镜像"><a href="#2-下载centos并制作os镜像" class="headerlink" title="2. 下载centos并制作os镜像"></a>2. 下载centos并制作os镜像</h3><ol>
 <li>docker pull centos:6.7</li>
-<li>&#x4E0B;&#x8F7D;&#x5B8C;&#x6210;&#x540E;&#x770B;&#x770B;&#x4ED6;&#x7684;imageId,&#x8F93;&#x5165;:docker images</li>
-<li>&#x7136;&#x540E;&#x542F;&#x52A8;&#x5E76;&#x8FDB;&#x5165;centos&#x5BB9;&#x5668;&#xFF0C;&#x6253;&#x5F00;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;&#xFF1A;docker run -t -i 7e8f /bin/bash</li>
-<li>&#x5B89;&#x88C5;&#x4E00;&#x4E2A;wget:yun install -y wget</li>
-<li>&#x5B89;&#x88C5;&#x4E00;&#x4E2A;mysql,&#x5148;&#x68C0;&#x67E5;&#xFF1A;yum list | grep mysql</li>
-<li>&#x5B89;&#x88C5;(&#x9700;&#x8981;&#x5B89;&#x88C5;server&#x7248;&#xFF0C;&#x8FD9;&#x6837;&#x624D;&#x80FD;&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;)&#xFF1A;yun install -y mysql-server.x86_64 </li>
-<li>&#x5B89;&#x88C5;nginx:<a href="http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm" target="_blank" rel="external">http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm</a></li>
-<li>&#x5B89;&#x88C5;node:&lt;&gt;</li>
-<li>&#x5B89;&#x88C5;ifconfig</li>
+<li>下载完成后看看他的imageId,输入:docker images</li>
+<li>然后启动并进入centos容器，打开命令行工具：docker run -t -i 7e8f /bin/bash</li>
+<li>安装一个wget:yun install -y wget</li>
+<li>安装一个mysql,先检查：yum list | grep mysql</li>
+<li>安装(需要安装server版，这样才能设置开机启动)：yun install -y mysql-server.x86_64 </li>
+<li>安装nginx:<a href="http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm" target="_blank" rel="external">http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm</a></li>
+<li>安装node:&lt;&gt;</li>
+<li>安装ifconfig</li>
 </ol>
-<p><strong>&#x4ECE;&#x6253;&#x5F00;&#x7684;&#x5BB9;&#x5668;&#x51FA;&#x6765;&#x540E;&#xFF0C;&#x600E;&#x4E48;&#x8FDB;&#x53BB;&#x4E4B;&#x524D;&#x7684;&#x5BB9;&#x5668;&#x5462;&#xFF1F;</strong>  </p>
+<p><strong>从打开的容器出来后，怎么进去之前的容器呢？</strong>  </p>
 <ol>
-<li>docker ps -a //&#x67E5;&#x770B;&#x6253;&#x5F00;&#x7684;&#x6240;&#x6709;&#x7684;&#x5BB9;&#x5668;</li>
-<li>&#x5982;&#x679C;&#x53D1;&#x73B0;&#x4E4B;&#x524D;&#x5BB9;&#x5668;&#x7684;&#x72B6;&#x6001;&#x662F;Exited&#xFF0C;&#x90A3;&#x4E48;&#x8981;&#x5148;&#x5C06;&#x5BB9;&#x5668;&#x91CD;&#x65B0;up&#xFF1A;<code>docker start [containId]</code>  </li>
-<li><p>&#x91CD;&#x65B0;&#x6253;&#x5F00;&#x5BB9;&#x5668;&#xFF1A;</p>
+<li>docker ps -a //查看打开的所有的容器</li>
+<li>如果发现之前容器的状态是Exited，那么要先将容器重新up：<code>docker start [containId]</code>  </li>
+<li><p>重新打开容器：</p>
 <pre><code>docker exec -it [containId] bash
 </code></pre></li>
 </ol>
-<h3 id="&#x56DB;-&#x4EC0;&#x4E48;&#x662F;&#x955C;&#x50CF;&#xFF1F;"><a href="#&#x56DB;-&#x4EC0;&#x4E48;&#x662F;&#x955C;&#x50CF;&#xFF1F;" class="headerlink" title="&#x56DB;.&#x4EC0;&#x4E48;&#x662F;&#x955C;&#x50CF;&#xFF1F;"></a>&#x56DB;.&#x4EC0;&#x4E48;&#x662F;&#x955C;&#x50CF;&#xFF1F;</h3><p>&#x955C;&#x50CF;&#x76F8;&#x5F53;&#x4E8E;&#x6253;&#x5305;&#x597D;&#x7684;&#x5BB9;&#x5668;&#xFF0C;&#x8FD9;&#x4E2A;&#x5BB9;&#x5668;&#x91CC;&#x6709;&#x4F60;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6240;&#x9700;&#x8981;&#x7684;&#x73AF;&#x5883;&#xFF0C;docker&#x4E2D;&#x5982;&#x679C;&#x6709;&#x9700;&#x8981;&#x7528;&#x54EA;&#x4E2A;&#x670D;&#x52A1;&#xFF0C;&#x76F4;&#x63A5;docker pull &#x955C;&#x50CF;&#x540D;&#x5C31;&#x53EF;&#x4EE5;&#x62FF;&#x6765;&#x7528;&#x4E86;</p>
-<h3 id="&#x5982;&#x4F55;&#x5C06;hexo&#x535A;&#x5BA2;&#x4F5C;&#x4E3A;&#x955C;&#x50CF;&#x90E8;&#x7F72;&#x5230;daocloud&#x4E0A;"><a href="#&#x5982;&#x4F55;&#x5C06;hexo&#x535A;&#x5BA2;&#x4F5C;&#x4E3A;&#x955C;&#x50CF;&#x90E8;&#x7F72;&#x5230;daocloud&#x4E0A;" class="headerlink" title="&#x5982;&#x4F55;&#x5C06;hexo&#x535A;&#x5BA2;&#x4F5C;&#x4E3A;&#x955C;&#x50CF;&#x90E8;&#x7F72;&#x5230;daocloud&#x4E0A;"></a>&#x5982;&#x4F55;&#x5C06;hexo&#x535A;&#x5BA2;&#x4F5C;&#x4E3A;&#x955C;&#x50CF;&#x90E8;&#x7F72;&#x5230;daocloud&#x4E0A;</h3><p>&#x56E0;&#x4E3A;&#x56FD;&#x5185;&#x7684;GWT&#x7684;&#x539F;&#x56E0;&#xFF0C;<a href="https://hub.docker.com" target="_blank" rel="external">https://hub.docker.com</a>&#x8BBF;&#x95EE;&#x5B9E;&#x5728;&#x592A;&#x6162;&#xFF0C;&#x6211;&#x9009;&#x62E9;&#x4E86;&#x4F7F;&#x7528;&#x56FD;&#x5185;&#x7684;daocloud&#x6765;&#x90E8;&#x7F72;&#x6211;&#x7684;&#x955C;&#x50CF;&#x3002;</p>
-<p>&#x51C6;&#x5907;&#x597D;dockerfile:</p>
-<pre><code>touch dockerfile &#x6216;&#x8005; vi dockerfile&#x90FD;&#x53EF;&#x4EE5;
+<h3 id="四-什么是镜像？"><a href="#四-什么是镜像？" class="headerlink" title="四.什么是镜像？"></a>四.什么是镜像？</h3><p>镜像相当于打包好的容器，这个容器里有你的应用程序所需要的环境，docker中如果有需要用哪个服务，直接docker pull 镜像名就可以拿来用了</p>
+<h3 id="如何将hexo博客作为镜像部署到daocloud上"><a href="#如何将hexo博客作为镜像部署到daocloud上" class="headerlink" title="如何将hexo博客作为镜像部署到daocloud上"></a>如何将hexo博客作为镜像部署到daocloud上</h3><p>因为国内的GWT的原因，<a href="https://hub.docker.com" target="_blank" rel="external">https://hub.docker.com</a>访问实在太慢，我选择了使用国内的daocloud来部署我的镜像。</p>
+<p>准备好dockerfile:</p>
+<pre><code>touch dockerfile 或者 vi dockerfile都可以
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"># The FROM instruction sets the Base Image for subsequent instructions.</div><div class="line"># Using Nginx as Base Image</div><div class="line">FROM node:4.2.2</div><div class="line"></div><div class="line"></div><div class="line">RUN \</div><div class="line">  mkdir -p /usr/src/app/blog &amp;&amp; cd /usr/src/app/blog &amp;&amp; \</div><div class="line">  # install hexo</div><div class="line">  npm install hexo-cli -g &amp;&amp; \</div><div class="line">  hexo init &amp;&amp; npm install &amp;&amp; \</div><div class="line">  # install plugins for hexo</div><div class="line">  npm install hexo-generator-sitemap --save &amp;&amp; \</div><div class="line">  npm install hexo-generator-baidu-sitemap --save</div><div class="line"> </div><div class="line">COPY . /usr/src/app/blog</div><div class="line"></div><div class="line">VOLUME [&quot;/usr/src/app/blog/source&quot;]</div><div class="line">VOLUME [&quot;/usr/src/app/blog/themes&quot;]</div><div class="line"></div><div class="line">WORKDIR /usr/src/app/blog/</div><div class="line"></div><div class="line"># The EXPOSE instruction informs Docker that the container listens on the specified network ports at runtime</div><div class="line">EXPOSE 80</div></pre></td></tr></table></figure>
-<p>&#x5177;&#x4F53;&#x8BED;&#x6CD5;&#x8BF7;&#x770B;&#x8FD9;&#x91CC;&#xFF1A;<a href="https://docs.docker.com/engine/examples/nodejs_web_app/" target="_blank" rel="external">dockerfile&#x8BED;&#x6CD5;</a></p>
-<h4 id="&#x6784;&#x5EFA;&#x4EE3;&#x7801;&#x751F;&#x6210;&#x955C;&#x50CF;"><a href="#&#x6784;&#x5EFA;&#x4EE3;&#x7801;&#x751F;&#x6210;&#x955C;&#x50CF;" class="headerlink" title="&#x6784;&#x5EFA;&#x4EE3;&#x7801;&#x751F;&#x6210;&#x955C;&#x50CF;"></a>&#x6784;&#x5EFA;&#x4EE3;&#x7801;&#x751F;&#x6210;&#x955C;&#x50CF;</h4><p>&#x7531;&#x4E8E;&#x6211;&#x662F;&#x7528;github&#x5E10;&#x53F7;&#x767B;&#x9646;&#x7684;&#xFF0C;&#x6240;&#x4EE5;daocloud&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x83B7;&#x53D6;&#x6211;&#x7684;&#x4EE3;&#x7801;&#xFF1A;</p>
+<p>具体语法请看这里：<a href="https://docs.docker.com/engine/examples/nodejs_web_app/" target="_blank" rel="external">dockerfile语法</a></p>
+<h4 id="构建代码生成镜像"><a href="#构建代码生成镜像" class="headerlink" title="构建代码生成镜像"></a>构建代码生成镜像</h4><p>由于我是用github帐号登陆的，所以daocloud可以直接获取我的代码：</p>
 <p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/AB9680CF-AF2D-42FF-BB71-948C9C26B032.png" alt="image"></p>
-<h4 id="&#x90E8;&#x7F72;&#x535A;&#x5BA2;"><a href="#&#x90E8;&#x7F72;&#x535A;&#x5BA2;" class="headerlink" title="&#x90E8;&#x7F72;&#x535A;&#x5BA2;"></a>&#x90E8;&#x7F72;&#x535A;&#x5BA2;</h4><p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/247FB92A-0994-4E84-A23F-9EB4AD586F77.png" alt="image"></p>
-<p>&#x70B9;&#x51FB;&#x90E8;&#x7F72;&#xFF0C;&#x90E8;&#x7F72;&#x5B8C;&#x4E86;&#x4EE5;&#x540E;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x81EA;&#x6709;&#x57DF;&#x540D;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x6CA1;&#x6709;&#x57DF;&#x540D;&#xFF0C;&#x5C31;&#x76F4;&#x63A5;&#x57DF;&#x540D;daocloud&#x63D0;&#x4F9B;&#x7684;&#x9ED8;&#x8BA4;&#x57DF;&#x540D;</p>
-<p><strong>&#x53C2;&#x8003;&#x5B66;&#x4E60;:</strong><br><br></p>
+<h4 id="部署博客"><a href="#部署博客" class="headerlink" title="部署博客"></a>部署博客</h4><p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/247FB92A-0994-4E84-A23F-9EB4AD586F77.png" alt="image"></p>
+<p>点击部署，部署完了以后可以设置自有域名，如果你没有域名，就直接域名daocloud提供的默认域名</p>
+<p><strong>参考学习:</strong><br><br></p>
 <ol>
-<li><a href="http://www.linuxidc.com/Linux/2015-02/113623.htm" target="_blank" rel="external">&#x5236;&#x4F5C;nginx+tomcat&#x955C;&#x50CF;</a><br><br></li>
-<li><a href="https://cnodejs.org/topic/53f494d9bbdaa79d519c9a4a" target="_blank" rel="external">docker&#x5FEB;&#x9012;&#x90E8;&#x7F72;nodejs</a><br><br></li>
-<li><a href="http://www.infoq.com/cn/articles/docker-core-technology-preview?utm_source=infoq&amp;utm_medium=related_content_link&amp;utm_campaign=relatedContent_articles_clk" target="_blank" rel="external">docker&#x6838;&#x5FC3;&#x6280;&#x672F;&#x9884;&#x89C8;</a><br><br><ol>
-<li><a href="https://docs.docker.com/engine/reference" target="_blank" rel="external">docker&#x5B98;&#x65B9;api&#x6587;&#x6863;</a><br><br></li>
-<li><a href="http://www.infoq.com/cn/articles/docker-source-code-analysis-part1/" target="_blank" rel="external">docker&#x6E90;&#x7801;&#x5206;&#x6790;</a><br><br></li>
-<li><a href="http://www.ibm.com/developerworks/cn/linux/1506_cgroup/index.html" target="_blank" rel="external">CGroup &#x4ECB;&#x7ECD;&#x3001;&#x5E94;&#x7528;&#x5B9E;&#x4F8B;&#x53CA;&#x539F;&#x7406;&#x63CF;&#x8FF0;</a><br><br></li>
-<li><a href="http://www.csdn.net/article/2015-08-21/2825511" target="_blank" rel="external">&#x6DF1;&#x5165;&#x5206;&#x6790;Docker&#x955C;&#x50CF;&#x539F;&#x7406;</a><br><br></li>
-<li><a href="http://www.cnblogs.com/ishell/p/4194280.html" target="_blank" rel="external">Node.js&#x8FDE;&#x63A5;MySQL&#x6570;&#x636E;&#x5E93;&#x53CA;&#x6784;&#x9020;JSON&#x7684;&#x6B63;&#x786E;&#x59FF;&#x52BF;</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2015-02/113623.htm" target="_blank" rel="external">制作nginx+tomcat镜像</a><br><br></li>
+<li><a href="https://cnodejs.org/topic/53f494d9bbdaa79d519c9a4a" target="_blank" rel="external">docker快递部署nodejs</a><br><br></li>
+<li><a href="http://www.infoq.com/cn/articles/docker-core-technology-preview?utm_source=infoq&amp;utm_medium=related_content_link&amp;utm_campaign=relatedContent_articles_clk" target="_blank" rel="external">docker核心技术预览</a><br><br><ol>
+<li><a href="https://docs.docker.com/engine/reference" target="_blank" rel="external">docker官方api文档</a><br><br></li>
+<li><a href="http://www.infoq.com/cn/articles/docker-source-code-analysis-part1/" target="_blank" rel="external">docker源码分析</a><br><br></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/1506_cgroup/index.html" target="_blank" rel="external">CGroup 介绍、应用实例及原理描述</a><br><br></li>
+<li><a href="http://www.csdn.net/article/2015-08-21/2825511" target="_blank" rel="external">深入分析Docker镜像原理</a><br><br></li>
+<li><a href="http://www.cnblogs.com/ishell/p/4194280.html" target="_blank" rel="external">Node.js连接MySQL数据库及构造JSON的正确姿势</a></li>
 </ol>
 </li>
 </ol>
@@ -206,18 +209,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/什么是SQL注入式攻击？/" title="什么是SQL注入式攻击？">
+ <a href="/2016/03/30/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/" title="从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)">
   <strong>上一篇：</strong><br/>
   <span>
-  什么是SQL注入式攻击？</span>
+  从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/"  title="从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)">
+<a href="/2016/03/30/以线颜色取色器/"  title="以线颜色取色器">
  <strong>下一篇：</strong><br/> 
- <span>从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)
+ <span>以线颜色取色器
 </span>
 </a>
 </div>
@@ -286,11 +289,23 @@
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -302,7 +317,7 @@
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -359,6 +374,14 @@
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -371,15 +394,7 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -391,7 +406,7 @@
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -403,7 +418,7 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			

@@ -11,17 +11,17 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="Redis &amp;#x6A2A;&amp;#x5411;&amp;#x6269;&amp;#x5C55;&amp;#x6848;&amp;#x4F8B;0x01 &amp;#x80CC;&amp;#x666F;&amp;#x4ECB;&amp;#x7ECD;A &amp;#x9879;&amp;#x76EE;&amp;#x91C7;&amp;#x96C6;&amp;#x5176;&amp;#x5B83;&amp;#x9879;&amp;#x76EE;&amp;#x751F;&amp;#x6210;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#x">
+    <meta name="description" content="Redis 横向扩展案例0x01 背景介绍A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达100K，甚至一度达到120K。某天晚上，终于崩溃了。这也印证了「墨菲定律」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anythingthat can go wrong will">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis 横向扩展案例">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/Redis 横向扩展案例/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="Redis &amp;#x6A2A;&amp;#x5411;&amp;#x6269;&amp;#x5C55;&amp;#x6848;&amp;#x4F8B;0x01 &amp;#x80CC;&amp;#x666F;&amp;#x4ECB;&amp;#x7ECD;A &amp;#x9879;&amp;#x76EE;&amp;#x91C7;&amp;#x96C6;&amp;#x5176;&amp;#x5B83;&amp;#x9879;&amp;#x76EE;&amp;#x751F;&amp;#x6210;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#x">
+<meta property="og:description" content="Redis 横向扩展案例0x01 背景介绍A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达100K，甚至一度达到120K。某天晚上，终于崩溃了。这也印证了「墨菲定律」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anythingthat can go wrong will">
 <meta property="og:image" content="http://i.imgur.com/OFlADoe.png">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis 横向扩展案例">
-<meta name="twitter:description" content="Redis &amp;#x6A2A;&amp;#x5411;&amp;#x6269;&amp;#x5C55;&amp;#x6848;&amp;#x4F8B;0x01 &amp;#x80CC;&amp;#x666F;&amp;#x4ECB;&amp;#x7ECD;A &amp;#x9879;&amp;#x76EE;&amp;#x91C7;&amp;#x96C6;&amp;#x5176;&amp;#x5B83;&amp;#x9879;&amp;#x76EE;&amp;#x751F;&amp;#x6210;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#x">
+<meta name="twitter:description" content="Redis 横向扩展案例0x01 背景介绍A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达100K，甚至一度达到120K。某天晚上，终于崩溃了。这也印证了「墨菲定律」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anythingthat can go wrong will">
 <meta name="twitter:image" content="http://i.imgur.com/OFlADoe.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
@@ -105,42 +105,42 @@
 		
 		</div>
 		
-		<h1 id="Redis-&#x6A2A;&#x5411;&#x6269;&#x5C55;&#x6848;&#x4F8B;"><a href="#Redis-&#x6A2A;&#x5411;&#x6269;&#x5C55;&#x6848;&#x4F8B;" class="headerlink" title="Redis &#x6A2A;&#x5411;&#x6269;&#x5C55;&#x6848;&#x4F8B;"></a>Redis &#x6A2A;&#x5411;&#x6269;&#x5C55;&#x6848;&#x4F8B;</h1><h2 id="0x01-&#x80CC;&#x666F;&#x4ECB;&#x7ECD;"><a href="#0x01-&#x80CC;&#x666F;&#x4ECB;&#x7ECD;" class="headerlink" title="0x01 &#x80CC;&#x666F;&#x4ECB;&#x7ECD;"></a>0x01 &#x80CC;&#x666F;&#x4ECB;&#x7ECD;</h2><p>A &#x9879;&#x76EE;&#x91C7;&#x96C6;&#x5176;&#x5B83;&#x9879;&#x76EE;&#x751F;&#x6210;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x6570;&#x636E;&#x4FDD;&#x5B58;&#x4E00;&#x5B9A;&#x65F6;&#x95F4;&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x9700;&#x8981;&#x6301;&#x4E45;&#x5316;&#x3002;&#x6545; A<br>&#x9879;&#x76EE;&#x4F7F;&#x7528;&#x5355;&#x70B9; Redis &#x505A;&#x7F13;&#x5B58;&#x3002;&#x957F;&#x671F;&#x4EE5;&#x6765;&#xFF0C;&#x8BE5; Redis &#x5B9E;&#x4F8B;&#x5728;&#x9AD8;&#x5CF0;&#x671F;&#x95F4;&#x7684; QPS &#x9AD8;&#x8FBE;<br>100K&#xFF0C;&#x751A;&#x81F3;&#x4E00;&#x5EA6;&#x8FBE;&#x5230;<br>120K&#x3002;&#x67D0;&#x5929;&#x665A;&#x4E0A;&#xFF0C;&#x7EC8;&#x4E8E;&#x5D29;&#x6E83;&#x4E86;&#x3002;&#x8FD9;&#x4E5F;&#x5370;&#x8BC1;&#x4E86;&#x300C;<strong>&#x58A8;&#x83F2;&#x5B9A;&#x5F8B;</strong>&#x300D;&#xFF0C;&#x4E8B;&#x60C5;&#x5982;&#x679C;&#x6709;&#x53D8;&#x574F;&#x7684;&#x53EF;&#x80FD;&#xFF0C;&#x4E0D;&#x7BA1;&#x8FD9;&#x79CD;&#x53EF;&#x80FD;&#x6027;&#x6709;&#x591A;&#x5C0F;&#xFF0C;&#x5B83;&#x603B;&#x4F1A;&#x53D1;&#x751F;&#xFF08;Anything<br>that can go wrong will go<br>wrong&#xFF09;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x5E73;&#x65F6;&#x7684;&#x8FD0;&#x7EF4;&#x8FC7;&#x7A0B;&#xFF0C;&#x5343;&#x4E07;&#x4E0D;&#x8981;&#x62B1;&#x6709;&#x4FA5;&#x5E78;&#x5FC3;&#x7406;&#xFF0C;&#x6709;&#x95EE;&#x9898;&#x5C31;&#x7B2C;&#x4E00;&#x65F6;&#x95F4;&#x53CD;&#x5E94;&#xFF0C;&#x6709;&#x9690;&#x60A3;&#x5C31;&#x53CA;&#x65F6;&#x5904;&#x7406;&#x3002;</p>
+		<h1 id="Redis-横向扩展案例"><a href="#Redis-横向扩展案例" class="headerlink" title="Redis 横向扩展案例"></a>Redis 横向扩展案例</h1><h2 id="0x01-背景介绍"><a href="#0x01-背景介绍" class="headerlink" title="0x01 背景介绍"></a>0x01 背景介绍</h2><p>A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A<br>项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达<br>100K，甚至一度达到<br>120K。某天晚上，终于崩溃了。这也印证了「<strong>墨菲定律</strong>」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anything<br>that can go wrong will go<br>wrong）。所以，平时的运维过程，千万不要抱有侥幸心理，有问题就第一时间反应，有隐患就及时处理。</p>
 <hr>
-<h2 id="0x02-&#x5206;&#x6790;&#x89E3;&#x51B3;"><a href="#0x02-&#x5206;&#x6790;&#x89E3;&#x51B3;" class="headerlink" title="0x02 &#x5206;&#x6790;&#x89E3;&#x51B3;"></a>0x02 &#x5206;&#x6790;&#x89E3;&#x51B3;</h2><h3 id="2-1-&#x521D;&#x6B65;&#x5206;&#x6790;"><a href="#2-1-&#x521D;&#x6B65;&#x5206;&#x6790;" class="headerlink" title="2.1 &#x521D;&#x6B65;&#x5206;&#x6790;"></a>2.1 &#x521D;&#x6B65;&#x5206;&#x6790;</h3><p>&#x5355;&#x70B9; Redis<br>&#x5B9E;&#x4F8B;&#x5D29;&#x6E83;&#x7684;&#x73B0;&#x8C61;&#x5C31;&#x662F;&#x65B0;&#x7684;&#x8FDE;&#x63A5;&#x4E0D;&#x80FD;&#x5EFA;&#x7ACB;&#xFF0C;&#x8D85;&#x65F6;&#x4E25;&#x91CD;&#xFF0C;&#x6570;&#x636E;&#x4E0D;&#x80FD;&#x53CA;&#x65F6;&#x8BFB;&#x53D6;&#x3002;&#x67E5;&#x770B;&#x7CFB;&#x7EDF;&#x65E5;&#x5FD7;&#xFF0C;&#x53D1;&#x73B0;&#x6709;&#x5927;&#x91CF;&#x5F62;&#x5982;&#x300C;kernel:<br>Possible SYN flooding on port xxxx. Sending<br>cookies&#x300D;&#x7684;&#x65E5;&#x5FD7;&#x3002;&#x6211;&#x4EEC;&#x5F88;&#x5FEB;&#x6392;&#x67E5;&#x4E86;&#x7CFB;&#x7EDF;&#x906D;&#x53D7;&#x653B;&#x51FB;&#x7684;&#x53EF;&#x80FD;&#x6027;&#x3002;&#x67E5;&#x770B;&#x7AEF;&#x53E3;&#x5360;&#x7528;&#x60C5;&#x51B5;&#xFF0C;&#x786E;&#x5B9E;&#x662F;&#x88AB;<br>Redis &#x6D88;&#x8017;&#x4E86;&#x3002;&#x5206;&#x6790;&#x76D1;&#x63A7;&#x6570;&#x636E;&#x548C;&#x7AEF;&#x53E3;&#x6570;&#x60C5;&#x51B5;&#xFF0C;&#x6B64;&#x65F6;&#x7684; Redis &#x8FDE;&#x63A5;&#x6570;&#x8FBE;&#x5230;&#x4E86;<br>7K&#xFF0C;QPS &#x5DF2;&#x7ECF;&#x8FBE;&#x5230; 100K&#x3002;&#x73B0;&#x5728;&#x4E9F;&#x5F85;&#x89E3;&#x51B3;&#x7684;&#x95EE;&#x9898;&#x5C31;&#x662F;&#x8FDE;&#x63A5;&#x6570;&#x9AD8;&#x7684;&#x95EE;&#x9898;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x9488;&#x5BF9;<br>QPS &#x8FC7;&#x9AD8;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x786E;&#x8BA4;&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; Redis &#x7BA1;&#x9053;&#x6280;&#x672F;&#x3002;</p>
+<h2 id="0x02-分析解决"><a href="#0x02-分析解决" class="headerlink" title="0x02 分析解决"></a>0x02 分析解决</h2><h3 id="2-1-初步分析"><a href="#2-1-初步分析" class="headerlink" title="2.1 初步分析"></a>2.1 初步分析</h3><p>单点 Redis<br>实例崩溃的现象就是新的连接不能建立，超时严重，数据不能及时读取。查看系统日志，发现有大量形如「kernel:<br>Possible SYN flooding on port xxxx. Sending<br>cookies」的日志。我们很快排查了系统遭受攻击的可能性。查看端口占用情况，确实是被<br>Redis 消耗了。分析监控数据和端口数情况，此时的 Redis 连接数达到了<br>7K，QPS 已经达到 100K。现在亟待解决的问题就是连接数高的问题。另外，针对<br>QPS 过高的问题，确认是否可以使用 Redis 管道技术。</p>
 <p><img src="http://i.imgur.com/OFlADoe.png" alt="QPS of Redis at Crash time"></p>
-<p>&#x7ECF;&#x8FC7;&#x548C;&#x7814;&#x53D1;&#x6C9F;&#x901A;&#xFF0C;&#x5F97;&#x77E5;&#x7A0B;&#x5E8F;&#x91C7;&#x7528; Nginx Lua &#x5B9E;&#x73B0;&#x3002;Lua<br>&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x6D01;&#x3001;&#x8F7B;&#x91CF;&#x3001;&#x53EF;&#x6269;&#x5C55;&#x7684;&#x811A;&#x672C;&#x8BED;&#x8A00;&#xFF0C;&#x4E5F;&#x662F;&#x53F7;&#x79F0;&#x6027;&#x80FD;&#x6700;&#x9AD8;&#x7684;&#x811A;&#x672C;&#x8BED;&#x8A00;&#x3002;&#x4F7F;&#x7528;<br>Nginx Lua&#xFF0C;&#x518D;&#x52A0;&#x4E0A; LuaRedisModule &#x6A21;&#x5757;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x539F;&#x751F;&#x5730;&#x548C; Redis<br>&#x5EFA;&#x7ACB;&#x8BF7;&#x6C42;&#xFF0C;&#x5E76;&#x89E3;&#x6790;&#x54CD;&#x5E94;&#x3002;&#x4F46;&#x771F;&#x5B9E;&#x7684;&#x9879;&#x76EE;&#x4E2D;&#x91C7;&#x7528;&#x7684;&#x662F; lua-resty-redis&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x4E3A;<br>ngx_lua &#x8BBE;&#x8BA1;&#x7684;&#xFF0C;&#x57FA;&#x4E8E; cosocket API &#x7684; Redis Lua &#x5BA2;&#x6237;&#x7AEF;&#x3002;</p>
+<p>经过和研发沟通，得知程序采用 Nginx Lua 实现。Lua<br>是一个简洁、轻量、可扩展的脚本语言，也是号称性能最高的脚本语言。使用<br>Nginx Lua，再加上 LuaRedisModule 模块，就可以原生地和 Redis<br>建立请求，并解析响应。但真实的项目中采用的是 lua-resty-redis，这是一个为<br>ngx_lua 设计的，基于 cosocket API 的 Redis Lua 客户端。</p>
 <a id="more"></a>
-<p>&#x7A0B;&#x5E8F;&#x4E2D;&#x4F7F;&#x7528;&#x4E86;&#x5982;&#x4E0B;&#x8BBE;&#x7F6E;&#xFF1A;</p>
-<p>&#x5176;&#x4E2D;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x8868;&#x793A; max_idle_timeout&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x8868;&#x793A;<br>pool_size&#x3002;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x662F;&#x4E3A;&#x6BCF;&#x4E2A; Nginx<br>&#x5DE5;&#x4F5C;&#x8FDB;&#x7A0B;&#x8BBE;&#x7F6E;&#x7684;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x6700;&#x7EC8;&#x5EFA;&#x7ACB;&#x7684;&#x8FDE;&#x63A5;&#x8BA1;&#x7B97;&#x516C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p>connectionNum(&#x8FDE;&#x63A5;&#x6570;) = machineNum(&#x673A;&#x5668;&#x6570;) *<br>nginxWokerProcess(&#x6BCF;&#x53F0;&#x673A;&#x5668;&#x7684; Nginx &#x5DE5;&#x4F5C;&#x8FDB;&#x7A0B;&#x6570;) * pool_size(&#x8FDE;&#x63A5;&#x6C60;&#x5927;&#x5C0F;)</p>
-<p>&#x524D;&#x7AEF;&#x6709;&#x56DB;&#x53F0; Web &#x670D;&#x52A1;&#x5668;&#xFF0C;&#x6BCF;&#x53F0;&#x673A;&#x5668; 18 &#x4E2A; Nginx<br>&#x5DE5;&#x4F5C;&#x8FDB;&#x7A0B;&#xFF0C;&#x6309;&#x7167;&#x4E0A;&#x9762;&#x7684;&#x8BBE;&#x7F6E;&#xFF0C;&#x90A3;&#x548C;&#x5355;&#x70B9; Redis &#x5EFA;&#x7ACB;&#x7684;&#x8FDE;&#x63A5;&#x6570;&#x4E3A;<br>4*18*20&#xFF0C;&#x4E5F;&#x5C31;&#x662F; 1440&#x3002;&#x7136;&#x800C;&#xFF0C;&#x771F;&#x5B9E;&#x7684;&#x8FDE;&#x63A5;&#x5DF2;&#x7ECF;&#x8FBE;&#x5230; 7K&#xFF0C;&#x770B;&#x6765;&#x95EE;&#x9898;&#x4E0D;&#x5728;&#x8FD9;&#x91CC;&#x3002;</p>
-<p>&#x6211;&#x4EEC;&#x5C1D;&#x8BD5;&#x4F7F;&#x7528; Redis Pipeline&#xFF0C;&#x81F3;&#x4E8E;&#x539F;&#x56E0;&#xFF0C;&#x4E14;&#x542C;&#x6211;&#x6162;&#x6162;&#x9053;&#x6765;&#x3002;</p>
-<p>Redis &#x662F;&#x4E00;&#x79CD;&#x57FA;&#x4E8E;&#x5BA2;&#x6237;&#x7AEF;/&#x670D;&#x52A1;&#x7AEF;&#x6A21;&#x578B;&#x4EE5;&#x53CA;&#x8BF7;&#x6C42;/&#x54CD;&#x5E94;&#x534F;&#x8BAE;&#x7684; TCP<br>&#x670D;&#x52A1;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x4F1A;&#x9075;&#x5FAA;&#x4EE5;&#x4E0B;&#x6B65;&#x9AA4;&#xFF1A;</p>
-<p>Redis<br>&#x7BA1;&#x9053;&#x53EF;&#x4EE5;&#x5728;&#x670D;&#x52A1;&#x7AEF;&#x672A;&#x54CD;&#x5E94;&#x65F6;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x53EF;&#x4EE5;&#x7EE7;&#x7EED;&#x5411;&#x670D;&#x52A1;&#x7AEF;&#x53D1;&#x9001;&#x8BF7;&#x6C42;&#xFF0C;&#x5E76;&#x6700;&#x7EC8;&#x4E00;&#x6B21;&#x6027;&#x8BFB;&#x53D6;&#x6240;&#x6709;&#x670D;&#x52A1;&#x7AEF;&#x7684;&#x54CD;&#x5E94;&#x3002;&#x53EF;&#x4EE5;&#x7B80;&#x5355;&#x5730;&#x7406;&#x89E3;&#x4E3A;&#x6279;&#x91CF;&#x64CD;&#x4F5C;&#xFF0C;&#x4E00;&#x6B21;&#x8FD4;&#x56DE;&#x3002;</p>
-<p>&#x7136;&#x800C;&#xFF0C;&#x771F;&#x5B9E;&#x573A;&#x666F;&#x4E2D;&#xFF0C;&#x7EDD;&#x5927;&#x591A;&#x591A;&#x6570;&#x7684;&#x547D;&#x4EE4;&#x662F; INCR&#xFF0C;&#x4E5F;&#x5C31;&#x662F; +1<br>&#x7684;&#x64CD;&#x4F5C;&#x3002;&#x8FD9;&#x7C7B;&#x64CD;&#x4F5C;&#x4F7F;&#x7528;&#x7BA1;&#x9053;&#x7684;&#x610F;&#x4E49;&#x4E0D;&#x662F;&#x592A;&#x5927;&#xFF0C;&#x4E8E;&#x662F;&#x653E;&#x5F03;&#x4E86;&#x3002;</p>
-<h3 id="2-2-&#x4F7F;&#x7528;-Twemproxy-&#x6A2A;&#x5411;&#x6269;&#x5C55;"><a href="#2-2-&#x4F7F;&#x7528;-Twemproxy-&#x6A2A;&#x5411;&#x6269;&#x5C55;" class="headerlink" title="2.2 &#x4F7F;&#x7528; Twemproxy &#x6A2A;&#x5411;&#x6269;&#x5C55;"></a>2.2 &#x4F7F;&#x7528; Twemproxy &#x6A2A;&#x5411;&#x6269;&#x5C55;</h3><p>&#x6211;&#x4EEC;&#x5C1D;&#x8BD5;&#x8FDB;&#x884C; Scale Out&#xFF0C;&#x589E;&#x52A0; Redis &#x5B9E;&#x4F8B;&#xFF0C;&#x5E76;&#x4E14;&#x4F7F;&#x7528; Twemproxy &#x4EE3;&#x7406;&#xFF0C;&#x6BCF;&#x53F0;<br>Web &#x670D;&#x52A1;&#x5668;&#x8BBF;&#x95EE;&#x672C;&#x5730;&#x7684; Twemproxy&#x3002;</p>
-<p>&#x5728;&#x6B64;&#x4E0D;&#x59A8;&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E0B;<br>Twemproxy&#x3002;&#x4E3A;&#x4E86;&#x6EE1;&#x8DB3;&#x6570;&#x636E;&#x7684;&#x65E5;&#x76CA;&#x589E;&#x957F;&#x548C;&#x6269;&#x5C55;&#x6027;&#xFF0C;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x7CFB;&#x7EDF;&#x4E00;&#x822C;&#x90FD;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x4E00;&#x5B9A;&#x7684;&#x5206;&#x7247;&#x3002;&#x5206;&#x7247;&#x4E3B;&#x8981;&#x5B58;&#x5728;&#x4E09;&#x4E2A;&#x4F4D;&#x7F6E;&#xFF0C;&#x7B2C;&#x4E00;&#x5C42;&#xFF0C;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x7CFB;&#x7EDF;&#x672C;&#x8EAB;&#x652F;&#x6301;&#xFF1B;&#x7B2C;&#x4E8C;&#x5C42;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x548C;&#x5BA2;&#x6237;&#x7AEF;&#x4E2D;&#x95F4;&#x5EFA;&#x4EE3;&#x7406;&#x652F;&#x6301;&#xFF1B;&#x7B2C;&#x4E09;&#x5C42;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x652F;&#x6301;&#x3002;Redis<br>Cluster &#x5C5E;&#x4E8E;&#x7B2C;&#x4E00;&#x5C42;&#xFF0C;Twemproxy &#x5C5E;&#x4E8E;&#x7B2C;&#x4E8C;&#x5C42;&#xFF0C;Memcached<br>&#x5C5E;&#x4E8E;&#x7B2C;&#x4E09;&#x5C42;&#x3002;Twemproxy&#xFF08;&#x53C8;&#x79F0;&#x4E3A; nutcracker&#xFF09;&#x662F;&#x4E00;&#x4E2A;&#x8F7B;&#x91CF;&#x7EA7;&#x7684; Redis &#x548C;<br>Memcached &#x4EE3;&#x7406;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5206;&#x7247;&#x3002;Twemproxy &#x7531; Twitter<br>&#x5F00;&#x6E90;&#x51FA;&#x6765;&#x7684;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x5DE5;&#x5177;&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x6765;&#x5F25;&#x8865; Redis &#x548C; Memcached &#x5BF9;&#x96C6;&#x7FA4;<br>(Cluster) &#x7BA1;&#x7406;&#x7684;&#x4E0D;&#x8DB3;&#x3002;Twemproxy &#x6309;&#x7167;&#x4E00;&#x5B9A;&#x7684;&#x8DEF;&#x7531;&#x89C4;&#x5219;&#xFF0C;&#x8F6C;&#x53D1;&#x7ED9;&#x540E;&#x53F0;&#x7684;&#x5404;&#x4E2A;<br>Redis &#x5B9E;&#x4F8B;&#xFF0C;&#x518D;&#x539F;&#x8DEF;&#x8FD4;&#x56DE;&#x3002;&#x6709;&#x4E86; Twemproxy&#xFF0C;&#x524D;&#x7AEF;&#x4E0D;&#x518D;&#x5173;&#x5FC3;&#x540E;&#x7AEF;&#x4EE3;&#x7406;&#x4E86;&#x591A;&#x5C11; Redis<br>&#x5B9E;&#x4F8B;&#xFF0C;&#x800C;&#x53EA;&#x9700;&#x8BBF;&#x95EE; Twemproxy<br>&#x5373;&#x53EF;&#xFF0C;&#x4E00;&#x65B9;&#x9762;&#x7B80;&#x5316;&#x4E86;&#x5F00;&#x53D1;&#x96BE;&#x5EA6;&#xFF0C;&#x53E6;&#x4E00;&#x65B9;&#x9762;&#x63D0;&#x9AD8;&#x4E86;&#x6027;&#x80FD;&#x3002;Twemproxy<br>&#x652F;&#x6301;&#x5927;&#x90E8;&#x5206;&#x547D;&#x4EE4;&#xFF0C;&#x4F46;&#x5BF9;&#x591A;&#x952E;&#x547D;&#x4EE4;&#x7684;&#x652F;&#x6301;&#x6709;&#x9650;&#xFF0C;&#x5E76;&#x4E14;&#x4F1A;&#x6709; 20%<br>&#x5DE6;&#x53F3;&#x7684;&#x6027;&#x80FD;&#x635F;&#x5931;&#xFF08;Twitter &#x5B98;&#x65B9;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#xFF09;&#x3002;&#x7B80;&#x5355;&#x6765;&#x8BF4;&#xFF0C;Twemproxy &#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x652F;&#x6301;<br>Redis &#x534F;&#x8BAE;&#xFF0C;&#x5BF9;&#x524D;&#x7AEF;&#x900F;&#x660E;&#xFF0C;&#x652F;&#x6301;&#x5206;&#x7247;&#xFF0C;&#x6027;&#x80FD;&#x4F18;&#x79C0;&#x7684;&#x4EE3;&#x7406;&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x76EE;&#x524D; Redis 3.0<br>&#x5DF2;&#x7ECF;&#x53D1;&#x5E03;&#xFF0C;&#x4E0D;&#x5C11;&#x5382;&#x5546;&#x4F1A;&#x9009;&#x62E9;&#x4F7F;&#x7528; Redis 3.0 &#x4EE3;&#x66FF; Twemproxy&#xFF0C;&#x8FD9;&#x9700;&#x8981;&#x65F6;&#x95F4;&#x3002;</p>
-<p>&#x6211;&#x4EEC;&#x5728;&#x72EC;&#x7ACB;&#x670D;&#x52A1;&#x5668;&#x65B0;&#x589E;&#x4E86; 4 &#x4E2A;&#x5B9E;&#x4F8B;&#xFF0C;&#x5E76;&#x4E14; Web &#x670D;&#x52A1;&#x5668;&#x90E8;&#x7F72;<br>Twemproxy&#xFF0C;&#x5E94;&#x7528;&#x8BBF;&#x95EE;&#x672C;&#x5730;&#x7684; Twemproxy&#x3002;&#x4F46;&#x5B9E;&#x9645;&#x7684;&#x6548;&#x679C;&#x5E76;&#x4E0D;&#x7406;&#x60F3;&#xFF0C;Redis QPS<br>&#x4F9D;&#x7136;&#x9AD8;&#xFF0C;&#x672C;&#x5730;&#x7684; Twemproxy &#x5C45;&#x7136;&#x8BA9; Web<br>&#x670D;&#x52A1;&#x5668;&#x6027;&#x80FD;&#x6076;&#x5316;&#x3002;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x6709;&#x8DA3;&#x7684;&#x73B0;&#x8C61;&#x662F;&#xFF0C;Twemproxy &#x4EE3;&#x7406;&#x7684;&#x51E0;&#x4E2A; Redis<br>&#x5B9E;&#x4F8B;&#x5B58;&#x5728;&#x4E25;&#x91CD;&#x7684;&#x6570;&#x636E;&#x503E;&#x659C;&#x3002;&#x6709;&#x4E9B; Redis &#x5B9E;&#x4F8B; QPS &#x53EF;&#x4EE5;&#x8FBE;&#x5230; 80K&#xFF0C;&#x6709;&#x4E9B; Redis<br>&#x53EA;&#x6709; 5K &#x5DE6;&#x53F3;&#x3002;</p>
-<p>&#x90A3;&#x76EE;&#x524D;&#x6211;&#x4EEC;&#x7684;&#x95EE;&#x9898;&#x4E3B;&#x8981;&#x96C6;&#x4E2D;&#x5728;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#x4E0A;&#xFF0C;&#x7B2C;&#x4E00;&#xFF0C;&#x8FDE;&#x63A5;&#x6570;&#x8FC7;&#x9AD8;&#xFF1B;&#x7B2C;&#x4E8C;&#xFF0C;&#x6570;&#x636E;&#x503E;&#x659C;&#x3002;&#x7ECF;&#x8FC7;&#x7814;&#x53D1;&#x6392;&#x67E5;&#xFF0C;&#x627E;&#x51FA;&#x4E00;&#x6BB5;&#x4EE4;&#x4EBA;&#x532A;&#x5937;&#x6240;&#x601D;&#x7684;&#x4EE3;&#x7801;&#x3002;Nginx<br>Lua &#x4E2D;&#x7684;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x662F; 60s&#xFF0C;&#x8FD9;&#x4E5F;&#x89E3;&#x91CA;&#x4E86;&#x4E3A;&#x4EC0;&#x4E48;&#x5B9E;&#x9645;&#x8FDE;&#x63A5;&#x8DDF;&#x7406;&#x8BBA;&#x8FDE;&#x63A5;&#x76F8;&#x5DEE;&#x5982;&#x6B64;&#x5DE8;&#x5927;&#x3002;</p>
-<h3 id="2-3-&#x95EE;&#x9898;&#x89E3;&#x51B3;"><a href="#2-3-&#x95EE;&#x9898;&#x89E3;&#x51B3;" class="headerlink" title="2.3 &#x95EE;&#x9898;&#x89E3;&#x51B3;"></a>2.3 &#x95EE;&#x9898;&#x89E3;&#x51B3;</h3><p>&#x6839;&#x636E;&#x4EE5;&#x4E0A;&#x7684;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x4EEC;&#x51B3;&#x5B9A;&#x5206;&#x4E24;&#x6B65;&#x8D70;&#x3002;&#x7B2C;&#x4E00;&#xFF0C;&#x66F4;&#x6539;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF1B;&#x7B2C;&#x4E8C;&#xFF0C;&#x89E3;&#x51B3;&#x6570;&#x636E;&#x503E;&#x659C;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
-<p>&#x7814;&#x53D1;&#x628A;&#x8D85;&#x65F6;&#x6539;&#x4E3A;<br>2s&#xFF0C;&#x5E76;&#x4E14;&#x6839;&#x636E;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x66F4;&#x6539;&#x4E86;&#x8FDE;&#x63A5;&#x6C60;&#xFF0C;&#x89C2;&#x5BDF;&#x6548;&#x679C;&#x3002;&#x53EF;&#x4EE5;&#x660E;&#x663E;&#x5730;&#x770B;&#x5230;&#xFF0C;&#x8FDE;&#x63A5;&#x6570;&#x964D;&#x5230;<br>1K &#x5DE6;&#x53F3;&#xFF0C;&#x673A;&#x5668; Socket &#x4F7F;&#x7528;&#x6570;&#x4E0B;&#x964D;&#x663E;&#x8457;&#xFF0C;&#x8FDE;&#x63A5;&#x6CA1;&#x6709;&#x963B;&#x585E;&#xFF0C;&#x4E1A;&#x52A1;&#x6CA1;&#x6709;&#x8F83;&#x5927;&#x7684;&#x6CE2;&#x52A8;&#x3002;</p>
-<p>&#x89E3;&#x51B3;&#x4E86;&#x8FDE;&#x63A5;&#x6570;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x6211;&#x4EEC;&#x63A5;&#x4E0B;&#x6765;&#x89E3;&#x51B3;&#x6570;&#x636E;&#x503E;&#x659C;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
-<p>&#x5982;&#x524D;&#x6240;&#x8FF0;&#xFF0C;Scale Out &#x540E;&#xFF0C;Redis &#x5B9E;&#x4F8B;&#x5B58;&#x5728;&#x4E25;&#x91CD;&#x7684;&#x6570;&#x636E;&#x503E;&#x659C;&#x3002;&#x6709;&#x4E9B; Redis &#x5B9E;&#x4F8B;<br>QPS &#x53EF;&#x4EE5;&#x8FBE;&#x5230; 80K&#xFF0C;&#x6709;&#x4E9B; Redis &#x53EA;&#x6709; 5K<br>&#x5DE6;&#x53F3;&#x3002;&#x5206;&#x6790;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x8FD9;&#x5C31;&#x8981;&#x4ECE;&#x4E1A;&#x52A1;&#x6570;&#x636E;&#x5F62;&#x6001;&#x5165;&#x624B;&#x3002;&#x8FD9;&#x4E2A;&#x4E1A;&#x52A1;&#x662F;&#x7EDF;&#x8BA1;&#x4E1A;&#x52A1;&#xFF0C;&#x7531;&#x5927;&#x91CF;&#x7684;<br>INCR &#x64CD;&#x4F5C;&#xFF0C;&#x5E76;&#x4E14;&#x4EA7;&#x751F;&#x7684; Key &#x8F83;&#x5C11;&#x3002;Twemproxy &#x6839;&#x636E;&#x914D;&#x7F6E;&#x7684;&#x4E00;&#x81F4;&#x6027; Hash &#x51FD;&#x6570;&#xFF0C;&#x5BF9;<br>Key &#x8FDB;&#x884C; Hash &#x6821;&#x9A8C;&#xFF0C;&#x518D;&#x51B3;&#x5B9A;&#x8F6C;&#x53D1;&#x5230;&#x5BF9;&#x5E94;&#x7684; Redis &#x5B9E;&#x4F8B;&#x3002;</p>
-<p>&#x6839;&#x636E;&#x4EE5;&#x4E0A;&#x5206;&#x6790;&#xFF0C;&#x4EA7;&#x751F;&#x7684; Key &#x8F83;&#x5C11;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x91CD;&#x590D;&#x7387;&#x8F83;&#x9AD8;&#xFF0C;&#x5BFC;&#x81F4;&#x8F6C;&#x53D1;&#x7684; Redis<br>&#x5B9E;&#x4F8B;&#x5C31;&#x4F1A;&#x96C6;&#x4E2D;&#x3002;&#x8FD9;&#x4E5F;&#x89E3;&#x91CA;&#x4E86;&#x4E3A;&#x4EC0;&#x4E48;&#x4F1A;&#x4EA7;&#x751F;&#x6570;&#x636E;&#x503E;&#x659C;&#x3002;&#x9488;&#x5BF9;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x6211;&#x4EEC;&#x5C55;&#x5F00;&#x8BA8;&#x8BBA;&#x3002;&#x6700;&#x5F00;&#x59CB;&#x6253;&#x7B97;&#x5199;&#x672C;&#x5730;&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x5B9A;&#x65F6;&#x5199;&#x5165;<br>Redis&#xFF0C;&#x8FD9;&#x6837; Redis &#x7684; QPS<br>&#x4F1A;&#x4E0B;&#x964D;&#x4E0D;&#x5C11;&#x3002;&#x4F46;&#x8003;&#x8651;&#x5230;&#x5B9A;&#x65F6;&#x5668;&#x5B9E;&#x73B0;&#x8F83;&#x590D;&#x6742;&#xFF0C;&#x4E8E;&#x662F;&#x91C7;&#x53D6;&#x4E86;&#x62C6;&#x5206; Key<br>&#x7684;&#x529E;&#x6CD5;&#x3002;&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x6BD4;&#x5982;&#x4E4B;&#x524D;&#x662F;&#x4E00;&#x5206;&#x949F;&#x4E00;&#x4E2A; Key&#xFF0C;&#x90A3;&#x73B0;&#x5728; 1 &#x5206;&#x949F;&#x4EA7;&#x751F; 10+<br>Key&#xFF0C;&#x751A;&#x81F3;&#x66F4;&#x591A;&#xFF0C;&#x90A3;&#x8FD9;&#x6837;&#x6570;&#x636E;&#x503E;&#x659C;&#x7684;&#x95EE;&#x9898;&#x81EA;&#x7136;&#x4F1A;&#x6162;&#x6162;&#x51CF;&#x7F13;&#xFF0C;&#x76F4;&#x81F3;&#x6D88;&#x9664;&#x3002;</p>
-<p>&#x7ECF;&#x8FC7;&#x7814;&#x53D1;&#x7684;&#x8270;&#x82E6;&#x594B;&#x6597;&#xFF0C;&#x628A; Key &#x62C6;&#x5206;&#x540E;&#xFF0C;&#x6548;&#x679C;&#x660E;&#x663E;&#x3002;QPS &#x5206;&#x644A;&#x5230;&#x5404;&#x4E2A; Redis<br>&#x5B9E;&#x4F8B;&#xFF0C;&#x8FDE;&#x63A5;&#x6570;&#x4E0B;&#x964D;&#xFF0C;Web &#x670D;&#x52A1;&#x5668;&#x6027;&#x80FD;&#x63D0;&#x9AD8;&#x3002;</p>
-<h2 id="0x03-&#x539F;&#x7406;&#x63A2;&#x8BA8;"><a href="#0x03-&#x539F;&#x7406;&#x63A2;&#x8BA8;" class="headerlink" title="0x03 &#x539F;&#x7406;&#x63A2;&#x8BA8;"></a>0x03 &#x539F;&#x7406;&#x63A2;&#x8BA8;</h2><p>&#x5728;&#x539F;&#x7406;&#x63A2;&#x8BA8;&#x8FD9;&#x4E00;&#x5C0F;&#x7ED3;&#xFF0C;&#x7B14;&#x8005;&#x53EA;&#x9488;&#x5BF9; Twemproxy &#x4E00;&#x81F4;&#x6027; Hash<br>&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x6D45;&#x8584;&#x5730;&#x5206;&#x6790;&#x3002;</p>
-<p>Twemproxy &#x63D0;&#x4F9B;&#x53D6;&#x6A21;&#xFF0C;&#x4E00;&#x81F4;&#x6027;&#x54C8;&#x5E0C;&#x7B49;&#x624B;&#x6BB5;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x5206;&#x7247;&#xFF0C;&#x7EF4;&#x62A4;&#x548C;&#x540E;&#x7AEF; Server<br>&#x7684;&#x957F;&#x8FDE;&#x63A5;&#xFF0C;&#x81EA;&#x52A8;&#x8E22;&#x9664; Server&#x3001;&#x6062;&#x590D;<br>Server&#xFF0C;&#x63D0;&#x4F9B;&#x4E13;&#x95E8;&#x7684;&#x72B6;&#x6001;&#x76D1;&#x63A7;&#x7AEF;&#x53E3;&#x4F9B;&#x5916;&#x90E8;&#x5DE5;&#x5177;&#x83B7;&#x53D6;&#x72B6;&#x6001;&#x76D1;&#x63A7;&#x4FE1;&#x606F;&#x3002;Twemproxy<br>&#x4F7F;&#x7528;&#x7684;&#x662F;&#x5355;&#x8FDB;&#x7A0B;&#x5355;&#x7EBF;&#x7A0B;&#x6765;&#x5904;&#x7406;&#x8BF7;&#x6C42;&#xFF0C;&#x53EA;&#x662F;&#x53E6;&#x5916;&#x8D77;&#x4E86;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x6765;&#x5904;&#x7406;&#x7EDF;&#x8BA1;&#x6570;&#x636E;&#x3002;</p>
-<p>Twemproxy &#x7684;&#x4EE3;&#x7801;&#x7EC4;&#x6210;&#x5982;&#x4E0B;&#xFF1A;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x3001;&#x591A;&#x79CD; Hash<br>&#x51FD;&#x6570;&#x3001;&#x534F;&#x8BAE;&#x3001;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x3001;&#x7F51;&#x7EDC;&#x901A;&#x4FE1;&#x3001;&#x4FE1;&#x53F7;&#x5904;&#x7406;&#x3001;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x548C;&#x7B97;&#x6CD5;&#x3001;&#x7EDF;&#x8BA1;&#x65E5;&#x5FD7;&#x548C;&#x5DE5;&#x5177;&#x3001;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x548C;&#x4E3B;&#x7A0B;&#x5E8F;&#x3002;</p>
-<p>&#x7B2C;&#x4E8C;&#x5C0F;&#x7ED3;&#x6709;&#x63D0;&#x5230; Twemproxy &#x7684; &#x4E00;&#x81F4;&#x6027;Hash &#x51FD;&#x6570;&#x3002;&#x4E00;&#x81F4;&#x6027; Hash<br>&#x51FD;&#x6570;&#x6709;&#xFF1A;one_at_a_time&#x3001;md5&#x3001;crc16&#x3001;crc32&#x3001;crc32a&#x3001;fnv1_64&#x3001;fnv1a_64&#x3001;fnv1_32&#x3001;fnv1a_32&#x3001;hsieh&#x3001;murmur<br>&#x548C; jenkins&#x3002;Key &#x7684;&#x5206;&#x53D1;&#x6A21;&#x5F0F;&#x6709;&#xFF1A;ketama&#x3001;modula &#x548C; random&#x3002;&#x7EBF;&#x4E0A;&#x4E1A;&#x52A1;&#x914D;&#x7F6E;&#x7684;<br>Hash &#x51FD;&#x6570;&#x662F; fnv1a_64&#xFF0C;&#x5206;&#x53D1;&#x6A21;&#x5F0F;&#x4E3A; ketama&#x3002;</p>
-<p>fnv1a_64 Hash &#x7B97;&#x6CD5;&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x7528;&#x5982;&#x4E0B; Python<br>&#x4EE3;&#x7801;&#xFF08;&#x6765;&#x81EA; <a href="https://github.com/idning" target="_blank" rel="external">ning</a>&#xFF09;&#x6A21;&#x62DF;&#xFF1A;</p>
-<p>Key &#x91CD;&#x590D;&#x7387;&#x8D8A;&#x9AD8;&#xFF0C;&#x6839;&#x636E;&#x4E00;&#x81F4;&#x6027;&#x51FD;&#x6570;&#x5904;&#x7406;&#x540E;&#xFF0C;&#x8F6C;&#x53D1;&#x5230;&#x76F8;&#x540C;&#x673A;&#x5668;&#x7684;&#x6982;&#x7387;&#x5C31;&#x4F1A;&#x8D8A;&#x9AD8;&#x3002;</p>
-<p>&#x53E6;&#x5916;&#xFF0C;ketama &#x5206;&#x53D1;&#x6A21;&#x5F0F;&#x7684;&#x7B97;&#x6CD5;&#x590D;&#x6742;&#x5EA6;&#x662F; O(LogN)&#xFF0C;&#x7136;&#x800C; modula &#x7684;&#x7B97;&#x6CD5;&#x590D;&#x6742;&#x5EA6;&#x662F;<br>O(1)&#x3002;&#x6309;&#x7167;&#x5B98;&#x65B9;&#x7684;&#x793A;&#x4F8B;&#xFF0C;&#x6211;&#x4EEC;&#x9ED8;&#x8BA4;&#x91C7;&#x7528;&#x4E86; ketama&#x3002;&#x4E0D;&#x8FC7;&#x6700;&#x597D;&#x6309;&#x7167;&#x5B9E;&#x9645;&#x73AF;&#x5883;&#x914D;&#x7F6E;&#x3002;</p>
-<h2 id="0x04-&#x6848;&#x4F8B;&#x5C0F;&#x7ED3;"><a href="#0x04-&#x6848;&#x4F8B;&#x5C0F;&#x7ED3;" class="headerlink" title="0x04 &#x6848;&#x4F8B;&#x5C0F;&#x7ED3;"></a>0x04 &#x6848;&#x4F8B;&#x5C0F;&#x7ED3;</h2><p>&#x6B64;&#x6848;&#x4F8B;&#x975E;&#x5E38;&#x5177;&#x6709;&#x4EE3;&#x8868;&#x6027;&#x3002;&#x7B2C;&#x4E00;&#xFF0C;&#x6392;&#x67E5;&#x5B9A;&#x4F4D;&#x95EE;&#x9898;&#x7684;&#x601D;&#x8DEF;&#xFF1B;&#x7B2C;&#x4E8C;&#xFF0C;Redis<br>&#x9047;&#x5230;&#x74F6;&#x9888;&#x7684;&#x89E3;&#x51B3;&#x601D;&#x8DEF;&#xFF1B;&#x7B2C;&#x4E09;&#xFF0C;Scale Out<br>&#x7684;&#x5206;&#x6790;&#x89D2;&#x5EA6;&#x3002;&#x9047;&#x5230;&#x74F6;&#x9888;&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x4EE5;&#x4ECE;&#x5982;&#x4E0B;&#x51E0;&#x4E2A;&#x89D2;&#x5EA6;&#x601D;&#x8003;&#xFF0C;&#x7B2C;&#x4E00;&#xFF0C;&#x5BF9;&#x4EE3;&#x7801;&#x3001;&#x670D;&#x52A1;&#x5668;&#x548C;&#x76F8;&#x5173;&#x670D;&#x52A1;&#x8FDB;&#x884C;&#x4F18;&#x5316;&#xFF1B;&#x7B2C;&#x4E8C;&#xFF0C;&#x5177;&#x4F53;&#x4EA7;&#x54C1;&#x7684;&#x9009;&#x578B;&#x6216;&#x8005;&#x5B9A;&#x5236;&#xFF1B;&#x7B2C;&#x4E09;&#xFF0C;&#x6839;&#x636E;&#x4E1A;&#x52A1;&#x5F62;&#x6001;&#xFF0C;&#x5BF9;&#x6570;&#x636E;&#x4EA7;&#x751F;&#x3001;&#x5904;&#x7406;&#x548C;&#x6D88;&#x8D39;&#x6D41;&#x7A0B;&#x8FDB;&#x884C;&#x68B3;&#x7406;&#xFF0C;&#x68B3;&#x7406;&#x5B8C;&#x6210;&#x518D;&#x51B3;&#x5B9A;&#x6216;&#x8005;&#x4F18;&#x5316;&#x67B6;&#x6784;&#x5F62;&#x6001;&#xFF1B;&#x7B2C;&#x56DB;&#xFF0C;&#x8FDB;&#x884C;&#x6269;&#x5C55;&#xFF0C;&#x6839;&#x636E;&#x4E1A;&#x52A1;&#x573A;&#x666F;&#x51B3;&#x5B9A;<br>Scale Out &#x8FD8;&#x662F; Scale Up&#x3002;</p>
-<p>&#x2013;EOF&#x2013;</p>
-<p>&#x63D2;&#x56FE;&#x6765;&#x81EA;&#xFF1A;&#x76D1;&#x63A7;&#x7CFB;&#x7EDF;</p>
-<p>&#x7248;&#x6743;&#x58F0;&#x660E;&#xFF1A;&#x81EA;&#x7531;&#x8F6C;&#x8F7D;-&#x975E;&#x5546;&#x7528;-&#x975E;&#x884D;&#x751F;-&#x4FDD;&#x6301;&#x7F72;&#x540D;<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank" rel="external">&#xFF08;&#x521B;&#x610F;&#x5171;&#x4EAB;3.0&#x8BB8;&#x53EF;&#x8BC1;&#xFF09;</a></p>
-<p><a href="http://toutiao.io/r/ljsh9v" target="_blank" rel="external">&#x67E5;&#x770B;&#x539F;&#x6587;</a></p>
+<p>程序中使用了如下设置：</p>
+<p>其中第一个参数表示 max_idle_timeout，第二个参数表示<br>pool_size。这个方法是为每个 Nginx<br>工作进程设置的。也就是说，最终建立的连接计算公式如下：</p>
+<p>connectionNum(连接数) = machineNum(机器数) *<br>nginxWokerProcess(每台机器的 Nginx 工作进程数) * pool_size(连接池大小)</p>
+<p>前端有四台 Web 服务器，每台机器 18 个 Nginx<br>工作进程，按照上面的设置，那和单点 Redis 建立的连接数为<br>4*18*20，也就是 1440。然而，真实的连接已经达到 7K，看来问题不在这里。</p>
+<p>我们尝试使用 Redis Pipeline，至于原因，且听我慢慢道来。</p>
+<p>Redis 是一种基于客户端/服务端模型以及请求/响应协议的 TCP<br>服务。这意味着通常情况下一个请求会遵循以下步骤：</p>
+<p>Redis<br>管道可以在服务端未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端的响应。可以简单地理解为批量操作，一次返回。</p>
+<p>然而，真实场景中，绝大多多数的命令是 INCR，也就是 +1<br>的操作。这类操作使用管道的意义不是太大，于是放弃了。</p>
+<h3 id="2-2-使用-Twemproxy-横向扩展"><a href="#2-2-使用-Twemproxy-横向扩展" class="headerlink" title="2.2 使用 Twemproxy 横向扩展"></a>2.2 使用 Twemproxy 横向扩展</h3><p>我们尝试进行 Scale Out，增加 Redis 实例，并且使用 Twemproxy 代理，每台<br>Web 服务器访问本地的 Twemproxy。</p>
+<p>在此不妨简单介绍下<br>Twemproxy。为了满足数据的日益增长和扩展性，数据存储系统一般都需要进行一定的分片。分片主要存在三个位置，第一层，数据存储系统本身支持；第二层，服务器端和客户端中间建代理支持；第三层，客户端支持。Redis<br>Cluster 属于第一层，Twemproxy 属于第二层，Memcached<br>属于第三层。Twemproxy（又称为 nutcracker）是一个轻量级的 Redis 和<br>Memcached 代理，主要用于分片。Twemproxy 由 Twitter<br>开源出来的缓存服务器集群管理工具，主要用来弥补 Redis 和 Memcached 对集群<br>(Cluster) 管理的不足。Twemproxy 按照一定的路由规则，转发给后台的各个<br>Redis 实例，再原路返回。有了 Twemproxy，前端不再关心后端代理了多少 Redis<br>实例，而只需访问 Twemproxy<br>即可，一方面简化了开发难度，另一方面提高了性能。Twemproxy<br>支持大部分命令，但对多键命令的支持有限，并且会有 20%<br>左右的性能损失（Twitter 官方测试结果）。简单来说，Twemproxy 就是一个支持<br>Redis 协议，对前端透明，支持分片，性能优秀的代理。当然，目前 Redis 3.0<br>已经发布，不少厂商会选择使用 Redis 3.0 代替 Twemproxy，这需要时间。</p>
+<p>我们在独立服务器新增了 4 个实例，并且 Web 服务器部署<br>Twemproxy，应用访问本地的 Twemproxy。但实际的效果并不理想，Redis QPS<br>依然高，本地的 Twemproxy 居然让 Web<br>服务器性能恶化。另外一个有趣的现象是，Twemproxy 代理的几个 Redis<br>实例存在严重的数据倾斜。有些 Redis 实例 QPS 可以达到 80K，有些 Redis<br>只有 5K 左右。</p>
+<p>那目前我们的问题主要集中在两个问题上，第一，连接数过高；第二，数据倾斜。经过研发排查，找出一段令人匪夷所思的代码。Nginx<br>Lua 中的超时时间是 60s，这也解释了为什么实际连接跟理论连接相差如此巨大。</p>
+<h3 id="2-3-问题解决"><a href="#2-3-问题解决" class="headerlink" title="2.3 问题解决"></a>2.3 问题解决</h3><p>根据以上的分析，我们决定分两步走。第一，更改超时时间；第二，解决数据倾斜的问题。</p>
+<p>研发把超时改为<br>2s，并且根据实际情况更改了连接池，观察效果。可以明显地看到，连接数降到<br>1K 左右，机器 Socket 使用数下降显著，连接没有阻塞，业务没有较大的波动。</p>
+<p>解决了连接数的问题，我们接下来解决数据倾斜的问题。</p>
+<p>如前所述，Scale Out 后，Redis 实例存在严重的数据倾斜。有些 Redis 实例<br>QPS 可以达到 80K，有些 Redis 只有 5K<br>左右。分析这个问题，这就要从业务数据形态入手。这个业务是统计业务，由大量的<br>INCR 操作，并且产生的 Key 较少。Twemproxy 根据配置的一致性 Hash 函数，对<br>Key 进行 Hash 校验，再决定转发到对应的 Redis 实例。</p>
+<p>根据以上分析，产生的 Key 较少，也就是重复率较高，导致转发的 Redis<br>实例就会集中。这也解释了为什么会产生数据倾斜。针对这个问题，我们展开讨论。最开始打算写本地文件，然后定时写入<br>Redis，这样 Redis 的 QPS<br>会下降不少。但考虑到定时器实现较复杂，于是采取了拆分 Key<br>的办法。举个例子，比如之前是一分钟一个 Key，那现在 1 分钟产生 10+<br>Key，甚至更多，那这样数据倾斜的问题自然会慢慢减缓，直至消除。</p>
+<p>经过研发的艰苦奋斗，把 Key 拆分后，效果明显。QPS 分摊到各个 Redis<br>实例，连接数下降，Web 服务器性能提高。</p>
+<h2 id="0x03-原理探讨"><a href="#0x03-原理探讨" class="headerlink" title="0x03 原理探讨"></a>0x03 原理探讨</h2><p>在原理探讨这一小结，笔者只针对 Twemproxy 一致性 Hash<br>函数进行浅薄地分析。</p>
+<p>Twemproxy 提供取模，一致性哈希等手段进行数据分片，维护和后端 Server<br>的长连接，自动踢除 Server、恢复<br>Server，提供专门的状态监控端口供外部工具获取状态监控信息。Twemproxy<br>使用的是单进程单线程来处理请求，只是另外起了一个线程来处理统计数据。</p>
+<p>Twemproxy 的代码组成如下：事件处理、多种 Hash<br>函数、协议、自定义的数据类型、网络通信、信号处理、数据结构和算法、统计日志和工具、配置文件和主程序。</p>
+<p>第二小结有提到 Twemproxy 的 一致性Hash 函数。一致性 Hash<br>函数有：one_at_a_time、md5、crc16、crc32、crc32a、fnv1_64、fnv1a_64、fnv1_32、fnv1a_32、hsieh、murmur<br>和 jenkins。Key 的分发模式有：ketama、modula 和 random。线上业务配置的<br>Hash 函数是 fnv1a_64，分发模式为 ketama。</p>
+<p>fnv1a_64 Hash 算法的实现，我们可以用如下 Python<br>代码（来自 <a href="https://github.com/idning" target="_blank" rel="external">ning</a>）模拟：</p>
+<p>Key 重复率越高，根据一致性函数处理后，转发到相同机器的概率就会越高。</p>
+<p>另外，ketama 分发模式的算法复杂度是 O(LogN)，然而 modula 的算法复杂度是<br>O(1)。按照官方的示例，我们默认采用了 ketama。不过最好按照实际环境配置。</p>
+<h2 id="0x04-案例小结"><a href="#0x04-案例小结" class="headerlink" title="0x04 案例小结"></a>0x04 案例小结</h2><p>此案例非常具有代表性。第一，排查定位问题的思路；第二，Redis<br>遇到瓶颈的解决思路；第三，Scale Out<br>的分析角度。遇到瓶颈问题，可以从如下几个角度思考，第一，对代码、服务器和相关服务进行优化；第二，具体产品的选型或者定制；第三，根据业务形态，对数据产生、处理和消费流程进行梳理，梳理完成再决定或者优化架构形态；第四，进行扩展，根据业务场景决定<br>Scale Out 还是 Scale Up。</p>
+<p>–EOF–</p>
+<p>插图来自：监控系统</p>
+<p>版权声明：自由转载-非商用-非衍生-保持署名<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank" rel="external">（创意共享3.0许可证）</a></p>
+<p><a href="http://toutiao.io/r/ljsh9v" target="_blank" rel="external">查看原文</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -177,18 +177,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/Oracle中TO_DATE格式/" title="Oracle中TO_DATE格式">
+ <a href="/2016/03/30/RESTEasy入门/" title="RESTEasy入门">
   <strong>上一篇：</strong><br/>
   <span>
-  Oracle中TO_DATE格式</span>
+  RESTEasy入门</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/SVN分支与合并/"  title="SVN分支与合并">
+<a href="/2016/03/30/阿里云遇到的问题/"  title="阿里云遇到的问题">
  <strong>下一篇：</strong><br/> 
- <span>SVN分支与合并
+ <span>阿里云遇到的问题
 </span>
 </a>
 </div>
@@ -257,11 +257,23 @@
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -273,7 +285,7 @@
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -330,6 +342,14 @@
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -342,15 +362,7 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -362,7 +374,7 @@
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -374,7 +386,7 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			

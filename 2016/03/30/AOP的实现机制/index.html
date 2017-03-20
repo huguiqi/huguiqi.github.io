@@ -11,41 +11,47 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="AOP&amp;#x7684;&amp;#x5B9E;&amp;#x73B0;&amp;#x673A;&amp;#x5236;AOP&amp;#x7684;&amp;#x5B9E;&amp;#x73B0;&amp;#x673A;&amp;#x5236;
+    <meta name="description" content="AOP的实现机制AOP的实现机制
 
 \
 
-1 AOP&amp;#x5404;&amp;#x79CD;&amp;#x7684;&amp;#x5B9E;&amp;#x73B0;
+1 AOP各种的实现
 
-AOP&amp;#x5C31;&amp;#x662F;&amp;#x9762;&amp;#x5411;&amp;#x5207;&amp;#x9762;&amp;#x7F16;&amp;#x">
+AOP就是面向切面编程，我们可以从几个层面来实现AOP。
+
+在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AOP的实现机制">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="AOP&amp;#x7684;&amp;#x5B9E;&amp;#x73B0;&amp;#x673A;&amp;#x5236;AOP&amp;#x7684;&amp;#x5B9E;&amp;#x73B0;&amp;#x673A;&amp;#x5236;
+<meta property="og:description" content="AOP的实现机制AOP的实现机制
 
 \
 
-1 AOP&amp;#x5404;&amp;#x79CD;&amp;#x7684;&amp;#x5B9E;&amp;#x73B0;
+1 AOP各种的实现
 
-AOP&amp;#x5C31;&amp;#x662F;&amp;#x9762;&amp;#x5411;&amp;#x5207;&amp;#x9762;&amp;#x7F16;&amp;#x">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/D338DA38-C625-46F1-991B-78FE8C1D3D5C.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/95514DA1-4671-498E-AB71-81C5CE025FE0.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/60573AB9-AA07-4201-B7E5-F2E70358DA91.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/9E4024CD-5D7E-4A8A-902E-6CDA8C7BCD7F.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/1C300C10-A3C3-46C7-A641-30087D0F5040.jpg">
+AOP就是面向切面编程，我们可以从几个层面来实现AOP。
+
+在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/D338DA38-C625-46F1-991B-78FE8C1D3D5C.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/95514DA1-4671-498E-AB71-81C5CE025FE0.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/60573AB9-AA07-4201-B7E5-F2E70358DA91.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/9E4024CD-5D7E-4A8A-902E-6CDA8C7BCD7F.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1C300C10-A3C3-46C7-A641-30087D0F5040.jpg">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AOP的实现机制">
-<meta name="twitter:description" content="AOP&amp;#x7684;&amp;#x5B9E;&amp;#x73B0;&amp;#x673A;&amp;#x5236;AOP&amp;#x7684;&amp;#x5B9E;&amp;#x73B0;&amp;#x673A;&amp;#x5236;
+<meta name="twitter:description" content="AOP的实现机制AOP的实现机制
 
 \
 
-1 AOP&amp;#x5404;&amp;#x79CD;&amp;#x7684;&amp;#x5B9E;&amp;#x73B0;
+1 AOP各种的实现
 
-AOP&amp;#x5C31;&amp;#x662F;&amp;#x9762;&amp;#x5411;&amp;#x5207;&amp;#x9762;&amp;#x7F16;&amp;#x">
-<meta name="twitter:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg">
+AOP就是面向切面编程，我们可以从几个层面来实现AOP。
+
+在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。">
+<meta name="twitter:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -128,76 +134,76 @@ AOP&amp;#x5C31;&amp;#x662F;&amp;#x9762;&amp;#x5411;&amp;#x5207;&amp;#x9762;&amp;
 		
 		</div>
 		
-		<h1 id="AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;"><a href="#AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;" class="headerlink" title="AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;"></a>AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;</h1><div><br><br><strong><span lang="EN-US" style="font-family:">AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;</span></strong><br><br></div>
+		<h1 id="AOP的实现机制"><a href="#AOP的实现机制" class="headerlink" title="AOP的实现机制"></a>AOP的实现机制</h1><div><br><br><strong><span lang="EN-US" style="font-family:">AOP的实现机制</span></strong><br><br></div>
 
 <div><br><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><br><br></div>
 
-<div><br><br><strong><span lang="EN-US" style="font-family:">1 AOP</span><span style="font-family: &#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x5404;&#x79CD;&#x7684;&#x5B9E;&#x73B0;</span></strong><br><br></div>
+<div><br><br><strong><span lang="EN-US" style="font-family:">1 AOP</span><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">各种的实现</span></strong><br><br></div>
 
-<p><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5C31;&#x662F;&#x9762;&#x5411;&#x5207;&#x9762;&#x7F16;&#x7A0B;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4ECE;&#x51E0;&#x4E2A;&#x5C42;&#x9762;&#x6765;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x3002;</span></p>
-<p><span lang="EN-US" style="font-family:"><img src="/2016/03/30/AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg" alt=""></span></p>
-<p><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x7F16;&#x8BD1;&#x5668;&#x4FEE;&#x6539;&#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x524D;&#x4FEE;&#x6539;&#x5B57;&#x8282;&#x7801;&#x6216;&#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x540E;&#x52A8;&#x6001;&#x521B;&#x5EFA;&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x5B57;&#x8282;&#x7801;&#xFF0C;&#x4EE5;&#x4E0B;&#x662F;&#x5404;&#x79CD;&#x5B9E;&#x73B0;&#x673A;&#x5236;&#x7684;&#x6BD4;&#x8F83;&#x3002;</span><span lang="EN-US" style="font-family:">  </span></p>
+<p><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">就是面向切面编程，我们可以从几个层面来实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。</span></p>
+<p><span lang="EN-US" style="font-family:"><img src="/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg" alt=""></span></p>
+<p><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。</span><span lang="EN-US" style="font-family:">  </span></p>
 <p><span lang="EN-US" style="font-family:">  </span><br><a id="more"></a></p>
-<p><strong><span style="font-family:&#x5B8B;&#x4F53;;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x7C7B;&#x522B;</span></strong></p>
-<p><strong><span style="font-family:&#x5B8B;&#x4F53;;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x673A;&#x5236;</span></strong></p>
-<p><strong><span style="font-family:&#x5B8B;&#x4F53;;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x539F;&#x7406;</span></strong></p>
-<p><strong><span style="font-family:&#x5B8B;&#x4F53;;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x4F18;&#x70B9;</span></strong></p>
-<p><strong><span style="font-family:&#x5B8B;&#x4F53;;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x7F3A;&#x70B9;</span></strong></p>
-<p>&#x9759;&#x6001;<span lang="EN-US">AOP</span></p>
-<p>&#x9759;&#x6001;&#x7EC7;&#x5165;</p>
-<p>&#x5728;&#x7F16;&#x8BD1;&#x671F;&#xFF0C;&#x5207;&#x9762;&#x76F4;&#x63A5;&#x4EE5;&#x5B57;&#x8282;&#x7801;&#x7684;&#x5F62;&#x5F0F;&#x7F16;&#x8BD1;&#x5230;&#x76EE;&#x6807;&#x5B57;&#x8282;&#x7801;&#x6587;&#x4EF6;&#x4E2D;&#x3002;</p>
-<p>&#x5BF9;&#x7CFB;&#x7EDF;&#x65E0;&#x6027;&#x80FD;&#x5F71;&#x54CD;&#x3002;</p>
-<p>&#x7075;&#x6D3B;&#x6027;&#x4E0D;&#x591F;&#x3002;</p>
-<p>&#x52A8;&#x6001;<span lang="EN-US">AOP</span></p>
-<p>&#x52A8;&#x6001;&#x4EE3;&#x7406;</p>
-<p>&#x5728;&#x8FD0;&#x884C;&#x671F;&#xFF0C;&#x76EE;&#x6807;&#x7C7B;&#x52A0;&#x8F7D;&#x540E;&#xFF0C;&#x4E3A;&#x63A5;&#x53E3;&#x52A8;&#x6001;&#x751F;&#x6210;&#x4EE3;&#x7406;&#x7C7B;&#xFF0C;&#x5C06;&#x5207;&#x9762;&#x690D;&#x5165;&#x5230;&#x4EE3;&#x7406;&#x7C7B;&#x4E2D;&#x3002;</p>
-<p>&#x76F8;&#x5BF9;&#x4E8E;&#x9759;&#x6001;<span lang="EN-US" style="font-family:">AOP</span>&#x66F4;&#x52A0;&#x7075;&#x6D3B;&#x3002;</p>
-<p>&#x5207;&#x5165;&#x7684;&#x5173;&#x6CE8;&#x70B9;&#x9700;&#x8981;&#x5B9E;&#x73B0;&#x63A5;&#x53E3;&#x3002;&#x5BF9;&#x7CFB;&#x7EDF;&#x6709;&#x4E00;&#x70B9;&#x6027;&#x80FD;&#x5F71;&#x54CD;&#x3002;</p>
-<p>&#x52A8;&#x6001;&#x5B57;&#x8282;&#x7801;&#x751F;&#x6210;</p>
-<p>&#x5728;&#x8FD0;&#x884C;&#x671F;&#xFF0C;&#x76EE;&#x6807;&#x7C7B;&#x52A0;&#x8F7D;&#x540E;&#xFF0C;&#x52A8;&#x6001;&#x6784;&#x5EFA;&#x5B57;&#x8282;&#x7801;&#x6587;&#x4EF6;&#x751F;&#x6210;&#x76EE;&#x6807;&#x7C7B;&#x7684;&#x5B50;&#x7C7B;&#xFF0C;&#x5C06;&#x5207;&#x9762;&#x903B;&#x8F91;&#x52A0;&#x5165;&#x5230;&#x5B50;&#x7C7B;&#x4E2D;&#x3002;</p>
-<p>&#x6CA1;&#x6709;&#x63A5;&#x53E3;&#x4E5F;&#x53EF;&#x4EE5;&#x7EC7;&#x5165;&#x3002;</p>
-<p>&#x6269;&#x5C55;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;&#x4E3A;<span lang="EN-US" style="font-family:">final</span>&#x65F6;&#xFF0C;&#x5219;&#x65E0;&#x6CD5;&#x8FDB;&#x884C;&#x7EC7;&#x5165;&#x3002;</p>
-<p>&#x81EA;&#x5B9A;&#x4E49;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;</p>
-<p>&#x5728;&#x8FD0;&#x884C;&#x671F;&#xFF0C;&#x76EE;&#x6807;&#x52A0;&#x8F7D;&#x524D;&#xFF0C;&#x5C06;&#x5207;&#x9762;&#x903B;&#x8F91;&#x52A0;&#x5230;&#x76EE;&#x6807;&#x5B57;&#x8282;&#x7801;&#x91CC;&#x3002;</p>
-<p>&#x53EF;&#x4EE5;&#x5BF9;&#x7EDD;&#x5927;&#x90E8;&#x5206;&#x7C7B;&#x8FDB;&#x884C;&#x7EC7;&#x5165;&#x3002;</p>
-<p>&#x4EE3;&#x7801;&#x4E2D;&#x5982;&#x679C;&#x4F7F;&#x7528;&#x4E86;&#x5176;&#x4ED6;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#xFF0C;&#x5219;&#x8FD9;&#x4E9B;&#x7C7B;&#x5C06;&#x4E0D;&#x4F1A;&#x88AB;&#x7EC7;&#x5165;&#x3002;</p>
-<p>&#x5B57;&#x8282;&#x7801;&#x8F6C;&#x6362;</p>
-<p>&#x5728;&#x8FD0;&#x884C;&#x671F;&#xFF0C;&#x6240;&#x6709;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x52A0;&#x8F7D;&#x5B57;&#x8282;&#x7801;&#x524D;&#xFF0C;&#x524D;&#x8FDB;&#x884C;&#x62E6;&#x622A;&#x3002;</p>
-<p>&#x53EF;&#x4EE5;&#x5BF9;&#x6240;&#x6709;&#x7C7B;&#x8FDB;&#x884C;&#x7EC7;&#x5165;&#x3002;</p>
+<p><strong><span style="font-family:宋体;mso-bidi-font-family: 宋体">类别</span></strong></p>
+<p><strong><span style="font-family:宋体;mso-bidi-font-family: 宋体">机制</span></strong></p>
+<p><strong><span style="font-family:宋体;mso-bidi-font-family: 宋体">原理</span></strong></p>
+<p><strong><span style="font-family:宋体;mso-bidi-font-family: 宋体">优点</span></strong></p>
+<p><strong><span style="font-family:宋体;mso-bidi-font-family: 宋体">缺点</span></strong></p>
+<p>静态<span lang="EN-US">AOP</span></p>
+<p>静态织入</p>
+<p>在编译期，切面直接以字节码的形式编译到目标字节码文件中。</p>
+<p>对系统无性能影响。</p>
+<p>灵活性不够。</p>
+<p>动态<span lang="EN-US">AOP</span></p>
+<p>动态代理</p>
+<p>在运行期，目标类加载后，为接口动态生成代理类，将切面植入到代理类中。</p>
+<p>相对于静态<span lang="EN-US" style="font-family:">AOP</span>更加灵活。</p>
+<p>切入的关注点需要实现接口。对系统有一点性能影响。</p>
+<p>动态字节码生成</p>
+<p>在运行期，目标类加载后，动态构建字节码文件生成目标类的子类，将切面逻辑加入到子类中。</p>
+<p>没有接口也可以织入。</p>
+<p>扩展类的实例方法为<span lang="EN-US" style="font-family:">final</span>时，则无法进行织入。</p>
+<p>自定义类加载器</p>
+<p>在运行期，目标加载前，将切面逻辑加到目标字节码里。</p>
+<p>可以对绝大部分类进行织入。</p>
+<p>代码中如果使用了其他类加载器，则这些类将不会被织入。</p>
+<p>字节码转换</p>
+<p>在运行期，所有类加载器加载字节码前，前进行拦截。</p>
+<p>可以对所有类进行织入。</p>
 <p><span lang="EN-US" style="font-family:">  </span></p>
-<p><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">2 AOP</span></strong></span><strong><span style="font-family:&#x5B8B;&#x4F53;;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:&#x5B8B;&#x4F53;">&#x91CC;&#x7684;&#x516C;&#x6C11;</span></strong><br><span lang="EN-US" style="font-family:">l</span></p>
+<p><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">2 AOP</span></strong></span><strong><span style="font-family:宋体;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:宋体">里的公民</span></strong><br><span lang="EN-US" style="font-family:">l</span></p>
 <ul>
-<li><span lang="EN-US" style="font-family:">Joinpoint</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#xFF1A;&#x62E6;&#x622A;&#x70B9;&#xFF0C;&#x5982;&#x67D0;&#x4E2A;&#x4E1A;&#x52A1;&#x65B9;&#x6CD5;&#x3002;</span></li>
-<li><span lang="EN-US" style="font-family:">Pointcut</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#xFF1A;</span><span lang="EN-US" style="font-family:">Joinpoint</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x8868;&#x793A;&#x62E6;&#x622A;&#x54EA;&#x4E9B;&#x65B9;&#x6CD5;&#x3002;&#x4E00;&#x4E2A;</span><span lang="EN-US" style="font-family:">Pointcut</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5BF9;&#x5E94;&#x591A;&#x4E2A;</span><span lang="EN-US" style="font-family:">Joinpoint</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x3002;</span></li>
-<li><span lang="EN-US" style="font-family:">Advice:  </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x8981;&#x5207;&#x5165;&#x7684;&#x903B;&#x8F91;&#x3002;</span></li>
-<li><span lang="EN-US" style="font-family:">Before Advice</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x65B9;&#x6CD5;&#x524D;&#x5207;&#x5165;&#x3002;</span></li>
-<li><span lang="EN-US" style="font-family:">After Advice</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x65B9;&#x6CD5;&#x540E;&#x5207;&#x5165;&#xFF0C;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x65F6;&#x4E5F;&#x4F1A;&#x5207;&#x5165;&#x3002;</span></li>
-<li><span lang="EN-US" style="font-family:">After Returning<br>Advice</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x65B9;&#x6CD5;&#x8FD4;&#x56DE;&#x540E;&#x5207;&#x5165;&#xFF0C;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x5219;&#x4E0D;&#x4F1A;&#x5207;&#x5165;&#x3002;</span></li>
-<li><span lang="EN-US" style="font-family:">After Throwing Advice</span><br><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x65B9;&#x6CD5;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x65F6;&#x5207;&#x5165;&#x3002;</span></li>
-<li><span lang="EN-US" style="font-family:">Around Advice</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x524D;&#x540E;&#x5207;&#x5165;&#xFF0C;&#x53EF;&#x4EE5;&#x4E2D;&#x65AD;&#x6216;&#x5FFD;&#x7565;&#x539F;&#x6709;&#x6D41;&#x7A0B;&#x7684;&#x6267;&#x884C;&#x3002;</span><br><span lang="EN-US" style="font-family:">l</span></li>
-<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x516C;&#x6C11;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;</span><br><span lang="EN-US" style="font-family:">\<br><img src="/2016/03/30/AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;/D338DA38-C625-46F1-991B-78FE8C1D3D5C.jpg" alt="">\<br></span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">&#x7EC7;&#x5165;&#x5668;&#x901A;&#x8FC7;&#x5728;&#x5207;&#x9762;&#x4E2D;&#x5B9A;&#x4E49;</span><span lang="EN-US" style="font-family:">pointcut</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6765;&#x641C;&#x7D22;&#x76EE;&#x6807;&#xFF08;&#x88AB;&#x4EE3;&#x7406;&#x7C7B;&#xFF09;&#x7684;</span><span lang="EN-US" style="font-family:">JoinPoint(</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5207;&#x5165;&#x70B9;</span><span lang="EN-US" style="font-family:">)</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#xFF0C;&#x7136;&#x540E;&#x628A;&#x8981;&#x5207;&#x5165;&#x7684;&#x903B;&#x8F91;&#xFF08;</span><span lang="EN-US" style="font-family:">Advice</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#xFF09;&#x7EC7;&#x5165;&#x5230;&#x76EE;&#x6807;&#x5BF9;&#x8C61;&#x91CC;&#xFF0C;&#x751F;&#x6210;&#x4EE3;&#x7406;&#x7C7B;&#x3002;</span></li>
+<li><span lang="EN-US" style="font-family:">Joinpoint</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">：拦截点，如某个业务方法。</span></li>
+<li><span lang="EN-US" style="font-family:">Pointcut</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">：</span><span lang="EN-US" style="font-family:">Joinpoint</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">的表达式，表示拦截哪些方法。一个</span><span lang="EN-US" style="font-family:">Pointcut</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">对应多个</span><span lang="EN-US" style="font-family:">Joinpoint</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。</span></li>
+<li><span lang="EN-US" style="font-family:">Advice:  </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">要切入的逻辑。</span></li>
+<li><span lang="EN-US" style="font-family:">Before Advice</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在方法前切入。</span></li>
+<li><span lang="EN-US" style="font-family:">After Advice</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在方法后切入，抛出异常时也会切入。</span></li>
+<li><span lang="EN-US" style="font-family:">After Returning<br>Advice</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在方法返回后切入，抛出异常则不会切入。</span></li>
+<li><span lang="EN-US" style="font-family:">After Throwing Advice</span><br><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在方法抛出异常时切入。</span></li>
+<li><span lang="EN-US" style="font-family:">Around Advice</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在方法执行前后切入，可以中断或忽略原有流程的执行。</span><br><span lang="EN-US" style="font-family:">l</span></li>
+<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">公民之间的关系</span><br><span lang="EN-US" style="font-family:">\<br><img src="/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/D338DA38-C625-46F1-991B-78FE8C1D3D5C.jpg" alt="">\<br></span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">织入器通过在切面中定义</span><span lang="EN-US" style="font-family:">pointcut</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">来搜索目标（被代理类）的</span><span lang="EN-US" style="font-family:">JoinPoint(</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">切入点</span><span lang="EN-US" style="font-family:">)</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">，然后把要切入的逻辑（</span><span lang="EN-US" style="font-family:">Advice</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">）织入到目标对象里，生成代理类。</span></li>
 </ul>
-<p><strong><span lang="EN-US" style="font-family:">3 AOP</span><span style="font-family: &#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;</span><span lang="EN-US" style="font-family:">  </span><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:">  </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x672C;&#x7AE0;&#x8282;&#x5C06;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6709;&#x5404;&#x79CD;&#x5B9E;&#x73B0;&#x673A;&#x5236;&#x3002;</span></p>
-<p><span lang="EN-US" style="font-family:">\<br><strong><span style="font-family:">3.1</span></strong></span> <strong><span style="font-family:&#x5B8B;&#x4F53;;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:&#x5B8B;&#x4F53;">&#x52A8;&#x6001;&#x4EE3;&#x7406;</span></strong><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:">   Java</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">&#x5728;</span><span lang="EN-US" style="font-family:">JDK1.3</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x540E;&#x5F15;&#x5165;&#x7684;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x673A;&#x5236;&#xFF0C;&#x4F7F;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x52A8;&#x6001;&#x7684;&#x521B;&#x5EFA;&#x4EE3;&#x7406;&#x7C7B;&#x3002;&#x4F7F;&#x7528;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x9700;&#x8981;&#x6709;&#x56DB;&#x4E2A;&#x89D2;&#x8272;&#xFF1A;&#x88AB;&#x4EE3;&#x7406;&#x7684;&#x7C7B;&#xFF0C;&#x88AB;&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x7EC7;&#x5165;&#x5668;&#xFF0C;&#x548C;</span><span lang="EN-US" style="font-family:">InvocationHandler</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#xFF0C;&#x800C;&#x7EC7;&#x5165;&#x5668;&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x53CD;&#x5C04;&#x673A;&#x5236;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x4EE3;&#x7406;&#x7C7B;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x8FD9;&#x4E2A;&#x4EE3;&#x7406;&#x7C7B;&#x4E2D;&#x7EC7;&#x5165;&#x4EE3;&#x7801;&#x3002;&#x88AB;&#x4EE3;&#x7406;&#x7684;&#x7C7B;&#x662F;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x91CC;&#x6240;&#x8BF4;&#x7684;&#x76EE;&#x6807;&#xFF0C;</span><span lang="EN-US" style="font-family:">InvocationHandler</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x662F;&#x5207;&#x9762;&#xFF0C;&#x5B83;&#x5305;&#x542B;&#x4E86;</span><span lang="EN-US" style="font-family:">Advice</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x548C;</span><span lang="EN-US" style="font-family:">Pointcut</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br><img src="/2016/03/30/AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;/95514DA1-4671-498E-AB71-81C5CE025FE0.jpg" alt="">\<br>\<br><strong><span style="font-family:">3.1.1</span></strong></span> <strong><span style="font-family:&#x5B8B;&#x4F53;; mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x4F7F;&#x7528;&#x52A8;&#x6001;&#x4EE3;&#x7406;</span></strong><span lang="EN-US" style="font-family:">\<br>   </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">&#x90A3;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x6765;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x3002;&#x4E0B;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x6F14;&#x793A;&#x5728;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x524D;&#x7EC7;&#x5165;&#x4E00;&#x6BB5;&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x5176;&#x4E2D;</span><span lang="EN-US" style="font-family:">Business</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x662F;&#x4EE3;&#x7406;&#x7C7B;&#xFF0C;</span><span lang="EN-US" style="font-family:">LogInvocationHandler</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x662F;&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;&#x7684;&#x5207;&#x9762;&#xFF0C;</span><span lang="EN-US" style="font-family:">IBusiness, IBusiness2</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x662F;&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x63A5;&#x53E3;&#xFF0C;</span><span lang="EN-US" style="font-family:">Proxy.newProxyInstance</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x662F;&#x7EC7;&#x5165;&#x5668;&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6E05;&#x5355;&#x4E00;&#xFF1A;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x7684;&#x6F14;&#x793A;</span></p>
+<p><strong><span lang="EN-US" style="font-family:">3 AOP</span><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">的实现机制</span><span lang="EN-US" style="font-family:">  </span><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:">  </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">本章节将详细介绍</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">有各种实现机制。</span></p>
+<p><span lang="EN-US" style="font-family:">\<br><strong><span style="font-family:">3.1</span></strong></span> <strong><span style="font-family:宋体;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:宋体">动态代理</span></strong><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:">   Java</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">在</span><span lang="EN-US" style="font-family:">JDK1.3</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">后引入的动态代理机制，使我们可以在运行期动态的创建代理类。使用动态代理实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">需要有四个角色：被代理的类，被代理类的接口，织入器，和</span><span lang="EN-US" style="font-family:">InvocationHandler</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">，而织入器使用接口反射机制生成一个代理类，然后在这个代理类中织入代码。被代理的类是</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">里所说的目标，</span><span lang="EN-US" style="font-family:">InvocationHandler</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">是切面，它包含了</span><span lang="EN-US" style="font-family:">Advice</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">和</span><span lang="EN-US" style="font-family:">Pointcut</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。</span><br><span lang="EN-US" style="font-family:">\<br><img src="/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/95514DA1-4671-498E-AB71-81C5CE025FE0.jpg" alt="">\<br>\<br><strong><span style="font-family:">3.1.1</span></strong></span> <strong><span style="font-family:宋体; mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">使用动态代理</span></strong><span lang="EN-US" style="font-family:">\<br>   </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">那如何使用动态代理来实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。下面的例子演示在方法执行前织入一段记录日志的代码，其中</span><span lang="EN-US" style="font-family:">Business</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">是代理类，</span><span lang="EN-US" style="font-family:">LogInvocationHandler</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">是记录日志的切面，</span><span lang="EN-US" style="font-family:">IBusiness, IBusiness2</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">是代理类的接口，</span><span lang="EN-US" style="font-family:">Proxy.newProxyInstance</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">是织入器。</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">清单一：动态代理的演示</span></p>
 <pre><code>public static void main(String[] args) { 
 
-//&#x9700;&#x8981;&#x4EE3;&#x7406;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x88AB;&#x4EE3;&#x7406;&#x7C7B;&#x5B9E;&#x73B0;&#x7684;&#x591A;&#x4E2A;&#x63A5;&#x53E3;&#x90FD;&#x5FC5;&#x987B;&#x5728;&#x8FD9;&#x91CC;&#x5B9A;&#x4E49;
+//需要代理的接口，被代理类实现的多个接口都必须在这里定义
 
 Class[] proxyInterface = new Class[] { IBusiness.class, IBusiness2.class }; 
 
-//&#x6784;&#x5EFA;AOP&#x7684;Advice&#xFF0C;&#x8FD9;&#x91CC;&#x9700;&#x8981;&#x4F20;&#x5165;&#x4E1A;&#x52A1;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;
+//构建AOP的Advice，这里需要传入业务类的实例
 
 LogInvocationHandler handler = new LogInvocationHandler(new Business()); 
 
-//&#x751F;&#x6210;&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x5668;
+//生成代理类的字节码加载器
 
 ClassLoader classLoader = DynamicProxyDemo.class.getClassLoader(); 
 
-//&#x7EC7;&#x5165;&#x5668;&#xFF0C;&#x7EC7;&#x5165;&#x4EE3;&#x7801;&#x5E76;&#x751F;&#x6210;&#x4EE3;&#x7406;&#x7C7B;
+//织入器，织入代码并生成代理类
 
 IBusiness2 proxyBusiness = (IBusiness2) Proxy.newProxyInstance(classLoader, proxyInterface, handler); 
 
-//&#x4F7F;&#x7528;&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x6765;&#x8C03;&#x7528;&#x65B9;&#x6CD5;&#x3002;
+//使用代理类的实例来调用方法。
 
 proxyBusiness.doSomeThing2(); 
 
@@ -207,13 +213,13 @@ proxyBusiness.doSomeThing2();
 
 /** 
 
-* &#x6253;&#x5370;&#x65E5;&#x5FD7;&#x7684;&#x5207;&#x9762;
+* 打印日志的切面
 
 */ 
 
 public static class LogInvocationHandler implements InvocationHandler { 
 
-private Object target; //&#x76EE;&#x6807;&#x5BF9;&#x8C61;
+private Object target; //目标对象
 
 LogInvocationHandler(Object target) { 
 
@@ -225,15 +231,15 @@ this.target = target;
 
 public Object invoke(Object proxy, Method method, Object[] args) throws Throwable { 
 
-//&#x6267;&#x884C;&#x539F;&#x6709;&#x903B;&#x8F91;
+//执行原有逻辑
 
 Object rev = method.invoke(target, args); 
 
-//&#x6267;&#x884C;&#x7EC7;&#x5165;&#x7684;&#x65E5;&#x5FD7;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x63A7;&#x5236;&#x54EA;&#x4E9B;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x5207;&#x5165;&#x903B;&#x8F91;
+//执行织入的日志，你可以控制哪些方法执行切入逻辑
 
 if (method.getName().equals(&quot;doSomeThing2&quot;)) { 
 
-System.out.println(&quot;&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;&quot;); 
+System.out.println(&quot;记录日志&quot;); 
 
 } 
 
@@ -243,16 +249,16 @@ return rev;
 
 } 
 
-&#x63A5;&#x53E3;IBusiness&#x548C;IBusiness2&#x5B9A;&#x4E49;&#x7701;&#x7565;&#x3002;
+接口IBusiness和IBusiness2定义省略。
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
-<p><span lang="EN-US" style="font-family:">    </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x4E1A;&#x52A1;&#x7C7B;&#xFF0C;&#x9700;&#x8981;&#x4EE3;&#x7406;&#x7684;&#x7C7B;&#x3002;</span></p>
+<p><span lang="EN-US" style="font-family:">    </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">业务类，需要代理的类。</span></p>
 <pre><code>public class Business implements IBusiness, IBusiness2 { 
 
  Override 
 
 public boolean doSomeThing() { 
 
-System.out.println(&quot;&#x6267;&#x884C;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&quot;); 
+System.out.println(&quot;执行业务逻辑&quot;); 
 
 return true; 
 
@@ -262,36 +268,36 @@ return true;
 
 public void doSomeThing2() { 
 
-System.out.println(&quot;&#x6267;&#x884C;&#x4E1A;&#x52A1;&#x903B;&#x8F91;2&quot;); 
+System.out.println(&quot;执行业务逻辑2&quot;); 
 
 } 
 
 } 
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
-<p><span lang="EN-US" style="font-family:">    </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x8F93;&#x51FA;</span></p>
-<pre><code>&#x6267;&#x884C;&#x4E1A;&#x52A1;&#x903B;&#x8F91;2 
+<p><span lang="EN-US" style="font-family:">    </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">输出</span></p>
+<pre><code>执行业务逻辑2 
 
-&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;
+记录日志
 
-&#x6267;&#x884C;&#x4E1A;&#x52A1;&#x903B;&#x8F91;
+执行业务逻辑
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
-<p><span lang="EN-US" style="font-family:">  </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x53EF;&#x4EE5;&#x770B;&#x5230;</span><span lang="EN-US" style="font-family:">&#x201C;</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;</span><span lang="EN-US" style="font-family:">&#x201D;</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7684;&#x903B;&#x8F91;&#x5207;&#x5165;&#x5230;</span><span lang="EN-US" style="font-family:">Business</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7C7B;&#x7684;</span><span lang="EN-US" style="font-family:">doSomeThing</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x65B9;&#x6CD5;&#x524D;&#x4E86;&#x3002;</span></p>
+<p><span lang="EN-US" style="font-family:">  </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">可以看到</span><span lang="EN-US" style="font-family:">“</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">记录日志</span><span lang="EN-US" style="font-family:">”</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">的逻辑切入到</span><span lang="EN-US" style="font-family:">Business</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">类的</span><span lang="EN-US" style="font-family:">doSomeThing</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">方法前了。</span></p>
 <p><span lang="EN-US" style="font-family:">\<br>   </span></p>
-<p><strong><span lang="EN-US" style="font-family:">3.1.2</span></strong> <strong><span style="font-family: &#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x539F;&#x7406;</span></strong><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x672C;&#x8282;&#x5C06;&#x7ED3;&#x5408;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x7684;&#x6E90;&#x4EE3;&#x7801;&#x8BB2;&#x89E3;&#x5176;&#x5B9E;&#x73B0;&#x539F;&#x7406;&#x3002;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x7684;&#x6838;&#x5FC3;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x4EE3;&#x7406;&#x5BF9;&#x8C61;&#x7684;&#x751F;&#x6210;&#xFF0C;&#x5373;</span><span lang="EN-US" style="font-family:">Proxy.newProxyInstance(classLoader,<br>proxyInterface, handler)</span><span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x3002;&#x8BA9;&#x6211;&#x4EEC;&#x8FDB;&#x5165;</span><span lang="EN-US" style="font-family:">newProxyInstance</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x65B9;&#x6CD5;&#x89C2;&#x6469;&#x4E0B;&#xFF0C;&#x6838;&#x5FC3;&#x4EE3;&#x7801;&#x5176;&#x5B9E;&#x5C31;&#x4E09;&#x884C;&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6E05;&#x5355;&#x4E8C;&#xFF1A;&#x751F;&#x6210;&#x4EE3;&#x7406;&#x7C7B;</span></p>
-<pre><code>//&#x83B7;&#x53D6;&#x4EE3;&#x7406;&#x7C7B;
+<p><strong><span lang="EN-US" style="font-family:">3.1.2</span></strong> <strong><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">动态代理原理</span></strong><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">本节将结合动态代理的源代码讲解其实现原理。动态代理的核心其实就是代理对象的生成，即</span><span lang="EN-US" style="font-family:">Proxy.newProxyInstance(classLoader,<br>proxyInterface, handler)</span><span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">。让我们进入</span><span lang="EN-US" style="font-family:">newProxyInstance</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">方法观摩下，核心代码其实就三行。</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">清单二：生成代理类</span></p>
+<pre><code>//获取代理类
 
 Class cl = getProxyClass(loader, interfaces); 
 
-//&#x83B7;&#x53D6;&#x5E26;&#x6709;InvocationHandler&#x53C2;&#x6570;&#x7684;&#x6784;&#x9020;&#x65B9;&#x6CD5;
+//获取带有InvocationHandler参数的构造方法
 
 Constructor cons = cl.getConstructor(constructorParams); 
 
-//&#x628A;handler&#x4F20;&#x5165;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x751F;&#x6210;&#x5B9E;&#x4F8B;
+//把handler传入构造方法生成实例
 
 return (Object) cons.newInstance(new Object[] { h });   
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
-<p><span lang="EN-US" style="font-family:">      </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5176;&#x4E2D;</span><span lang="EN-US" style="font-family:">getProxyClass(loader,<br>interfaces)</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">&#x65B9;&#x6CD5;&#x7528;&#x4E8E;&#x83B7;&#x53D6;&#x4EE3;&#x7406;&#x7C7B;&#xFF0C;&#x5B83;&#x4E3B;&#x8981;&#x505A;&#x4E86;&#x4E09;&#x4EF6;&#x4E8B;&#x60C5;&#xFF1A;&#x5728;&#x5F53;&#x524D;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x7684;&#x7F13;&#x5B58;&#x91CC;&#x641C;&#x7D22;&#x662F;&#x5426;&#x6709;&#x4EE3;&#x7406;&#x7C7B;&#xFF0C;&#x6CA1;&#x6709;&#x5219;&#x751F;&#x6210;&#x4EE3;&#x7406;&#x7C7B;&#x5E76;&#x7F13;&#x5B58;&#x5728;&#x672C;&#x5730;</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x91CC;&#x3002;&#x6E05;&#x5355;&#x4E09;&#xFF1A;&#x67E5;&#x627E;&#x4EE3;&#x7406;&#x7C7B;&#x3002;</span></p>
-<pre><code> // &#x7F13;&#x5B58;&#x7684;key&#x4F7F;&#x7528;&#x63A5;&#x53E3;&#x540D;&#x79F0;&#x751F;&#x6210;&#x7684;List 
+<p><span lang="EN-US" style="font-family:">      </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">其中</span><span lang="EN-US" style="font-family:">getProxyClass(loader,<br>interfaces)</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">方法用于获取代理类，它主要做了三件事情：在当前类加载器的缓存里搜索是否有代理类，没有则生成代理类并缓存在本地</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">里。清单三：查找代理类。</span></p>
+<pre><code> // 缓存的key使用接口名称生成的List 
 
 Object key = Arrays.asList(interfaceNames); 
 
@@ -301,7 +307,7 @@ do {
 
 Object value = cache.get(key); 
 
-// &#x7F13;&#x5B58;&#x91CC;&#x4FDD;&#x5B58;&#x4E86;&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x5F15;&#x7528;
+// 缓存里保存了代理类的引用
 
 if (value instanceof Reference) { 
 
@@ -311,13 +317,13 @@ proxyClass = (Class) ((Reference) value).get();
 
 if (proxyClass != null) { 
 
-// &#x4EE3;&#x7406;&#x7C7B;&#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#x5219;&#x8FD4;&#x56DE;
+// 代理类已经存在则返回
 
 return proxyClass; 
 
 } else if (value == pendingGenerationMarker) { 
 
-// &#x5982;&#x679C;&#x4EE3;&#x7406;&#x7C7B;&#x6B63;&#x5728;&#x4EA7;&#x751F;&#xFF0C;&#x5219;&#x7B49;&#x5F85;
+// 如果代理类正在产生，则等待
 
 try { 
 
@@ -331,7 +337,7 @@ continue;
 
 } else { 
 
-//&#x6CA1;&#x6709;&#x4EE3;&#x7406;&#x7C7B;&#xFF0C;&#x5219;&#x6807;&#x8BB0;&#x4EE3;&#x7406;&#x51C6;&#x5907;&#x751F;&#x6210;
+//没有代理类，则标记代理准备生成
 
 cache.put(key, pendingGenerationMarker); 
 
@@ -343,18 +349,18 @@ break;
 
 } 
 </code></pre><p><span lang="EN-US" style="font-family:">    </span></p>
-<p><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x751F;&#x6210;&#x4E3B;&#x8981;&#x662F;&#x4EE5;&#x4E0B;&#x8FD9;&#x4E24;&#x884C;&#x4EE3;&#x7801;&#x3002;</span><br><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x6E05;&#x5355;&#x56DB;&#xFF1A;&#x751F;&#x6210;&#x5E76;&#x52A0;&#x8F7D;&#x4EE3;&#x7406;&#x7C7B;</span></p>
+<p><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">代理类的生成主要是以下这两行代码。</span><br><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">清单四：生成并加载代理类</span></p>
 <p><span lang="EN-US" style="font-family:">  </span></p>
-<pre><code>//&#x751F;&#x6210;&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x5B57;&#x8282;&#x7801;&#x6587;&#x4EF6;&#x5E76;&#x4FDD;&#x5B58;&#x5230;&#x786C;&#x76D8;&#x4E2D;(&#x9ED8;&#x8BA4;&#x4E0D;&#x4FDD;&#x5B58;&#x5230;&#x786C;&#x76D8;) 
+<pre><code>//生成代理类的字节码文件并保存到硬盘中(默认不保存到硬盘) 
 
 proxyClassFile = ProxyGenerator.generateProxyClass(proxyName, interfaces); 
 
-//&#x4F7F;&#x7528;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x5C06;&#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x5230;&#x5185;&#x5B58;&#x4E2D;
+//使用类加载器将字节码加载到内存中
 
 proxyClass = defineClass0(loader, proxyName,proxyClassFile, 0, proxyClassFile.length); 
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
-<p><span lang="EN-US" style="font-family:"><br>ProxyGenerator.generateProxyClass()</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x65B9;&#x6CD5;&#x5C5E;&#x4E8E;</span><span lang="EN-US" style="font-family:">sun.misc</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5305;&#x4E0B;&#xFF0C;</span><span lang="EN-US" style="font-family:">Oracle</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5E76;&#x6CA1;&#x6709;&#x63D0;&#x4F9B;&#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">JD-GUI</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x8FD9;&#x6837;&#x7684;&#x53CD;&#x7F16;&#x8BD1;&#x8F6F;&#x4EF6;&#x6253;&#x5F00;</span><span lang="EN-US" style="font-family:">jre\lib\rt.jar</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6765;&#x4E00;&#x63A2;&#x7A76;&#x7ADF;&#xFF0C;&#x4EE5;&#x4E0B;&#x662F;&#x5176;&#x6838;&#x5FC3;&#x4EE3;&#x7801;&#x7684;&#x5206;&#x6790;&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6E05;&#x5355;&#x4E94;&#xFF1A;&#x4EE3;&#x7406;&#x7C7B;&#x7684;&#x751F;&#x6210;&#x8FC7;&#x7A0B;</span></p>
-<pre><code>//&#x6DFB;&#x52A0;&#x63A5;&#x53E3;&#x4E2D;&#x5B9A;&#x4E49;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x6B64;&#x65F6;&#x65B9;&#x6CD5;&#x4F53;&#x4E3A;&#x7A7A;
+<p><span lang="EN-US" style="font-family:"><br>ProxyGenerator.generateProxyClass()</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">方法属于</span><span lang="EN-US" style="font-family:">sun.misc</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">包下，</span><span lang="EN-US" style="font-family:">Oracle</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">并没有提供源代码，但是我们可以使用</span><span lang="EN-US" style="font-family:">JD-GUI</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">这样的反编译软件打开</span><span lang="EN-US" style="font-family:">jre\lib\rt.jar</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">来一探究竟，以下是其核心代码的分析。</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">清单五：代理类的生成过程</span></p>
+<pre><code>//添加接口中定义的方法，此时方法体为空
 
 for (int i = 0; i &lt; this.interfaces.length; i++) { 
 
@@ -368,23 +374,23 @@ addProxyMethod(localObject1[k], this.interfaces[i]);
 
 } 
 
-//&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x5E26;&#x6709;InvocationHandler&#x7684;&#x6784;&#x9020;&#x65B9;&#x6CD5;
+//添加一个带有InvocationHandler的构造方法
 
 MethodInfo localMethodInfo = new MethodInfo(&quot;&lt;init&gt;&quot;, &quot;(Ljava/lang/reflect/InvocationHandler;)V&quot;, 1); 
 
-//&#x5FAA;&#x73AF;&#x751F;&#x6210;&#x65B9;&#x6CD5;&#x4F53;&#x4EE3;&#x7801;&#xFF08;&#x7701;&#x7565;&#xFF09;
+//循环生成方法体代码（省略）
 
-//&#x65B9;&#x6CD5;&#x4F53;&#x91CC;&#x751F;&#x6210;&#x8C03;&#x7528;InvocationHandler&#x7684;invoke&#x65B9;&#x6CD5;&#x4EE3;&#x7801;&#x3002;&#xFF08;&#x6B64;&#x5904;&#x6709;&#x6240;&#x7701;&#x7565;&#xFF09;
+//方法体里生成调用InvocationHandler的invoke方法代码。（此处有所省略）
 
 this.cp.getInterfaceMethodRef(&quot;InvocationHandler&quot;, &quot;invoke&quot;, &quot;Object; Method; Object;&quot;) 
 
-//&#x5C06;&#x751F;&#x6210;&#x7684;&#x5B57;&#x8282;&#x7801;&#xFF0C;&#x5199;&#x5165;&#x786C;&#x76D8;&#xFF0C;&#x524D;&#x9762;&#x6709;&#x4E2A;if&#x5224;&#x65AD;&#xFF0C;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x4E0D;&#x4FDD;&#x5B58;&#x5230;&#x786C;&#x76D8;&#x3002;
+//将生成的字节码，写入硬盘，前面有个if判断，默认情况下不保存到硬盘。
 
 localFileOutputStream = new FileOutputStream(ProxyGenerator.access$000(this.val$name) + &quot;.class&quot;); 
 
 localFileOutputStream.write(this.val$classFile); 
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
-<p><span lang="EN-US" style="font-family:">  </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x90A3;&#x4E48;&#x901A;&#x8FC7;&#x4EE5;&#x4E0A;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x63A8;&#x51FA;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x4E3A;&#x6211;&#x4EEC;&#x751F;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x8FD9;&#x6837;&#x7684;&#x4EE3;&#x7406;&#x7C7B;&#x3002;&#x628A;&#x65B9;&#x6CD5;</span><span lang="EN-US" style="font-family:">doSomeThing</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7684;&#x65B9;&#x6CD5;&#x4F53;&#x4FEE;&#x6539;&#x4E3A;&#x8C03;&#x7528;</span><span lang="EN-US" style="font-family:">LogInvocationHandler</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7684;</span><span lang="EN-US" style="font-family:">invoke</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x65B9;&#x6CD5;&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6E05;&#x5355;&#x516D;&#xFF1A;&#x751F;&#x6210;&#x7684;&#x4EE3;&#x7406;&#x7C7B;&#x6E90;&#x7801;</span></p>
+<p><span lang="EN-US" style="font-family:">  </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">那么通过以上分析，我们可以推出动态代理为我们生成了一个这样的代理类。把方法</span><span lang="EN-US" style="font-family:">doSomeThing</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">的方法体修改为调用</span><span lang="EN-US" style="font-family:">LogInvocationHandler</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">的</span><span lang="EN-US" style="font-family:">invoke</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">方法。</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">清单六：生成的代理类源码</span></p>
 <p><span lang="EN-US" style="font-family:">  </span></p>
 <pre><code>public class ProxyBusiness implements IBusiness, IBusiness2 { 
 
@@ -402,7 +408,7 @@ h.invoke(this, m, null);
 
 } catch (Throwable e) { 
 
-// &#x5F02;&#x5E38;&#x5904;&#x7406;&#xFF08;&#x7565;&#xFF09;
+// 异常处理（略）
 
 } 
 
@@ -420,7 +426,7 @@ return (Boolean) h.invoke(this, m, null);
 
 } catch (Throwable e) { 
 
-// &#x5F02;&#x5E38;&#x5904;&#x7406;&#xFF08;&#x7565;&#xFF09;
+// 异常处理（略）
 
 } 
 
@@ -434,11 +440,11 @@ this.h = h;
 
 } 
 
-//&#x6D4B;&#x8BD5;&#x7528;
+//测试用
 
 public static void main(String[] args) { 
 
-//&#x6784;&#x5EFA;AOP&#x7684;Advice 
+//构建AOP的Advice 
 
 LogInvocationHandler handler = new LogInvocationHandler(new Business()); 
 
@@ -450,9 +456,9 @@ new ProxyBusiness(handler).doSomeThing2();
 
 } 
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
-<p><strong><span lang="EN-US" style="font-family:">3.1.3</span></strong> <strong><span style="font-family: &#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x5C0F;&#x7ED3;</span><span lang="EN-US" style="font-family:">  </span><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:">      </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x4ECE;&#x524D;&#x4E24;&#x8282;&#x7684;&#x5206;&#x6790;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x901A;&#x8FC7;&#x63A5;&#x53E3;&#x52A8;&#x6001;&#x751F;&#x6210;&#x4EE3;&#x7406;&#x7C7B;&#xFF0C;&#x8FD9;&#x4E3A;&#x5176;&#x5E26;&#x6765;&#x4E86;&#x4E00;&#x5B9A;&#x7684;&#x7075;&#x6D3B;&#x6027;&#xFF0C;&#x4F46;&#x8FD9;&#x4E2A;&#x7075;&#x6D3B;&#x6027;&#x5374;&#x5E26;&#x6765;&#x4E86;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x7B2C;&#x4E00;&#x4EE3;&#x7406;&#x7C7B;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x5B9E;&#x73B0;&#x63A5;&#x53E3;&#x4F1A;&#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x5F02;&#x5E38;&#x3002;&#x7B2C;&#x4E8C;&#x6027;&#x80FD;&#x5F71;&#x54CD;&#xFF0C;&#x56E0;&#x4E3A;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x4F7F;&#x7528;&#x53CD;&#x5C04;&#x7684;&#x673A;&#x5236;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x9996;&#x5148;&#x53CD;&#x5C04;&#x80AF;&#x5B9A;&#x6BD4;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x8981;&#x6162;&#xFF0C;&#x7ECF;&#x8FC7;&#x6D4B;&#x8BD5;&#x5927;&#x6982;&#x6BCF;&#x4E2A;&#x4EE3;&#x7406;&#x7C7B;&#x6BD4;&#x9759;&#x6001;&#x4EE3;&#x7406;&#x591A;&#x51FA;</span><span lang="EN-US" style="font-family:">10</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x51E0;&#x6BEB;&#x79D2;&#x7684;&#x6D88;&#x8017;&#x3002;&#x5176;&#x6B21;&#x4F7F;&#x7528;&#x53CD;&#x5C04;&#x5927;&#x91CF;&#x751F;&#x6210;&#x7C7B;&#x6587;&#x4EF6;&#x53EF;&#x80FD;&#x5F15;&#x8D77;</span><span lang="EN-US" style="font-family:">Full GC</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x9020;&#x6210;&#x6027;&#x80FD;&#x5F71;&#x54CD;&#xFF0C;&#x56E0;&#x4E3A;&#x5B57;&#x8282;&#x7801;&#x6587;&#x4EF6;&#x52A0;&#x8F7D;&#x540E;&#x4F1A;&#x5B58;&#x653E;&#x5728;</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x8FD0;&#x884C;&#x65F6;&#x533A;&#x7684;&#x65B9;&#x6CD5;&#x533A;&#xFF08;&#x6216;&#x8005;&#x53EB;&#x6301;&#x4E45;&#x4EE3;&#xFF09;&#x4E2D;&#xFF0C;&#x5F53;&#x65B9;&#x6CD5;&#x533A;&#x6EE1;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x5F15;&#x8D77;</span><span lang="EN-US" style="font-family:">Full GC</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x4F60;&#x5927;&#x91CF;&#x4F7F;&#x7528;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x6301;&#x4E45;&#x4EE3;&#x8BBE;&#x7F6E;&#x5927;&#x4E00;&#x4E9B;&#xFF0C;&#x51CF;&#x5C11;</span><span lang="EN-US" style="font-family:">Full GC</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6B21;&#x6570;&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">3.2</span></strong></span> <strong><span style="font-family:&#x5B8B;&#x4F53;;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:&#x5B8B;&#x4F53;">&#x52A8;&#x6001;&#x5B57;&#x8282;&#x7801;&#x751F;&#x6210;</span></strong><br><span lang="EN-US" style="font-family:">\<br>     </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">&#x4F7F;&#x7528;&#x52A8;&#x6001;&#x5B57;&#x8282;&#x7801;&#x751F;&#x6210;&#x6280;&#x672F;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x539F;&#x7406;&#x662F;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x95F4;&#x76EE;&#x6807;&#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x540E;&#xFF0C;&#x751F;&#x6210;&#x76EE;&#x6807;&#x7C7B;&#x7684;&#x5B50;&#x7C7B;&#xFF0C;&#x5C06;&#x5207;&#x9762;&#x903B;&#x8F91;&#x52A0;&#x5165;&#x5230;&#x5B50;&#x7C7B;&#x4E2D;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x4E0D;&#x9700;&#x8981;&#x57FA;&#x4E8E;&#x63A5;&#x53E3;&#x3002;</span></p>
-<p><span lang="EN-US" style="font-family:"><img src="/2016/03/30/AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;/60573AB9-AA07-4201-B7E5-F2E70358DA91.jpg" alt=""></span></p>
-<p><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x672C;&#x8282;&#x4ECB;&#x7ECD;&#x5982;&#x4F55;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x6765;&#x5B9E;&#x73B0;&#x52A8;&#x6001;&#x5B57;&#x8282;&#x7801;&#x6280;&#x672F;&#x3002;</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x662F;&#x4E00;&#x4E2A;&#x5F3A;&#x5927;&#x7684;</span><span lang="EN-US" style="font-family:">,</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x9AD8;&#x6027;&#x80FD;&#x7684;</span><span lang="EN-US" style="font-family:">Code</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x751F;&#x6210;&#x7C7B;&#x5E93;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x95F4;&#x6269;&#x5C55;</span><span lang="EN-US" style="font-family:">Java</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x7C7B;&#x548C;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">Java</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x63A5;&#x53E3;&#xFF0C;&#x5B83;&#x5C01;&#x88C5;&#x4E86;</span><span lang="EN-US" style="font-family:">Asm</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x524D;&#x9700;&#x8981;&#x5F15;&#x5165;</span><span lang="EN-US" style="font-family:">Asm</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x7684;</span><span lang="EN-US" style="font-family:">jar</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x3002;</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6E05;&#x5355;&#x4E03;&#xFF1A;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">CGLib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span></p>
+<p><strong><span lang="EN-US" style="font-family:">3.1.3</span></strong> <strong><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">小结</span><span lang="EN-US" style="font-family:">  </span><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:">      </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">从前两节的分析我们可以看出，动态代理在运行期通过接口动态生成代理类，这为其带来了一定的灵活性，但这个灵活性却带来了两个问题，第一代理类必须实现一个接口，如果没实现接口会抛出一个异常。第二性能影响，因为动态代理使用反射的机制实现的，首先反射肯定比直接调用要慢，经过测试大概每个代理类比静态代理多出</span><span lang="EN-US" style="font-family:">10</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">几毫秒的消耗。其次使用反射大量生成类文件可能引起</span><span lang="EN-US" style="font-family:">Full GC</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">造成性能影响，因为字节码文件加载后会存放在</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">运行时区的方法区（或者叫持久代）中，当方法区满的时候，会引起</span><span lang="EN-US" style="font-family:">Full GC</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">，所以当你大量使用动态代理时，可以将持久代设置大一些，减少</span><span lang="EN-US" style="font-family:">Full GC</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">次数。</span><br><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">3.2</span></strong></span> <strong><span style="font-family:宋体;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:宋体">动态字节码生成</span></strong><br><span lang="EN-US" style="font-family:">\<br>     </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">使用动态字节码生成技术实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">原理是在运行期间目标字节码加载后，生成目标类的子类，将切面逻辑加入到子类中，所以使用</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">不需要基于接口。</span></p>
+<p><span lang="EN-US" style="font-family:"><img src="/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/60573AB9-AA07-4201-B7E5-F2E70358DA91.jpg" alt=""></span></p>
+<p><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">本节介绍如何使用</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">来实现动态字节码技术。</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">是一个强大的</span><span lang="EN-US" style="font-family:">,</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">高性能的</span><span lang="EN-US" style="font-family:">Code</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">生成类库，它可以在运行期间扩展</span><span lang="EN-US" style="font-family:">Java</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">类和实现</span><span lang="EN-US" style="font-family:">Java</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">接口，它封装了</span><span lang="EN-US" style="font-family:">Asm</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">，所以使用</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">前需要引入</span><span lang="EN-US" style="font-family:">Asm</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">的</span><span lang="EN-US" style="font-family:">jar</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">。</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">清单七：使用</span><span lang="EN-US" style="font-family:">CGLib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">实现</span><span lang="EN-US" style="font-family:">AOP</span></p>
 <pre><code>public static void main(String[] args) { 
 
 byteCodeGe(); 
@@ -461,19 +467,19 @@ byteCodeGe();
 
 public static void byteCodeGe() { 
 
-//&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7EC7;&#x5165;&#x5668;
+//创建一个织入器
 
 Enhancer enhancer = new Enhancer(); 
 
-//&#x8BBE;&#x7F6E;&#x7236;&#x7C7B;
+//设置父类
 
 enhancer.setSuperclass(Business.class); 
 
-//&#x8BBE;&#x7F6E;&#x9700;&#x8981;&#x7EC7;&#x5165;&#x7684;&#x903B;&#x8F91;
+//设置需要织入的逻辑
 
 enhancer.setCallback(new LogIntercept()); 
 
-//&#x4F7F;&#x7528;&#x7EC7;&#x5165;&#x5668;&#x521B;&#x5EFA;&#x5B50;&#x7C7B;
+//使用织入器创建子类
 
 IBusiness2 newBusiness = (IBusiness2) enhancer.create(); 
 
@@ -483,7 +489,7 @@ newBusiness.doSomeThing2();
 
 /** 
 
-* &#x8BB0;&#x5F55;&#x65E5;&#x5FD7;
+* 记录日志
 
 */ 
 
@@ -493,15 +499,15 @@ public static class LogIntercept implements MethodInterceptor {
 
 public Object intercept(Object target, Method method, Object[] args, MethodProxy proxy) throws Throwable { 
 
-//&#x6267;&#x884C;&#x539F;&#x6709;&#x903B;&#x8F91;&#xFF0C;&#x6CE8;&#x610F;&#x8FD9;&#x91CC;&#x662F;invokeSuper 
+//执行原有逻辑，注意这里是invokeSuper 
 
 Object rev = proxy.invokeSuper(target, args); 
 
-//&#x6267;&#x884C;&#x7EC7;&#x5165;&#x7684;&#x65E5;&#x5FD7;
+//执行织入的日志
 
 if (method.getName().equals(&quot;doSomeThing2&quot;)) { 
 
-System.out.println(&quot;&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;&quot;); 
+System.out.println(&quot;记录日志&quot;); 
 
 } 
 
@@ -512,25 +518,25 @@ return rev;
 } 
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
 <p><span lang="EN-US" style="font-family:">  </span></p>
-<p><strong><span lang="EN-US" style="font-family:">3.3</span></strong> <strong><span style="font-family: &#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x81EA;&#x5B9A;&#x4E49;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;</span></strong><span lang="EN-US" style="font-family:">\<br>     </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">&#x5982;&#x679C;&#x6211;&#x4EEC;&#x5B9E;&#x73B0;&#x4E86;&#x4E00;&#x4E2A;&#x81EA;&#x5B9A;&#x4E49;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#xFF0C;&#x5728;&#x7C7B;&#x52A0;&#x8F7D;&#x5230;</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x4E4B;&#x524D;&#x76F4;&#x63A5;&#x4FEE;&#x6539;&#x67D0;&#x4E9B;&#x7C7B;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5E76;&#x5C06;&#x5207;&#x5165;&#x903B;&#x8F91;&#x7EC7;&#x5165;&#x5230;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x91CC;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x4FEE;&#x6539;&#x540E;&#x7684;&#x5B57;&#x8282;&#x7801;&#x6587;&#x4EF6;&#x4EA4;&#x7ED9;&#x865A;&#x62DF;&#x673A;&#x8FD0;&#x884C;&#xFF0C;&#x90A3;&#x5C82;&#x4E0D;&#x662F;&#x66F4;&#x76F4;&#x63A5;&#x3002;</span></p>
+<p><strong><span lang="EN-US" style="font-family:">3.3</span></strong> <strong><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">自定义类加载器</span></strong><span lang="EN-US" style="font-family:">\<br>     </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">如果我们实现了一个自定义类加载器，在类加载到</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">之前直接修改某些类的方法，并将切入逻辑织入到这个方法里，然后将修改后的字节码文件交给虚拟机运行，那岂不是更直接。</span></p>
 <p><span lang="EN-US" style="font-family:">  </span></p>
-<p><span lang="EN-US" style="font-family:"><img src="/2016/03/30/AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;/9E4024CD-5D7E-4A8A-902E-6CDA8C7BCD7F.jpg" alt="">\<br>\<br> Javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">&#x662F;&#x4E00;&#x4E2A;&#x7F16;&#x8F91;&#x5B57;&#x8282;&#x7801;&#x7684;&#x6846;&#x67B6;&#xFF0C;&#x53EF;&#x4EE5;&#x8BA9;&#x4F60;&#x5F88;&#x7B80;&#x5355;&#x5730;&#x64CD;&#x4F5C;&#x5B57;&#x8282;&#x7801;&#x3002;&#x5B83;&#x53EF;&#x4EE5;&#x5728;&#x8FD0;&#x884C;&#x671F;&#x5B9A;&#x4E49;&#x6216;&#x4FEE;&#x6539;</span><span lang="EN-US" style="font-family:">Class</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x3002;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">Javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7684;&#x539F;&#x7406;&#x662F;&#x5728;&#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x524D;&#x76F4;&#x63A5;&#x4FEE;&#x6539;&#x9700;&#x8981;&#x5207;&#x5165;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x8FD9;&#x6BD4;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x66F4;&#x52A0;&#x9AD8;&#x6548;&#xFF0C;&#x5E76;&#x4E14;&#x6CA1;&#x592A;&#x591A;&#x9650;&#x5236;&#xFF0C;&#x5B9E;&#x73B0;&#x539F;&#x7406;&#x5982;&#x4E0B;&#x56FE;&#xFF1A;</span><br><span lang="EN-US" style="font-family:">\<br>\<br><img src="/2016/03/30/AOP&#x7684;&#x5B9E;&#x73B0;&#x673A;&#x5236;/1C300C10-A3C3-46C7-A641-30087D0F5040.jpg" alt="">\<br>\<br>\<br>\<br>\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x7CFB;&#x7EDF;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x542F;&#x52A8;&#x6211;&#x4EEC;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#xFF0C;&#x5728;&#x8FD9;&#x4E2A;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x91CC;&#x52A0;&#x4E00;&#x4E2A;&#x7C7B;&#x52A0;&#x8F7D;&#x76D1;&#x542C;&#x5668;&#xFF0C;&#x76D1;&#x542C;&#x5668;&#x53D1;&#x73B0;&#x76EE;&#x6807;&#x7C7B;&#x88AB;&#x52A0;&#x8F7D;&#x65F6;&#x5C31;&#x7EC7;&#x5165;&#x5207;&#x5165;&#x903B;&#x8F91;&#xFF0C;&#x54B1;&#x4EEC;&#x518D;&#x770B;&#x770B;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">Javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7684;&#x4EE3;&#x7801;&#xFF1A;</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6E05;&#x5355;&#x516B;&#xFF1A;&#x542F;&#x52A8;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;</span></p>
-<pre><code>//&#x83B7;&#x53D6;&#x5B58;&#x653E;CtClass&#x7684;&#x5BB9;&#x5668;ClassPool 
+<p><span lang="EN-US" style="font-family:"><img src="/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/9E4024CD-5D7E-4A8A-902E-6CDA8C7BCD7F.jpg" alt="">\<br>\<br> Javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">是一个编辑字节码的框架，可以让你很简单地操作字节码。它可以在运行期定义或修改</span><span lang="EN-US" style="font-family:">Class</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">。使用</span><span lang="EN-US" style="font-family:">Javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">的原理是在字节码加载前直接修改需要切入的方法。这比使用</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">更加高效，并且没太多限制，实现原理如下图：</span><br><span lang="EN-US" style="font-family:">\<br>\<br><img src="/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1C300C10-A3C3-46C7-A641-30087D0F5040.jpg" alt="">\<br>\<br>\<br>\<br>\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">我们使用系统类加载器启动我们自定义的类加载器，在这个类加载器里加一个类加载监听器，监听器发现目标类被加载时就织入切入逻辑，咱们再看看使用</span><span lang="EN-US" style="font-family:">Javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">的代码：</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">清单八：启动自定义的类加载器</span></p>
+<pre><code>//获取存放CtClass的容器ClassPool 
 
 ClassPool cp = ClassPool.getDefault(); 
 
-//&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;
+//创建一个类加载器
 
 Loader cl = new Loader(); 
 
-//&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x8F6C;&#x6362;&#x5668;
+//增加一个转换器
 
 cl.addTranslator(cp, new MyTranslator()); 
 
-//&#x542F;&#x52A8;MyTranslator&#x7684;main&#x51FD;&#x6570;
+//启动MyTranslator的main函数
 
 cl.run(&quot;jsvassist.JavassistAopDemo$MyTranslator&quot;, args); 
-</code></pre><p><span lang="EN-US" style="font-family:">  </span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6E05;&#x5355;&#x4E5D;&#xFF1A;&#x7C7B;&#x52A0;&#x8F7D;&#x76D1;&#x542C;&#x5668;</span></p>
+</code></pre><p><span lang="EN-US" style="font-family:">  </span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">清单九：类加载监听器</span></p>
 <pre><code>public static class MyTranslator implements Translator { 
 
 public void start(ClassPool pool) throws NotFoundException, CannotCompileException { 
@@ -539,7 +545,7 @@ public void start(ClassPool pool) throws NotFoundException, CannotCompileExcepti
 
 /* * 
 
-* &#x7C7B;&#x88C5;&#x8F7D;&#x5230;JVM&#x524D;&#x8FDB;&#x884C;&#x4EE3;&#x7801;&#x7EC7;&#x5165;
+* 类装载到JVM前进行代码织入
 
 */ 
 
@@ -551,19 +557,19 @@ return;
 
 } 
 
-//&#x901A;&#x8FC7;&#x83B7;&#x53D6;&#x7C7B;&#x6587;&#x4EF6;
+//通过获取类文件
 
 try { 
 
 CtClasscc = pool.get(classname); 
 
-//&#x83B7;&#x5F97;&#x6307;&#x5B9A;&#x65B9;&#x6CD5;&#x540D;&#x7684;&#x65B9;&#x6CD5;
+//获得指定方法名的方法
 
 CtMethod m = cc.getDeclaredMethod(&quot;doSomeThing&quot;); 
 
-//&#x5728;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x524D;&#x63D2;&#x5165;&#x4EE3;&#x7801;
+//在方法执行前插入代码
 
-m.insertBefore(&quot;{ System.out.println(\&quot;&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;\&quot;); }&quot;); 
+m.insertBefore(&quot;{ System.out.println(\&quot;记录日志\&quot;); }&quot;); 
 
 } catch (NotFoundException e) { 
 
@@ -584,18 +590,18 @@ b.doSomeThing();
 } 
 
 } 
-</code></pre><p><span lang="EN-US" style="font-family:">  </span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x8F93;&#x51FA;&#xFF1A;</span><span lang="EN-US" style="font-family:">  </span></p>
-<pre><code>&#x6267;&#x884C;&#x4E1A;&#x52A1;&#x903B;&#x8F91;2 
+</code></pre><p><span lang="EN-US" style="font-family:">  </span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">输出：</span><span lang="EN-US" style="font-family:">  </span></p>
+<pre><code>执行业务逻辑2 
 
-&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;
+记录日志
 
-&#x6267;&#x884C;&#x4E1A;&#x52A1;&#x903B;&#x8F91;
-</code></pre><p><span lang="EN-US" style="font-family:">  \<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x5176;&#x4E2D;</span><span lang="EN-US" style="font-family:">Bussiness</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x7C7B;&#x5728;&#x672C;&#x6587;&#x7684;&#x6E05;&#x5355;&#x4E00;&#x4E2D;&#x5B9A;&#x4E49;&#x3002;&#x770B;&#x8D77;&#x6765;&#x662F;&#x4E0D;&#x662F;&#x7279;&#x522B;&#x7B80;&#x5355;&#xFF0C;</span><span lang="EN-US" style="font-family:">CtClass</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x662F;&#x4E00;&#x4E2A;</span><span lang="EN-US" style="font-family:">class</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6587;&#x4EF6;&#x7684;&#x62BD;&#x8C61;&#x63CF;&#x8FF0;&#x3002;&#x54B1;&#x4EEC;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">insertAfter()</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x65B9;&#x6CD5;&#x7684;&#x672B;&#x5C3E;&#x63D2;&#x5165;&#x4EE3;&#x7801;&#xFF0C;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">insertAt()</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x6307;&#x5B9A;&#x884C;&#x63D2;&#x5165;&#x4EE3;&#x7801;&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">3.3.1</span></strong></span> <strong><span style="font-family:&#x5B8B;&#x4F53;; mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x5C0F;&#x7ED3;</span></strong><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x4ECE;&#x672C;&#x8282;&#x4E2D;&#x53EF;&#x77E5;&#xFF0C;&#x4F7F;&#x7528;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x6027;&#x80FD;&#x4E0A;&#x8981;&#x4F18;&#x4E8E;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x548C;</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x4E0D;&#x4F1A;&#x4EA7;&#x751F;&#x65B0;&#x7C7B;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x4ECD;&#x7136;&#x5B58;&#x5728;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x5C31;&#x662F;&#x5982;&#x679C;&#x5176;&#x4ED6;&#x7684;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x6765;&#x52A0;&#x8F7D;&#x7C7B;&#x7684;&#x8BDD;&#xFF0C;&#x8FD9;&#x4E9B;&#x7C7B;&#x5C06;&#x4E0D;&#x4F1A;&#x88AB;&#x62E6;&#x622A;&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">3.4</span></strong></span> <strong><span style="font-family:&#x5B8B;&#x4F53;;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:&#x5B8B;&#x4F53;">&#x5B57;&#x8282;&#x7801;&#x8F6C;&#x6362;</span></strong><br><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x53EA;&#x80FD;&#x62E6;&#x622A;&#x81EA;&#x5DF1;&#x52A0;&#x8F7D;&#x7684;&#x5B57;&#x8282;&#x7801;&#xFF0C;&#x90A3;&#x4E48;&#x6709;&#x6CA1;&#x6709;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x80FD;&#x591F;&#x76D1;&#x63A7;&#x6240;&#x6709;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x52A0;&#x8F7D;&#x5B57;&#x8282;&#x7801;&#x5462;&#xFF1F;&#x6709;&#xFF0C;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">Instrumentation</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#xFF0C;&#x5B83;&#x662F;</span><br><span lang="EN-US" style="font-family:">Java 5</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x63D0;&#x4F9B;&#x7684;&#x65B0;&#x7279;&#x6027;&#xFF0C;&#x4F7F;&#x7528;</span><br><span lang="EN-US" style="font-family:">Instrumentation</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#xFF0C;&#x5F00;&#x53D1;&#x8005;&#x53EF;&#x4EE5;&#x6784;&#x5EFA;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#x7801;&#x8F6C;&#x6362;&#x5668;&#xFF0C;&#x5728;&#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x524D;&#x8FDB;&#x884C;&#x8F6C;&#x6362;&#x3002;&#x672C;&#x8282;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">Instrumentation</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x548C;</span><span lang="EN-US" style="font-family:">javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6765;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">3.4.1</span></strong></span> <strong><span style="font-family:&#x5B8B;&#x4F53;; mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x6784;&#x5EFA;&#x5B57;&#x8282;&#x7801;&#x8F6C;&#x6362;&#x5668;</span></strong><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x9996;&#x5148;&#x9700;&#x8981;&#x521B;&#x5EFA;&#x5B57;&#x8282;&#x7801;&#x8F6C;&#x6362;&#x5668;&#xFF0C;&#x8BE5;&#x8F6C;&#x6362;&#x5668;&#x8D1F;&#x8D23;&#x62E6;&#x622A;</span><span lang="EN-US" style="font-family:">Business</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7C7B;&#xFF0C;&#x5E76;&#x5728;</span><span lang="EN-US" style="font-family:">Business</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7C7B;&#x7684;</span><span lang="EN-US" style="font-family:">doSomeThing</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x65B9;&#x6CD5;&#x524D;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x52A0;&#x5165;&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;&#x7684;&#x4EE3;&#x7801;&#x3002;</span></p>
+执行业务逻辑
+</code></pre><p><span lang="EN-US" style="font-family:">  \<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">其中</span><span lang="EN-US" style="font-family:">Bussiness</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">类在本文的清单一中定义。看起来是不是特别简单，</span><span lang="EN-US" style="font-family:">CtClass</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">是一个</span><span lang="EN-US" style="font-family:">class</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">文件的抽象描述。咱们也可以使用</span><span lang="EN-US" style="font-family:">insertAfter()</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在方法的末尾插入代码，使用</span><span lang="EN-US" style="font-family:">insertAt()</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在指定行插入代码。</span><br><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">3.3.1</span></strong></span> <strong><span style="font-family:宋体; mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">小结</span></strong><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">从本节中可知，使用自定义的类加载器实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">在性能上要优于动态代理和</span><span lang="EN-US" style="font-family:">Cglib</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">，因为它不会产生新类，但是它仍然存在一个问题，就是如果其他的类加载器来加载类的话，这些类将不会被拦截。</span><br><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">3.4</span></strong></span> <strong><span style="font-family:宋体;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:宋体">字节码转换</span></strong><br><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">自定义的类加载器实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">只能拦截自己加载的字节码，那么有没有一种方式能够监控所有类加载器加载字节码呢？有，使用</span><span lang="EN-US" style="font-family:">Instrumentation</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">，它是</span><br><span lang="EN-US" style="font-family:">Java 5</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">提供的新特性，使用</span><br><span lang="EN-US" style="font-family:">Instrumentation</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">，开发者可以构建一个字节码转换器，在字节码加载前进行转换。本节使用</span><span lang="EN-US" style="font-family:">Instrumentation</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">和</span><span lang="EN-US" style="font-family:">javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">来实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。</span><br><span lang="EN-US" style="font-family:">\<br>\<br><strong><span style="font-family:">3.4.1</span></strong></span> <strong><span style="font-family:宋体; mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">构建字节码转换器</span></strong><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">首先需要创建字节码转换器，该转换器负责拦截</span><span lang="EN-US" style="font-family:">Business</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">类，并在</span><span lang="EN-US" style="font-family:">Business</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">类的</span><span lang="EN-US" style="font-family:">doSomeThing</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">方法前使用</span><span lang="EN-US" style="font-family:">javassist</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">加入记录日志的代码。</span></p>
 <pre><code>public class MyClassFileTransformer implements ClassFileTransformer { 
 
 /** 
 
-* &#x5B57;&#x8282;&#x7801;&#x52A0;&#x8F7D;&#x5230;&#x865A;&#x62DF;&#x673A;&#x524D;&#x4F1A;&#x8FDB;&#x5165;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;
+* 字节码加载到虚拟机前会进入这个方法
 
 */ 
 
@@ -609,7 +615,7 @@ throws IllegalClassFormatException {
 
 System.out.println(className); 
 
-//&#x5982;&#x679C;&#x52A0;&#x8F7D;Business&#x7C7B;&#x624D;&#x62E6;&#x622A;
+//如果加载Business类才拦截
 
 if (!&quot;model/Business&quot;.equals(className)) { 
 
@@ -617,7 +623,7 @@ return null;
 
 } 
 
-//javassist&#x7684;&#x5305;&#x540D;&#x662F;&#x7528;&#x70B9;&#x5206;&#x5272;&#x7684;&#xFF0C;&#x9700;&#x8981;&#x8F6C;&#x6362;&#x4E0B;
+//javassist的包名是用点分割的，需要转换下
 
 if (className.indexOf(&quot;/&quot;) != -1) { 
 
@@ -627,17 +633,17 @@ className = className.replaceAll(&quot;/&quot;, &quot;.&quot;);
 
 try { 
 
-//&#x901A;&#x8FC7;&#x5305;&#x540D;&#x83B7;&#x53D6;&#x7C7B;&#x6587;&#x4EF6;
+//通过包名获取类文件
 
 CtClass cc = ClassPool.getDefault().get(className); 
 
-//&#x83B7;&#x5F97;&#x6307;&#x5B9A;&#x65B9;&#x6CD5;&#x540D;&#x7684;&#x65B9;&#x6CD5;
+//获得指定方法名的方法
 
 CtMethod m = cc.getDeclaredMethod(&quot;doSomeThing&quot;); 
 
-//&#x5728;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x524D;&#x63D2;&#x5165;&#x4EE3;&#x7801;
+//在方法执行前插入代码
 
-m.insertBefore(&quot;{ System.out.println(\&quot;&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;\&quot;); }&quot;); 
+m.insertBefore(&quot;{ System.out.println(\&quot;记录日志\&quot;); }&quot;); 
 
 return cc.toBytecode(); 
 
@@ -647,7 +653,7 @@ return cc.toBytecode();
 
 } catch (IOException e) { 
 
-//&#x5FFD;&#x7565;&#x5F02;&#x5E38;&#x5904;&#x7406;
+//忽略异常处理
 
 } 
 
@@ -655,12 +661,12 @@ return null;
 
 } 
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
-<p><strong><span lang="EN-US" style="font-family:">3.4.2</span></strong> <strong><span style="font-family: &#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x6CE8;&#x518C;&#x8F6C;&#x6362;&#x5668;</span></strong><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">premain</span><span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">&#x51FD;&#x6570;&#x6CE8;&#x518C;&#x5B57;&#x8282;&#x7801;&#x8F6C;&#x6362;&#x5668;&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x5728;</span><span lang="EN-US" style="font-family:">main</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x51FD;&#x6570;&#x4E4B;&#x524D;&#x6267;&#x884C;&#x3002;</span></p>
+<p><strong><span lang="EN-US" style="font-family:">3.4.2</span></strong> <strong><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">注册转换器</span></strong><span lang="EN-US" style="font-family:">\<br>       </span> <span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">使用</span><span lang="EN-US" style="font-family:">premain</span><span style="mso-ascii-font-family:Calibri; mso-hansi-font-family:Calibri">函数注册字节码转换器，该方法在</span><span lang="EN-US" style="font-family:">main</span><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">函数之前执行。</span></p>
 <pre><code>public class MyClassFileTransformer implements ClassFileTransformer { 
 
 public static void premain(String options, Instrumentation ins) { 
 
-//&#x6CE8;&#x518C;&#x6211;&#x81EA;&#x5DF1;&#x7684;&#x5B57;&#x8282;&#x7801;&#x8F6C;&#x6362;&#x5668;
+//注册我自己的字节码转换器
 
 ins.addTransformer(new MyClassFileTransformer()); 
 
@@ -668,13 +674,13 @@ ins.addTransformer(new MyClassFileTransformer());
 
 } 
 </code></pre><p><span lang="EN-US" style="font-family:">  </span></p>
-<p><strong><span lang="EN-US" style="font-family:">3.4.3</span></strong> <strong><span style="font-family: &#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x914D;&#x7F6E;&#x548C;&#x6267;&#x884C;</span></strong><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:">      </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x9700;&#x8981;&#x544A;&#x8BC9;</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5728;&#x542F;&#x52A8;</span><span lang="EN-US" style="font-family:">main</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x51FD;&#x6570;&#x4E4B;&#x524D;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x6267;&#x884C;</span><span lang="EN-US" style="font-family:">premain</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x51FD;&#x6570;&#x3002;&#x9996;&#x5148;&#x9700;&#x8981;&#x5C06;</span><span lang="EN-US" style="font-family:">premain</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x51FD;&#x6570;&#x6240;&#x5728;&#x7684;&#x7C7B;&#x6253;&#x6210;</span><span lang="EN-US" style="font-family:">jar</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5305;&#x3002;&#x5E76;&#x4FEE;&#x6539;&#x8BE5;</span><span lang="EN-US" style="font-family:">jar</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5305;&#x91CC;&#x7684;</span><span lang="EN-US" style="font-family:">META-INF\MANIFEST.MF</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6587;&#x4EF6;&#x3002;</span><span lang="EN-US" style="font-family:">  </span></p>
+<p><strong><span lang="EN-US" style="font-family:">3.4.3</span></strong> <strong><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">配置和执行</span></strong><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:">      </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">需要告诉</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在启动</span><span lang="EN-US" style="font-family:">main</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">函数之前，需要先执行</span><span lang="EN-US" style="font-family:">premain</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">函数。首先需要将</span><span lang="EN-US" style="font-family:">premain</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">函数所在的类打成</span><span lang="EN-US" style="font-family:">jar</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">包。并修改该</span><span lang="EN-US" style="font-family:">jar</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">包里的</span><span lang="EN-US" style="font-family:">META-INF\MANIFEST.MF</span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">文件。</span><span lang="EN-US" style="font-family:">  </span></p>
 <pre><code>Manifest-Version: 1.0 
 
 Premain-Class: bci. MyClassFileTransformer
-</code></pre><p><span lang="EN-US" style="font-family:">        </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7136;&#x540E;&#x5728;</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7684;&#x542F;&#x52A8;&#x53C2;&#x6570;&#x91CC;&#x52A0;&#x4E0A;&#x3002;</span><span lang="EN-US" style="font-family:">-javaagent:D:\java\projects\opencometProject\Aop\lib\aop.jar</span></p>
-<p><strong><span lang="EN-US" style="font-family:"><br>3.4.4</span></strong> <strong><span style="font-family:&#x5B8B;&#x4F53;;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:&#x5B8B;&#x4F53;">&#x8F93;&#x51FA;</span></strong></p>
-<p><strong><span lang="EN-US" style="font-family:">      </span></strong> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6267;&#x884C;</span><span lang="EN-US" style="font-family:">main</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x51FD;&#x6570;&#xFF0C;&#x4F60;&#x4F1A;&#x53D1;&#x73B0;&#x5207;&#x5165;&#x7684;&#x4EE3;&#x7801;&#x65E0;&#x4FB5;&#x5165;&#x6027;&#x7684;&#x7EC7;&#x5165;&#x8FDB;&#x53BB;&#x4E86;&#x3002;</span></p>
+</code></pre><p><span lang="EN-US" style="font-family:">        </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">然后在</span><span lang="EN-US" style="font-family:">JVM</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">的启动参数里加上。</span><span lang="EN-US" style="font-family:">-javaagent:D:\java\projects\opencometProject\Aop\lib\aop.jar</span></p>
+<p><strong><span lang="EN-US" style="font-family:"><br>3.4.4</span></strong> <strong><span style="font-family:宋体;mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:宋体">输出</span></strong></p>
+<p><strong><span lang="EN-US" style="font-family:">      </span></strong> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">执行</span><span lang="EN-US" style="font-family:">main</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">函数，你会发现切入的代码无侵入性的织入进去了。</span></p>
 <pre><code>public static void main(String[] args) { 
 
 new Business().doSomeThing(); 
@@ -682,7 +688,7 @@ new Business().doSomeThing();
 new Business().doSomeThing2(); 
 
 } 
-</code></pre><p><span lang="EN-US" style="font-family:">    </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x8F93;&#x51FA;</span></p>
+</code></pre><p><span lang="EN-US" style="font-family:">    </span> <span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">输出</span></p>
 <pre><code>model/Business 
 
 sun/misc/Cleaner 
@@ -693,28 +699,28 @@ model/IBusiness
 
 model/IBusiness2 
 
-&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;
+记录日志
 
-&#x6267;&#x884C;&#x4E1A;&#x52A1;&#x903B;&#x8F91;
+执行业务逻辑
 
-&#x6267;&#x884C;&#x4E1A;&#x52A1;&#x903B;&#x8F91;2 
+执行业务逻辑2 
 
 java/lang/Shutdown 
 
 java/lang/Shutdown$Lock 
 </code></pre><p><span lang="EN-US" style="font-family:">    </span></p>
-<p><span lang="EN-US" style="font-family:">  </span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x4ECE;&#x8F93;&#x51FA;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7CFB;&#x7EDF;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#x52A0;&#x8F7D;&#x7684;&#x7C7B;&#x4E5F;&#x7ECF;&#x8FC7;&#x4E86;&#x8FD9;&#x91CC;&#x3002;</span></p>
+<p><span lang="EN-US" style="font-family:">  </span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">从输出中可以看到系统类加载器加载的类也经过了这里。</span></p>
 <p><span lang="EN-US" style="font-family:">  </span></p>
-<p><strong><span lang="EN-US" style="font-family:">4 AOP</span><span style="font-family: &#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: &#x5B8B;&#x4F53;">&#x5B9E;&#x6218;</span></strong><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x8BF4;&#x4E86;&#x8FD9;&#x4E48;&#x591A;&#x7406;&#x8BBA;&#xFF0C;&#x90A3;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5230;&#x5E95;&#x80FD;&#x505A;&#x4EC0;&#x4E48;&#x5462;&#xFF1F;</span><br><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x80FD;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#x975E;&#x5E38;&#x591A;&#x3002;</span></p>
+<p><strong><span lang="EN-US" style="font-family:">4 AOP</span><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">实战</span></strong><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">说了这么多理论，那</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">到底能做什么呢？</span><br><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">能做的事情非常多。</span></p>
 <ul>
-<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x6027;&#x80FD;&#x76D1;&#x63A7;&#xFF0C;&#x5728;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x524D;&#x540E;&#x8BB0;&#x5F55;&#x8C03;&#x7528;&#x65F6;&#x95F4;&#xFF0C;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x592A;&#x957F;&#x6216;&#x8D85;&#x65F6;&#x62A5;&#x8B66;&#x3002;</span></li>
-<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x7F13;&#x5B58;&#x4EE3;&#x7406;&#xFF0C;&#x7F13;&#x5B58;&#x67D0;&#x65B9;&#x6CD5;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x4E0B;&#x6B21;&#x6267;&#x884C;&#x8BE5;&#x65B9;&#x6CD5;&#x65F6;&#xFF0C;&#x76F4;&#x63A5;&#x4ECE;&#x7F13;&#x5B58;&#x91CC;&#x83B7;&#x53D6;&#x3002;</span></li>
-<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x8F6F;&#x4EF6;&#x7834;&#x89E3;&#xFF0C;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x4FEE;&#x6539;&#x8F6F;&#x4EF6;&#x7684;&#x9A8C;&#x8BC1;&#x7C7B;&#x7684;&#x5224;&#x65AD;&#x903B;&#x8F91;&#x3002;</span></li>
-<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;&#xFF0C;&#x5728;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x524D;&#x540E;&#x8BB0;&#x5F55;&#x7CFB;&#x7EDF;&#x65E5;&#x5FD7;&#x3002;</span></li>
-<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x5DE5;&#x4F5C;&#x6D41;&#x7CFB;&#x7EDF;&#xFF0C;&#x5DE5;&#x4F5C;&#x6D41;&#x7CFB;&#x7EDF;&#x9700;&#x8981;&#x5C06;&#x4E1A;&#x52A1;&#x4EE3;&#x7801;&#x548C;&#x6D41;&#x7A0B;&#x5F15;&#x64CE;&#x4EE3;&#x7801;&#x6DF7;&#x5408;&#x5728;&#x4E00;&#x8D77;&#x6267;&#x884C;&#xFF0C;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5C06;&#x5176;&#x5206;&#x79BB;&#xFF0C;&#x5E76;&#x52A8;&#x6001;&#x6302;&#x63A5;&#x4E1A;&#x52A1;&#x3002;</span></li>
-<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">&#x6743;&#x9650;&#x9A8C;&#x8BC1;&#xFF0C;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x524D;&#x9A8C;&#x8BC1;&#x662F;&#x5426;&#x6709;&#x6743;&#x9650;&#x6267;&#x884C;&#x5F53;&#x524D;&#x65B9;&#x6CD5;&#xFF0C;&#x6CA1;&#x6709;&#x5219;&#x629B;&#x51FA;&#x6CA1;&#x6709;&#x6743;&#x9650;&#x6267;&#x884C;&#x5F02;&#x5E38;&#xFF0C;&#x7531;&#x4E1A;&#x52A1;&#x4EE3;&#x7801;&#x6355;&#x6349;&#x3002;</span><span lang="EN-US" style="font-family:">  </span></li>
+<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">性能监控，在方法调用前后记录调用时间，方法执行太长或超时报警。</span></li>
+<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">缓存代理，缓存某方法的返回值，下次执行该方法时，直接从缓存里获取。</span></li>
+<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">软件破解，使用</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">修改软件的验证类的判断逻辑。</span></li>
+<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">记录日志，在方法执行前后记录系统日志。</span></li>
+<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">工作流系统，工作流系统需要将业务代码和流程引擎代码混合在一起执行，那么我们可以使用</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">将其分离，并动态挂接业务。</span></li>
+<li><span style="mso-ascii-font-family: Calibri;mso-hansi-font-family:Calibri">权限验证，方法执行前验证是否有权限执行当前方法，没有则抛出没有权限执行异常，由业务代码捕捉。</span><span lang="EN-US" style="font-family:">  </span></li>
 </ul>
-<p><strong><span lang="EN-US" style="font-family:">4.1 Spring</span><span style="font-family:&#x5B8B;&#x4F53;;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri; mso-bidi-font-family:&#x5B8B;&#x4F53;">&#x7684;</span><span lang="EN-US" style="font-family:">AOP</span></strong> <strong><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:"><br>Spring</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">&#x9ED8;&#x8BA4;&#x91C7;&#x53D6;&#x7684;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x673A;&#x5236;&#x5B9E;&#x73B0;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#xFF0C;&#x5F53;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x4E0D;&#x53EF;&#x7528;&#x65F6;&#xFF08;&#x4EE3;&#x7406;&#x7C7B;&#x65E0;&#x63A5;&#x53E3;&#xFF09;&#x4F1A;&#x4F7F;&#x7528;</span><span lang="EN-US" style="font-family:">CGlib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x673A;&#x5236;&#x3002;&#x4F46;</span><span lang="EN-US" style="font-family:">Spring</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7684;</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x7F3A;&#x70B9;&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;&#x53EA;&#x80FD;&#x5BF9;&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x5207;&#x5165;&#xFF0C;&#x4E0D;&#x80FD;&#x5BF9;&#x63A5;&#x53E3;&#xFF0C;&#x5B57;&#x6BB5;&#xFF0C;&#x9759;&#x6001;&#x4EE3;&#x7801;&#x5757;&#x8FDB;&#x884C;&#x5207;&#x5165;&#xFF08;&#x5207;&#x5165;&#x63A5;&#x53E3;&#x7684;&#x67D0;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x5219;&#x8BE5;&#x63A5;&#x53E3;&#x4E0B;&#x6240;&#x6709;&#x5B9E;&#x73B0;&#x7C7B;&#x7684;&#x8BE5;&#x65B9;&#x6CD5;&#x5C06;&#x88AB;&#x5207;&#x5165;&#xFF09;&#x3002;&#x7B2C;&#x4E8C;&#x4E2A;&#x540C;&#x7C7B;&#x4E2D;&#x7684;&#x4E92;&#x76F8;&#x8C03;&#x7528;&#x65B9;&#x6CD5;&#x5C06;&#x4E0D;&#x4F1A;&#x4F7F;&#x7528;&#x4EE3;&#x7406;&#x7C7B;&#x3002;&#x56E0;&#x4E3A;&#x8981;&#x4F7F;&#x7528;&#x4EE3;&#x7406;&#x7C7B;&#x5FC5;&#x987B;&#x4ECE;</span><span lang="EN-US" style="font-family:">Spring</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x5BB9;&#x5668;&#x4E2D;&#x83B7;&#x53D6;</span><span lang="EN-US" style="font-family:">Bean</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x3002;&#x7B2C;&#x4E09;&#x4E2A;&#x6027;&#x80FD;&#x4E0D;&#x662F;&#x6700;&#x597D;&#x7684;&#xFF0C;&#x4ECE;</span><span lang="EN-US" style="font-family:">3.3</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x7AE0;&#x8282;&#x6211;&#x4EEC;&#x5F97;&#x77E5;&#x4F7F;&#x7528;&#x81EA;&#x5B9A;&#x4E49;&#x7C7B;&#x52A0;&#x8F7D;&#x5668;&#xFF0C;&#x6027;&#x80FD;&#x8981;&#x4F18;&#x4E8E;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x548C;</span><span lang="EN-US" style="font-family:">CGlib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x3002;</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x4EE3;&#x7406;&#x7C7B;</span></p>
+<p><strong><span lang="EN-US" style="font-family:">4.1 Spring</span><span style="font-family:宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri; mso-bidi-font-family:宋体">的</span><span lang="EN-US" style="font-family:">AOP</span></strong> <strong><span lang="EN-US" style="font-family:">\<br></span></strong><span lang="EN-US" style="font-family:"><br>Spring</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family: Calibri">默认采取的动态代理机制实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">，当动态代理不可用时（代理类无接口）会使用</span><span lang="EN-US" style="font-family:">CGlib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">机制。但</span><span lang="EN-US" style="font-family:">Spring</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">的</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">有一定的缺点，第一个只能对方法进行切入，不能对接口，字段，静态代码块进行切入（切入接口的某个方法，则该接口下所有实现类的该方法将被切入）。第二个同类中的互相调用方法将不会使用代理类。因为要使用代理类必须从</span><span lang="EN-US" style="font-family:">Spring</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">容器中获取</span><span lang="EN-US" style="font-family:">Bean</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。第三个性能不是最好的，从</span><span lang="EN-US" style="font-family:">3.3</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">章节我们得知使用自定义类加载器，性能要优于动态代理和</span><span lang="EN-US" style="font-family:">CGlib</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。</span><br><span lang="EN-US" style="font-family:">\<br></span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">可以获取代理类</span></p>
 <pre><code>public IMsgFilterService getThis() 
 
 { 
@@ -725,7 +731,7 @@ return (IMsgFilterService) AopContext.currentProxy();
 
 public boolean evaluateMsg () { 
 
-// &#x6267;&#x884C;&#x6B64;&#x65B9;&#x6CD5;&#x5C06;&#x7EC7;&#x5165;&#x5207;&#x5165;&#x903B;&#x8F91;
+// 执行此方法将织入切入逻辑
 
 return getThis().evaluateMsg(String message); 
 
@@ -734,10 +740,10 @@ return getThis().evaluateMsg(String message);
  MethodInvokeTimesMonitor(&quot;KEY_FILTER_NUM&quot;) 
 
 public boolean evaluateMsg(String message) { 
-</code></pre><p><span lang="EN-US" style="font-family:">  </span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">&#x4E0D;&#x80FD;&#x83B7;&#x53D6;&#x4EE3;&#x7406;&#x7C7B;</span></p>
+</code></pre><p><span lang="EN-US" style="font-family:">  </span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">不能获取代理类</span></p>
 <pre><code>public boolean evaluateMsg () { 
 
-// &#x6267;&#x884C;&#x6B64;&#x65B9;&#x6CD5;&#x5C06;&#x4E0D;&#x4F1A;&#x7EC7;&#x5165;&#x5207;&#x5165;&#x903B;&#x8F91;
+// 执行此方法将不会织入切入逻辑
 
 return evaluateMsg(String message); 
 
@@ -782,18 +788,18 @@ public boolean evaluateMsg(String message) {
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/ios拨打电话三种方式/" title="ios拨打电话三种方式">
+ <a href="/2016/03/30/如何将印象笔记导为markdown/" title="如何将印象笔记导为markdown">
   <strong>上一篇：</strong><br/>
   <span>
-  ios拨打电话三种方式</span>
+  如何将印象笔记导为markdown</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/ios苹果开发者必备的xcode插件/"  title="ios苹果开发者必备的xcode插件">
+<a href="/2016/03/30/NSSet 排序/"  title="NSSet 排序">
  <strong>下一篇：</strong><br/> 
- <span>ios苹果开发者必备的xcode插件
+ <span>NSSet 排序
 </span>
 </a>
 </div>
@@ -862,11 +868,23 @@ public boolean evaluateMsg(String message) {
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -878,7 +896,7 @@ public boolean evaluateMsg(String message) {
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -935,6 +953,14 @@ public boolean evaluateMsg(String message) {
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -947,15 +973,7 @@ public boolean evaluateMsg(String message) {
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -967,7 +985,7 @@ public boolean evaluateMsg(String message) {
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -979,7 +997,7 @@ public boolean evaluateMsg(String message) {
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			

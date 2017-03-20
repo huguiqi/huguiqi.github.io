@@ -11,27 +11,27 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="&amp;#xFF08;&amp;#x6A21;&amp;#x677F;&amp;#x65B9;&amp;#x6CD5;&amp;#x7684;&amp;#x8FD0;&amp;#x7528;&amp;#xFF09;&amp;#x6301;&amp;#x4E45;&amp;#x5C42;&amp;#x64CD;&amp;#x4F5C;&amp;#x7684;java&amp;#x4EE3;&amp;#x7801;\
+    <meta name="description" content="（模板方法的运用）持久层操作的java代码\
 
-&amp;#x7B2C;&amp;#x4E00;&amp;#x4E2A;&amp;#x662F;&amp;#x64CD;&amp;#x4F5C;&amp;#x6570;&amp;">
+第一个是操作数据库方法的抽象接口， 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。Java代码1.  package  com.yd.idao;    2.      3.  import  java.util.List;    4.  import">
 <meta property="og:type" content="article">
 <meta property="og:title" content="（模板方法的运用）持久层操作的java代码">
 <meta property="og:url" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="&amp;#xFF08;&amp;#x6A21;&amp;#x677F;&amp;#x65B9;&amp;#x6CD5;&amp;#x7684;&amp;#x8FD0;&amp;#x7528;&amp;#xFF09;&amp;#x6301;&amp;#x4E45;&amp;#x5C42;&amp;#x64CD;&amp;#x4F5C;&amp;#x7684;java&amp;#x4EE3;&amp;#x7801;\
+<meta property="og:description" content="（模板方法的运用）持久层操作的java代码\
 
-&amp;#x7B2C;&amp;#x4E00;&amp;#x4E2A;&amp;#x662F;&amp;#x64CD;&amp;#x4F5C;&amp;#x6570;&amp;">
-<meta property="og:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/11F934B9-515A-47F9-992D-555E6700C100.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/11F934B9-515A-47F9-992D-555E6700C100.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/11F934B9-515A-47F9-992D-555E6700C100.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/11F934B9-515A-47F9-992D-555E6700C100.png">
+第一个是操作数据库方法的抽象接口， 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。Java代码1.  package  com.yd.idao;    2.      3.  import  java.util.List;    4.  import">
+<meta property="og:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
 <meta property="og:updated_time" content="2016-12-28T07:58:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（模板方法的运用）持久层操作的java代码">
-<meta name="twitter:description" content="&amp;#xFF08;&amp;#x6A21;&amp;#x677F;&amp;#x65B9;&amp;#x6CD5;&amp;#x7684;&amp;#x8FD0;&amp;#x7528;&amp;#xFF09;&amp;#x6301;&amp;#x4E45;&amp;#x5C42;&amp;#x64CD;&amp;#x4F5C;&amp;#x7684;java&amp;#x4EE3;&amp;#x7801;\
+<meta name="twitter:description" content="（模板方法的运用）持久层操作的java代码\
 
-&amp;#x7B2C;&amp;#x4E00;&amp;#x4E2A;&amp;#x662F;&amp;#x64CD;&amp;#x4F5C;&amp;#x6570;&amp;">
-<meta name="twitter:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/11F934B9-515A-47F9-992D-555E6700C100.png">
+第一个是操作数据库方法的抽象接口， 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。Java代码1.  package  com.yd.idao;    2.      3.  import  java.util.List;    4.  import">
+<meta name="twitter:image" content="http://www.huguiqi.com/2016/06/13/（模板方法的运用）持久层操作的java代码/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -114,13 +114,13 @@
 		
 		</div>
 		
-		<h1 id="&#xFF08;&#x6A21;&#x677F;&#x65B9;&#x6CD5;&#x7684;&#x8FD0;&#x7528;&#xFF09;&#x6301;&#x4E45;&#x5C42;&#x64CD;&#x4F5C;&#x7684;java&#x4EE3;&#x7801;"><a href="#&#xFF08;&#x6A21;&#x677F;&#x65B9;&#x6CD5;&#x7684;&#x8FD0;&#x7528;&#xFF09;&#x6301;&#x4E45;&#x5C42;&#x64CD;&#x4F5C;&#x7684;java&#x4EE3;&#x7801;" class="headerlink" title="&#xFF08;&#x6A21;&#x677F;&#x65B9;&#x6CD5;&#x7684;&#x8FD0;&#x7528;&#xFF09;&#x6301;&#x4E45;&#x5C42;&#x64CD;&#x4F5C;&#x7684;java&#x4EE3;&#x7801;"></a>&#xFF08;&#x6A21;&#x677F;&#x65B9;&#x6CD5;&#x7684;&#x8FD0;&#x7528;&#xFF09;&#x6301;&#x4E45;&#x5C42;&#x64CD;&#x4F5C;&#x7684;java&#x4EE3;&#x7801;</h1><div><br><br><span style="font-size: large"><span style="color: red">\<br></span></span><br><br></div>
+		<h1 id="（模板方法的运用）持久层操作的java代码"><a href="#（模板方法的运用）持久层操作的java代码" class="headerlink" title="（模板方法的运用）持久层操作的java代码"></a>（模板方法的运用）持久层操作的java代码</h1><div><br><br><span style="font-size: large"><span style="color: red">\<br></span></span><br><br></div>
 
-<div><br><br><span style="font-size: large"><span style="color: red">&#x7B2C;&#x4E00;&#x4E2A;&#x662F;&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x5E93;&#x65B9;&#x6CD5;&#x7684;&#x62BD;&#x8C61;&#x63A5;&#x53E3;&#xFF0C;<br> &#x5176;&#x5B9E;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x4E5F;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x5B9A;&#x4E49;&#x4E86;&#x90A3;&#x4E48;&#x51E0;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x8BF4;&#x767D;&#x4E86;&#x5C31;&#x662F;&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x5E93;&#x7684;&#x3002;<br><br>&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5199;&#x6210;&#x6CDB;&#x578B;&#x7684;&#x63A5;&#x53E3;&#xFF0C;&#x4E3A;&#x4E86;&#x5C31;&#x662F;&#x540E;&#x9762;&#x5927;&#x5BB6;&#x7684;&#x4E1A;&#x52A1;&#x6709;&#x9488;&#x5BF9;&#x6027;&#xFF0C;&#x4E00;&#x4E2A;&#x5B9E;&#x4F53;&#x4E00;&#x4E2A;&#x4E1A;&#x52A1;&#x529F;&#x80FD;&#x7C7B;&#x3002;<br></span></span><br><br><div><br><br><div><br><br>Java&#x4EE3;&#x7801;<br><br><br>1.  <span>package</span><span>  com.yd.idao;    </span><br>2.  <span>    </span><br>3.  <span>import</span><span>  java.util.List;    </span><br>4.  <span>import</span><span>  java.sql.Connection;    </span><br>5.  <span>import</span><span>  java.sql.ResultSet;    </span><br>6.  <span>import</span><span>  java.sql.SQLException;    </span><br>7.  <span>    </span><br>8.  <span>import</span><span>  com.yd.support.JDataSet;    </span><br><a id="more"></a><br>9.  <span>    </span><br>10. <span><span>/**</span>  </span><br>11. <span><span>  *  &#x4E00;&#x4E2A;&#x5B9A;&#x4E49;&#x4E86;&#x6240;&#x6709;&#x6211;&#x6240;&#x9700;&#x8981;&#x7684;&#x6570;&#x636E;&#x5E93;&#x64CD;&#x4F5C;&#x7684;&#x65B9;&#x6CD5;&#x63A5;&#x53E3;&#xFF0C;</span>  </span><br>12. <span><span>  *  &#x4E3A;&#x4EC0;&#x4E48;&#x5B9A;&#x4E49;&#x4E3A;&#x62BD;&#x8C61;&#xFF0C;&#x6211;&#x81EA;&#x5DF1;&#x90FD;&#x641E;&#x4E0D;&#x6E05;&#x695A;&#xFF0C;</span>  </span><br>13. <span><span>  *  &#x8FD9;&#x91CC;&#x5B9A;&#x4E49;&#x4E86;&#x6CDB;&#x578B;&#xFF0C;&#x8FD9;&#x4E2A;&#x5F88;&#x5173;&#x952E;&#xFF0C;&#x4F60;&#x4F1A;&#x770B;&#x5230;&#x6CDB;&#x578B;&#x5728;&#x8FD9;&#x91CC;&#x7684;&#x4F7F;&#x7528;</span>  </span><br>14. <span><span>  *  @author  kanny</span>  </span><br>15. <span><span>  *</span>  </span><br>16. <span><span>  *  @param  </span>  </span><br>17. <span>  */</span><span>    </span><br>18. <span>public</span><span>  </span><span>abstract</span><span>  </span><span>interface</span><span>  ISqlHelper  {    </span><br>19. <span>    </span><br>20. <span>        <span>/**</span>  </span><br>21. <span><span>          *  &#x6267;&#x884C;sql&#x8BED;&#x53E5;&#xFF0C;&#x5927;&#x591A;&#x4E3A;&#x5355;&#x53E5;&#x63D2;&#x5165;&#x8BED;&#x53E5;</span>  </span><br>22. <span><span>          *  @param  sql      &#x5355;&#x53E5;&#x7684;sql&#x8BED;&#x53E5;</span>  </span><br>23. <span><span>          *  @param  params        &#x63D2;&#x5165;&#x7684;&#x53C2;&#x6570;</span>  </span><br>24. <span><span>          *  @param  only            &#x4F46;&#x4E3A;true&#x65F6;&#xFF0C;sql&#x8BED;&#x53E5;&#x4E3A;&#x67E5;&#x8BE2;&#x6570;&#x91CF;&#x7684;&#x67E5;&#x8BE2;&#x8BED;&#x53E5;</span>  </span><br>25. <span><span>          *  @return</span>  </span><br>26. <span><span>          *  @throws  SQLException</span>  </span><br>27. <span>          */</span><span>    </span><br>28. <span>        <span>public</span><span>  </span><span>boolean</span><span>  execute(String  sql,  Object[]  params,  </span><span>boolean</span><span>  only)  </span><span>throws</span><span>  SQLException;    </span></span><br>29. <span>    </span><br>30. <span>        <span>/**</span>  </span><br>31. <span><span>          *  &#x6267;&#x884C;sql&#x7684;&#x6279;&#x5904;&#x7406;</span>  </span><br>32. <span><span>          *  @param  sqlBatch    &#x591A;&#x6761;sql&#x8BED;&#x53E5;</span>  </span><br>33. <span><span>          *  @return</span>  </span><br>34. <span><span>          *  @throws  SQLException</span>  </span><br>35. <span>          */</span><span>    </span><br>36. <span>        <span>public</span><span>  </span><span>boolean</span><span>  executeBatch(String[]  sqlBatch)  </span><span>throws</span><span>  SQLException;    </span></span><br>37. <span>    </span><br>38. <span>        <span>/**</span>  </span><br>39. <span><span>          *  &#x6267;&#x884C;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;</span>  </span><br>40. <span><span>          *  @param  procName    &#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x540D;&#x79F0;</span>  </span><br>41. <span><span>          *  @param  params        &#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x8BF4;&#x9700;&#x8981;&#x7684;&#x53C2;&#x6570;</span>  </span><br>42. <span><span>          *  @return</span>  </span><br>43. <span><span>          *  @throws  SQLException</span>  </span><br>44. <span>          */</span><span>    </span><br>45. <span>        <span>public</span><span>  </span><span>boolean</span><span>  executeCall(String  procName,  Object[]  params)  </span><span>throws</span><span>  SQLException;    </span></span><br>46. <span>    </span><br>47. <span>        <span>/**</span>  </span><br>48. <span><span>          *  &#x67E5;&#x8BE2;&#x4E00;&#x884C;&#x6570;&#x636E;&#x5C01;&#x88C5;&#x6210;java&#x7684;&#x5B9E;&#x4F53;</span>  </span><br>49. <span><span>          *  @param  sql      sql&#x8BED;&#x53E5;</span>  </span><br>50. <span><span>          *  @param  params        sql&#x6761;&#x4EF6;&#x53C2;&#x6570;</span>  </span><br>51. <span><span>          *  @param  viewName    &#x89C6;&#x56FE;&#x540D;&#x5B57;&#xFF0C;&#x5728;&#x67E5;&#x8BE2;&#x591A;&#x8868;&#x5173;&#x8054;&#x7684;&#x6570;&#x636E;&#x65F6;&#x7528;&#x4E8E;&#x533A;&#x5206;</span>  </span><br>52. <span><span>          *  @param  executeCall      &#x662F;&#x5426;&#x662F;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#xFF0C;&#x5982;&#x679C;&#x4E3A;true&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;sql&#x7684;&#x53C2;&#x6570;&#x4E3A;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x540D;&#x79F0;</span>  </span><br>53. <span><span>          *  @return</span>  </span><br>54. <span><span>          *  @throws  SQLException</span>  </span><br>55. <span>          */</span><span>    </span><br>56. <span>        <span>public</span><span>  T  find(String  sql,  Object[]  params,  String  viewName,  </span><span>boolean</span><span>  executeCall)  </span><span>throws</span><span>  SQLException;    </span></span><br>57. <span>    </span><br>58. <span>        <span>/**</span>  </span><br>59. <span><span>          *  &#x67E5;&#x8BE2;&#x591A;&#x884C;&#x6570;&#x636E;&#x5C01;&#x88C5;&#x6210;java&#x7684;&#x5B9E;&#x4F53;&#x52A0;&#x5165;&#x4E00;&#x4E2A;List&#x91CC;</span>  </span><br>60. <span><span>          *  @param  sql      sql&#x8BED;&#x53E5;</span>  </span><br>61. <span><span>          *  @param  params        sql&#x6761;&#x4EF6;&#x53C2;&#x6570;</span>  </span><br>62. <span><span>          *  @param  viewName    &#x89C6;&#x56FE;&#x540D;&#x5B57;&#xFF0C;&#x5728;&#x67E5;&#x8BE2;&#x591A;&#x8868;&#x5173;&#x8054;&#x7684;&#x6570;&#x636E;&#x65F6;&#x7528;&#x4E8E;&#x533A;&#x5206;&#xFF0C;&#x5FAA;&#x73AF;&#x5C01;&#x88C5;&#x5B9E;&#x4F53;&#x6BD4;&#x5355;&#x4E00;&#x7684;&#x77F3;&#x5934;&#x5C01;&#x88C5;&#x8981;&#x590D;&#x6742;</span>  </span><br>63. <span><span>          *  @param  executeCall      &#x662F;&#x5426;&#x662F;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#xFF0C;&#x5982;&#x679C;&#x4E3A;true&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;sql&#x7684;&#x53C2;&#x6570;&#x4E3A;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x540D;&#x79F0;</span>  </span><br>64. <span><span>          *  @return</span>  </span><br>65. <span><span>          *  @throws  SQLException</span>  </span><br>66. <span>          */</span><span>    </span><br>67. <span>        <span>public</span><span>  List  findList(String  sql,  Object[]  params,  String  viewName,  </span><span>boolean</span><span>  executeCall)  </span><span>throws</span><span>  SQLException;    </span></span><br>68. <span>    </span><br>69. <span>        <span>/**</span>  </span><br>70. <span><span>          *  &#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x64CD;&#x4F5C;&#xFF0C;&#x6211;&#x8FD8;&#x7279;&#x610F;&#x5199;&#x5B9A;&#x4E49;&#x4E86;&#x8FD9;&#x4E2A;&#x8FD4;&#x56DE;ResultSet&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x4FBF;&#x4E8E;&#x76F4;&#x63A5;&#x64CD;&#x4F5C;</span>  </span><br>71. <span><span>          *  @param  sql</span>  </span><br>72. <span><span>          *  @param  params</span>  </span><br>73. <span><span>          *  @param  executeCall</span>  </span><br>74. <span><span>          *  @return</span>  </span><br>75. <span><span>          *  @throws  SQLException</span>  </span><br>76. <span>          */</span><span>    </span><br>77. <span>        <span>public</span><span>  ResultSet  returnResultSet(String  sql,  Object[]  params,  </span><span>boolean</span><span>  executeCall)  </span><span>throws</span><span>  SQLException;    </span></span><br>78. <span>            </span><br>79. <span>        <span>/**</span>  </span><br>80. <span><span>          *  &#x6211;&#x7684;&#x5E95;&#x5C42;&#x5206;&#x9875;&#x65B9;&#x6CD5;&#xFF0C;&#x6211;&#x4F1A;&#x7ED9;&#x51FA;&#x5177;&#x4F53;&#x4EE3;&#x7801;&#xFF0C;&#x4F46;&#x8FD9;&#x91CC;&#x7528;&#x7684;&#x53EA;&#x662F;sql  server  2008&#x7684;&#x6570;&#x636E;&#x5E93;&#x5206;&#x9875;</span>  </span><br>81. <span><span>          *  @param  sql      </span>  </span><br>82. <span><span>          *  @param  orderby      &#x6392;&#x5E8F;&#x5217;</span>  </span><br>83. <span><span>          *  @param  currentPage      &#x5F53;&#x524D;&#x9875;</span>  </span><br>84. <span><span>          *  @param  pageSize    &#x6BCF;&#x9875;&#x591A;&#x5C11;&#x884C;</span>  </span><br>85. <span><span>          *  @return</span>  </span><br>86. <span><span>          *  @throws  SQLException</span>  </span><br>87. <span>          */</span><span>    </span><br>88. <span>        <span>public</span><span>  List  findListAsPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  </span><span>throws</span><span>  SQLException;    </span></span><br>89. <span>    </span><br>90. <span>        <span>/**</span>  </span><br>91. <span><span>          *  &#x540E;&#x6765;&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x64CD;&#x4F5C;&#xFF0C;&#x60F3;&#x670B;&#x53CB;&#x8981;&#x6765;&#x4E86;&#x8FD9;&#x4E2A;JDataSet&#x7C7B;&#xFF0C;&#x7C7B;&#x4F3C;.net&#x7684;DataTable&#x7684;&#x4F5C;&#x7528;</span>  </span><br>92. <span><span>          *  @param  sql</span>  </span><br>93. <span><span>          *  @param  params</span>  </span><br>94. <span><span>          *  @param  fillColumnNames      &#x662F;&#x5426;&#x586B;&#x5145;&#x7C7B;&#x540D;&#xFF0C;&#x8BF7;&#x770B;&#x65B9;&#x6CD5;&#x4EE3;&#x7801;</span>  </span><br>95. <span><span>          *  @param  executeCall</span>  </span><br>96. <span><span>          *  @return</span>  </span><br>97. <span>          */</span><span>    </span><br>98. <span>        <span>public</span><span>  JDataSet  getJDataSet(String  sql,  Object[]  params,  </span><span>boolean</span><span>  fillColumnNames,  </span><span>boolean</span><span>  executeCall);    </span></span><br>99. <span>            </span><br>100. <span>        <span>/**</span>  </span><br>101. <span><span>          *  &#x7531;&#x4E8E;&#x6709;&#x4E86;JDataSet&#x8FD9;&#x4E2A;&#x7C7B;&#xFF0C;&#x4E8E;&#x662F;&#x6211;&#x6709;&#x5199;&#x4E86;&#x8C03;&#x7528;&#x8FD9;&#x4E2A;&#x7C7B;&#x7684;&#x5206;&#x9875;&#x65B9;&#x6CD5;</span>  </span><br>102. <span><span>          *  @param  sql</span>  </span><br>103. <span><span>          *  @param  orderby</span>  </span><br>104. <span><span>          *  @param  currentPage</span>  </span><br>105. <span><span>          *  @param  pageSize</span>  </span><br>106. <span><span>          *  @return</span>  </span><br>107. <span><span>          *  @throws  SQLException</span>  </span><br>108. <span>          */</span><span>    </span><br>109. <span>        <span>public</span><span>  JDataSet  getJDataSetAsPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  </span><span>throws</span><span>  SQLException;    </span></span><br>110. <span>            </span><br>111. <span>        <span>/**</span>  </span><br>112. <span><span>          *  &#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x8D77;&#x89C1;&#xFF0C;&#x6211;&#x591A;&#x5199;&#x4E86;&#x4E00;&#x4E2A;&#x76F4;&#x63A5;&#x4F20;&#x5165;ResultSet&#x800C;&#x5C01;&#x88C5;JDataSet&#x7684;&#x591A;&#x4F59;&#x65B9;&#x6CD5;</span>  </span><br>113. <span><span>          *  @param  rs</span>  </span><br>114. <span><span>          *  @param  fillColumnNames</span>  </span><br>115. <span><span>          *  @return</span>  </span><br>116. <span><span>          *  @throws  SQLException</span>  </span><br>117. <span>          */</span><span>    </span><br>118. <span>        <span>public</span><span>  JDataSet  loadJDataSet(ResultSet  rs,  </span><span>boolean</span><span>  fillColumnNames)  </span><span>throws</span><span>  SQLException;    </span></span><br>119. <span>            </span><br>120. <span>        <span>/**</span>  </span><br>121. <span><span>          *  &#x5F97;&#x5230;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x7684;&#x884C;&#x6570;</span>  </span><br>122. <span><span>          *  @param  sql</span>  </span><br>123. <span><span>          *  @return</span>  </span><br>124. <span><span>          *  @throws  SQLException</span>  </span><br>125. <span>          */</span><span>    </span><br>126. <span>        <span>public</span><span>  </span><span>int</span><span>  getRowCount(String  sql)  </span><span>throws</span><span>  SQLException;    </span></span><br>127. <span>            </span><br>128. <span>        <span>/**</span>  </span><br>129. <span><span>          *  &#x8BF7;&#x770B;&#x6E90;&#x7801;</span>  </span><br>130. <span><span>          *  @param  rs</span>  </span><br>131. <span><span>          *  @param  column</span>  </span><br>132. <span><span>          *  @return</span>  </span><br>133. <span><span>          *  @throws  SQLException</span>  </span><br>134. <span>          */</span><span>    </span><br>135. <span>        <span>public</span><span>  String  changeFont(ResultSet  rs,  String  column)  </span><span>throws</span><span>  SQLException;    </span></span><br>136. <span>            </span><br>137. <span>        <span>/**</span>  </span><br>138. <span><span>          *  &#x5F97;&#x5230;&#x8FDE;&#x63A5;</span>  </span><br>139. <span><span>          *  @return</span>  </span><br>140. <span><span>          *  @throws  SQLException</span>  </span><br>141. <span>          */</span><span>    </span><br>142. <span>        <span>public</span><span>  Connection  returnConn()  </span><span>throws</span><span>  SQLException;      </span></span><br>143. <span>            </span><br>144. <span>        <span>/**</span>  </span><br>145. <span><span>          *  &#x6E05;&#x695A;&#x6240;&#x6709;&#x6570;&#x636E;&#x5E93;&#x64CD;&#x4F5C;&#x5BF9;&#x8C61;</span>  </span><br>146. <span><span>          *  @throws  SQLException</span>  </span><br>147. <span>          */</span><span>    </span><br>148. <span>        <span>public</span><span>  </span><span>void</span><span>  clearAllsql()  </span><span>throws</span><span>  SQLException;      </span></span><br>149. <span>    </span><br>150. <span>}    </span><br><br></div>
+<div><br><br><span style="font-size: large"><span style="color: red">第一个是操作数据库方法的抽象接口，<br> 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。<br><br>为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。<br></span></span><br><br><div><br><br><div><br><br>Java代码<br><br><br>1.  <span>package</span><span>  com.yd.idao;    </span><br>2.  <span>    </span><br>3.  <span>import</span><span>  java.util.List;    </span><br>4.  <span>import</span><span>  java.sql.Connection;    </span><br>5.  <span>import</span><span>  java.sql.ResultSet;    </span><br>6.  <span>import</span><span>  java.sql.SQLException;    </span><br>7.  <span>    </span><br>8.  <span>import</span><span>  com.yd.support.JDataSet;    </span><br><a id="more"></a><br>9.  <span>    </span><br>10. <span><span>/**</span>  </span><br>11. <span><span>  *  一个定义了所有我所需要的数据库操作的方法接口，</span>  </span><br>12. <span><span>  *  为什么定义为抽象，我自己都搞不清楚，</span>  </span><br>13. <span><span>  *  这里定义了泛型，这个很关键，你会看到泛型在这里的使用</span>  </span><br>14. <span><span>  *  @author  kanny</span>  </span><br>15. <span><span>  *</span>  </span><br>16. <span><span>  *  @param  </span>  </span><br>17. <span>  */</span><span>    </span><br>18. <span>public</span><span>  </span><span>abstract</span><span>  </span><span>interface</span><span>  ISqlHelper  {    </span><br>19. <span>    </span><br>20. <span>        <span>/**</span>  </span><br>21. <span><span>          *  执行sql语句，大多为单句插入语句</span>  </span><br>22. <span><span>          *  @param  sql      单句的sql语句</span>  </span><br>23. <span><span>          *  @param  params        插入的参数</span>  </span><br>24. <span><span>          *  @param  only            但为true时，sql语句为查询数量的查询语句</span>  </span><br>25. <span><span>          *  @return</span>  </span><br>26. <span><span>          *  @throws  SQLException</span>  </span><br>27. <span>          */</span><span>    </span><br>28. <span>        <span>public</span><span>  </span><span>boolean</span><span>  execute(String  sql,  Object[]  params,  </span><span>boolean</span><span>  only)  </span><span>throws</span><span>  SQLException;    </span></span><br>29. <span>    </span><br>30. <span>        <span>/**</span>  </span><br>31. <span><span>          *  执行sql的批处理</span>  </span><br>32. <span><span>          *  @param  sqlBatch    多条sql语句</span>  </span><br>33. <span><span>          *  @return</span>  </span><br>34. <span><span>          *  @throws  SQLException</span>  </span><br>35. <span>          */</span><span>    </span><br>36. <span>        <span>public</span><span>  </span><span>boolean</span><span>  executeBatch(String[]  sqlBatch)  </span><span>throws</span><span>  SQLException;    </span></span><br>37. <span>    </span><br>38. <span>        <span>/**</span>  </span><br>39. <span><span>          *  执行存储过程</span>  </span><br>40. <span><span>          *  @param  procName    存储过程名称</span>  </span><br>41. <span><span>          *  @param  params        存储过程说需要的参数</span>  </span><br>42. <span><span>          *  @return</span>  </span><br>43. <span><span>          *  @throws  SQLException</span>  </span><br>44. <span>          */</span><span>    </span><br>45. <span>        <span>public</span><span>  </span><span>boolean</span><span>  executeCall(String  procName,  Object[]  params)  </span><span>throws</span><span>  SQLException;    </span></span><br>46. <span>    </span><br>47. <span>        <span>/**</span>  </span><br>48. <span><span>          *  查询一行数据封装成java的实体</span>  </span><br>49. <span><span>          *  @param  sql      sql语句</span>  </span><br>50. <span><span>          *  @param  params        sql条件参数</span>  </span><br>51. <span><span>          *  @param  viewName    视图名字，在查询多表关联的数据时用于区分</span>  </span><br>52. <span><span>          *  @param  executeCall      是否是存储过程，如果为true，第一个sql的参数为存储过程名称</span>  </span><br>53. <span><span>          *  @return</span>  </span><br>54. <span><span>          *  @throws  SQLException</span>  </span><br>55. <span>          */</span><span>    </span><br>56. <span>        <span>public</span><span>  T  find(String  sql,  Object[]  params,  String  viewName,  </span><span>boolean</span><span>  executeCall)  </span><span>throws</span><span>  SQLException;    </span></span><br>57. <span>    </span><br>58. <span>        <span>/**</span>  </span><br>59. <span><span>          *  查询多行数据封装成java的实体加入一个List里</span>  </span><br>60. <span><span>          *  @param  sql      sql语句</span>  </span><br>61. <span><span>          *  @param  params        sql条件参数</span>  </span><br>62. <span><span>          *  @param  viewName    视图名字，在查询多表关联的数据时用于区分，循环封装实体比单一的石头封装要复杂</span>  </span><br>63. <span><span>          *  @param  executeCall      是否是存储过程，如果为true，第一个sql的参数为存储过程名称</span>  </span><br>64. <span><span>          *  @return</span>  </span><br>65. <span><span>          *  @throws  SQLException</span>  </span><br>66. <span>          */</span><span>    </span><br>67. <span>        <span>public</span><span>  List  findList(String  sql,  Object[]  params,  String  viewName,  </span><span>boolean</span><span>  executeCall)  </span><span>throws</span><span>  SQLException;    </span></span><br>68. <span>    </span><br>69. <span>        <span>/**</span>  </span><br>70. <span><span>          *  为了方便操作，我还特意写定义了这个返回ResultSet的方法，便于直接操作</span>  </span><br>71. <span><span>          *  @param  sql</span>  </span><br>72. <span><span>          *  @param  params</span>  </span><br>73. <span><span>          *  @param  executeCall</span>  </span><br>74. <span><span>          *  @return</span>  </span><br>75. <span><span>          *  @throws  SQLException</span>  </span><br>76. <span>          */</span><span>    </span><br>77. <span>        <span>public</span><span>  ResultSet  returnResultSet(String  sql,  Object[]  params,  </span><span>boolean</span><span>  executeCall)  </span><span>throws</span><span>  SQLException;    </span></span><br>78. <span>            </span><br>79. <span>        <span>/**</span>  </span><br>80. <span><span>          *  我的底层分页方法，我会给出具体代码，但这里用的只是sql  server  2008的数据库分页</span>  </span><br>81. <span><span>          *  @param  sql      </span>  </span><br>82. <span><span>          *  @param  orderby      排序列</span>  </span><br>83. <span><span>          *  @param  currentPage      当前页</span>  </span><br>84. <span><span>          *  @param  pageSize    每页多少行</span>  </span><br>85. <span><span>          *  @return</span>  </span><br>86. <span><span>          *  @throws  SQLException</span>  </span><br>87. <span>          */</span><span>    </span><br>88. <span>        <span>public</span><span>  List  findListAsPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  </span><span>throws</span><span>  SQLException;    </span></span><br>89. <span>    </span><br>90. <span>        <span>/**</span>  </span><br>91. <span><span>          *  后来为了方便操作，想朋友要来了这个JDataSet类，类似.net的DataTable的作用</span>  </span><br>92. <span><span>          *  @param  sql</span>  </span><br>93. <span><span>          *  @param  params</span>  </span><br>94. <span><span>          *  @param  fillColumnNames      是否填充类名，请看方法代码</span>  </span><br>95. <span><span>          *  @param  executeCall</span>  </span><br>96. <span><span>          *  @return</span>  </span><br>97. <span>          */</span><span>    </span><br>98. <span>        <span>public</span><span>  JDataSet  getJDataSet(String  sql,  Object[]  params,  </span><span>boolean</span><span>  fillColumnNames,  </span><span>boolean</span><span>  executeCall);    </span></span><br>99. <span>            </span><br>100. <span>        <span>/**</span>  </span><br>101. <span><span>          *  由于有了JDataSet这个类，于是我有写了调用这个类的分页方法</span>  </span><br>102. <span><span>          *  @param  sql</span>  </span><br>103. <span><span>          *  @param  orderby</span>  </span><br>104. <span><span>          *  @param  currentPage</span>  </span><br>105. <span><span>          *  @param  pageSize</span>  </span><br>106. <span><span>          *  @return</span>  </span><br>107. <span><span>          *  @throws  SQLException</span>  </span><br>108. <span>          */</span><span>    </span><br>109. <span>        <span>public</span><span>  JDataSet  getJDataSetAsPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  </span><span>throws</span><span>  SQLException;    </span></span><br>110. <span>            </span><br>111. <span>        <span>/**</span>  </span><br>112. <span><span>          *  为了方便起见，我多写了一个直接传入ResultSet而封装JDataSet的多余方法</span>  </span><br>113. <span><span>          *  @param  rs</span>  </span><br>114. <span><span>          *  @param  fillColumnNames</span>  </span><br>115. <span><span>          *  @return</span>  </span><br>116. <span><span>          *  @throws  SQLException</span>  </span><br>117. <span>          */</span><span>    </span><br>118. <span>        <span>public</span><span>  JDataSet  loadJDataSet(ResultSet  rs,  </span><span>boolean</span><span>  fillColumnNames)  </span><span>throws</span><span>  SQLException;    </span></span><br>119. <span>            </span><br>120. <span>        <span>/**</span>  </span><br>121. <span><span>          *  得到查询数据的行数</span>  </span><br>122. <span><span>          *  @param  sql</span>  </span><br>123. <span><span>          *  @return</span>  </span><br>124. <span><span>          *  @throws  SQLException</span>  </span><br>125. <span>          */</span><span>    </span><br>126. <span>        <span>public</span><span>  </span><span>int</span><span>  getRowCount(String  sql)  </span><span>throws</span><span>  SQLException;    </span></span><br>127. <span>            </span><br>128. <span>        <span>/**</span>  </span><br>129. <span><span>          *  请看源码</span>  </span><br>130. <span><span>          *  @param  rs</span>  </span><br>131. <span><span>          *  @param  column</span>  </span><br>132. <span><span>          *  @return</span>  </span><br>133. <span><span>          *  @throws  SQLException</span>  </span><br>134. <span>          */</span><span>    </span><br>135. <span>        <span>public</span><span>  String  changeFont(ResultSet  rs,  String  column)  </span><span>throws</span><span>  SQLException;    </span></span><br>136. <span>            </span><br>137. <span>        <span>/**</span>  </span><br>138. <span><span>          *  得到连接</span>  </span><br>139. <span><span>          *  @return</span>  </span><br>140. <span><span>          *  @throws  SQLException</span>  </span><br>141. <span>          */</span><span>    </span><br>142. <span>        <span>public</span><span>  Connection  returnConn()  </span><span>throws</span><span>  SQLException;      </span></span><br>143. <span>            </span><br>144. <span>        <span>/**</span>  </span><br>145. <span><span>          *  清楚所有数据库操作对象</span>  </span><br>146. <span><span>          *  @throws  SQLException</span>  </span><br>147. <span>          */</span><span>    </span><br>148. <span>        <span>public</span><span>  </span><span>void</span><span>  clearAllsql()  </span><span>throws</span><span>  SQLException;      </span></span><br>149. <span>    </span><br>150. <span>}    </span><br><br></div>
 
-<p>\<br>\<br>\<br><span style="font-size: large"><span style="color: red">\<br> &#x7B2C;2&#x4E2A;&#x7C7B;&#x662F;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x62BD;&#x8C61;&#x63A5;&#x53E3;&#x7684;&#x62BD;&#x8C61;&#x6A21;&#x7248;&#x65B9;&#x6CD5;&#x7C7B;\<br> &#x8FD9;&#x4E2A;&#x7C7B;&#x6700;&#x4E3A;&#x5173;&#x952E;&#xFF0C;&#x5B83;&#x80AF;&#x5B9A;&#x662F;&#x5B9E;&#x73B0;&#x4E86;ISqlHepler.java&#x91CC;&#x9762;&#x7684;&#x6240;&#x6709;&#x7684;&#x65B9;&#x6CD5;&#x3002;\<br>\<br> &#x5176;&#x4E2D;&#xFF1A;\<br>\<br> protected abstract T loadDataBean(ResultSet rs, String viewName) throws<br>SQLException;\<br>\<br> protected abstract T loadDataBeanSelf(ResultSet rs) throws<br>SQLException;\<br>\</span></span></p>
-<p>&#x8FD9;2&#x4E2A;&#x65B9;&#x6CD5;&#x662F;SqlHelper.java&#x91CC;&#x7559;&#x51FA;&#x6765;&#x4E86;&#xFF0C;&#x5C31;&#x662F;&#x4E3A;&#x4E86;&#x5927;&#x5BB6;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x5C01;&#x88C5;&#x5B9E;&#x4F53;javabean&#x6765;&#x7528;\<br>\</p>
-<div><br><br><div><br><br>Java&#x4EE3;&#x7801;<br>  <img src="/2016/06/13/&#xFF08;&#x6A21;&#x677F;&#x65B9;&#x6CD5;&#x7684;&#x8FD0;&#x7528;&#xFF09;&#x6301;&#x4E45;&#x5C42;&#x64CD;&#x4F5C;&#x7684;java&#x4EE3;&#x7801;/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
+<p>\<br>\<br>\<br><span style="font-size: large"><span style="color: red">\<br> 第2个类是实现这个抽象接口的抽象模版方法类\<br> 这个类最为关键，它肯定是实现了ISqlHepler.java里面的所有的方法。\<br>\<br> 其中：\<br>\<br> protected abstract T loadDataBean(ResultSet rs, String viewName) throws<br>SQLException;\<br>\<br> protected abstract T loadDataBeanSelf(ResultSet rs) throws<br>SQLException;\<br>\</span></span></p>
+<p>这2个方法是SqlHelper.java里留出来了，就是为了大家可以自己封装实体javabean来用\<br>\</p>
+<div><br><br><div><br><br>Java代码<br>  <img src="/2016/06/13/（模板方法的运用）持久层操作的java代码/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
 
 <ol>
 <li><span>package</span><span>  com.yd.dao;    </span></li>
@@ -148,7 +148,7 @@
 <li><span>            </span></li>
 <li><span>        <span>public</span><span>  Connection  returnConn()  </span><span>throws</span><span>  SQLException  {    </span></span></li>
 <li><span>    </span></li>
-<li><span>                                    <span>//DBConnPoolMgr&#x662F;&#x81EA;&#x5DF1;&#x5199;&#x7684;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x8FDE;&#x63A5;&#x6C60;&#x7C7B;&#xFF0C;&#x7528;&#x6765;&#x5F97;&#x5230;&#x8FDE;&#x63A5;&#xFF0C;&#x6211;&#x540E;&#x9762;&#x4F1A;&#x7ED9;&#x51FA;&#x8FD9;&#x4E2A;&#x7C7B;&#x7684;&#x4EE3;&#x7801;</span><span>    </span></span></li>
+<li><span>                                    <span>//DBConnPoolMgr是自己写的一个简单连接池类，用来得到连接，我后面会给出这个类的代码</span><span>    </span></span></li>
 <li><span>                <span>return</span><span>  (conn  =  DBConnPoolMgr.getInctence().getConnect());    </span></span></li>
 <li><span>        }    </span></li>
 <li><span>            </span></li>
@@ -166,14 +166,14 @@
 <li><span>        <span>protected</span><span>  CallableStatement  returnCs(String  procName,  Object[]  params)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
 <li><span>    </span></li>
 <li><span>                <span>if</span><span>  (conn  ==  </span><span>null</span><span>  ||  conn.isClosed())  conn  =  returnConn();    </span></span></li>
-<li><span>                String  call  =  <span>&#x201C;&#x201D;</span><span>;    </span></span></li>
+<li><span>                String  call  =  <span>“”</span><span>;    </span></span></li>
 <li><span>                <span>if</span><span>  (params  !=  </span><span>null</span><span>)  {    </span></span></li>
-<li><span>                        call  =  <span>&#x201C;{call  &#x201C;</span><span>  +  procName  +  </span><span>&#x201C;(&#x201C;</span><span>;    </span></span></li>
+<li><span>                        call  =  <span>“{call  “</span><span>  +  procName  +  </span><span>“(“</span><span>;    </span></span></li>
 <li><span>                        <span>for</span><span>  (</span><span>int</span><span>  c  =  </span><span>0</span><span>;  c  &lt;  params.length  -  </span><span>1</span><span>;  c++)    </span></span></li>
-<li><span>                                call  +=  <span>&#x201C;?,&#x201D;</span><span>;    </span></span></li>
-<li><span>                        call  +=  <span>&#x201C;?)}&#x201D;</span><span>;    </span></span></li>
+<li><span>                                call  +=  <span>“?,”</span><span>;    </span></span></li>
+<li><span>                        call  +=  <span>“?)}”</span><span>;    </span></span></li>
 <li><span>                }  <span>else</span><span>    </span></span></li>
-<li><span>                        call  =  <span>&#x201C;{call  &#x201C;</span><span>  +  procName  +  </span><span>&#x201C;()}&#x201D;</span><span>;    </span></span></li>
+<li><span>                        call  =  <span>“{call  “</span><span>  +  procName  +  </span><span>“()}”</span><span>;    </span></span></li>
 <li><span>                cs  =  conn.prepareCall(call);    </span></li>
 <li><span>                <span>if</span><span>  (params  !=  </span><span>null</span><span>)    </span></span></li>
 <li><span>                        <span>for</span><span>  (</span><span>int</span><span>  i  =  </span><span>0</span><span>;  i  &lt;  params.length;  i++)    </span></span></li>
@@ -228,8 +228,8 @@
 <li><span>                        <span>boolean</span><span>  autoCommit  =  conn.getAutoCommit();    </span></span></li>
 <li><span>    </span></li>
 <li><span>                        <span>for</span><span>  (</span><span>int</span><span>  i  =  </span><span>0</span><span>;  i  &lt;  sqlBatch.length;  i++)  {    </span></span></li>
-<li><span>                                <span>if</span><span>  (sqlBatch[i]  !=  </span><span>null</span><span>  &amp;&amp;  !sqlBatch[i].equals(</span><span>&#x201C;&#x201D;</span><span>))    </span></span></li>
-<li><span>                                        st.addBatch(sqlBatch[i]  +  <span>&#x201C;;&#x201D;</span><span>);    </span></span></li>
+<li><span>                                <span>if</span><span>  (sqlBatch[i]  !=  </span><span>null</span><span>  &amp;&amp;  !sqlBatch[i].equals(</span><span>“”</span><span>))    </span></span></li>
+<li><span>                                        st.addBatch(sqlBatch[i]  +  <span>“;”</span><span>);    </span></span></li>
 <li><span>                        }    </span></li>
 <li><span>                        conn.setAutoCommit(<span>false</span><span>);    </span></span></li>
 <li><span>                        st.executeBatch();    </span></li>
@@ -312,14 +312,14 @@
 <li><span>        }    </span></li>
 <li><span>    </span></li>
 <li><span>        <span>public</span><span>  String  changeFont(ResultSet  rs,  String  column)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
-<li><span>                <span>return</span><span>  rs.getString(column)  ==  </span><span>null</span><span>  ?  </span><span>&#x201C;&#x201D;</span><span>  :  rs.getString(column);    </span></span></li>
+<li><span>                <span>return</span><span>  rs.getString(column)  ==  </span><span>null</span><span>  ?  </span><span>“”</span><span>  :  rs.getString(column);    </span></span></li>
 <li><span>        }    </span></li>
 <li><span>    </span></li>
 <li><span>        <span>public</span><span>  </span><span>int</span><span>  returnColumnCount(ResultSet  rs)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
 <li><span>                <span>return</span><span>  rs.getMetaData().getColumnCount();    </span></span></li>
 <li><span>        }    </span></li>
 <li><span>    </span></li>
-<li><span>                  <span>//&#x4E24;&#x4E2A;&#x975E;&#x5E38;&#x5173;&#x952E;&#x7684;&#x6A21;&#x7248;&#x65B9;&#x6CD5;&#xFF0C;&#x7EE7;&#x627F;&#x6B64;&#x7C7B;&#x7684;&#x64CD;&#x4F5C;&#x7C7B;&#x90FD;&#x8981;&#x5B9E;&#x73B0;&#x8FD9;2&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x6211;&#x5230;&#x65F6;&#x5019;&#x4F1A;&#x7ED9;&#x51FA;&#x64CD;&#x4F5C;&#x7C7B;</span><span>    </span></span></li>
+<li><span>                  <span>//两个非常关键的模版方法，继承此类的操作类都要实现这2个方法，我到时候会给出操作类</span><span>    </span></span></li>
 <li><span>        <span>protected</span><span>  </span><span>abstract</span><span>  T  loadDataBean(ResultSet  rs,  String  viewName)  </span><span>throws</span><span>  SQLException;    </span></span></li>
 <li><span>    </span></li>
 <li><span>        <span>protected</span><span>  </span><span>abstract</span><span>  T  loadDataBeanSelf(ResultSet  rs)  </span><span>throws</span><span>  SQLException;    </span></span></li>
@@ -331,51 +331,51 @@
 <li><span>                {    </span></li>
 <li><span>                        String  strVal  =  strPager(sql,  orderby,  currentPage,  pageSize);    </span></li>
 <li><span>                        rs  =  returnPst(strVal,  <span>null</span><span>).executeQuery();    </span></span></li>
-<li><span>                        lt  =  loadList(rs,  <span>&#x201C;&#x201D;</span><span>);    </span></span></li>
+<li><span>                        lt  =  loadList(rs,  <span>“”</span><span>);    </span></span></li>
 <li><span>                }      </span></li>
 <li><span>                <span>catch</span><span>  (SQLException  ex)  {  ex.printStackTrace();  }      </span></span></li>
 <li><span>                <span>finally</span><span>  {  clearAllsql();  }    </span></span></li>
 <li><span>                <span>return</span><span>  lt;    </span></span></li>
 <li><span>        }    </span></li>
 <li><span>    </span></li>
-<li><span>                  <span>//&#x56E0;&#x4E3A;&#x7528;&#x7684;sql  server  2008&#x6240;&#x4EE5;&#x53EA;&#x5199;&#x4E86;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x7684;&#x5206;&#x9875;</span><span>    </span></span></li>
+<li><span>                  <span>//因为用的sql  server  2008所以只写了这个数据库的分页</span><span>    </span></span></li>
 <li><span>        <span>private</span><span>  String  strPager(String  sql,  String  orderby,  </span><span>int</span><span>  currentPage,  </span><span>int</span><span>  pageSize)  {    </span></span></li>
 <li><span>                    </span></li>
 <li><span>                <span>int</span><span>  start  =  </span><span>1</span><span>;    </span></span></li>
 <li><span>                <span>if</span><span>  (currentPage  &gt;  </span><span>1</span><span>)  start  =  (currentPage  -  </span><span>1</span><span>)  *  pageSize  +  </span><span>1</span><span>;    </span></span></li>
 <li><span>                <span>int</span><span>  end  =  start  +  pageSize  -  </span><span>1</span><span>;    </span></span></li>
 <li><span>                    </span></li>
-<li><span>                String  sqlColumn  =  <span>&#x201C;*&#x201C;</span><span>;    </span></span></li>
-<li><span>                String  sqlDo  =  <span>&#x201C;&#x201D;</span><span>;    </span></span></li>
-<li><span>                <span>if</span><span>(sql.indexOf(</span><span>&#x201C;@#&#x201C;</span><span>)  !=  -</span><span>1</span><span>)  {    </span></span></li>
-<li><span>                        String  []sqlArr  =  sql.split(<span>&#x201C;@#&#x201C;</span><span>);    </span></span></li>
+<li><span>                String  sqlColumn  =  <span>“*“</span><span>;    </span></span></li>
+<li><span>                String  sqlDo  =  <span>“”</span><span>;    </span></span></li>
+<li><span>                <span>if</span><span>(sql.indexOf(</span><span>“@#“</span><span>)  !=  -</span><span>1</span><span>)  {    </span></span></li>
+<li><span>                        String  []sqlArr  =  sql.split(<span>“@#“</span><span>);    </span></span></li>
 <li><span>                        sqlColumn  =  sqlArr[<span>0</span><span>];    </span></span></li>
 <li><span>                        sqlDo  =  sqlArr[<span>1</span><span>];    </span></span></li>
 <li><span>                }  <span>else</span><span>  {    </span></span></li>
-<li><span>                        sqlColumn  =  <span>&#x201C;*&#x201C;</span><span>;    </span></span></li>
+<li><span>                        sqlColumn  =  <span>“*“</span><span>;    </span></span></li>
 <li><span>                        sqlDo  =  sql;    </span></li>
 <li><span>                }    </span></li>
 <li><span>                    </span></li>
-<li><span>                String  strVal  =  <span>&#x201C;select  *  from  (select  &#x201C;</span><span>  +  sqlColumn  +  </span><span>&#x201C;,ROW_NUMBER()&#x201D;</span><span>;    </span></span></li>
-<li><span>                strVal  +=  <span>&#x201C;  Over(order  by  &#x201C;</span><span>  +  orderby  +  </span><span>&#x201C;)&#x201D;</span><span>;    </span></span></li>
-<li><span>                strVal  +=  <span>&#x201C;  as  rowNum  &#x201C;</span><span>  +  sqlDo  +  </span><span>&#x201C;)&#x201D;</span><span>;    </span></span></li>
-<li><span>                strVal  +=  <span>&#x201C;  as  myTable  where  rowNum  between  &#x201C;</span><span>  +  start  +  </span><span>&#x201C;  and  &#x201C;</span><span>  +  end;    </span></span></li>
+<li><span>                String  strVal  =  <span>“select  *  from  (select  “</span><span>  +  sqlColumn  +  </span><span>“,ROW_NUMBER()”</span><span>;    </span></span></li>
+<li><span>                strVal  +=  <span>“  Over(order  by  “</span><span>  +  orderby  +  </span><span>“)”</span><span>;    </span></span></li>
+<li><span>                strVal  +=  <span>“  as  rowNum  “</span><span>  +  sqlDo  +  </span><span>“)”</span><span>;    </span></span></li>
+<li><span>                strVal  +=  <span>“  as  myTable  where  rowNum  between  “</span><span>  +  start  +  </span><span>“  and  “</span><span>  +  end;    </span></span></li>
 <li><span>    </span></li>
 <li><span>                <span>return</span><span>  strVal;    </span></span></li>
 <li><span>        }    </span></li>
 <li><span>    </span></li>
 <li><span>        <span>public</span><span>  </span><span>int</span><span>  getRowCount(String  sql)  </span><span>throws</span><span>  SQLException  {    </span></span></li>
 <li><span>                    </span></li>
-<li><span>                String  sqlDo  =  <span>&#x201C;&#x201D;</span><span>;    </span></span></li>
-<li><span>                <span>if</span><span>(sql.indexOf(</span><span>&#x201C;@#&#x201C;</span><span>)  !=  -</span><span>1</span><span>)  {    </span></span></li>
-<li><span>                        String  []sqlArr  =  sql.split(<span>&#x201C;@#&#x201C;</span><span>);    </span></span></li>
+<li><span>                String  sqlDo  =  <span>“”</span><span>;    </span></span></li>
+<li><span>                <span>if</span><span>(sql.indexOf(</span><span>“@#“</span><span>)  !=  -</span><span>1</span><span>)  {    </span></span></li>
+<li><span>                        String  []sqlArr  =  sql.split(<span>“@#“</span><span>);    </span></span></li>
 <li><span>                        sqlDo  =  sqlArr[<span>1</span><span>];    </span></span></li>
 <li><span>                }  <span>else</span><span>  sqlDo  =  sql;    </span></span></li>
 <li><span>                    </span></li>
 <li><span>                <span>int</span><span>  count  =  </span><span>0</span><span>;    </span></span></li>
 <li><span>                <span>try</span><span>      </span></span></li>
 <li><span>                {    </span></li>
-<li><span>                        rs  =  <span>this</span><span>.returnResultSet(</span><span>&#x201C;select  count(*)  &#x201C;</span><span>  +  sqlDo,  </span><span>null</span><span>,  </span><span>false</span><span>);    </span></span></li>
+<li><span>                        rs  =  <span>this</span><span>.returnResultSet(</span><span>“select  count(*)  “</span><span>  +  sqlDo,  </span><span>null</span><span>,  </span><span>false</span><span>);    </span></span></li>
 <li><span>                        <span>while</span><span>  (rs.next())  count  =  rs.getInt(</span><span>1</span><span>);    </span></span></li>
 <li><span>                }      </span></li>
 <li><span>                <span>catch</span><span>  (Exception  ce)  {  ce.printStackTrace();}      </span></span></li>
@@ -422,7 +422,7 @@
 <li><span>                        <span>while</span><span>  (rs.next())  {    </span></span></li>
 <li><span>                                String[]  row  =  <span>new</span><span>  String[columnCount];    </span></span></li>
 <li><span>                                <span>for</span><span>  (</span><span>int</span><span>  i  =  </span><span>0</span><span>;  i  &lt;  columnCount;  i++)    </span></span></li>
-<li><span>                                        row[i]  =  rs.getString(i  +  <span>1</span><span>)  ==  </span><span>null</span><span>  ?  </span><span>&#x201C;&#x201D;</span><span>  :  rs.getString(i  +  </span><span>1</span><span>).trim();    </span></span></li>
+<li><span>                                        row[i]  =  rs.getString(i  +  <span>1</span><span>)  ==  </span><span>null</span><span>  ?  </span><span>“”</span><span>  :  rs.getString(i  +  </span><span>1</span><span>).trim();    </span></span></li>
 <li><span>                                jds.addRow(row);    </span></li>
 <li><span>                        }    </span></li>
 <li><span>                }      </span></li>
@@ -433,8 +433,8 @@
 <li><span>}    </span></li>
 </ol>
 <p></p></div><p></p>
-<p>\<br>\<br>\<br><span style="font-size: large"><span style="color: red">&#x73B0;&#x5728;&#x6765;&#x8BF4;&#x4E0B;&#x600E;&#x4E48;&#x7528;&#x8FD9;&#x4E2A;&#x7C7B;\<br> &#x6BD4;&#x5982;&#xFF0C;&#x4F60;&#x6709;&#x4E00;&#x4E2A;&#x5B66;&#x751F;&#x7C7B;Student.java&#x91CC;&#x9762;&#x6709;id,name,age3&#x4E2A;&#x5C5E;&#x6027;</span></span>\<br>\</p>
-<div><br><br><div><br><br>Java&#x4EE3;&#x7801;<br>  <img src="/2016/06/13/&#xFF08;&#x6A21;&#x677F;&#x65B9;&#x6CD5;&#x7684;&#x8FD0;&#x7528;&#xFF09;&#x6301;&#x4E45;&#x5C42;&#x64CD;&#x4F5C;&#x7684;java&#x4EE3;&#x7801;/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
+<p>\<br>\<br>\<br><span style="font-size: large"><span style="color: red">现在来说下怎么用这个类\<br> 比如，你有一个学生类Student.java里面有id,name,age3个属性</span></span>\<br>\</p>
+<div><br><br><div><br><br>Java代码<br>  <img src="/2016/06/13/（模板方法的运用）持久层操作的java代码/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
 
 <ol>
 <li><span>public</span><span>  Class  Student    </span></li>
@@ -443,32 +443,32 @@
 <li><span>        <span>private</span><span>  String  name;    </span></span></li>
 <li><span>        <span>private</span><span>  </span><span>int</span><span>  age;    </span></span></li>
 <li><span>            </span></li>
-<li><span>        &#x4EE5;&#x4E0B;get&#x548C;set&#x65B9;&#x6CD5;&#x7701;&#x7565;&#x2026;    </span></li>
+<li><span>        以下get和set方法省略…    </span></li>
 <li><span>}    </span></li>
 </ol>
 <p></p></div><p></p>
 <p>\<br>\<br><span style="font-size: large"><span style="color: red">\</span></span></p>
-<p>&#x4F60;&#x8981;&#x5C01;&#x88C5;&#x5B83;&#xFF0C;&#x4F60;&#x5C31;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;IStudent.java&#x63A5;&#x53E3;extends&#x90A3;&#x4E2A;ISqlHelper.java&#x63A5;&#x53E3;\<br> &#x7136;&#x540E;&#x6765;&#x91CC;&#x9762;&#x5B9A;&#x4E49;&#x63D2;&#x5165;&#xFF0C;&#x67E5;&#x8BE2;&#x5168;&#x90E8;&#xFF0C;&#x548C;&#x6309;id&#x67E5;&#x7684;&#x529F;&#x80FD;&#x51FD;&#x6570;&#xFF0C;&#x8C61;&#x5982;&#x4E0B;&#x5199;&#x7684;&#x4E00;&#x6837;\<br> &lt;\<br>\</p>
-<p>&#x5F53;&#x7136;&#x8FD9;&#x6837;&#x5B9A;&#x4E49;&#x5F88;&#x6B7B;&#xFF0C;&#x6700;&#x597D;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5C31;&#x662F;&#x6574;&#x7406;&#x62BD;&#x8C61;&#x51FA;&#x6240;&#x6709;&#x4E1A;&#x52A1;&#x7C7B;&#x7684;&#x516C;&#x7528;&#x65B9;&#x6CD5;&#xFF0C;&#x6BD4;&#x5982;&#xFF0C;&#x63D2;&#x5165;&#xFF0C;&#x4FEE;&#x6539;&#xFF0C;&#x5220;&#x9664;&#x3002;\</p>
-<p>&#x7136;&#x540E;&#x628A;&#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x5728;&#x4E00;&#x4E2A;&#x516C;&#x7528;&#x7684;&#x64CD;&#x4F5C;&#x63A5;&#x53E3;&#x4E2D;&#x5B9A;&#x4E49;&#xFF0C;&#x8FD9;&#x4E2A;&#x516C;&#x7528;&#x7684;&#x64CD;&#x4F5C;&#x63A5;&#x53E3;&#x53EF;&#x4EE5;&#x7EE7;&#x627F;ISqlHelper.java&#x63A5;&#x53E3;\<br> &#x7136;&#x540E;&#x4EE5;&#x540E;&#x4E1A;&#x52A1;&#x7C7B;&#x6216;&#x662F;&#x6570;&#x636E;&#x5B9E;&#x4F53;&#x64CD;&#x4F5C;&#x7C7B;&#x90FD;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x516C;&#x7528;&#x7684;&#x64CD;&#x4F5C;&#x63A5;&#x53E3;&#x3002;\<br>\<br> &gt;\<br>\</p>
-<div><br><br><div><br><br>Java&#x4EE3;&#x7801;<br>  <img src="/2016/06/13/&#xFF08;&#x6A21;&#x677F;&#x65B9;&#x6CD5;&#x7684;&#x8FD0;&#x7528;&#xFF09;&#x6301;&#x4E45;&#x5C42;&#x64CD;&#x4F5C;&#x7684;java&#x4EE3;&#x7801;/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
+<p>你要封装它，你就可以自己定义一个IStudent.java接口extends那个ISqlHelper.java接口\<br> 然后来里面定义插入，查询全部，和按id查的功能函数，象如下写的一样\<br> &lt;\<br>\</p>
+<p>当然这样定义很死，最好的方法，就是整理抽象出所有业务类的公用方法，比如，插入，修改，删除。\</p>
+<p>然后把这些方法在一个公用的操作接口中定义，这个公用的操作接口可以继承ISqlHelper.java接口\<br> 然后以后业务类或是数据实体操作类都可以实现这个公用的操作接口。\<br>\<br> &gt;\<br>\</p>
+<div><br><br><div><br><br>Java代码<br>  <img src="/2016/06/13/（模板方法的运用）持久层操作的java代码/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
 
 <ol>
 <li><span>public</span><span>  </span><span>interface</span><span>  IStudent  </span><span>extends</span><span>  ISqlHelper    </span></li>
 <li><span>{    </span></li>
-<li><span>        <span>//&#x63D2;&#x5165;Student</span><span>    </span></span></li>
+<li><span>        <span>//插入Student</span><span>    </span></span></li>
 <li><span>        <span>public</span><span>  </span><span>boolean</span><span>  insertStudent(Student  stu);    </span></span></li>
 <li><span>    </span></li>
-<li><span>        <span>//&#x67E5;&#x8BE2;&#x5168;&#x90E8;Student</span><span>    </span></span></li>
+<li><span>        <span>//查询全部Student</span><span>    </span></span></li>
 <li><span>        <span>public</span><span>  List  findStudent();    </span></span></li>
 <li><span>    </span></li>
-<li><span>        <span>//&#x6309;id&#x67E5;&#x8BE2;&#x67D0;&#x4E00;&#x4E2A;Student</span><span>    </span></span></li>
+<li><span>        <span>//按id查询某一个Student</span><span>    </span></span></li>
 <li><span>        <span>public</span><span>  Student  findStudentAsId(</span><span>int</span><span>  stuid);    </span></span></li>
 <li><span>}    </span></li>
 </ol>
 <p></p></div><p></p>
-<p>\<br>\<br>\<br><span style="font-size: large"><span style="color: red">&#x5E76;&#x5199;&#x4E00;&#x4E2A;StudentBO.java&#x4E1A;&#x52A1;&#x7C7B;extends&#x90A3;&#x4E2A;SqlHelper&#x548C;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x7684;IStudent&#x63A5;&#x53E3;\<br> &#x8C61;&#x5982;&#x4E0B;&#x5199;&#x7684;&#x4E00;&#x6837;&#xFF1A;</span></span>\<br>\</p>
-<div><br><br><div><br><br>Java&#x4EE3;&#x7801;<br>  <img src="/2016/06/13/&#xFF08;&#x6A21;&#x677F;&#x65B9;&#x6CD5;&#x7684;&#x8FD0;&#x7528;&#xFF09;&#x6301;&#x4E45;&#x5C42;&#x64CD;&#x4F5C;&#x7684;java&#x4EE3;&#x7801;/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
+<p>\<br>\<br>\<br><span style="font-size: large"><span style="color: red">并写一个StudentBO.java业务类extends那个SqlHelper和自己定义的IStudent接口\<br> 象如下写的一样：</span></span>\<br>\</p>
+<div><br><br><div><br><br>Java代码<br>  <img src="/2016/06/13/（模板方法的运用）持久层操作的java代码/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png" alt=""><br><br></div>
 
 <ol>
 <li><span>public</span><span>  Class  StudentBO  </span><span>extends</span><span>  SqlHelper  </span><span>implements</span><span>  IStudent    </span></li>
@@ -483,45 +483,45 @@
 <li><span>        <span>protected</span><span>  Student  loadDataBeanSelf(ResultSet  rs)  </span><span>throws</span><span>  SQLException;    </span></span></li>
 <li><span>        {    </span></li>
 <li><span>                Student  stu  =  <span>new</span><span>  Student();    </span></span></li>
-<li><span>                stu.setId(rs.getInt(<span>&#x201C;id&#x201D;</span><span>));    </span></span></li>
-<li><span>                stu.setName(rs.changeFont(rs,<span>&#x201C;name&#x201D;</span><span>));    </span></span></li>
-<li><span>                stu.setAge(rs.getInt(<span>&#x201C;age&#x201D;</span><span>));    </span></span></li>
+<li><span>                stu.setId(rs.getInt(<span>“id”</span><span>));    </span></span></li>
+<li><span>                stu.setName(rs.changeFont(rs,<span>“name”</span><span>));    </span></span></li>
+<li><span>                stu.setAge(rs.getInt(<span>“age”</span><span>));    </span></span></li>
 <li><span>                    </span></li>
 <li><span>                <span>return</span><span>  stu;    </span></span></li>
 <li><span>        }    </span></li>
 <li><span>    </span></li>
-<li><span>        <span>//&#x5B9E;&#x73B0;&#xFF1A;&#x63D2;&#x5165;Student&#x7684;&#x51FD;&#x6570;</span><span>    </span></span></li>
+<li><span>        <span>//实现：插入Student的函数</span><span>    </span></span></li>
 <li><span>        <span>public</span><span>  </span><span>boolean</span><span>  insertStudent(Student  stu)    </span></span></li>
 <li><span>        {    </span></li>
-<li><span>                String  sql  =  <span>&#x201C;insert  into  Student(id,name,age)  values(?,?,?)&#x201D;</span><span>;    </span></span></li>
+<li><span>                String  sql  =  <span>“insert  into  Student(id,name,age)  values(?,?,?)”</span><span>;    </span></span></li>
 <li><span>                Object  []  params  =  <span>new</span><span>  Object[]{stu.getId(),stu.getName,stu.getAge};    </span></span></li>
 <li><span>                <span>return</span><span>  </span><span>this</span><span>.execute(sql,  params,  </span><span>false</span><span>);    </span></span></li>
 <li><span>        }    </span></li>
 <li><span>    </span></li>
-<li><span>        <span>//&#x5B9E;&#x73B0;&#xFF1A;&#x67E5;&#x8BE2;&#x5168;&#x90E8;Student</span><span>    </span></span></li>
+<li><span>        <span>//实现：查询全部Student</span><span>    </span></span></li>
 <li><span>        <span>public</span><span>  List  findStudent()    </span></span></li>
 <li><span>        {    </span></li>
-<li><span>                String  sql  =  <span>&#x201C;select  *  from  Student&#x201D;</span><span>;    </span></span></li>
-<li><span>                <span>return</span><span>  </span><span>this</span><span>.findList(sql,  </span><span>null</span><span>,  </span><span>&#x201C;&#x201D;</span><span>,</span><span>false</span><span>);    </span></span></li>
+<li><span>                String  sql  =  <span>“select  *  from  Student”</span><span>;    </span></span></li>
+<li><span>                <span>return</span><span>  </span><span>this</span><span>.findList(sql,  </span><span>null</span><span>,  </span><span>“”</span><span>,</span><span>false</span><span>);    </span></span></li>
 <li><span>        }    </span></li>
 <li><span>    </span></li>
-<li><span>        <span>//&#x5B9E;&#x73B0;&#xFF1A;&#x6309;id&#x67E5;&#x8BE2;&#x67D0;&#x4E00;&#x4E2A;Student</span><span>    </span></span></li>
+<li><span>        <span>//实现：按id查询某一个Student</span><span>    </span></span></li>
 <li><span>        <span>public</span><span>  Student  findStudentAsId(</span><span>int</span><span>  stuid)    </span></span></li>
 <li><span>        {    </span></li>
-<li><span>                String  sql  =  <span>&#x201C;select  *  from  Student  where  id=&#x201D;</span><span>  +  stuid;    </span></span></li>
-<li><span>                <span>return</span><span>  </span><span>this</span><span>.find(sql,  </span><span>null</span><span>,  </span><span>&#x201C;&#x201D;</span><span>,</span><span>false</span><span>);    </span></span></li>
+<li><span>                String  sql  =  <span>“select  *  from  Student  where  id=”</span><span>  +  stuid;    </span></span></li>
+<li><span>                <span>return</span><span>  </span><span>this</span><span>.find(sql,  </span><span>null</span><span>,  </span><span>“”</span><span>,</span><span>false</span><span>);    </span></span></li>
 <li><span>        }    </span></li>
 <li><span>}    </span></li>
 </ol>
 <p></p></div><p></p>
-<p>\<br>\<br><span style="font-size: large">loadDataBean&#xFF0C;loadDataBeanSelf&#x662F;&#x4ECE;SqlHelper&#x91CC;&#x7EE7;&#x627F;&#x4E0B;&#x6765;&#x7684;&#x62BD;&#x8C61;&#x65B9;&#x6CD5;&#x3002;\<br> &#x5FC5;&#x987B;&#x5B9E;&#x73B0;&#x3002;&#x8FD9;&#x5C31;&#x662F;&#x5229;&#x7528;&#x4E86;&#x6A21;&#x7248;&#x65B9;&#x6CD5;&#x6A21;&#x5F0F;&#x5199;&#x51FA;&#x6765;&#x7684;&#x3002;\<br> &#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x4EE5;&#x540E;&#x4F60;&#x81EA;&#x5DF1;&#x5199;&#x51FD;&#x6570;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EA;&#x8981;&#x5728;&#x63A5;&#x53E3;&#x91CC;&#x5B9A;&#x4E49;&#xFF0C;\</span></p>
-<p>&#x7136;&#x540E;&#x5728;&#x8FD9;&#x6837;&#x7684;BO&#x7C7B;&#x91CC;&#x5199;&#x5B9E;&#x73B0;&#x5B83;&#xFF0C;&#x800C;&#x4E14;&#x5C31;&#x5199;&#x90A3;&#x4E48;&#x4E00;&#x70B9;&#x8BED;&#x53E5;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x3002;&#x5927;&#x5927;&#x7701;&#x65F6;&#x7701;&#x529B;&#x3002;\<br>\</p>
-<p>&#x597D;&#x4E86;&#x8FD9;&#x6837;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#xFF0C;&#x4EE3;&#x7801;&#x662F;&#x4E0D;&#x662F;&#x770B;&#x4E0A;&#x53BB;&#x53C8;&#x6E05;&#x695A;&#x53C8;&#x6574;&#x6D01;&#xFF0C;&#x5982;&#x679C;&#x67E5;&#x627E;&#x548C;&#x7EF4;&#x62A4;&#x3002;&#x800C;&#x4E14;&#x5927;&#x5927;&#x51CF;&#x5C11;&#x4E86;&#x90A3;&#x4E9B;&#x529F;&#x80FD;&#x4EE3;&#x7801;&#x548C;&#x5C01;&#x88C5;&#x8C61;Student.java&#x8FD9;&#x6837;&#x6570;&#x636E;&#x5B9E;&#x4F53;&#x7684;&#x4EE3;&#x7801;&#x3002;&#x4E00;&#x6B21;&#x5C01;&#x88C5;&#x65E0;&#x987B;&#x5728;&#x5199;&#x3002;\<br>\<br> &#x5927;&#x5BB6;&#x80AF;&#x5B9A;&#x6709;&#x7591;&#x95EE;&#xFF0C;&#x90A3;&#x5C31;&#x662F;\<br> this.execute\<br> this.findList\<br> this.find\<br> &#x4E09;&#x4E2A;&#x51FD;&#x6570;&#x54EA;&#x6765;&#x7684;&#xFF0C;&#x91CC;&#x9762;&#x90FD;&#x505A;&#x4E86;&#x4E9B;&#x4EC0;&#x4E48;\<br> &#x9996;&#x5148;&#x8981;&#x8BF4;&#x4ED6;&#x4EEC;3&#x4E2A;&#x80AF;&#x5B9A;&#x662F;SqlHelper&#x91CC;&#x88AB;&#x5B9E;&#x73B0;&#x8FC7;&#x7684;&#x51FD;&#x6570;\<br> &#x81F3;&#x4E8E;&#x4ED6;&#x4EEC;&#x600E;&#x4E48;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x4F60;&#x4ED4;&#x7EC6;&#x770B;&#x4E0B;&#x5C31;&#x5168;&#x660E;&#x767D;&#x4E86;&#x3002;\<br>\<br>\</p>
-<p>&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x591A;&#x51FA;&#x4E00;&#x4E2A;loadDataBean&#x6765;&#xFF0C;&#x5927;&#x5BB6;&#x90FD;&#x770B;&#x5230;&#x4E86;&#xFF0C;&#x4ED6;&#x6709;&#x4E00;&#x4E2A;&#x53C2;&#x6570;viewName&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x662F;&#x7528;&#x5230;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x56E0;&#x4E3A;&#x5927;&#x5BB6;&#x64CD;&#x4F5C;&#x6570;&#x636E;&#x5E93;&#x4E0D;<br>&#x53EF;&#x80FD;&#x5C31;&#x662F;&#x90A3;&#x4E48;&#x4E00;&#x5F20;&#x8868;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x6709;&#x65F6;&#x5019;&#x4F1A;&#x6709;2&#x5230;3&#x5F20;&#x8868;&#x8054;&#x67E5;&#xFF0C;&#x90A3;&#x4E48;&#x7528;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x6765;&#x5224;&#x65AD;&#x662F;&#x54EA;&#x4E2A;&#x51FD;&#x6570;&#x67E5;&#x51FA;&#x4E0D;&#x4E00;&#x6837;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x90A3;&#x4E48;&#x4F60;&#x5728;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x91CC;&#x5229;&#x7528;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x5F15;&#x8FDB;&#x522B;&#x7684;<br>xxxBO&#x7684;loadDataBeanSelf&#x51FD;&#x6570;&#xFF0C;&#x4E0D;&#x5C31;&#x53EF;&#x4EE5;&#x4E0D;&#x7528;&#x518D;&#x6B21;&#x91CD;&#x65B0;&#x5199;&#x90A3;&#x4E9B;&#x8BA8;&#x538C;&#x7684;&#x5B9E;&#x4F53;&#x5C01;&#x88C5;&#x4EE3;&#x7801;&#x4E86;&#x5417;&#x3002;&#x91CD;&#x7528;&#x6027;&#x5927;&#x5927;&#x63D0;&#x5347;&#x3002;\<br>\<br><span style="color: red">&#x6CE8;&#x610F;&#x4E00;&#x70B9;&#xFF0C;&#x8FD9;&#x91CC;&#x7684;&#x67E5;&#x8BE2;&#x662F;&#x53EA;&#x80FD;&#x5168;&#x67E5;&#xFF0C;&#x5982;&#x679C;&#x53EA;&#x9700;&#x8981;&#x51E0;&#x4E2A;&#x5B57;&#x6BB5;&#xFF0C;&#x5C31;&#x53EA;&#x80FD;&#x624B;&#x52A8;&#x81EA;&#x5DF1;&#x5199;&#x54AF;&#xFF0C;&#x5176;&#x5B9E;&#x6211;&#x662F;&#x60F3;&#x5199;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x7684;&#x60F3;&#x67E5;&#x51E0;&#x4E2A;&#x5B57;&#x6BB5;&#x5C31;&#x51E0;&#x4E2A;&#x5B57;&#x6BB5;&#x7684;&#x5C01;&#x88C5;&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x6211;&#x61D2;&#xFF0C;&#x6240;&#x4EE5;&#x5230;&#x73B0;&#x5728;&#x90FD;&#x6CA1;&#x53BB;&#x5199;</span>\<br>\<br> &#x5176;&#x5B9E;&#x8FD8;&#x6709;&#x5F88;&#x591A;&#x5E94;&#x7528;&#x548C;&#x95EE;&#x9898;&#xFF0C;&#x8FD9;&#x4E9B;&#x6211;&#x5728;&#x8FD9;&#x91CC;&#x4E5F;&#x8BF4;&#x4E0D;&#x5B8C;&#xFF0C;&#x5E0C;&#x671B;&#x5927;&#x5BB6;&#x591A;&#x591A;&#x4EA4;&#x6D41;&#x3002;\<br>\<br>\</p>
-<p>&#x6211;&#x8FD8;&#x4F1A;&#x7ED9;&#x51FA;&#x6211;&#x81EA;&#x5DF1;&#x5F53;&#x521D;&#x5199;&#x7684;&#x6570;&#x636E;&#x5E93;&#x8FDE;&#x63A5;&#x6C60;&#x7C7B;&#xFF0C;&#x5E0C;&#x671B;&#x8FD9;&#x4E9B;&#x7B80;&#x5355;&#x7684;&#x4EE3;&#x7801;&#x80FD;&#x7ED9;java&#x65B0;&#x624B;&#x4EE5;&#x5E2E;&#x52A9;&#x3002;\<br> &#x800C;&#x4E14;&#x5982;&#x679C;&#x5927;&#x5BB6;&#x89C9;&#x5F97;&#x6709;&#x95EE;&#x9898;&#x6709;&#x610F;&#x4E49;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x53D1;&#x5E16;&#x6307;&#x51FA;&#x3002;&#x54EA;&#x91CC;&#x597D;&#x54EA;&#x91CC;&#x4E0D;&#x597D;\<br> &#x5E0C;&#x671B;&#x5927;&#x5BB6;&#x591A;&#x591A;&#x7ED9;&#x51FA;&#x770B;&#x6CD5;&#xFF0C;&#x591A;&#x591A;&#x76CA;&#x5584;&#x3002;\<br>\<br><span style="color: red">&#x5728;&#x8FD9;&#x91CC;&#x8FD8;&#x8981;&#x611F;&#x8C22;&#x8BBA;&#x575B;&#x4E2D;yangguo&#x5144;&#xFF0C;&#x5176;&#x5B9E;&#x6211;&#x5F53;&#x65F6;&#x5199;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x7684;\<br> &#x5C31;&#x662F;dbutils&#x6846;&#x67B6;&#x6240;&#x5B9E;&#x73B0;&#x7684;&#x4E00;&#x4E2A;&#x6700;&#x91CD;&#x8981;&#x529F;&#x80FD;\</span></p>
-<p>&#x53EA;&#x63D0;&#x4EA4;sql&#x8BED;&#x53E5;&#xFF0C;&#x7136;&#x540E;&#x7684;&#x6570;&#x636E;&#x81EA;&#x52A8;&#x586B;&#x5145;&#x5230;&#x6240;&#x9700;&#x8981;&#x7684;&#x5B9E;&#x4F53;&#x4E2D;&#x3002;&#x800C;&#x4E0D;&#x8981;&#x5728;&#x5199;&#x90A3;&#x4E48;&#x591A;&#x7E41;&#x7410;&#x7684;&#x5B9E;&#x4F53;&#x5C01;&#x88C5;&#x4EE3;&#x7801;&#x3002;\<br>\<br> &#x8FD9;&#x4E2A;&#x662F;&#x6E90;&#x7801;&#x4F8B;&#x5B50;&#xFF0C;&#x5E0C;&#x671B;&#x5927;&#x5BB6;&#x80FD;&#x660E;&#x767D;&#x8FD9;&#x6837;&#x5199;&#x7684;&#x7528;&#x610F;&#xFF0C;&#x503C;&#x5F97;&#x63A2;&#x8BA8;&#x3002;\<br></p>
+<p>\<br>\<br><span style="font-size: large">loadDataBean，loadDataBeanSelf是从SqlHelper里继承下来的抽象方法。\<br> 必须实现。这就是利用了模版方法模式写出来的。\<br> 也就是说，以后你自己写函数的时候，只要在接口里定义，\</span></p>
+<p>然后在这样的BO类里写实现它，而且就写那么一点语句就完成了。大大省时省力。\<br>\</p>
+<p>好了这样就完成了，代码是不是看上去又清楚又整洁，如果查找和维护。而且大大减少了那些功能代码和封装象Student.java这样数据实体的代码。一次封装无须在写。\<br>\<br> 大家肯定有疑问，那就是\<br> this.execute\<br> this.findList\<br> this.find\<br> 三个函数哪来的，里面都做了些什么\<br> 首先要说他们3个肯定是SqlHelper里被实现过的函数\<br> 至于他们怎么实现的，你仔细看下就全明白了。\<br>\<br>\</p>
+<p>为什么要多出一个loadDataBean来，大家都看到了，他有一个参数viewName，这里就是用到这个参数的地方，因为大家操作数据库不<br>可能就是那么一张表的操作，有时候会有2到3张表联查，那么用这个参数来判断是哪个函数查出不一样的结果，那么你在这个函数里利用这个参数引进别的<br>xxxBO的loadDataBeanSelf函数，不就可以不用再次重新写那些讨厌的实体封装代码了吗。重用性大大提升。\<br>\<br><span style="color: red">注意一点，这里的查询是只能全查，如果只需要几个字段，就只能手动自己写咯，其实我是想写一个通用的想查几个字段就几个字段的封装方法，但我懒，所以到现在都没去写</span>\<br>\<br> 其实还有很多应用和问题，这些我在这里也说不完，希望大家多多交流。\<br>\<br>\</p>
+<p>我还会给出我自己当初写的数据库连接池类，希望这些简单的代码能给java新手以帮助。\<br> 而且如果大家觉得有问题有意义，一定要发帖指出。哪里好哪里不好\<br> 希望大家多多给出看法，多多益善。\<br>\<br><span style="color: red">在这里还要感谢论坛中yangguo兄，其实我当时写这段代码的主要目的\<br> 就是dbutils框架所实现的一个最重要功能\</span></p>
+<p>只提交sql语句，然后的数据自动填充到所需要的实体中。而不要在写那么多繁琐的实体封装代码。\<br>\<br> 这个是源码例子，希望大家能明白这样写的用意，值得探讨。\<br></p>
 <p></p></div><p></p>
-<div><br><br>-   <a href="http://dl.iteye.com/topics/download/0dc6a22e-87a1-3180-b026-a9612f17eec5" target="_blank" rel="external">Demo.rar</a><br>    (341.4 KB)<br>-   &#x4E0B;&#x8F7D;&#x6B21;&#x6570;: 438<br><br></div>
+<div><br><br>-   <a href="http://dl.iteye.com/topics/download/0dc6a22e-87a1-3180-b026-a9612f17eec5" target="_blank" rel="external">Demo.rar</a><br>    (341.4 KB)<br>-   下载次数: 438<br><br></div>
 </div>  
 	</div>
 		<footer class="article-footer clearfix">
@@ -558,18 +558,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" title="2012年年中的macbook显卡门解决方案">
+ <a href="/2016/06/13/用docker安装应用服务器/" title="用docker安装应用服务器">
   <strong>上一篇：</strong><br/>
   <span>
-  2012年年中的macbook显卡门解决方案</span>
+  用docker安装应用服务器</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/"  title="《西游记》里有哪些不易发现却很打动人的小细节？">
+<a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/"  title="将 Mac 中的文件夹共享到虚拟机">
  <strong>下一篇：</strong><br/> 
- <span>《西游记》里有哪些不易发现却很打动人的小细节？
+ <span>将 Mac 中的文件夹共享到虚拟机
 </span>
 </a>
 </div>
@@ -638,11 +638,23 @@
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -654,7 +666,7 @@
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -711,6 +723,14 @@
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -723,15 +743,7 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -743,7 +755,7 @@
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -755,7 +767,7 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			

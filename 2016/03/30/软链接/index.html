@@ -11,19 +11,22 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="&amp;#x8F6F;&amp;#x94FE;&amp;#x63A5;linux&amp;#x4E0B;&amp;#x521B;&amp;#x5EFA;&amp;#x548C;&amp;#x5220;&amp;#x9664;&amp;#x8F6F;&amp;#x3001;&amp;#x786C;&amp;#x94FE;&amp;#x63A5;\
-&amp;#x5728;Linux&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E2D;,&amp;#x5185;&amp;#x6838;&amp;#x4E3A;&amp;#x6BCF;&amp;#x4E00;&amp;#x">
+    <meta name="description" content="软链接linux下创建和删除软、硬链接\
+在Linux系统中,内核为每一个新创建的文件分配一个Inode(索引结点),每个文件都有一个惟一的inode号。文件属性保存在索引结点里，在访问文件时，索引结点被复制到内存在，从而实现文件的快速访问。\
+链接是一种在共享文件和访问它的用户的若干目录项之间建立联系的一种方法。Linux中包括两种链接：硬链接(HardLink)和软链接(Soft Link),">
 <meta property="og:type" content="article">
 <meta property="og:title" content="软链接">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/软链接/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="&amp;#x8F6F;&amp;#x94FE;&amp;#x63A5;linux&amp;#x4E0B;&amp;#x521B;&amp;#x5EFA;&amp;#x548C;&amp;#x5220;&amp;#x9664;&amp;#x8F6F;&amp;#x3001;&amp;#x786C;&amp;#x94FE;&amp;#x63A5;\
-&amp;#x5728;Linux&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E2D;,&amp;#x5185;&amp;#x6838;&amp;#x4E3A;&amp;#x6BCF;&amp;#x4E00;&amp;#x">
+<meta property="og:description" content="软链接linux下创建和删除软、硬链接\
+在Linux系统中,内核为每一个新创建的文件分配一个Inode(索引结点),每个文件都有一个惟一的inode号。文件属性保存在索引结点里，在访问文件时，索引结点被复制到内存在，从而实现文件的快速访问。\
+链接是一种在共享文件和访问它的用户的若干目录项之间建立联系的一种方法。Linux中包括两种链接：硬链接(HardLink)和软链接(Soft Link),">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="软链接">
-<meta name="twitter:description" content="&amp;#x8F6F;&amp;#x94FE;&amp;#x63A5;linux&amp;#x4E0B;&amp;#x521B;&amp;#x5EFA;&amp;#x548C;&amp;#x5220;&amp;#x9664;&amp;#x8F6F;&amp;#x3001;&amp;#x786C;&amp;#x94FE;&amp;#x63A5;\
-&amp;#x5728;Linux&amp;#x7CFB;&amp;#x7EDF;&amp;#x4E2D;,&amp;#x5185;&amp;#x6838;&amp;#x4E3A;&amp;#x6BCF;&amp;#x4E00;&amp;#x">
+<meta name="twitter:description" content="软链接linux下创建和删除软、硬链接\
+在Linux系统中,内核为每一个新创建的文件分配一个Inode(索引结点),每个文件都有一个惟一的inode号。文件属性保存在索引结点里，在访问文件时，索引结点被复制到内存在，从而实现文件的快速访问。\
+链接是一种在共享文件和访问它的用户的若干目录项之间建立联系的一种方法。Linux中包括两种链接：硬链接(HardLink)和软链接(Soft Link),">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -106,19 +109,19 @@
 		
 		</div>
 		
-		<h1 id="&#x8F6F;&#x94FE;&#x63A5;"><a href="#&#x8F6F;&#x94FE;&#x63A5;" class="headerlink" title="&#x8F6F;&#x94FE;&#x63A5;"></a>&#x8F6F;&#x94FE;&#x63A5;</h1><p><span style="font: 14.0px Arial; font-kerning: none; color: #78afd3; -webkit-text-stroke: 0px #78afd3"><a href="http://www.cnblogs.com/xiaochaohuashengmi/archive/2011/10/05/2199534.html" target="_blank" rel="external"><strong>linux&#x4E0B;&#x521B;&#x5EFA;&#x548C;&#x5220;&#x9664;&#x8F6F;&#x3001;&#x786C;&#x94FE;&#x63A5;</strong></a></span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
-</strong>&#x5728;Linux&#x7CFB;&#x7EDF;&#x4E2D;,&#x5185;&#x6838;&#x4E3A;&#x6BCF;&#x4E00;&#x4E2A;&#x65B0;&#x521B;&#x5EFA;&#x7684;&#x6587;&#x4EF6;&#x5206;&#x914D;&#x4E00;&#x4E2A;Inode(&#x7D22;&#x5F15;&#x7ED3;&#x70B9;),&#x6BCF;&#x4E2A;&#x6587;&#x4EF6;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x60DF;&#x4E00;&#x7684;inode&#x53F7;&#x3002;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#x4FDD;&#x5B58;&#x5728;&#x7D22;&#x5F15;&#x7ED3;&#x70B9;&#x91CC;&#xFF0C;&#x5728;&#x8BBF;&#x95EE;&#x6587;&#x4EF6;&#x65F6;&#xFF0C;&#x7D22;&#x5F15;&#x7ED3;&#x70B9;&#x88AB;&#x590D;&#x5236;&#x5230;&#x5185;&#x5B58;&#x5728;&#xFF0C;&#x4ECE;&#x800C;&#x5B9E;&#x73B0;&#x6587;&#x4EF6;&#x7684;&#x5FEB;&#x901F;&#x8BBF;&#x95EE;&#x3002;\</span></p>
-<p>&#x94FE;&#x63A5;&#x662F;&#x4E00;&#x79CD;&#x5728;&#x5171;&#x4EAB;&#x6587;&#x4EF6;&#x548C;&#x8BBF;&#x95EE;&#x5B83;&#x7684;&#x7528;&#x6237;&#x7684;&#x82E5;&#x5E72;&#x76EE;&#x5F55;&#x9879;&#x4E4B;&#x95F4;&#x5EFA;&#x7ACB;&#x8054;&#x7CFB;&#x7684;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x3002;Linux&#x4E2D;&#x5305;&#x62EC;&#x4E24;&#x79CD;&#x94FE;&#x63A5;&#xFF1A;&#x786C;&#x94FE;&#x63A5;(Hard<br>Link)&#x548C;&#x8F6F;&#x94FE;&#x63A5;(Soft Link),&#x8F6F;&#x94FE;&#x63A5;&#x53C8;&#x79F0;&#x4E3A;&#x7B26;&#x53F7;&#x94FE;&#x63A5;&#xFF08;Symbolic<br>link&#xFF09;&#x3002;&#x7B26;&#x53F7;&#x8FDE;&#x63A5;&#x76F8;&#x5F53;&#x4E8E;Windows&#x4E0B;&#x7684;&#x5FEB;&#x6377;&#x65B9;&#x5F0F;&#x3002;\<br> <strong>&#x4E00;&#x3001;&#x786C;&#x94FE;&#x63A5;</strong>\</p>
-<p>&#x786C;&#x94FE;&#x63A5;&#x8BF4;&#x767D;&#x4E86;&#x662F;&#x4E00;&#x4E2A;&#x6307;&#x9488;&#xFF0C;&#x6307;&#x5411;&#x6587;&#x4EF6;&#x7D22;&#x5F15;&#x8282;&#x70B9;&#xFF0C;&#x7CFB;&#x7EDF;&#x5E76;&#x4E0D;&#x4E3A;&#x5B83;&#x91CD;&#x65B0;&#x5206;&#x914D;inode&#x3002;&#x53EF;&#x4EE5;&#x7528;:ln&#x547D;&#x4EE4;&#x6765;&#x5EFA;&#x7ACB;&#x786C;&#x94FE;&#x63A5;&#x3002;\<br> &#x8BED;&#x6CD5;:\<br> ln [options] existingfile newfile&#xFF08;sexistingfile<br>&#x5F85;&#x5EFA;&#x7ACB;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#x7684;&#x6587;&#x4EF6;&#xFF0C;newfile&#x662F;&#x65B0;&#x521B;&#x5EFA;&#x7684;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#xFF09;\<br> ln [options] existingfile-list directory\<br> -f &#x5EFA;&#x7ACB;&#x65F6;&#xFF0C;&#x5C06;&#x540C;&#x6863;&#x6848;&#x540D;&#x5220;&#x9664;.\<br> -i &#x5220;&#x9664;&#x524D;&#x8FDB;&#x884C;&#x8BE2;&#x95EE;.\<br> ln -s abc cde &#x5EFA;&#x7ACB;abc &#x7684;&#x8F6F;&#x8FDE;&#x63A5;\<br> ln abc cde &#x5EFA;&#x7ACB;abc&#x7684;&#x786C;&#x8FDE;&#x63A5;&#xFF0C;\<br> &#x7528;&#x6CD5;:\<br> &#x7B2C;&#x4E00;&#x79CD;:&#x4E3A;&#x201D;existingfile&#x201D;&#x521B;&#x5EFA;&#x786C;&#x94FE;&#x63A5;,&#x6587;&#x4EF6;&#x540D;&#x4E3A;&#x201D;newfile&#x201D;&#x3002;\</p>
-<p>&#x7B2C;&#x4E8C;&#x79CD;:&#x5728;&#x201D;directory&#x201D;&#x76EE;&#x5F55;&#x4E2D;,&#x4E3A;&#x201D;existingfile-list&#x201D;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x540C;&#x540D;&#x7684;&#x786C;&#x94FE;&#x63A5;&#x3002;\<br> &#x5E38;&#x7528;&#x53EF;&#x9009;[options] &#x2013;f &#x65E0;&#x8BBA;&#x201D;newfile&#x201D;&#x5B58;&#x5728;&#x4E0E;&#x5426;,&#x90FD;&#x521B;&#x5EFA;&#x94FE;&#x63A5;&#x3002;-n<br>&#x5982;&#x679C;&#x201D;newfile&#x201D;&#x5DF2;&#x5B58;&#x5728;,&#x5C31;&#x4E0D;&#x521B;&#x5EFA;&#x94FE;&#x63A5;&#x3002;\<br> &#x4E0B;&#x9762;&#x4E3E;&#x4E00;&#x4E9B;&#x4F8B;&#x5B50;:\<br><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ls -il\<br> &#x603B;&#x8BA1; 0\<br> 1491138 -rw-r&#x2013;r&#x2013; 1 root root 48 07-14 14:17 file1\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2\<br> &lt;%5Broot rekfan.com&gt; test]# ln file2 file2hand\<br><a id="more"></a><br> &lt;%5Broot rekfan.com&gt; test]# ls -il\<br> &#x603B;&#x8BA1; 0\<br> 1491138 -rw-r&#x2013;r&#x2013; 1 root root 48 07-14 14:17 file1\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2hand\<br> &lt;%5Broot rekfan.com&gt; test]#</span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br> &#x6CE8;&#x610F;&#x5728;&#x521B;&#x5EFA;&#x94FE;&#x63A5;&#x524D;,file1<br>&#x663E;&#x793A;&#x7684;&#x94FE;&#x63A5;&#x6570;&#x76EE;&#x4E3A;1,&#x521B;&#x5EFA;&#x94FE;&#x63A5;&#x540E;file1&#x548C;file1hard&#x7684;&#x94FE;&#x63A5;&#x6570;&#x76EE;&#x90FD;&#x53D8;&#x4E3A;2;file1&#x548C;file1hard&#x5728;inode&#x53F7;&#x662F;&#x4E00;&#x6837;&#x7684;file1&#x548C;file1hard&#x663E;&#x793A;&#x7684;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x4E5F;&#x662F;&#x4E00;&#x6837;&#x3002;&#x53EF;&#x89C1;&#x8FDB;&#x884C;&#x4E86;ln&#x547D;&#x4EE4;&#x7684;&#x64CD;&#x4F5C;&#x7ED3;&#x679C;&#xFF1A;file1&#x548C;file1hard&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x4E24;&#x4E2A;&#x540D;&#x5B57;&#xFF0C;&#x5B83;&#x4EEC;&#x5177;&#x6709;&#x540C;&#x6837;&#x7684;&#x7D22;&#x5F15;&#x8282;&#x70B9;&#x53F7;&#x548C;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#xFF0C;&#x5EFA;&#x7ACB;&#x6587;&#x4EF6;file1&#x7684;&#x786C;&#x94FE;&#x63A5;&#xFF0C;&#x5C31;&#x662F;&#x4E3A;file1&#x7684;&#x6587;&#x4EF6;&#x7D22;&#x5F15;&#x8282;&#x70B9;&#x5728;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E0A;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x65B0;&#x6307;&#x9488;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x5220;&#x9664;&#x5176;&#x4E2D;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;,&#x5982;rm<br>file2<br>,&#x6BCF;&#x6B21;&#x53EA;&#x4F1A;&#x5220;&#x9664;&#x4E00;&#x4E2A;&#x6307;&#x9488;,&#x94FE;&#x63A5;&#x6570;&#x540C;&#x65F6;&#x51CF;&#x4E00;,&#x5F53;&#x94FE;&#x63A5;&#x6570;&#x51CF;&#x4E3A;0&#x65F6;&#xFF0C;&#x5185;&#x6838;&#x624D;&#x4F1A;&#x628A;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x4ECE;&#x78C1;&#x76D8;&#x4E0A;&#x5220;&#x9664;&#x3002;\</span></p>
-<p>&#x8FD8;&#x53EF;&#x4EE5;&#x5728;&#x4E0D;&#x540C;&#x76EE;&#x5F55;&#xFF0C;&#x4F46;&#x540C;&#x4E00;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E2D;&#x5EFA;&#x7ACB;&#x6587;&#x4EF6;&#x7684;&#x786C;&#x94FE;&#x63A5;&#x3002;&#x8BBE;file1&#x3001;file2&#x5728;&#x76EE;&#x5F55;/home/root/dir1&#x4E2D;&#xFF0C;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x5728;/home/root&#x4E2D;&#x5EFA;&#x7ACB;file2&#x7684;&#x786C;&#x94FE;&#x63A5;&#x3002;\<br> ln file2 /home/root/file2hard\<br> &#x4E0B;&#x9762;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x662F;&#x5C06;dir1&#x76EE;&#x5F55;&#x4E2D;&#x6240;&#x6709;&#x6587;&#x4EF6;&#xFF0C;&#x5728;&#x76EE;&#x5F55;dir2&#x4E2D;&#x5EFA;&#x7ACB;&#x786C;&#x94FE;&#x63A5;\<br> #mkdir dir2\<br> #ln /home/root/dir1/* /home/root/dir2\<br> &#x5982;&#x679C;&#x4F7F;&#x7528;&#x4E86; ln &#x2013;f existingfile<br>newfile,&#x5982;&#x679C;newfile&#x5DF2;&#x7ECF;&#x5B58;&#x5728;&#xFF0C;&#x5219;&#x65E0;&#x8BBA;&#x539F;&#x6765;newfile&#x662F;&#x4EC0;&#x4E48;&#x6587;&#x4EF6;&#xFF0C;&#x53EA;&#x7528;&#x5F53;&#x524D;&#x7528;&#x6237;&#x5BF9;&#x5B83;&#x6709;&#x5199;&#x6743;&#x9650;&#xFF0C;newfile&#x5C31;&#x6210;&#x4E3A;exisitngfile&#x7684;&#x786C;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#x3002;\</p>
-<p>&#x5C3D;&#x7BA1;&#x786C;&#x94FE;&#x63A5;&#x8282;&#x7701;&#x7A7A;&#x95F4;&#xFF0C;&#x4E5F;&#x662F;Linux&#x7CFB;&#x7EDF;&#x6574;&#x5408;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x4F20;&#x7EDF;&#x65B9;&#x5F0F;&#xFF0C;&#x4F46;&#x662F;&#x5B58;&#x5728;&#x4E00;&#x4E0B;&#x4E0D;&#x8DB3;&#x4E4B;&#x5904;&#xFF1A;\<br> &#xFF08;1&#xFF09;&#x4E0D;&#x53EF;&#x4EE5;&#x5728;&#x4E0D;&#x540C;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x6587;&#x4EF6;&#x95F4;&#x5EFA;&#x7ACB;&#x94FE;&#x63A5;\<br> &#xFF08;2&#xFF09;&#x53EA;&#x6709;&#x8D85;&#x7EA7;&#x7528;&#x6237;&#x624D;&#x53EF;&#x4EE5;&#x4E3A;&#x76EE;&#x5F55;&#x521B;&#x5EFA;&#x786C;&#x94FE;&#x63A5;&#x3002;\<br> <strong>&#x4E8C;&#x3001;&#x8F6F;&#x94FE;&#x63A5;&#xFF08;&#x7B26;&#x53F7;&#x94FE;&#x63A5;&#xFF09;</strong>\</p>
-<p>&#x8F6F;&#x94FE;&#x63A5;&#x514B;&#x670D;&#x4E86;&#x786C;&#x94FE;&#x63A5;&#x7684;&#x4E0D;&#x8DB3;&#xFF0C;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x4EFB;&#x4F55;&#x7528;&#x6237;&#x53EF;&#x4EE5;&#x521B;&#x5EFA;&#x6307;&#x5411;&#x76EE;&#x5F55;&#x7684;&#x7B26;&#x53F7;&#x94FE;&#x63A5;&#x3002;&#x56E0;&#x800C;&#x73B0;&#x5728;&#x66F4;&#x4E3A;&#x5E7F;&#x6CDB;&#x4F7F;&#x7528;&#xFF0C;&#x5B83;&#x5177;&#x6709;&#x66F4;&#x5927;&#x7684;&#x7075;&#x6D3B;&#x6027;&#xFF0C;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x8DE8;&#x8D8A;&#x4E0D;&#x540C;&#x673A;&#x5668;&#x3001;&#x4E0D;&#x540C;&#x7F51;&#x7EDC;&#x5BF9;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x94FE;&#x63A5;&#x3002;\<br> &#x5EFA;&#x7ACB;&#x8F6F;&#x94FE;&#x63A5;&#xFF0C;&#x53EA;&#x8981;&#x5728;ln&#x540E;&#x9762;&#x52A0;&#x4E0A;&#x9009;&#x9879; &#x2013;s&#xFF0C;&#x4E0B;&#x9762;&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;\<br><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ls -il\<br> &#x603B;&#x8BA1; 0\<br> 1491138 -rw-r&#x2013;r&#x2013; 1 root root 48 07-14 14:17 file1\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2hand</span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ln -s file1 file1soft\<br> &lt;%5Broot rekfan.com&gt; test]# ls -il\<br> &#x603B;&#x8BA1; 0\<br> 1491138 -rw-r&#x2013;r&#x2013; 1 root root 48 07-14 14:17 file1\<br> 1491140 lrwxrwxrwx 1 root root 5 07-14 14:24 file1soft -&gt; file1\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2hand</span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">\</span></p>
-<p>&#x4ECE;&#x4E0A;&#x9762;&#x94FE;&#x63A5;&#x540E;&#x7684;&#x7ED3;&#x679C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#x6765;&#x8F6F;&#x94FE;&#x63A5;&#x4E0E;&#x786C;&#x94FE;&#x63A5;&#xFF0C;&#x533A;&#x522B;&#x4E0D;&#x4EC5;&#x4EC5;&#x662F;&#x5728;&#x6982;&#x5FF5;&#x4E0A;&#xFF0C;&#x5728;&#x5B9E;&#x73B0;&#x4E0A;&#x4E5F;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x3002;&#x533A;&#x522B;&#xFF1A;&#x786C;&#x94FE;&#x63A5;&#x539F;&#x6587;&#x4EF6;&#xFF06;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#x516C;&#x7528;&#x4E00;&#x4E2A;inode&#x53F7;&#xFF0C;&#x8BF4;&#x660E;&#x4ED6;&#x4EEC;&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x800C;&#x8F6F;&#x94FE;&#x63A5;&#x539F;&#x6587;&#x4EF6;&#xFF06;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#x62E5;&#x6709;&#x4E0D;&#x540C;&#x7684;inode&#x53F7;&#xFF0C;&#x8868;&#x660E;&#x4ED6;&#x4EEC;&#x662F;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x6587;&#x4EF6;&#xFF1B;&#x5728;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#x4E0A;&#x8F6F;&#x94FE;&#x63A5;&#x660E;&#x786E;&#x5199;&#x51FA;&#x4E86;&#x662F;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#xFF0C;&#x800C;&#x786C;&#x94FE;&#x63A5;&#x6CA1;&#x6709;&#x5199;&#x51FA;&#x6765;&#xFF0C;&#x56E0;&#x4E3A;&#x5728;&#x672C;&#x8D28;&#x4E0A;&#x786C;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#x548C;&#x539F;&#x6587;&#x4EF6;&#x662F;&#x5B8C;&#x5168;&#x5E73;&#x7B49;&#x5173;&#x7CFB;&#xFF1B;&#x94FE;&#x63A5;&#x6570;&#x76EE;&#x662F;&#x4E0D;&#x4E00;&#x6837;&#x7684;&#xFF0C;&#x8F6F;&#x94FE;&#x63A5;&#x7684;&#x94FE;&#x63A5;&#x6570;&#x76EE;&#x4E0D;&#x4F1A;&#x589E;&#x52A0;&#xFF1B;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x662F;&#x4E0D;&#x4E00;&#x6837;&#x7684;&#xFF0C;&#x786C;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#x663E;&#x793A;&#x7684;&#x5927;&#x5C0F;&#x662F;&#x8DDF;&#x539F;&#x6587;&#x4EF6;&#x662F;&#x4E00;&#x6837;&#x7684;&#xFF0C;&#x8FD9;&#x7528;&#x5F3A;&#x8C03;&#xFF0C;&#x56E0;&#x4E3A;&#x662F;&#x7B49;&#x540C;&#x7684;&#x561B;&#xFF0C;&#x800C;&#x8FD9;&#x91CC;&#x8F6F;&#x94FE;&#x63A5;&#x663E;&#x793A;&#x7684;&#x5927;&#x5C0F;&#x4E0E;&#x539F;&#x6587;&#x4EF6;&#x5C31;&#x4E0D;&#x540C;&#x4E86;&#xFF0C;file1&#x5927;&#x5C0F;&#x662F;48B&#xFF0C;&#x800C;file1soft&#x662F;5B&#xFF0C;&#x8FD9;&#x91CC;&#x9762;&#x7684;5&#x5B9E;&#x9645;&#x4E0A;&#x5C31;&#x662F;&#x201C;file1&#x201D;&#x7684;&#x5927;&#x5C0F;&#x3002;\</p>
-<p>&#x603B;&#x4E4B;&#xFF0C;&#x5EFA;&#x7ACB;&#x8F6F;&#x94FE;&#x63A5;&#x5C31;&#x662F;&#x5EFA;&#x7ACB;&#x4E86;&#x4E00;&#x4E2A;&#x65B0;&#x6587;&#x4EF6;&#x3002;&#x5F53;&#x8BBF;&#x95EE;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#x65F6;&#xFF0C;&#x7CFB;&#x7EDF;&#x5C31;&#x4F1A;&#x53D1;&#x73B0;&#x4ED6;&#x662F;&#x4E2A;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#xFF0C;&#x5B83;&#x8BFB;&#x53D6;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#x627E;&#x5230;&#x771F;&#x6B63;&#x8981;&#x8BBF;&#x95EE;&#x7684;&#x6587;&#x4EF6;&#x3002;\</p>
-<p>&#x5728;&#x4E0D;&#x540C;&#x7CFB;&#x7EDF;&#x4E4B;&#x95F4;&#x5EFA;&#x7ACB;&#x8F6F;&#x94FE;&#x63A5;&#x3001;&#x5BF9;&#x76EE;&#x5F55;&#x5EFA;&#x7ACB;&#x94FE;&#x63A5;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x4E3E;&#x4F8B;&#x4E86;&#xFF0C;&#x8BFB;&#x8005;&#x53EF;&#x4EE5;&#x81EA;&#x5DF1;&#x53BB;&#x5C1D;&#x8BD5;&#xFF0C;&#x6211;&#x4E5F;&#x662F;&#x5728;&#x4E0D;&#x65AD;&#x5B9E;&#x8DF5;&#x4E2D;&#x5B66;&#x4E60;&#x7684;&#x3002;\</p>
-<p>&#x5F53;&#x7136;&#x8F6F;&#x94FE;&#x63A5;&#x4E5F;&#x6709;&#x786C;&#x94FE;&#x63A5;&#x6CA1;&#x6709;&#x7684;&#x7F3A;&#x70B9;&#xFF0C;&#x56E0;&#x4E3A;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x6709;&#x539F;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84;&#x4FE1;&#x606F;&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x539F;&#x6587;&#x4EF6;&#x4ECE;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;&#x79FB;&#x5230;&#x5176;&#x4ED6;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x518D;&#x8BBF;&#x95EE;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#xFF0C;&#x7CFB;&#x7EDF;&#x5C31;&#x627E;&#x4E0D;&#x5230;&#x4E86;&#xFF5E;&#xFF5E;&#xFF0C;&#x800C;&#x786C;&#x94FE;&#x63A5;&#x5C31;&#x6CA1;&#x6709;&#x8FD9;&#x4E2A;&#x7F3A;&#x9677;&#xFF0C;&#x4F60;&#x60F3;&#x600E;&#x4E48;&#x79FB;&#x5C31;&#x600E;&#x4E48;&#x79FB;&#xFF08;&#x5475;&#x5475;&#xFF09;&#xFF1B;&#x8FD8;&#x6709;&#x5B83;&#x8981;&#x7CFB;&#x7EDF;&#x5206;&#x914D;&#x989D;&#x5916;&#x7684;&#x7A7A;&#x95F4;&#x7528;&#x4E8E;&#x5EFA;&#x7ACB;&#x65B0;&#x7684;&#x7D22;&#x5F15;&#x8282;&#x70B9;&#x548C;&#x4FDD;&#x5B58;&#x539F;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84;&#x3002;\<br> &#x8865;&#x5145;&#x4E00;&#x4E0B;&#xFF1A;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;symlink&#x6765;&#x67E5;&#x770B;&#x94FE;&#x63A5;&#x6587;&#x4EF6;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; man symlink&#x6765;&#x5B66;&#x4E60;&#x3002;\<br> <strong>&#x4E09;&#x3001;&#x5220;&#x9664;&#x94FE;&#x63A5;</strong>\<br> &#x6709;&#x521B;&#x5EFA;&#x5C31;&#x6709;&#x5220;&#x9664;\<br><span style="font: 14.0px Arial; font-kerning: none; color: #ff2500; -webkit-text-stroke: 0px #ff2500"><strong>rm<br>-rf symbolic_name</strong></span> <span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">&#x6CE8;&#x610F;&#x4E0D;&#x662F;rm<br>-rf symbolic_name/\<br>  \<br></span><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ls -il\<br> &#x603B;&#x8BA1; 0\<br> 1491138 -rw-r&#x2013;r&#x2013; 1 root root 0 07-14 14:17 file1\<br> 1491140 lrwxrwxrwx 1 root root 5 07-14 14:24 file1soft -&gt; file1\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2hand\<br> &lt;%5Broot rekfan.com&gt; test]# rm -rf file1soft\<br> &lt;%5Broot rekfan.com&gt; test]# ls -il\<br> &#x603B;&#x8BA1; 0\<br> 1491138 -rw-r&#x2013;r&#x2013; 1 root root 0 07-14 14:17 file1\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r&#x2013;r&#x2013; 2 root root 0 07-14 14:17 file2hand\<br> &lt;%5Broot rekfan.com&gt; test]#</span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br> <strong>&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;\<br> linux &#x8F6F;&#x8FDE;&#x63A5;&#x548C;&#x786C;&#x94FE;&#x63A5;&#x7684;&#x533A;&#x522B;:\<br> &#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;</strong>\<br> 4&#x70B9;&#x4E0D;&#x540C; &#xFF1A;\<br> &#xFF08;1&#xFF09;&#x8F6F;&#x8FDE;&#x63A5;&#x53EF;&#x4EE5; &#x8DE8;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF; &#xFF0C;&#x786C;&#x8FDE;&#x63A5;&#x4E0D;&#x53EF;&#x4EE5; &#x3002;\<br> &#x5B9E;&#x8DF5;&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x7528;&#x5171;&#x4EAB;&#x6587;&#x4EF6;&#x628A;windows&#x4E0B;&#x7684;<br>aa.txt&#x6587;&#x672C;&#x6587;&#x6863;&#x8FDE;&#x63A5;&#x5230;linux&#x4E0B;/root&#x76EE;&#x5F55; &#x4E0B; bb,cc . ln -s aa.txt\<br> /root/bb &#x8FDE;&#x63A5;&#x6210;&#x529F; &#x3002;ln aa.txt /root/bb &#x5931;&#x8D25; &#x3002;\<br> &#xFF08;2&#xFF09;&#x5173;&#x4E8E; I&#x8282;&#x70B9;&#x7684;&#x95EE;&#x9898; &#x3002;&#x786C;&#x8FDE;&#x63A5;&#x4E0D;&#x7BA1;&#x6709;&#x591A;&#x5C11;&#x4E2A;&#xFF0C;&#x90FD;&#x6307;&#x5411;&#x7684;&#x662F;&#x540C;&#x4E00;&#x4E2A;I&#x8282;&#x70B9;&#xFF0C;&#x4F1A;&#x628A;<br>&#x7ED3;&#x70B9;&#x8FDE;&#x63A5;&#x6570;&#x589E;&#x52A0; &#xFF0C;&#x53EA;&#x8981;&#x7ED3;&#x70B9;&#x7684;&#x8FDE;&#x63A5;&#x6570;&#x4E0D;&#x662F; 0&#xFF0C;&#x6587;&#x4EF6;&#x5C31;&#x4E00;&#x76F4;&#x5B58;&#x5728;<br>&#xFF0C;&#x4E0D;&#x7BA1;&#x4F60;&#x5220;&#x9664;&#x7684;&#x662F;\<br> &#x6E90;&#x6587;&#x4EF6;&#x8FD8;&#x662F; &#x8FDE;&#x63A5;&#x7684;&#x6587;&#x4EF6; &#x3002;&#x53EA;&#x8981;&#x6709;&#x4E00;&#x4E2A;&#x5B58;&#x5728; &#xFF0C;&#x6587;&#x4EF6;&#x5C31; &#x5B58;&#x5728; &#xFF08;&#x5176;&#x5B9E;&#x4E5F;&#x4E0D;&#x5206;&#x4EC0;&#x4E48;<br>&#x6E90;&#x6587;&#x4EF6;&#x8FDE;&#x63A5;&#x6587;&#x4EF6;&#x7684; &#xFF0C;&#x56E0;&#x4E3A;&#x4ED6;&#x4EEC;&#x6307;&#x5411;&#x90FD;&#x662F;&#x540C;&#x4E00;&#x4E2A; I&#x8282;&#x70B9;&#xFF09;&#x3002;<br>&#x5F53;&#x4F60;&#x4FEE;&#x6539;&#x6E90;&#x6587;&#x4EF6;&#x6216;&#x8005;&#x8FDE;&#x63A5;&#x6587;&#x4EF6;\<br> &#x4EFB;&#x4F55;&#x4E00;&#x4E2A;&#x7684;&#x65F6;&#x5019; &#xFF0C;&#x5176;&#x4ED6;&#x7684; &#x6587;&#x4EF6;&#x90FD;&#x4F1A;&#x505A;&#x540C;&#x6B65;&#x7684;&#x4FEE;&#x6539;<br>&#x3002;&#x8F6F;&#x94FE;&#x63A5;&#x4E0D;&#x76F4;&#x63A5;&#x4F7F;&#x7528;i&#x8282;&#x70B9;&#x53F7;&#x4F5C;&#x4E3A;&#x6587;&#x4EF6;&#x6307;&#x9488;,&#x800C;&#x662F;&#x4F7F;&#x7528;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x540D;&#x4F5C;&#x4E3A;&#x6307;&#x9488;&#x3002;&#x6240;&#x4EE5;<br>&#x5220;&#x9664;&#x8FDE;&#x63A5;&#x6587;&#x4EF6; &#x5BF9;&#x6E90;&#x6587;&#x4EF6;&#x65E0;&#x5F71;&#x54CD;&#xFF0C;&#x4F46;\<br> &#x662F; &#x5220;&#x9664; &#x6E90;&#x6587;&#x4EF6;&#xFF0C;&#x8FDE;&#x63A5;&#x6587;&#x4EF6;&#x5C31;&#x4F1A;&#x627E;&#x4E0D;&#x5230;&#x8981;&#x6307;&#x5411;&#x7684;&#x6587;&#x4EF6;<br>&#x3002;&#x8F6F;&#x94FE;&#x63A5;&#x6709;&#x81EA;&#x5DF1;&#x7684;inode,&#x5E76;&#x5728;&#x78C1;&#x76D8;&#x4E0A;&#x6709;&#x4E00;&#x5C0F;&#x7247;&#x7A7A;&#x95F4;&#x5B58;&#x653E;&#x8DEF;&#x5F84;&#x540D;.\<br> &#xFF08;3&#xFF09;&#x8F6F;&#x8FDE;&#x63A5;&#x53EF;&#x4EE5;&#x5BF9;&#x4E00;&#x4E2A;&#x4E0D;&#x5B58;&#x5728;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x8FDB;&#x884C;&#x8FDE;&#x63A5; &#x3002;\<br> &#xFF08;4&#xFF09;&#x8F6F;&#x8FDE;&#x63A5;&#x53EF;&#x4EE5;&#x5BF9;&#x76EE;&#x5F55;&#x8FDB;&#x884C;&#x8FDE;&#x63A5;&#x3002;\<br> &#x5907;&#x6CE8;&#xFF1A;I&#x8282;&#x70B9;<br>:&#x5B83;&#x662F;UNIX&#x5185;&#x90E8;&#x7528;&#x4E8E;&#x63CF;&#x8FF0;&#x6587;&#x4EF6;&#x7279;&#x6027;&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;.&#x6211;&#x4EEC;&#x901A;&#x5E38;&#x79F0;I&#x8282;&#x70B9;&#x4E3A;&#x6587;&#x4EF6;&#x7D22;&#x5F15;&#x7ED3;&#x70B9;(&#x4FE1;&#x606F;&#x7ED3;&#x70B9;).i&#x8282;&#x70B9;<br>&#x542B;&#x6709;&#x5173;&#x4E8E;&#x6587;&#x4EF6;&#x7684;&#x5927;&#x90E8;&#x5206;&#x7684;&#x91CD;&#x8981;&#x4FE1; &#x606F;,&#x5305;&#x62EC;&#x6587;&#x4EF6;&#x6570;&#x636E;&#x5757;&#x5728;\</span></p>
-<p>&#x78C1;&#x76D8;&#x4E0A;&#x7684;&#x5730;&#x5740;.&#x6BCF;&#x4E00;&#x4E2A;I&#x8282;&#x70B9;&#x6709;&#x5B83;&#x81EA;&#x5DF1;&#x7684;&#x6807;&#x5FD7;&#x53F7;,&#x6211;&#x4EEC;&#x79F0;&#x4E3A;&#x6587;&#x4EF6;&#x987A;&#x5E8F;&#x53F7;.I&#x8282;&#x70B9;&#x5305;&#x542B;&#x7684;&#x4FE1;&#x606F;<br>1.&#x6587;&#x4EF6;&#x7C7B;&#x578B; 2.&#x6587;&#x4EF6;&#x5C5E;&#x4E3B;&#x5173;&#x7CFB; 3.&#x6587;&#x4EF6;&#x7684;&#x8BBF;&#x95EE;&#x6743;&#x9650; 4.&#x6587;&#x4EF6;&#x7684;&#x65F6;&#x95F4;&#x622A;</p>
+		<h1 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h1><p><span style="font: 14.0px Arial; font-kerning: none; color: #78afd3; -webkit-text-stroke: 0px #78afd3"><a href="http://www.cnblogs.com/xiaochaohuashengmi/archive/2011/10/05/2199534.html" target="_blank" rel="external"><strong>linux下创建和删除软、硬链接</strong></a></span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
+</strong>在Linux系统中,内核为每一个新创建的文件分配一个Inode(索引结点),每个文件都有一个惟一的inode号。文件属性保存在索引结点里，在访问文件时，索引结点被复制到内存在，从而实现文件的快速访问。\</span></p>
+<p>链接是一种在共享文件和访问它的用户的若干目录项之间建立联系的一种方法。Linux中包括两种链接：硬链接(Hard<br>Link)和软链接(Soft Link),软链接又称为符号链接（Symbolic<br>link）。符号连接相当于Windows下的快捷方式。\<br> <strong>一、硬链接</strong>\</p>
+<p>硬链接说白了是一个指针，指向文件索引节点，系统并不为它重新分配inode。可以用:ln命令来建立硬链接。\<br> 语法:\<br> ln [options] existingfile newfile（sexistingfile<br>待建立链接文件的文件，newfile是新创建的链接文件）\<br> ln [options] existingfile-list directory\<br> -f 建立时，将同档案名删除.\<br> -i 删除前进行询问.\<br> ln -s abc cde 建立abc 的软连接\<br> ln abc cde 建立abc的硬连接，\<br> 用法:\<br> 第一种:为”existingfile”创建硬链接,文件名为”newfile”。\</p>
+<p>第二种:在”directory”目录中,为”existingfile-list”中包含的所有文件创建一个同名的硬链接。\<br> 常用可选[options] –f 无论”newfile”存在与否,都创建链接。-n<br>如果”newfile”已存在,就不创建链接。\<br> 下面举一些例子:\<br><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ls -il\<br> 总计 0\<br> 1491138 -rw-r–r– 1 root root 48 07-14 14:17 file1\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2\<br> &lt;%5Broot rekfan.com&gt; test]# ln file2 file2hand\<br><a id="more"></a><br> &lt;%5Broot rekfan.com&gt; test]# ls -il\<br> 总计 0\<br> 1491138 -rw-r–r– 1 root root 48 07-14 14:17 file1\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2hand\<br> &lt;%5Broot rekfan.com&gt; test]#</span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br> 注意在创建链接前,file1<br>显示的链接数目为1,创建链接后file1和file1hard的链接数目都变为2;file1和file1hard在inode号是一样的file1和file1hard显示的文件大小也是一样。可见进行了ln命令的操作结果：file1和file1hard是同一个文件的两个名字，它们具有同样的索引节点号和文件属性，建立文件file1的硬链接，就是为file1的文件索引节点在当前目录上建立一个新指针。你可以删除其中任何一个,如rm<br>file2<br>,每次只会删除一个指针,链接数同时减一,当链接数减为0时，内核才会把文件内容从磁盘上删除。\</span></p>
+<p>还可以在不同目录，但同一文件系统中建立文件的硬链接。设file1、file2在目录/home/root/dir1中，下面的命令，在/home/root中建立file2的硬链接。\<br> ln file2 /home/root/file2hard\<br> 下面的程序，是将dir1目录中所有文件，在目录dir2中建立硬链接\<br> #mkdir dir2\<br> #ln /home/root/dir1/* /home/root/dir2\<br> 如果使用了 ln –f existingfile<br>newfile,如果newfile已经存在，则无论原来newfile是什么文件，只用当前用户对它有写权限，newfile就成为exisitngfile的硬链接文件。\</p>
+<p>尽管硬链接节省空间，也是Linux系统整合文件系统的传统方式，但是存在一下不足之处：\<br> （1）不可以在不同文件系统的文件间建立链接\<br> （2）只有超级用户才可以为目录创建硬链接。\<br> <strong>二、软链接（符号链接）</strong>\</p>
+<p>软链接克服了硬链接的不足，没有任何文件系统的限制，任何用户可以创建指向目录的符号链接。因而现在更为广泛使用，它具有更大的灵活性，甚至可以跨越不同机器、不同网络对文件进行链接。\<br> 建立软链接，只要在ln后面加上选项 –s，下面举个例子\<br><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ls -il\<br> 总计 0\<br> 1491138 -rw-r–r– 1 root root 48 07-14 14:17 file1\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2hand</span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ln -s file1 file1soft\<br> &lt;%5Broot rekfan.com&gt; test]# ls -il\<br> 总计 0\<br> 1491138 -rw-r–r– 1 root root 48 07-14 14:17 file1\<br> 1491140 lrwxrwxrwx 1 root root 5 07-14 14:24 file1soft -&gt; file1\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2hand</span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">\</span></p>
+<p>从上面链接后的结果可以看出来软链接与硬链接，区别不仅仅是在概念上，在实现上也是不同的。区别：硬链接原文件＆链接文件公用一个inode号，说明他们是同一个文件，而软链接原文件＆链接文件拥有不同的inode号，表明他们是两个不同的文件；在文件属性上软链接明确写出了是链接文件，而硬链接没有写出来，因为在本质上硬链接文件和原文件是完全平等关系；链接数目是不一样的，软链接的链接数目不会增加；文件大小是不一样的，硬链接文件显示的大小是跟原文件是一样的，这用强调，因为是等同的嘛，而这里软链接显示的大小与原文件就不同了，file1大小是48B，而file1soft是5B，这里面的5实际上就是“file1”的大小。\</p>
+<p>总之，建立软链接就是建立了一个新文件。当访问链接文件时，系统就会发现他是个链接文件，它读取链接文件找到真正要访问的文件。\</p>
+<p>在不同系统之间建立软链接、对目录建立链接，这里就不举例了，读者可以自己去尝试，我也是在不断实践中学习的。\</p>
+<p>当然软链接也有硬链接没有的缺点，因为链接文件包含有原文件的路径信息，所以当原文件从一个目录下移到其他目录中，再访问链接文件，系统就找不到了～～，而硬链接就没有这个缺陷，你想怎么移就怎么移（呵呵）；还有它要系统分配额外的空间用于建立新的索引节点和保存原文件的路径。\<br> 补充一下：可以通过symlink来查看链接文件，可以用 man symlink来学习。\<br> <strong>三、删除链接</strong>\<br> 有创建就有删除\<br><span style="font: 14.0px Arial; font-kerning: none; color: #ff2500; -webkit-text-stroke: 0px #ff2500"><strong>rm<br>-rf symbolic_name</strong></span> <span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">注意不是rm<br>-rf symbolic_name/\<br>  \<br></span><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ls -il\<br> 总计 0\<br> 1491138 -rw-r–r– 1 root root 0 07-14 14:17 file1\<br> 1491140 lrwxrwxrwx 1 root root 5 07-14 14:24 file1soft -&gt; file1\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2hand\<br> &lt;%5Broot rekfan.com&gt; test]# rm -rf file1soft\<br> &lt;%5Broot rekfan.com&gt; test]# ls -il\<br> 总计 0\<br> 1491138 -rw-r–r– 1 root root 0 07-14 14:17 file1\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2hand\<br> &lt;%5Broot rekfan.com&gt; test]#</span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br> <strong>————————————\<br> linux 软连接和硬链接的区别:\<br> ————————————</strong>\<br> 4点不同 ：\<br> （1）软连接可以 跨文件系统 ，硬连接不可以 。\<br> 实践的方法就是用共享文件把windows下的<br>aa.txt文本文档连接到linux下/root目录 下 bb,cc . ln -s aa.txt\<br> /root/bb 连接成功 。ln aa.txt /root/bb 失败 。\<br> （2）关于 I节点的问题 。硬连接不管有多少个，都指向的是同一个I节点，会把<br>结点连接数增加 ，只要结点的连接数不是 0，文件就一直存在<br>，不管你删除的是\<br> 源文件还是 连接的文件 。只要有一个存在 ，文件就 存在 （其实也不分什么<br>源文件连接文件的 ，因为他们指向都是同一个 I节点）。<br>当你修改源文件或者连接文件\<br> 任何一个的时候 ，其他的 文件都会做同步的修改<br>。软链接不直接使用i节点号作为文件指针,而是使用文件路径名作为指针。所以<br>删除连接文件 对源文件无影响，但\<br> 是 删除 源文件，连接文件就会找不到要指向的文件<br>。软链接有自己的inode,并在磁盘上有一小片空间存放路径名.\<br> （3）软连接可以对一个不存在的文件名进行连接 。\<br> （4）软连接可以对目录进行连接。\<br> 备注：I节点<br>:它是UNIX内部用于描述文件特性的数据结构.我们通常称I节点为文件索引结点(信息结点).i节点<br>含有关于文件的大部分的重要信 息,包括文件数据块在\</span></p>
+<p>磁盘上的地址.每一个I节点有它自己的标志号,我们称为文件顺序号.I节点包含的信息<br>1.文件类型 2.文件属主关系 3.文件的访问权限 4.文件的时间截</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -155,18 +158,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/阿里云遇到的问题/" title="阿里云遇到的问题">
+ <a href="/2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/" title="PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题">
   <strong>上一篇：</strong><br/>
   <span>
-  阿里云遇到的问题</span>
+  PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/"  title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)">
+<a href="/2016/03/30/RESTEasy入门/"  title="RESTEasy入门">
  <strong>下一篇：</strong><br/> 
- <span>让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)
+ <span>RESTEasy入门
 </span>
 </a>
 </div>
@@ -235,11 +238,23 @@
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -251,7 +266,7 @@
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -308,6 +323,14 @@
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -320,15 +343,7 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -340,7 +355,7 @@
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -352,7 +367,7 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			

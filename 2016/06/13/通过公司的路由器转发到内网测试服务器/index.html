@@ -11,17 +11,59 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="&amp;#x901A;&amp;#x8FC7;&amp;#x516C;&amp;#x53F8;&amp;#x7684;&amp;#x8DEF;&amp;#x7531;&amp;#x5668;&amp;#x8F6C;&amp;#x53D1;&amp;#x5230;&amp;#x5185;&amp;#x7F51;&amp;#x6D4B;&amp;#x8BD5;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x6298;&amp;#x817E;&amp;#x4E86;&amp;#x4E24;&amp;#x5929;&amp;#xFF0C;&amp;#x672C;">
+    <meta name="description" content="通过公司的路由器转发到内网测试服务器折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。
+准备工具：
+nginx
+公司路由器
+
+虚拟主机端口转发
+DMZ主机托管
+
+
+
+
+
+本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。
+指出错误的想法:
+源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="外网访问内网的解决方式">
 <meta property="og:url" content="http://www.huguiqi.com/2016/06/13/通过公司的路由器转发到内网测试服务器/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="&amp;#x901A;&amp;#x8FC7;&amp;#x516C;&amp;#x53F8;&amp;#x7684;&amp;#x8DEF;&amp;#x7531;&amp;#x5668;&amp;#x8F6C;&amp;#x53D1;&amp;#x5230;&amp;#x5185;&amp;#x7F51;&amp;#x6D4B;&amp;#x8BD5;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x6298;&amp;#x817E;&amp;#x4E86;&amp;#x4E24;&amp;#x5929;&amp;#xFF0C;&amp;#x672C;">
+<meta property="og:description" content="通过公司的路由器转发到内网测试服务器折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。
+准备工具：
+nginx
+公司路由器
+
+虚拟主机端口转发
+DMZ主机托管
+
+
+
+
+
+本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。
+指出错误的想法:
+源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理">
 <meta property="og:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png">
 <meta property="og:updated_time" content="2016-06-13T10:06:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="外网访问内网的解决方式">
-<meta name="twitter:description" content="&amp;#x901A;&amp;#x8FC7;&amp;#x516C;&amp;#x53F8;&amp;#x7684;&amp;#x8DEF;&amp;#x7531;&amp;#x5668;&amp;#x8F6C;&amp;#x53D1;&amp;#x5230;&amp;#x5185;&amp;#x7F51;&amp;#x6D4B;&amp;#x8BD5;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x6298;&amp;#x817E;&amp;#x4E86;&amp;#x4E24;&amp;#x5929;&amp;#xFF0C;&amp;#x672C;">
+<meta name="twitter:description" content="通过公司的路由器转发到内网测试服务器折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。
+准备工具：
+nginx
+公司路由器
+
+虚拟主机端口转发
+DMZ主机托管
+
+
+
+
+
+本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。
+指出错误的想法:
+源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
@@ -105,25 +147,25 @@
 		
 		</div>
 		
-		<h1 id="&#x901A;&#x8FC7;&#x516C;&#x53F8;&#x7684;&#x8DEF;&#x7531;&#x5668;&#x8F6C;&#x53D1;&#x5230;&#x5185;&#x7F51;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x5668;"><a href="#&#x901A;&#x8FC7;&#x516C;&#x53F8;&#x7684;&#x8DEF;&#x7531;&#x5668;&#x8F6C;&#x53D1;&#x5230;&#x5185;&#x7F51;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x5668;" class="headerlink" title="&#x901A;&#x8FC7;&#x516C;&#x53F8;&#x7684;&#x8DEF;&#x7531;&#x5668;&#x8F6C;&#x53D1;&#x5230;&#x5185;&#x7F51;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x5668;"></a>&#x901A;&#x8FC7;&#x516C;&#x53F8;&#x7684;&#x8DEF;&#x7531;&#x5668;&#x8F6C;&#x53D1;&#x5230;&#x5185;&#x7F51;&#x6D4B;&#x8BD5;&#x670D;&#x52A1;&#x5668;</h1><p>&#x6298;&#x817E;&#x4E86;&#x4E24;&#x5929;&#xFF0C;&#x672C;&#x6765;&#x5F53;&#x5929;&#x4E00;&#x4E2A;&#x4E0B;&#x5348;&#x5C31;&#x5DF2;&#x7ECF;&#x641E;&#x5B9A;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x7531;&#x4E8E;&#x60F3;&#x628A;&#x516C;&#x53F8;&#x7684;&#x4E8C;&#x7EA7;&#x57DF;&#x540D;&#x76F4;&#x63A5;&#x6307;&#x5411;&#x5185;&#x7F51;&#x7684;IP+&#x7AEF;&#x53E3;&#x3002;</p>
-<h2 id="&#x51C6;&#x5907;&#x5DE5;&#x5177;&#xFF1A;"><a href="#&#x51C6;&#x5907;&#x5DE5;&#x5177;&#xFF1A;" class="headerlink" title="&#x51C6;&#x5907;&#x5DE5;&#x5177;&#xFF1A;"></a>&#x51C6;&#x5907;&#x5DE5;&#x5177;&#xFF1A;</h2><ol>
+		<h1 id="通过公司的路由器转发到内网测试服务器"><a href="#通过公司的路由器转发到内网测试服务器" class="headerlink" title="通过公司的路由器转发到内网测试服务器"></a>通过公司的路由器转发到内网测试服务器</h1><p>折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。</p>
+<h2 id="准备工具："><a href="#准备工具：" class="headerlink" title="准备工具："></a>准备工具：</h2><ol>
 <li>nginx</li>
-<li><p>&#x516C;&#x53F8;&#x8DEF;&#x7531;&#x5668;</p>
+<li><p>公司路由器</p>
 <ul>
-<li>&#x865A;&#x62DF;&#x4E3B;&#x673A;&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;</li>
-<li><p>DMZ&#x4E3B;&#x673A;&#x6258;&#x7BA1;</p>
+<li>虚拟主机端口转发</li>
+<li><p>DMZ主机托管</p>
 <p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png" alt="image"></p>
 </li>
 </ul>
 </li>
 </ol>
-<p><strong>&#x672C;&#x6765;&#x60F3;&#x901A;&#x8FC7;nginx&#x670D;&#x52A1;&#x5668;&#x76D1;&#x542C;&#x4E8C;&#x7EA7;&#x57DF;&#x540D;&#x7684;host&#x548C;&#x7AEF;&#x53E3;&#x53F7;&#xFF0C;&#x5B9E;&#x73B0;&#x53CD;&#x5411;&#x4EE3;&#x7406;&#x5230;&#x5185;&#x7F51;&#x670D;&#x52A1;&#x5668;&#x3002;</strong></p>
-<h2 id="&#x6307;&#x51FA;&#x9519;&#x8BEF;&#x7684;&#x60F3;&#x6CD5;"><a href="#&#x6307;&#x51FA;&#x9519;&#x8BEF;&#x7684;&#x60F3;&#x6CD5;" class="headerlink" title="&#x6307;&#x51FA;&#x9519;&#x8BEF;&#x7684;&#x60F3;&#x6CD5;:"></a>&#x6307;&#x51FA;&#x9519;&#x8BEF;&#x7684;&#x60F3;&#x6CD5;:</h2><ol>
-<li>&#x6E90;&#x5934;&#x4E0A;&#x7684;&#x60F3;&#x6CD5;&#x5C31;&#x4E0D;&#x5BF9;&#xFF0C;&#x56E0;&#x4E3A;nginx&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5728;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x8FDB;&#x53BB;&#x76D1;&#x542C;&#x5E76;&#x5206;&#x53D1;&#x5230;&#x5185;&#x7F51;&#x670D;&#x52A1;&#x5668;&#x4EE3;&#x7406;</li>
-<li>&#x516C;&#x7F51;&#x7684;IP&#x662F;&#x7ED1;&#x5B9A;&#x5728;&#x8DEF;&#x7531;&#x5668;&#x4E0A;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x5185;&#x7F51;&#x4E0A;&#x7F51;&#x90FD;&#x662F;&#x901A;&#x8FC7;&#x8DEF;&#x7531;&#x4E0A;&#x7F51;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x8981;&#x53CD;&#x5411;&#x4EE3;&#x7406;&#xFF0C;&#x5C31;&#x8981;&#x5728;&#x8DEF;&#x7531;&#x5668;&#x4E0A;&#x4F5C;&#x53CD;&#x8EAB;&#x4EE3;&#x7406;&#xFF0C;&#x5426;&#x5219;&#x5B8C;&#x5168;&#x884C;&#x4E0D;&#x901A;</li>
+<p><strong>本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。</strong></p>
+<h2 id="指出错误的想法"><a href="#指出错误的想法" class="headerlink" title="指出错误的想法:"></a>指出错误的想法:</h2><ol>
+<li>源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理</li>
+<li>公网的IP是绑定在路由器上的，我们内网上网都是通过路由上网，所以如果要反向代理，就要在路由器上作反身代理，否则完全行不通</li>
 </ol>
-<h2 id="&#x4E0D;&#x53EF;&#x601D;&#x8BAE;&#x7684;&#x95EE;&#x9898;"><a href="#&#x4E0D;&#x53EF;&#x601D;&#x8BAE;&#x7684;&#x95EE;&#x9898;" class="headerlink" title="&#x4E0D;&#x53EF;&#x601D;&#x8BAE;&#x7684;&#x95EE;&#x9898;"></a>&#x4E0D;&#x53EF;&#x601D;&#x8BAE;&#x7684;&#x95EE;&#x9898;</h2><ol>
-<li>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x57DF;&#x540D; + &#x7AEF;&#x53E3;&#x7684;&#x65B9;&#x5411;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x901A;&#x8FC7;&#x8DDF;&#x5E16;&#x5668;&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;&#x7684;&#x65B9;&#x5F0F;&#x8BBF;&#x95EE;&#x5185;&#x7F51;&#xFF0C;&#x4F46;&#x4E0D;&#x652F;&#x6301;80&#x7AEF;&#x53E3;</li>
+<h2 id="不可思议的问题"><a href="#不可思议的问题" class="headerlink" title="不可思议的问题"></a>不可思议的问题</h2><ol>
+<li>可以通过域名 + 端口的方向可以访问通过跟帖器端口转发的方式访问内网，但不支持80端口</li>
 </ol>
   
 	</div>
@@ -161,18 +203,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/06/13/oh_my_zsh安装出现的问题/" title="oh my zsh安装出现的问题">
+ <a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/" title="关于MacBook电池的正确使用方法">
   <strong>上一篇：</strong><br/>
   <span>
-  oh my zsh安装出现的问题</span>
+  关于MacBook电池的正确使用方法</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/06/13/用docker安装应用服务器/"  title="用docker安装应用服务器">
+<a href="/2016/06/13/fodera20安装mysql/"  title="">
  <strong>下一篇：</strong><br/> 
- <span>用docker安装应用服务器
+ <span>(no title)
 </span>
 </a>
 </div>
@@ -241,11 +283,23 @@
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -257,7 +311,7 @@
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -314,6 +368,14 @@
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -326,15 +388,7 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -346,7 +400,7 @@
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -358,7 +412,7 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			

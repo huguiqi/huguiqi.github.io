@@ -11,16 +11,16 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="centos &amp;#x5F00;&amp;#x542F;&amp;#x9632;&amp;#x706B;&amp;#x5899;&amp;#x540E;ftp&amp;#x65E0;&amp;#x6CD5;&amp;#x8BBF;&amp;#x95EE;&amp;#x89E3;&amp;#x51B3;&amp;#x65B9;&amp;#x6848;Your question isn&amp;#x2019;t phrased very well, but the symptoms you describe ar">
+    <meta name="description" content="centos 开启防火墙后ftp无法访问解决方案Your question isn’t phrased very well, but the symptoms you describe areindicative of a passive FTP not working correctly in combination withyour firewall.Typically thecommand">
 <meta property="og:type" content="article">
 <meta property="og:title" content="centos 开启防火墙后ftp无法访问解决方案">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/centos 开启防火墙后ftp无法访问解决方案/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="centos &amp;#x5F00;&amp;#x542F;&amp;#x9632;&amp;#x706B;&amp;#x5899;&amp;#x540E;ftp&amp;#x65E0;&amp;#x6CD5;&amp;#x8BBF;&amp;#x95EE;&amp;#x89E3;&amp;#x51B3;&amp;#x65B9;&amp;#x6848;Your question isn&amp;#x2019;t phrased very well, but the symptoms you describe ar">
+<meta property="og:description" content="centos 开启防火墙后ftp无法访问解决方案Your question isn’t phrased very well, but the symptoms you describe areindicative of a passive FTP not working correctly in combination withyour firewall.Typically thecommand">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos 开启防火墙后ftp无法访问解决方案">
-<meta name="twitter:description" content="centos &amp;#x5F00;&amp;#x542F;&amp;#x9632;&amp;#x706B;&amp;#x5899;&amp;#x540E;ftp&amp;#x65E0;&amp;#x6CD5;&amp;#x8BBF;&amp;#x95EE;&amp;#x89E3;&amp;#x51B3;&amp;#x65B9;&amp;#x6848;Your question isn&amp;#x2019;t phrased very well, but the symptoms you describe ar">
+<meta name="twitter:description" content="centos 开启防火墙后ftp无法访问解决方案Your question isn’t phrased very well, but the symptoms you describe areindicative of a passive FTP not working correctly in combination withyour firewall.Typically thecommand">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -103,11 +103,11 @@
 		
 		</div>
 		
-		<h1 id="centos-&#x5F00;&#x542F;&#x9632;&#x706B;&#x5899;&#x540E;ftp&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#x89E3;&#x51B3;&#x65B9;&#x6848;"><a href="#centos-&#x5F00;&#x542F;&#x9632;&#x706B;&#x5899;&#x540E;ftp&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#x89E3;&#x51B3;&#x65B9;&#x6848;" class="headerlink" title="centos &#x5F00;&#x542F;&#x9632;&#x706B;&#x5899;&#x540E;ftp&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#x89E3;&#x51B3;&#x65B9;&#x6848;"></a>centos &#x5F00;&#x542F;&#x9632;&#x706B;&#x5899;&#x540E;ftp&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;&#x89E3;&#x51B3;&#x65B9;&#x6848;</h1><div><br><br>Your question isn&#x2019;t phrased very well, but the symptoms you describe are<br>indicative of a passive FTP not working correctly in combination with<br>your firewall.<br><br>Typically the<br>command <code>insmod nf_conntrack_ftp</code>{style=&#x201D;padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, &#x2018;Lucida Console&#x2019;, &#x2018;Liberation Mono&#x2019;, &#x2018;DejaVu Sans Mono&#x2019;, &#x2018;Bitstream Vera Sans Mono&#x2019;, &#x2018;Courier New&#x2019;, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);&#x201D;} is<br>sufficient to load the FTP helper module in a badly configured RHEL6 or<br>CentOS firewall.<br><br>To make that persistent:<br><br>Edit the configuration<br>file <code>/etc/sysconfig/iptables-config</code>{style=&#x201D; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, &#x2018;Lucida Console&#x2019;, &#x2018;Liberation Mono&#x2019;, &#x2018;DejaVu Sans Mono&#x2019;, &#x2018;Bitstream Vera Sans Mono&#x2019;, &#x2018;Courier New&#x2019;, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);&#x201D;} and<br>add the helper<br>module <code>nf_conntrack_ftp</code>{style=&#x201D; padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, &#x2018;Lucida Console&#x2019;, &#x2018;Liberation Mono&#x2019;, &#x2018;DejaVu Sans Mono&#x2019;, &#x2018;Bitstream Vera Sans Mono&#x2019;, &#x2018;Courier New&#x2019;, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);&#x201D;} to<br>the IPTABLES_MODULES variable:<br><br><figure class="highlight plain"><figcaption><span>5px; border: 0px; font-size: 13px; overflow: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, &apos;Lucida Console&apos;, &apos;Liberation Mono&apos;, &apos;DejaVu Sans Mono&apos;, &apos;Bitstream Vera Sans Mono&apos;, &apos;Courier New&apos;, monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(238, 238, 238);&quot;}</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IPTABLES_MODULES=&quot;nf_conntrack_ftp&quot;</div></pre></td></tr></table></figure><br><br></div>
+		<h1 id="centos-开启防火墙后ftp无法访问解决方案"><a href="#centos-开启防火墙后ftp无法访问解决方案" class="headerlink" title="centos 开启防火墙后ftp无法访问解决方案"></a>centos 开启防火墙后ftp无法访问解决方案</h1><div><br><br>Your question isn’t phrased very well, but the symptoms you describe are<br>indicative of a passive FTP not working correctly in combination with<br>your firewall.<br><br>Typically the<br>command <code>insmod nf_conntrack_ftp</code>{style=”padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, ‘Lucida Console’, ‘Liberation Mono’, ‘DejaVu Sans Mono’, ‘Bitstream Vera Sans Mono’, ‘Courier New’, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);”} is<br>sufficient to load the FTP helper module in a badly configured RHEL6 or<br>CentOS firewall.<br><br>To make that persistent:<br><br>Edit the configuration<br>file <code>/etc/sysconfig/iptables-config</code>{style=” padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, ‘Lucida Console’, ‘Liberation Mono’, ‘DejaVu Sans Mono’, ‘Bitstream Vera Sans Mono’, ‘Courier New’, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);”} and<br>add the helper<br>module <code>nf_conntrack_ftp</code>{style=” padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, ‘Lucida Console’, ‘Liberation Mono’, ‘DejaVu Sans Mono’, ‘Bitstream Vera Sans Mono’, ‘Courier New’, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);”} to<br>the IPTABLES_MODULES variable:<br><br><figure class="highlight plain"><figcaption><span>5px; border: 0px; font-size: 13px; overflow: auto; max-height: 600px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, sans-serif; word-wrap: normal; color: rgb(34, 34, 34); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(238, 238, 238);"&#125;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">IPTABLES_MODULES=&quot;nf_conntrack_ftp&quot;</div></pre></td></tr></table></figure><br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: &apos;Helvetica Neue&apos;, Helvetica, Arial, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><a id="more"></a><br><br><div><br><br>or add it to any other modules already listed there.<br><br></div>
+<div style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><a id="more"></a><br><br><div><br><br>or add it to any other modules already listed there.<br><br></div>
 
 <p></p></div><p></p>
   
@@ -155,9 +155,9 @@
 
 
 <div class="next">
-<a href="/2016/03/30/javascript正则快速入门教程/"  title="javascript正则快速入门教程">
+<a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/"  title="CocoaPods 的一些略为高级一丁点的使用">
  <strong>下一篇：</strong><br/> 
- <span>javascript正则快速入门教程
+ <span>CocoaPods 的一些略为高级一丁点的使用
 </span>
 </a>
 </div>
@@ -226,11 +226,23 @@
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -242,7 +254,7 @@
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -299,6 +311,14 @@
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -311,15 +331,7 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -331,7 +343,7 @@
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -343,7 +355,7 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			

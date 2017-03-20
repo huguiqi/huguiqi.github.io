@@ -11,16 +11,43 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="git&amp;#x4E2D;reset&amp;#x4E0E;revert&amp;#x7684;&amp;#x4F7F;&amp;#x7528;&amp;#x6700;&amp;#x8FD1;&amp;#x7528;github&amp;#x505A;&amp;#x6211;&amp;#x7684;&amp;#x535A;&amp;#x5BA2;,&amp;#x6709;&amp;#x4E9B;&amp;#x65F6;&amp;#x5019;&amp;#x4F1A;&amp;#x8BBE;&amp;#x7F6E;&amp;#x9519;&amp;#x8BEF;&amp;#x">
+    <meta name="description" content="git中reset与revert的使用最近用github做我的博客,有些时候会设置错误需要用撤回操作,这时就用到gitrevert与reset
+\
+
+reset(版本撤回)
+
+\
+
+格式
+
+\">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git中reset与revert的使用">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/git中reset与revert的使用/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="git&amp;#x4E2D;reset&amp;#x4E0E;revert&amp;#x7684;&amp;#x4F7F;&amp;#x7528;&amp;#x6700;&amp;#x8FD1;&amp;#x7528;github&amp;#x505A;&amp;#x6211;&amp;#x7684;&amp;#x535A;&amp;#x5BA2;,&amp;#x6709;&amp;#x4E9B;&amp;#x65F6;&amp;#x5019;&amp;#x4F1A;&amp;#x8BBE;&amp;#x7F6E;&amp;#x9519;&amp;#x8BEF;&amp;#x">
+<meta property="og:description" content="git中reset与revert的使用最近用github做我的博客,有些时候会设置错误需要用撤回操作,这时就用到gitrevert与reset
+\
+
+reset(版本撤回)
+
+\
+
+格式
+
+\">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git中reset与revert的使用">
-<meta name="twitter:description" content="git&amp;#x4E2D;reset&amp;#x4E0E;revert&amp;#x7684;&amp;#x4F7F;&amp;#x7528;&amp;#x6700;&amp;#x8FD1;&amp;#x7528;github&amp;#x505A;&amp;#x6211;&amp;#x7684;&amp;#x535A;&amp;#x5BA2;,&amp;#x6709;&amp;#x4E9B;&amp;#x65F6;&amp;#x5019;&amp;#x4F1A;&amp;#x8BBE;&amp;#x7F6E;&amp;#x9519;&amp;#x8BEF;&amp;#x">
+<meta name="twitter:description" content="git中reset与revert的使用最近用github做我的博客,有些时候会设置错误需要用撤回操作,这时就用到gitrevert与reset
+\
+
+reset(版本撤回)
+
+\
+
+格式
+
+\">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -103,82 +130,82 @@
 		
 		</div>
 		
-		<h1 id="git&#x4E2D;reset&#x4E0E;revert&#x7684;&#x4F7F;&#x7528;"><a href="#git&#x4E2D;reset&#x4E0E;revert&#x7684;&#x4F7F;&#x7528;" class="headerlink" title="git&#x4E2D;reset&#x4E0E;revert&#x7684;&#x4F7F;&#x7528;"></a>git&#x4E2D;reset&#x4E0E;revert&#x7684;&#x4F7F;&#x7528;</h1><p>&#x6700;&#x8FD1;&#x7528;github&#x505A;&#x6211;&#x7684;&#x535A;&#x5BA2;,&#x6709;&#x4E9B;&#x65F6;&#x5019;&#x4F1A;&#x8BBE;&#x7F6E;&#x9519;&#x8BEF;&#x9700;&#x8981;&#x7528;&#x64A4;&#x56DE;&#x64CD;&#x4F5C;,&#x8FD9;&#x65F6;&#x5C31;&#x7528;&#x5230;git<br>revert&#x4E0E;reset</p>
+		<h1 id="git中reset与revert的使用"><a href="#git中reset与revert的使用" class="headerlink" title="git中reset与revert的使用"></a>git中reset与revert的使用</h1><p>最近用github做我的博客,有些时候会设置错误需要用撤回操作,这时就用到git<br>revert与reset</p>
 <div><br><br>\<br><br></div>
 
-<div><br><br>reset(&#x7248;&#x672C;&#x64A4;&#x56DE;)<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>&#x683C;&#x5F0F;<br><br></div>
+<div><br><br>reset(版本撤回)<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><a id="more"></a><br><br>git reset [-q] [&lt;commit&gt;] [&#x2013;] &lt;paths&gt;&#x2026; git reset<br>(&#x2013;patch | -p) [&lt;commit&gt;] [&#x2013;] [&lt;paths&gt;&#x2026;] git reset<br>(&#x2013;soft | &#x2013;mixed | &#x2013;hard | &#x2013;merge | &#x2013;keep) [-q] [&lt;commit&gt;]<br><br></div>
+<div><br><br>格式<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>&#x7528;&#x6CD5;<br><br></div>
+<div><br><a id="more"></a><br><br>git reset [-q] [&lt;commit&gt;] [–] &lt;paths&gt;… git reset<br>(–patch | -p) [&lt;commit&gt;] [–] [&lt;paths&gt;…] git reset<br>(–soft | –mixed | –hard | –merge | –keep) [-q] [&lt;commit&gt;]<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>git reset &#x2013;mixed &#x56DE;&#x9000;commit,&#x4FDD;&#x7559;&#x6E90;&#x7801;,&#x9ED8;&#x8BA4;&#x65B9;&#x5F0F;.<br><br></div>
+<div><br><br>用法<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>git reset &#x2013;soft &#x56DE;&#x9000;&#x81F3;&#x67D0;&#x4E2A;&#x7248;&#x672C;,&#x53EA;&#x56DE;&#x9000;commit&#x4FE1;&#x606F;<br><br></div>
+<div><br><br>git reset –mixed 回退commit,保留源码,默认方式.<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>git reset &#x2013;hard &#x5F7B;&#x5E95;&#x56DE;&#x9000;&#x81F3;&#x67D0;&#x4E2A;&#x7248;&#x672C;<br><br></div>
+<div><br><br>git reset –soft 回退至某个版本,只回退commit信息<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>&#x56DE;&#x9000;&#x6240;&#x6709;&#x5185;&#x5BB9;&#x5230;&#x4E0A;&#x4E00;&#x4E2A;&#x7248;&#x672C; git reset HEAD\^<br><br></div>
-
-<div><br><br>&#x56DE;&#x9000;<a href="http://a.py" target="_blank" rel="external">a.py</a>&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x7248;&#x672C;&#x5230;&#x4E0A;&#x4E00;&#x4E2A;&#x7248;&#x672C; git reset HEAD\^ a.py<br><br></div>
-
-<div><br><br>&#x5411;&#x524D;&#x56DE;&#x9000;&#x5230;&#x7B2C;3&#x4E2A;&#x7248;&#x672C; git reset &#x2013;soft HEAD~3<br><br></div>
-
-<div><br><br>&#x5C06;&#x672C;&#x5730;&#x7684;&#x72B6;&#x6001;&#x56DE;&#x9000;&#x5230;&#x548C;&#x8FDC;&#x7A0B;&#x7684;&#x4E00;&#x6837; git reset &#x2013;hard origin/master<br><br></div>
-
-<div><br><br>&#x56DE;&#x9000;&#x5230;&#x67D0;&#x4E2A;&#x7248;&#x672C; git reset 057d<br><br></div>
-
-<div><br><br>&#x56DE;&#x9000;&#x5230;&#x4E0A;&#x4E00;&#x6B21;&#x63D0;&#x4EA4;&#x7684;&#x72B6;&#x6001;&#xFF0C;&#x6309;&#x7167;&#x67D0;&#x4E00;&#x6B21;&#x7684;commit&#x5B8C;&#x5168;&#x53CD;&#x5411;&#x7684;&#x8FDB;&#x884C;&#x4E00;&#x6B21;commit git<br>revert HEAD<br><br></div>
-
-<div><br><br>revert(&#x64A4;&#x6D88;&#x64CD;&#x4F5C;)<br><br></div>
+<div><br><br>git reset –hard 彻底回退至某个版本<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>&#x64A4;&#x9500;&#x67D0;&#x6B21;&#x64CD;&#x4F5C;&#xFF0C;&#x6B64;&#x6B21;&#x64CD;&#x4F5C;&#x4E4B;&#x524D;&#x7684;commit&#x90FD;&#x4F1A;&#x88AB;&#x4FDD;&#x7559;. git reset<br>&#x662F;&#x64A4;&#x9500;&#x67D0;&#x6B21;&#x63D0;&#x4EA4;&#xFF0C;&#x4F46;&#x662F;&#x6B64;&#x6B21;&#x4E4B;&#x540E;&#x7684;&#x4FEE;&#x6539;&#x90FD;&#x4F1A;&#x88AB;&#x9000;&#x56DE;&#x5230;&#x6682;&#x5B58;&#x533A;.<br><br></div>
+<div><br><br>回退所有内容到上一个版本 git reset HEAD\^<br><br></div>
+
+<div><br><br>回退<a href="http://a.py" target="_blank" rel="external">a.py</a>这个文件的版本到上一个版本 git reset HEAD\^ a.py<br><br></div>
+
+<div><br><br>向前回退到第3个版本 git reset –soft HEAD~3<br><br></div>
+
+<div><br><br>将本地的状态回退到和远程的一样 git reset –hard origin/master<br><br></div>
+
+<div><br><br>回退到某个版本 git reset 057d<br><br></div>
+
+<div><br><br>回退到上一次提交的状态，按照某一次的commit完全反向的进行一次commit git<br>revert HEAD<br><br></div>
+
+<div><br><br>revert(撤消操作)<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>&#x683C;&#x5F0F;<br><br></div>
+<div><br><br>撤销某次操作，此次操作之前的commit都会被保留. git reset<br>是撤销某次提交，但是此次之后的修改都会被退回到暂存区.<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>git revert [&#x2013;edit | &#x2013;no-edit] [-n] [-m parent-number] [-s]<br>&lt;commit&gt;&#x2026; git revert &#x2013;continue git revert &#x2013;quit git revert<br>&#x2013;abort<br><br></div>
+<div><br><br>格式<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>&#x793A;&#x4F8B;<br><br></div>
+<div><br><br>git revert [–edit | –no-edit] [-n] [-m parent-number] [-s]<br>&lt;commit&gt;… git revert –continue git revert –quit git revert<br>–abort<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>git revert<br>HEAD~3&#xFF1A;&#x4E22;&#x5F03;&#x6700;&#x8FD1;&#x7684;&#x4E09;&#x4E2A;commit&#xFF0C;&#x628A;&#x72B6;&#x6001;&#x6062;&#x590D;&#x5230;&#x6700;&#x8FD1;&#x7684;&#x7B2C;&#x56DB;&#x4E2A;commit&#xFF0C;&#x5E76;&#x4E14;&#x63D0;&#x4EA4;&#x4E00;&#x4E2A;&#x65B0;&#x7684;commit&#x6765;&#x8BB0;&#x5F55;&#x8FD9;&#x6B21;&#x6539;&#x53D8;&#x3002;<br><br></div>
-
-<div><br><br>git revert -n<br>master~5..master~2&#xFF1A;&#x4E22;&#x5F03;&#x4ECE;&#x6700;&#x8FD1;&#x7684;&#x7B2C;&#x4E94;&#x4E2A;commit&#xFF08;&#x5305;&#x542B;&#xFF09;&#x5230;&#x7B2C;&#x4E8C;&#x4E2A;&#xFF08;&#x4E0D;&#x5305;&#x542B;&#xFF09;,&#x4F46;&#x662F;&#x4E0D;&#x81EA;&#x52A8;&#x751F;&#x6210;commit&#xFF0C;&#x8FD9;&#x4E2A;revert&#x4EC5;&#x4EC5;&#x4FEE;&#x6539;working<br>tree&#x548C;index&#x3002;<br><br></div>
-
-<div><br><br>reset&#x4E0E;revert&#x7684;&#x533A;&#x522B;<br><br></div>
+<div><br><br>示例<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>git revert&#x662F;&#x7528;&#x4E00;&#x6B21;&#x65B0;&#x7684;commit&#x6765;&#x56DE;&#x6EDA;&#x4E4B;&#x524D;&#x7684;commit&#xFF0C;git<br>reset&#x662F;&#x76F4;&#x63A5;&#x5220;&#x9664;&#x6307;&#x5B9A;&#x7684;commit&#x3002;<br><br></div>
+<div><br><br>git revert<br>HEAD~3：丢弃最近的三个commit，把状态恢复到最近的第四个commit，并且提交一个新的commit来记录这次改变。<br><br></div>
 
-<div><br><br>&#x5728;&#x56DE;&#x6EDA;&#x8FD9;&#x4E00;&#x64CD;&#x4F5C;&#x4E0A;&#x770B;&#xFF0C;&#x6548;&#x679C;&#x5DEE;&#x4E0D;&#x591A;&#x3002;&#x4F46;&#x662F;&#x5728;&#x65E5;&#x540E;&#x7EE7;&#x7EED;merge&#x4EE5;&#x524D;&#x7684;&#x8001;&#x7248;&#x672C;&#x65F6;&#x6709;&#x533A;&#x522B;&#x3002;&#x56E0;&#x4E3A;git<br>revert&#x662F;&#x7528;&#x4E00;&#x6B21;&#x9006;&#x5411;&#x7684;commit&#x201C;&#x4E2D;&#x548C;&#x201D;&#x4E4B;&#x524D;&#x7684;&#x63D0;&#x4EA4;&#xFF0C;&#x56E0;&#x6B64;&#x65E5;&#x540E;&#x5408;&#x5E76;&#x8001;&#x7684;branch&#x65F6;&#xFF0C;&#x5BFC;&#x81F4;&#x8FD9;&#x90E8;&#x5206;&#x6539;&#x53D8;&#x4E0D;&#x4F1A;&#x518D;&#x6B21;&#x51FA;&#x73B0;&#xFF0C;&#x4F46;&#x662F;git<br>reset&#x662F;&#x4E4B;&#x95F4;&#x628A;&#x67D0;&#x4E9B;commit&#x5728;&#x67D0;&#x4E2A;branch&#x4E0A;&#x5220;&#x9664;&#xFF0C;&#x56E0;&#x800C;&#x548C;&#x8001;&#x7684;branch&#x518D;&#x6B21;merge&#x65F6;&#xFF0C;&#x8FD9;&#x4E9B;&#x88AB;&#x56DE;&#x6EDA;&#x7684;commit&#x5E94;&#x8BE5;&#x8FD8;&#x4F1A;&#x88AB;&#x5F15;&#x5165;&#x3002;<br><br></div>
+<div><br><br>git revert -n<br>master~5..master~2：丢弃从最近的第五个commit（包含）到第二个（不包含）,但是不自动生成commit，这个revert仅仅修改working<br>tree和index。<br><br></div>
 
-<div><br><br>git reset &#x662F;&#x628A;HEAD&#x5411;&#x540E;&#x79FB;&#x52A8;&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x800C;git<br>revert&#x662F;HEAD&#x7EE7;&#x7EED;&#x524D;&#x8FDB;&#xFF0C;&#x53EA;&#x662F;&#x65B0;&#x7684;commit&#x7684;&#x5185;&#x5BB9;&#x548C;&#x8981;revert&#x7684;&#x5185;&#x5BB9;&#x6B63;&#x597D;&#x76F8;&#x53CD;&#xFF0C;&#x80FD;&#x591F;&#x62B5;&#x6D88;&#x8981;&#x88AB;revert&#x7684;&#x5185;&#x5BB9;&#x3002;<br><br></div>
+<div><br><br>reset与revert的区别<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>git revert是用一次新的commit来回滚之前的commit，git<br>reset是直接删除指定的commit。<br><br></div>
+
+<div><br><br>在回滚这一操作上看，效果差不多。但是在日后继续merge以前的老版本时有区别。因为git<br>revert是用一次逆向的commit“中和”之前的提交，因此日后合并老的branch时，导致这部分改变不会再次出现，但是git<br>reset是之间把某些commit在某个branch上删除，因而和老的branch再次merge时，这些被回滚的commit应该还会被引入。<br><br></div>
+
+<div><br><br>git reset 是把HEAD向后移动了一下，而git<br>revert是HEAD继续前进，只是新的commit的内容和要revert的内容正好相反，能够抵消要被revert的内容。<br><br></div>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -224,9 +251,9 @@
 
 
 <div class="next">
-<a href="/2016/03/30/hello-world/"  title="Hello World">
+<a href="/2016/03/30/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/"  title="git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog">
  <strong>下一篇：</strong><br/> 
- <span>Hello World
+ <span>git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog
 </span>
 </a>
 </div>
@@ -295,11 +322,23 @@
 		  
 		
 		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
 		  
 		
 		  
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
 		  
 		
 		  
@@ -311,7 +350,7 @@
 		  
 		
 		  
-			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>2</sup></a></li>
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
 		  
 		
 		  
@@ -368,6 +407,14 @@
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -380,15 +427,7 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -400,7 +439,7 @@
 			
 		
 			
-				<li><a href="/tags/github上建立自己的博客/" title="github上建立自己的博客">github上建立自己的博客<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -412,7 +451,7 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
 			
 		
 			
