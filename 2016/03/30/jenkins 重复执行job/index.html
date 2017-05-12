@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>jenkins 重复执行job | 小黑的技术博客</title>
+    <title>jenkins 重复执行job | 上海别墅装修|别墅设计|别墅装潢|别墅装饰公司-上海景沼|骗子公司</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
-    <meta name="author" content="sam hu">
+    <meta name="author" content="sam">
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
@@ -22,7 +22,7 @@ Jenkins使用经验谈4（创建Job）=============================
 <meta property="og:type" content="article">
 <meta property="og:title" content="jenkins 重复执行job">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/index.html">
-<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:site_name" content="上海别墅装修|别墅设计|别墅装潢|别墅装饰公司-上海景沼|骗子公司">
 <meta property="og:description" content="jenkins 重复执行jobjenkins配置全过程
 
 \
@@ -31,64 +31,64 @@ Jenkins使用经验谈4（创建Job）=============================
 
 
 前面做了那么多工作，现在终于到了创建Job这一步了，某种意义上，Jenkins的主要工作就是为了调度这些Job。Job的创建是有很大自由度的，也没有谁规定一定要创建成什么样子才行。下面我会以实际使用中的几个场景来举例说明。\需要注意">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909062.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909063.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909064.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909065.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909066.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909067.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909068.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909069.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090610.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090611.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090612.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090613.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090614.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090615.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090616.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090617.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090618.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090619.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090620.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090621.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090622.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090623.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090624.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090625.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090626.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090627.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090628.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090629.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090630.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090631.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090632.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090633.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090634.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090635.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090636.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090637.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090638.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090639.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090640.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090641.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090642.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090643.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090644.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090645.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090646.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090647.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090648.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090649.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090650.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090651.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090652.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090653.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090654.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090655.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090656.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090657.png">
-<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090658.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909062.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909063.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909064.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909065.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909066.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909067.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909068.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909069.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090610.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090611.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090612.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090613.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090614.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090615.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090616.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090617.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090618.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090619.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090620.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090621.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090622.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090623.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090624.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090625.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090626.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090627.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090628.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090629.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090630.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090631.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090632.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090633.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090634.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090635.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090636.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090637.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090638.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090639.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090640.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090641.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090642.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090643.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090644.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090645.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090646.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090647.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090648.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090649.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090650.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090651.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090652.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090653.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090654.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090655.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090656.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090657.png">
+<meta property="og:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090658.png">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jenkins 重复执行job">
@@ -100,12 +100,12 @@ Jenkins使用经验谈4（创建Job）=============================
 
 
 前面做了那么多工作，现在终于到了创建Job这一步了，某种意义上，Jenkins的主要工作就是为了调度这些Job。Job的创建是有很大自由度的，也没有谁规定一定要创建成什么样子才行。下面我会以实际使用中的几个场景来举例说明。\需要注意">
-<meta name="twitter:image" content="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
+<meta name="twitter:image" content="http://www.huguiqi.com/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
     
-    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="上海别墅装修|别墅设计|别墅装潢|别墅装饰公司-上海景沼|骗子公司" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -124,12 +124,12 @@ Jenkins使用经验谈4（创建Job）=============================
 <div>
 		
 			<div id="imglogo">
-				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+				<a href="/"><img src="/img/logo.png" alt="上海别墅装修|别墅设计|别墅装潢|别墅装饰公司-上海景沼|骗子公司" title="上海别墅装修|别墅设计|别墅装潢|别墅装饰公司-上海景沼|骗子公司"/></a>
 			</div>
 			
 			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
-				<h2 class="blog-motto">技术分享与学习，聚沙成塔!</h2>
+				<h1 class="site-name"><a href="/" title="上海别墅装修|别墅设计|别墅装潢|别墅装饰公司-上海景沼|骗子公司">上海别墅装修|别墅设计|别墅装潢|别墅装饰公司-上海景沼|骗子公司</a></h1>
+				<h2 class="blog-motto">骗子公司!</h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
@@ -167,7 +167,7 @@ Jenkins使用经验谈4（创建Job）=============================
   </h1>
   <p class="article-author">By
        
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam hu" target="_blank" itemprop="author">sam hu</a>
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
     <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
@@ -201,18 +201,18 @@ Jenkins使用经验谈4（创建Job）=============================
 <p>\<br>\<br>将隐藏的 .git 目录拷贝到 /home/git/git_home 下，并改名叫 helloJava.git<br>目录。<br>    [git svr83 helloJava]$ cp -a .git/ /home/git/git_home/helloJava.git</p>
 <p>\<br>\<br>我们在另一台服务器上试着clone出helloJava 项目。<br>    [jenkins svr82 test]$ git clone ssh://git 172.16.12.83/home/git/git_home/helloJava.git正克隆到 ‘helloJava’…The authenticity of host ‘172.16.12.83 (172.16.12.83)’ can’t be established.RSA key fingerprint is 50:51:8e:ad:e0:da:1d:61:fb:d0:97:c0:2b:46:65:83.Are you sure you want to continue connecting (yes/no)? yesWarning: Permanently added ‘172.16.12.83’ (RSA) to the list of known hosts.git 172.16.12.83’s password: remote: Counting objects: 3, done.remote: Total 3 (delta 0), reused 0 (delta 0)接收对象中: 100% (3/3), done.检查连接… 完成[jenkins svr82 test]$ cat helloJava/readme.txt hello java project</p>
 <p>\<br>\<br>简陋的 git 服务器搭建好了，足够我们实验用的了。\<br>\<br><strong>奴隶节点安装git<a href="http://www.07net01.com/tags-%E7%A8%8B%E5%BA%8F-0.html" target="_blank" rel="external">程序</a></strong>\<br>\<br>之前的文章中，我们创建了两个奴隶节点，<a href="http://www.07net01.com/tags-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-0.html" target="_blank" rel="external">操作系统</a>分表为<br>Win7 和<br>CentOS。现在我们分表在上面安装git<a href="http://www.07net01.com/ruanjiantuijian/" target="_blank" rel="external">软件</a>。CentOS这个节点的安装方法上面已经介绍了，只要再照做一遍就可以。Win7<br>下需要安装 msysgit 软件 <a href="http://msysgit.github.io/。\" target="_blank" rel="external">http://msysgit.github.io/。\</a><br>到<br><a href="https://code.[Google](http://www.07net01.com/tags-Google-0.html).com/p/msysgit/downloads/list?q=full+installer+official+git" target="_blank" rel="external">https://code.[Google](http://www.07net01.com/tags-Google-0.html).com/p/msysgit/downloads/list?q=full+installer+official+git</a><br>下载一个最新的程序，比如我下载的是<br>Git-1.8.4-preview20130916.exe，安装时在下图所示步骤里，选择“Run Git from<br>the <a href="http://www.07net01.com/" target="_blank" rel="external">Windows</a><br><a href="http://www.07net01.com/tags-command-0.html" target="_blank" rel="external">command</a><br>Prompt”，将git添加到PATH路径中，其他都选默认值。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png" alt=""><br><br></div>
 
 <p>安装后检查一下</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909062.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909062.png" alt=""><br><br></div>
 
 <p><strong><a href="http://www.07net01.com/r_s/" target="_blank" rel="external">配置</a>访问git服务器的凭据</strong>\<br>\<br>还记得我们在上一集里配置了访问CentOS 奴隶节点的凭据吗？\<br>用相似的方法在git服务器上给git用户添加一个公钥（具体步骤就不重复了），然后将私钥文件（id_rsa）分别拷贝到两台奴隶节点的当前用户家目录下的<br>.ssh<br>下（要注意在<a href="http://www.07net01.com/2015/07/873186.html" target="_blank" rel="external">Linux</a>系统下这个文件的权限必须是600）</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909063.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909063.png" alt=""><br><br></div>
 
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909064.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909064.png" alt=""><br><br></div>
 
 <p><strong>搭建一个sonar服务器</strong>\<br>\<br>为方便实验，我们把sonar搭建在git服务器上（172.16.12.83）。\<br>首选到 <a href="http://www.sonarqube.org/downloads/" target="_blank" rel="external">http://www.sonarqube.org/downloads/</a> 下载最新的SonarQube。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909065.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909065.png" alt=""><br><br></div>
 
 <p>解压到 /usr/local/ 下<br>    [root svr83 ~]# mv sonar-3.7.2.zip /usr/local/[root svr83 ~]# cd /usr/local/[root svr83 local]# unzip sonar-3.7.2.zip</p>
 <p>\<br>\<br>虽然Sonar可以使用默认的H2嵌入<a href="http://www.07net01.com/tags-%E6%95%B0%E6%8D%AE%E5%BA%93-0.html" target="_blank" rel="external">数据库</a>，但Jenkins上的Sonar插件不支持，所以这里我们要安装一个<a href="http://www.07net01.com/tags-mysql-0.html" target="_blank" rel="external">mysql</a>的<a href="http://www.07net01.com/program/" target="_blank" rel="external">数据库</a>\<br>我们到下载一个 MySQL，我下的是<br>MySQL-client-5.5.29-1.<a href="http://www.07net01.com/tags-Linux-0.html" target="_blank" rel="external">Linux</a>2.6.i386.rpm<br>和<br>MySQL-server-5.5.29-1.<a href="http://www.07net01.com/linux/" target="_blank" rel="external">linux</a>2.6.x86_64.rpm。\<br>下载链接：<a href="http://dev.[mysql](http://www.07net01.com/program/).com/downloads/[mysql](http://www.07net01.com/program/)/5.5.html\#downloads\" target="_blank" rel="external">http://dev.[mysql](http://www.07net01.com/program/).com/downloads/[mysql](http://www.07net01.com/program/)/5.5.html\#downloads\</a><br>安装这两个 RPM 包。<br>    [root svr83 sonar-3.7.2]# rpm -ivh MySQL-*</p>
@@ -223,131 +223,131 @@ Jenkins使用经验谈4（创建Job）=============================
 <p>\<br>\<br>修改 sonar 目录下 conf/sonar.properties 文件，启用 MySQL 相关设置<br>    ……#—– MySQL 5.x# Comment the embedded database and uncomment the following line to use MySQLsonar.jdbc.url:                            jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true……</p>
 <p>\<br>\<br>启动sonar。<br>    [root svr83 linux-x86-64]# pwd/usr/local/sonar-3.7.2/bin/linux-x86-64[root svr83 linux-x86-64]# ./sonar.sh startStarting sonar…Started sonar.</p>
 <p>\<br>\<br>在<a href="http://www.07net01.com/2015/07/873186.html" target="_blank" rel="external">浏览器</a>中输入<br><a href="http://172.16.12.83:9000/" target="_blank" rel="external">http://172.16.12.83:9000/</a> 看到 sonar 的界面。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909066.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909066.png" alt=""><br><br></div>
 
 <p><strong>创建一个用于健康检查的Job</strong>\<br>\<br>我们打算创建这样一个Job，每十五分钟检查一次代码库，发现有提交动作就触发构建，<a href="http://www.07net01.com/linux/" target="_blank" rel="external">编译</a>代码并执行单元测试，它的目的是保证构建的完整性。在这个例子里，我们假设代码是Java语言编写，需要JDK<br>7来<a href="http://www.07net01.com/linux/" target="_blank" rel="external">编译</a>，使用ant工具来编译执行单元测试，需要在Win<br>7 系统上来做这一切。\<br>首选我们先进入Jenkins页面中的“系统管理”→“系统设置”，找到<br>“JDK”部分，选择“新增JDK”。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909067.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909067.png" alt=""><br><br></div>
 
 <p>我们选择让Jenkins系统在需要的时候自动安装“Java SE Development Kit<br>7u40”。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909068.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909068.png" alt=""><br><br></div>
 
 <p>注意最下面的错误提示，需要你输入一个<a href="http://www.07net01.com/tags-Oracle-0.html" target="_blank" rel="external">Oracle</a><br>帐号，点击链接进去，是一个需要输入帐号和密码的页面（帐号可以到<br><a href="https://login.[oracle](http://www.07net01.com/program/).com/mysso/signon.jsp" target="_blank" rel="external">https://login.[oracle](http://www.07net01.com/program/).com/mysso/signon.jsp</a><br>免费注册）。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909069.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909069.png" alt=""><br><br></div>
 
 <p>设置好JDK后，我们找到“Ant”部分，点击“新增Ant”按钮。也同样设置在构建需要时自动安装Ant。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090610.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090610.png" alt=""><br><br></div>
 
 <p>作为这一切后，点击屏幕下方的“Save”按钮保存配置。\<br>然后我们写个简单的，用Ant编译的Java小程序，javaAntSample<br>推送到之前搭建好的git服务器上（具体方法参考前面关于git服务器部分的说明）。在这个程序的<br>build.xml 里，我们主要想执行 testrun  这个<br>target，它会完成编译并执行单元测试的工作，最后在项目根路径下产JUnit单元测试的报告<br>TEST-sample.project1.AllTests.xml。\<br>现在回到Jenkins的首页，点击“新Job”。使用Ant编译的话我们要选择“构建一个自由风格的软件项目”；“任务名称”我写的是“project1_javaAntSample-auto”，这个名字里我想表达说这个Job属于“project1”项目，之后我建立视图时会用正则匹配所有以“project1_”开头的项目；后面的“javaAntSample”希望我直接查看操作目录时有比较直观的提示，我希望用最后的“auto”标明这是一个做监控检查的Job。当然你也可以采用其他的命名规则。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090611.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090611.png" alt=""><br><br></div>
 
 <p>确定以后涉及的内容比较多，我一点一点来介绍。\<br>首选“描述”这部分很好理解，当你点击进入某个Job查看详情时，会显示在页面的上方，这个部分可以在里面写HTML内容。\<br>下面的“丢弃旧的构建”很重要，我们曾经遇到过使用的太久后无用的发布包（比如WAR包）将磁盘<a href="http://www.07net01.com/tags-%E7%A9%BA%E9%97%B4-0.html" target="_blank" rel="external">空间</a>耗尽的情况。我建议这里设置“发布包最大保留#个构建”设置为1。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090612.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090612.png" alt=""><br><br></div>
 
-<p>后面的几项我一般不做设置，但“Restrict where this project can be<br>run”要设置希望构建的奴隶节点，我们这里设置为 win。\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090613.png" alt="">\<br>\<br>“高级项目选项”这里，我一般只设置 “Display<br>Name”，这里设置一个中文名称后，在Jenkins里显示Job时优先显示这个值。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090614.png" alt=""><br><br></div>
+<p>后面的几项我一般不做设置，但“Restrict where this project can be<br>run”要设置希望构建的奴隶节点，我们这里设置为 win。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090613.png" alt="">\<br>\<br>“高级项目选项”这里，我一般只设置 “Display<br>Name”，这里设置一个中文名称后，在Jenkins里显示Job时优先显示这个值。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090614.png" alt=""><br><br></div>
 
 <p>下面就到了“<a href="http://www.07net01.com/linux/" target="_blank" rel="external">源码</a>管理”这部分了，选择“Git”，填写仓库的URL和希望签出的分支名。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090615.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090615.png" alt=""><br><br></div>
 
 <p>你可能注意到了，下面有一大串错误提示“Fail to connect to<br>repository……”这个不用管它，因为Jenkins的主节点我们没有配置访问git服务器的密钥的原因。\<br>如果你在Job执行时出现下面错误</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090616.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090616.png" alt=""><br><br></div>
 
-<p>点击“高级”按钮，我们在下面的地方随便设置一下（可以设置一个<a href="http://www.07net01.com/tags-%E7%AE%A1%E7%90%86%E5%91%98-0.html" target="_blank" rel="external">管理员</a>的邮箱）。\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090617.png" alt="">\<br>\<br>下面的“构建触发器”部分，我们希望是每15分钟检查一次代码库，如果有变化，则触发构建。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090618.png" alt=""><br><br></div>
+<p>点击“高级”按钮，我们在下面的地方随便设置一下（可以设置一个<a href="http://www.07net01.com/tags-%E7%AE%A1%E7%90%86%E5%91%98-0.html" target="_blank" rel="external">管理员</a>的邮箱）。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090617.png" alt="">\<br>\<br>下面的“构建触发器”部分，我们希望是每15分钟检查一次代码库，如果有变化，则触发构建。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090618.png" alt=""><br><br></div>
 
-<p>在下面的“构建”部分，点击按钮“增加构建步骤”，选择“Invoke Ant”。\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090619.png" alt="">\<br>\<br>Ant的版本选择我们一开始在“系统设置”里指定的版本，第一次执行前它会自己下载。“Targets”输入“testrun”，这个值来自我们的build.xml文件中的定义。\<br>在下面的“构建后操作”中，点击“Add post-build<br>action”按钮，在列表中选择“Publish JUnit test result report”。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090620.png" alt=""><br><br></div>
+<p>在下面的“构建”部分，点击按钮“增加构建步骤”，选择“Invoke Ant”。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090619.png" alt="">\<br>\<br>Ant的版本选择我们一开始在“系统设置”里指定的版本，第一次执行前它会自己下载。“Targets”输入“testrun”，这个值来自我们的build.xml文件中的定义。\<br>在下面的“构建后操作”中，点击“Add post-build<br>action”按钮，在列表中选择“Publish JUnit test result report”。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090620.png" alt=""><br><br></div>
 
 <p>由于我们的报告是输出到项目根路径下，所以我们这里直接填写XML文件名。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090621.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090621.png" alt=""><br><br></div>
 
 <p>现在再次点击“Add post-build action”按钮，选择“E-mail<br>Notification”，添加失败后的邮件提醒。这里不但可以设定固定通知的人，还可以自动发邮件给疑似导致构建失败的人。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090622.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090622.png" alt=""><br><br></div>
 
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090623.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090623.png" alt=""><br><br></div>
 
-<p>如果你有时间就等待它自动触发构建，否则你可以点击<img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090624.png" alt="">直接触发构建</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090625.png" alt=""><br><br></div>
+<p>如果你有时间就等待它自动触发构建，否则你可以点击<img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090624.png" alt="">直接触发构建</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090625.png" alt=""><br><br></div>
 
 <p>这时候你执行Job的构建会发现一直停留在git签出代码阶段，造成这个的原因是家目录不正确，没有找到私钥的原因。我们可以有两个方式解决。\<br>\<br><strong>解决Win7下无法签出git代码</strong>\<br>\<br><strong>方式一：修改Win7奴隶节点的设置</strong>\<br>\<br>添加两个环境变量“HOMEPATH”和“USERPROFILE”。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090626.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090626.png" alt=""><br><br></div>
 
-<p><strong>方法二：安装插件 EnvInject Plugin</strong>\<br>\<br>我们在插件管理页面中，安装插件“EnvInject Plugin”。\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090627.png" alt="">\<br>\<br>\<br>这时再修改Job的定义（在“参数化构建过程”下面会出现新的属性“Prepare an<br>environment for the run”。设置里面的“Properties Content”</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090628.png" alt=""><br><br></div>
+<p><strong>方法二：安装插件 EnvInject Plugin</strong>\<br>\<br>我们在插件管理页面中，安装插件“EnvInject Plugin”。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090627.png" alt="">\<br>\<br>\<br>这时再修改Job的定义（在“参数化构建过程”下面会出现新的属性“Prepare an<br>environment for the run”。设置里面的“Properties Content”</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090628.png" alt=""><br><br></div>
 
 <p><strong>最后执行结果</strong></p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090629.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090629.png" alt=""><br><br></div>
 
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090630.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090630.png" alt=""><br><br></div>
 
-<p><strong>创建一个用于代码质量分析的Job</strong>\<br>\<br>假如我们希望对代码进行静态检查，可以创建这种Job。最简单的方式就是与sonar进行集成，sonar支持众多语音的静态检查，包括：.NET（\$）、<a href="http://www.07net01.com/" target="_blank" rel="external">android</a>、C/<a href="http://www.07net01.com/program/" target="_blank" rel="external">C++</a>（\$）、<a href="http://www.07net01.com/program/" target="_blank" rel="external">C++</a>（社区版）、Java、<a href="http://www.07net01.com/tags-javascript-0.html" target="_blank" rel="external">javascript</a>、<a href="http://www.07net01.com/program/" target="_blank" rel="external">PHP</a>等等，其中后面带（\$）表示收费版本，比如C/C++<br>插件一年7000欧元。<a href="http://docs.codehaus.org/display/SONAR/Plugin+Library\" target="_blank" rel="external">http://docs.codehaus.org/display/SONAR/Plugin+Library\</a><br>使用前我们先安装Sonar插件“Jenkins Sonar Plugin”\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090631.png" alt="">\<br>\<br>安装好插件后，我们进入“系统设置”页面。\<br>先找到“Sonar Runner”这里，点击“新增 Sonar Runner”按钮。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090632.png" alt=""><br><br></div>
+<p><strong>创建一个用于代码质量分析的Job</strong>\<br>\<br>假如我们希望对代码进行静态检查，可以创建这种Job。最简单的方式就是与sonar进行集成，sonar支持众多语音的静态检查，包括：.NET（\$）、<a href="http://www.07net01.com/" target="_blank" rel="external">android</a>、C/<a href="http://www.07net01.com/program/" target="_blank" rel="external">C++</a>（\$）、<a href="http://www.07net01.com/program/" target="_blank" rel="external">C++</a>（社区版）、Java、<a href="http://www.07net01.com/tags-javascript-0.html" target="_blank" rel="external">javascript</a>、<a href="http://www.07net01.com/program/" target="_blank" rel="external">PHP</a>等等，其中后面带（\$）表示收费版本，比如C/C++<br>插件一年7000欧元。<a href="http://docs.codehaus.org/display/SONAR/Plugin+Library\" target="_blank" rel="external">http://docs.codehaus.org/display/SONAR/Plugin+Library\</a><br>使用前我们先安装Sonar插件“Jenkins Sonar Plugin”\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090631.png" alt="">\<br>\<br>安装好插件后，我们进入“系统设置”页面。\<br>先找到“Sonar Runner”这里，点击“新增 Sonar Runner”按钮。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090632.png" alt=""><br><br></div>
 
 <p>向下，找到“Maven”部分，新建一个Maven（就像前面创建的Ant一样，需要时他会自动安装的）</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090633.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090633.png" alt=""><br><br></div>
 
 <p>再向下，找到“Sonar”部分，点击“Add Sonar”按钮。其中“Server<br>URL”就是我们Sonar的访问URL“<a href="http://172.16.12.83:9000/”；Sonar默认帐号和密码都是“admin”；数据库部分的设置就是我们前面配置Sonar[配置文件](http://www.07net01.com/tags-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-0.html)中写的MySQL相关设置。" target="_blank" rel="external">http://172.16.12.83:9000/”；Sonar默认帐号和密码都是“admin”；数据库部分的设置就是我们前面配置Sonar[配置文件](http://www.07net01.com/tags-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-0.html)中写的MySQL相关设置。</a></p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090634.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090634.png" alt=""><br><br></div>
 
 <p>前一个Job里，我们用Ant构建了一个Java项目，毕竟Ant已经过时了，我们在这个Job试试用Maven构建一个项目，先创建一个用Maven构建的项目<br>javaMavenSample 推送到我们实验用的git服务器上。Maven构建时除了pom.xml<br>外还有一个重要的配置是 settings.xml 文件，一般在这个文件中指定私服 nexus<br>的地址，一般情况下会要求将这个文件放在本地用户家目录下的 .m2<br><a href="http://www.07net01.com/tags-%E6%96%87%E4%BB%B6%E5%A4%B9-0.html" target="_blank" rel="external">文件夹</a>中。但对Jenkins来说这样可能造成一个构建干扰另一个构建的情况，所以我们将这个<br>settings.xml 文件放在 javaMavenSample<br>项目的<a href="http://www.07net01.com/tags-%E6%A0%B9%E7%9B%AE%E5%BD%95-0.html" target="_blank" rel="external">根目录</a>下一起提交。\<br>现在创建一个新Job，名称就叫“project2_javaMavenSample-nightly”，类型选择“构建一个maven2/3项目”</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090635.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090635.png" alt=""><br><br></div>
 
 <p>其他的设置参考前面监控检查的Job吧，这里只说说不一样的地方。\<br>触发构建的日程表我们可以设置成“H 0 * *<br>*”，表示每天晚上0点检查代码库是否有更新。因为静态检查是一个极其消耗资源的缓慢过程，所以没有必要在健康检查中触发。\<br>Maven项目的Job会有一个“Build”部分。“Goals and options”我们写“clean<br>install”，点击“高级”按钮展开高级属性，在“Settings<br>file”这里，选择“Settings file in<br>file<a href="http://www.07net01.com/tags-system-0.html" target="_blank" rel="external">system</a>”，“File<br>path”上可以写相对于Job工作区的相对路径，这里我们直接写“settings.xml”，这样代码库中随项目一起提交的settings.xml就会生效。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090636.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090636.png" alt=""><br><br></div>
 
-<p>在“构建后操作”这部分，点击“Add post-build<br>action”按钮，添加“Sonar”，基本上安装默认值就可以。\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090637.png" alt=""></p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090638.png" alt=""><br><br></div>
+<p>在“构建后操作”这部分，点击“Add post-build<br>action”按钮，添加“Sonar”，基本上安装默认值就可以。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090637.png" alt=""></p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090638.png" alt=""><br><br></div>
 
-<p>执行Job看一下。\<br>成功后到我们的Sonar服务器上可以看到结果 <a href="http://172.16.12.83:9000/\" target="_blank" rel="external">http://172.16.12.83:9000/\</a><br>\<br>\<br><strong>创建自动部署测试环境的Job</strong>\<br>\<br>创建一个自动部署到测试环境的Job有很多方法。\<br>\<br><strong>方法一：通过Deploy Plugin</strong>\<br>\<br>安装“Deploy Plugin”插件。这个插件支持<br><a href="http://www.07net01.com/program/" target="_blank" rel="external">Tomcat</a> 4.x/5.x/6.x/7.x、JBoss<br>3.x/4.x、Glassfish 2.x/3.x 的自动部署。\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090639.png" alt="">\<br>\<br>你可以在设置Job的“构建后操作”部分添加“Deploy war/ear to container”</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090640.png" alt=""><br><br></div>
+<p>执行Job看一下。\<br>成功后到我们的Sonar服务器上可以看到结果 <a href="http://172.16.12.83:9000/\" target="_blank" rel="external">http://172.16.12.83:9000/\</a><br>\<br>\<br><strong>创建自动部署测试环境的Job</strong>\<br>\<br>创建一个自动部署到测试环境的Job有很多方法。\<br>\<br><strong>方法一：通过Deploy Plugin</strong>\<br>\<br>安装“Deploy Plugin”插件。这个插件支持<br><a href="http://www.07net01.com/program/" target="_blank" rel="external">Tomcat</a> 4.x/5.x/6.x/7.x、JBoss<br>3.x/4.x、Glassfish 2.x/3.x 的自动部署。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090639.png" alt="">\<br>\<br>你可以在设置Job的“构建后操作”部分添加“Deploy war/ear to container”</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090640.png" alt=""><br><br></div>
 
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090641.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090641.png" alt=""><br><br></div>
 
 <p>要注意的是，比如你自动部署到 Tomcat 上，那么它的 webapps 目录下 manager<br>需要保留，然后在<br>conf/<a href="http://www.07net01.com/program/" target="_blank" rel="external">tomcat</a>-users.xml<br>文件中，添加如下内容<br>            <role rolename="manager-gui">        <role rolename="manager-script">        <role rolename="manager-jmx">        <role rolename="manager-status">        <role rolename="manager">        <role rolename="admin">        <user username="admin" password="admin" roles="manager-gui,manager-script,manager-jmx,manager-status, admin, manager"></user></role></role></role></role></role></role></p>
-<p>\<br>\<br><strong>方法二：通过<a href="http://www.07net01.com/program/" target="_blank" rel="external">脚本</a></strong>\<br>\<br>这种方式更自由，你可以写好一个脚本来做你希望的事情，然后通过Jenkins来远程启动这个脚本。\<br>如果时执行Windows下的批处理，就选择“Execute Windows batch<br>command”，如果是<a href="http://www.07net01.com/linux/" target="_blank" rel="external">bash</a>脚本，就选择“Execute<br><a href="http://www.07net01.com/linux/" target="_blank" rel="external">shell</a>”。\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090642.png" alt="">\<br>\<br>写脚本时，有写Jenkins的内部变量你可以使用，比如我们这个实验系统，有个页面就是介绍这些内部变量的<br><a href="http://ci.abc.com/jenkins/env-vars.html/。" target="_blank" rel="external">http://ci.abc.com/jenkins/env-vars.html/。</a></p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090643.png" alt=""><br><br></div>
+<p>\<br>\<br><strong>方法二：通过<a href="http://www.07net01.com/program/" target="_blank" rel="external">脚本</a></strong>\<br>\<br>这种方式更自由，你可以写好一个脚本来做你希望的事情，然后通过Jenkins来远程启动这个脚本。\<br>如果时执行Windows下的批处理，就选择“Execute Windows batch<br>command”，如果是<a href="http://www.07net01.com/linux/" target="_blank" rel="external">bash</a>脚本，就选择“Execute<br><a href="http://www.07net01.com/linux/" target="_blank" rel="external">shell</a>”。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090642.png" alt="">\<br>\<br>写脚本时，有写Jenkins的内部变量你可以使用，比如我们这个实验系统，有个页面就是介绍这些内部变量的<br><a href="http://ci.abc.com/jenkins/env-vars.html/。" target="_blank" rel="external">http://ci.abc.com/jenkins/env-vars.html/。</a></p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090643.png" alt=""><br><br></div>
 
 <p><strong>创建一个做集成测试的Job</strong>\<br>\<br>这一类的Job一般是依赖某个Job（比如手动部署测试环境）构建后启动构建。所以我们在配置Job属性时配置：</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090644.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090644.png" alt=""><br><br></div>
 
-<p><strong>展示报告</strong>\<br>\<br>Jenkins<br>的插件已经覆盖了大部分的报告格式（测试报告、静态检查报告等），如果你使用了一个工具的报告格式是不常见。你可以尝试把格式转化为XUnit兼容的格式展示。或者可以将报告产生的XML文件结合<br>XLS文件通过 “HTML Publisher Plugin” 插件来展示。\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090645.png" alt="">\<br>\<br>关于 XSL 展示 XML ，有兴趣可以看看<br><a href="http://www.ibm.com/developerworks/cn/xml/theme/x-xsl.html\" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/xml/theme/x-xsl.html\</a><br>\<br><strong>交互风格的Job</strong>\<br>\<br>这是个有趣的功能，比如上面我们说的用于自动部署的Job，如果常规的构建方式，我们只能构建最新的代码，如果我们希望能部署指定的某次提交到测试环境怎么办呢？我们可以设置“参数化构建过程”来实现（参数化构建的本质是在构建前让你和Job有个交互过程，交互结果以环境变量方法参与到Job的构建）。\<br>首选参考前文，在主节点上安装git工具并且配置访问git服务器的私钥（id_rsa）到<br>.ssh 目录下。\<br>编辑Job的属性，找到“参数化构建过程”添加一个“Git Parameter”。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090646.png" alt=""><br><br></div>
+<p><strong>展示报告</strong>\<br>\<br>Jenkins<br>的插件已经覆盖了大部分的报告格式（测试报告、静态检查报告等），如果你使用了一个工具的报告格式是不常见。你可以尝试把格式转化为XUnit兼容的格式展示。或者可以将报告产生的XML文件结合<br>XLS文件通过 “HTML Publisher Plugin” 插件来展示。\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090645.png" alt="">\<br>\<br>关于 XSL 展示 XML ，有兴趣可以看看<br><a href="http://www.ibm.com/developerworks/cn/xml/theme/x-xsl.html\" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/xml/theme/x-xsl.html\</a><br>\<br><strong>交互风格的Job</strong>\<br>\<br>这是个有趣的功能，比如上面我们说的用于自动部署的Job，如果常规的构建方式，我们只能构建最新的代码，如果我们希望能部署指定的某次提交到测试环境怎么办呢？我们可以设置“参数化构建过程”来实现（参数化构建的本质是在构建前让你和Job有个交互过程，交互结果以环境变量方法参与到Job的构建）。\<br>首选参考前文，在主节点上安装git工具并且配置访问git服务器的私钥（id_rsa）到<br>.ssh 目录下。\<br>编辑Job的属性，找到“参数化构建过程”添加一个“Git Parameter”。</p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090646.png" alt=""><br><br></div>
 
 <p>执行后发现并没有列出git上的所有提交。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090647.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090647.png" alt=""><br><br></div>
 
-<p>在“系统管理”→“System Log”中\<br>\<br>\<br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090648.png" alt="">\<br>\<br>查看“所有系统日志”得知，后台报错“No such file or<br>directory”。我觉得这是Jenkins的一个Bug，我们配置Job是在奴隶节点上执行，它却在主节点上查找目录。关于这个问题我们用另一个方法来解决，<strong>我们欣赏一下在主节点构建的Job使用Git参数做参数化构建的效果。有一点要注意，这里虽然列出提交Id但不代表选择后会签出指定的这次提交代码，它只是将你选择的内容保存到你指定Name命名的环境变量里。</strong></p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090649.png" alt=""><br><br></div>
+<p>在“系统管理”→“System Log”中\<br>\<br>\<br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090648.png" alt="">\<br>\<br>查看“所有系统日志”得知，后台报错“No such file or<br>directory”。我觉得这是Jenkins的一个Bug，我们配置Job是在奴隶节点上执行，它却在主节点上查找目录。关于这个问题我们用另一个方法来解决，<strong>我们欣赏一下在主节点构建的Job使用Git参数做参数化构建的效果。有一点要注意，这里虽然列出提交Id但不代表选择后会签出指定的这次提交代码，它只是将你选择的内容保存到你指定Name命名的环境变量里。</strong></p>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090649.png" alt=""><br><br></div>
 
 <p>刚才说的另一个方法需要安装两个插件“Extended Choice Parameter<br>plugin”和“Extensible Choice Parameter<br>plugin”他们可以扩展参数化构建过程。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090650.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090650.png" alt=""><br><br></div>
 
 <p>我们在 Jenkins 服务器上创建一个目录 /jenkins/tmp/，然后签出<br>javaMavenSample 项目的代码。<br>    [root svr80 ~]# mkdir /jenkins/tmp/[root svr80 ~]# cd /jenkins/tmp/[root svr80 tmp]# git clone ssh://git 172.16.12.83/home/git/git_home/javaMavenSample.git</p>
 <p>\<br>\<br>在Jenkins的服务器上创建一个 /jenkins/tools/ 目录，然后在下面写一个脚本<br>genProject2Revision.sh，内容如下：</p>
 <pre><code>#!/bin/bashcd /jenkins/tmp/javaMavenSample/usr/bin/git pullecho &quot;revision=\\&quot; &gt; /jenkins/tools/project2_revision.txt/usr/bin/git log --pretty=oneline | /bin/awk &apos;{printf &quot;%s,\\\n&quot;, $1}&apos; &gt;&gt; /jenkins/tools/project2_revision.txt
 </code></pre><p>\<br>\<br>设置crontab 让这个脚本每小时执行一次。<br>    [root svr80 tools]# crontab -l0 <em> </em> <em> </em> /jenkins/tools/genProject2Revision.sh</p>
 <p>\<br>\<br>这样我们每小时就会更新 project2_revision.txt 文件内容如下</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090651.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090651.png" alt=""><br><br></div>
 
 <p>现在设置Job，添加“Extended Choice Parameter”</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090652.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090652.png" alt=""><br><br></div>
 
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090653.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090653.png" alt=""><br><br></div>
 
 <p>再执行Job，可以选择了</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090654.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090654.png" alt=""><br><br></div>
 
 <p>这里做的选择只会将选择内容保存到 GIT_COMMIT<br>环境变量里，要希望签出选定的代码，创建一个Pre-build setup。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090655.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090655.png" alt=""><br><br></div>
 
 <p>目前这个测试项目的提交历史如下</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090656.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090656.png" alt=""><br><br></div>
 
 <p>当我选择中间的那次提交 ed8ec8bf4966cf41b859b5f60dd0fc96f5797af2<br>时，执行结果如下：</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090657.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090657.png" alt=""><br><br></div>
 
 <p>当选择最早的那次提交 2f65720bb717c4e62ae9d2e34d521689e30cd463<br>时，执行结果如下，构建失败的原因参考上面的提交历史可知，那次提交时<br>settings.xml 文件还未添加。</p>
-<div><br><br><img src="/2016/03/30/jenkins 重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090658.png" alt=""><br><br></div>
+<div><br><br><img src="jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090658.png" alt=""><br><br></div>
 
 <ul>
 <li>查看<a href="http://www.wredian.com/" target="_blank" rel="external">图片</a>附件</li>
@@ -378,7 +378,7 @@ Jenkins使用经验谈4（创建Job）=============================
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/" data-title="jenkins 重复执行job | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  <div data-url="http://www.huguiqi.com/2016/03/30/jenkins 重复执行job/" data-title="jenkins 重复执行job | 上海别墅装修|别墅设计|别墅装潢|别墅装饰公司-上海景沼|骗子公司" data-tsina="1601653200" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -392,18 +392,18 @@ Jenkins使用经验谈4（创建Job）=============================
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/linux ssh 上传与下载命令/" title="linux ssh 上传与下载命令">
+ <a href="/2016/03/30/jsessionid释疑解惑/" title="jsessionid释疑解惑">
   <strong>上一篇：</strong><br/>
   <span>
-  linux ssh 上传与下载命令</span>
+  jsessionid释疑解惑</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/keySet()和entrySet()比较/"  title="keySet()和entrySet()比较">
+<a href="/2016/03/30/linux 安装web环境/"  title="linux 安装web环境">
  <strong>下一篇：</strong><br/> 
- <span>keySet()和entrySet()比较
+ <span>linux 安装web环境
 </span>
 </a>
 </div>
@@ -492,7 +492,7 @@ Jenkins使用经验谈4（创建Job）=============================
 		  
 		
 		  
-			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>4</sup></a></li>
 		  
 		
 		  
@@ -557,11 +557,11 @@ Jenkins使用经验谈4（创建Job）=============================
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -577,6 +577,10 @@ Jenkins使用经验谈4（创建Job）=============================
 			
 		
 			
+				<li><a href="/tags/建立论坛/" title="建立论坛">建立论坛<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
@@ -585,11 +589,11 @@ Jenkins使用经验谈4（创建Job）=============================
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
@@ -601,7 +605,7 @@ Jenkins使用经验谈4（创建Job）=============================
 			
 		
 			
-				<li><a href="/tags/webStorm破解/" title="webStorm破解">webStorm破解<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -622,10 +626,6 @@ Jenkins使用经验谈4（创建Job）=============================
 		
 			
 				<li><a href="/tags/PM2/" title="PM2">PM2<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -723,7 +723,7 @@ Jenkins使用经验谈4（创建Job）=============================
 		<p class="copyright">
 		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
 		
-		<a href="/about" target="_blank" title="sam hu">sam hu</a>
+		<a href="/about" target="_blank" title="sam">sam</a>
 		
 		
 		</p>
