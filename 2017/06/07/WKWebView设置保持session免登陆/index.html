@@ -32,7 +32,7 @@ Safari相同的JS引擎
 将UIWebViewDelegate与UIWebView拆分成了14类和3个协议
 Safari相同的JS引擎
 占用更少的内存-">
-<meta property="og:updated_time" content="2017-06-13T02:12:07.000Z">
+<meta property="og:updated_time" content="2017-06-23T07:07:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WKWebView设置保持session免登陆">
 <meta name="twitter:description" content="WKWebView概述• WKWebView是苹果在WWDC 2014 上推出的新一代WebView组件，相比iOS8及以前的UIWebView拥有更明显的优势
@@ -120,7 +120,7 @@ Safari相同的JS引擎
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WKWebView概述"><span class="toc-number">1.</span> <span class="toc-text">WKWebView概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初步解决方案"><span class="toc-number">2.</span> <span class="toc-text">初步解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、获取Cookie"><span class="toc-number">2.1.</span> <span class="toc-text">1、获取Cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、注入Cookie"><span class="toc-number">2.2.</span> <span class="toc-text">2、注入Cookie</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFNetWork获取cookie"><span class="toc-number">3.</span> <span class="toc-text">AFNetWork获取cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cordova集成保持cookie免登陆"><span class="toc-number">4.</span> <span class="toc-text">Cordova集成保持cookie免登陆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wk做离线缓存"><span class="toc-number">5.</span> <span class="toc-text">wk做离线缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络辟谣"><span class="toc-number">6.</span> <span class="toc-text">网络辟谣</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webview怎么拦截"><span class="toc-number">7.</span> <span class="toc-text">webview怎么拦截</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WKWebView概述"><span class="toc-number">1.</span> <span class="toc-text">WKWebView概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初步解决方案"><span class="toc-number">2.</span> <span class="toc-text">初步解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、获取Cookie"><span class="toc-number">2.1.</span> <span class="toc-text">1、获取Cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、注入Cookie"><span class="toc-number">2.2.</span> <span class="toc-text">2、注入Cookie</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFNetWork获取cookie"><span class="toc-number">3.</span> <span class="toc-text">AFNetWork获取cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cordova集成保持cookie免登陆"><span class="toc-number">4.</span> <span class="toc-text">Cordova集成保持cookie免登陆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wk做离线缓存"><span class="toc-number">5.</span> <span class="toc-text">wk做离线缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络辟谣"><span class="toc-number">6.</span> <span class="toc-text">网络辟谣</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webview怎么拦截"><span class="toc-number">7.</span> <span class="toc-text">webview怎么拦截</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ajax请求post的body丢失问题"><span class="toc-number">8.</span> <span class="toc-text">ajax请求post的body丢失问题</span></a></li></ol>
 		
 		</div>
 		
@@ -331,23 +331,46 @@ return cookieValue;
 }
 </code></pre><p>js注入这三种方式，亲测，只有第一种方式是成功的，而且<a href="">requestObj setHTTPShouldHandleCookies:NO</a>;这句话非常重要，意思是设置request的cookie是否跟随request请求发送和存储给默认的cookie管理。因为是在请求之前要将sessionId注入给浏览器然后发送给服务器，那么就要设置为NO，设置为NO的话，那浏览器默认打开时生成的cookie(sessionid)将不会跟随web一起发送给服务器，而通过NSMutableURLRequest带注入的cookie发送给服务器，同时将cookie设置到cookie管理器。</p>
 <h2 id="AFNetWork获取cookie"><a href="#AFNetWork获取cookie" class="headerlink" title="AFNetWork获取cookie"></a>AFNetWork获取cookie</h2><p>由于项目中用到了AFNetWork调取服务器接口，而且首次调用就会生成session，所以我想让AFNetWork生成的cookie与wkwebview共享，则只要从AFNetWork获取sessionid，然后再通过wkwebview调用服务器页面时，将session注入进去然后带给服务器就可以了。</p>
-<p>通过如下代码获取cookie:<br>1，从cookie管理器中获取cookie（AFNetwork已经将cookie存入了标准的cookie管理器中，而wkwebview是不会存在标准的Http cookie管理中）<br>    -(void)saveSession:(NSURL <em>)url{<br>    NSArray </em>cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: url];<br>    NSLog(@”request cookies:%@”,cookies);<br>    for (NSHTTPCookie *cookie in cookies) {<br>    if ([K_SESSIONID isEqualToString:cookie.name] ) {<br>    [[NSUserDefaults standardUserDefaults] setValue:cookie.value forKey:K_SESSIONID];<br>    [[NSUserDefaults standardUserDefaults] synchronize];<br>    break;<br>    }<br>    }<br>    }</p>
-<p>2, 注入进去</p>
+<p>通过如下代码获取cookie:<br>1，从cookie管理器中获取cookie（AFNetwork已经将cookie存入了标准的cookie管理器中，而wkwebview是不会存在标准的Http cookie管理中）</p>
+<pre><code>-(void)saveSession:(NSURL *)url{
+NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: url];
+NSLog(@&quot;request cookies:%@&quot;,cookies);
+for (NSHTTPCookie *cookie in cookies) {
+if ([K_SESSIONID isEqualToString:cookie.name] ) {
+[[NSUserDefaults standardUserDefaults] setValue:cookie.value forKey:K_SESSIONID];
+[[NSUserDefaults standardUserDefaults] synchronize];
+break;
+}
+}
+}
+</code></pre><p>2, 注入进去</p>
 <p>通过上面第一种方式就行了。</p>
 <h2 id="Cordova集成保持cookie免登陆"><a href="#Cordova集成保持cookie免登陆" class="headerlink" title="Cordova集成保持cookie免登陆"></a>Cordova集成保持cookie免登陆</h2><ul>
 <li><p>WFWKWebViewEngine.h:</p>
-<p>  import “CDVWKWebViewEngine.h”<br>  import “CDVWebViewEngineProtocol.h”</p>
-<p>  @interface WFWKWebViewEngine : CDVWKWebViewEngine</p>
-</li>
+<pre><code>import &quot;CDVWKWebViewEngine.h&quot;
+import &quot;CDVWebViewEngineProtocol.h&quot;
+
+@interface WFWKWebViewEngine : CDVWKWebViewEngine
+</code></pre></li>
 </ul>
 <pre><code>@end
 </code></pre><ul>
 <li><p>WFWKWebViewEngine.m:</p>
-<p>  //<br>  //  WFWKWebViewEngine.m<br>  //  wkwvtest<br>  //<br>  //  Created by sam.hu on 2017/6/3.<br>  //<br>  //</p>
-<p>  import “WFWKWebViewEngine.h”</p>
-<p>  import “CDVWKProcessPoolFactory.h”<br>  import “WFSessionManager.h”</p>
-<p>  @implementation WFWKWebViewEngine</p>
-</li>
+<pre><code>//
+//  WFWKWebViewEngine.m
+//  wkwvtest
+//
+//  Created by sam.hu on 2017/6/3.
+//
+//
+
+import &quot;WFWKWebViewEngine.h&quot;
+
+import &quot;CDVWKProcessPoolFactory.h&quot;
+import &quot;WFSessionManager.h&quot;
+
+@implementation WFWKWebViewEngine
+</code></pre></li>
 </ul>
 <pre><code>-(void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation{
 
@@ -357,9 +380,9 @@ return cookieValue;
 
 }
 
--(id)loadRequest:(NSURLRequest \*)request{
+-(id)loadRequest:(NSURLRequest *)request{
 
-NSMutableURLRequest \*req = [request mutableCopy];
+NSMutableURLRequest *req = [request mutableCopy];
 [req setHTTPShouldHandleCookies:NO];
 return [super loadRequest:req];
 }
@@ -369,12 +392,12 @@ return [super loadRequest:req];
 
 [super pluginInitialize];
 
-NSString \*cookieValue= [[WFSessionManager instanceManager] readCurrentCookie];
+NSString *cookieValue= [[WFSessionManager instanceManager] readCurrentCookie];
 if (cookieValue) {
 //添加在js中操作的对象名称，通过该对象来向web view发送消息
 WKWebView *webView = (WKWebView *)self.engineWebView;
-WKUserScript \* cookieScript = [[WKUserScript alloc]initWithSource:cookieValue   injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
-[webView.configuration.userContentController addUserScript:cookieScript];
+WKUserScript * cookieScript = [[WKUserScript alloc]initWithSource:cookieValue   injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
+\[webView.configuration.userContentController addUserScript:cookieScript];
 webView.configuration.processPool = [[CDVWKProcessPoolFactory sharedFactory] sharedProcessPool];
 }
 }
@@ -392,10 +415,10 @@ decisionHandler(WKNavigationResponsePolicyAllow);
 
 (void)webView:(WKWebView *)webView didFinishNavigation:(null\_unspecified WKNavigation *)navigation{
 
-    [super webView:webView didFinishNavigation:navigation];
+[super webView:webView didFinishNavigation:navigation];
 
 
-    [self.commandDelegate evalJs:@&quot;getAppType(&apos;isApp&apos;,&apos;ios&apos;)&quot;];
+[self.commandDelegate evalJs:@&quot;getAppType(&apos;isApp&apos;,&apos;ios&apos;)&quot;];
 
 
 }
@@ -482,6 +505,35 @@ break;
 <li>使用了WKBrowsingContextController和registerSchemeForCustomProtocol。 通过反射的方式拿到了私有的 class/selector。通过kvc取到browsingContextController。通过把注册把 http 和 https 请求交给 NSURLProtocol 处理。</li>
 </ol>
 <p>具体参考我的github:<a href="https://github.com/huguiqi/NSURLProtocol-WebKitSupport" title="demo" target="_blank" rel="external">demo</a></p>
+<h2 id="ajax请求post的body丢失问题"><a href="#ajax请求post的body丢失问题" class="headerlink" title="ajax请求post的body丢失问题"></a>ajax请求post的body丢失问题</h2><ol>
+<li>如果post的大部分body内部不是特别多，可以用request的head的方式解决</li>
+<li>但对于大的body数据，单纯用head的方式是无法解决的</li>
+</ol>
+<p>对于第一种情况我现在不讨论，只说第二种情况，让wkwebview完美的支持post所有请求:</p>
+<ul>
+<li>将body在ajax之前通过与原生通信，将body传给app</li>
+<li>app拿到body后先存到内存</li>
+<li>ajax请求后，在截取的request中，将body拿出设置进去</li>
+</ul>
+<p>html5端执行如下代码发送body的json数据给app:<br>    window.webkit.messageHandlers.ajaxToWKWeb.postMessage({body: ‘hello world!’,reqkey:’请求随机数’});</p>
+<p>其中ajaxToWKWeb是ios端wkwebview注册的方法。</p>
+<p>注册代码如下：</p>
+<pre><code>config.userContentController = [[WKUserContentController alloc] init];
+
+// 注入JS对象名称ajaxToWKWeb，当JS通过ajaxToWKWeb来调用时，我们可以在WKScriptMessageHandler代理中接收到
+[config.userContentController addScriptMessageHandler:self name:@&quot;ajaxToWKWeb&quot;];
+
+pragma mark - WKScriptMessageHandler
+(void)userContentController:(WKUserContentController *)userContentController
+      didReceiveScriptMessage:(WKScriptMessage *)message {
+  if ([message.name isEqualToString:@&quot;ajaxToWKWeb&quot;]) {
+// 打印所传过来的参数，只支持NSNumber, NSString, NSDate, NSArray,
+// NSDictionary, and NSNull类型
+//do something
+NSLog(@&quot;%@&quot;, message.body);
+  }
+}
+</code></pre><p>这种方式传输的数据内容大小限制为2M左右，如果有超过的将会被截掉，如果非要一次性传输这么大的数据量，可以分段传输。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -517,6 +569,14 @@ break;
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2017/06/26/HashMap实现原理深究/" title="HashMap实现原理深究">
+  <strong>上一篇：</strong><br/>
+  <span>
+  HashMap实现原理深究</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2017/06/07/AFNetWork3.1对https无证书访问支持/"  title="AFNetWork3.1对https无证书访问支持">
@@ -546,7 +606,7 @@ break;
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WKWebView概述"><span class="toc-number">1.</span> <span class="toc-text">WKWebView概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初步解决方案"><span class="toc-number">2.</span> <span class="toc-text">初步解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、获取Cookie"><span class="toc-number">2.1.</span> <span class="toc-text">1、获取Cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、注入Cookie"><span class="toc-number">2.2.</span> <span class="toc-text">2、注入Cookie</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFNetWork获取cookie"><span class="toc-number">3.</span> <span class="toc-text">AFNetWork获取cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cordova集成保持cookie免登陆"><span class="toc-number">4.</span> <span class="toc-text">Cordova集成保持cookie免登陆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wk做离线缓存"><span class="toc-number">5.</span> <span class="toc-text">wk做离线缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络辟谣"><span class="toc-number">6.</span> <span class="toc-text">网络辟谣</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webview怎么拦截"><span class="toc-number">7.</span> <span class="toc-text">webview怎么拦截</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WKWebView概述"><span class="toc-number">1.</span> <span class="toc-text">WKWebView概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初步解决方案"><span class="toc-number">2.</span> <span class="toc-text">初步解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、获取Cookie"><span class="toc-number">2.1.</span> <span class="toc-text">1、获取Cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、注入Cookie"><span class="toc-number">2.2.</span> <span class="toc-text">2、注入Cookie</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFNetWork获取cookie"><span class="toc-number">3.</span> <span class="toc-text">AFNetWork获取cookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cordova集成保持cookie免登陆"><span class="toc-number">4.</span> <span class="toc-text">Cordova集成保持cookie免登陆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wk做离线缓存"><span class="toc-number">5.</span> <span class="toc-text">wk做离线缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络辟谣"><span class="toc-number">6.</span> <span class="toc-text">网络辟谣</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webview怎么拦截"><span class="toc-number">7.</span> <span class="toc-text">webview怎么拦截</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ajax请求post的body丢失问题"><span class="toc-number">8.</span> <span class="toc-text">ajax请求post的body丢失问题</span></a></li></ol>
  
   </div>
 
@@ -602,7 +662,7 @@ break;
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>3</sup></a></li>
 		  
 		
 		  
@@ -683,6 +743,10 @@ break;
 			
 		
 			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
@@ -707,7 +771,7 @@ break;
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/插件/" title="插件">插件<sup>1</sup></a></li>
 			
 		
 			
@@ -715,7 +779,7 @@ break;
 			
 		
 			
-				<li><a href="/tags/建立论坛/" title="建立论坛">建立论坛<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -748,10 +812,6 @@ break;
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
 			
 		
 		</ul>

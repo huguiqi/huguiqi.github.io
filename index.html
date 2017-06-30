@@ -87,6 +87,595 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/06/30/TreeMap实现原理深究/" title="TreeMap实现原理深究" itemprop="url">TreeMap实现原理深究</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-06-30T13:22:00.000Z" itemprop="datePublished"> 发表于 2017-06-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>Java TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering），也可以通过构造时传入的比较器（Comparator）。<br>TreeMap底层通过红黑树（Red-Black tree）实现，也就意味着containsKey(), get(), put(), remove()都有着log(n)的时间复杂度。</p>
+</blockquote>
+<p>这句话是我在网上摘抄的，对于这句话，有很多的不理解，所以通过查阅TreeMap的源码来解惑。(其实就是原文作者装逼，很多知识点就是不明说)</p>
+<h2 id="惑一：natural-ordering"><a href="#惑一：natural-ordering" class="headerlink" title="惑一：natural ordering"></a>惑一：natural ordering</h2><blockquote>
+<p>TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering）</p>
+</blockquote>
+<p>先来看看这段代码：<br>    TreeMap map = new TreeMap();<br>    map.put(“A”,”1”);<br>    map.put(“C”,”2”);<br>    map.put(“B”,”3”);<br>    map.put(“E”,”4”);<br>    map.put(“D”,”5”);<br>    System.out.println(map);</p>
+<p>output:<br>    {A=1, B=3, C=2, D=5, E=4}</p>
+<p>可以发现，默认按照升序自动排序了。</p>
+<p>通过查阅TreeMap源码，发现treeMap的put方法如下：</p>
+<pre><code>public V put(K key, V value) {
+Entry&lt;K,V&gt; t = root;
+if (t == null) {
+compare(key, key); // type (and possibly null) check
+
+root = new Entry&lt;&gt;(key, value, null);
+size = 1;
+modCount++;
+return null;
+}
+int cmp;
+Entry&lt;K,V&gt; parent;
+// split comparator and comparable paths
+Comparator&lt;? super K&gt; cpr = comparator;
+if (cpr != null) {
+do {
+parent = t;
+cmp = cpr.compare(key, t.key);
+if (cmp &lt; 0)
+t = t.left;
+else if (cmp &gt; 0)
+t = t.right;
+else
+return t.setValue(value);
+} while (t != null);
+}
+else {
+if (key == null)
+throw new NullPointerException();
+@SuppressWarnings(&quot;unchecked&quot;)
+Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+do {
+parent = t;
+cmp = k.compareTo(t.key);
+if (cmp &lt; 0)
+t = t.left;
+else if (cmp &gt; 0)
+t = t.right;
+else
+return t.setValue(value);
+} while (t != null);
+}
+Entry&lt;K,V&gt; e = new Entry&lt;&gt;(key, value, parent);
+if (cmp &lt; 0)
+parent.left = e;
+else
+parent.right = e;
+fixAfterInsertion(e);
+size++;
+modCount++;
+return null;
+}
+
+
+/**
+Compares two keys using the correct comparison method for this TreeMap.
+ */
+@SuppressWarnings(&quot;unchecked&quot;)
+final int compare(Object k1, Object k2) {
+return comparator==null ? ((Comparable&lt;? super K&gt;)k1).compareTo((K)k2)
+: comparator.compare((K)k1, (K)k2);
+}
+</code></pre><p>找出关键代码：</p>
+<pre><code>Comparator&lt;? super K&gt; cpr = comparator;
+if (cpr != null) {
+do {
+parent = t;
+cmp = cpr.compare(key, t.key);
+if (cmp &lt; 0)
+t = t.left;
+else if (cmp &gt; 0)
+t = t.right;
+else
+return t.setValue(value);
+} while (t != null);
+}
+else {
+if (key == null)
+throw new NullPointerException();
+@SuppressWarnings(&quot;unchecked&quot;)
+Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+do {
+parent = t;
+cmp = k.compareTo(t.key);
+if (cmp &lt; 0)
+t = t.left;
+else if (cmp &gt; 0)
+t = t.right;
+else
+return t.setValue(value);
+} while (t != null);
+}
+</code></pre><p>因为直接使用TreeMap时，没有设置comparator，所以TreeMap的comparator属性一直是null,那代码就会一直走<code>else</code>:</p>
+<pre><code>if (key == null)
+throw new NullPointerException();
+@SuppressWarnings(&quot;unchecked&quot;)
+Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+do {
+parent = t;
+cmp = k.compareTo(t.key);
+if (cmp &lt; 0)
+t = t.left;
+else if (cmp &gt; 0)
+t = t.right;
+else
+return t.setValue(value);
+} while (t != null);
+</code></pre><p>然后再看do代码块中的关键代码：</p>
+<pre><code>cmp = k.compareTo(t.key);
+</code></pre><p>k是作为参数传进来的对象，因为我传进来的k是String类型，所以只要String实现了Comparable接口的<code>compareTo</code>方法，那就会默认走string的排序算法，查看compareTo方法：</p>
+<pre><code>public int compareTo(String anotherString) {
+int len1 = value.length;
+int len2 = anotherString.value.length;
+int lim = Math.min(len1, len2);
+char v1[] = value;
+char v2[] = anotherString.value;
+
+int k = 0;
+while (k &lt; lim) {
+char c1 = v1[k];
+char c2 = v2[k];
+if (c1 != c2) {
+return c1 - c2;
+}
+k++;
+}
+return len1 - len2;
+}
+</code></pre><p>关键代码：</p>
+<pre><code>int k = 0;
+while (k &lt; lim) {
+char c1 = v1[k];
+char c2 = v2[k];
+if (c1 != c2) {
+return c1 - c2;
+}
+k++;
+}
+</code></pre><p>再关键代码：<br>            char c1 = v1[k];<br>    char c2 = v2[k];</p>
+<p>看到这里，基本上就明白了，c1,c2取出来的是字符串对应的ASCII码值:65,66.<br>string 的value就是存ASCII码字符数组：</p>
+<pre><code>/** The value is used for character storage. */
+private final char value[];
+</code></pre><p>所以真相大白了，跟SortMap一毛钱关系都没有。。。。。</p>
+<p>那SortMap是怎么回事？</p>
+<p>我在TreeMap源码里找到这个构造方法：</p>
+<pre><code>public TreeMap(SortedMap&lt;K, ? extends V&gt; m) {
+comparator = m.comparator();
+try {
+buildFromSorted(m.size(), m.entrySet().iterator(), null, null);
+} catch (java.io.IOException cannotHappen) {
+} catch (ClassNotFoundException cannotHappen) {
+}
+}
+</code></pre><p>也就是说，想要用SortedMap来排序，必须要传进来一个SortedMap实现才行，奶奶的胸，网文害人不浅。</p>
+<h2 id="解惑二：也可以通过构造时传入的比较器（Comparator）"><a href="#解惑二：也可以通过构造时传入的比较器（Comparator）" class="headerlink" title="解惑二：也可以通过构造时传入的比较器（Comparator）"></a>解惑二：也可以通过构造时传入的比较器（Comparator）</h2><p>这个比较好理解，刚刚看put源码时，就看到有comparator属性判断，因为我没有传这个比较器，所以一直走else;</p>
+<pre><code> public TreeMap(Comparator&lt;? super K&gt; comparator) {
+this.comparator = comparator;
+}
+</code></pre><h2 id="解惑三：TreeMap底层通过红黑树（Red-Black-tree）实现"><a href="#解惑三：TreeMap底层通过红黑树（Red-Black-tree）实现" class="headerlink" title="解惑三：TreeMap底层通过红黑树（Red-Black tree）实现"></a>解惑三：TreeMap底层通过红黑树（Red-Black tree）实现</h2><p>先不说这句说的对错，先来说说什么是Red-Black tree?</p>
+<h3 id="什么是Red-Black-tree"><a href="#什么是Red-Black-tree" class="headerlink" title="什么是Red-Black tree"></a>什么是Red-Black tree</h3><p>看TreeMap的类注释，第一句话就是：</p>
+<blockquote>
+<p>A Red-Black tree based {@link NavigableMap} implementation.</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/面试题/">面试题</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/06/30/TreeMap实现原理深究/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/06/30/TreeMap实现原理深究/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/06/26/HashMap实现原理深究/" title="HashMap实现原理深究" itemprop="url">HashMap实现原理深究</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-06-26T09:23:00.000Z" itemprop="datePublished"> 发表于 2017-06-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近被问到HashMap的原理比较多；</p>
+<ol>
+<li>HashMap继承自AbstractMap抽象类，而AbstractMap实现了Map接口</li>
+<li>HashMap允许设置空(null)值</li>
+<li>HashMap的方法不是同步的，是异步的，因此不是线程安全的。</li>
+<li>HashMap中数据是无序的。有序的参见TreeMap和LinkedHashMap。</li>
+</ol>
+<h2 id="实现原理："><a href="#实现原理：" class="headerlink" title="实现原理："></a>实现原理：</h2><p>HashMap如何使用：</p>
+<pre><code>HashMap map = new HashMap();
+map.put(“key”,”value”);
+</code></pre><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>new HashMap 是调用构造方法初始化对象，它有几个构造方法：<br>\1.<br>//initialCapacity是初始化空间大小，loadFactor是装载空间数，影响读取与写入的使用线程数量<br>    public HashMap(int initialCapacity, float loadFactor)<br>    {<br>    ……..<br>    }</p>
+<ol>
+<li><p>初始化空间大小</p>
+<p> public HashMap(int initialCapacity) {<br> this(initialCapacity, DEFAULT_LOAD_FACTOR);<br> }</p>
+</li>
+<li><p>默认构造方法<br> public HashMap() {<br> this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted<br> }</p>
+</li>
+</ol>
+<h3 id="put-get方法"><a href="#put-get方法" class="headerlink" title="put/get方法"></a>put/get方法</h3><pre><code>public V put(K key, V value) {
+return putVal(hash(key), key, value, false, true);
+}
+
+public V get(Object key) {
+Node&lt;K,V&gt; e;
+return (e = getNode(hash(key), key)) == null ? null : e.value;
+}
+</code></pre><p>好像挻简单的，但是它里面做了多少事情呢？再继续看；</p>
+<pre><code>/**
+Implements Map.put and related methods
+ *
+@param hash hash for key
+@param key the key
+@param value the value to put
+@param onlyIfAbsent if true, don&apos;t change existing value
+@param evict if false, the table is in creation mode.
+@return previous value, or null if none
+ */
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+   boolean evict) {
+Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+if ((tab = table) == null || (n = tab.length) == 0)
+n = (tab = resize()).length;
+if ((p = tab[i = (n - 1) &amp; hash]) == null)
+tab[i] = newNode(hash, key, value, null);
+else {
+Node&lt;K,V&gt; e; K k;
+if (p.hash == hash &amp;&amp;
+((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))
+e = p;
+else if (p instanceof TreeNode)
+e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+else {
+for (int binCount = 0; ; ++binCount) {
+if ((e = p.next) == null) {
+p.next = newNode(hash, key, value, null);
+if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+treeifyBin(tab, hash);
+break;
+}
+if (e.hash == hash &amp;&amp;
+((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+break;
+p = e;
+}
+}
+if (e != null) { // existing mapping for key
+V oldValue = e.value;
+if (!onlyIfAbsent || oldValue == null)
+e.value = value;
+afterNodeAccess(e);
+return oldValue;
+}
+}
+++modCount;
+if (++size &gt; threshold)
+resize();
+afterNodeInsertion(evict);
+return null;
+}
+</code></pre><p>put的方法做了这么多事，首先putVal方法有五个参数：</p>
+<ul>
+<li><p>hash: key所对应的hash数值(重新作了运算的)</p>
+<p>  看源码发现，返回的是一个数值：<br>  static final int hash(Object key) {<br>  int h;<br>  return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);<br>  }<br>key.hashCode()是Object的原始方法，返回的是对象的hashCode值，是数字。返回的是java的System类的静态native值(什么是native修饰符，等下解释)：<br>  /<em>*<br>  Returns the same hash code for the given object as<br>  would be returned by the default method hashCode(),<br>  whether or not the given object’s class overrides<br>  hashCode().<br>  The hash code for the null reference is zero.
+   </em><br>  @param x object for which the hashCode is to be calculated<br>  @return  the hashCode<br>  @since   JDK1.1<br>   */<br>  public static native int identityHashCode(Object x);</p>
+</li>
+</ul>
+<p>而返回的hashCode并非真正的原始object的hashCode值，而是作了逻辑异或运算，h>>>16代表将hashCode值向右移位16位后的值，是让hashCode与它作逻辑异或运算得到的值，相当于加了一层密。</p>
+<ul>
+<li>key: 键名</li>
+<li>value:存储元素</li>
+<li><p>onlyIfAbsent: if true, don’t change existing value,默认是false</p>
+</li>
+<li><p>evict:if false, the table is in creation mode.  in creation mode 是什么模式？<br>  evict根据后面的代码看，这个参数在HashMap里是不起作用的，因为在putVal里调用了<code>afterNodeInsertion(evict);</code>，但是我点进去，发现并没有实现：</p>
+<pre><code>void afterNodeInsertion(boolean evict) { }
+</code></pre></li>
+</ul>
+<p>但是我看到linkedHashMap有实现：</p>
+<pre><code>void afterNodeInsertion(boolean evict) { // possibly remove eldest
+LinkedHashMap.Entry&lt;K,V&gt; first;
+if (evict &amp;&amp; (first = head) != null &amp;&amp; removeEldestEntry(first)) {
+K key = first.key;
+removeNode(hash(key), key, null, false, true);
+}
+}
+</code></pre><p>猜测是将值置于链表组之后。</p>
+<p>接下来我们再来分析putVal方法实现，可以发现，HashMap是用一个Node对象的数组结构来存元素数据的：<br><code>Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;</code></p>
+<p>再看Node元素的组成：<br>    static class Node<k,v> implements Map.Entry<k,v> {<br>    final int hash;<br>    final K key;<br>    V value;<br>    Node<k,v> next;<br>    ……..<br>    }</k,v></k,v></k,v></p>
+<p>有四个元素，hash值，key值，value，还有个承接下个节点的node对象：next,这个是一个典型的链表结构。</p>
+<p>关键代码：<br>    if (p.hash == hash &amp;&amp;<br>    ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))<br>    e = p;</p>
+<p>这段对存储的规则说的很明确了，除了非空规则，还调用了equals方法判断，如果key值的类型是String，那equals就好说，如果是其它类型呢？</p>
+<p>关键代码：</p>
+<pre><code>n = (tab = resize()).length;
+if ((p = tab[i = (n - 1) &amp; hash]) == null)
+tab[i] = newNode(hash, key, value, null);
+</code></pre><p>使用快速定位的方法，如果得到的下标值没有对象，则作为新添加的对象处理，而下标值的算法是：(n-1)&amp;hash，作了逻辑与且的运算。</p>
+<p>关键代码：</p>
+<pre><code>if (++size &gt; threshold)
+resize();
+</code></pre><p>意思是HashMap的数组大小超过了某个限定值，就执行resize方法。<br>这里的threshold是什么？resize方法又是什么？</p>
+<p>源码：<br>/<em>*  </em> The next size value at which to resize (capacity * load factor).</p>
+<ul>
+<li><ul>
+<li>@serial<br>*/<br>// (The javadoc description is true upon serialization.<br>// Additionally, if the table array has not been allocated, this<br>// field holds the initial array capacity, or zero signifying<br>// DEFAULT_INITIAL_CAPACITY.)<br>int threshold;</li>
+</ul>
+</li>
+</ul>
+<p>先猜猜意思，好像是说，如果数组表没有被分配内存空间，这个字段会保存初始化数组容量，或者显示0，默认值是：DEFAULT_INITIAL_CAPACITY</p>
+<pre><code>static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
+</code></pre><p>用google翻译出来：</p>
+<blockquote>
+<p>序列化时javadoc的描述是正确的。<br> 另外，如果表数组尚未分配，则该字段保持初始数组容量或零表示</p>
+</blockquote>
+<p>感觉一头雾水，这个玩意到底是干什么的？</p>
+<p>再看看后面的resize方法，看用这个字段来做什么判断没有。</p>
+<pre><code>final Node&lt;K,V&gt;[] resize() {
+Node&lt;K,V&gt;[] oldTab = table;
+int oldCap = (oldTab == null) ? 0 : oldTab.length;
+int oldThr = threshold;
+int newCap, newThr = 0;
+if (oldCap &gt; 0) {
+if (oldCap &gt;= MAXIMUM_CAPACITY) {
+threshold = Integer.MAX_VALUE;
+return oldTab;
+}
+else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+ oldCap &gt;= DEFAULT_INITIAL_CAPACITY)
+newThr = oldThr &lt;&lt; 1; // double threshold
+}
+else if (oldThr &gt; 0) // initial capacity was placed in threshold
+newCap = oldThr;
+else {               // zero initial threshold signifies using defaults
+newCap = DEFAULT_INITIAL_CAPACITY;
+newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+}
+if (newThr == 0) {
+float ft = (float)newCap * loadFactor;
+newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+  (int)ft : Integer.MAX_VALUE);
+}
+threshold = newThr;
+@SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+table = newTab;
+if (oldTab != null) {
+for (int j = 0; j &lt; oldCap; ++j) {
+Node&lt;K,V&gt; e;
+if ((e = oldTab[j]) != null) {
+oldTab[j] = null;
+if (e.next == null)
+newTab[e.hash &amp; (newCap - 1)] = e;
+else if (e instanceof TreeNode)
+((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
+else { // preserve order
+Node&lt;K,V&gt; loHead = null, loTail = null;
+Node&lt;K,V&gt; hiHead = null, hiTail = null;
+Node&lt;K,V&gt; next;
+do {
+next = e.next;
+if ((e.hash &amp; oldCap) == 0) {
+if (loTail == null)
+loHead = e;
+else
+loTail.next = e;
+loTail = e;
+}
+else {
+if (hiTail == null)
+hiHead = e;
+else
+hiTail.next = e;
+hiTail = e;
+}
+} while ((e = next) != null);
+if (loTail != null) {
+loTail.next = null;
+newTab[j] = loHead;
+}
+if (hiTail != null) {
+hiTail.next = null;
+newTab[j + oldCap] = hiHead;
+}
+}
+}
+}
+}
+return newTab;
+}
+</code></pre><p>这个方法体好长啊。。。。。<br>从源码上看，个人觉得主要是用来判断map的链表数组有没有超出初始化时数组空间的大小，如果超出了则给数组扩容。<br>// 如果超过了最大内存空间设置，则给threshold赋予Integer的最大值上限，并返回，这里的判断其实是说，数组大小其实已经超出了，就只要给threshold赋值就好了，直接返回老的数组就行了<br>    if (oldCap &gt;= MAXIMUM_CAPACITY) {<br>    threshold = Integer.MAX_VALUE;<br>    return oldTab;<br>    }</p>
+<p>关键代码：</p>
+<pre><code>else if (oldThr &gt; 0) // initial capacity was placed in threshold
+newCap = oldThr;
+else {               // zero initial threshold signifies using defaults
+newCap = DEFAULT_INITIAL_CAPACITY;
+newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+}
+</code></pre><p>这是给threshold分配大小的默认算法，有值就用原来的值，没值就赋值：<br><code>newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);</code></p>
+<p>然后接下来的代码就是将原来的数组重新取出再重新组装排列一个新数组并返回，这样的话，原来的顺序就乱了，这就是HashMap无序的原因了。</p>
+<h2 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h2><p>那看了put的关键代码后，再来看get的代码就简单得多了：</p>
+<pre><code>public V get(Object key) {
+Node&lt;K,V&gt; e;
+return (e = getNode(hash(key), key)) == null ? null : e.value;
+}
+
+
+final Node&lt;K,V&gt; getNode(int hash, Object key) {
+Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; int n; K k;
+if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp;
+(first = tab[(n - 1) &amp; hash]) != null) {
+if (first.hash == hash &amp;&amp; // always check first node
+((k = first.key) == key || (key != null &amp;&amp; key.equals(k))))
+return first;
+if ((e = first.next) != null) {
+if (first instanceof TreeNode)
+return ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);
+do {
+if (e.hash == hash &amp;&amp;
+((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+return e;
+} while ((e = e.next) != null);
+}
+}
+return null;
+}
+</code></pre><h4 id="什么是native修饰符"><a href="#什么是native修饰符" class="headerlink" title="什么是native修饰符"></a>什么是native修饰符</h4><blockquote>
+<p>A native method is a Java method whose implementation is provided by non-java code.</p>
+</blockquote>
+<p>这是介绍，看字面意思，是提供给java调用非java代码实现用的，就是说加了native这个关键字，java就能调用非java实现的代码了。</p>
+<p>而java解析器是用C语言实现的，JVM调用的object的hashCode方法我们方法在源码里没有实现体，但是执行一下又有值返回，那这就说明这个方法的实现是解释器用C实现的，而解释器只提供了访问API。</p>
+<h2 id="与其它类似容器的区别"><a href="#与其它类似容器的区别" class="headerlink" title="与其它类似容器的区别"></a>与其它类似容器的区别</h2><h3 id="HashMap、HashSet的特性与区别"><a href="#HashMap、HashSet的特性与区别" class="headerlink" title="HashMap、HashSet的特性与区别"></a>HashMap、HashSet的特性与区别</h3><ol>
+<li>HashSet实现Set接口，而HashMap实现Map接口，Set是Collection接口的子类,Map接口上层是Object类，HashMap没有实现Collection接口，是独立于collection集合之外的。它们同属于com.util包中。<ol>
+<li>HashSet的内部是通过引用HashMap作为成员变量实现的.<br> 默认构造方法：<pre><code>public HashSet() {
+map = new HashMap&lt;&gt;();
+}
+</code></pre></li>
+<li>HashMap没有collection 接口的contains方法，取而代之的是containsKey和containsValue</li>
+<li>HashSet的contains方法调用的是HashMap的containsKey实现的。</li>
+<li>HashSet使用add方法添加对象,HashMap使用put方法。</li>
+<li>HashSet只存对象，HashMap存键值对。</li>
+</ol>
+</li>
+</ol>
+<p>HashSet的add方法：</p>
+<pre><code>public boolean add(E e) {
+return map.put(e, PRESENT)==null;
+}
+</code></pre><p>HashSet的contains方法：<br>    public boolean contains(Object o) {<br>    return map.containsKey(o);<br>    }</p>
+<h3 id="HashMap、HashTable区别"><a href="#HashMap、HashTable区别" class="headerlink" title="HashMap、HashTable区别"></a>HashMap、HashTable区别</h3><ol>
+<li>HashMap是非线程安全的，由于HashTable中的所有方法都是同步方法，所以它是线程安全的。</li>
+<li>HashMap的键和值都允许有null值存在，而HashTable则不行。</li>
+<li>因为线程安全的问题，HashMap效率比HashTable的要高。</li>
+<li>HashMap中数据是无序的(resize)，HashTable也是无序的(rehash)</li>
+<li>都实现了map接口，HashMap继承于AbstractMap类,HashTable继承于Dictionary类</li>
+<li>HashMap添加时，key是重新计算的hashcode,而HashTable直接使用的是key的Object的原始hashCode，添加到数组时的下标计算方法也不一样</li>
+</ol>
+<p>Dictionary 类主要方法：</p>
+<pre><code>abstract public int size();
+abstract public boolean isEmpty();
+abstract public Enumeration&lt;K&gt; keys();
+abstract public Enumeration&lt;V&gt; elements();
+abstract public V get(Object key);
+abstract public V put(K key, V value);
+abstract public V remove(Object key);
+</code></pre><h3 id="HashMap、TreeMap的区别"><a href="#HashMap、TreeMap的区别" class="headerlink" title="HashMap、TreeMap的区别"></a>HashMap、TreeMap的区别</h3><ol>
+<li>HashMap是无序的，TreeMap是有序的</li>
+<li>HashMap是基于Node链表实现的，而TreeMap是基于红黑树这种二叉树算法实现的</li>
+<li>TreeMap继承了SortMap,默认使用key的自然排序算法给元素排序，所以是相对HashMap来说是有序的(关于如何自然排序，请参考TreeMap自然排序源码分析)</li>
+<li></li>
+</ol>
+<h3 id="HashMap、LinkedHashMap区别"><a href="#HashMap、LinkedHashMap区别" class="headerlink" title="HashMap、LinkedHashMap区别"></a>HashMap、LinkedHashMap区别</h3><ul>
+<li>HashMap、HashSet区别</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/面试题/">面试题</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/06/26/HashMap实现原理深究/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/06/26/HashMap实现原理深究/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/06/07/WKWebView设置保持session免登陆/" title="WKWebView设置保持session免登陆" itemprop="url">WKWebView设置保持session免登陆</a>
   </h1>
   <p class="article-author">By
@@ -625,11 +1214,17 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 <h2 id="基础类："><a href="#基础类：" class="headerlink" title="基础类："></a>基础类：</h2><ol>
 <li>集合类(collection)下面有哪些类</li>
 <li>Map/List<ul>
-<li>HashMap\HashSet的特性与区别</li>
+<li>HashMap、HashSet的特性与区别</li>
+<li>HashMap、HashTable区别</li>
+<li>HashMap、MapTree的区别</li>
+<li>HashMap、LinkedHashMap区别</li>
+<li>HashMap、HashSet区别</li>
 </ul>
 </li>
 </ol>
-<p>hashMap实现了Map接口，是线程非安全的，它允许空(null)键值，效率上高于hashTalbe,hashMap的方法不是同步的，而hashTalbe的方法是同步的，线程是安全的。<br>HashSet实现了Set接口，它不允许集合中有重复的值，当我们提到HashSet时，第一件事情就是在将对象存储在HashSet之前，要先确保对象重写equals()和hashCode()方法，这样才能比较对象的值是否相等，以确保set中没有储存相等的对象。如果我们没有重写这两个方法，将会使用这个方法的默认实现。<br>public boolean add(Object o)方法用来在Set中添加元素，当元素值重复时则会立即返回false，如果成功添加的话会返回true。</p>
+<p>hashMap实现了Map接口，是线程非安全的，它允许空(null)键值，效率上高于hashTalbe,hashMap的方法不是同步的，而hashTalbe的方法是同步的，线程是安全的。<br>HashTable.put方法：<br>public synchronized V put(K key, V value) {<br>…….<br>}</p>
+<p>get方法：<br>public synchronized V get(Object key) {<br>…..<br>}<br>remove方法：<br>public synchronized V remove(Object key){<br>……<br>}<br>等等，所有的方法都是同步的，这样效率自然不高。</p>
+<p>HashSet实现了Set接口，它不允许集合中有重复的值，当我们提到HashSet时，第一件事情就是在将对象存储在HashSet之前，要先确保对象重写equals()和hashCode()方法，这样才能比较对象的值是否相等，以确保set中没有储存相等的对象。如果我们没有重写这两个方法，将会使用这个方法的默认实现。<br>public boolean add(Object o)方法用来在Set中添加元素，当元素值重复时则会立即返回false，如果成功添加的话会返回true。</p>
 <ul>
 <li>HashMap\HashSet的内部实现方式以及工作原理</li>
 </ul>
@@ -689,189 +1284,6 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 	
 	  	<span></span>
 		<a href="/2017/03/20/最近后端java面试题整理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/20/最近后端java面试题整理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/17/PLA 1.2/" title="PLA 1.2" itemprop="url">PLA 1.2</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-17T07:00:00.000Z" itemprop="datePublished"> 发表于 2017-03-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="PLA-1-2"><a href="#PLA-1-2" class="headerlink" title="PLA 1.2"></a>PLA 1.2</h1><blockquote>
-<p>发件人 Apple<br>Thank you for your resubmission. Upon further review, we continue to find the following issue unresolved:<br>PLA 1.2The Seller and Artist names associated with your app do not reflect the name of the financial institute responsible for this app in the app or its metadata, as required by section 1.2 of the Apple Developer Program License Agreement.<br>Next StepsYour app must be published under a Seller name and Artist name that reflects the name of the financial institute responsible for this app. If you have developed these apps on behalf of a client, please advise your client to add you to the development team of their Apple Developer account.The Artist name is the Company name in iTunes Connect. For information on how to address this issue, please contact iTunes Connect Contact Us.</p>
-</blockquote>
-<p>以上是针对发布的内容与品牌的相关性的，在2017年3月份，有大量的app因为PLA1.2这个问题rejected,大意是苹果发现app的品牌或者内容与帐号的所属组织无关，和公司名称对不上，苹果认为你是侵犯了别人公司的品牌权益。</p>
-<p>简而言之，电商、金融类 APP 的 APP、Seller、Company 名称要一致。</p>
-<p>一般这种针对的是很多外包公司还有一些小公司（我是属于一个分公司给另一子公司开发的app）。</p>
-<p>以下是我公司遇到的这个问题： </p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1489731566422bee31p6l.png?imageslim" alt="paste image"></p>
-<p>大意是：<br>售卖者和公司名称无法关联app的名称，要想过，就必须让app的名称能体现公司的名称或者品牌。</p>
-<p>那怎么解决呢？<br>解决办法只有一种，就是回复苹果公司，证明app所有的内容和app就是属于账号的申请的公司管理、经营。并上传一张账号的所在公司的营业执照来证明。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>我是这样回复的：</p>
-<blockquote>
-<p> 您好，“xxx”这款App是杭州zz网络科技有限公司(zz Network Technology)开发的产品，xxx这个品牌属于杭州zz网络科技有限公司经营，所以我们使用了，这样是否清楚明白的表明他们之间的关系，附件中是zz网络有限公司的营业执照，如果还有需要提供相关证明信息可以联系我们：<br>电话：021-64690189<br>邮箱: xxx@163.com</p>
-</blockquote>
-<p>回复完了以后，第二天凌晨5点，通过了。。。。。。。</p>
-<p>有些朋友说打电话给开发者支持电话。</p>
-<h2 id="拨打开发者支持电话"><a href="#拨打开发者支持电话" class="headerlink" title="拨打开发者支持电话"></a>拨打开发者支持电话</h2><p>中国开发者支持电话：4006 701 855<br>但可能会有很多转播，转来转去。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/iOS/">iOS</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Rejected/">Rejected</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/17/PLA 1.2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/17/PLA 1.2/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/17/app被Rejected 的各种原因翻译与解决方案/" title="app被Rejected 的各种原因翻译与解决方案" itemprop="url">app被Rejected 的各种原因翻译与解决方案</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-17T05:33:00.000Z" itemprop="datePublished"> 发表于 2017-03-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="app被Rejected-的各种原因翻译与解决方案"><a href="#app被Rejected-的各种原因翻译与解决方案" class="headerlink" title="app被Rejected 的各种原因翻译与解决方案"></a>app被Rejected 的各种原因翻译与解决方案</h1><ol>
-<li><p>Terms and conditions（法律与条款）<br>1.1<br>As a developer of applications for the App Store you are bound by the terms of the Program License Agreement (PLA), Human Interface Guidelines (HIG), and any other licenses or contracts between you and Apple. The following rules and examples are intended to assist you in gaining acceptance for your App in the App Store, not to amend or remove provisions from any other agreement.（作为App Store的应用开发者，你必须接受如下条款：Program License Agreement (PLA)，Human Interface Guidelines (HIG)，以及任何你与apple签订的许可和合同。以下规则和示例是为了协助你的应用更快通过审核上架，而不是修正或取代之前的条款。）</p>
-<p>1.2</p>
-</li>
-<li>Functionality（功能）<br>2.1<br>Apps that crash will be rejected（存在Crash（崩溃，死机）的应用会被拒。）<br>2.2<br>Apps that exhibit bugs will be rejected（存在明显bug的应用会被拒。）<br>2.3<br>Apps that do not perform as advertised by the developer will be rejected（不符合开发者描述的应用会被拒。）<br>2.4<br>Apps that include undocumented or hidden features inconsistent with the description of the App will be rejected（有未说明或隐藏特性或有悖描述的应用会被拒。）<br>2.5<br>Apps that use non-public APIs will be rejected（使用非公开API的应用会被拒。）<br>2.6<br>Apps that read or write data outside its designated container area will be rejected（试图读写非允许范围内的数据的应用会被拒。）<br>2.7<br>Apps that download code in any way or form will be rejected（试图以任何方式方法下载代码的应用会被拒。）<br>2.8<br>Apps that install or launch other executable code will be rejected（安装或运行其他可执行代码的应用会被拒。）<br>2.9<br>Apps that are “beta”, “demo”, “trial”, or “test” versions will be rejected（任何“beta”，“演示（demo）”，“试用（trial）”或“测试（test）”版本的应用会被拒。）<br>2.10<br>iPhone Apps must also run on iPad without modification, at iPhone resolution, and at 2X iPhone 3GS resolution（iPhone应用必须可以无条件运行在iPad上，支持普通iPhone分辨率和2倍iPhone 3GS分辨率。）<br>2.11<br>Apps that duplicate Apps already in the App Store may be rejected, particularly if there are many of them, such as fart, burp, flashlight, and Kama Sutra Apps.（任何与App Store中上架应用重复的应用会被拒，尤其是已经有了很多的：如放屁，打嗝，手电照明和爱经。）<br>2.12<br>Apps that are not very useful, unique, are simply web sites bundled as Apps, or do not provide any lasting entertainment value may be rejected（没有用处的应用，web页面简单组合的应用，或任何哗众取宠，不能提供娱乐价值的应用会被拒。）<br>2.13<br>Apps that are primarily marketing materials or advertisements will be rejected（纯粹用于市场推广或广告的应用会被拒。）<br>2.14<br>Apps that are intended to provide trick or fake functionality that are not clearly marked as such will be rejected（有意提供隐蔽或虚假功能，却又不能明显标示的应用会被拒。）<br>2.15<br>Apps larger than 50MB in size will not download over cellular networks (this is automatically prohibited by the App Store)（大于20MB的应用无法通过蜂窝网络下载安装（App Store自动处理）。）<br>2.16<br>Multitasking Apps may only use background services for their intended purposes: VoIP, audio playback, location, task completion, local notifications, etc.（多任务应用只允许在后台运行如下相应的服务：VoIP，音频播放，地理位置，任务记录，本地提醒等。）<br>2.17<br>Apps that browse the web must use the iOS WebKit framework and WebKit Javascript（应用只允许通过iOS WebKit框架和WebKit Javascript访问web页面。）<br>2.18<br>Apps that encourage excessive consumption of alcohol or illegal substances, or encourage minors to consume alcohol or smoke cigarettes, will be rejected（鼓励酗酒，使用违法药物，或诱导未成年人饮酒，吸烟的应用会被拒。）<br>2.19<br>Apps that provide incorrect diagnostic or other inaccurate device data will be rejected（提供错误的系统信息或设备数据的应用会被拒。）<br>2.20<br>Developers “spamming” the App Store with many versions of similar Apps will be removed from the iOS Developer Program（通过许多版本的类似应用对App Store造成干扰的开发者会被取消IDP身份。）<br>2.21<br>Apps that are simply a song or movie should be submitted to the iTunes store. Apps that are simply a book should be submitted to the iBookstore.（歌曲和电影应该提交到iTunes store。书籍应该提交到iBookstore。）<br>2.22<br>Apps that arbitrarily restrict which users may use the App, such as by location or carrier, may be rejected（随意通过位置或运营商来限制用户使用的应用会被拒。）<br>2.23<br>Apps must follow the iOS Data Storage Guidelines or they will be rejected（加入iCloud支持后，应用必须遵守iOS数据存储指南（ iOS Data Storage Guidelines）否则将被拒。）<br>2.24<br>Apps that are offered in Newsstand must comply with schedules 1, 2 and 3 of the Developer Program License Agreement or they will be rejected（在Newsstand里提交的应用必须遵守Developer Program License Agreement的第1,2和3条，否则将被拒。）</li>
-</ol>
-<p>2.25<br> Apps that display Apps other than your own for purchase or promotion in a manner similar to or confusing with the App Store will be rejected（与App Store类似的推荐或为其他应用做广告的应用将无法通过App Store审核。）</p>
-<ol>
-<li>Metadata (name, descriptions, ratings, rankings, etc)（描述数据（名称，描述，评级，分类等））<br>3.1<br>Apps or metadata that mentions the name of any other mobile platform will be rejected（应用或者元数据中提到其他任意移动平台会被拒。）<br>3.2<br>Apps with placeholder text will be rejected（描述数据有未填写项，存留占位符文本会被拒。）<br>3.3<br>Apps with descriptions not relevant to the application content and functionality will be rejected（描述中提到与应用内容和功能无关信息会被拒。）<br>3.4<br>App names in iTunes Connect and as displayed on a device should be similar, so as not to cause confusion（应用在iTunes Connect与设备上显示的名称应该类似，否则会造成混淆。）<br>3.5<br>Small and large App icons should be similar, so as to not to cause confusion（不同尺寸的icon要一致，否则会造成混淆。）<br>3.6<br>Apps with App icons and screenshots that do not adhere to the 4+ age rating will be rejected（图标与截屏不符合4+年龄评级的应用会被拒。）<br>3.7<br>Apps with Category and Genre selections that are not appropriate for the App content will be rejected（应用的内容与所选分类和风格不符会被拒。）<br>3.8<br>Developers are responsible for assigning appropriate ratings to their Apps. Inappropriate ratings may be changed/deleted by Apple（开发者有责任把应用放到恰当的分级（Rating）。不恰当的评级可能会被Apple修改，甚至删除。）<br>3.9<br>Developers are responsible for assigning appropriate keywords for their Apps. Inappropriate keywords may be changed/deleted by Apple（开发者有责任给应用撰写恰当的关键词。不恰当的关键词可能会被Apple修改，甚至删除。）<br>3.10<br>Developers who attempt to manipulate or cheat the user reviews or chart ranking in the App Store with fake or paid reviews, or any other inappropriate methods will be removed from the iOS Developer Program（通过伪造，付费评价或其他非正规手段，获取App Store中较好的评价与星级的开发者会被取消IDP身份。）<br>3.11<br>Apps which recommend that users restart their iOS device prior to installation or launch may be rejected（任何提示需要用户重启iOS设备来安装或运行的应用会被拒。）<br>3.12<br>Apps should have all included URLs fully functional when you submit it for review, such as support and privacy policy URLs（应用在提交审核过程中，所有涉及到的URL都要处于正常运行状态，例如保密协议，相关支持页面等。）</li>
-<li>Location（位置）<br>4.1<br>Apps that do not notify and obtain user consent before collecting, transmitting, or using location data will be rejected（未提示用户且获得用户允许之前收集，传输或使用位置数据的应用会被拒。）<br>4.2<br>Apps that use location-based APIs for automatic or autonomous control of vehicles, aircraft, or other devices will be rejected（使用location-based API来自动控制车辆，飞行器或其他设备的应用会被拒。）<br>4.3<br>Apps that use location-based APIs for dispatch, fleet management, or emergency services will be rejected（使用location-based API进行调度，队伍管理或应急服务的而应用会被拒。）<br>4.4<br>Location data can only be used when directly relevant to the features and services provided by the App to the user or to support approved advertising uses（位置数据只能用于应用提供的直接相关功能或服务，或者有授权的广告。）</li>
-<li><p>Push notifications（提醒推送）</p>
-<pre><code>5.1  
-</code></pre><p>Apps that provide Push Notifications without using the Apple Push Notification (APN) API will be rejected（不使用Apple Push Notification（APN） API提供消息推送的应用会被拒。）<br>5.2<br>Apps that use the APN service without obtaining a Push Application ID from Apple will be rejected（使用APN服务却没从Apple获取一个Push Application ID的应用会被拒。）<br>5.3<br>Apps that send Push Notifications without first obtaining user consent will be rejected（在首次推送消息之前未取得的用户允许的应用会被拒。）<br>5.4<br>Apps that send sensitive personal or confidential information using Push Notifications will be rejected（使用提醒推送服务推送敏感的个人或机密信息的应用会被拒。）<br>5.5<br>Apps that use Push Notifications to send unsolicited messages, or for the purpose of phishing or spamming will be rejected（使用提醒推送发送主动消息，欺骗或干扰信息的应用会被拒。）<br>5.6<br>Apps cannot use Push Notifications to send advertising, promotions, or direct marketing of any kind（应用不可以使用提醒推送发送广告，活动或任何形式的直接推广信息。）<br>5.7<br>Apps cannot charge users for use of Push Notifications（应用不可以提供收费的提醒推送服务。）<br>5.8<br>Apps that excessively use the network capacity or bandwidth of the APN service or unduly burden a device with Push Notifications will be rejected（使用APN服务过度占用网络带宽或容量或通过提醒推送大量占用系统资源的应用会被拒。）<br>5.9<br>Apps that transmit viruses, files, computer code, or programs that may harm or disrupt the normal opera tion of the APN service will be rejected（传输病毒，文件，代码或程序，导致破坏或扰乱正常的APN服务操作的应用会被拒。）</p>
-</li>
-<li><p>Game Center（游戏中心）<br>6.1<br>Apps that display any Player ID to end users or any third party will be rejected（向终端用户或第三方展示Player ID的应用会被拒。）<br>6.2<br>Apps that use Player IDs for any use other than as approved by the Game Center terms will be rejected（Player ID被用于Game Center条款款意外的用途的应用会被拒。）<br>6.3<br>Developers that attempt to reverse lookup, trace, relate, associate, mine, harvest, or otherwise exploit Player IDs, alias, or other information obtained through the Game Center will be removed from the iOS Developer Program（试图通过Game Center反查，跟踪，描述，关联，发掘，收割，或利用Player ID，别名或其他信息的开发者会被取消IDP身份。）<br>6.4<br>Game Center information, such as Leaderboard scores, may only be used in Apps approved for use with the Game Center（Game Center信息，例如Leaderboard得分，只能通过Game Center用于应用中。）<br>6.5<br>Apps that use Game Center service to send unsolicited messages, or for the purpose of phishing or spamming will be rejected（使用Game Center发送主动消息，欺骗或干扰信息的应用会被拒。）<br>6.6<br>Apps that excessively use the network capacity or bandwidth of the Game Center will be rejected（使用Game Center过度占用网络带宽或容量的应用会被拒。）<br>6.7<br>Apps that transmit viruses, files, computer code, or programs that may harm or disrupt the normal operation of the Game Center service will be rejected（传输病毒，文件，代码或程序，导致破坏或扰乱正常的Game Center操作的应用会被拒。）</p>
-</li>
-<li>Advertising（广告）<br>7.1<br>Apps that artificially increase the number of impressions or click-throughs of ads will be rejected（人工刷广告浏览或点击率的应用会被拒。）<br>7.2<br>Apps that contain empty iAd banners will be rejected（带有空iAd banner广告的应用会被拒。）<br>7.3<br>Apps that are designed predominantly for the display of ads will be rejected（设计主要用来展示广告的应用会被拒。）</li>
-<li>Trademarks and trade dress（商标权与商标外观）<br>8.1<br>Apps must comply with all terms and conditions explained in the Guidelines for Using Apple Trademarks and Copyrights and the Apple Trademark List（应用必须遵守Guidelines for Using Apple Trademarks and Copyrights 和Apple Trademark List中描述的所有条款和条件。）<br>8.2<br>Apps that suggest or infer that Apple is a source or supplier of the App, or that Apple endorses any particular representation regarding quality or functionality will be rejected（任何误导或暗示Apple为该应用来源或提供商，或Apple以任何形式认可其质量或功能的应用会被拒。）<br>8.3<br>Apps which appear confusingly similar to an existing Apple product or advertising theme will be rejected（外观与现有Apple产品或广告主题类似或混淆的应用会被拒）<br>8.4<br>Apps that misspell Apple product names in their App name (i.e., GPS for Iphone, iTunz) will be rejected（应用名称中出现错误的Apple产品拼写（如，GPS for IPhone， iTunz）的应用会被拒。）<br>8.5<br>Apps may not use protected third party material such as trademarks, copyrights, patents or violate 3rd party terms of use. Authorization to use such material must be provided upon request.（使用受保护的第三方资源（商标，版权，商业机密，以及其他私有内容），如果要求请提供一份文本形式的使用授权。）</li>
-<li>Media content（媒体内容）<br>9.1<br>Apps that do not use the MediaPlayer framework to access media in the Music Library will be rejected（使用MediaPlayer框架以外的方法访问Music Library中媒体数据的应用会被拒。）<br>9.2<br>App user interfaces that mimic any iPod interface will be rejected（用户界面模仿任何iPod界面的应用会被拒。）<br>9.3<br>Audio streaming content over a cellular network may not use more than 5MB over 5 minutes（通过蜂窝网络传输的流媒体音频内容不得超过5MB或多余5分钟。）<br>9.4<br>Video streaming content over a cellular network longer than 10 minutes must use HTTP Live Streaming and include a baseline 64 kbps audio-only HTTP Live stream（通过蜂窝网络传输超过10分钟流媒体视频内容，必须使用HTTP Live Streaming，并包含一条基线64kbps的音频HTTP Live流。）</li>
-<li>User interface（用户界面）<br>10.1<br>Apps must comply with all terms and conditions explained in the Apple iOS Human Interface Guidelines（应用必须遵守Apple iOS Human Interface Guidelines中的所有条款和条件。）<br>10.2<br>Apps that look similar to Apps bundled on the iPhone, including the App Store, iTunes Store, and iBookstore, will be rejected（ 外观与iPhone自带应用（如：App Store，iTunes Store和iBookstore）相似的应用会被拒。）<br>10.3<br>Apps that do not use system provided items, such as buttons and icons, correctly and as described in the Apple iOS Human Interface Guidelines may be rejected（不按照Apple iOS Human Interface Guidelines中的描述正确使用系统控件比如按钮，图标等的应用会被拒。）</li>
-</ol>
-<p>10.4<br> Apps that create alternate desktop/home screen environments or simulate multi-App widget experiences will be rejected（试图创建多桌面/主屏环境或模拟多Widget应用工具的应用会被拒。）<br>10.5<br> Apps that alter the functions of standard switches, such as the Volume Up/Down and Ring/Silent switches, will be rejected（ 修改标准开关标准功能例如：音量增加／减少，响铃／震动的应用会被拒。）<br>10.6<br> Apple and our customers place a high value on simple, refined, creative, well thought through interfaces. They take more work but are worth it. Apple sets a high bar. If your user interface is complex or less than very good, it may be rejected（Apple和我们的用户都界面报以很高期望，希望他设计的超级简洁，精致，充满创造力，深思熟虑。做到这些确实会消耗很多精力，但是值得。Apple在这方面要求非常高。如果你的用户界面过于复杂，甚至仅仅是不够好，都可能被拒。）</p>
-<ol>
-<li>Purchasing and currencies（购买与流通货币）<br>11.1<br>Apps that unlock or enable additional features or functionality with mechanisms other than the App Store will be rejected（通过App Store以外的渠道解锁或开启附加属性或功能的应用会被拒。）<br>11.2<br>Apps utilizing a system other than the In-App Purchase API (IAP) to purchase content, functionality, or services in an App will be rejected（ 使用In App Purchase API (IAP)以外的系统提供购买内容，功能或服务的应用会被拒。）<br>11.3<br>Apps using IAP to purchase physical goods or goods and services used outside of the application will be rejected（使用IAP为与应用无关的实体商品或商品服务收费的应用会被拒。）<br>11.4<br>Apps that use IAP to purchase credits or other currencies must consume those credits within the application（应用使用IAP购买积分（Credit）或其他货币，必须在应用中消费。）<br>11.5<br>Apps that use IAP to purchase credits or other currencies that expire will be rejected（使用IAP购买的积分（Credit）或货币会过期的应用会被拒）<br>11.6<br>Content subscriptions using IAP must last a minimum of 7 days and be available to the user from all of their iOS devices（ 使用IAP收费订阅的内容至少要在7天内有效，而且允许在所有iOS设备间共享。）<br>11.7<br>Apps that use IAP to purchase items must assign the correct Purchasability type（用到IAP收费项目的应用必须分派到正确的收费类目中。）<br>11.8<br>Apps that use IAP to purchase access to built-in capabilities provided by iOS, such as the camera or the gyroscope, will be rejected（ 使用IAP向用户收费以获取iOS内建功能（如摄像头，陀螺仪）的应用会被拒。）<br>11.9<br>Apps containing “rental” content or services that expire after a limited time will be rejected（ 包含“出租”内容或服务的应用，在一段时间实效的会被拒。）<br>11.10<br>Insurance applications must be free, in legal-compliance in the regions distributed, and cannot use IAP（保险类应用必须免费，遵守发布地区的法律，并且不允许使用IAP。）<br>11.11<br>In general, the more expensive your App, the more thoroughly we will review it（一般来说，越贵的应用审核就越仔细彻底。）<br>11.12<br>Apps offering subscriptions must do so using IAP, Apple will share the same 70/30 revenue split with developers for these purchases, as set forth in the Developer Program License Agreement.（提供收费订阅的应用必须使用IAP，Apple将会按照Developer Program License Agreement中约定的70/30的比例与开发者分账。）<br>11.13<br>Apps that link to external mechanisms for purchases or subscriptions to be used in the App, such as a “buy” button that goes to a web site to purchase a digital book, will be rejected（应用中如果提供了IAP以外的收费或订阅机制，如：“buy”按钮，跳转到一个购买电子书的web页面，会被拒。）<br>11.14<br>Apps can read or play approved content (specifically magazines, newspapers, books, audio, music, and video) that is subscribed to or purchased outside of the App, as long as there is no button or external link in the App to purchase the approved content. Apple will not receive any portion of the revenues for approved content that is subscribed to or purchased outside of the App（ 应用可以阅读或播放任何在应用以外取得授权的内容（包括指定的杂志，报纸，书籍，音频，音乐和视频），只要在应用中不允许出现获取授权的收费链接或按钮。Apple不会对在应用外订阅或购买授权项目收取任何费用。）<br>11.15<br>Apps may only use auto renewing subscriptions for periodicals (newspapers, magazines), business Apps (enterprise, productivity, professional creative, cloud storage) and media Apps (video, audio, voice), or the App will be rejected.（应用只能自动更新订阅的期刊（报纸、杂志），自动更新商业应用（企业、生产力、专业创意、云存储）和媒体应用（视频、音频，声音）将被拒绝。）</li>
-<li>Scraping and aggregation（抓去与整合）<br>12.1<br>Applications that scrape any information from Apple sites (for example from apple.com, iTunes Store, App Store, iTunes Connect, Apple Developer Programs, etc) or create rankings using content from Apple sites and services will be rejected（从Apple的页面（如：apple.com, iTunes Store, App Store, iTunes Connect, Apple Developer Programs, 等）抓取内容，或利用Apple页面和服务中的内容进行排名的应用会被拒。）<br>12.2<br>Applications may use approved Apple RSS feeds such as the iTunes Store RSS feed（ 应用可以使用授权的Apple RSS，例如iTunes Store RSS。）</li>
-</ol>
-<p>12.3<br> Apps that are simply web clippings, content aggregators, or a collection of links, may be rejected（简单的web页面裁剪，内容整合或链接收集应用会被拒。）</p>
-<ol>
-<li>Damage to device（损害设备）<br>13.1<br>Apps that encourage users to use an Apple Device in a way that may cause damage to the device will be rejected（任何怂恿用户做出可能损坏Apple设备的行为的应用会被拒。）<br>13.2<br>Apps that rapidly drain the device’s battery or generate excessive heat will be rejected（快速耗光设备电量或产生大量热量的应用会被拒。）</li>
-<li>Personal attacks（人身攻击）<br>14.1<br>Any App that is defamatory, offensive, mean-spirited, or likely to place the targeted individual or group in harms way will be rejected（ 任何涉嫌诽谤，侮辱，狭隘内容或打击个人或团体的应用会被拒。）<br>14.2<br>Professional political satirists and humorists are exempt from the ban on offensive or mean-spirited commentary（职业政治讽刺家和幽默作家不受该诽谤和狭隘条款约束。）</li>
-<li>Violence（暴力）<br>   15.1<br>Apps portraying realistic images of people or animals being killed or maimed, shot, stabbed, tortured or injured will be rejected（展示人或动物被杀戮，致残，枪击，针刺或其他伤害的真实图片的应用会被拒）<br>   15.2<br>Apps that depict violence or abuse of children will be rejected（描述暴力或虐待儿童的应用会被拒。）<br>   15.3<br>“Enemies” within the context of a game cannot solely target a specific race, culture, a real government or corporation, or any other real entity（游戏中的“敌人”不能单独的设定为某特定比赛，文化，真实的政府或组织，或者任何现实事物。）<br>   15.4<br>Apps involving realistic depictions of weapons in such a way as to encourage illegal or reckless use of such weapons will be rejected（含有以鼓励非法或鲁莽使用的方式描述真实武器的应用会被拒。）<br>   15.5<br>Apps that include games of Russian roulette will be rejected（ 带有俄罗斯轮盘游戏的应用会被拒。）</li>
-<li>Objectionable content（负面内容）<br>16.1<br>Apps that present excessively objectionable or crude content will be rejected（介绍过度三俗和粗鲁内容的应用会被拒。）<br>16.2<br>Apps that are primarily designed to upset or disgust users will be rejected（设计来惹怒或恶心用户的应用会被拒。）</li>
-<li>Privacy（隐私）<br>17.1<br>Apps cannot transmit data about a user without obtaining the user’s prior permission and providing the user with access to information about how and where the data will be used（在未获得用户事先允许，或未告知用户信息将被如何，在哪里使用的情况下，应用不可以传输用户数据。）<br>17.2<br>Apps that require users to share personal information, such as email address and date of birth, in order to function will be rejected（要求用户提供个人信息，如邮箱地址，生日等，才能使用其功能的应用会被拒。）<br>17.3<br>Apps that target minors for data collection will be rejected（专门收集未成年人数据的应用会被拒。）</li>
-<li>Pornography（色情）<br>18.1<br>Apps containing pornographic material, defined by Webster’s Dictionary as “explicit descriptions or displays of sexual organs or activities intended to stimulate erotic rather than aesthetic or emotional feelings”, will be rejected（含有韦氏词典中定义的色情素材（explicit descriptions or displays of sexual organs or activities intended to stimulate erotic rather than aesthetic or emotional feelings）的应用会被拒。）<br>18.2<br>Apps that contain user generated content that is frequently pornographic (ex “Chat Roulette” Apps) will be rejected（经常有用户提供色情内容（例如：Chat Roulette <a href="http://en.wikipedia.org/wiki/Chatroulette" target="_blank" rel="external">http://en.wikipedia.org/wiki/Chatroulette</a> ）的应用会被拒。）</li>
-<li>Religion, culture, and ethnicity（信仰，文化和种族）<br>19.1<br>Apps containing references or commentary about a religious, cultural or ethnic group that are defamatory, offensive, mean-spirited or likely to expose the targeted group to harm or violence will be rejected（带有对一种信仰，文化或种族进行诽谤，侮辱，狭隘，或以他们为目标的暴力或伤害内容的应用会被拒。）<br>19.2<br>Apps may contain or quote religious text provided the quotes or translations are accurate and not misleading. Commentary should be educational or informative rather than inflammatory（ 应用若带有或应用对一种信仰的文字描述，那么这个引用或翻译必须是精确，无歧义的。注释内容可以具有教育性，信息性，但不可以为煽动性。）</li>
-<li>Contests, sweepstakes, lotteries, and raffles（竞赛，赌博，彩票和抽奖）<br>20.1<br>Sweepstakes and contests must be sponsored by the developer/company of the App（赌博和竞赛必须是由应用开发者或所有公司发起资助的。）<br>20.2<br>Official rules for sweepstakes and contests, must be presented in the App and make it clear that Apple is not a sponsor or involved in the activity in any manner（ 应用中必须展示赌博和竞赛的官方条款，并声明Apple不是资助者，并且在任何情况下与此事无关。）<br>20.3<br>It must be permissible by law for the developer to run a lottery App, and a lottery App must have all of the following characteristics: consideration, chance, and a prize（开发者必须经过法律允许才能上线一款抽奖应用，而且抽奖应用必须具备以下要素：报酬，机会，和奖金。)</li>
-</ol>
-<p>20.4<br> Apps that allow a user to directly purchase a lottery or raffle ticket in the App will be rejected（直接允许用户在应用中购买彩票或抽奖的应用会被拒。）</p>
-<ol>
-<li>Charities and contributions（慈善与捐助）<br>21.1<br>Apps that include the ability to make donations to recognized charitable organizations must be free（含有向已认证的慈善机构捐助功能的应用必须是免费的。）<br>21.2<br>The collection of donations must be done via a web site in Safari or an SMS（慈善募捐必须通过短信息或通过Safari访问web页面完成。）</li>
-<li>Legal requirements（法律要求）<br>22.1<br>Apps must comply with all legal requirements in any location where they are made available to users. It is the developer’s obligation to understand and conform to all local laws（应用必须遵守所有发布地区当地法律。开发者有义务了解和遵守各地的法律。）<br>22.2<br>Apps that contain false, fraudulent or misleading representations or use names or icons similar to other Apps will be rejected（ 任何带有虚假，欺诈和带有歧义的内容的应用会被拒。）<br>22.3<br>Apps that solicit, promote, or encourage criminal or clearly reckless behavior will be rejected（ 任何召集，推销和股东犯罪和鲁莽行为的应用会被拒。）<br>22.4<br>Apps that enable illegal file sharing will be rejected（非法文件共享应用会被拒。）<br>22.5<br>Apps that are designed for use as illegal gambling aids, including card counters, will be rejected（任何设计用来非法赌博工具，包括算牌的应用会被拒。）<br>22.6<br>Apps that enable anonymous or prank phone calls or SMS/MMS messaging will be rejected（ 提供知识拨打电话或知识发送短消息/彩信功能的应用会被拒。）<br>22.7<br>Developers who create Apps that surreptitiously attempt to discover user passwords or other private user data will be removed from the iOS Developer Program（任何开发暗中获取用户密码和私有数据的开发者会被取消IDP身份。）<br>22.8<br>Apps which contain DUI checkpoints that are not published by law enforcement agencies, or encourage and enable drunk driving, will be rejected（任何非法律执行部门发布的带有DUI检查点信息，或鼓励且协助酒后驾车的应用会被拒。）</li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/iOS/">iOS</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Rejected/">Rejected</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/17/app被Rejected 的各种原因翻译与解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/17/app被Rejected 的各种原因翻译与解决方案/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -945,7 +1357,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>3</sup></a></li>
 		  
 		
 		  
@@ -1026,6 +1438,10 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
@@ -1050,7 +1466,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/插件/" title="插件">插件<sup>1</sup></a></li>
 			
 		
 			
@@ -1058,7 +1474,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/建立论坛/" title="建立论坛">建立论坛<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -1091,10 +1507,6 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
 			
 		
 		</ul>

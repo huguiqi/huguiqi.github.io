@@ -87,6 +87,150 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/iOS App打包上传快速教程/" title="iOS App打包上传快速教程" itemprop="url">iOS App打包上传快速教程</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="iOS-App打包上传快速教程"><a href="#iOS-App打包上传快速教程" class="headerlink" title="iOS App打包上传快速教程"></a>iOS App打包上传快速教程</h1><div><br><br>1.打开 <a href="https://itunesconnect.apple.com">https://itunesconnect.apple.com</a><br><div><br><br>2. <marketing jinjiang.com> : 12345abcde<br><br></div>
+
+<div><br><br>3. 进入后选择,Manage Your Applications<br><br></div>
+
+<p></div></p>
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="iOS%20App%E6%89%93%E5%8C%85%E4%B8%8A%E4%BC%A0%E5%BF%AB%E9%80%9F%E6%95%99%E7%A8%8B.resources/7F790AC7-AB47-49A7-B06D-7E43309B600A.jpg" alt="">\<br><br></div>
+
+<div><br><br>\<br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/iOS App打包上传快速教程/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/iOS App打包上传快速教程/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS App打包上传快速教程/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/iOS 9 变化笔记/" title="iOS 9 变化笔记" itemprop="url">iOS 9 变化笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="iOS-9-变化笔记"><a href="#iOS-9-变化笔记" class="headerlink" title="iOS 9 变化笔记"></a>iOS 9 变化笔记</h1><p>这里将介绍下我们日常开发一些从iOS8过度到iOS9给我们带来的一些变化，及解决方法。</p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>language：zh-Hans(iOS8) ——&gt; zh-Hans-CN(iOS9)\<br> 所有的进程列表都获取不到了</p>
+<p>\</p>
+<h2 id="App-Transport-Security"><a href="#App-Transport-Security" class="headerlink" title="App Transport Security"></a>App Transport Security</h2><p>iOS9和OS X El Capitan的一个新特性，App Transport Security<br>的目地是提高Apple<br>操作系统的安全性以及在此操作系统上运行的任何应用的安全性。ATS是苹果针对与<br>NSURL这一层做的封装，iOS9后ATS默认是开启的，即网络传输需要使用HTTPS。如果想在iOS9后继续使用HTTP的话，有两条路可以走：</p>
+<p>在Info.plist中添加 NSAppTransportSecurity类型Dictionary，在NSAppTransportSecurity下添加NSAllowsArbitraryLoads，Boolean<br>为 YES。</p>
+<p>直接使用CFNetwork做网络请求，ASIHTTPRequest就是基于CFNetwotk做的封装，如果有需求的同学可以看看ASI里面的源码，如果某个时间段你又想要使用HTTPS的话，ASI对SSL/TSL的证书验证有点问题，证书验证还得自己封装一下才行。刚才我说道，ATS是苹果针对与NSURL这一层做的封装，所以我们使用CFNetwork或者更底层做网络请求的话是不受ATS限制的。</p>
+<h3 id="移除了discoveryd-DNS解析服务"><a href="#移除了discoveryd-DNS解析服务" class="headerlink" title="移除了discoveryd DNS解析服务"></a>移除了discoveryd DNS解析服务</h3><p>iPhone升级到iOS8后WiFi有时候会有问题，特别是Mac升级到OS X<br>Yosemite后，时而电脑休眠唤醒唬就连不上WiFi，有时候还突然掉线，经常要手动去关闭WiFi在重新连接，这是因为苹果到了OS<br>X Yosemite系统后，把之前的mDNSResponder换成了discoveryd DNS。iOS9和OS X<br>Yosemite10.4后mDNSResponder又回来了。</p>
+<p>mDNSResponder： 苹果以前一直使用控制DNS和Bonjour服务的一种进程。\<br> discoveryd：OS X Yosemite后苹果新出的一种进程。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/iOS 9 变化笔记/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/iOS 9 变化笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS 9 变化笔记/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/iOS Framework 制作教程/" title="iOS Framework 制作教程" itemprop="url">iOS Framework 制作教程</a>
   </h1>
   <p class="article-author">By
@@ -236,7 +380,7 @@ style="color: rgb(0, 0, 0); font-family: Consolas, 'Courier New', Courier, mono,
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/iOS下载文件的几种简单有效的方式/" title="iOS下载文件的几种简单有效的方式" itemprop="url">iOS下载文件的几种简单有效的方式</a>
+      <a href="/2016/03/30/iOS 开发证书与xcode、profile、appId的关系/" title="iOS 开发证书与xcode、profile、appId的关系" itemprop="url">iOS 开发证书与xcode、profile、appId的关系</a>
   </h1>
   <p class="article-author">By
        
@@ -249,23 +393,22 @@ style="color: rgb(0, 0, 0); font-family: Consolas, 'Courier New', Courier, mono,
 </header>
     <div class="article-content">
         
-        <h1 id="iOS下载文件的几种简单有效的方式"><a href="#iOS下载文件的几种简单有效的方式" class="headerlink" title="iOS下载文件的几种简单有效的方式"></a>iOS下载文件的几种简单有效的方式</h1><div><br><br>1，这种方式适合小文件的下载，比如1M以下的数据下载，简单易用<br><br></div>
+        <h1 id="iOS-开发证书与xcode、profile、appId的关系"><a href="#iOS-开发证书与xcode、profile、appId的关系" class="headerlink" title="iOS 开发证书与xcode、profile、appId的关系"></a>iOS 开发证书与xcode、profile、appId的关系</h1><div><br><br>1，开发证书是基础的东西<br><br></div>
 
-<p>NSData *data = [NSData dataWithContentsOfURL:fileURL];</p>
+<div><br><br>在开发者中心进入到证书管理页面:<br><br></div>
+
 <div><br><br>\<br><br></div>
 
-<div><br><br>2，使用ASIHTTPRequest来请求下载，这种方式会处理一些多线程的情况，适合大文件的下载<br><br></div>
+<div><br><br><img src="iOS%20%E5%BC%80%E5%8F%91%E8%AF%81%E4%B9%A6%E4%B8%8Excode%E3%80%81profile%E3%80%81appId%E7%9A%84%E5%85%B3%E7%B3%BB.resources/56DB7CE4-B121-4971-83C1-0E897A9C1CD1.png" alt=""><br><br></div>
 
-<div><br><br><span style="font-family: Menlo; font-size: 14px;">    </span><span
-style="color: rgb(79, 129, 135); font-family: Menlo; font-size: 14px;">ASIHTTPRequest</span><br><span style="font-family: Menlo; font-size: 14px;">*request =<br>[</span><span
-style="color: rgb(79, 129, 135); font-family: Menlo; font-size: 14px;">ASIHTTPRequest</span><span
-style="font-family: Menlo; font-size: 14px;"><span
-style="color: #31595d">requestWithURL</span>:_passUrl];</span>\<br><div><br><br><br><br>
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/iOS下载文件的几种简单有效的方式/#more">Read More</a>
+            <a href="/2016/03/30/iOS 开发证书与xcode、profile、appId的关系/#more">Read More</a>
           
        </p>
     </div>
@@ -291,7 +434,7 @@ style="color: #31595d">requestWithURL</span>:_passUrl];</span>\<br><div><br><br>
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/iOS下载文件的几种简单有效的方式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS下载文件的几种简单有效的方式/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/iOS 开发证书与xcode、profile、appId的关系/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS 开发证书与xcode、profile、appId的关系/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -394,7 +537,7 @@ style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/iOS 开发证书与xcode、profile、appId的关系/" title="iOS 开发证书与xcode、profile、appId的关系" itemprop="url">iOS 开发证书与xcode、profile、appId的关系</a>
+      <a href="/2016/03/30/iOS下载文件的几种简单有效的方式/" title="iOS下载文件的几种简单有效的方式" itemprop="url">iOS下载文件的几种简单有效的方式</a>
   </h1>
   <p class="article-author">By
        
@@ -407,22 +550,23 @@ style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #
 </header>
     <div class="article-content">
         
-        <h1 id="iOS-开发证书与xcode、profile、appId的关系"><a href="#iOS-开发证书与xcode、profile、appId的关系" class="headerlink" title="iOS 开发证书与xcode、profile、appId的关系"></a>iOS 开发证书与xcode、profile、appId的关系</h1><div><br><br>1，开发证书是基础的东西<br><br></div>
+        <h1 id="iOS下载文件的几种简单有效的方式"><a href="#iOS下载文件的几种简单有效的方式" class="headerlink" title="iOS下载文件的几种简单有效的方式"></a>iOS下载文件的几种简单有效的方式</h1><div><br><br>1，这种方式适合小文件的下载，比如1M以下的数据下载，简单易用<br><br></div>
 
-<div><br><br>在开发者中心进入到证书管理页面:<br><br></div>
-
+<p>NSData *data = [NSData dataWithContentsOfURL:fileURL];</p>
 <div><br><br>\<br><br></div>
 
-<div><br><br><img src="iOS%20%E5%BC%80%E5%8F%91%E8%AF%81%E4%B9%A6%E4%B8%8Excode%E3%80%81profile%E3%80%81appId%E7%9A%84%E5%85%B3%E7%B3%BB.resources/56DB7CE4-B121-4971-83C1-0E897A9C1CD1.png" alt=""><br><br></div>
+<div><br><br>2，使用ASIHTTPRequest来请求下载，这种方式会处理一些多线程的情况，适合大文件的下载<br><br></div>
 
-<div><br><br>\<br><br></div>
-
-<div><br><br>\<br>
+<div><br><br><span style="font-family: Menlo; font-size: 14px;">    </span><span
+style="color: rgb(79, 129, 135); font-family: Menlo; font-size: 14px;">ASIHTTPRequest</span><br><span style="font-family: Menlo; font-size: 14px;">*request =<br>[</span><span
+style="color: rgb(79, 129, 135); font-family: Menlo; font-size: 14px;">ASIHTTPRequest</span><span
+style="font-family: Menlo; font-size: 14px;"><span
+style="color: #31595d">requestWithURL</span>:_passUrl];</span>\<br><div><br><br><br><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/iOS 开发证书与xcode、profile、appId的关系/#more">Read More</a>
+            <a href="/2016/03/30/iOS下载文件的几种简单有效的方式/#more">Read More</a>
           
        </p>
     </div>
@@ -448,7 +592,7 @@ style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/iOS 开发证书与xcode、profile、appId的关系/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS 开发证书与xcode、profile、appId的关系/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/iOS下载文件的几种简单有效的方式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS下载文件的几种简单有效的方式/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -529,6 +673,80 @@ style="font-family: Menlo; font-size: 14px;">;</span></p>
 	
 	  	<span></span>
 		<a href="/2016/03/30/iOS有用的代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS有用的代码/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/iOS开发 git github 初学＋进阶/" title="iOS开发 git github 初学＋进阶" itemprop="url">iOS开发 git github 初学＋进阶</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="iOS开发-git-github-初学＋进阶"><a href="#iOS开发-git-github-初学＋进阶" class="headerlink" title="iOS开发 git github 初学＋进阶"></a>iOS开发 git github 初学＋进阶</h1><div><br><br><strong>iOS开发 git github 初学＋进阶</strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>2012-08-21<br>10:52:33|  分类： <a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=1&amp;c=fks_087074085086088066081081086095085082081074080084084074085">MyMac</a> |  标签：<a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=3&amp;c=git">git</a>  <a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=3&amp;c=github">github</a>  <a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=3&amp;c=%E5%85%A5%E9%97%A8">入门</a>  <a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=3&amp;c=%E8%BF%9B%E9%98%B6">进阶</a><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>|字号<br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/iOS开发 git github 初学＋进阶/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/iOS开发 git github 初学＋进阶/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS开发 git github 初学＋进阶/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -629,218 +847,6 @@ style="color: #3d1d81">length</span>)];<br>
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault/" title="iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault" itemprop="url">iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="iOS相关，过年回来电脑上的证书都失效了，求大神！-SegmentFault"><a href="#iOS相关，过年回来电脑上的证书都失效了，求大神！-SegmentFault" class="headerlink" title="iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault"></a>iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault<br>==============================================================<br><br><div><br><br><div><br><br></div>
-
-<p></div></p>
-<p></div></p>
-<p>上班的第一天，发现电脑上的证书都提示：“此证书的签发者无效”而且企业版打包是会出现错误，但是又不敢都删了，尤其是企业证书不干删了，怕之前的应用不能用，求大神看看这是怎么回事！</p>
-<p>贴上报错信息</p>
-<div><br><br><img src="iOS%E7%9B%B8%E5%85%B3%EF%BC%8C%E8%BF%87%E5%B9%B4%E5%9B%9E%E6%9D%A5%E7%94%B5%E8%84%91%E4%B8%8A%E7%9A%84%E8%AF%81%E4%B9%A6%E9%83%BD%E5%A4%B1%E6%95%88%E4%BA%86%EF%BC%8C%E6%B1%82%E5%A4%A7%E7%A5%9E%EF%BC%81%20-%20SegmentFault.resources/bVsLEP.png" alt=""><br><br></div>
-
-<div><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS相关，过年回来电脑上的证书都失效了，求大神！ - SegmentFault/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/iOS开发 git github 初学＋进阶/" title="iOS开发 git github 初学＋进阶" itemprop="url">iOS开发 git github 初学＋进阶</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="iOS开发-git-github-初学＋进阶"><a href="#iOS开发-git-github-初学＋进阶" class="headerlink" title="iOS开发 git github 初学＋进阶"></a>iOS开发 git github 初学＋进阶</h1><div><br><br><strong>iOS开发 git github 初学＋进阶</strong><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>2012-08-21<br>10:52:33|  分类： <a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=1&amp;c=fks_087074085086088066081081086095085082081074080084084074085">MyMac</a> |  标签：<a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=3&amp;c=git">git</a>  <a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=3&amp;c=github">github</a>  <a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=3&amp;c=%E5%85%A5%E9%97%A8">入门</a>  <a href="http://guxiaojje.blog.163.com/blog/#m=0&amp;t=3&amp;c=%E8%BF%9B%E9%98%B6">进阶</a><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>|字号<br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/iOS开发 git github 初学＋进阶/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/iOS开发 git github 初学＋进阶/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS开发 git github 初学＋进阶/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/iPhone屏幕尺寸/" title="iPhone屏幕尺寸" itemprop="url">iPhone屏幕尺寸</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="iPhone屏幕尺寸"><a href="#iPhone屏幕尺寸" class="headerlink" title="iPhone屏幕尺寸"></a>iPhone屏幕尺寸</h1><div style="font-family: Calibri, sans-serif; font-size: 14px;"><br><br>之前收藏的一个网站，列出了iPhone下各种情况的屏幕尺寸，给大家参考一下<br><br></div>
-
-<p><a href="http://www.idev101.com/code/User_Interface/sizes.html" target="_blank" rel="external">http://www.idev101.com/code/User_Interface/sizes.html</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/iPhone屏幕尺寸/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iPhone屏幕尺寸/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/10/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/12/">Next<span></span></a>
@@ -901,7 +907,7 @@ style="color: #3d1d81">length</span>)];<br>
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>3</sup></a></li>
 		  
 		
 		  
@@ -982,6 +988,10 @@ style="color: #3d1d81">length</span>)];<br>
 			
 		
 			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
@@ -1006,7 +1016,7 @@ style="color: #3d1d81">length</span>)];<br>
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/插件/" title="插件">插件<sup>1</sup></a></li>
 			
 		
 			
@@ -1014,7 +1024,7 @@ style="color: #3d1d81">length</span>)];<br>
 			
 		
 			
-				<li><a href="/tags/建立论坛/" title="建立论坛">建立论坛<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -1047,10 +1057,6 @@ style="color: #3d1d81">length</span>)];<br>
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
 			
 		
 		</ul>

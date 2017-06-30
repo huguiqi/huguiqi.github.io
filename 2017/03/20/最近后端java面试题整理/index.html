@@ -20,11 +20,8 @@
 基础类：
 集合类(collection)下面有哪些类
 Map/List
-HashMap\HashSet的特性与区别
-
-
-
-hashMa">
+HashMap、HashSet的特性与区别
+HashMap、H">
 <meta property="og:type" content="article">
 <meta property="og:title" content="最近后端java面试题整理">
 <meta property="og:url" content="http://www.huguiqi.com/2017/03/20/最近后端java面试题整理/index.html">
@@ -35,13 +32,10 @@ hashMa">
 基础类：
 集合类(collection)下面有哪些类
 Map/List
-HashMap\HashSet的特性与区别
-
-
-
-hashMa">
+HashMap、HashSet的特性与区别
+HashMap、H">
 <meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/14901501493763z9yf85f.png?imageslim">
-<meta property="og:updated_time" content="2017-04-25T04:39:20.000Z">
+<meta property="og:updated_time" content="2017-06-30T10:23:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最近后端java面试题整理">
 <meta name="twitter:description" content="最近后端java面试题整理最近想从前端管理岗位重新换到我最初起点的工作——java后端开发，已经有两三年没有用java语言进行开发了，发现很多基础都忘记了，其实我只是想重新换一个安静敲代码的工作，不过现在发现，并不是那么容易的。
@@ -50,11 +44,8 @@ hashMa">
 基础类：
 集合类(collection)下面有哪些类
 Map/List
-HashMap\HashSet的特性与区别
-
-
-
-hashMa">
+HashMap、HashSet的特性与区别
+HashMap、H">
 <meta name="twitter:image" content="http://ojnkdvkci.bkt.clouddn.com/14901501493763z9yf85f.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
@@ -144,11 +135,17 @@ hashMa">
 <h2 id="基础类："><a href="#基础类：" class="headerlink" title="基础类："></a>基础类：</h2><ol>
 <li>集合类(collection)下面有哪些类</li>
 <li>Map/List<ul>
-<li>HashMap\HashSet的特性与区别</li>
+<li>HashMap、HashSet的特性与区别</li>
+<li>HashMap、HashTable区别</li>
+<li>HashMap、MapTree的区别</li>
+<li>HashMap、LinkedHashMap区别</li>
+<li>HashMap、HashSet区别</li>
 </ul>
 </li>
 </ol>
-<p>hashMap实现了Map接口，是线程非安全的，它允许空(null)键值，效率上高于hashTalbe,hashMap的方法不是同步的，而hashTalbe的方法是同步的，线程是安全的。<br>HashSet实现了Set接口，它不允许集合中有重复的值，当我们提到HashSet时，第一件事情就是在将对象存储在HashSet之前，要先确保对象重写equals()和hashCode()方法，这样才能比较对象的值是否相等，以确保set中没有储存相等的对象。如果我们没有重写这两个方法，将会使用这个方法的默认实现。<br>public boolean add(Object o)方法用来在Set中添加元素，当元素值重复时则会立即返回false，如果成功添加的话会返回true。</p>
+<p>hashMap实现了Map接口，是线程非安全的，它允许空(null)键值，效率上高于hashTalbe,hashMap的方法不是同步的，而hashTalbe的方法是同步的，线程是安全的。<br>HashTable.put方法：<br>public synchronized V put(K key, V value) {<br>…….<br>}</p>
+<p>get方法：<br>public synchronized V get(Object key) {<br>…..<br>}<br>remove方法：<br>public synchronized V remove(Object key){<br>……<br>}<br>等等，所有的方法都是同步的，这样效率自然不高。</p>
+<p>HashSet实现了Set接口，它不允许集合中有重复的值，当我们提到HashSet时，第一件事情就是在将对象存储在HashSet之前，要先确保对象重写equals()和hashCode()方法，这样才能比较对象的值是否相等，以确保set中没有储存相等的对象。如果我们没有重写这两个方法，将会使用这个方法的默认实现。<br>public boolean add(Object o)方法用来在Set中添加元素，当元素值重复时则会立即返回false，如果成功添加的话会返回true。</p>
 <ul>
 <li>HashMap\HashSet的内部实现方式以及工作原理</li>
 </ul>
@@ -199,6 +196,7 @@ hashMa">
 <p><em>注意：当此方法被重写时，通常有必要重写hashCode方法，以维护hashCode方法的常规协定，该协定声明相等的对象必须具有相等的哈希码。</em></p>
 <ol>
 <li>线程的使用与原理</li>
+<li>json数据解析fastjson和JackSonJSON区别</li>
 </ol>
 <p><a href="http://blog.csdn.net/yinwenjie/article/details/50371005" target="_blank" rel="external">先参考下这篇详谈线程的文章</a></p>
 <ul>
@@ -209,9 +207,9 @@ hashMa">
 <p><a href="http://blog.csdn.net/yinwenjie/article/details/50403620" target="_blank" rel="external">关于状态的描述参考文章</a></p>
 <p>java中保证对象、方法、代码块线程安全的方法是给它们加锁，怎么加呢？当然是加：<code>synchronized</code> 关键字</p>
 <p>例：</p>
-<p>/<em>*  </em> 这个类的class对象进行检查。与synchronized(Dog.class)一样的效果<br> */<br>public static synchronized void doSomething() {</p>
+<p>/**  * 这个类的class对象进行检查。与synchronized(Dog.class)一样的效果<br> */<br>public static synchronized void doSomething() {</p>
 <p>}</p>
-<p>/<em>*  </em> 对这个类的实例化对象进行检查 与<br> */<br>public synchronized void doOtherthing() {</p>
+<p>/**  * 对这个类的实例化对象进行检查 与<br> */<br>public synchronized void doOtherthing() {</p>
 <p>}</p>
 <ol>
 <li>java对象new的时候做过哪些具体事情</li>
@@ -219,7 +217,7 @@ hashMa">
 <p> 所谓Base64，就是说选出64个字符—-小写字母a-z、大写字母A-Z、数字0-9、符号”+”、”/“（再加上作为垫字的”=”，实际上是65个字符）—-作为一个基本字符集。然后，其他所有符号都转换成这个字符集中的字符。</p>
 </li>
 </ol>
-<p><a href="http://www.ruanyifeng.com/blog/2008/06/base64.html" target="_blank" rel="external">    具体的解析参考这里</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2008/06/base64.html" target="_blank" rel="external">   具体的解析参考这里</a></p>
 <ol>
 <li>java类加载器有几种方式？原理是什么？</li>
 </ol>
@@ -234,7 +232,7 @@ hashMa">
 <ul>
 <li><p>启动类加载器(BootStrap ClassLoader，API)<br>这个属于java虚拟机自己内置的类加载器。<br>C++实现的，是Java类加载层次中最顶层的类加载器(JVM启动后初始化的)，负责加载JDK中的核心类库，如：rt.jar、resources.jar、charsets.jar等</p>
 </li>
-<li><p>标准扩展类加载器<br>  ExtensionClassLoader：称为扩展类加载器，负责加载Java的扩展类库    它的双亲是启动类加载器，注意不是继承，而是组合、委派的关系。</p>
+<li><p>标准扩展类加载器<br>  ExtensionClassLoader：称为扩展类加载器，负责加载Java的扩展类库   它的双亲是启动类加载器，注意不是继承，而是组合、委派的关系。</p>
 </li>
 <li><p>类路径类加载器(应用类加载器)<br>1，自定义类加载器，比如需要加载一个Dog类请求，必须先询问它的双亲，类路径类加载器来查找加载这个类，而类路径类加载器也会向自己的双亲发出这个请求。<br>要想自定义classloader我们需要通过继承java.lang.ClassLoader类。该类中有几个重要方法，但如果想遵循双亲委托机制，则只需要重写findClass方法；如果要改变双亲委派，则重写loadClass方法。<br>2，系统类加载器，负责加载应用程序classpath目录下的所有jar和class文件。</p>
 </li>
@@ -252,6 +250,9 @@ hashMa">
 <li>多连接性能作了很大提升</li>
 <li>支持长连接(客户端发送值为Keep-Alive时)，一个连接上可以支持多个请求与响应</li>
 </ul>
+<ol>
+<li>为什么要面向接口编程是不是多此一举？</li>
+</ol>
 <h2 id="解决问题能力："><a href="#解决问题能力：" class="headerlink" title="解决问题能力："></a>解决问题能力：</h2><ol>
 <li>做过的项目中，在哪个项目感觉比较有收获</li>
 <li>有解决过什么棘手问题没有，如何解决的</li>
@@ -266,6 +267,7 @@ hashMa">
 <li>系统中有数据会频繁更改，如何保证数据的正确性</li>
 <li>你的系统是如何去做分布式的</li>
 <li>数据库具体是如何去做读写分离的(mysql)</li>
+<li></li>
 </ol>
 </li>
 </ol>
@@ -273,6 +275,7 @@ hashMa">
 <li>MQ的原理及使用场景</li>
 <li>如何解决批量消息发送失败的问题</li>
 <li>如何延迟发送短信</li>
+<li>分布式锁</li>
 </ol>
 <h2 id="sprIng："><a href="#sprIng：" class="headerlink" title="sprIng："></a>sprIng：</h2><ol>
 <li>Ioc原理及用途</li>
@@ -420,7 +423,7 @@ hashMa">
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>3</sup></a></li>
 		  
 		
 		  
@@ -501,6 +504,10 @@ hashMa">
 			
 		
 			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
@@ -525,7 +532,7 @@ hashMa">
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/插件/" title="插件">插件<sup>1</sup></a></li>
 			
 		
 			
@@ -533,7 +540,7 @@ hashMa">
 			
 		
 			
-				<li><a href="/tags/建立论坛/" title="建立论坛">建立论坛<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -566,10 +573,6 @@ hashMa">
 		
 			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/express-异常处理/" title="express 异常处理">express 异常处理<sup>1</sup></a></li>
 			
 		
 		</ul>
