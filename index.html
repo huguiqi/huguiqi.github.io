@@ -87,6 +87,588 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/07/09/线程并发与通信/" title="线程并发与通信" itemprop="url">线程并发与通信</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-09T07:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="线程并发与通信"><a href="#线程并发与通信" class="headerlink" title="线程并发与通信"></a>线程并发与通信</h1><p><a href="http://wiki.jikexueyuan.com/project/java-concurrent/introduction.html" target="_blank" rel="external">参考文章</a></p>
+<ul>
+<li>多线程与cpu是单核还是多核无关，只是合理的利用cpu资源的一种方法</li>
+<li>多线程更多与分布式系统的并发性一起被提及</li>
+<li>线程间写入与访问共享资源问题，因共享资源存在不同步，产生线程安全问题</li>
+<li>分布式系统共享资源多线程问题</li>
+</ul>
+<h2 id="线程并发问题"><a href="#线程并发问题" class="headerlink" title="线程并发问题"></a>线程并发问题</h2><p>•    多线程：指的是这个程序（一个进程）运行时产生了不止一个线程<br>•    并行与并发：<br>◦    并行：多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时。<br>◦    并发：通过cpu调度算法，让用户看上去同时执行，实际上从cpu操作层面不是真正的同时。并发往往在场景中有公用的资源，那么针对这个公用的资源往往产生瓶颈，我们会用TPS或者QPS来反应这个系统的处理能力。</p>
+<p><a href="http://www.importnew.com/21089.html" target="_blank" rel="external">多线程参考文章</a></p>
+<h2 id="并发场景与解决问题"><a href="#并发场景与解决问题" class="headerlink" title="并发场景与解决问题"></a>并发场景与解决问题</h2><p>共享实例变量、共享连接资源时。<br>并发问题举例：<br>银行转账问题<br>投票问题<br>卖票问题<br>订单消库存问题<br>连接池问题</p>
+<h2 id="什么是IPC"><a href="#什么是IPC" class="headerlink" title="什么是IPC"></a>什么是IPC</h2><p>进程间通信（IPC，Inter-Process Communication），指至少两个进程或线程间传送数据或信号的一些技术或方法。<br>RPC、RMI、EJB、WebService都是IPC的一种方法。</p>
+<h2 id="线程通信"><a href="#线程通信" class="headerlink" title="线程通信"></a>线程通信</h2><p><a href="http://wiki.jikexueyuan.com/project/java-concurrent/thread-communication.html" target="_blank" rel="external">参考文章</a><br> 线程通信的目标是使线程间能够互相发送信号。另一方面，线程通信使线程能够等待其他线程的信号。<br>例如，线程 B 可以等待线程 A 的一个信号，这个信号会通知线程 B 数据已经准备好了。本文将讲解以下几个 JAVA 线程间通信的主题：</p>
+<ol>
+<li>通过共享对象通信</li>
+<li>忙等待</li>
+<li>wait()，notify()和 notifyAll()</li>
+<li>丢失的信号</li>
+<li>假唤醒</li>
+<li>多线程等待相同信号</li>
+<li>不要对常量字符串或全局对象调用 wait()</li>
+</ol>
+<h3 id="通过案例一步步解决并发问题"><a href="#通过案例一步步解决并发问题" class="headerlink" title="通过案例一步步解决并发问题"></a>通过案例一步步解决并发问题</h3><p>卖票案例：<br>假如库存有100张票，在高并发的环境下售卖，会有什么问题，怎么解决？</p>
+<pre><code>package com.wolf.thread.model;
+
+import org.junit.Test;
+
+
+
+ class Ticket {
+
+private int num;
+
+public Ticket(){
+    super();
+}
+
+public Ticket(int num) {
+    this.num = num;
+}
+
+public int getNum() {
+    return num;
+}
+
+public  void setNum(int num) {
+    this.num = num;
+}
+}
+
+
+public class TicketTest{
+
+@Test
+public void testSall(){
+    final Ticket ticket = new Ticket(10);
+        //分四个线程去卖票，直到票卖完
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+
+
+}
+
+}
+
+class TicketRunnable implements Runnable{
+
+private Ticket ticket;
+
+public TicketRunnable(Ticket ticket) {
+    this.ticket = ticket;
+}
+
+@Override
+public void run() {
+
+           while (true){
+                   if (ticket.getNum() &gt; 0) {
+                       ticket.setNum(ticket.getNum() - 1);
+                       System.out.println(Thread.currentThread().getName() + &quot;.....sale....&quot; + ticket.getNum());
+                   }
+           }
+        }
+    }
+</code></pre><p>运行了几次，发现总有重复卖票的情况：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1499649740468a09sykrv.png?imageslim" alt="paste image"></p>
+<p>这很明显是并发操作共享资源导致的问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ol>
+<li>在操作共享源的代码块或方法加上synchronized关键字，虽然可以简单的解决，但是会很影响性能。</li>
+<li>设置对象共享锁</li>
+</ol>
+<h4 id="设置对象共享锁"><a href="#设置对象共享锁" class="headerlink" title="设置对象共享锁"></a>设置对象共享锁</h4><p>class Ticket {</p>
+<pre><code>private int num;
+
+public Ticket(){
+    super();
+}
+
+public Ticket(int num) {
+    this.num = num;
+}
+
+public int getNum() {
+    return num;
+}
+
+public  void setNum(int num) {
+    this.num = num;
+}
+}
+
+
+public class TicketTest{
+
+@Test
+public void testSall(){
+    final Ticket ticket = new Ticket(10);
+        //分四个线程去卖票，直到票卖完
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+
+
+}
+
+}
+
+class TicketRunnable implements Runnable{
+
+private Ticket ticket;
+//线程是否被通知
+private  boolean hasSall;
+
+public TicketRunnable(Ticket ticket) {
+    this.ticket = ticket;
+}
+
+@Override
+public void run() {
+
+           while (true){
+               synchronized (ticket){
+                   if (hasSall) {
+                       try {
+                           ticket.wait();
+                       } catch (InterruptedException e) {
+                           e.printStackTrace();
+                       }
+                       //等待完后才会执行这句，说明上个卖票线程已经执行完，hasSall要重置成已卖
+                       hasSall = false;
+                   }
+               }
+
+               if (ticket.getNum() &gt; 0) {
+                   ticket.setNum(ticket.getNum() - 1);
+                   System.out.println(Thread.currentThread().getName() + &quot;.....sale....&quot; + ticket.getNum());
+                   //notify,只要线程卖了，就设置共享状态为true已通知
+                   synchronized (ticket){
+                       //设置卖票状态为正在卖
+                       hasSall = true;
+                       ticket.notify();
+                   }
+               }
+
+           }
+        }
+    }
+</code></pre><p>这种方法也是加锁，但是经测试，这个场景无法达到和使用synchronized同步代码块时的效果。</p>
+<ol>
+<li>使用并发包提供的线程锁进行加锁</li>
+</ol>
+<p><strong> Lock接口的ReentrantLock是乐观锁，是非阻塞式的，线程可中断的</strong><br><strong> synchronized是悲观锁，是阻塞式的，线程不可中断的</strong></p>
+<pre><code>class Ticket2 {
+
+private int num;
+
+Lock lock = new ReentrantLock();
+
+public Ticket2(){
+    super();
+}
+
+public Ticket2(int num) {
+    this.num = num;
+}
+
+public int getNum() {
+    return num;
+}
+
+public  void setNum(int num) {
+    this.num = num;
+}
+}
+</code></pre><p>TicketRunnable2类：</p>
+<pre><code>class TicketRunnable2 implements Runnable{
+
+private Ticket2 ticket;
+
+public TicketRunnable2(Ticket2 ticket) {
+    this.ticket = ticket;
+}
+
+@Override
+public void run() {
+    while (true){
+                try {
+                    ticket.lock.lock();
+                    if (ticket.getNum() &gt; 0) {
+                        ticket.setNum(ticket.getNum() - 1);
+                        System.out.println(Thread.currentThread().getName() + &quot;.....sale....&quot; + ticket.getNum());
+                    }
+                }finally {
+                    ticket.lock.unlock();
+                }
+    }
+}
+}
+</code></pre><p>单元测试：</p>
+<pre><code>@Test
+public void testSall2() throws InterruptedException {
+    final Ticket2 ticket = new Ticket2(100);
+    //分四个线程去卖票，直到票卖完
+
+    new Thread(new TicketRunnable2(ticket)).start();
+    new Thread(new TicketRunnable2(ticket)).start();
+    new Thread(new TicketRunnable2(ticket)).start();
+    new Thread(new TicketRunnable2(ticket)).start();
+    //让主线程睡眠10毫秒，等待子线程执行完毕
+    TimeUnit.SECONDS.sleep(10);
+
+}
+</code></pre><ul>
+<li>BlockingQueue，BlockingDeque</li>
+</ul>
+<ul>
+<li><h3 id="线程通信使用组合"><a href="#线程通信使用组合" class="headerlink" title="线程通信使用组合"></a>线程通信使用组合</h3></li>
+</ul>
+<ol>
+<li>synchronized语句+wait组合</li>
+<li>lock+condition组合</li>
+</ol>
+<ul>
+<li>多线程读写问题</li>
+</ul>
+<p>假如分布式系统上需要写入和读取缓存，但是写入和读取又不是同时执行的，现在要保证每次读取缓存时，都必须在写入之后，我们用这两种组合分别来解决这个问题。</p>
+<h4 id="synchronized语句-wait组合"><a href="#synchronized语句-wait组合" class="headerlink" title="synchronized语句+wait组合"></a>synchronized语句+wait组合</h4><pre><code>class FileStream{
+
+private byte[] files;
+
+
+
+public byte[] getFiles() {
+    return files;
+}
+
+public void setFiles(byte[] files) {
+    this.files = files;
+}
+
+public void readFile(){
+
+            for (byte fileb : files){
+                System.out.printf(&quot;files content:&quot;+fileb);
+            }
+
+
+}
+
+
+//假设读写操作都是异步操作
+public void writeFile(){
+
+        files = new byte[12];
+        for (int i=0;i&lt;files.length;i++){
+            files[i] = (byte) (&apos;a&apos; + i);
+        }
+
+}
+}
+</code></pre><p>线程实现类：</p>
+<pre><code>class RunableObj1 implements Runnable{
+
+private FileStream obj;
+
+public RunableObj1(FileStream obj) {
+    this.obj = obj;
+}
+
+@Override
+public void run() {
+    //这是obj的一个对象锁
+    synchronized (obj){
+        try {
+            //将线程1的对象锁让出，让线程1等待被通知唤醒
+            obj.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //因为直接读会发现还没有写入文件，需要等待写入后再读
+        obj.readFile();
+        System.out.println(&quot;线程&quot;+Thread.currentThread().getName()+&quot;获取到了锁。。。。&quot;);
+    }
+}
+}
+
+
+class RunableObj2 implements Runnable{
+
+private FileStream obj;
+
+public RunableObj2(FileStream obj) {
+    this.obj = obj;
+}
+
+@Override
+public void run() {
+    synchronized (obj){
+        //写完后调用notyfy释放锁，通知其它在等待的线程继续操作
+        obj.writeFile();
+        obj.notify();
+        System.out.println(&quot;线程&quot;+Thread.currentThread().getName()+&quot;调用了notify&quot;);
+    }
+    System.out.println(&quot;线程&quot;+Thread.currentThread().getName()+&quot;释放了锁&quot;);
+}
+}
+</code></pre><p>运行：</p>
+<pre><code>@Test
+public void testObjThread(){
+
+    FileStream obj = new FileStream();
+
+    Thread t1 = new Thread(new RunableObj1(obj));
+    Thread t2 = new Thread(new RunableObj2(obj));
+    t1.start();
+    t2.start();
+
+}
+</code></pre><p>结果如下：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1499741801797yxf28x97.png?imageslim" alt="paste image"></p>
+<p>这个结果正是我要的执行顺序。</p>
+<h4 id="lock-condition组合"><a href="#lock-condition组合" class="headerlink" title="lock+condition组合"></a>lock+condition组合</h4><pre><code>class RunableObjLock1 implements Runnable{
+
+private FileStream obj;
+private Lock lock;
+private Condition condition;
+
+public RunableObjLock1(FileStream obj,Lock lock,Condition condition) {
+    this.obj = obj;
+    this.lock = lock;
+    this.condition = condition;
+}
+
+@Override
+public void run() {
+        lock.lock();
+        try {
+//                将线程1的对象锁让出，让线程1等待被通知唤醒
+            condition.await();
+            //因为直接读会发现还没有写入文件，需要等待写入后再读
+            obj.readFile();
+            System.out.println(&quot;线程&quot;+Thread.currentThread().getName()+&quot;获取到了锁。。。。&quot;);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+}
+}
+
+
+class RunableObjLock2 implements Runnable{
+
+private FileStream obj;
+private Lock lock;
+private Condition condition;
+
+public RunableObjLock2(FileStream obj,Lock lock,Condition condition) {
+    this.obj = obj;
+    this.lock = lock;
+    this.condition = condition;
+}
+
+@Override
+public void run() {
+    lock.lock();
+    try {
+        //写完后调用notyfy释放锁，通知其它在等待的线程继续操作
+        obj.writeFile();
+        //obj.notify();
+        condition.signal();
+        System.out.println(&quot;线程&quot;+Thread.currentThread().getName()+&quot;调用了notify&quot;);
+    }finally {
+        lock.unlock();
+    }
+}
+</code></pre><p>}</p>
+<p>运行代码：</p>
+<pre><code>@Test
+public void testObjThreadForLock(){
+
+    FileStream obj = new FileStream();
+    Lock lock = new ReentrantLock();
+    Condition condition = lock.newCondition();
+    Thread t1 = new Thread(new RunableObjLock1(obj,lock,condition));
+    Thread t2 = new Thread(new RunableObjLock2(obj,lock,condition));
+    t1.start();
+    t2.start();
+
+}
+</code></pre><p>结果如下：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1499741801797yxf28x97.png?imageslim" alt="paste image"></p>
+<p>由于锁和condition都是用在FileStream对象上的，所以我把代码重构下：</p>
+<pre><code>class RunableObjLock1 implements Runnable{
+
+private FileStream obj;
+
+public RunableObjLock1(FileStream obj) {
+    this.obj = obj;
+}
+
+@Override
+public void run() {
+            obj.readFile();
+}
+</code></pre><p>}</p>
+<pre><code>class RunableObjLock2 implements Runnable{
+
+private FileStream obj;
+
+public RunableObjLock2(FileStream obj) {
+    this.obj = obj;
+}
+
+@Override
+public void run() {
+        obj.writeFile();
+}
+</code></pre><p>}</p>
+<pre><code>class FileStream{
+
+private byte[] files;
+
+private final Lock lock = new ReentrantLock();
+private final Condition condition = lock.newCondition();
+
+public byte[] getFiles() {
+    return files;
+}
+
+public void setFiles(byte[] files) {
+    this.files = files;
+}
+
+public void readFile(){
+    if (lock.tryLock()){
+        try {
+            condition.await();
+            System.out.println(&quot;线程&quot;+Thread.currentThread().getName()+&quot;获取到了锁。。。。&quot;);
+            for (byte fileb : files){
+                System.out.println(&quot;files content:&quot;+fileb);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            lock.unlock();
+        }
+    }
+}
+
+
+//假设读写操作都是异步操作
+public void writeFile(){
+    lock.lock();
+    try {
+        files = new byte[12];
+        for (int i=0;i&lt;files.length;i++){
+            files[i] = (byte) (&apos;a&apos; + i);
+        }
+        condition.signal();
+        System.out.println(&quot;线程&quot;+Thread.currentThread().getName()+&quot;调用了notify&quot;);
+    }finally {
+        lock.unlock();
+    }
+
+}
+}
+</code></pre><p>最后结果还是一样的。</p>
+<h3 id="生产者消费者问题"><a href="#生产者消费者问题" class="headerlink" title="生产者消费者问题"></a>生产者消费者问题</h3><p>我们先来看看等待/通知机制下的生产者消费者模式：我们假设这样一个场景，我们是卖北京烤鸭店铺，我们现在只有一条生产线也只有一条消费线，也就是说只能生产线程生产完了，再通知消费线程才能去卖，如果消费线程没烤鸭了，就必须通知生产线程去生产，此时消费线程进入等待状态。在这样的场景下，我们不仅要保证共享数据（烤鸭数量）的线程安全，而且还要保证烤鸭数量在消费之前必须有烤鸭。</p>
+<h2 id="分布式系统间通信-进程通信，远程调用"><a href="#分布式系统间通信-进程通信，远程调用" class="headerlink" title="分布式系统间通信(进程通信，远程调用)"></a>分布式系统间通信(进程通信，远程调用)</h2><ul>
+<li>RPC<br>RPC=Remote Produce Call 是一种技术的概念名词. HTTP是一种协议,RPC可以通过HTTP来实现,也可以通过Socket自己实现一套协议来实现。<br>用来解决分布式系统间通信的一种协议。<br>RMI、Dubbo、Zookeeper都是RPC协议的实现</li>
+<li>RMI<br>远程方法调用(Remote Method Invocation ,RMI)，实现在不同的Java虚拟机(JVM)间对象间的通信，客户端（一个JVM）可以同步调用服务器（其它JVM）的对象的方法。<br>使用RMI的利弊：</li>
+<li>优势：面向对象的远程服务模型；基于TCP协议上的服务，执行速度快。</li>
+<li><p>劣势：不能跨语言；每个远程对象都要绑定端口，不易维护；不支持分布式事务JTA</p>
+</li>
+<li><p>WebService</p>
+</li>
+</ul>
+<p>Web Service是一组分布式应用模型的规范， 它定义了网络传输协议和访问服务的数据格式。该模型隐藏了技术的实现细节，旨在提供松散耦合、跨平台、跨语言的服务组件。<br>有第三库，如：CXF</p>
+<ul>
+<li>EJB<br>ejb是java EE 中的一个规范，该规范描述了分布式应用程序需要解决的问题，例如事务处理、安全、日志、分布式等，而同时呢，sun公司也实现了自己定义的这一个标准，相当于自己颁布一个标准然后，又给出了实现供别人使用，实现以很多API的方式提供给用的人。<br>ejb是按照java服务器接口定义的java类，可以理解为一个特殊的java类，放在容器里容器可以帮助该类管理事务、分布式、安全等，一般小的程序不会用到，只有大型分布式系统才会用到ejb，既然ejb是一个java类或是一个组件，颗粒较小，这也是与Webservice的区别之一，下面会说到，它就可以被其它一个或多个模块调用。<br>包含了三种类型的Bean，可以通过注释JPA一个规范来标记,其中有一种Bean，叫MDB消息驱动bean，它的通信机制涉及到了JMS协议。<br>ejb可以进行远程调用，但是不能够跨语言，ejb是同步调用，而平时我们说的的ejb异步调用指的是ejb的MDB异步通信。</li>
+</ul>
+<p>使用EJB的利弊：<br>•    优势：可扩展性好，安全性强，支持分布式事务处理。<br>•    劣势：不能跨语言；配置相对复杂，不同J2EE容器之间很难做无缝迁移。</p>
+<h2 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a>网络通信</h2><ul>
+<li>TCP<ul>
+<li>HTTP</li>
+<li>Socket</li>
+</ul>
+</li>
+<li>UDP<br>  sokect也可以实现UDP协议。</li>
+</ul>
+<h2 id="分布式中间件消息通信"><a href="#分布式中间件消息通信" class="headerlink" title="分布式中间件消息通信"></a>分布式中间件消息通信</h2><ul>
+<li>JMS</li>
+<li>MQ<h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h2></li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/线程/">线程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/09/线程并发与通信/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/09/线程并发与通信/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/06/30/TreeMap实现原理深究/" title="TreeMap实现原理深究" itemprop="url">TreeMap实现原理深究</a>
   </h1>
   <p class="article-author">By
@@ -107,9 +689,17 @@
 <h2 id="惑一：natural-ordering"><a href="#惑一：natural-ordering" class="headerlink" title="惑一：natural ordering"></a>惑一：natural ordering</h2><blockquote>
 <p>TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering）</p>
 </blockquote>
-<p>先来看看这段代码：<br>    TreeMap map = new TreeMap();<br>    map.put(“A”,”1”);<br>    map.put(“C”,”2”);<br>    map.put(“B”,”3”);<br>    map.put(“E”,”4”);<br>    map.put(“D”,”5”);<br>    System.out.println(map);</p>
-<p>output:<br>    {A=1, B=3, C=2, D=5, E=4}</p>
-<p>可以发现，默认按照升序自动排序了。</p>
+<p>先来看看这段代码：</p>
+<pre><code>TreeMap map = new TreeMap();
+map.put(&quot;A&quot;,&quot;1&quot;);
+map.put(&quot;C&quot;,&quot;2&quot;);
+map.put(&quot;B&quot;,&quot;3&quot;);
+map.put(&quot;E&quot;,&quot;4&quot;);
+map.put(&quot;D&quot;,&quot;5&quot;);
+System.out.println(map);
+</code></pre><p>output:</p>
+<pre><code>{A=1, B=3, C=2, D=5, E=4}
+</code></pre><p>可以发现，默认按照升序自动排序了。</p>
 <p>通过查阅TreeMap源码，发现treeMap的put方法如下：</p>
 <pre><code>public V put(K key, V value) {
 Entry&lt;K,V&gt; t = root;
@@ -254,30 +844,12 @@ k++;
 <pre><code>/** The value is used for character storage. */
 private final char value[];
 </code></pre><p>所以真相大白了，跟SortMap一毛钱关系都没有。。。。。</p>
-<p>那SortMap是怎么回事？</p>
-<p>我在TreeMap源码里找到这个构造方法：</p>
-<pre><code>public TreeMap(SortedMap&lt;K, ? extends V&gt; m) {
-comparator = m.comparator();
-try {
-buildFromSorted(m.size(), m.entrySet().iterator(), null, null);
-} catch (java.io.IOException cannotHappen) {
-} catch (ClassNotFoundException cannotHappen) {
-}
-}
-</code></pre><p>也就是说，想要用SortedMap来排序，必须要传进来一个SortedMap实现才行，奶奶的胸，网文害人不浅。</p>
-<h2 id="解惑二：也可以通过构造时传入的比较器（Comparator）"><a href="#解惑二：也可以通过构造时传入的比较器（Comparator）" class="headerlink" title="解惑二：也可以通过构造时传入的比较器（Comparator）"></a>解惑二：也可以通过构造时传入的比较器（Comparator）</h2><p>这个比较好理解，刚刚看put源码时，就看到有comparator属性判断，因为我没有传这个比较器，所以一直走else;</p>
-<pre><code> public TreeMap(Comparator&lt;? super K&gt; comparator) {
-this.comparator = comparator;
-}
-</code></pre><h2 id="解惑三：TreeMap底层通过红黑树（Red-Black-tree）实现"><a href="#解惑三：TreeMap底层通过红黑树（Red-Black-tree）实现" class="headerlink" title="解惑三：TreeMap底层通过红黑树（Red-Black tree）实现"></a>解惑三：TreeMap底层通过红黑树（Red-Black tree）实现</h2><p>先不说这句说的对错，先来说说什么是Red-Black tree?</p>
-<h3 id="什么是Red-Black-tree"><a href="#什么是Red-Black-tree" class="headerlink" title="什么是Red-Black tree"></a>什么是Red-Black tree</h3><p>看TreeMap的类注释，第一句话就是：</p>
-<blockquote>
-<p>A Red-Black tree based {@link NavigableMap} implementation.</p>
-</blockquote>
-
+<p>~~
         
         
         <p class="article-more-link">
+          
+            <a href="/2017/06/30/TreeMap实现原理深究/#more">Read More</a>
           
        </p>
     </div>
@@ -619,13 +1191,13 @@ abstract public V get(Object key);
 abstract public V put(K key, V value);
 abstract public V remove(Object key);
 </code></pre><h3 id="HashMap、TreeMap的区别"><a href="#HashMap、TreeMap的区别" class="headerlink" title="HashMap、TreeMap的区别"></a>HashMap、TreeMap的区别</h3><ol>
-<li>HashMap是无序的，TreeMap是有序的</li>
+<li>HashMap是无序的(其实是resize方法打乱的)，TreeMap是有序的</li>
 <li>HashMap是基于Node链表实现的，而TreeMap是基于红黑树这种二叉树算法实现的</li>
 <li>TreeMap继承了SortMap,默认使用key的自然排序算法给元素排序，所以是相对HashMap来说是有序的(关于如何自然排序，请参考TreeMap自然排序源码分析)</li>
-<li></li>
 </ol>
 <h3 id="HashMap、LinkedHashMap区别"><a href="#HashMap、LinkedHashMap区别" class="headerlink" title="HashMap、LinkedHashMap区别"></a>HashMap、LinkedHashMap区别</h3><ul>
-<li>HashMap、HashSet区别</li>
+<li>同为链表实现</li>
+<li></li>
 </ul>
 
         
@@ -1189,114 +1761,6 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/20/最近后端java面试题整理/" title="最近后端java面试题整理" itemprop="url">最近后端java面试题整理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-20T10:00:00.000Z" itemprop="datePublished"> 发表于 2017-03-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="最近后端java面试题整理"><a href="#最近后端java面试题整理" class="headerlink" title="最近后端java面试题整理"></a>最近后端java面试题整理</h1><p>最近想从前端管理岗位重新换到我最初起点的工作——java后端开发，已经有两三年没有用java语言进行开发了，发现很多基础都忘记了，其实我只是想重新换一个安静敲代码的工作，不过现在发现，并不是那么容易的。</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/14901501493763z9yf85f.png?imageslim" alt="paste image"></p>
-<p>以下是我最近面试我整理的面试题：</p>
-<h2 id="基础类："><a href="#基础类：" class="headerlink" title="基础类："></a>基础类：</h2><ol>
-<li>集合类(collection)下面有哪些类</li>
-<li>Map/List<ul>
-<li>HashMap、HashSet的特性与区别</li>
-<li>HashMap、HashTable区别</li>
-<li>HashMap、MapTree的区别</li>
-<li>HashMap、LinkedHashMap区别</li>
-<li>HashMap、HashSet区别</li>
-</ul>
-</li>
-</ol>
-<p>hashMap实现了Map接口，是线程非安全的，它允许空(null)键值，效率上高于hashTalbe,hashMap的方法不是同步的，而hashTalbe的方法是同步的，线程是安全的。<br>HashTable.put方法：<br>public synchronized V put(K key, V value) {<br>…….<br>}</p>
-<p>get方法：<br>public synchronized V get(Object key) {<br>…..<br>}<br>remove方法：<br>public synchronized V remove(Object key){<br>……<br>}<br>等等，所有的方法都是同步的，这样效率自然不高。</p>
-<p>HashSet实现了Set接口，它不允许集合中有重复的值，当我们提到HashSet时，第一件事情就是在将对象存储在HashSet之前，要先确保对象重写equals()和hashCode()方法，这样才能比较对象的值是否相等，以确保set中没有储存相等的对象。如果我们没有重写这两个方法，将会使用这个方法的默认实现。<br>public boolean add(Object o)方法用来在Set中添加元素，当元素值重复时则会立即返回false，如果成功添加的话会返回true。</p>
-<ul>
-<li>HashMap\HashSet的内部实现方式以及工作原理</li>
-</ul>
-<p><a href="http://blog.csdn.net/wulunbi/article/details/51105028" title="HashTable与HashMap">HashMap与HashTable的不同参考这里</a></p>
-<h3 id="HashSet与HashMap的实质"><a href="#HashSet与HashMap的实质" class="headerlink" title="HashSet与HashMap的实质"></a>HashSet与HashMap的实质</h3><p>(1)HashSet是set的一个实现类,hashMap是Map的一个实现类,同时hashMap是hashTable的替代品(为什么后面会讲到).<br>(2)HashSet以对象作为元素,而HashMap以(key-value)的一组对象作为元素,且HashSet拒绝接受重复的对象.HashMap可以看作三个视图：key的Set，value的Collection，Entry的Set。 这里HashSet就是其实就是HashMap的一个视图。<br>HashSet内部就是使用Hashmap实现的，和Hashmap不同的是它不需要Key和Value两个值。<br>往hashset中插入对象其实只不过是内部做了<br>      public boolean add(Object o) {<br>    return map.put(o, PRESENT)==null;<br>      }</p>
-<ul>
-<li>ArrayList与LinkList使用场景与优缺点，工作原理是什么</li>
-</ul>
-<ul>
-<li>相同点：<br> 1), ArrayList,LinkedList,Vector这三个类都实现了java.util.List接口<br> 2)，都是线程不同步的，非线程安全的</li>
-<li>ArrayList与linkList区别<br> 优缺点：<br>  1），ArrayList是实现了基于动态数组的数据结构，而LinkLIst是基于链表的数据结构，所以，ArrayList在未末尾进行添加删除操作时，速度比不上linkList,因为ArrayList需要移动数据位置，而LinkList不需要<br>  2）而对于get/set随机访问集合元素操作时，LinkList的访问速度不如ArrayList，因为LinkList需要移动指针。</li>
-</ul>
-<ol>
-<li>java基类里面你知道的有哪些方法，主要用来做什么？<ul>
-<li>clone方法</li>
-<li>equals</li>
-<li>finalize</li>
-<li>getClass</li>
-<li>haseCode</li>
-<li>notify</li>
-<li>notifyAll</li>
-<li>toString</li>
-<li>wait</li>
-<li>waitAll</li>
-</ul>
-</li>
-</ol>
-<p>见字如面。。。。。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/03/20/最近后端java面试题整理/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/java/">java</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/面试题/">面试题</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/20/最近后端java面试题整理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/20/最近后端java面试题整理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1357,7 +1821,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>3</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>4</sup></a></li>
 		  
 		
 		  
@@ -1466,7 +1930,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/插件/" title="插件">插件<sup>1</sup></a></li>
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			
@@ -1474,15 +1938,11 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/线程/" title="线程">线程<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -1494,11 +1954,15 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			

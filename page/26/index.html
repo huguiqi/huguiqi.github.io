@@ -87,7 +87,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Objective-C RegEx/" title="Objective-C RegEx" itemprop="url">Objective-C RegEx</a>
+      <a href="/2016/03/30/Redis 横向扩展案例/" title="Redis 横向扩展案例" itemprop="url">Redis 横向扩展案例</a>
   </h1>
   <p class="article-author">By
        
@@ -100,26 +100,16 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Objective-C-RegEx"><a href="#Objective-C-RegEx" class="headerlink" title="Objective-C RegEx"></a>Objective-C RegEx</h1><p><span style="font: 13.0px Verdana">Objective-C RegEx Categories\<br> <a href="https://github.com/bendytree/Objective-C-RegEx-Categories"><span
-style="color: #1d58d1">https://github.com/bendytree/Objective-C-RegEx-Categories</span></a>\<br> 使用说明:将 RegExCategories.h RegExCategories.m<br>文件拖入工程中引入头文件即可.\<br>  \</p>
-<p>==========================================================================\<br>     //</span><span
-style="font: 13.0px Verdana; color: #0433ff">匹配电话号码</span><span
-style="font: 13.0px Verdana">(手机号以13， 15，18开头，八个 \d<br>数字字符)\<br>     BOOL isMatch = [ “15910514636” isMatch:RX( “</span><span
-style="font: 13.0px Verdana; color: #ff2500">\^((13[0-9])|(15[\^4,\\D])|(18[0,0-9]))\\d{8}\$</span><span
-style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br>     //</span><span
-style="font: 13.0px Verdana; color: #0433ff">匹配邮箱</span><span
-style="font: 13.0px Verdana">\<br>     BOOL isMatch = [ “<705786230 qq.com>“ isMatch:RX( “</span><span
-style="font: 13.0px Verdana; color: #ff2500">[A-Z0-9a-z._%+-]+ [A-Za-z0-9.-]+\\.[A-Za-z]{2,4}</span><span
-style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>    \<br>     //</span><span
-style="font: 13.0px Verdana; color: #0433ff">匹配用户名</span><span
-style="font: 13.0px Verdana">(用户名长度为6-20位之间,大小写字母或者数字均可)\<br>     BOOL isMatch = [ “705786230” isMatch:RX( “</span><span
-style="font: 13.0px Verdana; color: #ff2500">\^[A-Za-z0-9]{6,20}+\$</span><span
-style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br>
+        <h1 id="Redis-横向扩展案例"><a href="#Redis-横向扩展案例" class="headerlink" title="Redis 横向扩展案例"></a>Redis 横向扩展案例</h1><h2 id="0x01-背景介绍"><a href="#0x01-背景介绍" class="headerlink" title="0x01 背景介绍"></a>0x01 背景介绍</h2><p>A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A<br>项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达<br>100K，甚至一度达到<br>120K。某天晚上，终于崩溃了。这也印证了「<strong>墨菲定律</strong>」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anything<br>that can go wrong will go<br>wrong）。所以，平时的运维过程，千万不要抱有侥幸心理，有问题就第一时间反应，有隐患就及时处理。</p>
+<hr>
+<h2 id="0x02-分析解决"><a href="#0x02-分析解决" class="headerlink" title="0x02 分析解决"></a>0x02 分析解决</h2><h3 id="2-1-初步分析"><a href="#2-1-初步分析" class="headerlink" title="2.1 初步分析"></a>2.1 初步分析</h3><p>单点 Redis<br>实例崩溃的现象就是新的连接不能建立，超时严重，数据不能及时读取。查看系统日志，发现有大量形如「kernel:<br>Possible SYN flooding on port xxxx. Sending<br>cookies」的日志。我们很快排查了系统遭受攻击的可能性。查看端口占用情况，确实是被<br>Redis 消耗了。分析监控数据和端口数情况，此时的 Redis 连接数达到了<br>7K，QPS 已经达到 100K。现在亟待解决的问题就是连接数高的问题。另外，针对<br>QPS 过高的问题，确认是否可以使用 Redis 管道技术。</p>
+<p><img src="http://i.imgur.com/OFlADoe.png" alt="QPS of Redis at Crash time"></p>
+<p>经过和研发沟通，得知程序采用 Nginx Lua 实现。Lua<br>是一个简洁、轻量、可扩展的脚本语言，也是号称性能最高的脚本语言。使用<br>Nginx Lua，再加上 LuaRedisModule 模块，就可以原生地和 Redis<br>建立请求，并解析响应。但真实的项目中采用的是 lua-resty-redis，这是一个为<br>ngx_lua 设计的，基于 cosocket API 的 Redis Lua 客户端。</p>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Objective-C RegEx/#more">Read More</a>
+            <a href="/2016/03/30/Redis 横向扩展案例/#more">Read More</a>
           
        </p>
     </div>
@@ -145,7 +135,75 @@ style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Objective-C RegEx/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-C RegEx/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Redis 横向扩展案例/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Redis 横向扩展案例/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/新浪微薄分享功能实现方式/" title="新浪微薄分享功能实现方式" itemprop="url">新浪微薄分享功能实现方式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="新浪微薄分享功能实现方式"><a href="#新浪微薄分享功能实现方式" class="headerlink" title="新浪微薄分享功能实现方式"></a>新浪微薄分享功能实现方式</h1><div><br><br>－，加入以下代码，可实现简单的分享<br><br></div>
+
+<p>  \</p>
+<p><a href="http://shareto.com.cn/share.html" target="_blank" rel="external"><img src="http://s.shareto.com.cn/btn/lg-share-cn.gif" alt="分享道"></a>\</p>
+<p>\</p>
+<div><br><br>\<br><br></div>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/新浪微薄分享功能实现方式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/新浪微薄分享功能实现方式/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -229,7 +287,7 @@ style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Objective-c之NSString(NSMutableString)/" title="Objective-c之NSString(NSMutableString)" itemprop="url">Objective-c之NSString(NSMutableString)</a>
+      <a href="/2016/03/30/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/" title="App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎" itemprop="url">App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</a>
   </h1>
   <p class="article-author">By
        
@@ -242,22 +300,17 @@ style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<
 </header>
     <div class="article-content">
         
-        <h1 id="Objective-c之NSString-NSMutableString"><a href="#Objective-c之NSString-NSMutableString" class="headerlink" title="Objective-c之NSString(NSMutableString)"></a>Objective-c之NSString(NSMutableString)</h1><div><br><br>Objective-c之NSString(NSMutableString)  (2010-12-09 20:48:24)<br><br></div>
+        <h1 id="App提交-App-Store-审核，遇到过哪些坑？-应用（软件）-知乎"><a href="#App提交-App-Store-审核，遇到过哪些坑？-应用（软件）-知乎" class="headerlink" title="App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎"></a>App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</h1><p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>App提交 App Store 审核，遇到过哪些坑？<br>======================================<br><br><div><br><br><div><br><br></div>
 
-<div><br><br>\<br><br></div>
-
-<div><br><br><img src="Objective-c%E4%B9%8BNSString(NSMutableString" alt="">.resources/BFF1B981-67D7-48DA-88E7-E0522F4A1618.gif)<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br><strong>1、初始化字符串一</strong><br><br></div>
-
-<div><br><br>\<br>
+<p></div></p>
+<p></div></p>
+<p>ios审核满眼是坑！！！ 大家赞了，那我就在多填些坑。觉得有用就拿走吧。\<br>＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\<br>一个悲伤的故事：一家公司14年初开发app历时一年还没有提交appstore成功，然后被迫转型了\<br>自己遇到过的：\<br>1.物化女性。软件内姑娘太多导致的。so。。。一定要有帅哥。哪怕首页只有一个。\<br>2.软件名字冲突。提交时发现有软件名字一样。丫停的。只能换。想好软件名字搜一下先。\<br>3.等级评定，娱乐相关所以不要你勾选后发现4+可以。然并乱。必须17+走起\<br>4.支付上，要求用户即使换手机或卸载软件，所购买的物品还可以继续使用。\<br>5.不要用第三方登录，尤其是QQ，用户没有安装qq，会引导你下载，然后就会被退回。\<br>6.有时第三方的统计什么会调用idfa。这个只要你调用了就必须有广告，不然会被打回。\<br>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Objective-c之NSString(NSMutableString)/#more">Read More</a>
+            <a href="/2016/03/30/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/#more">Read More</a>
           
        </p>
     </div>
@@ -283,7 +336,7 @@ style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Objective-c之NSString(NSMutableString)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-c之NSString(NSMutableString)/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -366,7 +419,7 @@ style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Objective-C –反射篇/" title="Objective-C –反射篇" itemprop="url">Objective-C –反射篇</a>
+      <a href="/2016/03/30/3月份面试题po出/" title="三月份的面试题目" itemprop="url">三月份的面试题目</a>
   </h1>
   <p class="article-author">By
        
@@ -379,23 +432,90 @@ style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<
 </header>
     <div class="article-content">
         
-        <h1 id="Objective-C-–反射篇"><a href="#Objective-C-–反射篇" class="headerlink" title="Objective-C –反射篇"></a>Objective-C –反射篇</h1><p>Objective-C –反射篇 (2013-08-21 15:57:36)转载▼</p>
-<div><br><br>标签： 杂谈     分类： iphone开发<br><br></div>
-
-<div><br><br><a href="http://zephyrleavesblog.sinaapp.com/?p=676">http://zephyrleavesblog.sinaapp.com/?p=676</a><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>今天我们来讲讲Objective-C的反射,<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>
+        <h1 id="3月份面试题PO出"><a href="#3月份面试题PO出" class="headerlink" title="3月份面试题PO出"></a>3月份面试题PO出</h1><p>上周去面试了，本来应该上周未就应该把这些题目都研究下的，但是我落魄了<br>我面试的是全栈工程师，结果是扑街了。。。。。可能是因为聊天时没发挥好，下次要注意了，要有激情。。。。。</p>
+<p>面试内容：</p>
+<h2 id="一，浏览器跨域问题怎么解决"><a href="#一，浏览器跨域问题怎么解决" class="headerlink" title="一，浏览器跨域问题怎么解决"></a>一，浏览器跨域问题怎么解决</h2><p>先来说说，什么是跨域问题？</p>
+<h3 id="什么是跨域？"><a href="#什么是跨域？" class="headerlink" title="什么是跨域？"></a>什么是跨域？</h3><p>概念：只要协议、域名、端口有任何一个不同，都被当作是不同的域。</p>
+<p>言简意骇吧<br>来看例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">URL                      说明       是否允许通信</div><div class="line">http://www.a.com/a.js</div><div class="line">http://www.a.com/b.js     同一域名下   允许</div><div class="line">http://www.a.com/lab/a.js</div><div class="line">http://www.a.com/script/b.js 同一域名下不同文件夹 允许</div><div class="line">http://www.a.com:8000/a.js</div><div class="line">http://www.a.com/b.js     同一域名，不同端口  不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">https://www.a.com/b.js 同一域名，不同协议 不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">http://70.32.92.74/b.js 域名和域名对应ip 不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">http://script.a.com/b.js 主域相同，子域不同 不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">http://a.com/b.js 同一域名，不同二级域名（同上） 不允许（cookie这种情况下也不允许访问）</div><div class="line">http://www.cnblogs.com/a.js</div><div class="line">http://www.a.com/b.js 不同域名 不允许</div></pre></td></tr></table></figure>
+<p><em>ps:对于端口和协议的不同，只能通过后台来解决。</em></p>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Objective-C –反射篇/#more">Read More</a>
+            <a href="/2016/03/30/3月份面试题po出/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/面试题/">面试题</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/面试题-全栈/">面试题 全栈</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/3月份面试题po出/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/3月份面试题po出/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/RESTEasy入门/" title="RESTEasy入门" itemprop="url">RESTEasy入门</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="RESTEasy入门"><a href="#RESTEasy入门" class="headerlink" title="RESTEasy入门"></a>RESTEasy入门</h1><div><br><br>### RESTEasy入门<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>RESTEasy是JBoss的开源项目之一，是一个RESTful Web<br>Services框架。RESTEasy的开发者Bill<br>Burke同时也是JAX-RS的J2EE标准制定者之一。JAX-RS是一个JCP制订的新标准，用于规范基于HTTP的RESTful<br>Web Services的API。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>我们已经有SOAP了，为什么需要Restful<br>WebServices？用Bill自己的话来说：”如果是为了构建SOA应用，从技术选型的角度来讲，我相信REST比SOAP更具优势。开发人员会意识到使用传统方式有进行SOA架构有多复杂，更不用提使用这些做出来的接口了。这时他们就会发现Restful<br>Web Services的光明之处。”<br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/RESTEasy入门/#more">Read More</a>
           
        </p>
     </div>
@@ -421,7 +541,7 @@ style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Objective-C –反射篇/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-C –反射篇/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/RESTEasy入门/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/RESTEasy入门/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -511,6 +631,74 @@ style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/SVN使用经验心得/" title="SVN使用经验心得" itemprop="url">SVN使用经验心得</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="SVN使用经验心得"><a href="#SVN使用经验心得" class="headerlink" title="SVN使用经验心得"></a>SVN使用经验心得</h1><div><br><br><div><br><br><div><br><br><span
+lang="EN-US">1、如果已经有人lock了一个文件，但另外一个人需要编辑此文件，有两个选择，一个是由管理员来解除锁定，另外一个是在get<br>lock选项中有个steal the locks，选择后，即可以编辑该文件</span><br><br><span
+lang="EN-US">2、SVN的版本概念是针对目录而非文件，即使只更新了一个文件，那么，整体的版本也需要加1</span><br><br><span lang="EN-US">3、推荐使用目录树为\<br> /repos/trunk         用来保存主线，所有的code都存放在这个目录中\<br> /repos/branches<br>用来保存目录分支，OEM、新功能、设计方案调整，都有可能需要创建分支目录\<br> /repos/tags<br>用来保存标签拷贝，文档宝的阶段性成果可以打个标签存放到此目录下</span><br><br><span
+lang="EN-US">4、SVN的上传和更新是异步的，可以分开操作，而不用担心在update的同时把自己不成熟的代码commit从而影响别人的工作。</span><br><br><span
+lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情况和来管理工作copy的，如果不小心删除了，可以把该目录整个删掉，然后返回父目录，并使用update，则会从服务器上重新下载该目录并包含新的.svn</span><br><br><span lang="EN-US">6、SVN常用操作\<br> a、保持客户端和服务器端的一致，从服务器上更新文件，update\<br> b、对客户端文件的增、删、改、剪切，add,delete,copy,move\<br> c、状态比较 status，diff\<br> d、取消对服务器上文件的修改，revert\<br> e、合并别人的修改(后更新的人需要做这个操作)update,resolved\<br> f、客户端修改的文件更新到服务器上，commit</span><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/SVN使用经验心得/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/SVN使用经验心得/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN使用经验心得/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/旧工程适配iOS6和iPhone5续之第三方静态库/" title="旧工程适配iOS6和iPhone5续之第三方静态库" itemprop="url">旧工程适配iOS6和iPhone5续之第三方静态库</a>
   </h1>
   <p class="article-author">By
@@ -564,219 +752,6 @@ style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<
 	
 	  	<span></span>
 		<a href="/2016/03/30/旧工程适配iOS6和iPhone5续之第三方静态库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/旧工程适配iOS6和iPhone5续之第三方静态库/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/Objective_C动态获取实例属性/" title="Objective_C动态获取实例属性" itemprop="url">Objective_C动态获取实例属性</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Objective-C动态获取实例属性"><a href="#Objective-C动态获取实例属性" class="headerlink" title="Objective_C动态获取实例属性"></a>Objective_C动态获取实例属性</h1><div><br><br><span
-style="color: rgb(51, 51, 51); font-family: STHeiti; text-align: left; background-color: rgb(199, 237, 204); float: none;">objective_c动行时库已经有这样的功能。使用这些方法需要加头文件</span><br><br></div>
-
-<div><br><br><span
-style="color: rgb(51, 51, 51); background-color: rgb(199, 237, 204); font-family: STHeiti; line-height: 1.45;">             #import<br>&lt;objc/message.h&gt;</span>\<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br> interface People : NSObject {<br><br></div>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Objective_C动态获取实例属性/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Objective_C动态获取实例属性/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective_C动态获取实例属性/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/查找项目中是否有用IDFA/" title="查找项目中是否有用IDFA" itemprop="url">查找项目中是否有用IDFA</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="查找项目中是否有用IDFA"><a href="#查找项目中是否有用IDFA" class="headerlink" title="查找项目中是否有用IDFA"></a>查找项目中是否有用IDFA</h1><div><br><br>好难过，上传app时友盟又坑我。。。。。<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>—使用此命令可以查找项目中是否有用IDFA<br><br></div>
-
-<div><br><br>find . | grep -v .svn<br>| grep “\.a” | grep -v “\.app” | xargs grep advertisingIdentifier<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/查找项目中是否有用IDFA/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/查找项目中是否有用IDFA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/查找项目中是否有用IDFA/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/@synthesize和@dynamic区别/" title="synthesize和 dynamic区别" itemprop="url">synthesize和 dynamic区别</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="synthesize和-dynamic区别"><a href="#synthesize和-dynamic区别" class="headerlink" title="synthesize和 dynamic区别"></a>synthesize和 dynamic区别</h1><p><span style="font: 16.0px Verdana; font-kerning: none; color: #6466b3; -webkit-text-stroke: 0px #6466b3"><a href="http://www.cnblogs.com/xiaodao/archive/2012/10/09/2716244.html" target="_blank" rel="external"><strong> synthesize和 dynamic区别</strong></a></span><span style="font: 16.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646"><strong>\
-</strong></span><span style="font: 12.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">\<br></span><span style="font: 14.0px Verdana; font-kerning: none; color: #393939; -webkit-text-stroke: 0px #393939">在声明property属性后，有2种实现选择\<br>  synthesize\<br> 编译器期间，让编译器自动生成getter/setter方法。\<br> 当有自定义的存或取方法时，自定义会屏蔽自动生成该方法\<br>  \<br>  dynamic\<br> 告诉编译器，不自动生成getter/setter方法，避免编译期间产生警告\<br> 然后由自己实现存取方法\</span></p>
-<p>或存取方法在运行时动态创建绑定：主要使用在CoreData的实现NSManagedObject子类时使用，由Core<br>Data框架在程序运行的时动态生成子类属性</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/@synthesize和@dynamic区别/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/@synthesize和@dynamic区别/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -850,7 +825,7 @@ style="color: rgb(51, 51, 51); background-color: rgb(199, 237, 204); font-family
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>3</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>4</sup></a></li>
 		  
 		
 		  
@@ -959,7 +934,7 @@ style="color: rgb(51, 51, 51); background-color: rgb(199, 237, 204); font-family
 			
 		
 			
-				<li><a href="/tags/插件/" title="插件">插件<sup>1</sup></a></li>
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			
@@ -967,15 +942,11 @@ style="color: rgb(51, 51, 51); background-color: rgb(199, 237, 204); font-family
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/线程/" title="线程">线程<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -987,11 +958,15 @@ style="color: rgb(51, 51, 51); background-color: rgb(199, 237, 204); font-family
 			
 		
 			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			

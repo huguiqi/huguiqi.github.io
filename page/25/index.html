@@ -87,6 +87,301 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" title="建立你自己的本地仓库(Maven仓库管理-Nexus)" itemprop="url">建立你自己的本地仓库(Maven仓库管理-Nexus)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="建立你自己的本地仓库-Maven仓库管理-Nexus"><a href="#建立你自己的本地仓库-Maven仓库管理-Nexus" class="headerlink" title="建立你自己的本地仓库(Maven仓库管理-Nexus)"></a>建立你自己的本地仓库(Maven仓库管理-Nexus)</h1><p>建立你自己的本地仓库(Maven仓库管理-Nexus)\<br>前面我讲到为什么要使用Maven,<br>Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个Hello<br>World，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\<br>\<br>这一个章节，我分两部分来介绍，首先介绍一下Maven的仓库，然后在说一下如何通过Nexus来建立我们自己的仓库，以及如何使用。\<br>\<br>Maven仓库\<br>在以前使用Ant的时候，我们会建立一个lib目录在存放我们的jar包，比如项目所依赖的第三方包，每建立一个项目都要建立一个lib，不停的做copy工作，不仅是对于磁盘的浪费，而且也造成了版本管理上的麻烦。而且我们还需要通过提交到svn上来对lib进行管理，但是svn对于这种二进制文件的管理并不出色。\<br>\<br>Maven仓库的初中就是为了解决这个问题，是所有常用的第三方包的集中营。这样所有的Maven项目就可以从这个仓库中获取所需要的资源，Maven仓库中对jar通过Group<br>Id, Atifact Id, version<br>来管理，所以Maven项目可以很方便的进行依赖管理。你不需要自己来管理这个庞大的资源仓库，当然你可以创建一个公司层面的仓库管理器，这个我在这个章节的后面会介绍。\<br>\<br>Maven仓库的两个概念：本地仓库和远程仓库\<br>\<br>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。\<br>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：\<br>Xml代码\</p>
+<ol>
+<li>&lt;settings&gt;\</li>
+<li>…\</li>
+<li>&lt;localRepository&gt;D:/java/repository&lt;/localRepository&gt;\</li>
+<li>…\</li>
+<li>&lt;/settings&gt;\<br>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:\<br>\${M2_HOME}/conf/setting.xml\<br>\<br>还可以通过在运行时指定目录，但是并不推荐这么做：\<br>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/\<br>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到/org/apache/maven/project/pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：\
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">开源中国 Maven 库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="开源中国-Maven-库"><a href="#开源中国-Maven-库" class="headerlink" title="开源中国 Maven 库"></a>开源中国 Maven 库</h1><p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>开源中国 Maven 库使用帮助<br>=========================<br><br><div><br><br><div><br><br></div>
+
+<p></div></p>
+<p></div></p>
+<div><br><br>亲爱的小伙伴们，开源中国的 Maven 库上线咯！为了方便广大开发同学，开源中国特别推出国内的 Maven 中央库，提供高速稳定的网络和服务，为国内 Maven 使用者提供便捷服务。本 Maven 库是从 <a href="http://mirrors.ibiblio.org/maven2/">ibiblio</a> 同步过来的，因为网络等原因，保持每天一次更新。本 Maven 库使用开源软件 <a href="http://www.oschina.net/p/nexus">Nexus</a> 搭建，对外镜像链接地址为：<a href="http://maven.oschina.net/content/groups/public/">  http://maven.oschina.net/content/groups/public/  </a>。<br><br></div>
+
+<div><br><br>接下来将简单介绍如何在您的项目中使用 Maven，以及使用 <a href="http://www.oschina.net/">OSChina</a> 提供的 Maven 服务。<br><br>##### 1.安装 Maven<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/开源中国 Maven 库/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/开源中国 Maven 库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/开源中国 Maven 库/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/AOP的实现机制/" title="AOP的实现机制" itemprop="url">AOP的实现机制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="AOP的实现机制"><a href="#AOP的实现机制" class="headerlink" title="AOP的实现机制"></a>AOP的实现机制</h1><div><br><br><strong><span lang="EN-US" style="font-family:">AOP的实现机制</span></strong><br><br></div>
+
+<div><br><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><br><br></div>
+
+<div><br><br><strong><span lang="EN-US" style="font-family:">1 AOP</span><span
+style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">各种的实现</span></strong><br><br></div>
+
+<p><span lang="EN-US" style="font-family:">AOP</span><span
+style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">就是面向切面编程，我们可以从几个层面来实现</span><span
+lang="EN-US" style="font-family:">AOP</span><span
+style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。</span></p>
+<p><span lang="EN-US"
+style="font-family:"><img src="AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg" alt=""></span></p>
+<p><span
+style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。</span><span
+lang="EN-US" style="font-family:">  </span></p>
+<p><span lang="EN-US" style="font-family:">  </span><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/AOP的实现机制/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/AOP的实现机制/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/AOP的实现机制/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/" title="彻底删除Mac OS X开机自启动项目" itemprop="url">彻底删除Mac OS X开机自启动项目</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="彻底删除Mac-OS-X开机自启动项目"><a href="#彻底删除Mac-OS-X开机自启动项目" class="headerlink" title="彻底删除Mac OS X开机自启动项目"></a>彻底删除Mac OS X开机自启动项目</h1><div
+style="font-size: 24px; margin: 10px; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; background-color: rgb(255, 255, 255);"><br><br>彻底删除Mac OS X开机自启动项目<span
+style="font-size: 14px; float: right; margin: 5px 10px 0px 0px; cursor: pointer; color: rgb(255, 0, 0);">进入全屏</span><br><div style="font-size: 0px;"><br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/63A76FC7-7BC5-4F9F-ADA0-FDA2B807808E.gif" alt=""><br><br></div>
+
+<p></div></p>
+<div
+style="zoom: 1; padding: 20px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(221, 221, 221); overflow: hidden; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; font-size: 16px; line-height: 24px; background-color: rgb(255, 255, 255);"><br><br>今天重新安装了SSD硬盘上的OS<br>X系统，所有数据都从另外一块HD硬盘迁移过来的，所以直接导致一些不需要的东西直接开机自启动了，试图从<span
+style="color: rgb(255, 0, 0);">LoginItems</span>（打开System<br>Preferences，选择System -&gt; Accounts，选择Login<br>Items选项卡）进行管理，但这里已经是OK的了。所以只能通过删除<span
+style="color: rgb(255, 0, 0);">LaunchAgents</span>的方法搞定了，LaunchAgents目录：/Library/LaunchAgents，下面其实有好多东西都是可以强制删掉的：<br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/858844E8-8EEC-4BE8-ADAC-DFF0BF88826E.png" alt="">\<br><br>当然，如果这都不能解决问题，还可以通过清理<span
+style="color: rgb(51, 51, 51); font-family: arial;"><span
+style="color: rgb(255, 0, 0);">StartupItems</span></span>的方式搞定，StartupItems的目录：/Library/StartupItems<br><br>一些系统级别的，可以到这里去清理：/System/Library/StartupItems<br><br>\<br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/彻底删除Mac OS X开机自启动项目/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/手机端(iOS,android)自动化测试框架(淘宝用的)/" title="手机端(iOS,android)自动化测试框架(淘宝用的)" itemprop="url">手机端(iOS,android)自动化测试框架(淘宝用的)</a>
   </h1>
   <p class="article-author">By
@@ -228,148 +523,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Object-C内存管理口诀/" title="Object-C内存管理口诀" itemprop="url">Object-C内存管理口诀</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Object-C内存管理口诀"><a href="#Object-C内存管理口诀" class="headerlink" title="Object-C内存管理口诀"></a>Object-C内存管理口诀</h1><div><br><br><span style="font-size: 14px;">\<br></span><br><br></div>
-
-<div><br><br><span style="font-size: 14px;">Object-C内存管理口诀 (2011-11-02<br>21:04:00)转载▼</span><br><br></div>
-
-<div><br><br><span style="font-size: 14px;">Object-C内存管理口诀</span><br><br></div>
-
-<div><br><br><span style="font-size: 14px;">1           口诀。</span><br><br></div>
-
-<div><br><br><span style="font-size: 14px;">1.1<br>谁创建，谁释放（类似于“谁污染，谁治理”）。如果你通过alloc、new或copy来创建一个对象，那么你必须调用release或autorelease。换句话说，不是你创建的，就不用你去释放。</span><br><br></div>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Object-C内存管理口诀/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Object-C内存管理口诀/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Object-C内存管理口诀/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" title="建立你自己的本地仓库(Maven仓库管理-Nexus)" itemprop="url">建立你自己的本地仓库(Maven仓库管理-Nexus)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="建立你自己的本地仓库-Maven仓库管理-Nexus"><a href="#建立你自己的本地仓库-Maven仓库管理-Nexus" class="headerlink" title="建立你自己的本地仓库(Maven仓库管理-Nexus)"></a>建立你自己的本地仓库(Maven仓库管理-Nexus)</h1><p>建立你自己的本地仓库(Maven仓库管理-Nexus)\<br>前面我讲到为什么要使用Maven,<br>Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个Hello<br>World，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\<br>\<br>这一个章节，我分两部分来介绍，首先介绍一下Maven的仓库，然后在说一下如何通过Nexus来建立我们自己的仓库，以及如何使用。\<br>\<br>Maven仓库\<br>在以前使用Ant的时候，我们会建立一个lib目录在存放我们的jar包，比如项目所依赖的第三方包，每建立一个项目都要建立一个lib，不停的做copy工作，不仅是对于磁盘的浪费，而且也造成了版本管理上的麻烦。而且我们还需要通过提交到svn上来对lib进行管理，但是svn对于这种二进制文件的管理并不出色。\<br>\<br>Maven仓库的初中就是为了解决这个问题，是所有常用的第三方包的集中营。这样所有的Maven项目就可以从这个仓库中获取所需要的资源，Maven仓库中对jar通过Group<br>Id, Atifact Id, version<br>来管理，所以Maven项目可以很方便的进行依赖管理。你不需要自己来管理这个庞大的资源仓库，当然你可以创建一个公司层面的仓库管理器，这个我在这个章节的后面会介绍。\<br>\<br>Maven仓库的两个概念：本地仓库和远程仓库\<br>\<br>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。\<br>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：\<br>Xml代码\</p>
-<ol>
-<li>&lt;settings&gt;\</li>
-<li>…\</li>
-<li>&lt;localRepository&gt;D:/java/repository&lt;/localRepository&gt;\</li>
-<li>…\</li>
-<li>&lt;/settings&gt;\<br>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:\<br>\${M2_HOME}/conf/setting.xml\<br>\<br>还可以通过在运行时指定目录，但是并不推荐这么做：\<br>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/\<br>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到/org/apache/maven/project/pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：\
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/摇一摇动画/" title="摇一摇动画" itemprop="url">摇一摇动画</a>
   </h1>
   <p class="article-author">By
@@ -426,6 +579,75 @@
 	
 	  	<span></span>
 		<a href="/2016/03/30/摇一摇动画/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/摇一摇动画/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/" title="PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题" itemprop="url">PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="PLSQL-Developer编码问题，oracle数据库与这个客户端软件不一致问题"><a href="#PLSQL-Developer编码问题，oracle数据库与这个客户端软件不一致问题" class="headerlink" title="PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题"></a>PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</h1><div><br><br>PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>解决方式(注意，此操作要在命令行里执行):<br><br></div>
+
+<div><br><br>select Parameter,(value) from nls_database_parameters where<br>value=’AL16UTF16’\<br> order by parameter\<br> update nls_database_parameters set value=’AL32UTF8’ where<br>parameter=’NLS_NCHAR_CHARACTERSET’;\<br>\<br>\<br> ALTER SYSTEM SET NLS_LENGTH_SEMANTICS=’CHAR’ scope=both<br><br></div>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -519,78 +741,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/字符，字节和编码/" title="字符，字节和编码" itemprop="url">字符，字节和编码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="字符，字节和编码"><a href="#字符，字节和编码" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h1><h2 id="字符，字节和编码-1"><a href="#字符，字节和编码-1" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h2><p>级别：中级</p>
-<blockquote>
-<p>摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。</p>
-<p>掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。</p>
-</blockquote>
-<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>“字符与编码”是一个被经常讨论的话题。即使这样，时常出现的乱码仍然困扰着大家。虽然我们有很多的办法可以用来消除乱<br>码，但我们并不一定理解这些办法的内在原理。而有的乱码产生的原因，实际上由于底层代码本身有问题所导致的。因此，不仅是初学者会对字符编码感到模糊，有<br>的底层开发人员同样对字符编码缺乏准确的理解。</p>
-<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
-| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
-<h4 id="1-编码问题的由来，相关概念的理解"><a href="#1-编码问题的由来，相关概念的理解" class="headerlink" title="1. 编码问题的由来，相关概念的理解"></a>1. 编码问题的由来，相关概念的理解</h4><h5 id="1-1-字符与编码的发展"><a href="#1-1-字符与编码的发展" class="headerlink" title="1.1 字符与编码的发展"></a>1.1 字符与编码的发展</h5><p>从计算机对多国语言的支持角度看，大致可以分为三个阶段：</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/字符，字节和编码/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/字符，字节和编码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/字符，字节和编码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/" title="改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error" itemprop="url">改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error</a>
   </h1>
   <p class="article-author">By
@@ -646,145 +796,6 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 	
 	  	<span></span>
 		<a href="/2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">开源中国 Maven 库</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="开源中国-Maven-库"><a href="#开源中国-Maven-库" class="headerlink" title="开源中国 Maven 库"></a>开源中国 Maven 库</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>开源中国 Maven 库使用帮助<br>=========================<br><br><div><br><br><div><br><br></div>
-
-<p></div></p>
-<p></div></p>
-<div><br><br>亲爱的小伙伴们，开源中国的 Maven 库上线咯！为了方便广大开发同学，开源中国特别推出国内的 Maven 中央库，提供高速稳定的网络和服务，为国内 Maven 使用者提供便捷服务。本 Maven 库是从 <a href="http://mirrors.ibiblio.org/maven2/">ibiblio</a> 同步过来的，因为网络等原因，保持每天一次更新。本 Maven 库使用开源软件 <a href="http://www.oschina.net/p/nexus">Nexus</a> 搭建，对外镜像链接地址为：<a href="http://maven.oschina.net/content/groups/public/">  http://maven.oschina.net/content/groups/public/  </a>。<br><br></div>
-
-<div><br><br>接下来将简单介绍如何在您的项目中使用 Maven，以及使用 <a href="http://www.oschina.net/">OSChina</a> 提供的 Maven 服务。<br><br>##### 1.安装 Maven<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/开源中国 Maven 库/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/开源中国 Maven 库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/开源中国 Maven 库/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/新浪微薄分享功能实现方式/" title="新浪微薄分享功能实现方式" itemprop="url">新浪微薄分享功能实现方式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="新浪微薄分享功能实现方式"><a href="#新浪微薄分享功能实现方式" class="headerlink" title="新浪微薄分享功能实现方式"></a>新浪微薄分享功能实现方式</h1><div><br><br>－，加入以下代码，可实现简单的分享<br><br></div>
-
-<p>  \</p>
-<p><a href="http://shareto.com.cn/share.html" target="_blank" rel="external"><img src="http://s.shareto.com.cn/btn/lg-share-cn.gif" alt="分享道"></a>\</p>
-<p>\</p>
-<div><br><br>\<br><br></div>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/新浪微薄分享功能实现方式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/新浪微薄分享功能实现方式/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -858,7 +869,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>3</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>4</sup></a></li>
 		  
 		
 		  
@@ -967,7 +978,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 			
 		
 			
-				<li><a href="/tags/插件/" title="插件">插件<sup>1</sup></a></li>
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			
@@ -975,15 +986,11 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/线程/" title="线程">线程<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -995,11 +1002,15 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 			
 		
 			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
