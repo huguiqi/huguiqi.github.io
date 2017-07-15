@@ -36,7 +36,7 @@ HashMap中数据是无序的。有序的参见TreeMap和LinkedHashMap。
 
 实现原理：HashMap如何使用：
 HashMap map = new H">
-<meta property="og:updated_time" content="2017-07-05T10:26:01.000Z">
+<meta property="og:updated_time" content="2017-07-15T17:15:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap实现原理深究">
 <meta name="twitter:description" content="最近被问到HashMap的原理比较多；
@@ -226,6 +226,7 @@ return null;
 <pre><code>void afterNodeInsertion(boolean evict) { }
 </code></pre></li>
 </ul>
+<a id="more"></a>
 <p>但是我看到linkedHashMap有实现：</p>
 <pre><code>void afterNodeInsertion(boolean evict) { // possibly remove eldest
 LinkedHashMap.Entry&lt;K,V&gt; first;
@@ -249,13 +250,7 @@ tab[i] = newNode(hash, key, value, null);
 <pre><code>if (++size &gt; threshold)
 resize();
 </code></pre><p>意思是HashMap的数组大小超过了某个限定值，就执行resize方法。<br>这里的threshold是什么？resize方法又是什么？</p>
-<p>源码：<br>/<em>*  </em> The next size value at which to resize (capacity * load factor).</p>
-<ul>
-<li><ul>
-<li>@serial<br>*/<br>// (The javadoc description is true upon serialization.<br>// Additionally, if the table array has not been allocated, this<br>// field holds the initial array capacity, or zero signifying<br>// DEFAULT_INITIAL_CAPACITY.)<br>int threshold;</li>
-</ul>
-</li>
-</ul>
+<p>源码：<br>/*<em>  \</em> The next size value at which to resize (capacity <em> load factor).<br> \</em>  * @serial<br> */<br>// (The javadoc description is true upon serialization.<br>// Additionally, if the table array has not been allocated, this<br>// field holds the initial array capacity, or zero signifying<br>// DEFAULT_INITIAL_CAPACITY.)<br>int threshold;</p>
 <p>先猜猜意思，好像是说，如果数组表没有被分配内存空间，这个字段会保存初始化数组容量，或者显示0，默认值是：DEFAULT_INITIAL_CAPACITY</p>
 <pre><code>static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
 </code></pre><p>用google翻译出来：</p>
@@ -418,8 +413,7 @@ abstract public V remove(Object key);
 <li>TreeMap继承了SortMap,默认使用key的自然排序算法给元素排序，所以是相对HashMap来说是有序的(关于如何自然排序，请参考TreeMap自然排序源码分析)</li>
 </ol>
 <h3 id="HashMap、LinkedHashMap区别"><a href="#HashMap、LinkedHashMap区别" class="headerlink" title="HashMap、LinkedHashMap区别"></a>HashMap、LinkedHashMap区别</h3><ul>
-<li>同为链表实现</li>
-<li></li>
+<li>同为链表实现<br>* </li>
 </ul>
   
 	</div>
@@ -549,7 +543,7 @@ abstract public V remove(Object key);
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>4</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
 		  
 		
 		  
@@ -666,11 +660,15 @@ abstract public V remove(Object key);
 			
 		
 			
-				<li><a href="/tags/线程/" title="线程">线程<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -679,10 +677,6 @@ abstract public V remove(Object key);
 		
 			
 				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			

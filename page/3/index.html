@@ -87,6 +87,353 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/01/react app一步步学习 - 2/" title="react app一步步学习" itemprop="url">react app一步步学习</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-01T11:41:00.000Z" itemprop="datePublished"> 发表于 2017-03-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="react-app一步步学习2"><a href="#react-app一步步学习2" class="headerlink" title="react app一步步学习2"></a>react app一步步学习2</h1><h1 id="React学习第二天"><a href="#React学习第二天" class="headerlink" title="React学习第二天"></a>React学习第二天</h1><h2 id="组件的生命周期"><a href="#组件的生命周期" class="headerlink" title="组件的生命周期"></a>组件的生命周期</h2><blockquote>
+<p>每个组件都有生命周期的方法,可以提供给你进行重写,如果你对objec-c的命名方式比较熟悉的话,你会看到熟悉的willXX,didXxx类似的方法.  </p>
+</blockquote>
+<p>组件的生命周期可分成三个状态:</p>
+<ul>
+<li>Mounting：已插入真实 DOM   </li>
+<li>Updating：正在被重新渲染</li>
+<li>Unmounting：已移出真实 DOM  </li>
+</ul>
+<h2 id="Mounting"><a href="#Mounting" class="headerlink" title="Mounting"></a>Mounting</h2><p>以下这些方法,是在插入dom操作之前会被调用,顺序分别是:  </p>
+<ul>
+<li>constructor()</li>
+<li>componentWillMount()   </li>
+<li>render()</li>
+<li>componentDidMount()</li>
+</ul>
+<p>实际上,在constructor方法之后,还会执行两个方法,分别是:  </p>
+<ul>
+<li>getDefaultProps<ul>
+<li>getInitialState  </li>
+</ul>
+</li>
+</ul>
+<p>这两个方法是定义 对象方法  </p>
+<p>网上有很多乱七八糟的教程，说props的setProps方法可以更改属性，这是不对的，官方文档明确指出，props 是只读的。<br>  <img src="http://ojnkdvkci.bkt.clouddn.com/95q0mn9wc3vhbzfp6w8vqmd4r6" alt="paste image"></p>
+<h2 id="Updating"><a href="#Updating" class="headerlink" title="Updating"></a>Updating</h2><blockquote>
+<p>组件中的值或者状态的改变,都会引起updating事件的发生, 这些方法都是在render发生时调用  </p>
+</blockquote>
+<p>按顺序列出:  </p>
+<ul>
+<li>componentWillReceiveProps()<br>当属性值改变时,将会调用这个方法,但初始化和setState时不会调用,只有两次render时,dom结构发生变化时,才会被调用  <ul>
+<li>shouldComponentUpdate()<br>再次render时,这个方法会检测state和props是否有改变,判断都在这里  </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>componentWillUpdate()</li>
+<li>componentDidUpdate()   </li>
+</ul>
+<h2 id="Unmounting"><a href="#Unmounting" class="headerlink" title="Unmounting"></a>Unmounting</h2><p>componentWillUnmount()  </p>
+<h2 id="第三天的计划"><a href="#第三天的计划" class="headerlink" title="第三天的计划"></a>第三天的计划</h2><ol>
+<li>组件ajax</li>
+<li>react 表单与事件</li>
+<li>组件间传值与更新值</li>
+</ol>
+<h2 id="React与React-Native-的区别"><a href="#React与React-Native-的区别" class="headerlink" title="React与React Native 的区别"></a>React与React Native 的区别</h2><blockquote>
+<p>刚开始学习React，对于React和React Native弄的比较蒙逼，原来React和RN不是一个东西,之前两天还一直在学习React，以为学习了React就可以开始混合app，其实不对，React是用来开发web的,也包括mobileWeb。</p>
+</blockquote>
+<p>React是一种思想，Facebook对于Web Components的理解与实现。其中ReactJS是Web端，React Native是iOS/Android端。值得注意的是React Native写的应用是Native App，而不是Hybrid App。最后React其理念是“Learn once, write anywhere”，所以目前Web和Mobile端要写两套代码。</p>
+<p>也就是说，前几天的学习，是对React.js的学习，只是学习了他的web的知识。</p>
+<p>那现在开始学习React Native，以快速可以开发app为目的。</p>
+<h1 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h1><blockquote>
+<p>Learn once, write anywhere</p>
+</blockquote>
+<p><a href="https://facebook.github.io/react/docs/hello-world.html" target="_blank" rel="external">React官网</a></p>
+<p><a href="http://facebook.github.io/react-native/docs/getting-started.html" target="_blank" rel="external">RN官网</a></p>
+<h2 id="Installing-Dependencies"><a href="#Installing-Dependencies" class="headerlink" title="Installing Dependencies"></a>Installing Dependencies</h2><ul>
+<li>Node.js</li>
+<li>Watchman</li>
+<li>the React Native command line interface, and Xcode.</li>
+</ul>
+<p>We recommend installing Node and Watchman using Homebrew. Run the following commands in a Terminal after installing Homebrew:<br><code>brew install node
+``brew install watchman</code><br>Watchman is a tool by Facebook for watching changes in the filesystem. It is highly recommended you install it for better performance.</p>
+<h2 id="The-React-Native-CLI"><a href="#The-React-Native-CLI" class="headerlink" title="The React Native CLI"></a>The React Native CLI</h2><p>Node.js comes with npm, which lets you install the React Native command line interface.<br>Run the following command in a Terminal:</p>
+<p><code>npm install -g react-native-cli</code>If you get an error like Cannot find module ‘npmlog’, try installing npm directly: <code>curl -0 -L https://npmjs.org/install.sh | sudo sh.</code><br>Xcode<br>The easiest way to install Xcode is via the Mac App Store. Installing Xcode will also install the iOS Simulator and all the necessary tools to build your iOS app.</p>
+<p>Testing your React Native Installation<br>Use the React Native command line interface to generate a new React Native project called “AwesomeProject”, then run react-native run-ios inside the newly created folder.<br><code>react-native init AwesomeProject
+``cd AwesomeProject
+``react-native run-ios</code><br>You should see your new app running in the iOS Simulator shortly.<br>react-native run-ios is just one way to run your app. You can also run it directly from within Xcode or Nuclide.</p>
+<p>如果在初始化项目时，发现无法下载React native相关的依赖，那就是天朝的网络原因了，这个时候执行：</p>
+<p><code>yarn config set registry https://registry.npm.taobao.org</code></p>
+<p>将官网的yarn仓库地址更换成淘宝的源。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/前端技术/">前端技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ReactNative/">ReactNative</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/01/react app一步步学习 - 2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/01/react app一步步学习 - 2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/23/如何提问题/" title="如何提问题" itemprop="url">如何提问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-23T09:00:00.000Z" itemprop="datePublished"> 发表于 2017-02-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="如何提问题"><a href="#如何提问题" class="headerlink" title="如何提问题"></a>如何提问题</h1><p>可能很多人会说，提问题谁不会呢？<br>但是很遗憾，在我看来，我发现确实很多人都不会提问题，而且提的80%问题其实都不是问题，自已想想办法，完全可以解决的。别笑，这里面包括刚参加工作的新人，也包括工作了5年的职业老兵。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/02/23/如何提问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/02/23/如何提问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/23/如何提问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/22/统计代码工具/" title="统计代码工具" itemprop="url">统计代码工具</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-22T07:12:18.000Z" itemprop="datePublished"> 发表于 2017-02-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="统计代码工具"><a href="#统计代码工具" class="headerlink" title="统计代码工具"></a>统计代码工具</h1><p>最近公司要求申请软件著作权专利，需要对所申请软件进行代码量的统计；而我公司的软件从前端到后端都是分项目开发的，ios和安卓分别是一个项目模块，后台接口是一个模块；后台内容管理系统是一个模块，而这些模块所用的语言各有不同，统计的方式也各有不同；</p>
+<p>网上有很多统计代码的工具类的shell脚本，如java言语类的项目用：</p>
+<ul>
+<li>最粗略版：</li>
+</ul>
+<pre><code>find . -name &quot;*.java&quot;|xargs wc -l|grep &quot;total&quot;|awk &apos;{print $1}&apos;
+find . -name &quot;*.java&quot;|xargs cat|wc -l    #Output:37634
+</code></pre><p>上面的两句效果一样，只不过第二种是先利用cat将多个java文件的内容合并输出了。然后再统计。<br>不过两个都有共同的毛病——连文件里面的空行都给统计进去算作一行了。</p>
+<ul>
+<li><p>去除空行版</p>
+<pre><code>find . -name &quot;*.java&quot;|xargs cat|grep -v ^$|wc -l    #Output:36335
+</code></pre></li>
+</ul>
+<p>这个版本靠谱一些了，可以看到去掉空行之后的统计结果变为了：36335，比上个版本干掉了1299行的空行。。。 </p>
+<ul>
+<li><p>去除注释版       </p>
+<pre><code># exclude the lines begin with //
+find . -name &quot;*.java&quot;|xargs cat|grep -v -e ^$ -e ^\s*\/\/.*$|wc -l    #Output:36064
+</code></pre></li>
+</ul>
+<p>这个方法发现，以//开头的注释有36335-36064=271行。这里需要注意的是，注释行未必就以//作为开头，可能N个空格之后才开始的的//，所以匹配时需要加上上面的^\s*放在开头。</p>
+<p>以上的命令行只是针对当前目录的代码统计，那如果是真实的项目代码统计呢？</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/02/22/统计代码工具/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/代码统计/">代码统计</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/02/22/统计代码工具/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/22/统计代码工具/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/21/房子婚姻和钱/" title="房子婚姻和钱" itemprop="url">房子婚姻和钱</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-20T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-02-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="房子-婚姻-钱"><a href="#房子-婚姻-钱" class="headerlink" title="房子  婚姻  钱"></a>房子 <em> 婚姻 </em> 钱</h1><p>凡是用钱能解决的问题都不是问题。<br>从去年开始，我抱着投资的心态在海宁一口气买了两套房，一套斜桥一套长安，向我爸要了24万，我自己集了差不多20万左右作为两套房的首付，当时完全是以投资为目的。</p>
+<p>去年中秋之前，因为前同事加朋友给我介绍认识了她，我们一见如故，在中秋节那天，我们迅速确定了关系。去年过年我带她回老家过年见了我家人，外公外婆。<br>计划赶不上变化，我们年后计划今年10月国庆节举行婚礼，同时我们会将长安的房子作为婚房，也就是说需要在婚期前装修好，而且要晾上几个月。<br>这几天才真正的体会到，什么烧钱，什么叫周转不灵，最近深圳的那位中年危机还好没有发生在我身上，但是细细的想想，我的压力也不小。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/02/21/房子婚姻和钱/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/02/21/房子婚姻和钱/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/21/房子婚姻和钱/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/02/10/react app一步步学习/" title="react app一步步学习" itemprop="url">react app一步步学习</a>
   </h1>
   <p class="article-author">By
@@ -505,301 +852,9 @@ style="color: red">第一个是操作数据库方法的抽象接口，<br> 其�
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/10/25/charles_4.0.1破解/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-10-25T03:11:53.000Z" itemprop="datePublished"> 发表于 2016-10-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Charles-4-0破解"><a href="#Charles-4-0破解" class="headerlink" title="Charles 4.0破解"></a>Charles 4.0破解</h1><p>update 2016.8.24</p>
-<p>for charles 4.0, just download charlse and drag Charles to /Application. replace charles.jar with:</p>
-<pre><code>curl -Lv &quot;https://github.com/100apps/charles-hacking/blob/master/charles.jar?raw=true&quot; -o /Applications/Charles.app/Contents/Java/charles.jar
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/10/25/charles_4.0.1破解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/10/25/charles_4.0.1破解/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/09/18/公司阿里云服务器环境配置/" title="阿里云服务器环境配置" itemprop="url">阿里云服务器环境配置</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-09-18T01:49:00.000Z" itemprop="datePublished"> 发表于 2016-09-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="阿里云服务器环境配置"><a href="#阿里云服务器环境配置" class="headerlink" title="阿里云服务器环境配置"></a>阿里云服务器环境配置</h1><h2 id="数据盘初始化"><a href="#数据盘初始化" class="headerlink" title="数据盘初始化"></a>数据盘初始化</h2><p>如果在购买ecs服务器时，选择购买了数据盘，则在linux系统登陆进去，执行命令：</p>
-<pre><code>fdisk -l 
-</code></pre><p>查看挂载的所有数据盘，注意：</p>
-<pre><code>df -hT    //无效，只能看到已经初始化的挂载盘
-</code></pre><p>运行 fdisk -l 命令查看数据盘。<br>注意：在没有分区和格式化数据盘之前，使用 df -h 命令是无法看到数据盘的。<br>在下面的示例中，有一个 5 GB 的数据盘需要挂载。<br>如果执行了 fdisk -l 命令后，没有发现 /dev/xvdb    ,则不需要格式化。</p>
-<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846465113/1.jpg" alt="image"></p>
-<ul>
-<li>运行 fdisk /dev/xvdb，对数据盘进行分区。</li>
-</ul>
-<p>根据提示，依次输入 n，p，1，两次回车，wq，分区就开始了。</p>
-<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846584705/2.jpg" alt="image"></p>
-<ul>
-<li>运行 fdisk -l 命令，查看新的分区。</li>
-</ul>
-<p>新分区 xvdb1 已经创建好。如下面示例中的/dev/xvdb1。</p>
-<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846693542/3.jpg" alt="image"></p>
-<ul>
-<li>运行 mkfs.ext3 /dev/xvdb1，对新分区进行格式化。</li>
-</ul>
-<p>格式化所需时间取决于数据盘大小。您也可自主决定选用其他文件格式，如 ext14 等。</p>
-<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846760502/4.jpg" alt="image"></p>
-<ul>
-<li>运行 echo /dev/xvdb1 /mnt ext3 defaults 0 0 &gt;&gt; /etc/fstab 写入新分区信息。</li>
-</ul>
-<p>完成后，可以使用 cat /etc/fstab 命令查看。</p>
-<ul>
-<li>运行 mount /dev/xvdb1 /mnt 挂载新分区，然后执行 df -h 查看分区。</li>
-</ul>
-<p>如果出现数据盘信息，说明挂载成功，可以使用新分区了。</p>
-<pre><code> mount /dev/xvdb1 /mnt
-df -h
- Filesystem      Size  Used Avail Use% Mounted on
- /dev/xvda1       40G  1.5G   36G   4% /
- tmpfs           498M     0  498M   0% /dev/shm
- /dev/xvdb1      5.0G  139M  4.6G   3% /mnt
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/09/18/公司阿里云服务器环境配置/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/阿里云/">阿里云</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/09/18/公司阿里云服务器环境配置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/09/18/公司阿里云服务器环境配置/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/09/07/mac安装nginx/" title="mac安装nginx" itemprop="url">mac安装nginx</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-09-07T02:55:26.000Z" itemprop="datePublished"> 发表于 2016-09-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="mac安装nginx"><a href="#mac安装nginx" class="headerlink" title="mac安装nginx"></a>mac安装nginx</h1><pre><code>bwi nginx
-</code></pre><p>默认安装在<code>/usr/local/etc/nginx</code>目录下。</p>
-<p>端口号默认为：<code>8080</code></p>
-<p>后台启动、重启、停止：<code>brew services start/restart/stop nginx</code></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/nginx/">nginx</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/09/07/mac安装nginx/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/09/07/mac安装nginx/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/08/05/实现js的map类/" title="实现JS的Map类" itemprop="url">实现JS的Map类</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-08-05T05:57:29.000Z" itemprop="datePublished"> 发表于 2016-08-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="实现JS的Map类"><a href="#实现JS的Map类" class="headerlink" title="实现JS的Map类"></a>实现JS的Map类</h1><p>两种方式：</p>
-<ul>
-<li>简单的Object</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function Map()&#123;&#125;</div><div class="line">Map.prototype.get = function(key)&#123;</div><div class="line">    return this[key];</div><div class="line">&#125;;</div><div class="line">Map.prototype.set = function(key,val)&#123;</div><div class="line">    this[key]=val;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">// var m = new Map();</div><div class="line">// m.set(&apos;name&apos;,&apos;foo&apos;);</div><div class="line">// console.log(stringify(m)); // &#123;&quot;name&quot;:&quot;foo&quot;&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>实现map的缓存功能</li>
-</ul>
-<p>UtilMap.js:</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/08/05/实现js的map类/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/HashMap/">HashMap</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/08/05/实现js的map类/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/08/05/实现js的map类/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
@@ -857,7 +912,7 @@ df -h
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>4</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
 		  
 		
 		  
@@ -974,11 +1029,15 @@ df -h
 			
 		
 			
-				<li><a href="/tags/线程/" title="线程">线程<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -987,10 +1046,6 @@ df -h
 		
 			
 				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			

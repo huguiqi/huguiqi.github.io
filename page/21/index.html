@@ -159,70 +159,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/什么是SQL注入式攻击？/" title="什么是SQL注入式攻击？" itemprop="url">什么是SQL注入式攻击？</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="什么是SQL注入式攻击？"><a href="#什么是SQL注入式攻击？" class="headerlink" title="什么是SQL注入式攻击？"></a>什么是SQL注入式攻击？</h1><div><br><br><span style="FONT-SIZE: large">什么是SQL注入式攻击？\<br><br>所谓SQL注入式攻击，就是攻击者把SQL命令插入到Web表单的输入域或页面请求的查询字符串，欺骗服务器执行恶意的SQL命令。在某些表单中，用户输入的内容直接用来构造（或者影响）动态SQL命令，或作为存储过程的输入参数，这类表单特别容易受到SQL注入式攻击。常见的SQL注入式攻击过程类如：\<br> ⑴ 某个ASP.NET<br>Web应用有一个登录页面，这个登录页面控制着用户是否有权访问应用，它要求用户输入一个名称和密码。\<br> ⑵<br>登录页面中输入的内容将直接用来构造动态的SQL命令，或者直接用作存储过程的参数。下面是ASP.NET应用构造查询的一个例子：\<br> System.Text.StringBuilder query = new System.Text.StringBuilder(\<br>     “SELECT * from Users WHERE login = ‘“)\<br>     .Append(txtLogin.Text).Append(“‘ AND password=’”)\<br>     .Append(txtPassword.Text).Append(“‘“);\<br>\<br> ⑶ 攻击者在用户名字和密码输入框中输入”‘或’1’=’1”之类的内容。\<br> ⑷<br>用户输入的内容提交给服务器之后，服务器运行上面的ASP.NET代码构造出查询用户的SQL命令，但由于攻击者输入的内容非常特殊，所以最后得到的SQL命令变成：SELECT<br>* from Users WHERE login = ‘’ or ‘1’=’1’ AND password = ‘’ or<br>‘1’=’1’。\<br> ⑸<br>服务器执行查询或存储过程，将用户输入的身份信息和服务器中保存的身份信息进行对比。\<br> ⑹<br>由于SQL命令实际上已被注入式攻击修改，已经不能真正验证用户身份，所以系统会错误地授权给攻击者。\<br><br>如果攻击者知道应用会将表单中输入的内容直接用于验证身份的查询，他就会尝试输入某些特殊的SQL字符串篡改查询改变其原来的功能，欺骗系统授予访问权限。\<br><br>系统环境不同，攻击者可能造成的损害也不同，这主要由应用访问数据库的安全权限决定。如果用户的帐户具有管理员或其他比较高级的权限，攻击者就可能对数据库的表执行各种他想要做的操作，包括添加、删除或更新数据，甚至可能直接删除表\<br> 如何防范SQL注入式攻击？\<br><br>好在要防止ASP.NET应用被SQL注入式攻击闯入并不是一件特别困难的事情，只要在利用表单输入的内容构造SQL命令之前，把所有输入内容过滤一番就可以了。过滤输入内容可以按多种方式进行。\<br> ⑴ 对于动态构造SQL查询的场合，可以使用下面的技术：\<br><br>第一：替换单引号，即把所有单独出现的单引号改成两个单引号，防止攻击者修改SQL命令的含义。再来看前面的例子，”SELECT<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/什么是SQL注入式攻击？/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/什么是SQL注入式攻击？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/什么是SQL注入式攻击？/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/以线颜色取色器/" title="以线颜色取色器" itemprop="url">以线颜色取色器</a>
   </h1>
   <p class="article-author">By
@@ -288,7 +224,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/ORACLE 字符集长度问题/" title="ORACLE 字符集长度问题" itemprop="url">ORACLE 字符集长度问题</a>
+      <a href="/2016/03/30/Objective-c之NSString(NSMutableString)/" title="Objective-c之NSString(NSMutableString)" itemprop="url">Objective-c之NSString(NSMutableString)</a>
   </h1>
   <p class="article-author">By
        
@@ -301,21 +237,22 @@
 </header>
     <div class="article-content">
         
-        <h1 id="ORACLE-字符集长度问题"><a href="#ORACLE-字符集长度问题" class="headerlink" title="ORACLE 字符集长度问题"></a>ORACLE 字符集长度问题</h1><div><br><br><div><br><br>ORACLE 字符集长度问题<br><br></div>
+        <h1 id="Objective-c之NSString-NSMutableString"><a href="#Objective-c之NSString-NSMutableString" class="headerlink" title="Objective-c之NSString(NSMutableString)"></a>Objective-c之NSString(NSMutableString)</h1><div><br><br>Objective-c之NSString(NSMutableString)  (2010-12-09 20:48:24)<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>很多新手在做建数据库时，会这样忽略一个问题：ORACLE中VARCHAR2类型的字段长度是按照byte来定义的。如果数据库使用的字<br>符集是GBK,GB2312或者其他定长字符集的话，这个问题似乎可以被忽略，因为只要把数据库的字段长度/2就可以得到你要限制插入该字段的中文长度<br>了。 但是，如果数据库的字符集是UTF-8呢，杯具了吧，人家是变长的。<br><br></div>
+<div><br><br><img src="Objective-c%E4%B9%8BNSString(NSMutableString" alt="">.resources/BFF1B981-67D7-48DA-88E7-E0522F4A1618.gif)<br><br></div>
 
-<pre><code>有人说数据库字段长度/3，这是一定不可取的，因为UTF-8是变长表示的，平均为3byte表示一个字符，而并不是一定用3byte。
+<div><br><br>\<br><br></div>
 
-其实人家ORACLE没这么笨，本来就可以用字符为单位来定义varchar2的长度的，这个时候需要注意在建表时这样写：
-</code></pre><div><br><br><div><br><br>Sql代码<br>
+<div><br><br><strong>1、初始化字符串一</strong><br><br></div>
+
+<div><br><br>\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/ORACLE 字符集长度问题/#more">Read More</a>
+            <a href="/2016/03/30/Objective-c之NSString(NSMutableString)/#more">Read More</a>
           
        </p>
     </div>
@@ -341,7 +278,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/ORACLE 字符集长度问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/ORACLE 字符集长度问题/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Objective-c之NSString(NSMutableString)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-c之NSString(NSMutableString)/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -414,143 +351,6 @@ style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa">\<br>
 	
 	  	<span></span>
 		<a href="/2016/03/30/使用resteasy的乱码问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/使用resteasy的乱码问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/" title="关于&quot;Unexpected CFBundleExecutable Key&quot; iOS 提交错误 - Tapjoy Developers" itemprop="url">关于&quot;Unexpected CFBundleExecutable Key&quot; iOS 提交错误 - Tapjoy Developers</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="关于”Unexpected-CFBundleExecutable-Key”-iOS-提交错误-Tapjoy-Developers"><a href="#关于”Unexpected-CFBundleExecutable-Key”-iOS-提交错误-Tapjoy-Developers" class="headerlink" title="关于”Unexpected CFBundleExecutable Key” iOS 提交错误 - Tapjoy Developers"></a>关于”Unexpected CFBundleExecutable Key” iOS 提交错误 - Tapjoy Developers</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>关于”Unexpected CFBundleExecutable Key” iOS 提交错误<br>====================================================<br><br><div><br><br><div><br><br></div>
-
-<p></div></p>
-<p></div></p>
-<div><br><br>9月16日, 2015<br><br>“Unexpected CFBundleExecutable Key” 或 “Unexpected<br>CFBundleSupportedPlatforms value”<br><br>我们已经收到一些因为以下错误而导致向苹果商店提交应用失败的报告：<br><br><div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/使用模板语言(Velocity)定义、发送邮件/" title="使用模板语言(Velocity)定义、发送邮件" itemprop="url">使用模板语言(Velocity)定义、发送邮件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="使用模板语言-Velocity-定义、发送邮件"><a href="#使用模板语言-Velocity-定义、发送邮件" class="headerlink" title="使用模板语言(Velocity)定义、发送邮件"></a>使用模板语言(Velocity)定义、发送邮件</h1><div><br><br>使用模板语言(Velocity)定义、发送邮件<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>发送邮件时，比如激活邮件、订单邮件等等往往都需要动态数据的填入，比如客户名、订单号，或者密码。类似于web设计：<br><br>邮件的模板：是一个可能具有html格式或类似的模板，是View的角色；\<br> 邮件的数据：是Model的角色，填入模板，形成最后的邮件内容。<br><br>一个与用户交互加多的系统，邮件的种类是“啥都有的”：各种提醒，各种状态告知，。。。\<br> 所以基于配置做法相对比较能够统一模式以及省时省力。<br><br>我的做法是使用Velocity定义邮件，通过提供良好设计的API，和配置规定实现。最后使用代码大致如下：\<br>  \<br>  /**\<br>   * 激活服务加密解密功能支持\<br>   */\<br>   <strong>private</strong><span>  </span>Encryptor encryptor;\<br>  \<br>  /**\<br>   * 激活邮件功能支持\<br>   */\<br>   <strong>private</strong><span>  </span>VelocityMailSupport velocityMailSupport;<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/使用模板语言(Velocity)定义、发送邮件/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/使用模板语言(Velocity)定义、发送邮件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/使用模板语言(Velocity)定义、发送邮件/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -644,7 +444,7 @@ style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa">\<br>
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/" title="CocoaPods 的一些略为高级一丁点的使用" itemprop="url">CocoaPods 的一些略为高级一丁点的使用</a>
+      <a href="/2016/03/30/使用模板语言(Velocity)定义、发送邮件/" title="使用模板语言(Velocity)定义、发送邮件" itemprop="url">使用模板语言(Velocity)定义、发送邮件</a>
   </h1>
   <p class="article-author">By
        
@@ -657,19 +457,16 @@ style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa">\<br>
 </header>
     <div class="article-content">
         
-        <h1 id="CocoaPods-的一些略为高级一丁点的使用"><a href="#CocoaPods-的一些略为高级一丁点的使用" class="headerlink" title="CocoaPods 的一些略为高级一丁点的使用"></a>CocoaPods 的一些略为高级一丁点的使用</h1><p>记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当中早已经出现，甚至成为了开发的标配，尽管如此，CocoaPods依然是对iOS/Mac开发做出了巨大的贡献，在此为CocoaPods做出贡献的人表示感谢。</p>
-<p>CocoaPods功能不算太强大，但大部分时候足够好用，仅仅是最基本的样例配置，就可以满足你项目的大部分需求，但了解更多的一一些的特性，会让你更得心应手。</p>
-<h4 id="指定源"><a href="#指定源" class="headerlink" title="指定源"></a>指定源</h4><p>CocoaPods支持私有 Spec<br>仓库的，我们可以建立自己的源，也可以使用非官方的源，只要是符合规定的都可以指定。</p>
-<h4 id="抑制警告"><a href="#抑制警告" class="headerlink" title="抑制警告"></a>抑制警告</h4><p>inhibit_warnings参数能够有效的抑制CocoaPods引入的第三方代码库产生的warning。</p>
-<p>可以全部指定。</p>
-<p>也可以针对指定。</p>
-<h4 id="使用git的HEAD指向的分支"><a href="#使用git的HEAD指向的分支" class="headerlink" title="使用git的HEAD指向的分支"></a>使用git的HEAD指向的分支</h4><h4 id="使用-master-分支"><a href="#使用-master-分支" class="headerlink" title="使用 master 分支"></a>使用 master 分支</h4><h3 id="指定branch"><a href="#指定branch" class="headerlink" title="指定branch"></a>指定branch</h3><h4 id="指定tag"><a href="#指定tag" class="headerlink" title="指定tag"></a>指定tag</h4><h3 id="指定commit"><a href="#指定commit" class="headerlink" title="指定commit"></a>指定commit</h3><h4 id="使用子库"><a href="#使用子库" class="headerlink" title="使用子库"></a>使用子库</h4><p>可以这样</p>
-<p>也可以这样指定多个子库</p>
+        <h1 id="使用模板语言-Velocity-定义、发送邮件"><a href="#使用模板语言-Velocity-定义、发送邮件" class="headerlink" title="使用模板语言(Velocity)定义、发送邮件"></a>使用模板语言(Velocity)定义、发送邮件</h1><div><br><br>使用模板语言(Velocity)定义、发送邮件<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>发送邮件时，比如激活邮件、订单邮件等等往往都需要动态数据的填入，比如客户名、订单号，或者密码。类似于web设计：<br><br>邮件的模板：是一个可能具有html格式或类似的模板，是View的角色；\<br> 邮件的数据：是Model的角色，填入模板，形成最后的邮件内容。<br><br>一个与用户交互加多的系统，邮件的种类是“啥都有的”：各种提醒，各种状态告知，。。。\<br> 所以基于配置做法相对比较能够统一模式以及省时省力。<br><br>我的做法是使用Velocity定义邮件，通过提供良好设计的API，和配置规定实现。最后使用代码大致如下：\<br>  \<br>  /**\<br>   * 激活服务加密解密功能支持\<br>   */\<br>   <strong>private</strong><span>  </span>Encryptor encryptor;\<br>  \<br>  /**\<br>   * 激活邮件功能支持\<br>   */\<br>   <strong>private</strong><span>  </span>VelocityMailSupport velocityMailSupport;<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/#more">Read More</a>
+            <a href="/2016/03/30/使用模板语言(Velocity)定义、发送邮件/#more">Read More</a>
           
        </p>
     </div>
@@ -695,7 +492,226 @@ style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa">\<br>
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/CocoaPods 的一些略为高级一丁点的使用/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/使用模板语言(Velocity)定义、发送邮件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/使用模板语言(Velocity)定义、发送邮件/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/" title="关于&quot;Unexpected CFBundleExecutable Key&quot; iOS 提交错误 - Tapjoy Developers" itemprop="url">关于&quot;Unexpected CFBundleExecutable Key&quot; iOS 提交错误 - Tapjoy Developers</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="关于”Unexpected-CFBundleExecutable-Key”-iOS-提交错误-Tapjoy-Developers"><a href="#关于”Unexpected-CFBundleExecutable-Key”-iOS-提交错误-Tapjoy-Developers" class="headerlink" title="关于”Unexpected CFBundleExecutable Key” iOS 提交错误 - Tapjoy Developers"></a>关于”Unexpected CFBundleExecutable Key” iOS 提交错误 - Tapjoy Developers</h1><p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>关于”Unexpected CFBundleExecutable Key” iOS 提交错误<br>====================================================<br><br><div><br><br><div><br><br></div>
+
+<p></div></p>
+<p></div></p>
+<div><br><br>9月16日, 2015<br><br>“Unexpected CFBundleExecutable Key” 或 “Unexpected<br>CFBundleSupportedPlatforms value”<br><br>我们已经收到一些因为以下错误而导致向苹果商店提交应用失败的报告：<br><br><div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/Objective-C –反射篇/" title="Objective-C –反射篇" itemprop="url">Objective-C –反射篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Objective-C-–反射篇"><a href="#Objective-C-–反射篇" class="headerlink" title="Objective-C –反射篇"></a>Objective-C –反射篇</h1><p>Objective-C –反射篇 (2013-08-21 15:57:36)转载▼</p>
+<div><br><br>标签： 杂谈     分类： iphone开发<br><br></div>
+
+<div><br><br><a href="http://zephyrleavesblog.sinaapp.com/?p=676">http://zephyrleavesblog.sinaapp.com/?p=676</a><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>今天我们来讲讲Objective-C的反射,<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/Objective-C –反射篇/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/Objective-C –反射篇/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-C –反射篇/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/关于URL重写、session，cookie/" title="关于URL重写、session，cookie" itemprop="url">关于URL重写、session，cookie</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="关于URL重写、session，cookie"><a href="#关于URL重写、session，cookie" class="headerlink" title="关于URL重写、session，cookie"></a>关于URL重写、session，cookie</h1><p>关于URL重写、session，cookie</p>
+<div><br><br>\<br><br></div>
+
+<div><br><br>（1）<br><br></div>
+
+<div><br><br>session总是放在服务器上的，每个客户会跟一个sessionID对应。因为HTTP是无连接的，如何区分同一个客户的多次请求呢，就需要客户端每次发请求的时候，发送相应的sessionID。<br><br></div>
+
+<div><br><br>通常情况下，sessionID在客户端以cookie的形式保存。如果浏览器静止了cookie，客户端再向服务器发请求的时候，就不会发送sessionID，因此服务器就会将这个请求作为一个新客户，所以就会出现session值丢失的假象。<br><br></div>
+
+<div><br><br>这时候出现一个问题，如果客户浏览器不支持cookie，怎么办？J2EE提供的另一个办法就是URL重写，写超链接的时侯，总是用response.encodeURL(url)，连接就会变成*.jsp?sessionID=……，完成了原来用cookie完成的功能。<br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/关于URL重写、session，cookie/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/关于URL重写、session，cookie/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/关于URL重写、session，cookie/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -786,7 +802,7 @@ style="-webkit-border-horizontal-spacing: 2px; -webkit-border-vertical-spacing: 
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/20/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/22/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/20/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/22/">Next<span></span></a>
   </nav>
 
 </div>
@@ -844,7 +860,7 @@ style="-webkit-border-horizontal-spacing: 2px; -webkit-border-vertical-spacing: 
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>4</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>8</sup></a></li>
 		  
 		
 		  
@@ -961,11 +977,15 @@ style="-webkit-border-horizontal-spacing: 2px; -webkit-border-vertical-spacing: 
 			
 		
 			
-				<li><a href="/tags/线程/" title="线程">线程<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -974,10 +994,6 @@ style="-webkit-border-horizontal-spacing: 2px; -webkit-border-vertical-spacing: 
 		
 			
 				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
