@@ -14,15 +14,15 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="上海景沼">
+    <meta name="description" content="胡小黑 大型网络架构">
 <meta property="og:type" content="website">
 <meta property="og:title" content="小黑的技术博客">
 <meta property="og:url" content="http://www.huguiqi.com/page/3/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="上海景沼">
+<meta property="og:description" content="胡小黑 大型网络架构">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小黑的技术博客">
-<meta name="twitter:description" content="上海景沼">
+<meta name="twitter:description" content="胡小黑 大型网络架构">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -80,6 +80,195 @@
     </header>
     <div id="container">
       <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/03/react app一步步学习 - 3/" title="react app一步步学习" itemprop="url">react app一步步学习</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-03T02:41:00.000Z" itemprop="datePublished"> 发表于 2017-03-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="react-app一步步学习3"><a href="#react-app一步步学习3" class="headerlink" title="react app一步步学习3"></a>react app一步步学习3</h1><p>上一节根据RN的官方文档，建立了一个ios的RN项目，体验了一把RN的组件与style设置。</p>
+<p>将例子的代码附上：<br>    import React, { Component } from ‘react’;<br>    import {<br>      AppRegistry,<br>      StyleSheet,<br>      Text,<br>      View<br>    } from ‘react-native’;</p>
+<pre><code>export default class AwesomeProject extends Component {
+  render() {
+    return (
+      &lt;View style={styles.container}&gt;
+        &lt;Text style={styles.welcome}&gt;
+         你好,React
+        &lt;/Text&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: &apos;center&apos;,
+    alignItems: &apos;center&apos;,
+    backgroundColor: &apos;#F5FCFF&apos;,
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: &apos;center&apos;,
+    margin: 10,
+  }
+});
+
+AppRegistry.registerComponent(&apos;AwesomeProject&apos;, () =&gt; AwesomeProject);
+</code></pre><p>\&lt;!—more—></p>
+<p>以上是官方demo的例子，现在我要启动reactApp，肯定是要启动ios的模拟器，那怎么启动呢，官方的答案是：<br>进入项目目录,执行命令：</p>
+<pre><code>cd AwesomeProject
+react-native run-ios
+</code></pre><p>好了，我们看到了模拟器被启动，这个页面也就被显示出来了。</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1488523386160479kkpe4.png?imageslim" alt="paste image"></p>
+<p>成功后弹出另一个shell窗口：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1488523432472akxr2hnk.png?imageslim" alt="paste image"></p>
+<p>模似器：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/14885234621092eg24u9g.png?imageslim" alt="paste image"></p>
+<p>模似器中的代码：</p>
+<pre><code>import React, { Component } from &apos;react&apos;;
+import {AppRegistry, Text,TextInput, View} from &apos;react-native&apos;
+
+class AppInput extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {text: &apos;&apos;};
+  }
+  render(){
+    return (&lt;View style={{position:'relative',left:'10%',top:'30%',width:'50%'}}&gt;
+      &lt;TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}} placeholder=&quot;请输入手机号&quot;
+                 onChangeText={(text) =&gt; this.setState({text})}&gt;
+    &lt;/TextInput&gt;&lt;Text&gt;{this.state.text}&lt;/Text&gt;&lt;/View&gt;);
+  }
+}
+
+AppRegistry.registerComponent(&apos;AwesomeProject&apos;, () =&gt; AppInput);
+</code></pre><p>代码解析：<br><code>import React, { Component } from &#39;react&#39;;</code></p>
+<p>这个是源自es6的语法，babel解释了它。</p>
+<p>意思是引入React类,和Component组件，从react.js中。</p>
+<p><code>import {AppRegistry, Text,TextInput, View} from &#39;react-native&#39;</code><br>这个也是一样，引入了四个组件，从RN中。</p>
+<ul>
+<li>props是只读的</li>
+</ul>
+<p>和react一样，props是只读的，是不允许修改的，只允许从父组件传递给子组件。</p>
+<ul>
+<li>state用来更新内容与状态</li>
+</ul>
+<p>state用来更新数据内容</p>
+<ul>
+<li>箭头函数绑定事件</li>
+</ul>
+<p>箭头函数从js诞生之日其实就存在，而firefox是最早使用箭头函数的公司。</p>
+<p>```var f = v ==>x;<br>`相当于<br>    var f = function(v){<br>    return x;<br>    }</p>
+<p>如果没有参数，则：<br><code>var f=()=&gt;x;</code></p>
+<p>RN则写成：<br>``<code>let f=()=&gt;x;</code></p>
+<h2 id="组件属性方法调用"><a href="#组件属性方法调用" class="headerlink" title="组件属性方法调用"></a>组件属性方法调用</h2><pre><code>&lt;TabBarIOS&gt;
+&lt;TabBarIOS.Item
+        title=&quot;设置&quot;
+        icon={{uri: img4_base64, scale: 3.5}}
+        selected={this.state.selectedTap == &apos;setting&apos;}
+        onPress={()=&gt;{
+        this.setState({selectedTap:&apos;setting&apos;})
+        }}&gt;
+        {this.renderView(&apos;设置&apos;)}
+    &lt;/TabBarIOS.Item&gt;
+&lt;/TabBarIOS&gt;
+</code></pre><p>onPress中，用箭头函数来设置值，这样写的好处有二：</p>
+<ol>
+<li>调用方便，不需要再定义函数</li>
+<li>this实例不需要重新绑定，可以直接设置state的更新值</li>
+</ol>
+<p>但作为一个后端出身的我来说，箭头函数实在太难理解了，而且很别扭。</p>
+<p>当然，如果箭头函数不写在这里，单独声明函数也是可以的。</p>
+<pre><code>pressBtn=()=&gt;this.setState({selectedTap:&apos;setting&apos;});`
+</code></pre><p>但如果这样声明，那this将不能直接去更改state,因为this已经不代表组件对象了，而是当前方法的funtion。</p>
+<pre><code> pressBtn(){
+    this.setState({selectedTap:&apos;setting&apos;});//将会报错
+} 
+</code></pre><p><img src="http://ojnkdvkci.bkt.clouddn.com/14891247193913n3w9gd4.png?imageslim" alt="paste image"></p>
+<h1 id="ReactNative组件之WebView"><a href="#ReactNative组件之WebView" class="headerlink" title="ReactNative组件之WebView"></a>ReactNative组件之WebView</h1><p>根据官方的例子，重要介绍如下属性：</p>
+<ul>
+<li>source</li>
+</ul>
+<p>源地址，写法如下：<br><code>&lt;WebView source={(uri: &#39;https://github.com/facebook/react-native&#39;)}        style={(marginTop: 20)}  /&gt;</code></p>
+<p>source的值的格式：</p>
+<blockquote>
+<p>source?: {uri: string, method: string, headers: object, body: string}, {html: string, baseUrl: string}, number<br>Loads static html or a uri (with optional headers) in the WebView.</p>
+</blockquote>
+<p><strong>注意：</strong><br>如果是加载本地的html文件，则需要这样写：</p>
+<pre><code>&lt;WebView    source={{uri:require(’./html/index.html’)},1} /&gt;
+</code></pre><p>如果这样写，将会报错：</p>
+<pre><code>&lt;WebView    source={uri:require(’./html/index.html’)} /&gt;
+</code></pre><p><img src="http://ojnkdvkci.bkt.clouddn.com/1489127807272ahqcow6v.png?imageslim" alt="paste image"></p>
+<ul>
+<li>onError   网页加载出错时的操作</li>
+<li>renderLoading   loading时的操作</li>
+<li>onLoadStart 网页开始加载时的方法</li>
+<li>onLoadEnd  网页加载完成的方法</li>
+</ul>
+<h2 id="RN的调试"><a href="#RN的调试" class="headerlink" title="RN的调试"></a>RN的调试</h2><p><a href="http://reactnative.cn/docs/0.26/debugging.html#chrome%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7" title="调试ReactNative APP" target="_blank" rel="external">如何用chrome调试ReactNative</a></p>
+<p>两种方式，一种是console的warn和error的方式<br>一种是chrome</p>
+<p>需要打开模拟器的开发者模式：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1489132646992du8i6ejs.png?imageslim" alt="paste image"></p>
+<p>开启remote run js:</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1489132738860e4nu3fk7.png?imageslim" alt="paste image"></p>
+<h1 id="用RN加载高德地图jsapi"><a href="#用RN加载高德地图jsapi" class="headerlink" title="用RN加载高德地图jsapi"></a>用RN加载高德地图jsapi</h1><p>由于ios10以上系统不支持https加载html的定位，所以相关的api要用https<br>所有的js/css引入都用https协议；</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/前端技术/">前端技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ReactNative/">ReactNative</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/03/react app一步步学习 - 3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/03/react app一步步学习 - 3/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
 
    
     
@@ -785,73 +974,6 @@ find . -name &quot;*.java&quot;|xargs cat|grep -v -e ^$ -e ^\s*\/\/.*$|wc -l    
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/12/28/（模板方法的运用）持久层操作的java代码/" title="（模板方法的运用）持久层操作的java代码" itemprop="url">（模板方法的运用）持久层操作的java代码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-12-28T07:58:18.000Z" itemprop="datePublished"> 发表于 2016-12-28</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="（模板方法的运用）持久层操作的java代码"><a href="#（模板方法的运用）持久层操作的java代码" class="headerlink" title="（模板方法的运用）持久层操作的java代码"></a>（模板方法的运用）持久层操作的java代码</h1><div><br><br><span style="font-size: large"><span style="color: red">\<br></span></span><br><br></div>
-
-<div><br><br><span style="font-size: large"><span
-style="color: red">第一个是操作数据库方法的抽象接口，<br> 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。<br><br>为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。<br></span></span><br><br><div><br><br><div><br><br>Java代码<br><br><br>1.  <span>package</span><span>  com.yd.idao;    </span><br>2.  <span>    </span><br>3.  <span>import</span><span>  java.util.List;    </span><br>4.  <span>import</span><span>  java.sql.Connection;    </span><br>5.  <span>import</span><span>  java.sql.ResultSet;    </span><br>6.  <span>import</span><span>  java.sql.SQLException;    </span><br>7.  <span>    </span><br>8.  <span>import</span><span>  com.yd.support.JDataSet;    </span><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/12/28/（模板方法的运用）持久层操作的java代码/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/12/28/（模板方法的运用）持久层操作的java代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/12/28/（模板方法的运用）持久层操作的java代码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -960,7 +1082,9 @@ style="color: red">第一个是操作数据库方法的抽象接口，<br> 其�
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>12</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -1029,7 +1153,7 @@ style="color: red">第一个是操作数据库方法的抽象接口，<br> 其�
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -1037,11 +1161,15 @@ style="color: red">第一个是操作数据库方法的抽象接口，<br> 其�
 			
 		
 			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -1053,15 +1181,11 @@ style="color: red">第一个是操作数据库方法的抽象接口，<br> 其�
 			
 		
 			
+				<li><a href="/tags/tomcat/" title="tomcat">tomcat<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
 			
 		
 		</ul>

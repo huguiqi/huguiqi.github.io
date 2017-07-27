@@ -14,15 +14,15 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="上海景沼">
+    <meta name="description" content="胡小黑 大型网络架构">
 <meta property="og:type" content="website">
 <meta property="og:title" content="小黑的技术博客">
 <meta property="og:url" content="http://www.huguiqi.com/page/24/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="上海景沼">
+<meta property="og:description" content="胡小黑 大型网络架构">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小黑的技术博客">
-<meta name="twitter:description" content="上海景沼">
+<meta name="twitter:description" content="胡小黑 大型网络架构">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -87,7 +87,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Oracle中TO_DATE格式/" title="Oracle中TO_DATE格式" itemprop="url">Oracle中TO_DATE格式</a>
+      <a href="/2016/03/30/ORACLE 字符集长度问题/" title="ORACLE 字符集长度问题" itemprop="url">ORACLE 字符集长度问题</a>
   </h1>
   <p class="article-author">By
        
@@ -100,16 +100,21 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Oracle中TO-DATE格式"><a href="#Oracle中TO-DATE格式" class="headerlink" title="Oracle中TO_DATE格式"></a>Oracle中TO_DATE格式</h1><p><span
-style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><a href="http://www.cnblogs.com/ajian/archive/2009/03/25/1421063.html"><strong>Oracle中TO_DATE格式</strong></a></span><span
-style="font: 14.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
-</strong></span><span
-style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br> TO_DATE格式(以时间:2007-11-02   13:45:25为例)\<br>   \<br>         Year:     \<br>         yy two digits 两位年                显示值:07\<br>         yyy three digits 三位年                显示值:007\<br>         yyyy four digits 四位年                显示值:2007\<br>            \<br>         Month:     \<br>         mm    number     两位月              显示值:11\<br>         mon    abbreviated 字符集表示<br>显示值:11月,若是英文版,显示nov    \<br>         month spelled out 字符集表示<br>显示值:11月,若是英文版,显示november\<br>          \<br>         Day:     \<br>         dd    number         当月第几天        显示值:02\<br>         ddd    number         当年第几天        显示值:02\<br>         dy    abbreviated 当周第几天简写<br>显示值:星期五,若是英文版,显示fri\<br>         day    spelled out   当周第几天全写<br>显示值:星期五,若是英文版,显示friday       \<br>         ddspth spelled out, ordinal twelfth\<br>             \<br>               Hour:\<br>               hh    two digits 12小时进制            显示值:01\<br>               hh24 two digits 24小时进制            显示值:13\<br>              \<br>               Minute:\<br>
+        <h1 id="ORACLE-字符集长度问题"><a href="#ORACLE-字符集长度问题" class="headerlink" title="ORACLE 字符集长度问题"></a>ORACLE 字符集长度问题</h1><div><br><br><div><br><br>ORACLE 字符集长度问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>很多新手在做建数据库时，会这样忽略一个问题：ORACLE中VARCHAR2类型的字段长度是按照byte来定义的。如果数据库使用的字<br>符集是GBK,GB2312或者其他定长字符集的话，这个问题似乎可以被忽略，因为只要把数据库的字段长度/2就可以得到你要限制插入该字段的中文长度<br>了。 但是，如果数据库的字符集是UTF-8呢，杯具了吧，人家是变长的。<br><br></div>
+
+<pre><code>有人说数据库字段长度/3，这是一定不可取的，因为UTF-8是变长表示的，平均为3byte表示一个字符，而并不是一定用3byte。
+
+其实人家ORACLE没这么笨，本来就可以用字符为单位来定义varchar2的长度的，这个时候需要注意在建表时这样写：
+</code></pre><div><br><br><div><br><br>Sql代码<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Oracle中TO_DATE格式/#more">Read More</a>
+            <a href="/2016/03/30/ORACLE 字符集长度问题/#more">Read More</a>
           
        </p>
     </div>
@@ -135,7 +140,367 @@ style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-st
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Oracle中TO_DATE格式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Oracle中TO_DATE格式/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/ORACLE 字符集长度问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/ORACLE 字符集长度问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/如何删除一键Ghost备份文件/" title="如何删除一键Ghost备份文件" itemprop="url">如何删除一键Ghost备份文件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="如何删除一键Ghost备份文件"><a href="#如何删除一键Ghost备份文件" class="headerlink" title="如何删除一键Ghost备份文件"></a>如何删除一键Ghost备份文件</h1><div style="text-align: left;"><br><br>第一步：分析问题<br><br></div>
+
+<p>删除一键Ghost备份文件时弹出如下对话框。在完全肯定磁盘未满或未被写保护且文件未被使用的情况下出现此对话框，首先考虑在安全模式下删除，可是试过后发现仍然不能删除。再仔细观察对话框，发现访问被拒绝这样的提示，为什么管理员都会被拒绝呢？是权限问题在作怪。\<br> 第二步：解决问题\</p>
+<p>右击一键Ghost备份文件夹（通常文件名最后都为~1），选择发展，切换到安全选项卡。\</p>
+<p>接着单击Everyone，在允许下面勾选完全或修改，单击确定完成操作，这时候你再试一试删除它，保准再倔的牛也被你治得服服帖帖。\</p>
+<p>如果没有找到安全选项卡，可以在我的电脑/工具/文件夹选项/查看选项卡下，去除使用简单文件共享的勾选即可。\<br> 第三步：总结问题\</p>
+<p>当我们遇到不能删除的文件时，一定要认真分析出现的错误提示。是需要结束相关进程？还是需要修改权限？还是需要重启电脑？还是需要通过安全模式来解决问题等等。总之千万不能被问题吓倒，更不能动不动就通过重装系统来解决问题。</p>
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>只是由于文件的访问权限引起的，也可以用命令行先修改文件夹访问权限如:<br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/如何删除一键Ghost备份文件/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/如何删除一键Ghost备份文件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/如何删除一键Ghost备份文件/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/如何在UIAlertView中显示进度条/" title="如何在UIAlertView中显示进度条" itemprop="url">如何在UIAlertView中显示进度条</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="如何在UIAlertView中显示进度条"><a href="#如何在UIAlertView中显示进度条" class="headerlink" title="如何在UIAlertView中显示进度条"></a>如何在UIAlertView中显示进度条</h1><div><br><br>如何在UIAlertView中显示进度条<br><br></div>
+
+<div><br><br>2011-12-23<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>10:58<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/如何在UIAlertView中显示进度条/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/如何在UIAlertView中显示进度条/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/如何在UIAlertView中显示进度条/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/如何将印象笔记导为markdown/" title="如何将印象笔记导为markdown" itemprop="url">如何将印象笔记导为markdown</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="如何将印象笔记导为markdown"><a href="#如何将印象笔记导为markdown" class="headerlink" title="如何将印象笔记导为markdown"></a>如何将印象笔记导为markdown</h1><p>由于想把自己多年的印象笔记里的技术笔记都转成markdown导出，但目前印象笔记不支持直接导出evernote,怎么办？google了一下，发现还没有直接导出的，只发现<a href="https://maxiang.io/">马克飞象</a><strong>可以直接绑定印象笔记和evernote国际版，绑定了以后可以直接在马克飞象上面写文章，然后同步到evernote上去</strong>，但是我需要的是把原来evernote上的笔记全部导出为markdown格式，目前evernote只支持导出为html和enex格式,看来只能从这里入手了。</p>
+<h2 id="一，将印象笔记中技术分类的笔记全部导出"><a href="#一，将印象笔记中技术分类的笔记全部导出" class="headerlink" title="一，将印象笔记中技术分类的笔记全部导出"></a>一，将印象笔记中技术分类的笔记全部导出</h2><p>我是mac电脑，安装的是印象笔记客户端，直接在文件–&gt;导出笔记（格式选html），但是问题来了，导出的是批量的html,目前我们也没有看到有可以批量将html转成markdown的工具，所以就只能自己用脚本摸索一个了。</p>
+<hr>
+<p>目前我知道的比较流行的将html转为markdown的工具有：<br>    1.<a href="http://markdownrules.com/">MarkdownRules.</a><br>    <br/>    <em>这款工具将html转markdown是在线上的，美中不足的是，它不支持 &lt; pre&gt; 这类的标记</em></p>
+<p>2.<a href="http://johnmacfarlane.net/pandoc/">Pandoc. </a><br><br/><br><em>这款工具是就非常强大了，它不公可以转html到markdown，还可以对markdown, reStructuredText, textile, HTML, DocBook, LaTeX, MediaWiki markup, TWiki markup, OPML, Emacs Org-Mode, Txt2Tags, Microsoft Word docx, LibreOffice ODT, EPUB, or Haddock markup 等十几种格式文档相互转换。但是，同样的，对&lt; pre &gt;标记的支持不足,mac用户可以通过home brew 进行安装</em></p>
+<p>3.<a href="https://github.com/aaronsw/html2text">html2text.</a> </p>
+<p><em>这是一款python写的工具，它相比前两款对&lt; pre &gt;标记解析有着更出色的表现，但也有些情况解析不了</em></p>
+<p>我选择了pandoc对我的东西进行转换</p>
+<h2 id="二，Pandoc批量将html转为markdown"><a href="#二，Pandoc批量将html转为markdown" class="headerlink" title="二，Pandoc批量将html转为markdown"></a>二，Pandoc批量将html转为markdown</h2>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/如何将印象笔记导为markdown/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/如何将印象笔记导为markdown/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/如何将印象笔记导为markdown/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/如何让secureCRT显示Linux的颜色/" title="如何让secureCRT显示Linux的颜色" itemprop="url">如何让secureCRT显示Linux的颜色</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="如何让secureCRT显示Linux的颜色"><a href="#如何让secureCRT显示Linux的颜色" class="headerlink" title="如何让secureCRT显示Linux的颜色"></a>如何让secureCRT显示Linux的颜色</h1><div><br><br>如何让secureCRT显示Linux的颜色 2011-06-13 13:54:52<br><br></div>
+
+<div><br><br>分类： Linux<br><br></div>
+
+<div><br><br>Linux的控制台颜色很好设置：Options -&gt;Session Options -&gt; Terminal<br>-&gt; Emulation 中Terminal选择ANSI or linux or xterm,必须钩上 ANSI<br>Colour ———————————————————<br>转一部分东西： SecureCRT设置彩色和显示中文<br>设置Options-&gt;SessionOptions<br>-&gt;Emulation,然后把Terminal类型改成xterm，并点中ANSI Color复选框。<br>字体设置：Options-&gt;SessionOptions-&gt;Appearance-&gt;font然后改成你想要的字体就可以了。<br>注意： 1：字符集选择utf8，这样可以避免显示汉字乱码<br>2：选择字体的时候，需要选择ture type的字体(如新宋体)，不然会出现汉字乱码<br>3：scrollback buffer<br>调大(5000)，这样你就可以看到以前显示内容，这样方便很多<br>4：terminal要选择xtem，这样你ssh到服务器上才能显示颜色，并把ANSI<br>Color打上勾 5：我选择的颜色方案Windows或Traditional。<br><br></div>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/如何让secureCRT显示Linux的颜色/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/如何让secureCRT显示Linux的颜色/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/" title="Obj-c与swift的语法比较和产生的新特性" itemprop="url">Obj-c与swift的语法比较和产生的新特性</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Obj-c与swift的语法比较和产生的新特性"><a href="#Obj-c与swift的语法比较和产生的新特性" class="headerlink" title="Obj-c与swift的语法比较和产生的新特性"></a>Obj-c与swift的语法比较和产生的新特性</h1><div><br><br><span style="font-size: 18px;">swift<br>其实是obj-c的变体，还是使用了ARC进行简单内存管理</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br></span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">一,基本语法</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">1，变量</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br></span><br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Obj-c与swift的语法比较和产生的新特性/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -222,7 +587,7 @@ style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-st
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Linux 中如何卸载已安装的软件/" title="Linux 中如何卸载已安装的软件" itemprop="url">Linux 中如何卸载已安装的软件</a>
+      <a href="/2016/03/30/Object-C内存管理口诀/" title="Object-C内存管理口诀" itemprop="url">Object-C内存管理口诀</a>
   </h1>
   <p class="article-author">By
        
@@ -235,12 +600,20 @@ style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-st
 </header>
     <div class="article-content">
         
-        <h1 id="Linux-中如何卸载已安装的软件"><a href="#Linux-中如何卸载已安装的软件" class="headerlink" title="Linux 中如何卸载已安装的软件"></a>Linux 中如何卸载已安装的软件</h1><p><span style="-evernote-last-insertion-point:true;"></span><br>+————————————————————————–+<br>| <strong>Linux 中如何卸载已安装的软件.</strong>                                        |<br>+————————————————————————–+<br>| 　　Linux软件的安装和卸载一直是困扰许多新用户的难题。在Windows中，我们可以使用软件自带的安装卸载程序或在控制面板中的“添加/删除程序 |<br>| ”来实现。与其相类似，在Linux下有一个功能强大的软件安装卸载工具，名为RPM。它可以用来建立、安装、查询、更新、卸载软件。该工具是在命令行下 |<br>| 使用的。在Shell的提示符后输入rpm，就可获得该命令的帮助信息。\            |<br>| 　　<strong>软件的安装</strong>                                                       |<br>|                                                                          |<br>| 　　Linux下软件的安装主要有两种不同的形式。第一种安装文件名为xxx.tar.gz；另一种安装文件名为xxx.i386.rpm。以第一种方式 |<br>| 发行的软件多为以源码形式发送的；第二种方式则是直接以二进制形式发送的。   |<br>|                                                                          |<br>| 　　对于第一种，安装方法如下：                                           |<br>|                                                                          |<br>| 　　1                                                                    |<br>| .首先，将安装文件拷贝至你的目录中。例如，如果你是以root身份登录上的，就将软件拷贝至/root中。 |<br>|                                                                          |<br>|                                                                          |<br>| 　　#cp xxx.tar.gz /root                                                |<br>|                                                                          |<br>| 　　2 .由于该文件是被压缩并打包的,应对其解压缩。命令为：                 |<br>|                                                                          |<br>| 　　#tar xvzf filename.tar.gz 如果是filename.tar.bz2格式的，应该是tar   |<br>| jxvf filename.tar.bz2来解压                                              |<br>|                                                                          |<br>| 　　3.                                                                   |<br>| 执行该命令后，安装文件按路径，解压缩在当前目录下。用ls命令可以看到解压缩后的文件。通常在解压缩后产生的文件中，有“Install”的文件。该文 |<br>| 件为纯文本文件，详细讲述了该软件包的安装方法。                           |<br>|                                                                          |<br>| 　　4.执行解压缩后产生的一个名为configure的可执行脚本程序。它是用于检查系统是否有编译时所需的库，以及库的版本是否满足编译的需要等安装 |<br>| 所需要的系统信息。为随后的编译工作做准备。命令为：                       |<br>| #./configure                                                            |<br>|                                                                          |<br>
+        <h1 id="Object-C内存管理口诀"><a href="#Object-C内存管理口诀" class="headerlink" title="Object-C内存管理口诀"></a>Object-C内存管理口诀</h1><div><br><br><span style="font-size: 14px;">\<br></span><br><br></div>
+
+<div><br><br><span style="font-size: 14px;">Object-C内存管理口诀 (2011-11-02<br>21:04:00)转载▼</span><br><br></div>
+
+<div><br><br><span style="font-size: 14px;">Object-C内存管理口诀</span><br><br></div>
+
+<div><br><br><span style="font-size: 14px;">1           口诀。</span><br><br></div>
+
+<div><br><br><span style="font-size: 14px;">1.1<br>谁创建，谁释放（类似于“谁污染，谁治理”）。如果你通过alloc、new或copy来创建一个对象，那么你必须调用release或autorelease。换句话说，不是你创建的，就不用你去释放。</span><br><br></div>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Linux 中如何卸载已安装的软件/#more">Read More</a>
+            <a href="/2016/03/30/Object-C内存管理口诀/#more">Read More</a>
           
        </p>
     </div>
@@ -266,7 +639,7 @@ style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-st
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Linux 中如何卸载已安装的软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Linux 中如何卸载已安装的软件/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Object-C内存管理口诀/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Object-C内存管理口诀/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -286,7 +659,7 @@ style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-st
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/RESTEasy入门/" title="RESTEasy入门" itemprop="url">RESTEasy入门</a>
+      <a href="/2016/03/30/Objective-C RegEx/" title="Objective-C RegEx" itemprop="url">Objective-C RegEx</a>
   </h1>
   <p class="article-author">By
        
@@ -299,20 +672,100 @@ style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-st
 </header>
     <div class="article-content">
         
-        <h1 id="RESTEasy入门"><a href="#RESTEasy入门" class="headerlink" title="RESTEasy入门"></a>RESTEasy入门</h1><div><br><br>### RESTEasy入门<br><br></div>
+        <h1 id="Objective-C-RegEx"><a href="#Objective-C-RegEx" class="headerlink" title="Objective-C RegEx"></a>Objective-C RegEx</h1><p><span style="font: 13.0px Verdana">Objective-C RegEx Categories\<br> <a href="https://github.com/bendytree/Objective-C-RegEx-Categories"><span
+style="color: #1d58d1">https://github.com/bendytree/Objective-C-RegEx-Categories</span></a>\<br> 使用说明:将 RegExCategories.h RegExCategories.m<br>文件拖入工程中引入头文件即可.\<br>  \</p>
+<p>==========================================================================\<br>     //</span><span
+style="font: 13.0px Verdana; color: #0433ff">匹配电话号码</span><span
+style="font: 13.0px Verdana">(手机号以13， 15，18开头，八个 \d<br>数字字符)\<br>     BOOL isMatch = [ “15910514636” isMatch:RX( “</span><span
+style="font: 13.0px Verdana; color: #ff2500">\^((13[0-9])|(15[\^4,\\D])|(18[0,0-9]))\\d{8}\$</span><span
+style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br>     //</span><span
+style="font: 13.0px Verdana; color: #0433ff">匹配邮箱</span><span
+style="font: 13.0px Verdana">\<br>     BOOL isMatch = [ “<705786230 qq.com>“ isMatch:RX( “</span><span
+style="font: 13.0px Verdana; color: #ff2500">[A-Z0-9a-z._%+-]+ [A-Za-z0-9.-]+\\.[A-Za-z]{2,4}</span><span
+style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>    \<br>     //</span><span
+style="font: 13.0px Verdana; color: #0433ff">匹配用户名</span><span
+style="font: 13.0px Verdana">(用户名长度为6-20位之间,大小写字母或者数字均可)\<br>     BOOL isMatch = [ “705786230” isMatch:RX( “</span><span
+style="font: 13.0px Verdana; color: #ff2500">\^[A-Za-z0-9]{6,20}+\$</span><span
+style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/Objective-C RegEx/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/Objective-C RegEx/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-C RegEx/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/Objective-c之NSString(NSMutableString)/" title="Objective-c之NSString(NSMutableString)" itemprop="url">Objective-c之NSString(NSMutableString)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Objective-c之NSString-NSMutableString"><a href="#Objective-c之NSString-NSMutableString" class="headerlink" title="Objective-c之NSString(NSMutableString)"></a>Objective-c之NSString(NSMutableString)</h1><div><br><br>Objective-c之NSString(NSMutableString)  (2010-12-09 20:48:24)<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>RESTEasy是JBoss的开源项目之一，是一个RESTful Web<br>Services框架。RESTEasy的开发者Bill<br>Burke同时也是JAX-RS的J2EE标准制定者之一。JAX-RS是一个JCP制订的新标准，用于规范基于HTTP的RESTful<br>Web Services的API。<br><br></div>
+<div><br><br><img src="Objective-c%E4%B9%8BNSString(NSMutableString" alt="">.resources/BFF1B981-67D7-48DA-88E7-E0522F4A1618.gif)<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>我们已经有SOAP了，为什么需要Restful<br>WebServices？用Bill自己的话来说：”如果是为了构建SOA应用，从技术选型的角度来讲，我相信REST比SOAP更具优势。开发人员会意识到使用传统方式有进行SOA架构有多复杂，更不用提使用这些做出来的接口了。这时他们就会发现Restful<br>Web Services的光明之处。”<br><br>
+<div><br><br><strong>1、初始化字符串一</strong><br><br></div>
+
+<div><br><br>\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/RESTEasy入门/#more">Read More</a>
+            <a href="/2016/03/30/Objective-c之NSString(NSMutableString)/#more">Read More</a>
           
        </p>
     </div>
@@ -338,406 +791,7 @@ style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-st
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/RESTEasy入门/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/RESTEasy入门/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/Redis 横向扩展案例/" title="Redis 横向扩展案例" itemprop="url">Redis 横向扩展案例</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Redis-横向扩展案例"><a href="#Redis-横向扩展案例" class="headerlink" title="Redis 横向扩展案例"></a>Redis 横向扩展案例</h1><h2 id="0x01-背景介绍"><a href="#0x01-背景介绍" class="headerlink" title="0x01 背景介绍"></a>0x01 背景介绍</h2><p>A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A<br>项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达<br>100K，甚至一度达到<br>120K。某天晚上，终于崩溃了。这也印证了「<strong>墨菲定律</strong>」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anything<br>that can go wrong will go<br>wrong）。所以，平时的运维过程，千万不要抱有侥幸心理，有问题就第一时间反应，有隐患就及时处理。</p>
-<hr>
-<h2 id="0x02-分析解决"><a href="#0x02-分析解决" class="headerlink" title="0x02 分析解决"></a>0x02 分析解决</h2><h3 id="2-1-初步分析"><a href="#2-1-初步分析" class="headerlink" title="2.1 初步分析"></a>2.1 初步分析</h3><p>单点 Redis<br>实例崩溃的现象就是新的连接不能建立，超时严重，数据不能及时读取。查看系统日志，发现有大量形如「kernel:<br>Possible SYN flooding on port xxxx. Sending<br>cookies」的日志。我们很快排查了系统遭受攻击的可能性。查看端口占用情况，确实是被<br>Redis 消耗了。分析监控数据和端口数情况，此时的 Redis 连接数达到了<br>7K，QPS 已经达到 100K。现在亟待解决的问题就是连接数高的问题。另外，针对<br>QPS 过高的问题，确认是否可以使用 Redis 管道技术。</p>
-<p><img src="http://i.imgur.com/OFlADoe.png" alt="QPS of Redis at Crash time"></p>
-<p>经过和研发沟通，得知程序采用 Nginx Lua 实现。Lua<br>是一个简洁、轻量、可扩展的脚本语言，也是号称性能最高的脚本语言。使用<br>Nginx Lua，再加上 LuaRedisModule 模块，就可以原生地和 Redis<br>建立请求，并解析响应。但真实的项目中采用的是 lua-resty-redis，这是一个为<br>ngx_lua 设计的，基于 cosocket API 的 Redis Lua 客户端。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Redis 横向扩展案例/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Redis 横向扩展案例/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Redis 横向扩展案例/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/字符，字节和编码/" title="字符，字节和编码" itemprop="url">字符，字节和编码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="字符，字节和编码"><a href="#字符，字节和编码" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h1><h2 id="字符，字节和编码-1"><a href="#字符，字节和编码-1" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h2><p>级别：中级</p>
-<blockquote>
-<p>摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。</p>
-<p>掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。</p>
-</blockquote>
-<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>“字符与编码”是一个被经常讨论的话题。即使这样，时常出现的乱码仍然困扰着大家。虽然我们有很多的办法可以用来消除乱<br>码，但我们并不一定理解这些办法的内在原理。而有的乱码产生的原因，实际上由于底层代码本身有问题所导致的。因此，不仅是初学者会对字符编码感到模糊，有<br>的底层开发人员同样对字符编码缺乏准确的理解。</p>
-<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
-| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
-<h4 id="1-编码问题的由来，相关概念的理解"><a href="#1-编码问题的由来，相关概念的理解" class="headerlink" title="1. 编码问题的由来，相关概念的理解"></a>1. 编码问题的由来，相关概念的理解</h4><h5 id="1-1-字符与编码的发展"><a href="#1-1-字符与编码的发展" class="headerlink" title="1.1 字符与编码的发展"></a>1.1 字符与编码的发展</h5><p>从计算机对多国语言的支持角度看，大致可以分为三个阶段：</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/字符，字节和编码/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/字符，字节和编码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/字符，字节和编码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/对javascript的理解/" title="对javascript的理解" itemprop="url">对javascript的理解</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="对javascript的理解"><a href="#对javascript的理解" class="headerlink" title="对javascript的理解"></a>对javascript的理解</h1><p><span
-style="font-size: 18px;">按照定义，每个javascript对象都有一个原型对象（简称原型），这个原型是由该对象的构造函数所定义（javascript自动创建的），并且对象继承原型的所有属性和方法（函数），比如<br>一个String对象 的原型为 String.prototype<br>，如果我们想要给String类添加方法，可以这样做（比如添加常用的trim()方法）：</span></p>
-<div><br><br><span style="font-size: 18px;">js 代码</span><br><br></div>
-
-<div><br><br><span style="font-size: 18px;">String.prototype.trim = function (){<br>  </span><br><br></div>
-
-<div><br><br><span style="font-size: 18px;">  return<br>this.replace(/(\^\s*)|(\s*\$)/g, “”);   </span><br><br></div>
-
-<div><br><br><span style="font-size: 18px;">}  </span><br><br></div>
-
-<div><br><br><span style="font-size: 18px;">\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/对javascript的理解/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/对javascript的理解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对javascript的理解/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/对象序列化框架/" title="对象序列化框架" itemprop="url">对象序列化框架</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="对象序列化框架"><a href="#对象序列化框架" class="headerlink" title="对象序列化框架"></a>对象序列化框架</h2><p><a href="http://code.google.com/p/kryo/" target="_blank" rel="external">kryo</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/对象序列化框架/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对象序列化框架/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/SVN使用经验心得/" title="SVN使用经验心得" itemprop="url">SVN使用经验心得</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="SVN使用经验心得"><a href="#SVN使用经验心得" class="headerlink" title="SVN使用经验心得"></a>SVN使用经验心得</h1><div><br><br><div><br><br><div><br><br><span
-lang="EN-US">1、如果已经有人lock了一个文件，但另外一个人需要编辑此文件，有两个选择，一个是由管理员来解除锁定，另外一个是在get<br>lock选项中有个steal the locks，选择后，即可以编辑该文件</span><br><br><span
-lang="EN-US">2、SVN的版本概念是针对目录而非文件，即使只更新了一个文件，那么，整体的版本也需要加1</span><br><br><span lang="EN-US">3、推荐使用目录树为\<br> /repos/trunk         用来保存主线，所有的code都存放在这个目录中\<br> /repos/branches<br>用来保存目录分支，OEM、新功能、设计方案调整，都有可能需要创建分支目录\<br> /repos/tags<br>用来保存标签拷贝，文档宝的阶段性成果可以打个标签存放到此目录下</span><br><br><span
-lang="EN-US">4、SVN的上传和更新是异步的，可以分开操作，而不用担心在update的同时把自己不成熟的代码commit从而影响别人的工作。</span><br><br><span
-lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情况和来管理工作copy的，如果不小心删除了，可以把该目录整个删掉，然后返回父目录，并使用update，则会从服务器上重新下载该目录并包含新的.svn</span><br><br><span lang="EN-US">6、SVN常用操作\<br> a、保持客户端和服务器端的一致，从服务器上更新文件，update\<br> b、对客户端文件的增、删、改、剪切，add,delete,copy,move\<br> c、状态比较 status，diff\<br> d、取消对服务器上文件的修改，revert\<br> e、合并别人的修改(后更新的人需要做这个操作)update,resolved\<br> f、客户端修改的文件更新到服务器上，commit</span><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/SVN使用经验心得/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/SVN使用经验心得/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN使用经验心得/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/SVN分支与合并/" title="SVN分支与合并" itemprop="url">SVN分支与合并</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="SVN分支与合并"><a href="#SVN分支与合并" class="headerlink" title="SVN分支与合并"></a>SVN分支与合并</h1><h1 id="SVN分支与合并-1"><a href="#SVN分支与合并-1" class="headerlink" title="SVN分支与合并"></a><a href="http://www.cnblogs.com/cnblogsfans/archive/2011/02/16/1955808.html">SVN分支与合并</a></h1><div><br><br><strong>一些相关的概念和原理</strong><br><br>· 分支(branch)和标记(tag)对于 SVN<br>来说就只是副本(copy)，没有任何其它意义。分支和标记的意义是我们人为给予的。<br><br>· SVN 的副本是通过”cheap copies “来实现的，建立一个副本就类似 Unix<br>中创建一个硬链接(hard<br>link)，空间和时间的消耗都是固定并且很小的，因此不必太过担心副本太多而导致性能问题。<br><br>· SVN 的文件储存<br>是通过差异(diff)来实现的，底层储存方法有两种：1、Berkeley<br>DB，完整保存一个文件的最新版本(revision)，旧版本通过反向差异(reverse<br>diffs)来获取。2、FSFS，跟 BDB<br>相反，完整保存一个文件的初始版本，后续版本通过正向差异来获取。当然，为了避免版本太多而造成性能下降，SVN<br>还使用了”skip-deltas “来减少需要追溯的版本数。<br><br>· SVN 属性(property<br>)可以附带在文件、目录和版本(revision)上。文件和目录的属性类似文件内容，会被记录进版本库中的，例如每次提交时的注释，其实就是该版本的一<br>个属性<br>svn:log。以”svn:”开头的属性是系统预留的，用户不应该自定义这样的属性。<br><br><strong>进行分支开发的最佳实践</strong><br><br>·<br>做分支上做开发的时候，必须定期使分支与主干同步，避免开发完成后合并(merge)回主干时出现严重冲突(confict)。<br><br>·<br>进行合并前，处理掉工作副本上的所有本地修改，方便合并失败时进行回滚(revert)。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/SVN分支与合并/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/SVN分支与合并/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN分支与合并/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Objective-c之NSString(NSMutableString)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-c之NSString(NSMutableString)/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -859,7 +913,9 @@ lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情�
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>12</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -928,7 +984,7 @@ lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情�
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -936,11 +992,15 @@ lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情�
 			
 		
 			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -952,15 +1012,11 @@ lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情�
 			
 		
 			
+				<li><a href="/tags/tomcat/" title="tomcat">tomcat<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
 			
 		
 		</ul>

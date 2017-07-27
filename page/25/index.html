@@ -14,15 +14,15 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="上海景沼">
+    <meta name="description" content="胡小黑 大型网络架构">
 <meta property="og:type" content="website">
 <meta property="og:title" content="小黑的技术博客">
 <meta property="og:url" content="http://www.huguiqi.com/page/25/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="上海景沼">
+<meta property="og:description" content="胡小黑 大型网络架构">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小黑的技术博客">
-<meta name="twitter:description" content="上海景沼">
+<meta name="twitter:description" content="胡小黑 大型网络架构">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -87,6 +87,343 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/对象序列化框架/" title="对象序列化框架" itemprop="url">对象序列化框架</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="对象序列化框架"><a href="#对象序列化框架" class="headerlink" title="对象序列化框架"></a>对象序列化框架</h2><p><a href="http://code.google.com/p/kryo/" target="_blank" rel="external">kryo</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/对象序列化框架/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对象序列化框架/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/字符，字节和编码/" title="字符，字节和编码" itemprop="url">字符，字节和编码</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="字符，字节和编码"><a href="#字符，字节和编码" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h1><h2 id="字符，字节和编码-1"><a href="#字符，字节和编码-1" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h2><p>级别：中级</p>
+<blockquote>
+<p>摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。</p>
+<p>掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。</p>
+</blockquote>
+<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>“字符与编码”是一个被经常讨论的话题。即使这样，时常出现的乱码仍然困扰着大家。虽然我们有很多的办法可以用来消除乱<br>码，但我们并不一定理解这些办法的内在原理。而有的乱码产生的原因，实际上由于底层代码本身有问题所导致的。因此，不仅是初学者会对字符编码感到模糊，有<br>的底层开发人员同样对字符编码缺乏准确的理解。</p>
+<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
+<h4 id="1-编码问题的由来，相关概念的理解"><a href="#1-编码问题的由来，相关概念的理解" class="headerlink" title="1. 编码问题的由来，相关概念的理解"></a>1. 编码问题的由来，相关概念的理解</h4><h5 id="1-1-字符与编码的发展"><a href="#1-1-字符与编码的发展" class="headerlink" title="1.1 字符与编码的发展"></a>1.1 字符与编码的发展</h5><p>从计算机对多国语言的支持角度看，大致可以分为三个阶段：</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/字符，字节和编码/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/字符，字节和编码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/字符，字节和编码/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/对javascript的理解/" title="对javascript的理解" itemprop="url">对javascript的理解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="对javascript的理解"><a href="#对javascript的理解" class="headerlink" title="对javascript的理解"></a>对javascript的理解</h1><p><span
+style="font-size: 18px;">按照定义，每个javascript对象都有一个原型对象（简称原型），这个原型是由该对象的构造函数所定义（javascript自动创建的），并且对象继承原型的所有属性和方法（函数），比如<br>一个String对象 的原型为 String.prototype<br>，如果我们想要给String类添加方法，可以这样做（比如添加常用的trim()方法）：</span></p>
+<div><br><br><span style="font-size: 18px;">js 代码</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">String.prototype.trim = function (){<br>  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">  return<br>this.replace(/(\^\s*)|(\s*\$)/g, “”);   </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">}  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/对javascript的理解/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/对javascript的理解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对javascript的理解/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/2）/" title="2）" itemprop="url">2）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="2）"><a href="#2）" class="headerlink" title="2）"></a>2）</h1><p><a href="http://www.jinjiang.com/travel/search?departurePlaceEncode=%25E4%25B8%258A%25E6%25B5%25B7&amp;keywordEncode=%E6%B5%B7%E5%B2%9B&amp;filterJourDest=%E5%8D%9A%E9%B3%8C" target="_blank" rel="external">departurePlaceEncode</a><span style="font: 12.0px 'Heiti SC Light'">这个码是个什么</span></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/2）/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/2）/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/Objective-C –反射篇/" title="Objective-C –反射篇" itemprop="url">Objective-C –反射篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Objective-C-–反射篇"><a href="#Objective-C-–反射篇" class="headerlink" title="Objective-C –反射篇"></a>Objective-C –反射篇</h1><p>Objective-C –反射篇 (2013-08-21 15:57:36)转载▼</p>
+<div><br><br>标签： 杂谈     分类： iphone开发<br><br></div>
+
+<div><br><br><a href="http://zephyrleavesblog.sinaapp.com/?p=676">http://zephyrleavesblog.sinaapp.com/?p=676</a><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>今天我们来讲讲Objective-C的反射,<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/Objective-C –反射篇/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/Objective-C –反射篇/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-C –反射篇/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" title="建立你自己的本地仓库(Maven仓库管理-Nexus)" itemprop="url">建立你自己的本地仓库(Maven仓库管理-Nexus)</a>
   </h1>
   <p class="article-author">By
@@ -138,6 +475,151 @@
 	
 	  	<span></span>
 		<a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/Objective_C动态获取实例属性/" title="Objective_C动态获取实例属性" itemprop="url">Objective_C动态获取实例属性</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Objective-C动态获取实例属性"><a href="#Objective-C动态获取实例属性" class="headerlink" title="Objective_C动态获取实例属性"></a>Objective_C动态获取实例属性</h1><div><br><br><span
+style="color: rgb(51, 51, 51); font-family: STHeiti; text-align: left; background-color: rgb(199, 237, 204); float: none;">objective_c动行时库已经有这样的功能。使用这些方法需要加头文件</span><br><br></div>
+
+<div><br><br><span
+style="color: rgb(51, 51, 51); background-color: rgb(199, 237, 204); font-family: STHeiti; line-height: 1.45;">             #import<br>&lt;objc/message.h&gt;</span>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> interface People : NSObject {<br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/Objective_C动态获取实例属性/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/Objective_C动态获取实例属性/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective_C动态获取实例属性/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">开源中国 Maven 库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="开源中国-Maven-库"><a href="#开源中国-Maven-库" class="headerlink" title="开源中国 Maven 库"></a>开源中国 Maven 库</h1><p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>开源中国 Maven 库使用帮助<br>=========================<br><br><div><br><br><div><br><br></div>
+
+<p></div></p>
+<p></div></p>
+<div><br><br>亲爱的小伙伴们，开源中国的 Maven 库上线咯！为了方便广大开发同学，开源中国特别推出国内的 Maven 中央库，提供高速稳定的网络和服务，为国内 Maven 使用者提供便捷服务。本 Maven 库是从 <a href="http://mirrors.ibiblio.org/maven2/">ibiblio</a> 同步过来的，因为网络等原因，保持每天一次更新。本 Maven 库使用开源软件 <a href="http://www.oschina.net/p/nexus">Nexus</a> 搭建，对外镜像链接地址为：<a href="http://maven.oschina.net/content/groups/public/">  http://maven.oschina.net/content/groups/public/  </a>。<br><br></div>
+
+<div><br><br>接下来将简单介绍如何在您的项目中使用 Maven，以及使用 <a href="http://www.oschina.net/">OSChina</a> 提供的 Maven 服务。<br><br>##### 1.安装 Maven<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/开源中国 Maven 库/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/开源中国 Maven 库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/开源中国 Maven 库/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -231,215 +713,6 @@ style="color: rgb(255, 0, 0);">StartupItems</span></span>的方式搞定，Start
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">开源中国 Maven 库</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="开源中国-Maven-库"><a href="#开源中国-Maven-库" class="headerlink" title="开源中国 Maven 库"></a>开源中国 Maven 库</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>开源中国 Maven 库使用帮助<br>=========================<br><br><div><br><br><div><br><br></div>
-
-<p></div></p>
-<p></div></p>
-<div><br><br>亲爱的小伙伴们，开源中国的 Maven 库上线咯！为了方便广大开发同学，开源中国特别推出国内的 Maven 中央库，提供高速稳定的网络和服务，为国内 Maven 使用者提供便捷服务。本 Maven 库是从 <a href="http://mirrors.ibiblio.org/maven2/">ibiblio</a> 同步过来的，因为网络等原因，保持每天一次更新。本 Maven 库使用开源软件 <a href="http://www.oschina.net/p/nexus">Nexus</a> 搭建，对外镜像链接地址为：<a href="http://maven.oschina.net/content/groups/public/">  http://maven.oschina.net/content/groups/public/  </a>。<br><br></div>
-
-<div><br><br>接下来将简单介绍如何在您的项目中使用 Maven，以及使用 <a href="http://www.oschina.net/">OSChina</a> 提供的 Maven 服务。<br><br>##### 1.安装 Maven<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/开源中国 Maven 库/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/开源中国 Maven 库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/开源中国 Maven 库/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/怎么关闭U盘的自动播放功能/" title="怎么关闭U盘的自动播放功能" itemprop="url">怎么关闭U盘的自动播放功能</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="怎么关闭U盘的自动播放功能"><a href="#怎么关闭U盘的自动播放功能" class="headerlink" title="怎么关闭U盘的自动播放功能"></a>怎么关闭U盘的自动播放功能</h1><h1 id="怎么关闭U盘的自动播放功能-1"><a href="#怎么关闭U盘的自动播放功能-1" class="headerlink" title="怎么关闭U盘的自动播放功能"></a><span>怎么关闭U盘的自动播放功能</span></h1><pre><code>每次把移动硬盘查到USB口就会自动播放，尤其是移动硬盘分了N个区的时候，要手动一个一个的关掉，真是十分的麻烦！怎么样能解决这个问题呢？下面西部e网这里了几种关闭移动硬盘或者U盘自动播放的方法供大家参考：  
-
- 1、SHIFT按键法   这个方法早在Windows98就用过了吧？好像是哦，反正我最早在关闭自动播放CD的时候就使用的这种方法。插入移动硬盘的时候按住SHIFT键，移动硬盘就不会自动播放啦。   
-
-2、策略组关闭法   在前段时间熊猫烧香流行的时候，网上就流传着使用策略组关闭移动硬盘或者U盘自动关闭功能的方法。具体如：单击“开始-运行”，在“打开”框中，键入“gpedit.msc”，单击“确定”按钮，打开“组策略”窗口。在左窗格的“本地计算机策略”下，展开“计算机配置-管理模板-系统”，然后在右窗格的“设置”标题下，双击“关闭自动播放”。单击“设置”选项卡，选中“已启用”复选钮，然后在“关闭自动播放”框中单击“所有驱动器”，单击“确定”按钮，最后关闭组策略窗口。   
-
-3、关闭服务法   在“我的电脑”点击鼠标右键，选择“管理”，在打开的“计算机管理”中找到“服务和应用程序-服务”，然后在右窗格找到“Shell Hardware Detection”服务，这个服务的功能就是为自动播放硬件事件提供通知，双击它，在“状态”中点击“停止”按钮，然后将“启动类型”修改为“已禁用”或者“手动”就可以了。   
-
-4、磁盘操作法   这个方法对Windows XP有效，也比较好用。打开“我的电脑”，在“硬盘”里面或者在“有可移动的存储设备”下面会看到你的盘符，一般移动硬盘的盘符会在“硬盘”中，U盘或者数码相机什么的在“有可移动的存储设备”中。鼠标右键点击需要关闭自动播放功能的盘符，选择“属性”，在弹出的窗体中选择“自动播放”选项卡，在这里用户可以针对“音乐文件”、“图片”、“视频文件”、“混合内容”和“音乐CD”五类内容设置不同的操作方式，都选用“不执行操作”即可禁用自动运行功能，“确定”后设置立即生效。这种方法同样使用于针对DVD/CD驱动器。   
-
-5、注册表法   注册表是个麻烦的东西，一般不建议使用注册表来修改。
-
- 打开注册表编辑器，展开到[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Exploer]主键下，在右窗格中找到“NoDriveTypeAutoRun”，就是这个键决定了是否执行CDROM或硬盘的AutoRun功能。   NoDriveTypeAutoRun这个键决定了是否执行Autorun功能。其中每一位代表一个设备，不同设备用以下数值表示：     设备名称 第几位 数值 设备用如下数值表示 设备名称含义   DRIVE_UNKNOWN 0 1 01H 不能识别的类型设备   DRIVE_NO_ROOT_DIR 1 0 02H 没有根目录的驱动器   DRIVE_REMOVABLE 2 1 04H 可移动驱动器   DRIVE_FIXED 3 0 08H 固定的驱动器   DRIVE_REMOTE 4 1 10H 网络驱动器   DRIVE_CDROM 5 0 20H 光驱   DRIVE_RAMDISK 6 0 40H RAM磁盘      以上值“0”表示设备运行，“1”表示设备不运行。   6、软件法   Tweak UI是Microsoft出品的软件，可以针对任何操作系统。使用Tweak UI软件，可以控制任意盘符是否可以自动播放。
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/怎么关闭U盘的自动播放功能/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/怎么关闭U盘的自动播放功能/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/GCD 深入理解（二） - 已标注/" title="GCD 深入理解（二） - 已标注" itemprop="url">GCD 深入理解（二） - 已标注</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="GCD-深入理解（二）-已标注"><a href="#GCD-深入理解（二）-已标注" class="headerlink" title="GCD 深入理解（二） - 已标注"></a>GCD 深入理解（二） - 已标注</h1><p><a href="GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89%20-%20%E5%B7%B2%E6%A0%87%E6%B3%A8.resources/GCD-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.pdf">GCD-深入理解（二）.pdf</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/GCD 深入理解（二） - 已标注/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/GCD 深入理解（二） - 已标注/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/手机端(iOS,android)自动化测试框架(淘宝用的)/" title="手机端(iOS,android)自动化测试框架(淘宝用的)" itemprop="url">手机端(iOS,android)自动化测试框架(淘宝用的)</a>
   </h1>
   <p class="article-author">By
@@ -487,296 +760,6 @@ style="color: rgb(255, 0, 0);">StartupItems</span></span>的方式搞定，Start
 	
 	  	<span></span>
 		<a href="/2016/03/30/手机端(iOS,android)自动化测试框架(淘宝用的)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/手机端(iOS,android)自动化测试框架(淘宝用的)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/把你的程序布署在TOMCAT/" title="把你的程序布署在TOMCAT" itemprop="url">把你的程序布署在TOMCAT</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="把你的程序布署在TOMCAT"><a href="#把你的程序布署在TOMCAT" class="headerlink" title="把你的程序布署在TOMCAT"></a>把你的程序布署在TOMCAT</h1><div><br><br>把你的程序布署在TOMCAT上！！  (2011-04-11 09:08:40)<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br><img src="%E6%8A%8A%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%B8%83%E7%BD%B2%E5%9C%A8TOMCAT.resources/31FCB674-06D6-4F00-8356-8F42DEF64A98.gif" alt=""><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>网站开发完成了最终<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/把你的程序布署在TOMCAT/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/把你的程序布署在TOMCAT/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/把你的程序布署在TOMCAT/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/" title="改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error" itemprop="url">改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="改了svn地址后的Subversion-“checksum-mismatch”-error-by-editing-svn-entries-file-error"><a href="#改了svn地址后的Subversion-“checksum-mismatch”-error-by-editing-svn-entries-file-error" class="headerlink" title="改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error"></a>改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error</h1><div><br><br><div><br><br>### <span><a href="http://blog.csdn.net/kenera/article/details/5099838" title="Fix Subversion “checksum mismatch” error by editing .svn/entries file">Fix Subversion “checksum mismatch” error by editing .svn/entries file</a></span><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>I can’<span>t</span> explain why this happened because in my<br>several-year-long history with Subversion, I’ve never experienced this<br>issue once. However, today, I fell into the (arguably) unfortunate<br>circumstance of running into a most disturbing error from SVN. When<br>trying to commit my changes, SVN barfed at me and complained of a<br>“checksum mismatch”. It looked something like this:<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<pre><code>Transmitting file data ..svn: Commit failed (details follow):
-svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/copy/.svn/text-base/working-file.php.svn-base&apos;; expected &apos;cde4d8fbd5c623da3a8b1a343aa7b3f4&apos;, actual: &apos;270b2f20804a5fcdbd15eec5910f6e3f&apos;
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/摇一摇动画/" title="摇一摇动画" itemprop="url">摇一摇动画</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="摇一摇动画"><a href="#摇一摇动画" class="headerlink" title="摇一摇动画"></a>摇一摇动画</h1><div><br><br>\<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<p>//                             [UIView animateWithDuration:0.3</p>
-<p>//                                                   delay:0.0</p>
-<p>//<br>options:UIViewAnimationOptionRepeat ||<br>UIViewAnimationOptionCurveEaseInOut</p>
-<p>//                                              animations:\^{</p>
-<p>//<br>self.shakeShadawImgView.hidden = YES;</p>
-<p>//                                                  [UIView<br>setAnimationRepeatCount:7];</p>
-<p>//</p>
-<p>//<br>self.shakeMobileImgView.layer.transform =<br>CATransform3DRotate(_shakeMobileTransform, M_PI * -0.02, 0, 0, 1);<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/摇一摇动画/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/摇一摇动画/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/摇一摇动画/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/" title="SVN客户端命令行设置忽略文件列表" itemprop="url">SVN客户端命令行设置忽略文件列表</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="SVN客户端命令行设置忽略文件列表"><a href="#SVN客户端命令行设置忽略文件列表" class="headerlink" title="SVN客户端命令行设置忽略文件列表"></a>SVN客户端命令行设置忽略文件列表</h1><p><span style="font: 20.0px Times">SVN设置忽略文件列表\<br></span><span style="font: 12.0px Arial; background-color: #eeeeee">\<br></span><span style="font: 12.0px Arial">\<br></span><span
-style="font: 13.0px Arial; letter-spacing: 0.5px">在公司中项目的版本管控一般都是使用集中式的SVN，我也是从svn工具中熟悉基本的版本管理概念和操作。但是作为一个Linux系统及应用开发者，自然对Git分布式管理工具要有所熟悉。现在个人项目管理都是使用git进行版本控制，对git的一些操作也比较熟悉，而svn一般用的是Windows下的图像工具，而对svn的命令行稍显陌生。\</p>
-<p>在git工具中，设置忽略文件只需要修改版本库根目录下的.gitignore文件就可以了，没有的话创建一个，非常简单，一个示例的.gitignore文件如下：过滤文件模式以行进行分隔\<br>\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">01\<br></span><span style="font: 13.0px 'Courier New'">*.o\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">02\<br></span><span style="font: 13.0px 'Courier New'">*.lo\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">03\<br></span><span style="font: 13.0px 'Courier New'">*.la\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">04\<br></span><span style="font: 13.0px 'Courier New'">*.gcda\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">05\<br></span><span style="font: 13.0px 'Courier New'">*.gcno\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">06\<br></span><span style="font: 13.0px 'Courier New'">aclocal.m4\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">07\<br></span><span style="font: 13.0px 'Courier New'">autom4te.cache\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">08\<br></span><span style="font: 13.0px 'Courier New'">build\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">09\<br></span><span style="font: 13.0px 'Courier New'">compile\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">10\<br></span><span style="font: 13.0px 'Courier New'">config.guess\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">11\<br></span><span style="font: 13.0px 'Courier New'">config.h\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">12\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span
-style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN客户端命令行设置忽略文件列表/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -898,7 +881,9 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>11</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>12</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -967,7 +952,7 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -975,11 +960,15 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
 			
 		
 			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
@@ -991,15 +980,11 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
 			
 		
 			
+				<li><a href="/tags/tomcat/" title="tomcat">tomcat<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/iptables与docker的作死碰撞/" title="iptables与docker的作死碰撞">iptables与docker的作死碰撞<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>1</sup></a></li>
 			
 		
 		</ul>
