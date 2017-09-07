@@ -90,7 +90,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/27/nodejs_异步异常处理/" title="nodejs异步异常处理" itemprop="url">nodejs异步异常处理</a>
+      <a href="/2016/07/27/fedora20系统上安装svn_server/" title="fedora20系统上安装svn" itemprop="url">fedora20系统上安装svn</a>
   </h1>
   <p class="article-author">By
        
@@ -103,48 +103,51 @@
 </header>
     <div class="article-content">
         
-        <h1 id="nodejs-异步异常处理"><a href="#nodejs-异步异常处理" class="headerlink" title="nodejs 异步异常处理"></a>nodejs 异步异常处理</h1><p> 环境：</p>
-<blockquote>
-<p>nodejs : 4.4.4<br>express :4.1.13</p>
-<p>pm2 :1.1.3</p>
-</blockquote>
-<p>nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。</p>
-<p>那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处理的异常抛出给统一的ExceptionHandler去处理呢？</p>
-<p><strong>注意，这里要处理的都是异步的业务异常，同步的异常处理不在这里讨论</strong></p>
-<p>同步异常处理：</p>
-<pre><code>//处理所有同步异常
-app.use(function (err, req, res, next) {
-// 带有四个参数的 middleware 专门用来处理异常
-res.json(&quot;{&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;}&quot;);
-});
-</code></pre><h2 id="怎么解决"><a href="#怎么解决" class="headerlink" title="怎么解决"></a>怎么解决</h2><p>目前其实还没有完美的方法去解决这个问题，但总是有替代的或者相似的解决方案：</p>
-<ul>
-<li>uncaughtException事件监听</li>
-<li>使用domain模块捕捉异常</li>
-</ul>
-<h3 id="uncaughtException事件监听"><a href="#uncaughtException事件监听" class="headerlink" title="uncaughtException事件监听"></a>uncaughtException事件监听</h3><p>uncaughtException 是一个非常古老的事件。当 Node 发现一个未捕获的异常时，会触发这个事件。并且如果这个事件存在回调函数，Node 就不会强制结束进程。</p>
-<p>一般情况下，我们会将有可能出错的代码放到try/catch块里。但是到了Node.js，由于try/catch无法捕捉异步回调里的异常，Node.js原生提供uncaughtException事件挂到process对象上，用于捕获所有未处理的异常，以下是一个模似一个异步异常：</p>
-<pre><code>process.on(&apos;uncaughtException&apos;, function(err) {
-console.error(&apos;Error caught in uncaughtException event:&apos;, err);
-});
+        <h1 id="fedora20系统上安装svn-server"><a href="#fedora20系统上安装svn-server" class="headerlink" title="fedora20系统上安装svn server"></a>fedora20系统上安装svn server</h1><pre><code>yum install svnserver    
+</code></pre><h3 id="权限-amp-用户配置"><a href="#权限-amp-用户配置" class="headerlink" title="权限&amp;用户配置"></a>权限&amp;用户配置</h3><p>创建一个svn库目录：</p>
+<pre><code>mkdir /opt/svnRepos
+</code></pre><p>创建一个svn库：</p>
+<pre><code>svnadmin create svntest
+</code></pre><p>配置用户名/密码与权限:</p>
+<pre><code>vi svntest/config/svnserve.conf
+</code></pre><p>svnserver.conf的主要配置：</p>
+<pre><code>[general]
+anon-access = none
+auth-access = write
+password-db = ../../userConf/passwd
+authz-db = ../../userConf/authz
+realm = lebond-ios
+</code></pre><p>fedora 20 系统上设置svnserve自启动：<br>先查看下svnserve.service的启动命令：</p>
+<pre><code>vi /usr/lib/systemd/system/svnserve.service 
+</code></pre><p>发现里面加载了<code>/etc/sysconfig/svnserve</code></p>
+<p>则修改/etc/sysconfig/svnserve配置文件如下：</p>
+<pre><code>[root@localhost ~]# vi /etc/sysconfig/svnserve 
 
-try {
-process.nextTick(function() {
-    fs.readFile(&apos;non_existent.js&apos;, function(err, str) {
-        if(err) throw err;
-        else console.log(str);
-    });
-});
-} catch(e) {
-console.error(&apos;Error caught by catch block:&apos;, e);
-}
-</code></pre><p>执行的结果是代码进到了uncaughtException的回调里而不是catch块。 uncaughtException虽然能够捕获异常，但是此时错误的上下文已经丢失，即使看到错误也不知道哪儿报的错，定位问题非常的不利。而且一旦uncaughtException事件触发，而且我们没有自定义重写process的uncaughtException挂载的话，整个node进程将crash掉。</p>
-<p>NodeJS对于未捕获异常的默认处理是： - 触发 uncaughtException 事件 - 如果 uncaughtException 没有被监听，那么 - 打印异常的堆栈信息 - 触发进程的 exit 事件;<br>
+OPTIONS=&quot;-r /opt/lebondSvnRepo&quot;
+</code></pre><p>然后执行:</p>
+<pre><code>systemctl enable svnserve.service
+chkconfig --level 2345 svnserve on
+</code></pre><p>然后重启服务器测试一下。。。。</p>
+<p>另一种方式：<br>Fedora 20 这个版本系统是没有 rc.local 这个开机脚本文件了，当然，也不是说官方打算取消这个功能，而且如果有需要，需要自己新建，并且手动配置。</p>
+<p>现在我需要开机自启动这个服务，利用 rc.local 这个文件，位于 /etc/rc.d/ 目录下，如果没有就自己创建一个。</p>
+<pre><code>su
+cd /etc/rc.d
+touch rc.local
+</code></pre><p>然后赋予其运行权限：</p>
+<pre><code>chmod +x rc.local
+</code></pre><p>接下来就可以在里面写入你需要开机执行的命令了！我除了运行 DNSCrypt 服务，还需要打开 Goagent ，那么我在 rc.local 写入的内容就是：</p>
+<pre><code>#!/bin/bash
+svnserve -d -r /opt/lebondSvnRepo
+</code></pre><p>然后重启一下 rc.local 服务，一样要用到 systemctl 命令。</p>
+<pre><code>systemctl restart rc-local.service
+</code></pre><h3 id="开机启动svnserve遇到的问题："><a href="#开机启动svnserve遇到的问题：" class="headerlink" title="开机启动svnserve遇到的问题："></a>开机启动svnserve遇到的问题：</h3><ol>
+<li>虽然两种方法都可以实现开机启动svnserve，但是在客户端访问时，却是报错的，原因还不明确</li>
+<li>检查了端口和目录设置，全部都没有问题，只能每次打开服务器以后执行一遍开启svnserve的sh</li>
+</ol>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/07/27/nodejs_异步异常处理/#more">Read More</a>
           
        </p>
     </div>
@@ -153,13 +156,13 @@ console.error(&apos;Error caught by catch block:&apos;, e);
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/express-异常处理/">express 异常处理</a>
+  <span></span> <a href="/tags/安装svn/">安装svn</a>
   </div>
 
 </div>
@@ -170,7 +173,76 @@ console.error(&apos;Error caught by catch block:&apos;, e);
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/07/27/nodejs_异步异常处理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/nodejs_异步异常处理/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/07/27/fedora20系统上安装svn_server/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/fedora20系统上安装svn_server/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/27/清明议事/" title="清明议事" itemprop="url">清明议事</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="清明议事"><a href="#清明议事" class="headerlink" title="清明议事"></a>清明议事</h1><blockquote>
+<blockquote>
+<p>清明三天假期已过，今天是周未，朋友圈里又开始了美图大赛。。。。</p>
+</blockquote>
+</blockquote>
+<p>清明三天，我安静的在家里待了整整三天，哪也没去，什么也没做；<br>除了jerry请我去他家过清明，中午喝酒、聊天。<br>我们聊了很多，其中有个话题很触动我，关于业余时间利用。jerry是在做自己的app，运营着自己的app，有自己的服务器，有时还会给自己的app做些活动。目前他双休日还会去练车；</p>
+<p>很遗憾，我的业余时间现在完全是浪费的。。。。。。</p>
+<h2 id="闲与忙哪个更好？"><a href="#闲与忙哪个更好？" class="headerlink" title="闲与忙哪个更好？"></a>闲与忙哪个更好？</h2><h2 id="有时间再做的事，最后真正完成的机率有多大？"><a href="#有时间再做的事，最后真正完成的机率有多大？" class="headerlink" title="有时间再做的事，最后真正完成的机率有多大？"></a>有时间再做的事，最后真正完成的机率有多大？</h2><h2 id="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"><a href="#是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？" class="headerlink" title="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"></a>是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？</h2>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/心情感悟/">心情感悟</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/27/清明议事/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/清明议事/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -316,150 +388,6 @@ console.error(&apos;Error caught by catch block:&apos;, e);
 	
 	  	<span></span>
 		<a href="/2016/07/27/管理者的自省/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/管理者的自省/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/07/27/无标题/" title="git 撤销commit" itemprop="url">git 撤销commit</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="无标题"><a href="#无标题" class="headerlink" title="无标题"></a>无标题</h1><p>git 撤销commit</p>
-<div><br><br>\<br><br></div>
-
-<div><br><br>博客分类： git<br><br></div>
-
-<div><br><br>gitcommit撤销<br><br></div>
-
-<div><br><br>如果不小心commit了一个不需要commit的文件，可以对其进行撤销。<br><br></div>
-
-<div><br><br><br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/07/27/无标题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/27/无标题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/无标题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/07/27/清明议事/" title="清明议事" itemprop="url">清明议事</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="清明议事"><a href="#清明议事" class="headerlink" title="清明议事"></a>清明议事</h1><blockquote>
-<blockquote>
-<p>清明三天假期已过，今天是周未，朋友圈里又开始了美图大赛。。。。</p>
-</blockquote>
-</blockquote>
-<p>清明三天，我安静的在家里待了整整三天，哪也没去，什么也没做；<br>除了jerry请我去他家过清明，中午喝酒、聊天。<br>我们聊了很多，其中有个话题很触动我，关于业余时间利用。jerry是在做自己的app，运营着自己的app，有自己的服务器，有时还会给自己的app做些活动。目前他双休日还会去练车；</p>
-<p>很遗憾，我的业余时间现在完全是浪费的。。。。。。</p>
-<h2 id="闲与忙哪个更好？"><a href="#闲与忙哪个更好？" class="headerlink" title="闲与忙哪个更好？"></a>闲与忙哪个更好？</h2><h2 id="有时间再做的事，最后真正完成的机率有多大？"><a href="#有时间再做的事，最后真正完成的机率有多大？" class="headerlink" title="有时间再做的事，最后真正完成的机率有多大？"></a>有时间再做的事，最后真正完成的机率有多大？</h2><h2 id="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"><a href="#是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？" class="headerlink" title="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"></a>是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？</h2>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/心情感悟/">心情感悟</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/27/清明议事/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/清明议事/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -847,7 +775,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/iptables与docker的作死碰撞/" title="docker安装了iptalbes以后，出现的悲剧与解决方案" itemprop="url">docker安装了iptalbes以后，出现的悲剧与解决方案</a>
+      <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
   </h1>
   <p class="article-author">By
        
@@ -860,14 +788,15 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 </header>
     <div class="article-content">
         
-        <h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a href="#docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" title="docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
-<p>情况是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[root@localhost ~]# docker ps -a</div><div class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</div><div class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</div><div class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</div><div class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</div><div class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</div><div class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</div><div class="line">[root@localhost ~]# docker start 782</div><div class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</div><div class="line"> (exit status 1)</div><div class="line">Error: failed to start containers: [782]</div><div class="line">[root@localhost ~]# docker rm 782</div></pre></td></tr></table></figure>
+        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
+<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/">下载地址(文档)</a></p>
+</li>
+<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/06/13/iptables与docker的作死碰撞/#more">Read More</a>
+            <a href="/2016/06/13/3d_touch例子一个/#more">Read More</a>
           
        </p>
     </div>
@@ -876,13 +805,13 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/iptables与docker的作死碰撞/">iptables与docker的作死碰撞</a>
+  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
   </div>
 
 </div>
@@ -893,7 +822,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/iptables与docker的作死碰撞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/iptables与docker的作死碰撞/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -913,7 +842,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/如何添加brewcask没有的软件/" title="如何添加brewcask没有的软件" itemprop="url">如何添加brewcask没有的软件</a>
+      <a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/" title="外网访问内网的解决方式" itemprop="url">外网访问内网的解决方式</a>
   </h1>
   <p class="article-author">By
        
@@ -926,89 +855,26 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 </header>
     <div class="article-content">
         
-        <h1 id="如何添加brewcask没有的软件"><a href="#如何添加brewcask没有的软件" class="headerlink" title="如何添加brewcask没有的软件"></a>如何添加brewcask没有的软件</h1><p>按照<a href="https://github.com/caskroom/homebrew-cask/blob/master/CONTRIBUTING.md#adding-a-cask" target="_blank" rel="external">brewcask的wiki</a>上说的步骤</p>
-<h2 id="添加步骤："><a href="#添加步骤：" class="headerlink" title="添加步骤："></a>添加步骤：</h2><ol>
-<li>fork homebrew-cask</li>
-<li>进入你的系统的homebrew-cask的repository目录，mac系统默认都在：<code>/usr/local/Library/Taps/phinze/homebrew-cask</code></li>
-<li>一定要先更新你的brewcask 的repository:<code>git pull</code></li>
-<li><p>按照官方文档的做法，把你的fork过去的项目url加入到remote里去</p>
-<pre><code>$ github_user=&apos;huguiqi&apos;
-$ cd &quot;$(brew --repository)&quot;/Library/Taps/caskroom/homebrew-cask
-$ git remote add &quot;$github_user&quot; &quot;https://github.com/$github_user/homebrew-cask&quot;
-</code></pre></li>
-<li><p>建立软件token(<strong>这一步官方文档上没写</strong>)</p>
-<pre><code>&quot;$(brew --repository)/Library/Taps/caskroom/homebrew-cask/developer/bin/generate_cask_token&quot; &apos;software_name&apos;
-</code></pre></li>
+        <h1 id="通过公司的路由器转发到内网测试服务器"><a href="#通过公司的路由器转发到内网测试服务器" class="headerlink" title="通过公司的路由器转发到内网测试服务器"></a>通过公司的路由器转发到内网测试服务器</h1><p>折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。</p>
+<h2 id="准备工具："><a href="#准备工具：" class="headerlink" title="准备工具："></a>准备工具：</h2><ol>
+<li>nginx</li>
+<li><p>公司路由器</p>
+<ul>
+<li>虚拟主机端口转发</li>
+<li><p>DMZ主机托管</p>
+<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png" alt="image"></p>
+</li>
+</ul>
+</li>
 </ol>
-<p>如已经在repostory目录了，则执行如下:</p>
-<pre><code>developer/bin/generate_cask_token &apos;solftName&apos;
-</code></pre><p>如果执行报错，那么可以<code>git pull试下</code><br>6 . 新建cask:<code>brew cask create solftName</code></p>
-<p>在这一步的时候，一直报错，后面看了报错信息，说是什么找不到这个token，在<code>/usr/local/Library/Taps/caskroom/homebrew-cask</code>目录下，这就奇了怪了，明明我的repository在另外一个目录，它怎么会往这个不存在的目录里去找呢，后面找了很久，发现是我更新了brew，而brew-cask还是用的老的：<code>phinze/homebrew-cask</code>，<a href="https://github.com/caskroom/homebrew-cask" target="_blank" rel="external">官方wiki上有这个问题的解决方案</a>：</p>
-<ol>
-<li><code>$ brew update; brew cleanup; brew cask cleanup</code></li>
-<li><code>$ brew uninstall --force brew-cask; brew update</code></li>
-<li>如果还报错，则可能是之前你的没有卸载干净，再执行：<code>brew untap phinze/cask; brew untap caskroom/cask; brew update</code></li>
-<li>最后再重复第1、2步</li>
+<p><strong>本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。</strong></p>
+<h2 id="指出错误的想法"><a href="#指出错误的想法" class="headerlink" title="指出错误的想法:"></a>指出错误的想法:</h2><ol>
+<li>源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理</li>
+<li>公网的IP是绑定在路由器上的，我们内网上网都是通过路由上网，所以如果要反向代理，就要在路由器上作反身代理，否则完全行不通</li>
 </ol>
-<p><strong> cask重装以后再执行一遍repository下add remote url</strong></p>
-<p>执行 cask create 以后，会打开一个*.rb文件，如下：</p>
-<pre><code>cask &apos;my-new-cask&apos; do 
-    version &apos;&apos;
-    sha256 &apos;&apos;
-    url &apos;&apos;
-    name &apos;&apos;
-    homepage &apos;&apos;
-    license :unknown # TODO: change license and remove this comment; &apos;:unknown&apos; is a machine-generated placeholder
-    app &apos;&apos;
-end
-</code></pre><p>其中将：</p>
-<p>– my_new_cask改为新建cask名称 <br><br>– version 改成改软件最新版本，如果下方所提供的下载链接并不包含版本信息此处写成：version :latest <br><br>– sha256 下载文件的SHA-256校验值，当下方所提供的下载链接并不包含版本信息此处写成：sha256 :no_check <br><br>– url 为软件下载链接 <br><br>– name 为软件名称 <br><br>– homepage 为软件主页 <br><br>– license 可以分为以下几大类，同时大类下面又分成 gratis commercial freemium 等小类，具体请查阅参考1。 <br><br>– app 中填写url下载文件中*.app文件的相对位置 <br></p>
-<table>
-<thead>
-<tr>
-<th>symbol</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>:oss</td>
-<td>开源软件</td>
-</tr>
-<tr>
-<td>:closed</td>
-<td>闭源软件</td>
-</tr>
-<tr>
-<td>:unknown</td>
-<td>许可未知</td>
-</tr>
-<tr>
-<td>:oss</td>
-<td>其他</td>
-</tr>
-</tbody>
-</table>
-<h2 id="测试-cask"><a href="#测试-cask" class="headerlink" title="测试 cask"></a>测试 cask</h2><pre><code>bwcs readkit
-</code></pre><p>发现有可以搜索到了，太棒了。。。。。。</p>
-<p>安装呢，哈哈，我已经安装了，就不试了</p>
-<h2 id="提交到git库"><a href="#提交到git库" class="headerlink" title="提交到git库"></a>提交到git库</h2><pre><code>git commit -a -m &quot;readkit&quot;
-git push newRemote
-</code></pre><p>在push之前我遇到一个从示遇到的问题，就是push的时候老push不上去，总是报错：</p>
-<pre><code>sam@samhus-MBP /u/l/L/T/c/homebrew-cask&gt; gp huguiqi                      master
-Counting objects: 12, done.
-Delta compression using up to 8 threads.
-Compressing objects: 100% (12/12), done.
-Writing objects: 100% (12/12), 1.46 KiB | 0 bytes/s, done.
-Total 12 (delta 8), reused 1 (delta 0)
-To git@github.com:huguiqi/homebrew-cask.git
- ! [remote rejected] master -&gt; master (shallow update not allowed)
-error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.git&apos;
-</code></pre><p>google了一下，发现说什么，只要添加了remote或者更改了remote，shallow 的更新不被允许，我也不知道shallow啥意思，可能是个啥标志吧，就是要将老的remote库标志为unshallow(这样老库就不会更新了),新的remote才能push，这什么鬼规则。。。</p>
-<pre><code>master -&gt; master (shallow update not allowed)
-</code></pre><p>那怎么样去flag老的remote为unshallow呢，就要用fetch命令了。<br>好吧，我就干下吧，干的时候必须带上unshallow：</p>
-<pre><code>git fetch --unshallow origin 
-</code></pre><p><strong>ps:这个库是我从主库fork下来的，只是提交到我自己的公有库上，而对于brew-cask的主库而言，我是它无数个分支中的一个分支，别人暂时通过<code>brew cask search readkit</code> 是搜不到的，直到主库维护者将无数分支merge到主库，用户更新了brew-cask 的index，那就可以搜得到了</strong></p>
+<h2 id="不可思议的问题"><a href="#不可思议的问题" class="headerlink" title="不可思议的问题"></a>不可思议的问题</h2><ol>
+<li>可以通过域名 + 端口的方向可以访问通过跟帖器端口转发的方式访问内网，但不支持80端口</li>
+</ol>
 
         
         
@@ -1021,13 +887,13 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+  <a class="article-category-link" href="/categories/网络配置/">网络配置</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/brew-cask-添加cask/">brew-cask 添加cask</a>
+  <span></span> <a href="/tags/路由转发端口到内网服务器/">路由转发端口到内网服务器</a>
   </div>
 
 </div>
@@ -1038,7 +904,79 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/如何添加brewcask没有的软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/如何添加brewcask没有的软件/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/通过公司的路由器转发到内网测试服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" title="《西游记》里有哪些不易发现却很打动人的小细节？" itemprop="url">《西游记》里有哪些不易发现却很打动人的小细节？</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="《西游记》里有哪些不易发现却很打动人的小细节？"><a href="#《西游记》里有哪些不易发现却很打动人的小细节？" class="headerlink" title="《西游记》里有哪些不易发现却很打动人的小细节？"></a>《西游记》里有哪些不易发现却很打动人的小细节？</h1><p>补充一个，因为徒弟们都是正儿八经的神仙，唐长老的理论水平比起他三个徒弟不知道差到哪里去了。\<br>\<br>比如长老出门尿尿顺便喊大家赏月吟个诗，结果接受徒弟们的理论基础再教育，还被狠狠吐槽了一番。徒弟们之间还顺便开展了理论探讨。\<br>\</p>
+<blockquote>
+<p>唐僧举步出门小解，只见明月当天，叫：“徒弟。”行者、八戒，沙僧都出来侍立。因感这月清光皎洁，玉宇深沉，真是一轮高照，大地分明，对月怀归，口占一首古风长篇。</p>
+</blockquote>
+<p>长老呀！要提高自己的姿势水平，晓得不晓得啊？我为你着急啊！<br>===========================================================\<br>\<br>白龙马的尿，有奇效。\<br>\</p>
+<blockquote>
+<p>行者道：“你不知就里，我那马不是凡马，他本是西海龙身。</p>
+</blockquote>
+<p>\<br>因此白龙马的尿的作用包括：\<br>包治百病；\<br>把鱼升级成龙；\<br>把草升级成灵芝；\<br>长寿。\</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 

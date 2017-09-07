@@ -90,70 +90,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/SVN分支与合并/" title="SVN分支与合并" itemprop="url">SVN分支与合并</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="SVN分支与合并"><a href="#SVN分支与合并" class="headerlink" title="SVN分支与合并"></a>SVN分支与合并</h1><h1 id="SVN分支与合并-1"><a href="#SVN分支与合并-1" class="headerlink" title="SVN分支与合并"></a><a href="http://www.cnblogs.com/cnblogsfans/archive/2011/02/16/1955808.html">SVN分支与合并</a></h1><div><br><br><strong>一些相关的概念和原理</strong><br><br>· 分支(branch)和标记(tag)对于 SVN<br>来说就只是副本(copy)，没有任何其它意义。分支和标记的意义是我们人为给予的。<br><br>· SVN 的副本是通过”cheap copies “来实现的，建立一个副本就类似 Unix<br>中创建一个硬链接(hard<br>link)，空间和时间的消耗都是固定并且很小的，因此不必太过担心副本太多而导致性能问题。<br><br>· SVN 的文件储存<br>是通过差异(diff)来实现的，底层储存方法有两种：1、Berkeley<br>DB，完整保存一个文件的最新版本(revision)，旧版本通过反向差异(reverse<br>diffs)来获取。2、FSFS，跟 BDB<br>相反，完整保存一个文件的初始版本，后续版本通过正向差异来获取。当然，为了避免版本太多而造成性能下降，SVN<br>还使用了”skip-deltas “来减少需要追溯的版本数。<br><br>· SVN 属性(property<br>)可以附带在文件、目录和版本(revision)上。文件和目录的属性类似文件内容，会被记录进版本库中的，例如每次提交时的注释，其实就是该版本的一<br>个属性<br>svn:log。以”svn:”开头的属性是系统预留的，用户不应该自定义这样的属性。<br><br><strong>进行分支开发的最佳实践</strong><br><br>·<br>做分支上做开发的时候，必须定期使分支与主干同步，避免开发完成后合并(merge)回主干时出现严重冲突(confict)。<br><br>·<br>进行合并前，处理掉工作副本上的所有本地修改，方便合并失败时进行回滚(revert)。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/SVN分支与合并/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/SVN分支与合并/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN分支与合并/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/无标题笔记/" title="无标题笔记" itemprop="url">无标题笔记</a>
   </h1>
   <p class="article-author">By
@@ -217,7 +153,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/SVN使用经验心得/" title="SVN使用经验心得" itemprop="url">SVN使用经验心得</a>
+      <a href="/2016/03/30/CentOS6.5使用yum命令方式安装/" title="CentOS6.5使用yum命令方式安装" itemprop="url">CentOS6.5使用yum命令方式安装</a>
   </h1>
   <p class="article-author">By
        
@@ -230,16 +166,20 @@
 </header>
     <div class="article-content">
         
-        <h1 id="SVN使用经验心得"><a href="#SVN使用经验心得" class="headerlink" title="SVN使用经验心得"></a>SVN使用经验心得</h1><div><br><br><div><br><br><div><br><br><span
-lang="EN-US">1、如果已经有人lock了一个文件，但另外一个人需要编辑此文件，有两个选择，一个是由管理员来解除锁定，另外一个是在get<br>lock选项中有个steal the locks，选择后，即可以编辑该文件</span><br><br><span
-lang="EN-US">2、SVN的版本概念是针对目录而非文件，即使只更新了一个文件，那么，整体的版本也需要加1</span><br><br><span lang="EN-US">3、推荐使用目录树为\<br> /repos/trunk         用来保存主线，所有的code都存放在这个目录中\<br> /repos/branches<br>用来保存目录分支，OEM、新功能、设计方案调整，都有可能需要创建分支目录\<br> /repos/tags<br>用来保存标签拷贝，文档宝的阶段性成果可以打个标签存放到此目录下</span><br><br><span
-lang="EN-US">4、SVN的上传和更新是异步的，可以分开操作，而不用担心在update的同时把自己不成熟的代码commit从而影响别人的工作。</span><br><br><span
-lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情况和来管理工作copy的，如果不小心删除了，可以把该目录整个删掉，然后返回父目录，并使用update，则会从服务器上重新下载该目录并包含新的.svn</span><br><br><span lang="EN-US">6、SVN常用操作\<br> a、保持客户端和服务器端的一致，从服务器上更新文件，update\<br> b、对客户端文件的增、删、改、剪切，add,delete,copy,move\<br> c、状态比较 status，diff\<br> d、取消对服务器上文件的修改，revert\<br> e、合并别人的修改(后更新的人需要做这个操作)update,resolved\<br> f、客户端修改的文件更新到服务器上，commit</span><br>
+        <h1 id="CentOS6-5使用yum命令方式安装"><a href="#CentOS6-5使用yum命令方式安装" class="headerlink" title="CentOS6.5使用yum命令方式安装"></a>CentOS6.5使用yum命令方式安装</h1><p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>CentOS6.5使用yum命令方便快捷安装Nginx<br>=====================================<br><br><div><br><br><div><br><br></div>
+
+<p></div></p>
+<p></div></p>
+<div><br><br><span>作者：佚名</span><br><span>TAG：<a href="http://www.myhack58.com/Article/tag.asp?name=CentOS">CentOS</a><br><a href="http://www.myhack58.com/Article/tag.asp?name=Nginx">Nginx</a> </span><br><br></div>
+
+<p> 当然，首先要求是可以联网的系统，因为yum安装需要互联网连接。 </p>
+<div><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/SVN使用经验心得/#more">Read More</a>
+            <a href="/2016/03/30/CentOS6.5使用yum命令方式安装/#more">Read More</a>
           
        </p>
     </div>
@@ -265,7 +205,7 @@ lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情�
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/SVN使用经验心得/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN使用经验心得/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/CentOS6.5使用yum命令方式安装/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/CentOS6.5使用yum命令方式安装/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -427,7 +367,7 @@ lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情�
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/" title="SVN客户端命令行设置忽略文件列表" itemprop="url">SVN客户端命令行设置忽略文件列表</a>
+      <a href="/2016/03/30/AOP的实现机制/" title="AOP的实现机制" itemprop="url">AOP的实现机制</a>
   </h1>
   <p class="article-author">By
        
@@ -440,15 +380,28 @@ lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情�
 </header>
     <div class="article-content">
         
-        <h1 id="SVN客户端命令行设置忽略文件列表"><a href="#SVN客户端命令行设置忽略文件列表" class="headerlink" title="SVN客户端命令行设置忽略文件列表"></a>SVN客户端命令行设置忽略文件列表</h1><p><span style="font: 20.0px Times">SVN设置忽略文件列表\<br></span><span style="font: 12.0px Arial; background-color: #eeeeee">\<br></span><span style="font: 12.0px Arial">\<br></span><span
-style="font: 13.0px Arial; letter-spacing: 0.5px">在公司中项目的版本管控一般都是使用集中式的SVN，我也是从svn工具中熟悉基本的版本管理概念和操作。但是作为一个Linux系统及应用开发者，自然对Git分布式管理工具要有所熟悉。现在个人项目管理都是使用git进行版本控制，对git的一些操作也比较熟悉，而svn一般用的是Windows下的图像工具，而对svn的命令行稍显陌生。\</p>
-<p>在git工具中，设置忽略文件只需要修改版本库根目录下的.gitignore文件就可以了，没有的话创建一个，非常简单，一个示例的.gitignore文件如下：过滤文件模式以行进行分隔\<br>\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">01\<br></span><span style="font: 13.0px 'Courier New'">*.o\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">02\<br></span><span style="font: 13.0px 'Courier New'">*.lo\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">03\<br></span><span style="font: 13.0px 'Courier New'">*.la\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">04\<br></span><span style="font: 13.0px 'Courier New'">*.gcda\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">05\<br></span><span style="font: 13.0px 'Courier New'">*.gcno\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">06\<br></span><span style="font: 13.0px 'Courier New'">aclocal.m4\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">07\<br></span><span style="font: 13.0px 'Courier New'">autom4te.cache\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">08\<br></span><span style="font: 13.0px 'Courier New'">build\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">09\<br></span><span style="font: 13.0px 'Courier New'">compile\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">10\<br></span><span style="font: 13.0px 'Courier New'">config.guess\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">11\<br></span><span style="font: 13.0px 'Courier New'">config.h\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">12\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span
-style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span
+        <h1 id="AOP的实现机制"><a href="#AOP的实现机制" class="headerlink" title="AOP的实现机制"></a>AOP的实现机制</h1><div><br><br><strong><span lang="EN-US" style="font-family:">AOP的实现机制</span></strong><br><br></div>
+
+<div><br><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><br><br></div>
+
+<div><br><br><strong><span lang="EN-US" style="font-family:">1 AOP</span><span
+style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">各种的实现</span></strong><br><br></div>
+
+<p><span lang="EN-US" style="font-family:">AOP</span><span
+style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">就是面向切面编程，我们可以从几个层面来实现</span><span
+lang="EN-US" style="font-family:">AOP</span><span
+style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。</span></p>
+<p><span lang="EN-US"
+style="font-family:"><img src="AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg" alt=""></span></p>
+<p><span
+style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。</span><span
+lang="EN-US" style="font-family:">  </span></p>
+<p><span lang="EN-US" style="font-family:">  </span><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/#more">Read More</a>
+            <a href="/2016/03/30/AOP的实现机制/#more">Read More</a>
           
        </p>
     </div>
@@ -474,7 +427,7 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN客户端命令行设置忽略文件列表/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/AOP的实现机制/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/AOP的实现机制/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -568,7 +521,7 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/" title="Session，Cookie，jsessionid，Url重写" itemprop="url">Session，Cookie，jsessionid，Url重写</a>
+      <a href="/2016/03/30/UIBezierPath使用/" title="UIBezierPath使用" itemprop="url">UIBezierPath使用</a>
   </h1>
   <p class="article-author">By
        
@@ -581,24 +534,20 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
 </header>
     <div class="article-content">
         
-        <h1 id="Session，Cookie，jsessionid，Url重写"><a href="#Session，Cookie，jsessionid，Url重写" class="headerlink" title="Session，Cookie，jsessionid，Url重写"></a>Session，Cookie，jsessionid，Url重写</h1><div><br><br>\<br><br></div>
+        <h1 id="UIBezierPath使用"><a href="#UIBezierPath使用" class="headerlink" title="UIBezierPath使用"></a>UIBezierPath使用</h1><p>贝塞尔弧线介绍：</p>
+<div><br><br>\<br><div><br><br><div><br><br>1，UIBerzierPath类可以创建矢量路径，此类为Core<br>Grapice框架关于path的一个封装<br><br></div>
 
-<div><br><br>在一些投票之类的场合，我们往往因为公平的原则要求每人只能投一票，在一些WEB开发中也有类似的情况，这时候我们通常会使用COOKIE来实现，例如如下的代码：<br><br></div>
+<div><br><br>\<br><br></div>
 
-<p>&lt; % cookie[]cookies = request.getCookies();</p>
-<p>if (cookies.lenght == 0 || cookies == null){</p>
-<p>doStuffForNewbie();</p>
-<p>//没有访问过</p>
-<p>}else{</p>
-<p>doStuffForReturnVisitor(); //已经访问过了</p>
-<p>}</p>
-<p>% &gt;</p>
-<p>这是很浅显易懂的道理，检测COOKIE的存在，如果存在说明已经运行过写入COOKIE的代码了，然而运行以上的代码后，无论何时结果都是执行<br>doStuffForReturnVisitor()，通过控制面板-Internet选项-设置-察看文件却始终看不到生成的cookie文件，奇怪，<br>代码明明没有问题，不过既然有cookie，那就显示出来看看。<br>
+<div><br><br>2,UIBezierPath对象是CGPathRef数据类型封装，一个UIBezierPath对象定义一个完整的路径包括一个或者多个subpaths，包括直线和曲线。<br><br></div>
+
+<p></div></p>
+<div><br><br>\<br><br></div>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#more">Read More</a>
+            <a href="/2016/03/30/UIBezierPath使用/#more">Read More</a>
           
        </p>
     </div>
@@ -624,7 +573,7 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Session，Cookie，jsessionid，Url重写/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/UIBezierPath使用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIBezierPath使用/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -720,7 +669,7 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/StoryBoard学习博客/" title="StoryBoard学习博客" itemprop="url">StoryBoard学习博客</a>
+      <a href="/2016/03/30/UIScrollView/" title="UIScrollView" itemprop="url">UIScrollView</a>
   </h1>
   <p class="article-author">By
        
@@ -733,14 +682,7 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
 </header>
     <div class="article-content">
         
-        <h1 id="StoryBoard学习博客"><a href="#StoryBoard学习博客" class="headerlink" title="StoryBoard学习博客"></a>StoryBoard学习博客</h1><div><br><br>StoryBoard学习博客<br><br></div>
-
-<p><a href="http://beer998.blog.51cto.com" target="_blank" rel="external">http://beer998.blog.51cto.com</a></p>
-<div><br><br>\<br><br></div>
-
-<div><br><br><a href="http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html" target="_blank" rel="external">http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html</a>\<br><div><br><br>\<br><br></div>
-
-<p></p></div><p></p>
+        <h1 id="UIScrollView"><a href="#UIScrollView" class="headerlink" title="UIScrollView"></a>UIScrollView</h1><div><br><br><span style="font-size: 14px;">//scrollView中如果有多个子view，滚动时默认是整块滚动的，起作用的属性就是</span><span style="color: rgb(0, 143, 0); font-family: Menlo; font-size: 14px;">pagingEnabled<br>默认值为NO,设为YES时滚动时就不是一个整块滚动，而是分view滚动\<br></span><span style="font-size: 14px; font-family: Menlo; color: rgb(0, 143, 0);">self.topScrollView.pagingEnabled<br>= YES</span><br><br></div>
 
         
         
@@ -770,7 +712,84 @@ style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><sp
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/StoryBoard学习博客/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/StoryBoard学习博客/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/UIScrollView/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIScrollView/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/直接将google进行本地映射，不进行域名解析，加速访问/" title="直接将google进行本地映射，不进行域名解析，加速访问" itemprop="url">直接将google进行本地映射，不进行域名解析，加速访问</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="直接将google进行本地映射，不进行域名解析，加速访问"><a href="#直接将google进行本地映射，不进行域名解析，加速访问" class="headerlink" title="直接将google进行本地映射，不进行域名解析，加速访问"></a>直接将google进行本地映射，不进行域名解析，加速访问</h1><div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div align="left"
+style="margin-left:5mm; margin-right:0mm; text-indent:0mm; margin-top:0.00mm; margin-bottom:0.00mm;"><br><br><span style="font-size:10pt">203.208.46.146</span> <span
+style="font-size:10pt">www.google.com</span><br><br></div>
+
+<div align="left"
+style="margin-left:5mm; margin-right:0mm; text-indent:0mm; margin-top:0.00mm; margin-bottom:0.00mm;"><br><br><span style="font-size:10pt">203.208.46.147</span> <span
+style="font-size:10pt">www.google.com.hk</span><br><br></div>
+
+<div align="left"
+style="margin-left:5mm; margin-right:0mm; text-indent:0mm; margin-top:0.00mm; margin-bottom:0.00mm;"><br><br><span style="font-size:10pt">203.208.46.132 clients1.google.com</span><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/直接将google进行本地映射，不进行域名解析，加速访问/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/直接将google进行本地映射，不进行域名解析，加速访问/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/直接将google进行本地映射，不进行域名解析，加速访问/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 

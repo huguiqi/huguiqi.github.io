@@ -90,7 +90,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/xcode 中检查国际化文件格式是否正确/" title="xcode 中检查国际化文件格式是否正确" itemprop="url">xcode 中检查国际化文件格式是否正确</a>
+      <a href="/2016/03/30/HTTP 304 错误的详细解释/" title="HTTP 304 错误的详细解释" itemprop="url">HTTP 304 错误的详细解释</a>
   </h1>
   <p class="article-author">By
        
@@ -103,11 +103,16 @@
 </header>
     <div class="article-content">
         
-        <h1 id="xcode-中检查国际化文件格式是否正确"><a href="#xcode-中检查国际化文件格式是否正确" class="headerlink" title="xcode 中检查国际化文件格式是否正确"></a>xcode 中检查国际化文件格式是否正确</h1><p>/usr/bin/plutil -lint ja.lproj/Localizable.strings </p>
+        <h1 id="HTTP-304-错误的详细解释"><a href="#HTTP-304-错误的详细解释" class="headerlink" title="HTTP 304 错误的详细解释"></a>HTTP 304 错误的详细解释</h1><div><br><br>HTTP 304 错误的详细解释<br><br></div>
 
+<div><br><br>\<br><br></div>
+
+<p>+————————————————————————–+<br>| <div>                                                                    |<br>|                                                                          |<br>| Not Modified                                                             |<br>| 客户端有缓冲的文档并发出了一个条件性的请求（一般是提供If-Modified-Since头表示客户只想比指定日期更新的文档）。服务器告诉客户，原 |<br>| 来缓冲的文档还可以继续使用。                                             |<br>| 如果客户端在请求一个文件的时候，发现自己缓存的文件有 Last Modified       |<br>| ，那么在请求中会包含 If Modified Since ，这个时间就是缓存文件的 Last     |<br>| Modified 。因此，如果请求中包含 If Modified                              |<br>| Since，就说明已经有缓存在客户端。只要判断这个时间和当前请求的文件的修改时间就可以确定是返回 |<br>|                                                                          |<br>| 304 还是 200 。对于静态文件，例如：CSS、图片，服务器会自动完成 Last      |<br>| Modified 和 If Modified Since                                            |<br>| 的比较，完成缓存或者更新。但是对于动态页面，就是动态产生的页面，往往没有包含 |<br>|                                                                          |<br>| Last Modified                                                            |<br>| 信息，这样浏览器、网关等都不会做缓存，也就是在每次请求的时候都完成一个   |<br>| 200 的请求。                                                             |<br>|                                                                          |<br>| 因此，对于动态页面做缓存加速，首先要在 Response 的 HTTP Header 中增加    |<br>| Last Modified 定义，其次根据 Request 中的 If Modified Since              |<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2016/03/30/HTTP 304 错误的详细解释/#more">Read More</a>
           
        </p>
     </div>
@@ -133,83 +138,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/xcode 中检查国际化文件格式是否正确/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/xcode 中检查国际化文件格式是否正确/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/Maven仓库的两个概念：本地仓库和远程仓库/" title="Maven仓库的两个概念：本地仓库和远程仓库" itemprop="url">Maven仓库的两个概念：本地仓库和远程仓库</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Maven仓库的两个概念：本地仓库和远程仓库"><a href="#Maven仓库的两个概念：本地仓库和远程仓库" class="headerlink" title="Maven仓库的两个概念：本地仓库和远程仓库"></a>Maven仓库的两个概念：本地仓库和远程仓库</h1><p>Maven仓库的两个概念：本地仓库和远程仓库</p>
-<p>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。</p>
-<p>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：</p>
-<p>Xml代码</p>
-<pre><code>\
-</code></pre><p>   …      \<br>   D:\java\repository    \<br>   …      \<br>     \</p>
-<p>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:</p>
-<p>\${M2_HOME}/conf/setting.xml</p>
-<p>还可以通过在运行时指定目录，但是并不推荐这么做：</p>
-<p>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/</p>
-<p>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到\org\apache\maven<br>\project\pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：</p>
-<pre><code>\
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Maven仓库的两个概念：本地仓库和远程仓库/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Maven仓库的两个概念：本地仓库和远程仓库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Maven仓库的两个概念：本地仓库和远程仓库/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/HTTP 304 错误的详细解释/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/HTTP 304 错误的详细解释/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -382,7 +311,7 @@ lang="EN-US"
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/NSSet 排序/" title="NSSet 排序" itemprop="url">NSSet 排序</a>
+      <a href="/2016/03/30/Objective_C动态获取实例属性/" title="Objective_C动态获取实例属性" itemprop="url">Objective_C动态获取实例属性</a>
   </h1>
   <p class="article-author">By
        
@@ -395,12 +324,22 @@ lang="EN-US"
 </header>
     <div class="article-content">
         
-        <h1 id="NSSet-排序"><a href="#NSSet-排序" class="headerlink" title="NSSet 排序"></a>NSSet 排序</h1><p><span style="font: 16.0px Verdana; font-kerning: none; color: #0066cc; background-color: #f5fafe; -webkit-text-stroke: 0px #0066cc"><a href="http://www.cnblogs.com/chenfulai/archive/2011/11/21/2257202.html" target="_blank" rel="external"><strong>nsset排序</strong></a></span><span style="font: 16.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
-</strong></span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">//如果想排序以后再取，可以这样：</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSSet<br>*users = [groupUser users];</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSSortDescriptor<br>*sd = [[NSSortDescriptor alloc] initWithKey: “displayName”<br>ascending:YES];</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSArray<br>*sortDescriptors = [NSArray arrayWithObjects:sd, nil];</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSArray<br>*userArray = [users<br>sortedArrayUsingDescriptors:sortDescriptors];</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">//如果直接取，可以这样：</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSArray<br>*userArray = [users  allObjects];</span></p>
+        <h1 id="Objective-C动态获取实例属性"><a href="#Objective-C动态获取实例属性" class="headerlink" title="Objective_C动态获取实例属性"></a>Objective_C动态获取实例属性</h1><div><br><br><span
+style="color: rgb(51, 51, 51); font-family: STHeiti; text-align: left; background-color: rgb(199, 237, 204); float: none;">objective_c动行时库已经有这样的功能。使用这些方法需要加头文件</span><br><br></div>
 
+<div><br><br><span
+style="color: rgb(51, 51, 51); background-color: rgb(199, 237, 204); font-family: STHeiti; line-height: 1.45;">             #import<br>&lt;objc/message.h&gt;</span>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> interface People : NSObject {<br><br></div>
         
         
         <p class="article-more-link">
+          
+            <a href="/2016/03/30/Objective_C动态获取实例属性/#more">Read More</a>
           
        </p>
     </div>
@@ -426,7 +365,7 @@ lang="EN-US"
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/NSSet 排序/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/NSSet 排序/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Objective_C动态获取实例属性/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective_C动态获取实例属性/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -780,6 +719,83 @@ lang="EN-US"
 	
 	  	<span></span>
 		<a href="/2016/03/30/一本禁书的笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/一本禁书的笔记/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/" title="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA" itemprop="url">HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="HOW-TO-INSTALL-MYSQL-5-6-ON-CENTOS-6-3-REDHAT-EL6-FEDORA"><a href="#HOW-TO-INSTALL-MYSQL-5-6-ON-CENTOS-6-3-REDHAT-EL6-FEDORA" class="headerlink" title="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA"></a>HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</h1><div
+style="box-sizing: border-box; padding: 0px; border: 0px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif; line-height: 16px; vertical-align: baseline; color: rgb(78, 78, 78);"><br><br><div
+style="box-sizing: border-box; padding: 0px 10px; border: 0px; font-family: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; clear: both; max-width: 960px;"><br><br><div
+style="box-sizing: border-box; padding: 20px 10px 15px; border: 0px; font-family: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; float: left;"><br><br><div
+style="box-sizing: border-box; padding: 0px; border: 0px; font-family: Oxygen, Georgia, serif; font-style: inherit; font-variant: inherit; line-height: 1; vertical-align: baseline;"><br><br><span
+style="color: rgb(82, 82, 82); font-style: inherit; font-variant: inherit; line-height: 1.1; text-transform: uppercase; font-size: 18px;"><span
+style="-evernote-last-insertion-point:true;"></span>How to Install MySQL<br>5.6 on CentOS 6.3/RedHat EL6/Fedora</span>\<br><br></div>
+
+<p></div></p>
+<p></div></p>
+<div
+style="font-size: inherit; box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; clear: both; max-width: 960px;"><br><br><div
+style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline;"><br><br><div
+style="box-sizing: border-box; padding: 0px 10px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; min-height: 1px; float: left;"><br><br><div
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
