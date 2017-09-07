@@ -164,7 +164,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Nginx 性能优化/" title="Nginx 性能优化" itemprop="url">Nginx 性能优化</a>
+      <a href="/2016/03/30/创建系统无法删除的文件夹 加密文件/" title="创建系统无法删除的文件夹 加密文件" itemprop="url">创建系统无法删除的文件夹 加密文件</a>
   </h1>
   <p class="article-author">By
        
@@ -177,26 +177,17 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Nginx-性能优化"><a href="#Nginx-性能优化" class="headerlink" title="Nginx 性能优化"></a>Nginx 性能优化</h1><p>Nginx作为一个非常流行和成熟的Web Server和Reserve Proxy<br>Server，网上有大量的性能优化教程，但是不同的业务场景千差万别，什么配置是最适合自己的，需要大量的测试和实践以及不断的优化改进。最近用户调用量突破百万大关之后，就遇到了一些问题，虽然不算太复杂，但也折腾了挺长时间才搞定，积累了不少经验。</p>
-<p>碰到的这个问题其实已经有一段时间了，有客户给我们反馈调用超时，但是我们自己从系统监控上看都是正常的，只有几十毫秒肯定不会超时，怀疑是不是网络的原因，但是出现几次后，就隐隐感觉这个问题可能不是偶发性的，应该还有深层次的原因。</p>
-<p>因为我们服务面向企业客户的，虽然每家客户的调用量可能会非常大，但每家企业客户就那么几个公网IP，即使以后有上千家客户，Nginx也可以轻松支撑这些并发连接。因此，首先先从网络上对Nginx长连接作了优化，将长连接从原来配置的5秒钟改成5分钟，将每次建立连接请求的数目从默认的100调整到1000。</p>
-<p>调整完毕后，通过netstat<br>-anp命令可以看到，新建连接请求会减少，说明长连接已起到作用。但过了一段时间，仍然发现有客户调用超时的情况发生，从Nginx日志中可以看到请求时间还是有超过1s的，甚至有长达20s左右的，如下所示：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-nginx-rt-too-long.jpg" alt=""></p>
-<p>并且从Zabbix上的监控发现一个现象，当connection<br>writing或active数突然增高时，请求时间就相应的出现较多超时：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-nginx-clients-status.jpeg" alt=""></p>
-<p>查看应用的日志，发现执行时间并不长：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-app-rt-normal.jpg" alt=""></p>
-<p>应用程序里统计的时间，只是从业务开始执行到执行结果的时间，这个还没有算Tomcat容器的执行时间，外部请求的执行路径如下：</p>
-<p>会不会是Tomcat容器本身执行有问题呢，把Tomcat请求的日志调用出来，发现这个时间点前后的执行也是正常的：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-tomcat-rt-normal.png" alt=""></p>
-<p>从请求路径上分析，肯定是Nginx到Tomcat这层存在一些问题。正在排查这个问题的时候，突然发现有大量30s左右的超时，从Zabbix上也观察到connection<br>writing非常高，如下所示：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-nginx-clinets-status2.png" alt=""></p>
-<p>同时，发现TIME_WAIT的连接特别多，从现象及抓包分析结果来看，应该是有客户没有开启长连接，而我们在服务端又设置了keepalive_timeout为5分钟，导致大量使用过的连接等待超时，当时有接近2000个，编辑/etc/sysctl.conf文件，增加如下两个参数重用连接：<br>
+        <h1 id="创建系统无法删除的文件夹-加密文件"><a href="#创建系统无法删除的文件夹-加密文件" class="headerlink" title="创建系统无法删除的文件夹 加密文件"></a>创建系统无法删除的文件夹 加密文件</h1><p><span
+style="color: rgb(68, 68, 68); font-size: 14px; line-height: 24px; text-align: left;">大家都知道在Windows中“\”符号是路径的分隔符号，比如“C:\Windows\”的意思就是C分区中的Windows文件夹，“C:\Windows\System.exe”的意思就是C分区中的Windows文件夹中的System.exe文件，好继续我们假设一下：\</p>
+<p>如果文件名中有“\”符号会怎么样呢？假如“S\”是一个文件夹的名字，这个文件夹位于：“F:\”，他的路径就是“F:\S\”，当我们试图访问的时候Windows会错误的认为我们要打开的文件是C分区的S文件夹，这样Windows就无法打开并且会返回一个错误，因为以上的路径并不存在。\</p>
+<p>也许你现在正在尝试创建“S\”文件，但是Windows会提示你：“\”符号是不能作为文件、文件夹的名字的。看来Windows还是早已想到这一点了的。OK我们继续进行，就不信不能建立包含“\”符号的文件。爱踢博客社区kW.L<br>UEi5z\<br> 现在打开你的电脑，我们要做一些很有趣的尝试。进入Windows后<br>点击：开始&gt;运行<br>然后输入“cmd”并会车（如果是Win98请输入“COMMAND”），这时你会看到Windows的命令控制台，我们就是要利用它完成我们剩下的测试，以下包含了很多命令其中{}中的字符是我的注释：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;mkdir s\<br>{我们的第一次尝试,结果Windows只创建了S文件夹”\“被忽略掉了}\<br> (H0F:\Test&gt;mkdir s\s1\<br>{还是失败,Windows先创建了S文件夹，然后在S内创建s1文件夹}\<br> F:\Test&gt;mkdir s.\ {“s.\“被解析成S”.\“又被忽略了}\<br> 子目录或文件 s.\ 已经存在。\<br> F:\Test&gt;mkdir s..\<br>{终于成功了,现在你可以在资源管理器看到”s.”但却无法打开/删除}\<br> F:\Test&gt;mkdir s…\<br>{又成功了,在资源浏览器能看到”s..”可以打开但是无法删除}\<br> ———————————————-\</p>
+<p>为什么会这样？我们先说你看到的这个“S.”文件夹，他即不能打开也不能删除，不能打开是因为他的实际路径是“F:\Test\s..\”（我们自己创建的所以可以确定他的实际路径）但是在Windows资源管理器中名字变成了“S.”也就是说当你试图打开它的时候Windows实际上尝试打开“F:\Test\s.\”当然是不能打开的，文件并不存在，所以Windows会报错。不能删除也是因为这个，Windows把一个实际存在的文件路径错误的解析为一个不存在的路径，并进行操作当然是无法完成的。\</p>
+<p>该说“S..”这个文件了，这个文件可以打开，但是却无法删除。等等……打开？你以为Windows真的是打开了我们创建的“s…\”文件了吗？我们做下面的试验你就明白了。还是老规矩{}是我的注释方便大家理解：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;echo 1 &gt; Txt1.txt {创建“F:\Test\Txt1.txt”文件}\<br> F:\Test&gt;copy Txt1.txt s..\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Nginx 性能优化/#more">Read More</a>
+            <a href="/2016/03/30/创建系统无法删除的文件夹 加密文件/#more">Read More</a>
           
        </p>
     </div>
@@ -222,7 +213,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Nginx 性能优化/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Nginx 性能优化/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/创建系统无法删除的文件夹 加密文件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/创建系统无法删除的文件夹 加密文件/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -242,7 +233,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/加菲猫生活歪理/" title="加菲猫生活歪理" itemprop="url">加菲猫生活歪理</a>
+      <a href="/2016/03/30/判断ios系统版本号的代码/" title="判断ios系统版本号的代码" itemprop="url">判断ios系统版本号的代码</a>
   </h1>
   <p class="article-author">By
        
@@ -255,12 +246,25 @@
 </header>
     <div class="article-content">
         
-        <h1 id="加菲猫生活歪理"><a href="#加菲猫生活歪理" class="headerlink" title="加菲猫生活歪理"></a>加菲猫生活歪理</h1><p>￼\<br>\<br>\<br>\<br>\<br>加菲猫生活歪理\<br>\<br>\<br>\<br>1、 今天吃得下的千万别搁到明天。\<br>\<br>\<br>2、爱情来得快去得也快，只有猪肉卷是永恒的。\<br>\<br>\<br>3、欧迪，我们去吃冰淇淋吧，不过你得看着我吃。\<br>\<br>\<br>4、肚子大不可怕，可怕的是肚子里没有好东西。\<br>\<br>\<br>5、「欧迪在窗外冻得瑟瑟发抖，真可怜。我真有点不忍心看他这样。\<br>\<br>\<br>不，难道我能坐视不管吗？我必须做点什么。」加菲拉上了窗帘。\<br>\<br>\<br>6、 失败的人特点是会不断地失败。\<br>如果你想看看他的失败的话，他是不会让你失望的。\<br>\<br>\<br>\<br>\<br>
+        <h1 id="判断ios系统版本号的代码"><a href="#判断ios系统版本号的代码" class="headerlink" title="判断ios系统版本号的代码"></a>判断ios系统版本号的代码</h1><div
+style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>double version = [[UIDevice currentDevice].systemVersion<br>doubleValue];//判定系统版本。<br><br></div>
+
+<div
+style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>\<br><br></div>
+
+<div
+style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>    if(version&gt;=5.0f){<br><br></div>
+
+<div
+style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>        [[UINavigationBar appearance] setBackgroundImage:[UIImage<br>imageNamed:  “navigationBar.jpg”] forBarMetrics:UIBarMetricsDefault];<br><br></div>
+
+<div
+style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/加菲猫生活歪理/#more">Read More</a>
+            <a href="/2016/03/30/判断ios系统版本号的代码/#more">Read More</a>
           
        </p>
     </div>
@@ -286,7 +290,80 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/加菲猫生活歪理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/加菲猫生活歪理/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/判断ios系统版本号的代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/判断ios系统版本号的代码/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/ORACLE 字符集长度问题/" title="ORACLE 字符集长度问题" itemprop="url">ORACLE 字符集长度问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="ORACLE-字符集长度问题"><a href="#ORACLE-字符集长度问题" class="headerlink" title="ORACLE 字符集长度问题"></a>ORACLE 字符集长度问题</h1><div><br><br><div><br><br>ORACLE 字符集长度问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>很多新手在做建数据库时，会这样忽略一个问题：ORACLE中VARCHAR2类型的字段长度是按照byte来定义的。如果数据库使用的字<br>符集是GBK,GB2312或者其他定长字符集的话，这个问题似乎可以被忽略，因为只要把数据库的字段长度/2就可以得到你要限制插入该字段的中文长度<br>了。 但是，如果数据库的字符集是UTF-8呢，杯具了吧，人家是变长的。<br><br></div>
+
+<pre><code>有人说数据库字段长度/3，这是一定不可取的，因为UTF-8是变长表示的，平均为3byte表示一个字符，而并不是一定用3byte。
+
+其实人家ORACLE没这么笨，本来就可以用字符为单位来定义varchar2的长度的，这个时候需要注意在建表时这样写：
+</code></pre><div><br><br><div><br><br>Sql代码<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/ORACLE 字符集长度问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/ORACLE 字符集长度问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/ORACLE 字符集长度问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -351,6 +428,70 @@
 	
 	  	<span></span>
 		<a href="/2016/03/30/发展感想/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/发展感想/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/加菲猫生活歪理/" title="加菲猫生活歪理" itemprop="url">加菲猫生活歪理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="加菲猫生活歪理"><a href="#加菲猫生活歪理" class="headerlink" title="加菲猫生活歪理"></a>加菲猫生活歪理</h1><p>￼\<br>\<br>\<br>\<br>\<br>加菲猫生活歪理\<br>\<br>\<br>\<br>1、 今天吃得下的千万别搁到明天。\<br>\<br>\<br>2、爱情来得快去得也快，只有猪肉卷是永恒的。\<br>\<br>\<br>3、欧迪，我们去吃冰淇淋吧，不过你得看着我吃。\<br>\<br>\<br>4、肚子大不可怕，可怕的是肚子里没有好东西。\<br>\<br>\<br>5、「欧迪在窗外冻得瑟瑟发抖，真可怜。我真有点不忍心看他这样。\<br>\<br>\<br>不，难道我能坐视不管吗？我必须做点什么。」加菲拉上了窗帘。\<br>\<br>\<br>6、 失败的人特点是会不断地失败。\<br>如果你想看看他的失败的话，他是不会让你失望的。\<br>\<br>\<br>\<br>\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/加菲猫生活歪理/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/加菲猫生活歪理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/加菲猫生活歪理/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -576,7 +717,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/大数据时代笔记/" title="大数据时代笔记" itemprop="url">大数据时代笔记</a>
+      <a href="/2016/03/30/基于RBAC模型的权限管理系统的设计和实现/" title="基于RBAC模型的权限管理系统的设计和实现" itemprop="url">基于RBAC模型的权限管理系统的设计和实现</a>
   </h1>
   <p class="article-author">By
        
@@ -589,15 +730,27 @@
 </header>
     <div class="article-content">
         
-        <h1 id="大数据时代笔记"><a href="#大数据时代笔记" class="headerlink" title="大数据时代笔记"></a>大数据时代笔记</h1><p><strong>一，大数据特点：</strong>\<br> 1，数据量大，以PB（1024TB）为计数单位\<br> 2，数据结构复杂(含有结构与非结构的不规则数据)\<br> 3，需要发掘数据价值(表面上看不到有价值的数据)\<br> 4，没有因果关系，逻辑关系，只有通过挖掘建立数据之间的某些特定相关联系\<br>\<br> <strong>二，大数据带来的问题</strong>\</p>
-<p>一个大规模生产，分享和应用数据时代正在开启，目前的单个计算机或者服务器已经无法满足大数据产生的大量的，复杂的，无规则的数据进行分析，计算，统计等操作\<br>\<br>\<br> <strong>三，解决问题的方法—-云计算</strong>\<br>\<br> 云计算特点：\<br> 1，便宜–有效存储终端数据并随时分析与计算\<br> 2，精准–分析大数据结果更精准，更多的挖掘数据的隐藏价值\<br> 3，处理数据能力超强，专为大数据的解决方案\<br>\<br> <strong>四，大数据的未来</strong>\<br>\<br> 1，成为基础设施的一部分\<br> 2，价值不会贬值，而且数据会永远保存\<br>\<br> <strong>五，大数据带来的变化</strong>\<br>\<br> 20世纪价值已经从实体基建转变为无形财产，从工地和工厂转变为品牌和产权\</p>
-<p>现在，一个新的价值转变为：电脑不存储和分析数据的方法取代了电脑硬件成为了价值的源泉\<br>\</p>
-<p>1，可以分析更多的数据，甚至可以处理特定某个两家的相关所有数据，据而不必依我倚赖随机采样\<br> 2，研究的数据太多,我们不再热衷于追求精准度，允许一些错误\<br> 3，不再热衷于寻找因果关系，而是去挖掘数据发现相关关系\<br>
+        <h1 id="基于RBAC模型的权限管理系统的设计和实现"><a href="#基于RBAC模型的权限管理系统的设计和实现" class="headerlink" title="基于RBAC模型的权限管理系统的设计和实现"></a>基于RBAC模型的权限管理系统的设计和实现</h1><div align="center"
+style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255); text-align: center;"><br><br><strong><span
+style="margin: 0px; padding: 0px; font-size: 14pt;">基于</span><span
+style="margin: 0px; padding: 0px; font-size: 14pt;">RBAC</span><span
+style="margin: 0px; padding: 0px; font-size: 14pt;">模型的权限管理系统的设计和实现</span></strong><br><br></div>
+
+<div align="center"
+style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255);"><br><br>裴辉东 梁云风<br><br></div>
+
+<div align="center"
+style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255);"><br><br>（<span style="margin: 0px; padding: 0px;">1.<br>山东省烟台海颐软件股份有限公司；2山东省烟台东方电子信息产业股份有限公司</span>）<br><br></div>
+
+<div align="center"
+style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255);"><br><br><br><br></div>
+
+<div
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/大数据时代笔记/#more">Read More</a>
+            <a href="/2016/03/30/基于RBAC模型的权限管理系统的设计和实现/#more">Read More</a>
           
        </p>
     </div>
@@ -623,155 +776,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/大数据时代笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/大数据时代笔记/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/如何删除一键Ghost备份文件/" title="如何删除一键Ghost备份文件" itemprop="url">如何删除一键Ghost备份文件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="如何删除一键Ghost备份文件"><a href="#如何删除一键Ghost备份文件" class="headerlink" title="如何删除一键Ghost备份文件"></a>如何删除一键Ghost备份文件</h1><div style="text-align: left;"><br><br>第一步：分析问题<br><br></div>
-
-<p>删除一键Ghost备份文件时弹出如下对话框。在完全肯定磁盘未满或未被写保护且文件未被使用的情况下出现此对话框，首先考虑在安全模式下删除，可是试过后发现仍然不能删除。再仔细观察对话框，发现访问被拒绝这样的提示，为什么管理员都会被拒绝呢？是权限问题在作怪。\<br> 第二步：解决问题\</p>
-<p>右击一键Ghost备份文件夹（通常文件名最后都为~1），选择发展，切换到安全选项卡。\</p>
-<p>接着单击Everyone，在允许下面勾选完全或修改，单击确定完成操作，这时候你再试一试删除它，保准再倔的牛也被你治得服服帖帖。\</p>
-<p>如果没有找到安全选项卡，可以在我的电脑/工具/文件夹选项/查看选项卡下，去除使用简单文件共享的勾选即可。\<br> 第三步：总结问题\</p>
-<p>当我们遇到不能删除的文件时，一定要认真分析出现的错误提示。是需要结束相关进程？还是需要修改权限？还是需要重启电脑？还是需要通过安全模式来解决问题等等。总之千万不能被问题吓倒，更不能动不动就通过重装系统来解决问题。</p>
-<div><br><br>\<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>只是由于文件的访问权限引起的，也可以用命令行先修改文件夹访问权限如:<br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/如何删除一键Ghost备份文件/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/如何删除一键Ghost备份文件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/如何删除一键Ghost备份文件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/Node.js 常见面试题/" title="Node.js 常见面试题" itemprop="url">Node.js 常见面试题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Node-js-常见面试题"><a href="#Node-js-常见面试题" class="headerlink" title="Node.js 常见面试题"></a>Node.js 常见面试题</h1><p>如果你希望找一份有关Node.js的工作，但又不知道从哪里入手考察自己对Node.js的掌握程度。<br>本文就提供了这样的一份Node.js面试题列表，通过考察Node.js编程中的一些主要细节，<br>来帮助你评估你对于Node.js开发的掌握程度。</p>
-<p>在进入正文之前，需要提前声明两点：</p>
-<h2 id="Node-js面试题列表"><a href="#Node-js面试题列表" class="headerlink" title="Node.js面试题列表"></a>Node.js面试题列表</h2><p>现在，我们依次来解答这些问题吧。</p>
-<h3 id="什么是错误优先的回调函数？"><a href="#什么是错误优先的回调函数？" class="headerlink" title="什么是错误优先的回调函数？"></a>什么是错误优先的回调函数？</h3><p>错误优先的回调函数用于传递错误和数据。第一个参数始终应该是一个错误对象，<br>用于检查程序是否发生了错误。其余的参数用于传递数据。例如：</p>
-<p>这个题目的主要作用在于检查被面试者对于Node中异步操作的一些基本知识的掌握。</p>
-<h3 id="如何避免回调地狱"><a href="#如何避免回调地狱" class="headerlink" title="如何避免回调地狱"></a>如何避免回调地狱</h3><p>你可以有如下几个方法：</p>
-<p>这个问题有很多种答案，取决你使用的场景，例如ES6, ES7，或者一些控制流库。</p>
-<h3 id="在Node中你如何监听80端口"><a href="#在Node中你如何监听80端口" class="headerlink" title="在Node中你如何监听80端口"></a>在Node中你如何监听80端口</h3><p>这题有陷阱！在类Unix系统中你不应该尝试监听80端口，因为这需要超级用户权限，<br>因此不建议让你的应用监听这个端口。</p>
-<p>目前，如果你想让你的应用一定要监听80端口，可以这么做：让你的Node应用监听大于1024的端口，<br>然后在它前面在使用一层方向代理（例如<a href="http://nginx.org/">nginx</a>）。</p>
-<p>这个问题用于检查被面试者是否有实际运行Node应用的经验。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Node.js 常见面试题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Node.js 常见面试题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Node.js 常见面试题/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/基于RBAC模型的权限管理系统的设计和实现/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/基于RBAC模型的权限管理系统的设计和实现/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -848,7 +853,7 @@
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>9</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>10</sup></a></li>
 		  
 		
 		  
@@ -953,11 +958,11 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
@@ -977,11 +982,11 @@
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
