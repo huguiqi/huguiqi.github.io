@@ -90,6 +90,175 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/27/清明议事/" title="清明议事" itemprop="url">清明议事</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="清明议事"><a href="#清明议事" class="headerlink" title="清明议事"></a>清明议事</h1><blockquote>
+<blockquote>
+<p>清明三天假期已过，今天是周未，朋友圈里又开始了美图大赛。。。。</p>
+</blockquote>
+</blockquote>
+<p>清明三天，我安静的在家里待了整整三天，哪也没去，什么也没做；<br>除了jerry请我去他家过清明，中午喝酒、聊天。<br>我们聊了很多，其中有个话题很触动我，关于业余时间利用。jerry是在做自己的app，运营着自己的app，有自己的服务器，有时还会给自己的app做些活动。目前他双休日还会去练车；</p>
+<p>很遗憾，我的业余时间现在完全是浪费的。。。。。。</p>
+<h2 id="闲与忙哪个更好？"><a href="#闲与忙哪个更好？" class="headerlink" title="闲与忙哪个更好？"></a>闲与忙哪个更好？</h2><h2 id="有时间再做的事，最后真正完成的机率有多大？"><a href="#有时间再做的事，最后真正完成的机率有多大？" class="headerlink" title="有时间再做的事，最后真正完成的机率有多大？"></a>有时间再做的事，最后真正完成的机率有多大？</h2><h2 id="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"><a href="#是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？" class="headerlink" title="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"></a>是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？</h2>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/心情感悟/">心情感悟</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/27/清明议事/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/清明议事/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/27/nodejs_异步异常处理/" title="nodejs异步异常处理" itemprop="url">nodejs异步异常处理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="nodejs-异步异常处理"><a href="#nodejs-异步异常处理" class="headerlink" title="nodejs 异步异常处理"></a>nodejs 异步异常处理</h1><p> 环境：</p>
+<blockquote>
+<p>nodejs : 4.4.4<br>express :4.1.13</p>
+<p>pm2 :1.1.3</p>
+</blockquote>
+<p>nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。</p>
+<p>那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处理的异常抛出给统一的ExceptionHandler去处理呢？</p>
+<p><strong>注意，这里要处理的都是异步的业务异常，同步的异常处理不在这里讨论</strong></p>
+<p>同步异常处理：</p>
+<pre><code>//处理所有同步异常
+app.use(function (err, req, res, next) {
+// 带有四个参数的 middleware 专门用来处理异常
+res.json(&quot;{&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;}&quot;);
+});
+</code></pre><h2 id="怎么解决"><a href="#怎么解决" class="headerlink" title="怎么解决"></a>怎么解决</h2><p>目前其实还没有完美的方法去解决这个问题，但总是有替代的或者相似的解决方案：</p>
+<ul>
+<li>uncaughtException事件监听</li>
+<li>使用domain模块捕捉异常</li>
+</ul>
+<h3 id="uncaughtException事件监听"><a href="#uncaughtException事件监听" class="headerlink" title="uncaughtException事件监听"></a>uncaughtException事件监听</h3><p>uncaughtException 是一个非常古老的事件。当 Node 发现一个未捕获的异常时，会触发这个事件。并且如果这个事件存在回调函数，Node 就不会强制结束进程。</p>
+<p>一般情况下，我们会将有可能出错的代码放到try/catch块里。但是到了Node.js，由于try/catch无法捕捉异步回调里的异常，Node.js原生提供uncaughtException事件挂到process对象上，用于捕获所有未处理的异常，以下是一个模似一个异步异常：</p>
+<pre><code>process.on(&apos;uncaughtException&apos;, function(err) {
+console.error(&apos;Error caught in uncaughtException event:&apos;, err);
+});
+
+try {
+process.nextTick(function() {
+    fs.readFile(&apos;non_existent.js&apos;, function(err, str) {
+        if(err) throw err;
+        else console.log(str);
+    });
+});
+} catch(e) {
+console.error(&apos;Error caught by catch block:&apos;, e);
+}
+</code></pre><p>执行的结果是代码进到了uncaughtException的回调里而不是catch块。 uncaughtException虽然能够捕获异常，但是此时错误的上下文已经丢失，即使看到错误也不知道哪儿报的错，定位问题非常的不利。而且一旦uncaughtException事件触发，而且我们没有自定义重写process的uncaughtException挂载的话，整个node进程将crash掉。</p>
+<p>NodeJS对于未捕获异常的默认处理是： - 触发 uncaughtException 事件 - 如果 uncaughtException 没有被监听，那么 - 打印异常的堆栈信息 - 触发进程的 exit 事件;<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/07/27/nodejs_异步异常处理/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/express-异常处理/">express 异常处理</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/27/nodejs_异步异常处理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/nodejs_异步异常处理/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/07/27/fedora20系统上安装svn_server/" title="fedora20系统上安装svn" itemprop="url">fedora20系统上安装svn</a>
   </h1>
   <p class="article-author">By
@@ -193,7 +362,7 @@ svnserve -d -r /opt/lebondSvnRepo
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/27/清明议事/" title="清明议事" itemprop="url">清明议事</a>
+      <a href="/2016/07/27/无标题/" title="git 撤销commit" itemprop="url">git 撤销commit</a>
   </h1>
   <p class="article-author">By
        
@@ -206,17 +375,23 @@ svnserve -d -r /opt/lebondSvnRepo
 </header>
     <div class="article-content">
         
-        <h1 id="清明议事"><a href="#清明议事" class="headerlink" title="清明议事"></a>清明议事</h1><blockquote>
-<blockquote>
-<p>清明三天假期已过，今天是周未，朋友圈里又开始了美图大赛。。。。</p>
-</blockquote>
-</blockquote>
-<p>清明三天，我安静的在家里待了整整三天，哪也没去，什么也没做；<br>除了jerry请我去他家过清明，中午喝酒、聊天。<br>我们聊了很多，其中有个话题很触动我，关于业余时间利用。jerry是在做自己的app，运营着自己的app，有自己的服务器，有时还会给自己的app做些活动。目前他双休日还会去练车；</p>
-<p>很遗憾，我的业余时间现在完全是浪费的。。。。。。</p>
-<h2 id="闲与忙哪个更好？"><a href="#闲与忙哪个更好？" class="headerlink" title="闲与忙哪个更好？"></a>闲与忙哪个更好？</h2><h2 id="有时间再做的事，最后真正完成的机率有多大？"><a href="#有时间再做的事，最后真正完成的机率有多大？" class="headerlink" title="有时间再做的事，最后真正完成的机率有多大？"></a>有时间再做的事，最后真正完成的机率有多大？</h2><h2 id="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"><a href="#是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？" class="headerlink" title="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"></a>是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？</h2>
+        <h1 id="无标题"><a href="#无标题" class="headerlink" title="无标题"></a>无标题</h1><p>git 撤销commit</p>
+<div><br><br>\<br><br></div>
+
+<div><br><br>博客分类： git<br><br></div>
+
+<div><br><br>gitcommit撤销<br><br></div>
+
+<div><br><br>如果不小心commit了一个不需要commit的文件，可以对其进行撤销。<br><br></div>
+
+<div><br><br><br><br></div>
+
+<div><br><br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2016/07/27/无标题/#more">Read More</a>
           
        </p>
     </div>
@@ -225,13 +400,13 @@ svnserve -d -r /opt/lebondSvnRepo
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/心情感悟/">心情感悟</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -242,152 +417,7 @@ svnserve -d -r /opt/lebondSvnRepo
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/07/27/清明议事/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/清明议事/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/07/27/管理者的自省/" title="如何准确清楚认识自己" itemprop="url">如何准确清楚认识自己</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><br></p>
-<h1 id="管理者的自省"><a href="#管理者的自省" class="headerlink" title="管理者的自省"></a>管理者的自省</h1><p>准确的说，从去年开始，我就从纯技术岗位走向了偏管理的路，这一路，肯定会遇到很多困难与挑战，要想战胜它们，成为优秀的管理者，则必须每日修正，阶段总结，使自己优秀、高效、成熟。。。。。。</p>
-<h2 id="管理者首先要管理的是自己的时间-管好自己的时间，就是最优秀的管理者"><a href="#管理者首先要管理的是自己的时间-管好自己的时间，就是最优秀的管理者" class="headerlink" title="管理者首先要管理的是自己的时间,管好自己的时间，就是最优秀的管理者"></a>管理者首先要管理的是自己的时间,管好自己的时间，就是最优秀的管理者</h2><p>而面对自我的管理，需要时刻能够清楚回答以下这些问题：</p>
-<ul>
-<li>这些问题都是管理者应该时常思考的。只有真正认识了自己，才能根据自身的情况为自己定出切合实际的人生目标。</li>
-</ul>
-<h3 id="我是谁？"><a href="#我是谁？" class="headerlink" title="我是谁？"></a>我是谁？</h3><ul>
-<li>88年生人，对外一直号称87年，都是身份证的错。</li>
-<li>湖南普通农村家庭，父母在外为生意人，家有良田、数片果园，一片竹林</li>
-<li>大学学习计算机软件专业，从2010年6月至今，一直从事计算机软件行业</li>
-<li>无恋爱史，性格对男性表现为外向，对女性则表现为内向</li>
-<li>语言表达能力于从事软件行业中逐渐退化，努力恢复中</li>
-<li>理解能力欠佳，偶尔表现为中等偏上。</li>
-<li>行事有时犹豫不绝，思维不够缜密，有时会失言坏事</li>
-<li>行为表现不够自信，需要内心足够强大，让别人更加信任你</li>
-<li>专业基础还算扎实，专业深度还不够，技术涉及面比较广，属于综合型人才</li>
-<li>专业理论术语积累不够，技术的扩展与深入需要专业的理论支持加以理解、深刻</li>
-<li>与非技术人员交流技巧不够，学会比喻，目的是用最简洁的话来解释技术问题(大部分情况对方不关心你的技术，只关心是否能行？为什么不行？什么时候行？这种结果式的东西，千万不要用术语解释技术)</li>
-<li>对将来职业规划是往管理方向转型，更多的是管理时间，但不希望丢掉技术(终究是技术为本)</li>
-<li>三大爱好：唱歌、台球、摄影</li>
-<li>自控力不强，需要每天提醒自己</li>
-<li>处事原则：<ul>
-<li>永远不要浪费时间</li>
-<li>永远耐心地倾听对方诉说</li>
-<li>永远衣冠整洁</li>
-<li>永远不要自吹自擂，自然明确地显示你的分量</li>
-<li>不要按你的收入过日子！这样能使一个人变得自信。</li>
-<li>与人方便就是与己方便</li>
-<li>对朋友一定要真诚、竭尽所能</li>
-<li>背叛过你的人，绝对不可信</li>
-<li>做决定时，要保证观点的全面(至少三个)</li>
-<li>怀疑一切，但不要随便与人说，直到找到可靠证据</li>
-</ul>
-</li>
-</ul>
-<h3 id="我的长处何在？"><a href="#我的长处何在？" class="headerlink" title="我的长处何在？"></a>我的长处何在？</h3><ul>
-<li>对专业新技术学习非常渴望。</li>
-<li>相信爱情，反感性格张扬的人</li>
-<li>善于发现问题，善于自省，对自身各种问题会及时改正避免</li>
-<li>上进心较强，通过书籍、网络各种渠道提升自己的人格与修养，扩宽知识面</li>
-<li>会写诗</li>
-<li>严于律已，宽于待人</li>
-<li>内心很天真，童心未泯</li>
-<li>喜欢真实的人，一切原汁原味的东西</li>
-<li>实实在在的做事</li>
-</ul>
-<h3 id="我是如何工作的？"><a href="#我是如何工作的？" class="headerlink" title="我是如何工作的？"></a>我是如何工作的？</h3><ul>
-<li>每天早上或者前一天将当天的工作计划好，当然，计划永远赶不上变化，你计划的任务未必能完全执行下去；</li>
-<li>计划的任务经常因为其它事无法专注、按时完成</li>
-<li>拖延症比较严重，希望自控力能够更好些</li>
-<li>每两周作一次工作计划，将整个团队的工作进行梳理</li>
-<li>定期总结团队的问题，与提出解决方案</li>
-<li>不断的学习与积累管理经验</li>
-<li>每个月坚持看完两本书，一本专业方向，一本兴趣类方向，如果太忙，一个月至少一本</li>
-<li>不定期更新博客</li>
-<li>将个人以品牌的方式进行经营</li>
-</ul>
-<h3 id="我的价值观是什么？"><a href="#我的价值观是什么？" class="headerlink" title="我的价值观是什么？"></a>我的价值观是什么？</h3><ul>
-<li>对工作需要激情</li>
-<li>对爱情需要包容</li>
-<li>对朋友需要坦诚</li>
-<li>没有绝对的公平，只有平等的努力</li>
-<li>没有免费的午餐，一切骗局都是利用人的欲望</li>
-</ul>
-<h3 id="我属于何处？"><a href="#我属于何处？" class="headerlink" title="我属于何处？"></a>我属于何处？</h3><p>能在北上广立足的，都应该是精英，而我自认为不是；但正在往精英的路上奔走，最近很多互联网公司从业者太浮躁了，永远是想着可以get多少，而不是give多少，不想办法提高自己真实能力，而是在嘴上下功夫，牛皮吹的特别响，但了解他们的人都知道他有几份斤两；<br></p>
-<p>曾经有个同行的人跟我说，在公司里，就得装逼，就得吹牛，他原来是我的下属，后来他去新公司了，原来就觉得他有些装逼，吹牛，但去了新公司后，我们都叫他装逼王；跟他吃饭、聊天，不管聊些他是否真的懂的东西，他都会表现出自己很清楚，掌控大局的样子，但真的往深入聊的时候，他又会转移话题，不想跟你继续说下去，但还是表示自己是内行，只是现在不想说这个事的样子。</p>
-<p>这个朋友后来我不再联系，我想物以类聚，也许我们不是一类人……</p>
-<p>北上广需要真材实料的人，那些不懂装懂，却总是想掌控全局的人，对于自己的能力提升没有任何益处，只会挖空心思去研究人，如何更好的装逼而不被识破。</p>
-<p>也许有人会辩解说，装逼可以提升自己的口才，可以提高自己的个人魅力。<br>我想说，完全不可能，对于不懂装懂的装逼，这完全是一种非常不好的习惯；<br>首先，你不懂得尊重事实；其次，你无法正视自己的无知，不学习，不提高自己的专业水平；这些不懂装懂的表演型伎俩只会让你更加愚昧，丝毫不能提高你的口才，在真正懂行人的眼里，你就是个小丑，对整体工作没有正面促进作用，只会有负面的阻碍。至于装逼带来的暂时的魅力，随着时间推移，你会让人觉得可笑。</p>
-<p>只有不断提升自己的知识面，提升自己的眼界，与各种行业的人交流，与不同工种的人互相学习，这样才能让自己在各种场合沟通时，更加顺畅，这样才能真正的去解决实际的问题，这才是正面的。</p>
-<p>我上家公司的HR Carrie教会了我如何提升自己的方法–管理好自己的时间，就是对自己的最好的管理方式。而对于团队，能管理好团队的时间，就是合格的团队管理者。时间的管理是个过程，需要在工作中不断的与各种复杂的情况作斗争，它是伴随你一生的一个过程，很多人每天都很忙，但是又不知道自己在忙什么，就是很多工作都做不完，我问他是工作量大吗？但很多人的回答，并不是工作量太大，其实那些工作一天也是能完成的，问题就是工作中无法专注的去做一件事，中途被打扰的次数太多了，以至于一件简单的事一个上午都没有做完，总是断断续续的。<br>这种情况，我也经常遇到，相信大部分人都有这种情况。有关时间管理的方法有很多，其中比较出名的是<code>番茄工作法</code>;<br>大意是把所有的工作分成一个任务，每个任务定时为一段专注时间，可能15分钟、30分钟为一个专注时间，闹钟在15分钟后会提醒你专注时间已到，这时你可以停下来休息5分钟。不管工作是否完成，你都必须停下，直到下一个专注时间定时开始；什么？中途有人打扰找你做其它的事怎么办？幸好我这人比较笨，本身是单线程工作的人，做一件事，就是做一件事，不会同时做两件事，就算有人找我，我也会跟他说：非常抱歉，你先给我说明，我记录下来，等我把手头的事处理完了，我再去处理这个事，因为我是单线程的工作方式，无法同时做这两件事；当然，这是优先级不是特别高的事情，如果是一个非常急的事情，现在不处理就会被老板骂，这种情况那就不适用了，当然以最急的先处理。但是大部分不会有这种情况，优先级不会有这么高，所以，稍微晚点处理也不会死人的情况下，那就不要理会，就只管做自己当前的事就行了。</p>
-<blockquote>
-<blockquote>
-<p>集中注意力、高效工作，每天最多4小时</p>
-</blockquote>
-</blockquote>
-<p>其实，科学研究发现，最有效率的工作方式，就是单线程处理工作；一次只做一件事，这才是最有效率的；可能大家以为，人的大脑和电脑一样，如果同时做几件事应该比一次做一件事效率要高要快，因为多核多线程的电脑CPU运行速度总是比单线程CPU的要快，但是事实证明，并不是这样；这不是我胡说八道想当然的得出的结论，这个是有研究团队做过实验的。</p>
-<p><img src="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016051303.png" alt="" title="做一件事与同时做多件事的效率比较"></p>
-<p>一个人能够集中注意力的时间，是有限的。一般来说，高效工作只能持续四个小时，其余时间就都是低效工作了。</p>
-<p>关于时间管理的讨论，阮一峰有篇博得写的很好：<a href="http://www.ruanyifeng.com/blog/2016/05/time-management.html" target="_blank" rel="external">时间管理的七句话</a></p>
-<p>讲了这么多，最后总结一下：做一个学习者吧，永远以学生的姿态出现比那些浮躁的吹牛逼要靠谱的多，利已利人。</p>
-<h3 id="我该做出什么贡献？"><a href="#我该做出什么贡献？" class="headerlink" title="我该做出什么贡献？"></a>我该做出什么贡献？</h3><p>其实原来想的比较多，也比较复杂，做一个自己的产品，改变世界？开一家公司，自主创业，实现财务自由？这些其实说不上是贡献，大多是从自己的角度出发，一切是为了自己能够得到更多。如果从这个角度思考的话，我该做的太多太多了，因为我要的太多：我想要个温柔、善良、漂亮的女人做我的妻子，与我要有共同话题，不做作，不矫情；我想要豪车、豪宅；我想要自己的一家公司；我想要全国各大省份城市都有我一个家；我想要有很多很多知己，朋友。。。。。。我想面朝大海、策马远鞭。。。。。世界上最无法满足的，就是人的欲望。<br>为什么要去想这些遥不可及的事情呢，想都想不清楚，在潘石屹的一本书里<br>说，有位哲学家叫维特根斯坦，他最大的贡献就是哲学终止，他最著名的话是《逻辑哲学论》最后一句话：想不明白的事就不要去想了!!</p>
-<p>回到现实中来，当下的贡献其实很简单，将我的团队带好，将产品从无到<br>有，直到走向成熟，将团队的人从幼稚到成熟、从菜鸟到老司机，一路走来，不断成长的公司产品和团队，将是大家无形的财产与精神力量，而这些，见证成长并参与其中的团队成员们，不断成熟的产品与系统，就是我的贡献。。。。。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/管理/">管理</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/管理者的自省/">管理者的自省</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/27/管理者的自省/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/管理者的自省/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/07/27/无标题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/无标题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -775,7 +805,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
+      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
@@ -788,93 +818,52 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 </header>
     <div class="article-content">
         
-        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
-<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/">下载地址(文档)</a></p>
-</li>
-<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/06/13/3d_touch例子一个/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/" title="外网访问内网的解决方式" itemprop="url">外网访问内网的解决方式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="通过公司的路由器转发到内网测试服务器"><a href="#通过公司的路由器转发到内网测试服务器" class="headerlink" title="通过公司的路由器转发到内网测试服务器"></a>通过公司的路由器转发到内网测试服务器</h1><p>折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。</p>
-<h2 id="准备工具："><a href="#准备工具：" class="headerlink" title="准备工具："></a>准备工具：</h2><ol>
-<li>nginx</li>
-<li><p>公司路由器</p>
+        <hr>
+<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
+<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>查看mysql运行状态：</p>
+<pre><code>service mysql start    
+</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
+<pre><code> [root@localhost download]# mysql
+ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
+[root@localhost download]# service mysql status
+MySQL is not running                                       [失败]
+[root@localhost download]# service mysql start
+Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
+[root@localhost download]# reboot
+</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
+<ol>
+<li>安装包与系统不兼容</li>
+<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
+</ol>
+<p>mysql在linux上的安装方法：</p>
 <ul>
-<li>虚拟主机端口转发</li>
-<li><p>DMZ主机托管</p>
-<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png" alt="image"></p>
-</li>
+<li>yum 方式</li>
 </ul>
-</li>
-</ol>
-<p><strong>本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。</strong></p>
-<h2 id="指出错误的想法"><a href="#指出错误的想法" class="headerlink" title="指出错误的想法:"></a>指出错误的想法:</h2><ol>
-<li>源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理</li>
-<li>公网的IP是绑定在路由器上的，我们内网上网都是通过路由上网，所以如果要反向代理，就要在路由器上作反身代理，否则完全行不通</li>
-</ol>
-<h2 id="不可思议的问题"><a href="#不可思议的问题" class="headerlink" title="不可思议的问题"></a>不可思议的问题</h2><ol>
-<li>可以通过域名 + 端口的方向可以访问通过跟帖器端口转发的方式访问内网，但不支持80端口</li>
-</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">若系统有自带的mysql或libs，可选择先卸载再安装</div><div class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</div><div class="line"> rpm -e mysql                     //普通删除模式</div><div class="line"> rpm -e --nodeps mysql         // 强力删除模式</div><div class="line"> yum -y remove mysql-libs-*   //删除所有包</div><div class="line"> rpm -e --nodeps mysql</div><div class="line"></div><div class="line"> 安装</div><div class="line">//查看yum上提供的mysql数据库可下载的版本</div><div class="line"> yum list | grep mysql</div><div class="line"></div><div class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</div></pre></td></tr></table></figure>
+<ul>
+<li><p>通用安装</p>
+<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
+</code></pre></li>
+</ul>
+<ul>
+<li>npm包 安装 </li>
+</ul>
+<p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>安装完成后启动mysql:</p>
+<pre><code>service mysql start
+</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
+<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
+<pre><code># chkconfig --list mysql
+
+mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
+</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
 
         
         
@@ -885,16 +874,6 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/网络配置/">网络配置</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/路由转发端口到内网服务器/">路由转发端口到内网服务器</a>
-  </div>
 
 </div>
 
@@ -904,7 +883,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/通过公司的路由器转发到内网测试服务器/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -924,7 +903,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" title="《西游记》里有哪些不易发现却很打动人的小细节？" itemprop="url">《西游记》里有哪些不易发现却很打动人的小细节？</a>
+      <a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" title="2012年年中的macbook显卡门解决方案" itemprop="url">2012年年中的macbook显卡门解决方案</a>
   </h1>
   <p class="article-author">By
        
@@ -937,20 +916,15 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 </header>
     <div class="article-content">
         
-        <h1 id="《西游记》里有哪些不易发现却很打动人的小细节？"><a href="#《西游记》里有哪些不易发现却很打动人的小细节？" class="headerlink" title="《西游记》里有哪些不易发现却很打动人的小细节？"></a>《西游记》里有哪些不易发现却很打动人的小细节？</h1><p>补充一个，因为徒弟们都是正儿八经的神仙，唐长老的理论水平比起他三个徒弟不知道差到哪里去了。\<br>\<br>比如长老出门尿尿顺便喊大家赏月吟个诗，结果接受徒弟们的理论基础再教育，还被狠狠吐槽了一番。徒弟们之间还顺便开展了理论探讨。\<br>\</p>
-<blockquote>
-<p>唐僧举步出门小解，只见明月当天，叫：“徒弟。”行者、八戒，沙僧都出来侍立。因感这月清光皎洁，玉宇深沉，真是一轮高照，大地分明，对月怀归，口占一首古风长篇。</p>
-</blockquote>
-<p>长老呀！要提高自己的姿势水平，晓得不晓得啊？我为你着急啊！<br>===========================================================\<br>\<br>白龙马的尿，有奇效。\<br>\</p>
-<blockquote>
-<p>行者道：“你不知就里，我那马不是凡马，他本是西海龙身。</p>
-</blockquote>
-<p>\<br>因此白龙马的尿的作用包括：\<br>包治百病；\<br>把鱼升级成龙；\<br>把草升级成灵芝；\<br>长寿。\</p>
+        <h1 id="2012年年中的macbook-pro-retenia显卡门解决方案"><a href="#2012年年中的macbook-pro-retenia显卡门解决方案" class="headerlink" title="2012年年中的macbook pro retenia显卡门解决方案"></a>2012年年中的macbook pro retenia显卡门解决方案</h1><p>上个月买了前同事的一台macbookpro 是12年的15inch顶配，而且还是独立显卡的，才花了我7000块，本来很开心，但最近发现，他的电池循环数才201次，电池损耗量也很小，他的续航时间却特别的短，充满电才续航4个半小时，让我很生气。。。。。。</p>
+<p><img src="https://github.com/huguiqi/blogCode/blob/master/postImg/%7BH9F16EG8H%VN%_1G]K" alt="图片">)OX.jpg)</p>
+<p>后面上网查了下，发现是2012年的那款电脑硬件有严重缺陷，凡是带独立显卡的macbook 耗电非常大，而mac系统自带的自动切换显卡内核又非常不准确,推荐一款手动选择使用集成显卡还是独立显卡的软件：</p>
+<p><a href="https://github.com/codykrieger/gfxCardStatus" target="_blank" rel="external">gfxCardStatus</a></p>
+<p>可以选择集显还是独显，这样，长达5-6个小时的续航时间又回来了。。。。。。</p>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#more">Read More</a>
           
        </p>
     </div>
@@ -959,13 +933,13 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  <span></span> <a href="/tags/macbook显卡门/">macbook显卡门</a>
   </div>
 
 </div>
@@ -976,7 +950,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1053,7 +1027,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>10</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
 		  
 		
 		  
@@ -1146,6 +1120,10 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 			
 		
 			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
@@ -1155,10 +1133,6 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 		
 			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>2</sup></a></li>
 			
 		
 			
