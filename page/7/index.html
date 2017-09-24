@@ -90,7 +90,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/" title="将 Mac 中的文件夹共享到虚拟机" itemprop="url">将 Mac 中的文件夹共享到虚拟机</a>
+      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
@@ -103,32 +103,62 @@
 </header>
     <div class="article-content">
         
-        <h2 id="将-Mac-中的文件夹共享到虚拟机"><a href="#将-Mac-中的文件夹共享到虚拟机" class="headerlink" title="将 Mac 中的文件夹共享到虚拟机"></a>将 Mac 中的文件夹共享到虚拟机</h2><hr>
-<p>我用的是vmware Fusion 7.0</p>
-<p><strong>要在 Linux 或 Solaris 虚拟机中配置共享文件夹，请执行以下操作：</strong></p>
-<p><em>注意：FreeBSD 不支持共享文件夹。</em></p>
-<p>启动 VMware Fusion。<br>关闭虚拟机。<br>单击虚拟机 &gt; 设置。<br>单击共享。<br>在 Fusion 8.x 和 7.x 中，选择启用共享文件夹选项。在 Fusion 6.x 、5.x 和 4.x 中，将共享文件夹选项选为开启。在 Fusion 3.x 中，选择在 Mac 上共享文件夹选项。<br>
+        <hr>
+<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
+<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>查看mysql运行状态：</p>
+<pre><code>service mysql start    
+</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
+<pre><code> [root@localhost download]# mysql
+ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
+[root@localhost download]# service mysql status
+MySQL is not running                                       [失败]
+[root@localhost download]# service mysql start
+Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
+[root@localhost download]# reboot
+</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
+<ol>
+<li>安装包与系统不兼容</li>
+<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
+</ol>
+<p>mysql在linux上的安装方法：</p>
+<ul>
+<li>yum 方式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">若系统有自带的mysql或libs，可选择先卸载再安装</div><div class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</div><div class="line"> rpm -e mysql                     //普通删除模式</div><div class="line"> rpm -e --nodeps mysql         // 强力删除模式</div><div class="line"> yum -y remove mysql-libs-*   //删除所有包</div><div class="line"> rpm -e --nodeps mysql</div><div class="line"></div><div class="line"> 安装</div><div class="line">//查看yum上提供的mysql数据库可下载的版本</div><div class="line"> yum list | grep mysql</div><div class="line"></div><div class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</div></pre></td></tr></table></figure>
+<ul>
+<li><p>通用安装</p>
+<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
+</code></pre></li>
+</ul>
+<ul>
+<li>npm包 安装 </li>
+</ul>
+<p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>安装完成后启动mysql:</p>
+<pre><code>service mysql start
+</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
+<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
+<pre><code># chkconfig --list mysql
+
+mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
+</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/#more">Read More</a>
           
        </p>
     </div>
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/mac-虚拟机-共享-vmware/">mac 虚拟机 共享 vmware</a>
-  </div>
 
 </div>
 
@@ -138,7 +168,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/将_mac_中的文件夹共享到虚拟机/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1835,7 +1865,7 @@ interva:(foat)theInterva*
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/redis/" title="redis">redis<sup>1</sup></a></li>
 			
 		
 			
@@ -1851,7 +1881,7 @@ interva:(foat)theInterva*
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -1867,7 +1897,7 @@ interva:(foat)theInterva*
 			
 		
 			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 		</ul>
