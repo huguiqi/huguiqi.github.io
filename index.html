@@ -90,6 +90,110 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/11/13/springboot-activiti/" title="springboot-activiti" itemprop="url">springboot-activiti</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-11-12T17:34:00.000Z" itemprop="datePublished"> 发表于 2017-11-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="springboot-activiti"><a href="#springboot-activiti" class="headerlink" title="springboot-activiti"></a>springboot-activiti</h1><p>   spring boot + web +  mybatis + H2</p>
+<p>工作流Activiti，在这里不作介绍了。<br>可以参考这几篇文章：</p>
+<p><a href="http://www.cnblogs.com/gcjava/archive/2017/04/19/6734793.html">http://www.cnblogs.com/gcjava/archive/2017/04/19/6734793.html</a></p>
+<p><a href="http://blog.csdn.net/xnf1991/article/details/52610277">http://blog.csdn.net/xnf1991/article/details/52610277</a></p>
+<p><a href="http://bubuko.com/infodetail-1465670.html">springboot集成</a></p>
+<p>根据官方教程，先写一个demo</p>
+<p><a href="https://www.activiti.org/quick-start">官方教程quick start</a></p>
+<p>什么？文档写的太烂，很多英文写的不详细？那就看看5.x的中文手册</p>
+<p><a href="http://www.mossle.com/docs/activiti/index.html#demo.setup.one.minute.version">Activiti5.6中文手册</a></p>
+<p><a href="http://www.mossle.com/docs/activiti/index.html#configuration">Activiti请假例子</a></p>
+<p>我配置了一个mysql5.7.20，跑一个actiti引擎会初始化28张表。</p>
+<p>分别是：</p>
+<pre><code>act_evt_log, 
+act_ge_bytearray, 
+act_ge_property, 
+act_hi_actinst, 
+act_hi_attachment, 
+act_hi_comment, 
+act_hi_detail, 
+act_hi_identitylink, 
+act_hi_procinst, 
+act_hi_taskinst, 
+act_hi_varinst, 
+act_id_group, 
+act_id_info,
+act_id_membership, 
+act_id_user, 
+act_procdef_info, 
+act_re_deployment, 
+act_re_model, 
+act_re_procdef, 
+act_ru_deadletter_job, 
+act_ru_event_subscr, 
+act_ru_execution, 
+act_ru_identitylink, 
+act_ru_job, 
+act_ru_suspended_job, 
+act_ru_task, 
+act_ru_timer_job, 
+act_ru_variable
+</code></pre><p>这么多表，看着一脸懵逼。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/11/13/springboot-activiti/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/activiti/">activiti</a>►<a class="article-category-link" href="/categories/activiti/springboot/">springboot</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springboot-activiti/">springboot-activiti</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/11/13/springboot-activiti/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/11/13/springboot-activiti/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/09/24/springboot集成redis/" title="springboot如何使用redis" itemprop="url">springboot如何使用redis</a>
   </h1>
   <p class="article-author">By
@@ -136,49 +240,6 @@
 <blockquote>
 <p> Name of cache manager to use. A default CacheResolver will be initialized behind the scenes with this cache manager (or <code>cacheManager</code>if not set). For more fine-grained management of the cache resolution, consider setting the ‘cache-resolver’ attribute.</p>
 </blockquote>
-<p>而cacheManager是他们的cache管理类接口。</p>
-<p>而cacheManager,cacheResolver,keyGenerator,errorHandler接口实现对象都是在CachingConfigurer配置接口类实现的。<br>默认的cacheResolver解析类是SimpleCacheResolver，而cacheManager是通过代理设置的。<br>所以，cacheManager只要在项目中注入就可以了。</p>
-<p>所以，如果缓存数据库是redis，则注入RedisCacheManager就可以了</p>
-<p>设置cacheManger的前缀：</p>
-<pre><code>@SuppressWarnings(&quot;rawtypes&quot;)
-@Bean
-public CacheManager cacheManager(RedisTemplate redisTemplate) {
-RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
-//设置缓存过期时间
-//rcm.setDefaultExpiration(60);//秒
-rcm.setUsePrefix(true);
-rcm.setCachePrefix(new DefaultRedisCachePrefix(&quot;HGQ\_&quot;));
-return rcm;
-}
-</code></pre><p> 设置一个对象缓存：</p>
-<pre><code>@Cacheable(value = &quot;houseCache&quot;, key = &quot;#city.toString()&quot;)
-public House getHouse(String city) {
-System.out.println(&quot;无缓存的时候调用这里---数据库查询&quot;);
-return new House(&quot;绿城&quot;,&quot;100&quot;,&quot;长沙&quot;);
-}
-</code></pre><p> 得到的缓存key是这样的：</p>
-<p> <img src="http://ojnkdvkci.bkt.clouddn.com/1506252570489ky7yjcvz.png?imageslim" alt="paste image"></p>
-<p> 因为是用城市名称作为key，城市名称是中文名称，redis存入的是uncode码。</p>
-<h2 id="keyGenerator"><a href="#keyGenerator" class="headerlink" title="keyGenerator"></a>keyGenerator</h2><p>默认的keyGenerator实现类是：SimpleKeyGenerator。</p>
-<p>大部分的情况下我们都会重写keyGenerator，这个的作用是定义对象的key命名规则。</p>
-<p>如我把keyGenerator重写为(注入一个新的keyGenerator)：</p>
-<pre><code>@Bean
-public KeyGenerator keyGenerator() {
-return new KeyGenerator() {
-@Override
-public Object generate(Object target, Method    method, Object... params) {
-StringBuilder sb = new StringBuilder();
-sb.append(target.getClass().getName());
-sb.append(method.getName());
-for (Object obj : params) {
-sb.append(obj.toString());
-}
-return sb.toString();
-}
-};
-}
-</code></pre><p>存储一个对象的keyName就是：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/150625787498234fp501m.png?imageslim" alt="paste image"><img src="http://ojnkdvkci.bkt.clouddn.com/1506257979573opkwu434.png?imageslim" alt="paste image"></p>
         
         
         <p class="article-more-link">
@@ -938,244 +999,6 @@ error-page=&quot;/auth/denied&quot;
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/07/09/线程并发与通信/" title="线程并发与通信" itemprop="url">线程并发与通信</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-07-09T07:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="线程并发与通信"><a href="#线程并发与通信" class="headerlink" title="线程并发与通信"></a>线程并发与通信</h1><p><a href="http://wiki.jikexueyuan.com/project/java-concurrent/introduction.html">参考文章</a></p>
-<ul>
-<li>多线程与cpu是单核还是多核无关，只是合理的利用cpu资源的一种方法</li>
-<li>多线程更多与分布式系统的并发性一起被提及</li>
-<li>线程间写入与访问共享资源问题，因共享资源存在不同步，产生线程安全问题</li>
-<li>分布式系统共享资源多线程问题</li>
-</ul>
-<h2 id="线程并发问题"><a href="#线程并发问题" class="headerlink" title="线程并发问题"></a>线程并发问题</h2><p>• 多线程：指的是这个程序（一个进程）运行时产生了不止一个线程<br>• 并行与并发：<br>◦ 并行：多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时。<br>◦ 并发：通过cpu调度算法，让用户看上去同时执行，实际上从cpu操作层面不是真正的同时。并发往往在场景中有公用的资源，那么针对这个公用的资源往往产生瓶颈，我们会用TPS或者QPS来反应这个系统的处理能力。</p>
-<p><a href="http://www.importnew.com/21089.html">多线程参考文章</a></p>
-<h2 id="并发场景与解决问题"><a href="#并发场景与解决问题" class="headerlink" title="并发场景与解决问题"></a>并发场景与解决问题</h2><p>共享实例变量、共享连接资源时。<br>并发问题举例：<br>银行转账问题<br>投票问题<br>卖票问题<br>订单消库存问题<br>连接池问题</p>
-<h2 id="什么是IPC"><a href="#什么是IPC" class="headerlink" title="什么是IPC"></a>什么是IPC</h2><p>进程间通信（IPC，Inter-Process Communication），指至少两个进程或线程间传送数据或信号的一些技术或方法。<br>RPC、RMI、EJB、WebService都是IPC的一种方法。</p>
-<h2 id="线程通信"><a href="#线程通信" class="headerlink" title="线程通信"></a>线程通信</h2><p><a href="http://wiki.jikexueyuan.com/project/java-concurrent/thread-communication.html">参考文章</a><br> 线程通信的目标是使线程间能够互相发送信号。另一方面，线程通信使线程能够等待其他线程的信号。<br>例如，线程 B 可以等待线程 A 的一个信号，这个信号会通知线程 B 数据已经准备好了。本文将讲解以下几个 JAVA 线程间通信的主题：</p>
-<ol>
-<li>通过共享对象通信</li>
-<li>忙等待</li>
-<li>wait()，notify()和 notifyAll()</li>
-<li>丢失的信号</li>
-<li>假唤醒</li>
-<li>多线程等待相同信号</li>
-<li>不要对常量字符串或全局对象调用 wait()</li>
-</ol>
-<h3 id="通过案例一步步解决并发问题"><a href="#通过案例一步步解决并发问题" class="headerlink" title="通过案例一步步解决并发问题"></a>通过案例一步步解决并发问题</h3><p>卖票案例：<br>假如库存有100张票，在高并发的环境下售卖，会有什么问题，怎么解决？</p>
-<pre><code>package com.wolf.thread.model;
-
-import org.junit.Test;
-
-
-
-class Ticket {
-
-private int num;
-
-public Ticket(){
-    super();
-}
-
-public Ticket(int num) {
-    this.num = num;
-}
-
-public int getNum() {
-    return num;
-}
-
-public  void setNum(int num) {
-    this.num = num;
-}
-}
-
-
-public class TicketTest{
-
-@Test
-public void testSall(){
-    final Ticket ticket = new Ticket(10);
-        //分四个线程去卖票，直到票卖完
-        new Thread(new TicketRunnable(ticket)).start();
-        new Thread(new TicketRunnable(ticket)).start();
-        new Thread(new TicketRunnable(ticket)).start();
-        new Thread(new TicketRunnable(ticket)).start();
-        new Thread(new TicketRunnable(ticket)).start();
-
-
-}
-
-}
-
-class TicketRunnable implements Runnable{
-
-private Ticket ticket;
-
-public TicketRunnable(Ticket ticket) {
-    this.ticket = ticket;
-}
-
-@Override
-public void run() {
-
-           while (true){
-                   if (ticket.getNum() &gt; 0) {
-                       ticket.setNum(ticket.getNum() - 1);
-                       System.out.println(Thread.currentThread().getName() + &quot;.....sale....&quot; + ticket.getNum());
-                   }
-           }
-        }
-    }
-</code></pre><p>运行了几次，发现总有重复卖票的情况：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1499649740468a09sykrv.png?imageslim" alt="paste image"></p>
-<p>这很明显是并发操作共享资源导致的问题。</p>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ol>
-<li>在操作共享源的代码块或方法加上synchronized关键字，虽然可以简单的解决，但是会很影响性能。</li>
-<li>设置对象共享锁</li>
-</ol>
-<h4 id="设置对象共享锁"><a href="#设置对象共享锁" class="headerlink" title="设置对象共享锁"></a>设置对象共享锁</h4><p>class Ticket {</p>
-<pre><code>private int num;
-
-public Ticket(){
-    super();
-}
-
-public Ticket(int num) {
-    this.num = num;
-}
-
-public int getNum() {
-    return num;
-}
-
-public  void setNum(int num) {
-    this.num = num;
-}
-}
-
-
-public class TicketTest{
-
-@Test
-public void testSall(){
-    final Ticket ticket = new Ticket(10);
-        //分四个线程去卖票，直到票卖完
-        new Thread(new TicketRunnable(ticket)).start();
-        new Thread(new TicketRunnable(ticket)).start();
-        new Thread(new TicketRunnable(ticket)).start();
-        new Thread(new TicketRunnable(ticket)).start();
-        new Thread(new TicketRunnable(ticket)).start();
-
-
-}
-
-}
-
-class TicketRunnable implements Runnable{
-
-private Ticket ticket;
-//线程是否被通知
-private  boolean hasSall;
-
-public TicketRunnable(Ticket ticket) {
-    this.ticket = ticket;
-}
-
-@Override
-public void run() {
-
-           while (true){
-               synchronized (ticket){
-                   if (hasSall) {
-                       try {
-                           ticket.wait();
-                       } catch (InterruptedException e) {
-                           e.printStackTrace();
-                       }
-                       //等待完后才会执行这句，说明上个卖票线程已经执行完，hasSall要重置成已卖
-                       hasSall = false;
-                   }
-               }
-
-               if (ticket.getNum() &gt; 0) {
-                   ticket.setNum(ticket.getNum() - 1);
-                   System.out.println(Thread.currentThread().getName() + &quot;.....sale....&quot; + ticket.getNum());
-                   //notify,只要线程卖了，就设置共享状态为true已通知
-                   synchronized (ticket){
-                       //设置卖票状态为正在卖
-                       hasSall = true;
-                       ticket.notify();
-                   }
-               }
-
-           }
-        }
-    }
-</code></pre><p>这种方法也是加锁，但是经测试，这个场景无法达到和使用synchronized同步代码块时的效果。</p>
-<ol>
-<li>使用并发包提供的线程锁进行加锁</li>
-</ol>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/07/09/线程并发与通信/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/java/">java</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/线程/">线程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/07/09/线程并发与通信/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/09/线程并发与通信/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1212,6 +1035,10 @@ public void run() {
 		
 		  
 			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1252,6 +1079,10 @@ public void run() {
 		
 		  
 			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1336,15 +1167,11 @@ public void run() {
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1352,11 +1179,15 @@ public void run() {
 			
 		
 			
-				<li><a href="/tags/插件/" title="插件">插件<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -1368,15 +1199,15 @@ public void run() {
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
@@ -1388,7 +1219,7 @@ public void run() {
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>

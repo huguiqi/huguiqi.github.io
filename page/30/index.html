@@ -90,7 +90,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/UMSNSService_UMSNSLibrary.a for architecture armv7s/" title="UMSNSService_UMSNSLibrary.a for architecture armv7s" itemprop="url">UMSNSService_UMSNSLibrary.a for architecture armv7s</a>
+      <a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/" title="GCD（Grand Central Dispatch）和Block 使用-浅析" itemprop="url">GCD（Grand Central Dispatch）和Block 使用-浅析</a>
   </h1>
   <p class="article-author">By
        
@@ -103,23 +103,28 @@
 </header>
     <div class="article-content">
         
-        <h1 id="UMSNSService-UMSNSLibrary-a-for-architecture-armv7s"><a href="#UMSNSService-UMSNSLibrary-a-for-architecture-armv7s" class="headerlink" title="UMSNSService_UMSNSLibrary.a for architecture armv7s"></a>UMSNSService_UMSNSLibrary.a for architecture armv7s</h1><div><br><br>xcode在IOS Device 模式时 build 出现以下错误的解决方案：<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br><img src="UMSNSService_UMSNSLibrary.a%20for%20architecture%20armv7s.resources/5AFA65CB-63CA-4EED-9537-C534EAA21F62.jpg" alt="">\<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>Ld<br>/Users/huguiqi/Library/Developer/Xcode/DerivedData/JinJiang-cmufbfphgdusqodxjeerrckbzyip/Build/Intermediates/JinJiang.build/Distribution-iphoneos/JinJiang.build/Objects-normal/armv7s/JinJiang<br>normal armv7s<br><br></div>
-
-<pre><code>cd
-</code></pre>
+        <h1 id="GCD（Grand-Central-Dispatch）和Block-使用-浅析"><a href="#GCD（Grand-Central-Dispatch）和Block-使用-浅析" class="headerlink" title="GCD（Grand Central Dispatch）和Block 使用-浅析"></a>GCD（Grand Central Dispatch）和Block 使用-浅析</h1><p><span
+style="font: 18.0px Times; font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">GCD（Grand Central Dispatch）和Block 使用-浅析</span><br><span
+style="font: 10.0px Arial; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">(2013-03-27<br>21:25:59)</span><span
+style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br> <span
+style="font-kerning: none"><img src="GCD%EF%BC%88Grand%20Central%20Dispatch%EF%BC%89%E5%92%8CBlock%20%E4%BD%BF%E7%94%A8-%E6%B5%85%E6%9E%90.resources/FE882AC2-384F-4A0B-B6B8-C1035FBA0CCB.gif" alt="">\<br> 转载</span><span style="font: 7.0px Verdana; font-kerning: none">\<br> ▼\<br></span></span><span
+style="font: 12.0px Times; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">标签：</span><br><span
+style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><a href="http://search.sina.com.cn/?c=blog&amp;q=gcd&amp;by=tag"><span
+style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">gcd</span></a><br><span
+style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">gcd浅析</span><br><a href="http://search.sina.com.cn/?c=blog&amp;q=ios&amp;by=tag"><span
+style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">ios</span></a><br><a href="http://search.sina.com.cn/?c=blog&amp;q=block&amp;by=tag"><span
+style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">block</span></a><br><a href="http://search.sina.com.cn/?c=blog&amp;q=xcode&amp;by=tag"><span
+style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">xcode</span></a>\<br></span><span
+style="font: 12.0px Times; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">分类：</span><br><span
+style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><a href="http://blog.sina.com.cn/s/articlelist_2073912495_5_1.html"><span
+style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">帮助文档</span></a>\<br></span><span
+style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">正文开始</span><span
+style="font: 14.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br>\</p>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/UMSNSService_UMSNSLibrary.a for architecture armv7s/#more">Read More</a>
+            <a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/#more">Read More</a>
           
        </p>
     </div>
@@ -145,7 +150,116 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/UMSNSService_UMSNSLibrary.a for architecture armv7s/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UMSNSService_UMSNSLibrary.a for architecture armv7s/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/UIView 中一些常用方法/" title="UIView 中一些常用方法" itemprop="url">UIView 中一些常用方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="UIView-中一些常用方法"><a href="#UIView-中一些常用方法" class="headerlink" title="UIView 中一些常用方法"></a>UIView 中一些常用方法</h1><ol>
+<li><span
+style="-evernote-last-insertion-point:true;"></span>addSubview:  </li>
+<li>添加一个子视图到接收者并让它在最上面显示出来。   </li>
+<li><ul>
+<li>(<strong><span
+style="color: rgb(0, 102, 153);">void</span></strong>)addSubview:(UIView *)view   </li>
+</ul>
+</li>
+<li>讨论   </li>
+<li>这方法同样设置了接收者为下一个视图响应对象。接收者保留视图。如果你使用removeFromSuperview方法用来把视图移除他的显示列表，那么视图将会被释放。如果你想要在视图移除显示列表後保留并使用这个视图（如果，举个例子，你想要交换一些视图的位置。），你不许保留那个视图在他调用removeFromSuperview前。   </li>
+<li></li>
+<li>bringSubviewToFront:  </li>
+<li>把指定的子视图移动到顶层   </li>
+<li><ul>
+<li>(<strong><span
+style="color: rgb(0, 102, 153);">void</span></strong>)bringSubviewToFront:(UIView *)view   </li>
+</ul>
+</li>
+<li>参数   </li>
+<li>view   </li>
+<li>需要移到顶层的视图   </li>
+<li></li>
+<li>convertPoint:fromView:  </li>
+<li>把一个点从一个坐标系转换到接收者的坐标系   </li>
+<li><ul>
+<li>(CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view   </li>
+</ul>
+</li>
+<li>参数   </li>
+<li>point   </li>
+<li>一个视图中坐标系上的点   </li>
+<li>view   </li>
+<li>一个视图包含了点和他自身坐标系。如果是图是nil，那么这个方法将尝试转换基于窗口的坐标系。否则视图和那个接收者必须属于同一个UIWindow对象。   </li>
+<li>返回值   </li>
+<li>一个转换到接收者坐标系的点   </li>
+<li></li>
+<li>convertPoint:toView:  </li>
+<li>转换一个点从接收者坐标系到给定的视图坐标系   </li>
+<li><ul>
+<li>(CGPoint)convertPoint:(CGPoint)point toView:(UIView *)view   </li>
+</ul>
+</li>
+<li>参数   </li>
+<li>point   </li>
+<li>一个在调用者坐标系中的点
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/UIView 中一些常用方法/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/UIView 中一些常用方法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIView 中一些常用方法/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -449,6 +563,80 @@ style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 3
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/阿里云遇到的问题/" title="阿里云遇到的问题" itemprop="url">阿里云遇到的问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="阿里云遇到的问题"><a href="#阿里云遇到的问题" class="headerlink" title="阿里云遇到的问题"></a>阿里云遇到的问题</h1><div><br><br>1,阿里云ECS服务器不支持直接升级磁盘空间，因之前买的配的系统磁盘空间太小，故重新买了一块独立的ssd云盘挂载在ECS服务器上，但后面如果要做负载均衡，ssd云盘就无法读定共用了<br><br></div>
+
+<div><br><br>RS:<br><br></div>
+
+<div><br><br>NFS解决文件共享问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>2，做负载均衡使用SLB还是用原始的nginx做？<br><br></div>
+
+<div><br><br>nginx做负载均衡<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/阿里云遇到的问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/阿里云遇到的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/阿里云遇到的问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)" itemprop="url">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a>
   </h1>
   <p class="article-author">By
@@ -513,7 +701,7 @@ style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 3
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/阿里云遇到的问题/" title="阿里云遇到的问题" itemprop="url">阿里云遇到的问题</a>
+      <a href="/2016/03/30/3月份面试题po出/" title="三月份的面试题目" itemprop="url">三月份的面试题目</a>
   </h1>
   <p class="article-author">By
        
@@ -526,22 +714,18 @@ style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 3
 </header>
     <div class="article-content">
         
-        <h1 id="阿里云遇到的问题"><a href="#阿里云遇到的问题" class="headerlink" title="阿里云遇到的问题"></a>阿里云遇到的问题</h1><div><br><br>1,阿里云ECS服务器不支持直接升级磁盘空间，因之前买的配的系统磁盘空间太小，故重新买了一块独立的ssd云盘挂载在ECS服务器上，但后面如果要做负载均衡，ssd云盘就无法读定共用了<br><br></div>
-
-<div><br><br>RS:<br><br></div>
-
-<div><br><br>NFS解决文件共享问题<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>2，做负载均衡使用SLB还是用原始的nginx做？<br><br></div>
-
-<div><br><br>nginx做负载均衡<br>
+        <h1 id="3月份面试题PO出"><a href="#3月份面试题PO出" class="headerlink" title="3月份面试题PO出"></a>3月份面试题PO出</h1><p>上周去面试了，本来应该上周未就应该把这些题目都研究下的，但是我落魄了<br>我面试的是全栈工程师，结果是扑街了。。。。。可能是因为聊天时没发挥好，下次要注意了，要有激情。。。。。</p>
+<p>面试内容：</p>
+<h2 id="一，浏览器跨域问题怎么解决"><a href="#一，浏览器跨域问题怎么解决" class="headerlink" title="一，浏览器跨域问题怎么解决"></a>一，浏览器跨域问题怎么解决</h2><p>先来说说，什么是跨域问题？</p>
+<h3 id="什么是跨域？"><a href="#什么是跨域？" class="headerlink" title="什么是跨域？"></a>什么是跨域？</h3><p>概念：只要协议、域名、端口有任何一个不同，都被当作是不同的域。</p>
+<p>言简意骇吧<br>来看例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">URL                      说明       是否允许通信</div><div class="line">http://www.a.com/a.js</div><div class="line">http://www.a.com/b.js     同一域名下   允许</div><div class="line">http://www.a.com/lab/a.js</div><div class="line">http://www.a.com/script/b.js 同一域名下不同文件夹 允许</div><div class="line">http://www.a.com:8000/a.js</div><div class="line">http://www.a.com/b.js     同一域名，不同端口  不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">https://www.a.com/b.js 同一域名，不同协议 不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">http://70.32.92.74/b.js 域名和域名对应ip 不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">http://script.a.com/b.js 主域相同，子域不同 不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">http://a.com/b.js 同一域名，不同二级域名（同上） 不允许（cookie这种情况下也不允许访问）</div><div class="line">http://www.cnblogs.com/a.js</div><div class="line">http://www.a.com/b.js 不同域名 不允许</div></pre></td></tr></table></figure>
+<p><em>ps:对于端口和协议的不同，只能通过后台来解决。</em></p>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/阿里云遇到的问题/#more">Read More</a>
+            <a href="/2016/03/30/3月份面试题po出/#more">Read More</a>
           
        </p>
     </div>
@@ -550,13 +734,13 @@ style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 3
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+  <a class="article-category-link" href="/categories/面试题/">面试题</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  <span></span> <a href="/tags/面试题-全栈/">面试题 全栈</a>
   </div>
 
 </div>
@@ -567,7 +751,7 @@ style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 3
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/阿里云遇到的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/阿里云遇到的问题/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/3月份面试题po出/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/3月份面试题po出/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -656,190 +840,6 @@ style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 3
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/UIView 中一些常用方法/" title="UIView 中一些常用方法" itemprop="url">UIView 中一些常用方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="UIView-中一些常用方法"><a href="#UIView-中一些常用方法" class="headerlink" title="UIView 中一些常用方法"></a>UIView 中一些常用方法</h1><ol>
-<li><span
-style="-evernote-last-insertion-point:true;"></span>addSubview:  </li>
-<li>添加一个子视图到接收者并让它在最上面显示出来。   </li>
-<li><ul>
-<li>(<strong><span
-style="color: rgb(0, 102, 153);">void</span></strong>)addSubview:(UIView *)view   </li>
-</ul>
-</li>
-<li>讨论   </li>
-<li>这方法同样设置了接收者为下一个视图响应对象。接收者保留视图。如果你使用removeFromSuperview方法用来把视图移除他的显示列表，那么视图将会被释放。如果你想要在视图移除显示列表後保留并使用这个视图（如果，举个例子，你想要交换一些视图的位置。），你不许保留那个视图在他调用removeFromSuperview前。   </li>
-<li></li>
-<li>bringSubviewToFront:  </li>
-<li>把指定的子视图移动到顶层   </li>
-<li><ul>
-<li>(<strong><span
-style="color: rgb(0, 102, 153);">void</span></strong>)bringSubviewToFront:(UIView *)view   </li>
-</ul>
-</li>
-<li>参数   </li>
-<li>view   </li>
-<li>需要移到顶层的视图   </li>
-<li></li>
-<li>convertPoint:fromView:  </li>
-<li>把一个点从一个坐标系转换到接收者的坐标系   </li>
-<li><ul>
-<li>(CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view   </li>
-</ul>
-</li>
-<li>参数   </li>
-<li>point   </li>
-<li>一个视图中坐标系上的点   </li>
-<li>view   </li>
-<li>一个视图包含了点和他自身坐标系。如果是图是nil，那么这个方法将尝试转换基于窗口的坐标系。否则视图和那个接收者必须属于同一个UIWindow对象。   </li>
-<li>返回值   </li>
-<li>一个转换到接收者坐标系的点   </li>
-<li></li>
-<li>convertPoint:toView:  </li>
-<li>转换一个点从接收者坐标系到给定的视图坐标系   </li>
-<li><ul>
-<li>(CGPoint)convertPoint:(CGPoint)point toView:(UIView *)view   </li>
-</ul>
-</li>
-<li>参数   </li>
-<li>point   </li>
-<li>一个在调用者坐标系中的点
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/UIView 中一些常用方法/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/UIView 中一些常用方法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIView 中一些常用方法/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/Linux下的Vsftpd配置篇/" title="Linux下的Vsftpd配置篇" itemprop="url">Linux下的Vsftpd配置篇</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Linux下的Vsftpd配置篇"><a href="#Linux下的Vsftpd配置篇" class="headerlink" title="Linux下的Vsftpd配置篇"></a>Linux下的Vsftpd配置篇</h1><div><br><br><div
-style="padding: 0px; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: rgb(204, 204, 204); color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow', arial, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><br><div
-style="padding: 20px 0px 0px; overflow: hidden; text-align: center;"><br><br><div
-style="padding: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 20px; font-family: SimSun;"><br><br>Linux下的Vsftpd配置篇<br><br></div>
-
-<p></div></p>
-<p><span
-style="padding: 0px 25px 0px 0px; color: rgb(102, 102, 102); float: right;">2010-10-12<br>22:59:02</span></p>
-<p></div></p>
-<p></div></p>
-<div
-style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow', arial, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><br><div><br><br>\<br><br></div><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Linux下的Vsftpd配置篇/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Linux下的Vsftpd配置篇/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Linux下的Vsftpd配置篇/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/29/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/31/">Next<span></span></a>
@@ -876,6 +876,10 @@ style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow'
 		
 		  
 			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
 		  
 		
 		  
@@ -916,6 +920,10 @@ style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow'
 		
 		  
 			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1000,15 +1008,11 @@ style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow'
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1016,11 +1020,15 @@ style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow'
 			
 		
 			
-				<li><a href="/tags/插件/" title="插件">插件<sup>1</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/macbook显卡门/" title="macbook显卡门">macbook显卡门<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -1032,15 +1040,15 @@ style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow'
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
@@ -1052,7 +1060,7 @@ style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow'
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>
