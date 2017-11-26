@@ -90,6 +90,159 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/Unix有用命令行/" title="Unix有用命令行" itemprop="url">Unix有用命令行</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Unix有用命令行"><a href="#Unix有用命令行" class="headerlink" title="Unix有用命令行"></a>Unix有用命令行</h1><p>OSX 的文件系统 </p>
+<div><br><br>OSX 采用的Unix文件系统，所有文件都挂在跟目录 / 下面，所以不在要有Windows<br>下的盘符概念。<br><br></div>
+
+<div><br><br>你在桌面上看到的硬盘都挂在 /Volumes 下。<br><br></div>
+
+<div><br><br>比如接上个叫做<br>USBHD的移动硬盘，桌面上会显示出一个硬盘图标，它实际在哪里呢？<br><br></div>
+
+<div><br><br>在终端里执行 ls /Volumes/USBHD, 看看显示出的是不是这个移动硬盘的内容。<br><br></div>
+
+<div><br><br>根目录位置是 / 核心 Mach_kernel 就在这里，<br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/Unix有用命令行/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/Unix有用命令行/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Unix有用命令行/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/GCD 深入理解（一）/" title="GCD 深入理解（一）" itemprop="url">GCD 深入理解（一）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="GCD-深入理解（一）"><a href="#GCD-深入理解（一）" class="headerlink" title="GCD 深入理解（一）"></a>GCD 深入理解（一）</h1><p><span
+style="font: 26.0px 'Helvetica Neue'; font-kerning: none; color: #1d1d1d; background-color: #f6f6f6; -webkit-text-stroke: 0px #1d1d1d">GCD<br>深入理解（一）</span><span
+style="font: 26.0px 'Helvetica Neue'; font-kerning: none; color: #1d1d1d; -webkit-text-stroke: 0px #1d1d1d">\<br></span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #666666; background-color: #f6f6f6; -webkit-text-stroke: 0px #666666">发布于：2014-04-28<br>09:32阅读数：16484</span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span
+style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; background-color: #f0f0f0; -webkit-text-stroke: 0px #323333">虽然<br>GCD<br>已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而<br>GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-C<br>的平滑世界。我们将分两</span><span
+style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br></span><span
+style="font: 60.0px Times; font-kerning: none; color: #666666; background-color: #f0f0f0; -webkit-text-stroke: 0px #666666">“</span><span
+style="font: 60.0px Times; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span
+style="font: 60.0px Times; font-kerning: none; color: #666666; background-color: #f0f0f0; -webkit-text-stroke: 0px #666666">”</span><span
+style="font: 60.0px Times; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #042eee; -webkit-text-stroke: 0px #042eee">\<br>\<br> <span
+style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #cccccc; background-color: #f6f6f6; -webkit-text-stroke: 0px #cccccc">阅读器</span></span><span
+style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #cccccc; background-color: #f6f6f6; -webkit-text-stroke: 0px #cccccc">\<br> <a href="http://www.cocoachina.com/cms/tags.php?/GCD/"><span
+style="font-kerning: none; color: #ffffff; background-color: #ed9c69; -webkit-text-stroke: 0px #ffffff">GCD</span></a></span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/GCD 深入理解（一）/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/GCD 深入理解（一）/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/GCD 深入理解（一）/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/Linux下的Vsftpd配置篇/" title="Linux下的Vsftpd配置篇" itemprop="url">Linux下的Vsftpd配置篇</a>
   </h1>
   <p class="article-author">By
@@ -146,75 +299,6 @@ style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow'
 	
 	  	<span></span>
 		<a href="/2016/03/30/Linux下的Vsftpd配置篇/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Linux下的Vsftpd配置篇/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/VI命令行/" title="VI命令行" itemprop="url">VI命令行</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="VI命令行"><a href="#VI命令行" class="headerlink" title="VI命令行"></a>VI命令行</h1><div><br><br><span style="color: rgb(51, 51, 51);"><span style="font-family: arial;">shift +:</span></span><br><br></div>
-
-<div><br><br><span style="font-family: arial;"><span style="color: rgb(51, 51, 51);">g是到最后一行</span></span><br><br></div>
-
-<div><br><br><span style="font-family: arial, 'courier new', courier, 宋体, monospace;"><span style="color: rgb(51, 51, 51);">0是行首，\$是行尾</span></span><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/VI命令行/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/VI命令行/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -308,7 +392,7 @@ style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/GCD 深入理解（一）/" title="GCD 深入理解（一）" itemprop="url">GCD 深入理解（一）</a>
+      <a href="/2016/03/30/Validator.js/" title="Validator.js" itemprop="url">Validator.js</a>
   </h1>
   <p class="article-author">By
        
@@ -321,28 +405,21 @@ style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000
 </header>
     <div class="article-content">
         
-        <h1 id="GCD-深入理解（一）"><a href="#GCD-深入理解（一）" class="headerlink" title="GCD 深入理解（一）"></a>GCD 深入理解（一）</h1><p><span
-style="font: 26.0px 'Helvetica Neue'; font-kerning: none; color: #1d1d1d; background-color: #f6f6f6; -webkit-text-stroke: 0px #1d1d1d">GCD<br>深入理解（一）</span><span
-style="font: 26.0px 'Helvetica Neue'; font-kerning: none; color: #1d1d1d; -webkit-text-stroke: 0px #1d1d1d">\<br></span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #666666; background-color: #f6f6f6; -webkit-text-stroke: 0px #666666">发布于：2014-04-28<br>09:32阅读数：16484</span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span
-style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; background-color: #f0f0f0; -webkit-text-stroke: 0px #323333">虽然<br>GCD<br>已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而<br>GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-C<br>的平滑世界。我们将分两</span><span
-style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br></span><span
-style="font: 60.0px Times; font-kerning: none; color: #666666; background-color: #f0f0f0; -webkit-text-stroke: 0px #666666">“</span><span
-style="font: 60.0px Times; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span
-style="font: 60.0px Times; font-kerning: none; color: #666666; background-color: #f0f0f0; -webkit-text-stroke: 0px #666666">”</span><span
-style="font: 60.0px Times; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #042eee; -webkit-text-stroke: 0px #042eee">\<br>\<br> <span
-style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #cccccc; background-color: #f6f6f6; -webkit-text-stroke: 0px #cccccc">阅读器</span></span><span
-style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #cccccc; background-color: #f6f6f6; -webkit-text-stroke: 0px #cccccc">\<br> <a href="http://www.cocoachina.com/cms/tags.php?/GCD/"><span
-style="font-kerning: none; color: #ffffff; background-color: #ed9c69; -webkit-text-stroke: 0px #ffffff">GCD</span></a></span><span
-style="font: 12.0px 'Helvetica Neue'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span
+        <h1 id="Validator-js"><a href="#Validator-js" class="headerlink" title="Validator.js"></a>Validator.js</h1><p>Validator = {</p>
+<div><br><br>     Require : /.+/,<br><br></div>
+
+<div><br><br>     Email :<br>/\^\w+([-+.]\w+)* \w+([-.]\w+)*\.\w+([-.]\w+)*\$/,<br><br></div>
+
+<div><br><br>     Phone :<br>/\^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,11}(\-\d{1,6})?\$/,<br><br></div>
+
+<div><br><br>     Mobile :<br>/\^(852\d{8})|(((\(\d{2,3}\))|(\d{3}\-))?((13\d{9})|(15\d{9})|(18\d{9})))\$/,<br><br></div>
+
+<div><br><br>     Url :<br>/\^(https|http):\/\/[A-Za-z0-9-]+\.[A-Za-z0-9-]+[\/=\?%\-&amp;_~` [\]\‘:+!]*([\^&lt;&gt;\“\“])*\$/,<br><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/GCD 深入理解（一）/#more">Read More</a>
+            <a href="/2016/03/30/Validator.js/#more">Read More</a>
           
        </p>
     </div>
@@ -368,7 +445,7 @@ style="font: 12.0px 'Helvetica Neue'; font-kerning: none; -webkit-text-stroke: 0
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/GCD 深入理解（一）/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/GCD 深入理解（一）/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Validator.js/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Validator.js/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -810,6 +887,10 @@ $ hexo server
 		
 		  
 			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>1</sup></a></li>
 		  
 		
 		  

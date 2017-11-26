@@ -312,6 +312,104 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <hr>
+<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
+<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>查看mysql运行状态：</p>
+<pre><code>service mysql start    
+</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
+<pre><code> [root@localhost download]# mysql
+ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
+[root@localhost download]# service mysql status
+MySQL is not running                                       [失败]
+[root@localhost download]# service mysql start
+Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
+[root@localhost download]# reboot
+</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
+<ol>
+<li>安装包与系统不兼容</li>
+<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
+</ol>
+<p>mysql在linux上的安装方法：</p>
+<ul>
+<li>yum 方式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">若系统有自带的mysql或libs，可选择先卸载再安装</div><div class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</div><div class="line"> rpm -e mysql                     //普通删除模式</div><div class="line"> rpm -e --nodeps mysql         // 强力删除模式</div><div class="line"> yum -y remove mysql-libs-*   //删除所有包</div><div class="line"> rpm -e --nodeps mysql</div><div class="line"></div><div class="line"> 安装</div><div class="line">//查看yum上提供的mysql数据库可下载的版本</div><div class="line"> yum list | grep mysql</div><div class="line"></div><div class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</div></pre></td></tr></table></figure>
+<ul>
+<li><p>通用安装</p>
+<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
+</code></pre></li>
+</ul>
+<ul>
+<li>npm包 安装 </li>
+</ul>
+<p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>安装完成后启动mysql:</p>
+<pre><code>service mysql start
+</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
+<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
+<pre><code># chkconfig --list mysql
+
+mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
+</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/30/saas概述/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
@@ -1664,85 +1762,6 @@ interva:(foat)theInterva*
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/04/安装服务器nodejs环境/" title="docker 换国内镜像" itemprop="url">docker 换国内镜像</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-04T14:28:51.000Z" itemprop="datePublished"> 发表于 2016-05-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="安装服务器nodejs环境"><a href="#安装服务器nodejs环境" class="headerlink" title="安装服务器nodejs环境"></a>安装服务器nodejs环境</h1><h2 id="一，下载"><a href="#一，下载" class="headerlink" title="一，下载"></a>一，下载</h2><pre><code>wget https://nodejs.org/dist/v4.4.3/node-v4.4.3.tar.gz
-</code></pre><h2 id="二，安装"><a href="#二，安装" class="headerlink" title="二，安装"></a>二，安装</h2><ol>
-<li><p>解压：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tar zxf node-v4.4.3.tar.gz </div><div class="line">cd node-v4.4.3</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol>
-<li><p>编译配置：</p>
-<pre><code>./configure     
-</code></pre></li>
-<li><p>开始编译源代码并安装</p>
-<pre><code>make
-</code></pre></li>
-<li><p>当编译完成后，我们需要使之在系统范围内可用, 编译后的二进制文件将被放置到系统路径，默认情况下，Node二进制文件应该放在/user/local/bin/node文件夹下:</p>
-<pre><code>make install
-</code></pre></li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/docker/">docker</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/docker-国内镜像/">docker 国内镜像</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/04/安装服务器nodejs环境/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/04/安装服务器nodejs环境/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/6/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/8/">Next<span></span></a>
@@ -1871,6 +1890,10 @@ interva:(foat)theInterva*
 		
 		  
 			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>1</sup></a></li>
 		  
 		
 		  
