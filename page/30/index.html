@@ -90,7 +90,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/" title="GCD（Grand Central Dispatch）和Block 使用-浅析" itemprop="url">GCD（Grand Central Dispatch）和Block 使用-浅析</a>
+      <a href="/2016/03/30/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/" title="iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD" itemprop="url">iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD</a>
   </h1>
   <p class="article-author">By
        
@@ -103,28 +103,31 @@
 </header>
     <div class="article-content">
         
-        <h1 id="GCD（Grand-Central-Dispatch）和Block-使用-浅析"><a href="#GCD（Grand-Central-Dispatch）和Block-使用-浅析" class="headerlink" title="GCD（Grand Central Dispatch）和Block 使用-浅析"></a>GCD（Grand Central Dispatch）和Block 使用-浅析</h1><p><span
-style="font: 18.0px Times; font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">GCD（Grand Central Dispatch）和Block 使用-浅析</span><br><span
-style="font: 10.0px Arial; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">(2013-03-27<br>21:25:59)</span><span
-style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br> <span
-style="font-kerning: none"><img src="GCD%EF%BC%88Grand%20Central%20Dispatch%EF%BC%89%E5%92%8CBlock%20%E4%BD%BF%E7%94%A8-%E6%B5%85%E6%9E%90.resources/FE882AC2-384F-4A0B-B6B8-C1035FBA0CCB.gif" alt="">\<br> 转载</span><span style="font: 7.0px Verdana; font-kerning: none">\<br> ▼\<br></span></span><span
-style="font: 12.0px Times; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">标签：</span><br><span
-style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><a href="http://search.sina.com.cn/?c=blog&amp;q=gcd&amp;by=tag"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">gcd</span></a><br><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">gcd浅析</span><br><a href="http://search.sina.com.cn/?c=blog&amp;q=ios&amp;by=tag"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">ios</span></a><br><a href="http://search.sina.com.cn/?c=blog&amp;q=block&amp;by=tag"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">block</span></a><br><a href="http://search.sina.com.cn/?c=blog&amp;q=xcode&amp;by=tag"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">xcode</span></a>\<br></span><span
-style="font: 12.0px Times; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">分类：</span><br><span
-style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><a href="http://blog.sina.com.cn/s/articlelist_2073912495_5_1.html"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">帮助文档</span></a>\<br></span><span
-style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">正文开始</span><span
-style="font: 14.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br>\</p>
+        <h1 id="iOS多线程编程技术之NSThread、Cocoa-NSOperation、GCD"><a href="#iOS多线程编程技术之NSThread、Cocoa-NSOperation、GCD" class="headerlink" title="iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD"></a>iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD</h1><p><span
+style="font: 24.0px 'Helvetica Neue'; font-kerning: none; color: #3a3a3a; background-color: #fafafa; -webkit-text-stroke: 0px #3a3a3a">iOS多线程编程技术之NSThread、Cocoa<br>NSOperation、GCD</span><span
+style="font: 24.0px 'Helvetica Neue'; font-kerning: none; color: #3a3a3a; -webkit-text-stroke: 0px #3a3a3a">\<br></span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #888888; background-color: #fafafa; -webkit-text-stroke: 0px #888888">2014-05-20<br>11:14 编辑： <a href="http://www.cocoachina.com/bbs/u.php?action=feed&amp;uid=304691"><span
+style="font-kerning: none; color: #3a3a3a; -webkit-text-stroke: 0px #3a3a3a">wupeng</span></a><br>分类：<a href="http://www.cocoachina.com/ios/"><span
+style="font-kerning: none; color: #3a3a3a; -webkit-text-stroke: 0px #3a3a3a">iOS开发</span></a><br>来源：CocoaChina</span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #888888; -webkit-text-stroke: 0px #888888">\<br></span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #888888; background-color: #fafafa; -webkit-text-stroke: 0px #888888">0<br>7139</span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #888888; -webkit-text-stroke: 0px #888888">\<br> <a href="http://www.cocoachina.com/cms/tags.php?/iOS/"><span
+style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">iOS</span></a><a href="http://www.cocoachina.com/cms/tags.php?/GCD/"><span
+style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">GCD</span></a><a href="http://www.cocoachina.com/cms/tags.php?/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/"><span
+style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">多线程编程</span></a><a href="http://www.cocoachina.com/cms/tags.php?/NSThread/"><span
+style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">NSThread</span></a><a href="http://www.cocoachina.com/cms/tags.php?/Cocoa+NSOperation/"><span
+style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">Cocoa<br>NSOperation</span></a>\<br></span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #010101; -webkit-text-stroke: 0px #010101">招聘信息：\<br></span> <span
+style="font: 12.0px 'Helvetica Neue'; color: #010101; -webkit-text-stroke: 0px #010101"><a href="http://www.cocoachina.com/bbs/read.php?tid=273970"><span
+style="font-kerning: none">精益求精，只为你的再次选择！－－上海盟曼iOS，andriod软件外包！</span></a></span><span
+style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #010101; -webkit-text-stroke: 0px #010101">\<br></span> <span
+style="font: 12.0px 'Helvetica Neue'; color: #010101; -webkit-text-stroke: 0px #010101"><a href="http://www.cocoachina.com/bbs/read.php?tid=273982"><span
+style="font-kerning: none">[北京] 外企 [Web Front-end/ Back-end<br>/Ios/Big data/数据挖掘/算法]<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/#more">Read More</a>
+            <a href="/2016/03/30/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/#more">Read More</a>
           
        </p>
     </div>
@@ -150,7 +153,7 @@ style="font: 14.0px Times; font-kerning: none; color: #323e32; -webkit-text-stro
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -357,7 +360,7 @@ style="color: rgb(0, 102, 153);">void</span></strong>)bringSubviewToFront:(UIVie
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/UIWebView详解/" title="UIWebView详解" itemprop="url">UIWebView详解</a>
+      <a href="/2016/03/30/UMSNSService_UMSNSLibrary.a for architecture armv7s/" title="UMSNSService_UMSNSLibrary.a for architecture armv7s" itemprop="url">UMSNSService_UMSNSLibrary.a for architecture armv7s</a>
   </h1>
   <p class="article-author">By
        
@@ -370,11 +373,23 @@ style="color: rgb(0, 102, 153);">void</span></strong>)bringSubviewToFront:(UIVie
 </header>
     <div class="article-content">
         
-        <h1 id="UIWebView详解"><a href="#UIWebView详解" class="headerlink" title="UIWebView详解"></a>UIWebView详解</h1><p><a href="http://www.cocoachina.com/wiki/index.php?title=UIWebView&amp;variant=zh-cn" target="_blank" rel="external">http://www.cocoachina.com/wiki/index.php?title=UIWebView&amp;variant=zh-cn</a> </p>
+        <h1 id="UMSNSService-UMSNSLibrary-a-for-architecture-armv7s"><a href="#UMSNSService-UMSNSLibrary-a-for-architecture-armv7s" class="headerlink" title="UMSNSService_UMSNSLibrary.a for architecture armv7s"></a>UMSNSService_UMSNSLibrary.a for architecture armv7s</h1><div><br><br>xcode在IOS Device 模式时 build 出现以下错误的解决方案：<br><br></div>
 
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="UMSNSService_UMSNSLibrary.a%20for%20architecture%20armv7s.resources/5AFA65CB-63CA-4EED-9537-C534EAA21F62.jpg" alt="">\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>Ld<br>/Users/huguiqi/Library/Developer/Xcode/DerivedData/JinJiang-cmufbfphgdusqodxjeerrckbzyip/Build/Intermediates/JinJiang.build/Distribution-iphoneos/JinJiang.build/Objects-normal/armv7s/JinJiang<br>normal armv7s<br><br></div>
+
+<pre><code>cd
+</code></pre>
         
         
         <p class="article-more-link">
+          
+            <a href="/2016/03/30/UMSNSService_UMSNSLibrary.a for architecture armv7s/#more">Read More</a>
           
        </p>
     </div>
@@ -400,7 +415,7 @@ style="color: rgb(0, 102, 153);">void</span></strong>)bringSubviewToFront:(UIVie
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/UIWebView详解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIWebView详解/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/UMSNSService_UMSNSLibrary.a for architecture armv7s/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UMSNSService_UMSNSLibrary.a for architecture armv7s/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -637,70 +652,6 @@ style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 3
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)" itemprop="url">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题"><a href="#让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题" class="headerlink" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)"></a>让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</h1><div style="HEIGHT: auto !important"><br><br>+————————————————————————–+<br>| <div style="POSITION: relative; HEIGHT: 100%; OVERFLOW: hidden">         |<br>|                                                                          |<br>| <div style="FONT-SIZE: 14px">                                            |<br>|                                                                          |<br>| 如果你用maven编译项目，而且在项目中用了SUN的专用API，你会得到警告信息，然后Maven会报告编译失败，像这个样子： |<br>|                                                                          |<br>|                                                                          |<br>| &gt; …\                                                                     |<br>| &gt;  [ERROR]                                                             |<br>| &gt; \workspaces\mvn\javac-warning-test\src\main\java\com\juvenxu\ |<br>| TestJavacWarning.java:[7,32]                                           |<br>| &gt; 警告：sun.misc.BASE64Decoder 是 Sun 的专用\                            |<br>| &gt;  API，可能会在未来版本中删除\                                          |<br>| &gt;  [INFO] ————————————————————-\                                       |<br>| &gt;  [INFO] BUILD FAILURE                                                |<br>|                                                                          |<br>| 这当然是不合理的，javac只是警告而已，maven凭什么就直接报失败呢？         |<br>|                                                                          |<br>| 其实最好的解决办法是避免用到这些SUN专用的API,这些API都有现成的替代品，不过本文要讨论的不是这个，如果你用了某个依赖，该依赖用了SUN专 |<br>| 用API，你往往会束手无策。                                                |<br>|                                                                          |<br>| 第一反应是Maven肯定可以提供一些配置点，允许我们忽略这种警告，嗯，当初我也是这么想的，一次培训的时候，一同学问到这个问题，我想当然的回答，“ |<br>| 这个配置javac忽略警告就可以啦，不是Maven的问题”，我自己根本没有试过，这么不负责任的回答我现在想想都脸红。后来和 |<br>|                                                                          |<br>| <a href="http://www.intellij.org.cn/blog/">linux_china</a>                         |<br>| 又讨论到这个问题，然后我动手尝试了下，折腾了几乎所有maven-compiler-plugin的配置，到最后竟然是无解！（其实也不算完全无解，至 |<br>| 少我们可以配置maven-compiler-plugin忽略编译错误，不过这个解决办法连我自己都觉得太恶心） |<br>|                                                                          |<br>|                                                                          |<br>| 无解归无解，至少我找到了<a href="http://jira.codehaus.org/browse/MCOMPILER-109">这个问题的根本原因</a>，其 |<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/3月份面试题po出/" title="三月份的面试题目" itemprop="url">三月份的面试题目</a>
   </h1>
   <p class="article-author">By
@@ -752,6 +703,70 @@ style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 3
 	
 	  	<span></span>
 		<a href="/2016/03/30/3月份面试题po出/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/3月份面试题po出/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)" itemprop="url">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题"><a href="#让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题" class="headerlink" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)"></a>让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</h1><div style="HEIGHT: auto !important"><br><br>+————————————————————————–+<br>| <div style="POSITION: relative; HEIGHT: 100%; OVERFLOW: hidden">         |<br>|                                                                          |<br>| <div style="FONT-SIZE: 14px">                                            |<br>|                                                                          |<br>| 如果你用maven编译项目，而且在项目中用了SUN的专用API，你会得到警告信息，然后Maven会报告编译失败，像这个样子： |<br>|                                                                          |<br>|                                                                          |<br>| &gt; …\                                                                     |<br>| &gt;  [ERROR]                                                             |<br>| &gt; \workspaces\mvn\javac-warning-test\src\main\java\com\juvenxu\ |<br>| TestJavacWarning.java:[7,32]                                           |<br>| &gt; 警告：sun.misc.BASE64Decoder 是 Sun 的专用\                            |<br>| &gt;  API，可能会在未来版本中删除\                                          |<br>| &gt;  [INFO] ————————————————————-\                                       |<br>| &gt;  [INFO] BUILD FAILURE                                                |<br>|                                                                          |<br>| 这当然是不合理的，javac只是警告而已，maven凭什么就直接报失败呢？         |<br>|                                                                          |<br>| 其实最好的解决办法是避免用到这些SUN专用的API,这些API都有现成的替代品，不过本文要讨论的不是这个，如果你用了某个依赖，该依赖用了SUN专 |<br>| 用API，你往往会束手无策。                                                |<br>|                                                                          |<br>| 第一反应是Maven肯定可以提供一些配置点，允许我们忽略这种警告，嗯，当初我也是这么想的，一次培训的时候，一同学问到这个问题，我想当然的回答，“ |<br>| 这个配置javac忽略警告就可以啦，不是Maven的问题”，我自己根本没有试过，这么不负责任的回答我现在想想都脸红。后来和 |<br>|                                                                          |<br>| <a href="http://www.intellij.org.cn/blog/">linux_china</a>                         |<br>| 又讨论到这个问题，然后我动手尝试了下，折腾了几乎所有maven-compiler-plugin的配置，到最后竟然是无解！（其实也不算完全无解，至 |<br>| 少我们可以配置maven-compiler-plugin忽略编译错误，不过这个解决办法连我自己都觉得太恶心） |<br>|                                                                          |<br>|                                                                          |<br>| 无解归无解，至少我找到了<a href="http://jira.codehaus.org/browse/MCOMPILER-109">这个问题的根本原因</a>，其 |<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1040,15 +1055,15 @@ style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 3
 			
 		
 			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
