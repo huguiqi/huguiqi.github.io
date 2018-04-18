@@ -113,7 +113,7 @@
 		
 		<h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a href="#docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" title="docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
 <p>情况是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[root@localhost ~]# docker ps -a</div><div class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</div><div class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</div><div class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</div><div class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</div><div class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</div><div class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</div><div class="line">[root@localhost ~]# docker start 782</div><div class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</div><div class="line"> (exit status 1)</div><div class="line">Error: failed to start containers: [782]</div><div class="line">[root@localhost ~]# docker rm 782</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</span><br><span class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</span><br><span class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</span><br><span class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</span><br><span class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</span><br><span class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</span><br><span class="line">[root@localhost ~]# docker start 782</span><br><span class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</span><br><span class="line"> (exit status 1)</span><br><span class="line">Error: failed to start containers: [782]</span><br><span class="line">[root@localhost ~]# docker rm 782</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>从昨天晚上到今天中午，各种折腾，因为有原来的很多数据，怕丢，所以一直在尝试启动。</p>
 <p>网上有说最简单的方式是把docker彻底卸载，重新安装，我是懒人，所以就这么干了：</p>
@@ -124,7 +124,7 @@
 
 （3）rm -rf /var/lib/docker
 </code></pre><p>重新安装：</p>
-<p>参考官方文档：<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="external">安装docker</a></p>
+<p>参考官方文档：<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="noopener">安装docker</a></p>
 <pre><code>curl -fsSL https://get.docker.com/ | sh
 </code></pre><ul>
 <li><p>如果已经下载过，重装docker的话：</p>
@@ -185,18 +185,18 @@ fatal: index-pack failed
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能">
+ <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" title="《西游记》里有哪些不易发现却很打动人的小细节？">
   <strong>上一篇：</strong><br/>
   <span>
-  根据apple官方3D touch的例子写个3D Touch功能</span>
+  《西游记》里有哪些不易发现却很打动人的小细节？</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/06/13/如何添加brewcask没有的软件/"  title="如何添加brewcask没有的软件">
+<a href="/2016/06/13/oh_my_zsh安装出现的问题/"  title="oh my zsh安装出现的问题">
  <strong>下一篇：</strong><br/> 
- <span>如何添加brewcask没有的软件
+ <span>oh my zsh安装出现的问题
 </span>
 </a>
 </div>

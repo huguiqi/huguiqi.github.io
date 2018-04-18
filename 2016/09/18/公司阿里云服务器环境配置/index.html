@@ -154,10 +154,10 @@ df -h
 </code></pre><a id="more"></a>
 <h1 id="查看系统默认字符编码集"><a href="#查看系统默认字符编码集" class="headerlink" title="查看系统默认字符编码集"></a>查看系统默认字符编码集</h1><pre><code>echo $LANG     
 </code></pre><h1 id="安装nodejs4-4-3"><a href="#安装nodejs4-4-3" class="headerlink" title="安装nodejs4.4.3"></a>安装nodejs4.4.3</h1><p>下载nodejs源码安装</p>
-<p>node.js 的 GitHub 地址是：<a href="https://github.com/nodejs/node" target="_blank" rel="external">https://github.com/nodejs/node</a></p>
-<p>官网源码包下载地址时：<a href="https://nodejs.org/en/download/" target="_blank" rel="external">https://nodejs.org/en/download/</a></p>
+<p>node.js 的 GitHub 地址是：<a href="https://github.com/nodejs/node" target="_blank" rel="noopener">https://github.com/nodejs/node</a></p>
+<p>官网源码包下载地址时：<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
 <p>① 获取并编译源码（已经安装了 git）</p>
-<p>git clone <a href="https://github.com/nodejs/node.git" target="_blank" rel="external">https://github.com/nodejs/node.git</a><br>cd node<br>git checkout</p>
+<p>git clone <a href="https://github.com/nodejs/node.git" target="_blank" rel="noopener">https://github.com/nodejs/node.git</a><br>cd node<br>git checkout</p>
 <p>编译：</p>
 <p>./configure<br>在编译的时候出错了：</p>
 <pre><code>提示:WARNING: C++ compiler too old, need g++ 4.8 or clang++ 3.4 (CXX=g++)
@@ -181,7 +181,7 @@ df -h
 <li>回到node目录，执行<code>make test</code></li>
 </ul>
 <p>报以下错误：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">./deps/v8/src/base/platform/mutex.h: At global scope:</div><div class="line">../deps/v8/src/base/platform/mutex.h:36: error: variable ‘v8::base::Mutex v8::base::final’ has initializer but incomplete type</div><div class="line">../deps/v8/src/base/platform/mutex.h:37: error: expected primary-expression before ‘public’</div><div class="line">../deps/v8/src/base/platform/mutex.h:37: error: expected ‘&#125;’ before ‘public’</div><div class="line">../deps/v8/src/base/platform/mutex.h:37: error: expected ‘,’ or ‘;’ before ‘public’</div><div class="line">../deps/v8/src/base/platform/mutex.h:39: error: expected constructor, destructor, or type conversion before ‘;’ token</div><div class="line">../deps/v8/src/base/platform/mutex.h: In function ‘v8::base::NativeHandle&amp; v8::base::native_handle()’:</div><div class="line">../deps/v8/src/base/platform/mutex.h:63: error: ‘native_handle_’ was not declared in this scope</div><div class="line">../deps/v8/src/base/platform/mutex.h: At global scope:</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">./deps/v8/src/base/platform/mutex.h: At global scope:</span><br><span class="line">../deps/v8/src/base/platform/mutex.h:36: error: variable ‘v8::base::Mutex v8::base::final’ has initializer but incomplete type</span><br><span class="line">../deps/v8/src/base/platform/mutex.h:37: error: expected primary-expression before ‘public’</span><br><span class="line">../deps/v8/src/base/platform/mutex.h:37: error: expected ‘&#125;’ before ‘public’</span><br><span class="line">../deps/v8/src/base/platform/mutex.h:37: error: expected ‘,’ or ‘;’ before ‘public’</span><br><span class="line">../deps/v8/src/base/platform/mutex.h:39: error: expected constructor, destructor, or type conversion before ‘;’ token</span><br><span class="line">../deps/v8/src/base/platform/mutex.h: In function ‘v8::base::NativeHandle&amp; v8::base::native_handle()’:</span><br><span class="line">../deps/v8/src/base/platform/mutex.h:63: error: ‘native_handle_’ was not declared in this scope</span><br><span class="line">../deps/v8/src/base/platform/mutex.h: At global scope:</span><br></pre></td></tr></table></figure>
 <p>解决方案：</p>
 <p>查看 GLIBCXX 版本：</p>
 <pre><code>strings /usr/lib64/libstdc++.so.6 | grep GLIBCX

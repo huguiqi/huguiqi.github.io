@@ -127,7 +127,7 @@
 <li><p><em>这个环境只有安装在一个虚似机上：virtualBox</em></p>
 </li>
 </ul>
-<p>boot2docker代码托管在github上，地址为：<br><a href="https://github.com/boot2docker/boot2docker" target="_blank" rel="external">https://github.com/boot2docker/boot2docker</a></p>
+<p>boot2docker代码托管在github上，地址为：<br><a href="https://github.com/boot2docker/boot2docker" target="_blank" rel="noopener">https://github.com/boot2docker/boot2docker</a></p>
 <p><code>安装请参考github上介绍</code></p>
 <h3 id="三-怎么用？"><a href="#三-怎么用？" class="headerlink" title="三.怎么用？"></a>三.怎么用？</h3><h3 id="1-启动docker"><a href="#1-启动docker" class="headerlink" title="1. 启动docker"></a>1. 启动docker</h3><ol>
 <li>打开命令行，输入：boot2docker start</li>
@@ -142,7 +142,7 @@
 <li>安装一个wget:yun install -y wget</li>
 <li>安装一个mysql,先检查：yum list | grep mysql</li>
 <li>安装(需要安装server版，这样才能设置开机启动)：yun install -y mysql-server.x86_64 </li>
-<li>安装nginx:<a href="http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm" target="_blank" rel="external">http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm</a></li>
+<li>安装nginx:<a href="http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm" target="_blank" rel="noopener">http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm</a></li>
 <li>安装node:&lt;&gt;</li>
 <li>安装ifconfig</li>
 </ol>
@@ -155,25 +155,25 @@
 </code></pre></li>
 </ol>
 <h3 id="四-什么是镜像？"><a href="#四-什么是镜像？" class="headerlink" title="四.什么是镜像？"></a>四.什么是镜像？</h3><p>镜像相当于打包好的容器，这个容器里有你的应用程序所需要的环境，docker中如果有需要用哪个服务，直接docker pull 镜像名就可以拿来用了</p>
-<h3 id="如何将hexo博客作为镜像部署到daocloud上"><a href="#如何将hexo博客作为镜像部署到daocloud上" class="headerlink" title="如何将hexo博客作为镜像部署到daocloud上"></a>如何将hexo博客作为镜像部署到daocloud上</h3><p>因为国内的GWT的原因，<a href="https://hub.docker.com" target="_blank" rel="external">https://hub.docker.com</a>访问实在太慢，我选择了使用国内的daocloud来部署我的镜像。</p>
+<h3 id="如何将hexo博客作为镜像部署到daocloud上"><a href="#如何将hexo博客作为镜像部署到daocloud上" class="headerlink" title="如何将hexo博客作为镜像部署到daocloud上"></a>如何将hexo博客作为镜像部署到daocloud上</h3><p>因为国内的GWT的原因，<a href="https://hub.docker.com" target="_blank" rel="noopener">https://hub.docker.com</a>访问实在太慢，我选择了使用国内的daocloud来部署我的镜像。</p>
 <p>准备好dockerfile:</p>
 <pre><code>touch dockerfile 或者 vi dockerfile都可以
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"># The FROM instruction sets the Base Image for subsequent instructions.</div><div class="line"># Using Nginx as Base Image</div><div class="line">FROM node:4.2.2</div><div class="line"></div><div class="line"></div><div class="line">RUN \</div><div class="line">  mkdir -p /usr/src/app/blog &amp;&amp; cd /usr/src/app/blog &amp;&amp; \</div><div class="line">  # install hexo</div><div class="line">  npm install hexo-cli -g &amp;&amp; \</div><div class="line">  hexo init &amp;&amp; npm install &amp;&amp; \</div><div class="line">  # install plugins for hexo</div><div class="line">  npm install hexo-generator-sitemap --save &amp;&amp; \</div><div class="line">  npm install hexo-generator-baidu-sitemap --save</div><div class="line"> </div><div class="line">COPY . /usr/src/app/blog</div><div class="line"></div><div class="line">VOLUME [&quot;/usr/src/app/blog/source&quot;]</div><div class="line">VOLUME [&quot;/usr/src/app/blog/themes&quot;]</div><div class="line"></div><div class="line">WORKDIR /usr/src/app/blog/</div><div class="line"></div><div class="line"># The EXPOSE instruction informs Docker that the container listens on the specified network ports at runtime</div><div class="line">EXPOSE 80</div></pre></td></tr></table></figure>
-<p>具体语法请看这里：<a href="https://docs.docker.com/engine/examples/nodejs_web_app/" target="_blank" rel="external">dockerfile语法</a></p>
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># The FROM instruction sets the Base Image for subsequent instructions.</span><br><span class="line"># Using Nginx as Base Image</span><br><span class="line">FROM node:4.2.2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">RUN \</span><br><span class="line">  mkdir -p /usr/src/app/blog &amp;&amp; cd /usr/src/app/blog &amp;&amp; \</span><br><span class="line">  # install hexo</span><br><span class="line">  npm install hexo-cli -g &amp;&amp; \</span><br><span class="line">  hexo init &amp;&amp; npm install &amp;&amp; \</span><br><span class="line">  # install plugins for hexo</span><br><span class="line">  npm install hexo-generator-sitemap --save &amp;&amp; \</span><br><span class="line">  npm install hexo-generator-baidu-sitemap --save</span><br><span class="line"> </span><br><span class="line">COPY . /usr/src/app/blog</span><br><span class="line"></span><br><span class="line">VOLUME [&quot;/usr/src/app/blog/source&quot;]</span><br><span class="line">VOLUME [&quot;/usr/src/app/blog/themes&quot;]</span><br><span class="line"></span><br><span class="line">WORKDIR /usr/src/app/blog/</span><br><span class="line"></span><br><span class="line"># The EXPOSE instruction informs Docker that the container listens on the specified network ports at runtime</span><br><span class="line">EXPOSE 80</span><br></pre></td></tr></table></figure>
+<p>具体语法请看这里：<a href="https://docs.docker.com/engine/examples/nodejs_web_app/" target="_blank" rel="noopener">dockerfile语法</a></p>
 <h4 id="构建代码生成镜像"><a href="#构建代码生成镜像" class="headerlink" title="构建代码生成镜像"></a>构建代码生成镜像</h4><p>由于我是用github帐号登陆的，所以daocloud可以直接获取我的代码：</p>
 <p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/AB9680CF-AF2D-42FF-BB71-948C9C26B032.png" alt="image"></p>
 <h4 id="部署博客"><a href="#部署博客" class="headerlink" title="部署博客"></a>部署博客</h4><p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/247FB92A-0994-4E84-A23F-9EB4AD586F77.png" alt="image"></p>
 <p>点击部署，部署完了以后可以设置自有域名，如果你没有域名，就直接域名daocloud提供的默认域名</p>
 <p><strong>参考学习:</strong><br><br></p>
 <ol>
-<li><a href="http://www.linuxidc.com/Linux/2015-02/113623.htm" target="_blank" rel="external">制作nginx+tomcat镜像</a><br><br></li>
-<li><a href="https://cnodejs.org/topic/53f494d9bbdaa79d519c9a4a" target="_blank" rel="external">docker快递部署nodejs</a><br><br></li>
-<li><a href="http://www.infoq.com/cn/articles/docker-core-technology-preview?utm_source=infoq&amp;utm_medium=related_content_link&amp;utm_campaign=relatedContent_articles_clk" target="_blank" rel="external">docker核心技术预览</a><br><br><ol>
-<li><a href="https://docs.docker.com/engine/reference" target="_blank" rel="external">docker官方api文档</a><br><br></li>
-<li><a href="http://www.infoq.com/cn/articles/docker-source-code-analysis-part1/" target="_blank" rel="external">docker源码分析</a><br><br></li>
-<li><a href="http://www.ibm.com/developerworks/cn/linux/1506_cgroup/index.html" target="_blank" rel="external">CGroup 介绍、应用实例及原理描述</a><br><br></li>
-<li><a href="http://www.csdn.net/article/2015-08-21/2825511" target="_blank" rel="external">深入分析Docker镜像原理</a><br><br></li>
-<li><a href="http://www.cnblogs.com/ishell/p/4194280.html" target="_blank" rel="external">Node.js连接MySQL数据库及构造JSON的正确姿势</a></li>
+<li><a href="http://www.linuxidc.com/Linux/2015-02/113623.htm" target="_blank" rel="noopener">制作nginx+tomcat镜像</a><br><br></li>
+<li><a href="https://cnodejs.org/topic/53f494d9bbdaa79d519c9a4a" target="_blank" rel="noopener">docker快递部署nodejs</a><br><br></li>
+<li><a href="http://www.infoq.com/cn/articles/docker-core-technology-preview?utm_source=infoq&amp;utm_medium=related_content_link&amp;utm_campaign=relatedContent_articles_clk" target="_blank" rel="noopener">docker核心技术预览</a><br><br><ol>
+<li><a href="https://docs.docker.com/engine/reference" target="_blank" rel="noopener">docker官方api文档</a><br><br></li>
+<li><a href="http://www.infoq.com/cn/articles/docker-source-code-analysis-part1/" target="_blank" rel="noopener">docker源码分析</a><br><br></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/1506_cgroup/index.html" target="_blank" rel="noopener">CGroup 介绍、应用实例及原理描述</a><br><br></li>
+<li><a href="http://www.csdn.net/article/2015-08-21/2825511" target="_blank" rel="noopener">深入分析Docker镜像原理</a><br><br></li>
+<li><a href="http://www.cnblogs.com/ishell/p/4194280.html" target="_blank" rel="noopener">Node.js连接MySQL数据库及构造JSON的正确姿势</a></li>
 </ol>
 </li>
 </ol>

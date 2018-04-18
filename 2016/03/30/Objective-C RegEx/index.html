@@ -111,7 +111,7 @@
 		
 		</div>
 		
-		<h1 id="Objective-C-RegEx"><a href="#Objective-C-RegEx" class="headerlink" title="Objective-C RegEx"></a>Objective-C RegEx</h1><p><span style="font: 13.0px Verdana">Objective-C RegEx Categories\<br> <a href="https://github.com/bendytree/Objective-C-RegEx-Categories" target="_blank" rel="external"><span style="color: #1d58d1">https://github.com/bendytree/Objective-C-RegEx-Categories</span></a>\<br> 使用说明:将 RegExCategories.h RegExCategories.m<br>文件拖入工程中引入头文件即可.\<br>  \</span></p>
+		<h1 id="Objective-C-RegEx"><a href="#Objective-C-RegEx" class="headerlink" title="Objective-C RegEx"></a>Objective-C RegEx</h1><p><span style="font: 13.0px Verdana">Objective-C RegEx Categories\<br> <a href="https://github.com/bendytree/Objective-C-RegEx-Categories" target="_blank" rel="noopener"><span style="color: #1d58d1">https://github.com/bendytree/Objective-C-RegEx-Categories</span></a>\<br> 使用说明:将 RegExCategories.h RegExCategories.m<br>文件拖入工程中引入头文件即可.\<br>  \</span></p>
 <p>==========================================================================\<br>     //<span style="font: 13.0px Verdana; color: #0433ff">匹配电话号码</span><span style="font: 13.0px Verdana">(手机号以13， 15，18开头，八个 \d<br>数字字符)\<br>     BOOL isMatch = [ “15910514636” isMatch:RX( “</span><span style="font: 13.0px Verdana; color: #ff2500">\^((13[0-9])|(15[\^4,\\D])|(18[0,0-9]))\\d{8}\$</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">匹配邮箱</span><span style="font: 13.0px Verdana">\<br>     BOOL isMatch = [ “<705786230 qq.com="">“ isMatch:RX( “</705786230></span><span style="font: 13.0px Verdana; color: #ff2500">[A-Z0-9a-z._%+-]+ [A-Za-z0-9.-]+\\.[A-Za-z]{2,4}</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>    \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">匹配用户名</span><span style="font: 13.0px Verdana">(用户名长度为6-20位之间,大小写字母或者数字均可)\<br>     BOOL isMatch = [ “705786230” isMatch:RX( “</span><span style="font: 13.0px Verdana; color: #ff2500">\^[A-Za-z0-9]{6,20}+\$</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br><a id="more"></a><br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">匹配身份证号</span><span style="font: 13.0px Verdana">\<br>     BOOL isMatch = [ “42120919831025587X” isMatch:RX( “</span><span style="font: 13.0px Verdana; color: #ff2500">\^(\\d{14}|\\d{17})(\\d|[xX])\$</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\</span></p>
 <p>==========================================================================\<br>  \<br>     //<span style="font: 13.0px Verdana; color: #0433ff">创建一个正则表达式</span><span style="font: 13.0px Verdana">\<br>     Rx* rx = RX( “\\d”);\<br>     Rx* rx = [Rx rx: “\\d”];\<br>     Rx* rx = [Rx rx: “\\d” ignoreCase:YES];\<br>     \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">判断字符串是否匹配</span><span style="font: 13.0px Verdana">\<br>     BOOL isMatch = [ “2345” isMatch:RX( “\^\\d+\$”)];\<br>     \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">获取匹配的字符串</span><span style="font: 13.0px Verdana">\<br>     NSString* age = [ “My dog is 3.” firstMatch:RX( “\\d+”)];\<br>     \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">获取匹配的结果存储进数组</span><span style="font: 13.0px Verdana">\<br>     NSArray* words = [ “Hey pal” match:RX( “\\w+”)];\<br>     // words =&gt;  [  “Hey”,  “pal” ]\<br>     \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">能获取详细信息的匹配</span><span style="font: 13.0px Verdana">\<br>     RxMatch* match = [ “12.34, 56.78”<br>firstMatchWithDetails:RX( “\\d+([.]\\d+)”)];\<br>     // match.value =&gt;  “12.34”\<br>     // match.range =&gt; NSRangeMake(0, 5);\<br>     // match.original =&gt;  “12.34, 56.78”;\<br>     // match.groups =&gt;  [ RxMatchGroup, RxMatchGroup ];\<br>     \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">使用模板来替换匹配的字符串</span><span style="font: 13.0px Verdana">\<br>     NSString* result = [ “My dog is 12.” replace:RX( “\\d+”)<br>with: “old”];\<br>     // result =&gt;  “My dog is old.”\<br>     \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">使用block来替换</span><span style="font: 13.0px Verdana">\<br>     NSString* result = [RX( “\\w+”) replace: “hi bud”<br>withBlock:\^(NSString* match){\<br>         return [NSString stringWithFormat: “%i”, match.length];\<br>     }];\<br>     // result =&gt;  “2 3”\<br>     \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">获取详细匹配信息的block方式</span><span style="font: 13.0px Verdana">\<br>     NSString* result = [RX( “\\w+”) replace: “hi bud”<br>withDetailsBlock:\^(RxMatch* match){\<br>         return [NSString stringWithFormat: “%i”,<br>match.value.length];\<br>     }];\<br>     // result =&gt;  “2 3”\</span></p>
 <p>==========================================================================\</p>
@@ -152,18 +152,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/Objective-C –反射篇/" title="Objective-C –反射篇">
+ <a href="/2016/03/30/判断ios系统版本号的代码/" title="判断ios系统版本号的代码">
   <strong>上一篇：</strong><br/>
   <span>
-  Objective-C –反射篇</span>
+  判断ios系统版本号的代码</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/Object-C内存管理口诀/"  title="Object-C内存管理口诀">
+<a href="/2016/03/30/加菲猫生活歪理/"  title="加菲猫生活歪理">
  <strong>下一篇：</strong><br/> 
- <span>Object-C内存管理口诀
+ <span>加菲猫生活歪理
 </span>
 </a>
 </div>

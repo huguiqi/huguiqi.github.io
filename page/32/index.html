@@ -92,7 +92,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/" title="GCD（Grand Central Dispatch）和Block 使用-浅析" itemprop="url">GCD（Grand Central Dispatch）和Block 使用-浅析</a>
+      <a href="/2016/03/30/GCD 深入理解（二）/" title="GCD 深入理解（二）" itemprop="url">GCD 深入理解（二）</a>
   </h1>
   <p class="article-author">By
        
@@ -105,28 +105,12 @@
 </header>
     <div class="article-content">
         
-        <h1 id="GCD（Grand-Central-Dispatch）和Block-使用-浅析"><a href="#GCD（Grand-Central-Dispatch）和Block-使用-浅析" class="headerlink" title="GCD（Grand Central Dispatch）和Block 使用-浅析"></a>GCD（Grand Central Dispatch）和Block 使用-浅析</h1><p><span
-style="font: 18.0px Times; font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">GCD（Grand Central Dispatch）和Block 使用-浅析</span><br><span
-style="font: 10.0px Arial; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">(2013-03-27<br>21:25:59)</span><span
-style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br> <span
-style="font-kerning: none"><img src="GCD%EF%BC%88Grand%20Central%20Dispatch%EF%BC%89%E5%92%8CBlock%20%E4%BD%BF%E7%94%A8-%E6%B5%85%E6%9E%90.resources/FE882AC2-384F-4A0B-B6B8-C1035FBA0CCB.gif" alt="">\<br> 转载</span><span style="font: 7.0px Verdana; font-kerning: none">\<br> ▼\<br></span></span><span
-style="font: 12.0px Times; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">标签：</span><br><span
-style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><a href="http://search.sina.com.cn/?c=blog&amp;q=gcd&amp;by=tag"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">gcd</span></a><br><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">gcd浅析</span><br><a href="http://search.sina.com.cn/?c=blog&amp;q=ios&amp;by=tag"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">ios</span></a><br><a href="http://search.sina.com.cn/?c=blog&amp;q=block&amp;by=tag"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">block</span></a><br><a href="http://search.sina.com.cn/?c=blog&amp;q=xcode&amp;by=tag"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">xcode</span></a>\<br></span><span
-style="font: 12.0px Times; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">分类：</span><br><span
-style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><a href="http://blog.sina.com.cn/s/articlelist_2073912495_5_1.html"><span
-style="font-kerning: none; color: #006b77; -webkit-text-stroke: 0px #006b77">帮助文档</span></a>\<br></span><span
-style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">正文开始</span><span
-style="font: 14.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br>\</p>
+        <h1 id="GCD-深入理解（二）"><a href="#GCD-深入理解（二）" class="headerlink" title="GCD 深入理解（二）"></a>GCD 深入理解（二）</h1><p><span style="font: 26.0px 'Helvetica Neue'; font-kerning: none; color: #1d1d1d; background-color: #f6f6f6; -webkit-text-stroke: 0px #1d1d1d">GCD<br>深入理解（二）</span><span style="font: 26.0px 'Helvetica Neue'; font-kerning: none; color: #1d1d1d; -webkit-text-stroke: 0px #1d1d1d">\<br></span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #666666; background-color: #f6f6f6; -webkit-text-stroke: 0px #666666">发布于：2014-05-15<br>13:05阅读数：5291</span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; background-color: #f0f0f0; -webkit-text-stroke: 0px #323333">在本系列的第一部分中，你已经学到超过你想像的关于并发、线程以及GCD<br>如何工作的知识。通过在初始化时利用<br>dispatch_once，你创建了一个线程安全的 PhotoManager 单例，而且你通过使用<br>dispatch</span><span style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br></span><span style="font: 60.0px Times; font-kerning: none; color: #666666; background-color: #f0f0f0; -webkit-text-stroke: 0px #666666">“</span><span style="font: 60.0px Times; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span style="font: 60.0px Times; font-kerning: none; color: #666666; background-color: #f0f0f0; -webkit-text-stroke: 0px #666666">”</span><span style="font: 60.0px Times; font-kerning: none; color: #666666; -webkit-text-stroke: 0px #666666">\<br></span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #042eee; -webkit-text-stroke: 0px #042eee">\<br>\<br> <span style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #cccccc; background-color: #f6f6f6; -webkit-text-stroke: 0px #cccccc">阅读器</span></span><span style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #cccccc; background-color: #f6f6f6; -webkit-text-stroke: 0px #cccccc">\<br> <a href="http://www.cocoachina.com/cms/tags.php?/GCD/" target="_blank" rel="noopener"><span style="font-kerning: none; color: #ffffff; background-color: #ed9c69; -webkit-text-stroke: 0px #ffffff">GCD</span></a></span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><img src="GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png" alt="">\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/#more">Read More</a>
+            <a href="/2016/03/30/GCD 深入理解（二）/#more">Read More</a>
           
        </p>
     </div>
@@ -152,7 +136,7 @@ style="font: 14.0px Times; font-kerning: none; color: #323e32; -webkit-text-stro
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/GCD 深入理解（二）/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/GCD 深入理解（二）/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -172,7 +156,7 @@ style="font: 14.0px Times; font-kerning: none; color: #323e32; -webkit-text-stro
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/mysql相关命令行/" title="mysql相关命令行" itemprop="url">mysql相关命令行</a>
+      <a href="/2016/03/30/maven3常用命令笔记/" title="maven3常用命令笔记" itemprop="url">maven3常用命令笔记</a>
   </h1>
   <p class="article-author">By
        
@@ -185,24 +169,20 @@ style="font: 14.0px Times; font-kerning: none; color: #323e32; -webkit-text-stro
 </header>
     <div class="article-content">
         
-        <h1 id="mysql相关命令行"><a href="#mysql相关命令行" class="headerlink" title="mysql相关命令行"></a>mysql相关命令行</h1><div><br><br><strong><span
-style="font-family: Tahoma, Helvetica, Arial, 宋体, sans-serif;">服务器上查看mysql的版本</span></strong><br><br></div>
+        <h1 id="maven3常用命令笔记"><a href="#maven3常用命令笔记" class="headerlink" title="maven3常用命令笔记"></a>maven3常用命令笔记</h1><div><br><br>\<br><br></div>
 
-<div><br><br><strong>#4 \$ mysql –help | grep Distrib</strong><span
-style="color: rgb(0, 0, 0); font-family: Tahoma, Helvetica, Arial, 宋体, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 252, 255); float: none;"> </span><br><br></div>
+<div><br><br>//安装本地的jar到maven本地仓库\<br> mvn install:install-file -Dfile=jaxb-impl-2.1.9.jar<br>-DgroupId=com.sun.xml.bind -DartifactId=jaxb-impl<br>-Dversion=2.1.9 -Dpackaging=jar<br><br></div>
 
-<div><br><br><span style="font-family: Tahoma, Helvetica, Arial, 宋体, sans-serif;">\<br></span><br><br></div>
+<div><br><br>\<br><br></div>
 
-<div><br><br>进入mysql命令行<br><br></div>
+<div><br><br>//maven通过命令行指定端口：\<br> mvn -Djetty.port=9999 jetty:run<br><br></div>
 
-<div><br><br><span
-style="font-family: arial, 'courier new', courier, 宋体, monospace;"><span
-style="color: rgb(51, 51, 51);">格式： mysql -h主机地址 -u用户名<br>－p用户密码</span></span><br>
+<div><br><br>\<br><br></div><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/mysql相关命令行/#more">Read More</a>
+            <a href="/2016/03/30/maven3常用命令笔记/#more">Read More</a>
           
        </p>
     </div>
@@ -228,7 +208,7 @@ style="color: rgb(51, 51, 51);">格式： mysql -h主机地址 -u用户名<br>�
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/mysql相关命令行/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/mysql相关命令行/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/maven3常用命令笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/maven3常用命令笔记/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -263,8 +243,8 @@ style="color: rgb(51, 51, 51);">格式： mysql -h主机地址 -u用户名<br>�
         
         <h1 id="通过github-pages建立自己的博客"><a href="#通过github-pages建立自己的博客" class="headerlink" title="通过github pages建立自己的博客"></a>通过github pages建立自己的博客</h1><h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><p>废话不多说，本人参考了以下博客:  </p>
 <ol>
-<li><a href="http://blog.fens.me/hexo-blog-github/">Hexo在github上构建免费的Web应用</a></li>
-<li><a href="http://wsgzao.github.io/post/hexo-jacman">Jacman基于Pacman修改的Hexo主题</a></li>
+<li><a href="http://blog.fens.me/hexo-blog-github/" target="_blank" rel="noopener">Hexo在github上构建免费的Web应用</a></li>
+<li><a href="http://wsgzao.github.io/post/hexo-jacman" target="_blank" rel="noopener">Jacman基于Pacman修改的Hexo主题</a></li>
 </ol>
 <p>不过在做那些操作时，你的电脑需要这些环境：</p>
 <ol>
@@ -274,7 +254,7 @@ style="color: rgb(51, 51, 51);">格式： mysql -h主机地址 -u用户名<br>�
 <p> brew install nodejs</p>
 </li>
 </ol>
-<h3 id="安装hexo库"><a href="#安装hexo库" class="headerlink" title="安装hexo库"></a>安装hexo库</h3><p><a href="http://hexo.io/">hexo的官网</a></p>
+<h3 id="安装hexo库"><a href="#安装hexo库" class="headerlink" title="安装hexo库"></a>安装hexo库</h3><p><a href="http://hexo.io/" target="_blank" rel="noopener">hexo的官网</a></p>
 <p>如下方式安装：</p>
 <pre><code>$ npm install hexo-cli -g
 $ hexo init blog

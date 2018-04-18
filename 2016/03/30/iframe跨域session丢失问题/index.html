@@ -113,7 +113,7 @@
 		
 		<h1 id="iframe跨域session丢失问题"><a href="#iframe跨域session丢失问题" class="headerlink" title="iframe跨域session丢失问题"></a>iframe跨域session丢失问题</h1><div><br><br>\<br><br></div>
 
-<div><br><br>### <a href="http://hypgr.iteye.com/blog/587562" target="_blank" rel="external">iframe跨域session丢失问题</a><br><br>-   \<br>-   最近在做一个系统(A)，需要在系统(A)中集成目前现存系统(B)的功能。<br><br></div>
+<div><br><br>### <a href="http://hypgr.iteye.com/blog/587562" target="_blank" rel="noopener">iframe跨域session丢失问题</a><br><br>-   \<br>-   最近在做一个系统(A)，需要在系统(A)中集成目前现存系统(B)的功能。<br><br></div>
 
 <div><br><br><br>当然，系统(B)功能在访问时做了登陆限制。(一般性都是：系统登陆后把userId放入session中，在具体的功能页面加入session中userId的判断，\<br><br>如果session中userId不存在，则跳到登陆页，否则继续加载并正常显示功能。)\<br><br>那么，在系统(A)中要访问系统(B)的功能无非是要绕过系统(B)的登陆。(一般的做法是先跳转到系统(B)中的一个页面，在这个页面里将userId塞入session中，\<br>   再自动跳转到实际要访问的功能页面)\<br>   以上做法，在不使用框架结构时，是可行的，确切的说是很简单的。\<br><br>但是如果，系统(A)使用了框架结构，即系统(B)中的功能页面要嵌入到系统(A)的框架中,则会出现一些意想不到的问题，\<br>   确切说是系统(B)跳转到了登陆页面，session丢失了。\<br>   为什么会这样呢？\<br><br>因为应用需求在一个页面的不同frame下面访问不同的域，结果造成了session丢失。\<br>   问题根源:\<br>   IE6/IE7支持的P3P(Platform for Privacy Preferences Project (P3P)<br><a id="more"></a><br>specification)协议默认阻止第三方无隐私安全声明的cookie，Firefox目前还不支持P3P安全特性，firefox中自然也不存<br>在此问题了。Mircosoft对此的具体描述可以参见 Privacy in Internet Explorer<br>6\<br>  \<br>   解决办法是在要嵌入的内容中(iframe指向的站点)输出P3P的主机头声明：\<br>   php:\<br> header(‘P3P:CP=”IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS<br>OUR IND CNT”‘);\<br>\<br> asp.net:\<br> HttpContext.Current.Response.AddHeader(“p3p”, “CP=\“”IDC DSP COR ADM<br>DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\“””)\<br>\<br> jsp:\<br> response.setHeader(“P3P”,”CP=’IDC DSP COR ADM DEVi TAIi PSA PSD IVAi<br>IVDi CONi HIS OUR IND CNT’”)\<br>\<br> ColdFusion:\<br> &lt;cfheader name=”P3P” value=”CP=’IDC DSP COR ADM DEVi TAIi PSA PSD<br>IVAi IVDi CONi HIS OUR IND CNT’” /&gt;<br><br></div>
 
@@ -165,18 +165,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/index/" title="index">
+ <a href="/2016/03/30/javascript正则快速入门教程/" title="javascript正则快速入门教程">
   <strong>上一篇：</strong><br/>
   <span>
-  index</span>
+  javascript正则快速入门教程</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/UIView 中一些常用方法/"  title="UIView 中一些常用方法">
+<a href="/2016/03/30/How to disable directory listing for Jetty's WebAppContext/"  title="How to disable directory listing for Jetty&#39;s WebAppContext">
  <strong>下一篇：</strong><br/> 
- <span>UIView 中一些常用方法
+ <span>How to disable directory listing for Jetty&#39;s WebAppContext
 </span>
 </a>
 </div>

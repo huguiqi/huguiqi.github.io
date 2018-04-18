@@ -731,7 +731,7 @@ interva:(foat)theInterva*
     <div class="article-content">
         
         <h1 id="安装xcode插件管理器"><a href="#安装xcode插件管理器" class="headerlink" title="安装xcode插件管理器"></a>安装xcode插件管理器</h1><ol>
-<li><a href="http://alcatraz.io/" target="_blank" rel="external">参照Alcatraz官网</a></li>
+<li><a href="http://alcatraz.io/" target="_blank" rel="noopener">参照Alcatraz官网</a></li>
 </ol>
 <pre><code>curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/deploy/Scripts/install.sh | sh
 </code></pre><p><strong>ps:执行命令安装之前把xcode关闭。</strong></p>
@@ -819,9 +819,9 @@ interva:(foat)theInterva*
         <hr>
 <p>title: mac系统新装mysql设置root密码<br>date: 1462441903000<br>categories: mysql</p>
 <h2 id="tags-mac与mysql"><a href="#tags-mac与mysql" class="headerlink" title="tags: mac与mysql"></a>tags: mac与mysql</h2><h1 id="mac新装mysql设置root密码"><a href="#mac新装mysql设置root密码" class="headerlink" title="mac新装mysql设置root密码"></a>mac新装mysql设置root密码</h1><p>默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># mysqladmin -uroot -p password &apos;newpassword&apos;</div><div class="line">Enter password:</div><div class="line">mysqladmin: connect to server at &apos;localhost&apos; failed</div><div class="line">error: &apos;Access denied for user &apos;root&apos;@&apos;localhost&apos; (using password: YES)&apos;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># mysqladmin -uroot -p password &apos;newpassword&apos;</span><br><span class="line">Enter password:</span><br><span class="line">mysqladmin: connect to server at &apos;localhost&apos; failed</span><br><span class="line">error: &apos;Access denied for user &apos;root&apos;@&apos;localhost&apos; (using password: YES)&apos;</span><br></pre></td></tr></table></figure>
 <p><strong>ps:<br>mysql默认在安装后mysqladmin命令不是全局的，如果要设置为全部的，需要设置自启动(mysql的命令行默认在/usr/local/mysql/bin/下)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"># /etc/init.d/mysql stop</div><div class="line"># mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;</div><div class="line"># mysql -u root mysql</div><div class="line">mysql&gt; UPDATE user SET Password=PASSWORD(&apos;newpassword&apos;) where USER=&apos;root&apos;;</div><div class="line">mysql&gt; FLUSH PRIVILEGES;</div><div class="line">mysql&gt; quit</div><div class="line"># /etc/init.d/mysql restart</div><div class="line"># mysql -uroot -p</div><div class="line">Enter password: &lt;输入新设的密码newpassword&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># /etc/init.d/mysql stop</span><br><span class="line"># mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;</span><br><span class="line"># mysql -u root mysql</span><br><span class="line">mysql&gt; UPDATE user SET Password=PASSWORD(&apos;newpassword&apos;) where USER=&apos;root&apos;;</span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line">mysql&gt; quit</span><br><span class="line"># /etc/init.d/mysql restart</span><br><span class="line"># mysql -uroot -p</span><br><span class="line">Enter password: &lt;输入新设的密码newpassword&gt;</span><br></pre></td></tr></table></figure>
 
         
         
@@ -877,7 +877,7 @@ interva:(foat)theInterva*
         <h1 id="安装服务器nodejs环境"><a href="#安装服务器nodejs环境" class="headerlink" title="安装服务器nodejs环境"></a>安装服务器nodejs环境</h1><h2 id="一，下载"><a href="#一，下载" class="headerlink" title="一，下载"></a>一，下载</h2><pre><code>wget https://nodejs.org/dist/v4.4.3/node-v4.4.3.tar.gz
 </code></pre><h2 id="二，安装"><a href="#二，安装" class="headerlink" title="二，安装"></a>二，安装</h2><ol>
 <li><p>解压：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tar zxf node-v4.4.3.tar.gz </div><div class="line">cd node-v4.4.3</div></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zxf node-v4.4.3.tar.gz </span><br><span class="line">cd node-v4.4.3</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <ol>
@@ -1216,7 +1216,7 @@ svn commit
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/vi格式化代码/" title="vi格式化代码" itemprop="url">vi格式化代码</a>
+      <a href="/2016/03/30/[Nginx] 在Linux下的启动、停止和重加载/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
@@ -1229,27 +1229,28 @@ svn commit
 </header>
     <div class="article-content">
         
-        <h1 id="vi格式化代码"><a href="#vi格式化代码" class="headerlink" title="vi格式化代码"></a>vi格式化代码</h1><p><span style="font: 16.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">有些时候复制别人的代码会非常乱，因此格式化代码就很重要了\<br> vi 下格式化代码：\<br> 1.全部代码格式化：\<br> 命令行模式下\<br> 按下 gg （回到开头）\<br> 按下 = （格式化命令）\<br> 按下 G （代码尾部）\<br> 2.部分代码格式化：\<br> 命令行下\<br> 选中你要格式化的代码\<br> 按下 =\<br> 3.\<br> (1) 按两下小写g，即gg，定位光标到第一行。\<br> (2) 按住Shift+v，即大写V，进入可视化编辑的列编辑模式。\<br> (3) Shift+g，即大写G，选中整个代码。\<br> (4) 按下等号=，格式化所有代码。</span></p>
+        <h1 id="Nginx-在Linux下的启动、停止和重加载"><a href="#Nginx-在Linux下的启动、停止和重加载" class="headerlink" title="[Nginx] 在Linux下的启动、停止和重加载"></a>[Nginx] 在Linux下的启动、停止和重加载</h1><div><br><br>Nginx的启动<br><br></div>
 
+<div><br><br>/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf<br><br></div>
+
+<div><br><br>其中-c参数指定配置文件路径。<br><br></div>
+
+<div><br><br>Nginx的停止<br><br></div>
+
+<div><br><br>Nginx支持以下几种信号控制： - TERM, INT 快速关闭 - QUIT 从容关闭 - HUP 平滑重启 - USR1 重新打开日志文件，在切割文件时用处大 - USR2 平滑升级 - WINCH 从容关闭工作进程 我们可以通过信号停止Nginx主进程，首先，我们需要通过ps -ef|grep命令获得master进程的PID，或者通过cat pid文件获得主进程号。下面是几个典型的停止语句：<br><br></div>
+
+<div><br><br>#从容停止Nginx<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2016/03/30/[Nginx] 在Linux下的启动、停止和重加载/#more">Read More</a>
           
        </p>
     </div>
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
 
 </div>
 
@@ -1259,7 +1260,7 @@ svn commit
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/vi格式化代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/vi格式化代码/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/[Nginx] 在Linux下的启动、停止和重加载/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/[Nginx] 在Linux下的启动、停止和重加载/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 

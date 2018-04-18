@@ -116,13 +116,13 @@
 <h2 id="一，浏览器跨域问题怎么解决"><a href="#一，浏览器跨域问题怎么解决" class="headerlink" title="一，浏览器跨域问题怎么解决"></a>一，浏览器跨域问题怎么解决</h2><p>先来说说，什么是跨域问题？</p>
 <h3 id="什么是跨域？"><a href="#什么是跨域？" class="headerlink" title="什么是跨域？"></a>什么是跨域？</h3><p>概念：只要协议、域名、端口有任何一个不同，都被当作是不同的域。</p>
 <p>言简意骇吧<br>来看例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">URL                      说明       是否允许通信</div><div class="line">http://www.a.com/a.js</div><div class="line">http://www.a.com/b.js     同一域名下   允许</div><div class="line">http://www.a.com/lab/a.js</div><div class="line">http://www.a.com/script/b.js 同一域名下不同文件夹 允许</div><div class="line">http://www.a.com:8000/a.js</div><div class="line">http://www.a.com/b.js     同一域名，不同端口  不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">https://www.a.com/b.js 同一域名，不同协议 不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">http://70.32.92.74/b.js 域名和域名对应ip 不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">http://script.a.com/b.js 主域相同，子域不同 不允许</div><div class="line">http://www.a.com/a.js</div><div class="line">http://a.com/b.js 同一域名，不同二级域名（同上） 不允许（cookie这种情况下也不允许访问）</div><div class="line">http://www.cnblogs.com/a.js</div><div class="line">http://www.a.com/b.js 不同域名 不允许</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">URL                      说明       是否允许通信</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">http://www.a.com/b.js     同一域名下   允许</span><br><span class="line">http://www.a.com/lab/a.js</span><br><span class="line">http://www.a.com/script/b.js 同一域名下不同文件夹 允许</span><br><span class="line">http://www.a.com:8000/a.js</span><br><span class="line">http://www.a.com/b.js     同一域名，不同端口  不允许</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">https://www.a.com/b.js 同一域名，不同协议 不允许</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">http://70.32.92.74/b.js 域名和域名对应ip 不允许</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">http://script.a.com/b.js 主域相同，子域不同 不允许</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">http://a.com/b.js 同一域名，不同二级域名（同上） 不允许（cookie这种情况下也不允许访问）</span><br><span class="line">http://www.cnblogs.com/a.js</span><br><span class="line">http://www.a.com/b.js 不同域名 不允许</span><br></pre></td></tr></table></figure>
 <p><em>ps:对于端口和协议的不同，只能通过后台来解决。</em></p>
 <a id="more"></a>
 <h3 id="为什么不同的域名下面的资源不能访问呢？"><a href="#为什么不同的域名下面的资源不能访问呢？" class="headerlink" title="为什么不同的域名下面的资源不能访问呢？"></a>为什么不同的域名下面的资源不能访问呢？</h3><p>答：跨域问题是浏览器同源策略限制，当前域名的js只能读取同域下的窗口属性。</p>
 <h3 id="什么情况下会有跨域问题？"><a href="#什么情况下会有跨域问题？" class="headerlink" title="什么情况下会有跨域问题？"></a>什么情况下会有跨域问题？</h3><p>答：<br>当要在A域名的页面中使用js获取其他域名网站的数据时，就会产生跨域问题，比如在网站中使用ajax请求其他网站的天气、快递或者其他数据接口时以及hybrid app中请求数据，浏览器就会提示以下错误。这种场景下就要解决js的跨域问题。</p>
 <pre><code>XMLHttpRequest cannot load http://你请求的域名. No &apos;Access-Control-Allow-Origin&apos; header is present on the requested resource. Origin &apos;http://当前页的域名&apos; is therefore not allowed access.
-</code></pre><p>一个网站的网址组成包括协议名，子域名，主域名，端口号。比如 <a href="https://github.com/" target="_blank" rel="external">https://github.com/</a> ，其中https是协议名，www是子域名，github是主域名，端口号是80，当在在页面中从一个url请求数据时，如果这个url的协议名、子域名、主域名、端口号任意一个有一个不同，就会产生跨域问题。<br>即使是在 <a href="http://localhost:80/" target="_blank" rel="external">http://localhost:80/</a> 页面请求 <a href="http://127.0.0.1:80/" target="_blank" rel="external">http://127.0.0.1:80/</a> 也会有跨域问题</p>
+</code></pre><p>一个网站的网址组成包括协议名，子域名，主域名，端口号。比如 <a href="https://github.com/" target="_blank" rel="noopener">https://github.com/</a> ，其中https是协议名，www是子域名，github是主域名，端口号是80，当在在页面中从一个url请求数据时，如果这个url的协议名、子域名、主域名、端口号任意一个有一个不同，就会产生跨域问题。<br>即使是在 <a href="http://localhost:80/" target="_blank" rel="noopener">http://localhost:80/</a> 页面请求 <a href="http://127.0.0.1:80/" target="_blank" rel="noopener">http://127.0.0.1:80/</a> 也会有跨域问题</p>
 <h3 id="怎么解决呢"><a href="#怎么解决呢" class="headerlink" title="怎么解决呢"></a>怎么解决呢</h3><p>解决跨域问题有以下四种方式</p>
 <ul>
 <li>使用jsonp</li>
@@ -183,9 +183,9 @@ function test(){
 }
 &lt;/script&gt;
 &lt;iframe id = &quot;iframe&quot; src=&quot;http://example.com/b.html&quot; onload = &quot;test()&quot;&gt;&lt;/iframe&gt;
-</code></pre><p>这个时候，document.domain就可以派上用场了，我们只要把<a href="http://www.example.com/a.html" target="_blank" rel="external">http://www.example.com/a.html</a> 和 <a href="http://example.com/b.html这两个页面的document.domain都设成相同的域名就可以了。但要注意的是，document.domain的设置是有限制的，我们只能把document.domain设置成自身或更高一级的父域，且主域必须相同。" target="_blank" rel="external">http://example.com/b.html这两个页面的document.domain都设成相同的域名就可以了。但要注意的是，document.domain的设置是有限制的，我们只能把document.domain设置成自身或更高一级的父域，且主域必须相同。</a></p>
+</code></pre><p>这个时候，document.domain就可以派上用场了，我们只要把<a href="http://www.example.com/a.html" target="_blank" rel="noopener">http://www.example.com/a.html</a> 和 <a href="http://example.com/b.html这两个页面的document.domain都设成相同的域名就可以了。但要注意的是，document.domain的设置是有限制的，我们只能把document.domain设置成自身或更高一级的父域，且主域必须相同。" target="_blank" rel="noopener">http://example.com/b.html这两个页面的document.domain都设成相同的域名就可以了。但要注意的是，document.domain的设置是有限制的，我们只能把document.domain设置成自身或更高一级的父域，且主域必须相同。</a></p>
 <ol>
-<li><p>在页面 <a href="http://www.example.com/a.html" target="_blank" rel="external">http://www.example.com/a.html</a> 中设置document.domain:</p>
+<li><p>在页面 <a href="http://www.example.com/a.html" target="_blank" rel="noopener">http://www.example.com/a.html</a> 中设置document.domain:</p>
 <pre><code>&lt;iframe id = &quot;iframe&quot; src=&quot;http://example.com/b.html&quot; onload = &quot;test()&quot;&gt;&lt;/iframe&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
 document.domain = &apos;example.com&apos;;//设置成主域
@@ -194,8 +194,8 @@ alert(document.getElementById(&apos;￼iframe&apos;).contentWindow);//contentWin
 }
 &lt;/script&gt;
 </code></pre></li>
-<li><p>在页面 <a href="http://example.com/b.html" target="_blank" rel="external">http://example.com/b.html</a> 中也设置document.domain:</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line"> 	document.domain = &apos;example.com&apos;;//在iframe载入这个页面也设置document.domain，使之与主页面的document.domain相同</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<li><p>在页面 <a href="http://example.com/b.html" target="_blank" rel="noopener">http://example.com/b.html</a> 中也设置document.domain:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line"> 	document.domain = &apos;example.com&apos;;//在iframe载入这个页面也设置document.domain，使之与主页面的document.domain相同</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>修改document.domain的方法只适用于不同子域的框架间的交互。</p>
@@ -433,18 +433,18 @@ alert(document.getElementById(&apos;￼iframe&apos;).contentWindow);//contentWin
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/mysql for mac 中文问题/" title="mysql for mac 中文问题">
+ <a href="/2016/03/30/Oracle中TO_DATE格式/" title="Oracle中TO_DATE格式">
   <strong>上一篇：</strong><br/>
   <span>
-  mysql for mac 中文问题</span>
+  Oracle中TO_DATE格式</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/nginx反向代理做cache配置/"  title="nginx反向代理做cache配置">
+<a href="/2016/03/30/如何让secureCRT显示Linux的颜色/"  title="如何让secureCRT显示Linux的颜色">
  <strong>下一篇：</strong><br/> 
- <span>nginx反向代理做cache配置
+ <span>如何让secureCRT显示Linux的颜色
 </span>
 </a>
 </div>

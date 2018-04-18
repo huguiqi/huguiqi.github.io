@@ -111,19 +111,19 @@
 		
 		</div>
 		
-		<h1 id="构建最新的nodejs-docker服务器"><a href="#构建最新的nodejs-docker服务器" class="headerlink" title="构建最新的nodejs docker服务器"></a>构建最新的nodejs docker服务器</h1><p><a href="https://nodejs.org/en/docs/guides/nodejs-docker-webapp/" target="_blank" rel="external">参考文档</a></p>
+		<h1 id="构建最新的nodejs-docker服务器"><a href="#构建最新的nodejs-docker服务器" class="headerlink" title="构建最新的nodejs docker服务器"></a>构建最新的nodejs docker服务器</h1><p><a href="https://nodejs.org/en/docs/guides/nodejs-docker-webapp/" target="_blank" rel="noopener">参考文档</a></p>
 <ul>
 <li><p>新建一个目录作为我的dockerImages的目录，然后执行：</p>
 <pre><code>mkdir /Users/samhu/Public/dockerImages
 </code></pre></li>
 <li><p>新建package.json</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">	&#123;</div><div class="line">  &quot;name&quot;: &quot;docker_web_app&quot;,</div><div class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</div><div class="line">  &quot;description&quot;: &quot;Node.js on Docker&quot;,</div><div class="line">  &quot;author&quot;: &quot;First Last &lt;first.last@example.com&gt;&quot;,</div><div class="line">  &quot;main&quot;: &quot;server.js&quot;,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">              &quot;start&quot;: &quot;node server.js&quot;</div><div class="line">              &#125;,</div><div class="line">  &quot;dependencies&quot;: &#123;</div><div class="line">                    &quot;express&quot;: &quot;^4.13.3&quot;</div><div class="line">                  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">	&#123;</span><br><span class="line">  &quot;name&quot;: &quot;docker_web_app&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;Node.js on Docker&quot;,</span><br><span class="line">  &quot;author&quot;: &quot;First Last &lt;first.last@example.com&gt;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;server.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">              &quot;start&quot;: &quot;node server.js&quot;</span><br><span class="line">              &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">                    &quot;express&quot;: &quot;^4.13.3&quot;</span><br><span class="line">                  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <ul>
 <li>新建server.js文件</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const express = require(&apos;express&apos;);</div><div class="line"></div><div class="line">// Constants</div><div class="line"> const PORT = 8080;</div><div class="line">//</div><div class="line">// // App</div><div class="line"> const app = express();</div><div class="line"> app.get(&apos;/&apos;, function (req, res) &#123;</div><div class="line">   res.send(&apos;Hello world\n&apos;);</div><div class="line">   &#125;);</div><div class="line"></div><div class="line">   app.listen(PORT);</div><div class="line">   console.log(&apos;Running on http://localhost:&apos; + PORT);</div><div class="line"></div><div class="line"></div><div class="line">```	</div><div class="line"></div><div class="line"></div><div class="line">		</div><div class="line">* 新建Dockerfile</div><div class="line"></div><div class="line">		vi Dockerfile </div><div class="line">		</div><div class="line">内容为：</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&apos;use strict&apos;;</span><br><span class="line"></span><br><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line"></span><br><span class="line">// Constants</span><br><span class="line"> const PORT = 8080;</span><br><span class="line">//</span><br><span class="line">// // App</span><br><span class="line"> const app = express();</span><br><span class="line"> app.get(&apos;/&apos;, function (req, res) &#123;</span><br><span class="line">   res.send(&apos;Hello world\n&apos;);</span><br><span class="line">   &#125;);</span><br><span class="line"></span><br><span class="line">   app.listen(PORT);</span><br><span class="line">   console.log(&apos;Running on http://localhost:&apos; + PORT);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">* 新建Dockerfile</span><br><span class="line"></span><br><span class="line">		vi Dockerfile </span><br><span class="line">		</span><br><span class="line">内容为：</span><br></pre></td></tr></table></figure>
 <p>  FROM node:argon</p>
 <h1 id="Create-app-directory"><a href="#Create-app-directory" class="headerlink" title="Create app directory"></a>Create app directory</h1><p>RUN mkdir -p /usr/src/app<br>WORKDIR /usr/src/app</p>
 <h1 id="Install-app-dependencies"><a href="#Install-app-dependencies" class="headerlink" title="Install app dependencies"></a>Install app dependencies</h1><p>COPY package.json /usr/src/app/<br>RUN npm install</p>
@@ -144,7 +144,7 @@
 </code></pre><h1 id="安装Apache-Bench（ab-作压力测试"><a href="#安装Apache-Bench（ab-作压力测试" class="headerlink" title="安装Apache Bench（ab)作压力测试"></a>安装Apache Bench（ab)作压力测试</h1><p>三种方式：</p>
 <ul>
 <li><p>源码安装</p>
-<p><a href="http://httpd.apache.org/" target="_blank" rel="external">download</a></p>
+<p><a href="http://httpd.apache.org/" target="_blank" rel="noopener">download</a></p>
 <p>下载后解压，终端执行：</p>
 <pre><code>./configuare
 </code></pre></li>
@@ -216,10 +216,10 @@ ulimit -Sn
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/07/27/管理者的自省/" title="如何准确清楚认识自己">
+ <a href="/2016/07/27/清明议事/" title="清明议事">
   <strong>上一篇：</strong><br/>
   <span>
-  如何准确清楚认识自己</span>
+  清明议事</span>
 </a>
 </div>
 

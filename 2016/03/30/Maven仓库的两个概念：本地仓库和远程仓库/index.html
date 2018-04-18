@@ -137,7 +137,7 @@
 </code></pre><p> 在POM中配置远程仓库</p>
 <p>下面我介绍下如何在pom.xml里面配置远程仓库，我们需要在什么时候配置远程仓库呢？当你连接中央仓库的速度比较慢时，或者你为你的公司搭建了自己的仓库，比如Nexus仓库管理(后面我会介绍)，又或者你苏需要的jar存在另外一个公共仓库，比如我们配置一个国内的镜像地址：</p>
 <pre><code>\
-</code></pre><p> …      \<br>       \<br>           \<br>           maven-net-cn    \<br>           Maven China Mirror    \<br>           <a href="http://maven.net.cn/content/groups/public/" target="_blank" rel="external">http://maven.net.cn/content/groups/public/</a>    \<br>               \<br>               true    \<br>               \<br>               \<br>               false    \<br>               \<br>           \<br>       \<br>       \<br>           \<br>           maven-net-cn    \<br>           Maven China Mirror    \<br>           <a href="http://maven.net.cn/content/groups/public/" target="_blank" rel="external">http://maven.net.cn/content/groups/public/</a>    \<br>               \<br>               true    \<br>               \<br>               \<br>               false    \<br>                         \<br>           \<br>       \<br> …      \<br>   \<br> 这里我们可以看到，允许配置多个repository和 plugin<br>repository，&lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;<br>/releases&gt;告诉Maven可以从这个仓库下载releases版本的构件，而&lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt;<br>告诉Maven不要从这个仓库下载snapshot版本的构件,之所以不让你从这个仓库下载snapshot版本，是因为这些版本是不稳定的，但是<br>snapshot版本在我们内部项目开发的时候可是作用巨大，后面的问文章我会讨论这个问题。至于&lt;pluginRepositories&gt;，这是配置Maven从什么地方下载插件构件，Maven的所有行为都是通过插件来完成的，其内部配置与&lt;repository&gt;类似，这里就不多说了。</p>
+</code></pre><p> …      \<br>       \<br>           \<br>           maven-net-cn    \<br>           Maven China Mirror    \<br>           <a href="http://maven.net.cn/content/groups/public/" target="_blank" rel="noopener">http://maven.net.cn/content/groups/public/</a>    \<br>               \<br>               true    \<br>               \<br>               \<br>               false    \<br>               \<br>           \<br>       \<br>       \<br>           \<br>           maven-net-cn    \<br>           Maven China Mirror    \<br>           <a href="http://maven.net.cn/content/groups/public/" target="_blank" rel="noopener">http://maven.net.cn/content/groups/public/</a>    \<br>               \<br>               true    \<br>               \<br>               \<br>               false    \<br>                         \<br>           \<br>       \<br> …      \<br>   \<br> 这里我们可以看到，允许配置多个repository和 plugin<br>repository，&lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;<br>/releases&gt;告诉Maven可以从这个仓库下载releases版本的构件，而&lt;snapshots&gt;&lt;enabled&gt;false&lt;/enabled&gt;&lt;/snapshots&gt;<br>告诉Maven不要从这个仓库下载snapshot版本的构件,之所以不让你从这个仓库下载snapshot版本，是因为这些版本是不稳定的，但是<br>snapshot版本在我们内部项目开发的时候可是作用巨大，后面的问文章我会讨论这个问题。至于&lt;pluginRepositories&gt;，这是配置Maven从什么地方下载插件构件，Maven的所有行为都是通过插件来完成的，其内部配置与&lt;repository&gt;类似，这里就不多说了。</p>
 <p>尽管pom.xml中可以方便的哦配置中央仓库，但是我并不推荐大家这么做，尤其是在大的公司中，因为一个公司会有很多的项目，如果每个项目都这样配置，那么又开始做重复的copy工作了，如何解决呢，我们往下走</p>
 <p>在settings.xml中配置远程仓库</p>
 <p>Pom.xml的作用范围是一个项目，一个公司不可能只做一个项目，那么为了避免重复配置，那么我们需要把一些公共信息配置在<br>setting.xml中。但是setting.xml中并不支持&lt;repositories&gt;<br>及&lt;pluginRepositories&gt;，为了解决这个问题我们使用profile：</p>
@@ -148,7 +148,7 @@
 <p>配置镜像</p>
 <p>如果你想覆盖中央仓库的默认地址，那么这里我们就会使用的镜像了，还在setting.xml里面配置：</p>
 <pre><code>\
-</code></pre><p> …      \<br>       \<br>           \<br>           maven-net-cn    \<br>           Maven China Mirror    \<br>           <a href="http://maven.net.cn/content/groups/public/" target="_blank" rel="external">http://maven.net.cn/content/groups/public/</a>    \<br>           central    \<br>           \<br>       \<br> …      \<br>     \</p>
+</code></pre><p> …      \<br>       \<br>           \<br>           maven-net-cn    \<br>           Maven China Mirror    \<br>           <a href="http://maven.net.cn/content/groups/public/" target="_blank" rel="noopener">http://maven.net.cn/content/groups/public/</a>    \<br>           central    \<br>           \<br>       \<br> …      \<br>     \</p>
 <p>这里解释一下&lt;mirrorOf&gt;,表示只为central仓库做镜像，如果想为所有的仓库做镜像那么可以改为：&lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</p>
   
 	</div>
@@ -186,18 +186,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/启动画面自定义动画/" title="启动画面自定义动画">
+ <a href="/2016/03/30/spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码/" title="spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码">
   <strong>上一篇：</strong><br/>
   <span>
-  启动画面自定义动画</span>
+  spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/在IDEA下远程调试JavaScript/"  title="在IDEA下远程调试JavaScript">
+<a href="/2016/03/30/svn merge/"  title="svn merge">
  <strong>下一篇：</strong><br/> 
- <span>在IDEA下远程调试JavaScript
+ <span>svn merge
 </span>
 </a>
 </div>

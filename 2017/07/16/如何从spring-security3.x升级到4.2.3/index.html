@@ -113,7 +113,7 @@
 		
 		<h1 id="从spring-security3-x升级到4-2-3"><a href="#从spring-security3-x升级到4-2-3" class="headerlink" title="从spring-security3.x升级到4.2.3"></a>从spring-security3.x升级到4.2.3</h1><p>由于之前spring-security3.x用的是配置文件配置权限校验的，但升级到4.2.3以后，配置文件权限配置都失效了，尤其是UserDetailsService类，完全不走它的loadUserByUsername方法了。</p>
 <p>查了很多资料，在官网上也走了很久，发现spring-security4.x的文档比较详细的是java 代码配置。看来spring-security目前推荐使用java配置，xml的完整配置都没有了。</p>
-<p><a href="http://docs.spring.io/spring-security/site/docs/4.2.3.RELEASE/reference/htmlsingle/#samples" title="spring-security官网例子" target="_blank" rel="external"> spring-security官网例子 </a></p>
+<p><a href="http://docs.spring.io/spring-security/site/docs/4.2.3.RELEASE/reference/htmlsingle/#samples" title="spring-security官网例子" target="_blank" rel="noopener"> spring-security官网例子 </a></p>
 <p>在官网的例子里试了半天，发现其实官网关于配置文件的例子都不全，虽然感觉是对的，但是配置的项目中，还是非常有问题的，权限并没有生效。</p>
 <p>官网一般给的都是这个配置：</p>
 <pre><code>&lt;b:beans xmlns=&quot;http://www.springframework.org/schema/security&quot;
@@ -504,7 +504,7 @@ http
 </code></pre><p>注意，configure重载方法里，formLogin没有加载任何配置，查看源码发现它会默认提供一个loginPage，包括登陆的controller。</p>
 <p>由于spring4.x对csrf作了升级，登陆操作必须要传一个csrf的token用来标识登陆授权。所以以前直接写个登陆页面的方式不行了。必须提供csrf的token，才能登陆校验，如果我要自己写登陆页面的话，那必须配置token的生成。页面和配置类都要作很多修改。其它我只要做一个简单登陆演示，我就直接用官网提供的默认登陆页面吧。</p>
 <p>配置完成后，执行mvn jetty:run，测试权限ok.</p>
-<p><a href="https://github.com/huguiqi/springsecurtTest.git" target="_blank" rel="external">完整项目代码点击这里下载</a></p>
+<p><a href="https://github.com/huguiqi/springsecurtTest.git" target="_blank" rel="noopener">完整项目代码点击这里下载</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">

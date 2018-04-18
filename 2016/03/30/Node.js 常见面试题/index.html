@@ -122,16 +122,16 @@
 <h3 id="如何避免回调地狱"><a href="#如何避免回调地狱" class="headerlink" title="如何避免回调地狱"></a>如何避免回调地狱</h3><p>你可以有如下几个方法：</p>
 <p>这个问题有很多种答案，取决你使用的场景，例如ES6, ES7，或者一些控制流库。</p>
 <h3 id="在Node中你如何监听80端口"><a href="#在Node中你如何监听80端口" class="headerlink" title="在Node中你如何监听80端口"></a>在Node中你如何监听80端口</h3><p>这题有陷阱！在类Unix系统中你不应该尝试监听80端口，因为这需要超级用户权限，<br>因此不建议让你的应用监听这个端口。</p>
-<p>目前，如果你想让你的应用一定要监听80端口，可以这么做：让你的Node应用监听大于1024的端口，<br>然后在它前面在使用一层方向代理（例如<a href="http://nginx.org/" target="_blank" rel="external">nginx</a>）。</p>
+<p>目前，如果你想让你的应用一定要监听80端口，可以这么做：让你的Node应用监听大于1024的端口，<br>然后在它前面在使用一层方向代理（例如<a href="http://nginx.org/" target="_blank" rel="noopener">nginx</a>）。</p>
 <p>这个问题用于检查被面试者是否有实际运行Node应用的经验。<br><a id="more"></a></p>
-<h3 id="什么是事件循环"><a href="#什么是事件循环" class="headerlink" title="什么是事件循环"></a>什么是事件循环</h3><p>Node只运行在一个单一线程上，至少从Node.js开发者的角度是这样的。在底层，<br>Node是通过<a href="https://github.com/libuv/libuv" target="_blank" rel="external">libuv</a>来实现多线程的。</p>
+<h3 id="什么是事件循环"><a href="#什么是事件循环" class="headerlink" title="什么是事件循环"></a>什么是事件循环</h3><p>Node只运行在一个单一线程上，至少从Node.js开发者的角度是这样的。在底层，<br>Node是通过<a href="https://github.com/libuv/libuv" target="_blank" rel="noopener">libuv</a>来实现多线程的。</p>
 <p>Libuv库负责Node<br>API的执行。它将不同的任务分配给不同的线程，形成一个事件循环，<br>以异步的方式将任务的执行结果返回给V8引擎。可以简单用下面这张图来表示。</p>
 <p><img src="http://wwsun.me/img/posts/150928-event-loop.PNG" alt="Event
 Loop">（图片来源于网络）</p>
-<p>每一个I/O都需要一个回调函数——一旦执行完便推到事件循环上用于执行。<br>如果你需要更多详细的解释，可以参考<a href="https://www.youtube.com/embed/8aGhZQkoFbQ" target="_blank" rel="external">这个视频</a>。<br>你也可以参考<a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="external">这篇文章</a>。</p>
+<p>每一个I/O都需要一个回调函数——一旦执行完便推到事件循环上用于执行。<br>如果你需要更多详细的解释，可以参考<a href="https://www.youtube.com/embed/8aGhZQkoFbQ" target="_blank" rel="noopener">这个视频</a>。<br>你也可以参考<a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">这篇文章</a>。</p>
 <p>这用于检查Node.js的底层知识，例如什么是libuv，它的作用是什么。</p>
 <h3 id="哪些工具可以用来确保一致性的风格"><a href="#哪些工具可以用来确保一致性的风格" class="headerlink" title="哪些工具可以用来确保一致性的风格"></a>哪些工具可以用来确保一致性的风格</h3><p>你可以有如下的工具：</p>
-<p><a href="http://jslint.com/" target="_blank" rel="external">JSLint</a><a href="http://jshint.com/" target="_blank" rel="external">JSHint</a><a href="http://eslint.org/" target="_blank" rel="external">ESLint</a><a href="http://jscs.info/" target="_blank" rel="external">JSCS</a></p>
+<p><a href="http://jslint.com/" target="_blank" rel="noopener">JSLint</a><a href="http://jshint.com/" target="_blank" rel="noopener">JSHint</a><a href="http://eslint.org/" target="_blank" rel="noopener">ESLint</a><a href="http://jscs.info/" target="_blank" rel="noopener">JSCS</a></p>
 <p>在团队开发中，这些工具对于编写代码非常的有帮助，能够帮助强制执行给定的风格指南，<br>并且通过静态分析捕获常见的错误。</p>
 <p>用于检查被面试者是否有大型项目开发经验。</p>
 <h3 id="运算错误与程序员错误的区别"><a href="#运算错误与程序员错误的区别" class="headerlink" title="运算错误与程序员错误的区别"></a>运算错误与程序员错误的区别</h3><p>运算错误并不是bug，这是和系统相关的问题，例如请求超时或者硬件故障。而程序员错误就是所谓的bug。</p>
@@ -142,13 +142,13 @@ Loop">（图片来源于网络）</p>
 <h3 id="什么是Stub？举个使用场景"><a href="#什么是Stub？举个使用场景" class="headerlink" title="什么是Stub？举个使用场景"></a>什么是Stub？举个使用场景</h3><p>Stub是用于模拟一个组件/模块的一个函数或程序。在测试用例中，Stub可以为函数调用提供封装的答案。<br>当然，你还可以在断言中指明Stub是如何被调用的。</p>
 <p>例如在一个读取文件的场景中，当你不想读取一个真正的文件时：</p>
 <p>用于测试被面试者是否有测试的经验。如果被面试者知道什么是Stub，<br>那么可以继续问他是如何做单元测试的。</p>
-<h3 id="什么是测试金字塔？当我们在谈论HTTP-API时如何实施它？"><a href="#什么是测试金字塔？当我们在谈论HTTP-API时如何实施它？" class="headerlink" title="什么是测试金字塔？当我们在谈论HTTP API时如何实施它？"></a>什么是测试金字塔？当我们在谈论HTTP API时如何实施它？</h3><p><a href="http://zyzhang.github.io/blog/2013/04/28/test-pyramid/" target="_blank" rel="external">测试金字塔</a>指的是：<br>当我们在编写测试用例时，底层的单元测试应该远比上层的端到端测试要多。</p>
+<h3 id="什么是测试金字塔？当我们在谈论HTTP-API时如何实施它？"><a href="#什么是测试金字塔？当我们在谈论HTTP-API时如何实施它？" class="headerlink" title="什么是测试金字塔？当我们在谈论HTTP API时如何实施它？"></a>什么是测试金字塔？当我们在谈论HTTP API时如何实施它？</h3><p><a href="http://zyzhang.github.io/blog/2013/04/28/test-pyramid/" target="_blank" rel="noopener">测试金字塔</a>指的是：<br>当我们在编写测试用例时，底层的单元测试应该远比上层的端到端测试要多。</p>
 <p><img src="http://wwsun.me/img/posts/150928-test-pyramid.jpeg" alt="Test Pyramid"></p>
 <p>当我们谈到HTTP API时，我们可能会涉及到：</p>
 <p>本文主要考察被面试者的在测试方面的经验。</p>
 <h3 id="你最喜欢的HTTP框架以及原因"><a href="#你最喜欢的HTTP框架以及原因" class="headerlink" title="你最喜欢的HTTP框架以及原因"></a>你最喜欢的HTTP框架以及原因</h3><p>这题没有唯一的答案。本题主要考察被面试者对于他所使用的Node框架的理解程度，<br>考察他是否能够给出选择该框架的理由，优缺点等。</p>
-<h2 id="Statement"><a href="#Statement" class="headerlink" title="Statement"></a>Statement</h2><p>原文地址：<a href="https://blog.risingstack.com/node-js-interview-questions/" target="_blank" rel="external">https://blog.risingstack.com/node-js-interview-questions/</a></p>
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="http://toutiao.io/r/z0eht" target="_blank" rel="external">查看原文</a></p>
+<h2 id="Statement"><a href="#Statement" class="headerlink" title="Statement"></a>Statement</h2><p>原文地址：<a href="https://blog.risingstack.com/node-js-interview-questions/" target="_blank" rel="noopener">https://blog.risingstack.com/node-js-interview-questions/</a></p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="http://toutiao.io/r/z0eht" target="_blank" rel="noopener">查看原文</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -185,18 +185,18 @@ Loop">（图片来源于网络）</p>
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/xcode 中检查国际化文件格式是否正确/" title="xcode 中检查国际化文件格式是否正确">
+ <a href="/2016/03/30/使用模板语言(Velocity)定义、发送邮件/" title="使用模板语言(Velocity)定义、发送邮件">
   <strong>上一篇：</strong><br/>
   <span>
-  xcode 中检查国际化文件格式是否正确</span>
+  使用模板语言(Velocity)定义、发送邮件</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/xcode快捷器收藏/"  title="xcode快捷器收藏">
+<a href="/2016/03/30/关于"Unexpected CFBundleExecutable Key" iOS 提交错误 - Tapjoy Developers/"  title="关于&quot;Unexpected CFBundleExecutable Key&quot; iOS 提交错误 - Tapjoy Developers">
  <strong>下一篇：</strong><br/> 
- <span>xcode快捷器收藏
+ <span>关于&quot;Unexpected CFBundleExecutable Key&quot; iOS 提交错误 - Tapjoy Developers
 </span>
 </a>
 </div>
