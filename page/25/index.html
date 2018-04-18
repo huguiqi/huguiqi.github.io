@@ -166,75 +166,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/" title="PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题" itemprop="url">PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="PLSQL-Developer编码问题，oracle数据库与这个客户端软件不一致问题"><a href="#PLSQL-Developer编码问题，oracle数据库与这个客户端软件不一致问题" class="headerlink" title="PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题"></a>PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</h1><div><br><br>PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>解决方式(注意，此操作要在命令行里执行):<br><br></div>
-
-<div><br><br>select Parameter,(value) from nls_database_parameters where<br>value=’AL16UTF16’\<br> order by parameter\<br> update nls_database_parameters set value=’AL32UTF8’ where<br>parameter=’NLS_NCHAR_CHARACTERSET’;\<br>\<br>\<br> ALTER SYSTEM SET NLS_LENGTH_SEMANTICS=’CHAR’ scope=both<br><br></div>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/如何将印象笔记导为markdown/" title="如何将印象笔记导为markdown" itemprop="url">如何将印象笔记导为markdown</a>
   </h1>
   <p class="article-author">By
@@ -374,6 +305,71 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/Oracle中TO_DATE格式/" title="Oracle中TO_DATE格式" itemprop="url">Oracle中TO_DATE格式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Oracle中TO-DATE格式"><a href="#Oracle中TO-DATE格式" class="headerlink" title="Oracle中TO_DATE格式"></a>Oracle中TO_DATE格式</h1><p><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><a href="http://www.cnblogs.com/ajian/archive/2009/03/25/1421063.html" target="_blank" rel="noopener"><strong>Oracle中TO_DATE格式</strong></a></span><span style="font: 14.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
+</strong></span><span style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br> TO_DATE格式(以时间:2007-11-02   13:45:25为例)\<br>   \<br>         Year:     \<br>         yy two digits 两位年                显示值:07\<br>         yyy three digits 三位年                显示值:007\<br>         yyyy four digits 四位年                显示值:2007\<br>            \<br>         Month:     \<br>         mm    number     两位月              显示值:11\<br>         mon    abbreviated 字符集表示<br>显示值:11月,若是英文版,显示nov    \<br>         month spelled out 字符集表示<br>显示值:11月,若是英文版,显示november\<br>          \<br>         Day:     \<br>         dd    number         当月第几天        显示值:02\<br>         ddd    number         当年第几天        显示值:02\<br>         dy    abbreviated 当周第几天简写<br>显示值:星期五,若是英文版,显示fri\<br>         day    spelled out   当周第几天全写<br>显示值:星期五,若是英文版,显示friday       \<br>         ddspth spelled out, ordinal twelfth\<br>             \<br>               Hour:\<br>               hh    two digits 12小时进制            显示值:01\<br>               hh24 two digits 24小时进制            显示值:13\<br>              \<br>               Minute:\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/Oracle中TO_DATE格式/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/Oracle中TO_DATE格式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Oracle中TO_DATE格式/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/如何设置mysql在局域网中访问/" title="如何设置mysql在局域网中访问" itemprop="url">如何设置mysql在局域网中访问</a>
   </h1>
   <p class="article-author">By
@@ -441,7 +437,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Oracle中TO_DATE格式/" title="Oracle中TO_DATE格式" itemprop="url">Oracle中TO_DATE格式</a>
+      <a href="/2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/" title="PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题" itemprop="url">PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</a>
   </h1>
   <p class="article-author">By
        
@@ -454,13 +450,17 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Oracle中TO-DATE格式"><a href="#Oracle中TO-DATE格式" class="headerlink" title="Oracle中TO_DATE格式"></a>Oracle中TO_DATE格式</h1><p><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><a href="http://www.cnblogs.com/ajian/archive/2009/03/25/1421063.html" target="_blank" rel="noopener"><strong>Oracle中TO_DATE格式</strong></a></span><span style="font: 14.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
-</strong></span><span style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br> TO_DATE格式(以时间:2007-11-02   13:45:25为例)\<br>   \<br>         Year:     \<br>         yy two digits 两位年                显示值:07\<br>         yyy three digits 三位年                显示值:007\<br>         yyyy four digits 四位年                显示值:2007\<br>            \<br>         Month:     \<br>         mm    number     两位月              显示值:11\<br>         mon    abbreviated 字符集表示<br>显示值:11月,若是英文版,显示nov    \<br>         month spelled out 字符集表示<br>显示值:11月,若是英文版,显示november\<br>          \<br>         Day:     \<br>         dd    number         当月第几天        显示值:02\<br>         ddd    number         当年第几天        显示值:02\<br>         dy    abbreviated 当周第几天简写<br>显示值:星期五,若是英文版,显示fri\<br>         day    spelled out   当周第几天全写<br>显示值:星期五,若是英文版,显示friday       \<br>         ddspth spelled out, ordinal twelfth\<br>             \<br>               Hour:\<br>               hh    two digits 12小时进制            显示值:01\<br>               hh24 two digits 24小时进制            显示值:13\<br>              \<br>               Minute:\<br>
+        <h1 id="PLSQL-Developer编码问题，oracle数据库与这个客户端软件不一致问题"><a href="#PLSQL-Developer编码问题，oracle数据库与这个客户端软件不一致问题" class="headerlink" title="PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题"></a>PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</h1><div><br><br>PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>解决方式(注意，此操作要在命令行里执行):<br><br></div>
+
+<div><br><br>select Parameter,(value) from nls_database_parameters where<br>value=’AL16UTF16’\<br> order by parameter\<br> update nls_database_parameters set value=’AL32UTF8’ where<br>parameter=’NLS_NCHAR_CHARACTERSET’;\<br>\<br>\<br> ALTER SYSTEM SET NLS_LENGTH_SEMANTICS=’CHAR’ scope=both<br><br></div>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/03/30/Oracle中TO_DATE格式/#more">Read More</a>
           
        </p>
     </div>
@@ -486,7 +486,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Oracle中TO_DATE格式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Oracle中TO_DATE格式/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -646,6 +646,79 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/对javascript的理解/" title="对javascript的理解" itemprop="url">对javascript的理解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="对javascript的理解"><a href="#对javascript的理解" class="headerlink" title="对javascript的理解"></a>对javascript的理解</h1><p><span style="font-size: 18px;">按照定义，每个javascript对象都有一个原型对象（简称原型），这个原型是由该对象的构造函数所定义（javascript自动创建的），并且对象继承原型的所有属性和方法（函数），比如<br>一个String对象 的原型为 String.prototype<br>，如果我们想要给String类添加方法，可以这样做（比如添加常用的trim()方法）：</span></p>
+<div><br><br><span style="font-size: 18px;">js 代码</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">String.prototype.trim = function (){<br>  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">  return<br>this.replace(/(\^\s*)|(\s*\$)/g, “”);   </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">}  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/对javascript的理解/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/对javascript的理解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对javascript的理解/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/对象序列化框架/" title="对象序列化框架" itemprop="url">对象序列化框架</a>
   </h1>
   <p class="article-author">By
@@ -680,78 +753,6 @@
 	
 	  	<span></span>
 		<a href="/2016/03/30/对象序列化框架/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对象序列化框架/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/字符，字节和编码/" title="字符，字节和编码" itemprop="url">字符，字节和编码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="字符，字节和编码"><a href="#字符，字节和编码" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h1><h2 id="字符，字节和编码-1"><a href="#字符，字节和编码-1" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h2><p>级别：中级</p>
-<blockquote>
-<p>摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。</p>
-<p>掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。</p>
-</blockquote>
-<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>“字符与编码”是一个被经常讨论的话题。即使这样，时常出现的乱码仍然困扰着大家。虽然我们有很多的办法可以用来消除乱<br>码，但我们并不一定理解这些办法的内在原理。而有的乱码产生的原因，实际上由于底层代码本身有问题所导致的。因此，不仅是初学者会对字符编码感到模糊，有<br>的底层开发人员同样对字符编码缺乏准确的理解。</p>
-<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
-| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
-<h4 id="1-编码问题的由来，相关概念的理解"><a href="#1-编码问题的由来，相关概念的理解" class="headerlink" title="1. 编码问题的由来，相关概念的理解"></a>1. 编码问题的由来，相关概念的理解</h4><h5 id="1-1-字符与编码的发展"><a href="#1-1-字符与编码的发展" class="headerlink" title="1.1 字符与编码的发展"></a>1.1 字符与编码的发展</h5><p>从计算机对多国语言的支持角度看，大致可以分为三个阶段：</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/字符，字节和编码/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/字符，字节和编码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/字符，字节和编码/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -973,7 +974,7 @@
 			
 		
 			
-				<li><a href="/tags/redis/" title="redis">redis<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
