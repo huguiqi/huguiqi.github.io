@@ -90,151 +90,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/如何添加brewcask没有的软件/" title="如何添加brewcask没有的软件" itemprop="url">如何添加brewcask没有的软件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="如何添加brewcask没有的软件"><a href="#如何添加brewcask没有的软件" class="headerlink" title="如何添加brewcask没有的软件"></a>如何添加brewcask没有的软件</h1><p>按照<a href="https://github.com/caskroom/homebrew-cask/blob/master/CONTRIBUTING.md#adding-a-cask" target="_blank" rel="external">brewcask的wiki</a>上说的步骤</p>
-<h2 id="添加步骤："><a href="#添加步骤：" class="headerlink" title="添加步骤："></a>添加步骤：</h2><ol>
-<li>fork homebrew-cask</li>
-<li>进入你的系统的homebrew-cask的repository目录，mac系统默认都在：<code>/usr/local/Library/Taps/phinze/homebrew-cask</code></li>
-<li>一定要先更新你的brewcask 的repository:<code>git pull</code></li>
-<li><p>按照官方文档的做法，把你的fork过去的项目url加入到remote里去</p>
-<pre><code>$ github_user=&apos;huguiqi&apos;
-$ cd &quot;$(brew --repository)&quot;/Library/Taps/caskroom/homebrew-cask
-$ git remote add &quot;$github_user&quot; &quot;https://github.com/$github_user/homebrew-cask&quot;
-</code></pre></li>
-<li><p>建立软件token(<strong>这一步官方文档上没写</strong>)</p>
-<pre><code>&quot;$(brew --repository)/Library/Taps/caskroom/homebrew-cask/developer/bin/generate_cask_token&quot; &apos;software_name&apos;
-</code></pre></li>
-</ol>
-<p>如已经在repostory目录了，则执行如下:</p>
-<pre><code>developer/bin/generate_cask_token &apos;solftName&apos;
-</code></pre><p>如果执行报错，那么可以<code>git pull试下</code><br>6 . 新建cask:<code>brew cask create solftName</code></p>
-<p>在这一步的时候，一直报错，后面看了报错信息，说是什么找不到这个token，在<code>/usr/local/Library/Taps/caskroom/homebrew-cask</code>目录下，这就奇了怪了，明明我的repository在另外一个目录，它怎么会往这个不存在的目录里去找呢，后面找了很久，发现是我更新了brew，而brew-cask还是用的老的：<code>phinze/homebrew-cask</code>，<a href="https://github.com/caskroom/homebrew-cask" target="_blank" rel="external">官方wiki上有这个问题的解决方案</a>：</p>
-<ol>
-<li><code>$ brew update; brew cleanup; brew cask cleanup</code></li>
-<li><code>$ brew uninstall --force brew-cask; brew update</code></li>
-<li>如果还报错，则可能是之前你的没有卸载干净，再执行：<code>brew untap phinze/cask; brew untap caskroom/cask; brew update</code></li>
-<li>最后再重复第1、2步</li>
-</ol>
-<p><strong> cask重装以后再执行一遍repository下add remote url</strong></p>
-<p>执行 cask create 以后，会打开一个*.rb文件，如下：</p>
-<pre><code>cask &apos;my-new-cask&apos; do 
-    version &apos;&apos;
-    sha256 &apos;&apos;
-    url &apos;&apos;
-    name &apos;&apos;
-    homepage &apos;&apos;
-    license :unknown # TODO: change license and remove this comment; &apos;:unknown&apos; is a machine-generated placeholder
-    app &apos;&apos;
-end
-</code></pre><p>其中将：</p>
-<p>– my_new_cask改为新建cask名称 <br><br>– version 改成改软件最新版本，如果下方所提供的下载链接并不包含版本信息此处写成：version :latest <br><br>– sha256 下载文件的SHA-256校验值，当下方所提供的下载链接并不包含版本信息此处写成：sha256 :no_check <br><br>– url 为软件下载链接 <br><br>– name 为软件名称 <br><br>– homepage 为软件主页 <br><br>– license 可以分为以下几大类，同时大类下面又分成 gratis commercial freemium 等小类，具体请查阅参考1。 <br><br>– app 中填写url下载文件中*.app文件的相对位置 <br></p>
-<table>
-<thead>
-<tr>
-<th>symbol</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>:oss</td>
-<td>开源软件</td>
-</tr>
-<tr>
-<td>:closed</td>
-<td>闭源软件</td>
-</tr>
-<tr>
-<td>:unknown</td>
-<td>许可未知</td>
-</tr>
-<tr>
-<td>:oss</td>
-<td>其他</td>
-</tr>
-</tbody>
-</table>
-<h2 id="测试-cask"><a href="#测试-cask" class="headerlink" title="测试 cask"></a>测试 cask</h2><pre><code>bwcs readkit
-</code></pre><p>发现有可以搜索到了，太棒了。。。。。。</p>
-<p>安装呢，哈哈，我已经安装了，就不试了</p>
-<h2 id="提交到git库"><a href="#提交到git库" class="headerlink" title="提交到git库"></a>提交到git库</h2><pre><code>git commit -a -m &quot;readkit&quot;
-git push newRemote
-</code></pre><p>在push之前我遇到一个从示遇到的问题，就是push的时候老push不上去，总是报错：</p>
-<pre><code>sam@samhus-MBP /u/l/L/T/c/homebrew-cask&gt; gp huguiqi                      master
-Counting objects: 12, done.
-Delta compression using up to 8 threads.
-Compressing objects: 100% (12/12), done.
-Writing objects: 100% (12/12), 1.46 KiB | 0 bytes/s, done.
-Total 12 (delta 8), reused 1 (delta 0)
-To git@github.com:huguiqi/homebrew-cask.git
- ! [remote rejected] master -&gt; master (shallow update not allowed)
-error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.git&apos;
-</code></pre><p>google了一下，发现说什么，只要添加了remote或者更改了remote，shallow 的更新不被允许，我也不知道shallow啥意思，可能是个啥标志吧，就是要将老的remote库标志为unshallow(这样老库就不会更新了),新的remote才能push，这什么鬼规则。。。</p>
-<pre><code>master -&gt; master (shallow update not allowed)
-</code></pre><p>那怎么样去flag老的remote为unshallow呢，就要用fetch命令了。<br>好吧，我就干下吧，干的时候必须带上unshallow：</p>
-<pre><code>git fetch --unshallow origin 
-</code></pre><p><strong>ps:这个库是我从主库fork下来的，只是提交到我自己的公有库上，而对于brew-cask的主库而言，我是它无数个分支中的一个分支，别人暂时通过<code>brew cask search readkit</code> 是搜不到的，直到主库维护者将无数分支merge到主库，用户更新了brew-cask 的index，那就可以搜得到了</strong></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/brew-cask-添加cask/">brew-cask 添加cask</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/如何添加brewcask没有的软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/如何添加brewcask没有的软件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/" title="关于MacBook电池的正确使用方法" itemprop="url">关于MacBook电池的正确使用方法</a>
   </h1>
   <p class="article-author">By
@@ -312,7 +167,7 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
+      <a href="/2016/06/13/docker_换国内镜像/" title="docker 换国内镜像" itemprop="url">docker 换国内镜像</a>
   </h1>
   <p class="article-author">By
        
@@ -325,52 +180,319 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 </header>
     <div class="article-content">
         
-        <hr>
-<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
-<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>查看mysql运行状态：</p>
-<pre><code>service mysql start    
-</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
-<pre><code> [root@localhost download]# mysql
-ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
-[root@localhost download]# service mysql status
-MySQL is not running                                       [失败]
-[root@localhost download]# service mysql start
-Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
-[root@localhost download]# reboot
-</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
-<ol>
-<li>安装包与系统不兼容</li>
-<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
-</ol>
-<p>mysql在linux上的安装方法：</p>
-<ul>
-<li>yum 方式</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">若系统有自带的mysql或libs，可选择先卸载再安装</div><div class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</div><div class="line"> rpm -e mysql                     //普通删除模式</div><div class="line"> rpm -e --nodeps mysql         // 强力删除模式</div><div class="line"> yum -y remove mysql-libs-*   //删除所有包</div><div class="line"> rpm -e --nodeps mysql</div><div class="line"></div><div class="line"> 安装</div><div class="line">//查看yum上提供的mysql数据库可下载的版本</div><div class="line"> yum list | grep mysql</div><div class="line"></div><div class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</div></pre></td></tr></table></figure>
-<ul>
-<li><p>通用安装</p>
-<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
-</code></pre></li>
-</ul>
-<ul>
-<li>npm包 安装 </li>
-</ul>
-<p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>安装完成后启动mysql:</p>
-<pre><code>service mysql start
-</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
-<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
-<pre><code># chkconfig --list mysql
+        <h2 id="docker-换国内镜像"><a href="#docker-换国内镜像" class="headerlink" title="docker 换国内镜像"></a>docker 换国内镜像</h2><p>搞了一天，终于把docker的地址换成国内镜像了，搞死我了。。。。。。</p>
+<p>把链接附上，这是国内号称永久免费的镜像服务，需要注册<br><a href="https://dashboard.daocloud.io/mirror">https://dashboard.daocloud.io/mirror</a></p>
+<p>安装或升级Mac OS版本Boot2Docker</p>
+<p>Docker 1.3.2 版本以上支持加速器，如果您没有安装 Docker 或者版本较旧，请安装或升级。</p>
+<p>参考 Boot2Docker 安装文档。高速下载 Boot2Docker</p>
+<p>配置Docker加速器</p>
+<p>请确认你的 Boot2Docker 已经启动，并执行<br><code><br>boot2docker up</p>
+<p>boot2docker ssh “echo $’EXTRA_ARGS=\”–registry-mirror=<a href="http://xxxx.m.daocloud.io\">http://xxxx.m.daocloud.io\</a>“‘ | sudo tee -a /var/lib/boot2docker/profile”</p>
+<p>boot2docker restart<br></code> </p>
+<p><strong>其中xxxx是你登陆以后分配给你的mirror</strong>  </p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/docker_换国内镜像/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
 
-mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
-</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker-国内镜像/">docker 国内镜像</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/docker_换国内镜像/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/docker_换国内镜像/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/oh_my_zsh安装出现的问题/" title="oh my zsh安装出现的问题" itemprop="url">oh my zsh安装出现的问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="oh-my-zsh安装出现的问题"><a href="#oh-my-zsh安装出现的问题" class="headerlink" title="oh my zsh安装出现的问题"></a>oh my zsh安装出现的问题</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1,安装"></a>1,安装</h2><pre><code>wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+</code></pre><p>参考强哥的博客，<a href="http://macshuo.com/?p=676">安装oh my zsh出现的问题</a></p>
+<ol>
+<li>安装完成后，终端背景显示没变，使用的是默认主题</li>
+<li>需要将终端背景显示设置一下才会变成黑色背景</li>
+<li>vi ~/.zshrc 设置了值改了配置后不会立即生效，需要source一下</li>
+<li>安装autojump插件home目录下没有.autojump目录，可能是由于autojump升级了，不需要这个目录了</li>
+</ol>
+<p>我用home brew 安装的，第一次安装没仔细看，后来重新安装了下，发现安装成功后给我了提示，如下：</p>
+<pre><code>==&gt; Pouring autojump-22.3.0.el_capitan.bottle.tar.gz
+==&gt; Caveats
+Add the following line to your ~/.bash_profile or ~/.zshrc file (and remember
+to source the file to update your current session):
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] &amp;&amp; . $(brew --prefix)/etc/profile.d/autojump.sh
+
+If you use the Fish shell then add the following line to your ~/.config/fish/config.fish:
+[ -f /usr/local/share/autojump/autojump.fish ]; and . /usr/local/share/autojump/autojump.fish
+</code></pre><ol>
+<li>我用的是oh my zsh,是zsh的封装，也就是说适用第一个提示，要把这段代码加到.zshrc配置里</li>
+<li>.zshrc的插件配置里需要把autojump支持加上</li>
+<li><code>source .zshrc</code> 使配置生效</li>
+</ol>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/oh_my_zsh安装出现的问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/oh-my-zsh-vim-macos/">oh-my-zsh vim macos</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/oh_my_zsh安装出现的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/oh_my_zsh安装出现的问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
+<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/">下载地址(文档)</a></p>
+</li>
+<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/3d_touch例子一个/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/" title="将 Mac 中的文件夹共享到虚拟机" itemprop="url">将 Mac 中的文件夹共享到虚拟机</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="将-Mac-中的文件夹共享到虚拟机"><a href="#将-Mac-中的文件夹共享到虚拟机" class="headerlink" title="将 Mac 中的文件夹共享到虚拟机"></a>将 Mac 中的文件夹共享到虚拟机</h2><hr>
+<p>我用的是vmware Fusion 7.0</p>
+<p><strong>要在 Linux 或 Solaris 虚拟机中配置共享文件夹，请执行以下操作：</strong></p>
+<p><em>注意：FreeBSD 不支持共享文件夹。</em></p>
+<p>启动 VMware Fusion。<br>关闭虚拟机。<br>单击虚拟机 &gt; 设置。<br>单击共享。<br>在 Fusion 8.x 和 7.x 中，选择启用共享文件夹选项。在 Fusion 6.x 、5.x 和 4.x 中，将共享文件夹选项选为开启。在 Fusion 3.x 中，选择在 Mac 上共享文件夹选项。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mac-虚拟机-共享-vmware/">mac 虚拟机 共享 vmware</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/将_mac_中的文件夹共享到虚拟机/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/" title="外网访问内网的解决方式" itemprop="url">外网访问内网的解决方式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="通过公司的路由器转发到内网测试服务器"><a href="#通过公司的路由器转发到内网测试服务器" class="headerlink" title="通过公司的路由器转发到内网测试服务器"></a>通过公司的路由器转发到内网测试服务器</h1><p>折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。</p>
+<h2 id="准备工具："><a href="#准备工具：" class="headerlink" title="准备工具："></a>准备工具：</h2><ol>
+<li>nginx</li>
+<li><p>公司路由器</p>
+<ul>
+<li>虚拟主机端口转发</li>
+<li><p>DMZ主机托管</p>
+<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png" alt="image"></p>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。</strong></p>
+<h2 id="指出错误的想法"><a href="#指出错误的想法" class="headerlink" title="指出错误的想法:"></a>指出错误的想法:</h2><ol>
+<li>源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理</li>
+<li>公网的IP是绑定在路由器上的，我们内网上网都是通过路由上网，所以如果要反向代理，就要在路由器上作反身代理，否则完全行不通</li>
+</ol>
+<h2 id="不可思议的问题"><a href="#不可思议的问题" class="headerlink" title="不可思议的问题"></a>不可思议的问题</h2><ol>
+<li>可以通过域名 + 端口的方向可以访问通过跟帖器端口转发的方式访问内网，但不支持80端口</li>
+</ol>
 
         
         
@@ -381,6 +503,16 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络配置/">网络配置</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/路由转发端口到内网服务器/">路由转发端口到内网服务器</a>
+  </div>
 
 </div>
 
@@ -390,7 +522,73 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/通过公司的路由器转发到内网测试服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/iptables与docker的作死碰撞/" title="docker安装了iptalbes以后，出现的悲剧与解决方案" itemprop="url">docker安装了iptalbes以后，出现的悲剧与解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a href="#docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" title="docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
+<p>情况是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[root@localhost ~]# docker ps -a</div><div class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</div><div class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</div><div class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</div><div class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</div><div class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</div><div class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</div><div class="line">[root@localhost ~]# docker start 782</div><div class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</div><div class="line"> (exit status 1)</div><div class="line">Error: failed to start containers: [782]</div><div class="line">[root@localhost ~]# docker rm 782</div></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/iptables与docker的作死碰撞/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iptables与docker的作死碰撞/">iptables与docker的作死碰撞</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/iptables与docker的作死碰撞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/iptables与docker的作死碰撞/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1330,441 +1528,9 @@ order.setResult(calculate(order));
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/20/ios代码规范/" title="javascript高级特性与原理指引" itemprop="url">javascript高级特性与原理指引</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-20T07:12:03.000Z" itemprop="datePublished"> 发表于 2016-05-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="ios代码规范"><a href="#ios代码规范" class="headerlink" title="ios代码规范"></a>ios代码规范</h1><h2 id="一、命名规范"><a href="#一、命名规范" class="headerlink" title="一、命名规范"></a>一、命名规范</h2><h3 id="1-类命名"><a href="#1-类命名" class="headerlink" title="1. 类命名"></a>1. 类命名</h3><blockquote>
-<p>首字母大写,之后每个单词首字母都大写 </p>
-<ul>
-<li>使用能够反映类功能的名词短语</li>
-<li><p>文件和类同名</p>
-<p>举例:BaseC*ient、ImageStore</p>
-</li>
-</ul>
-</blockquote>
-<p>如果是视图控制器的子类应添加后缀“ViewContro<strong>er”或者“Contro</strong>er” * 如果是视图的子类应添加后缀“View”<br> 如果是按钮的子类应添加后缀“Btn”<br>……</p>
-<blockquote>
-<p>举例:SettingsViewContro**er、NavigationView</p>
-</blockquote>
-<h3 id="2-Categroy-类别-命名"><a href="#2-Categroy-类别-命名" class="headerlink" title="2. Categroy(类别)命名"></a>2. Categroy(类别)命名</h3><p><strong>与类命名相同,此外需添加要扩展的类名和“+” </strong></p>
-<blockquote>
-<p>举例:NSString+UR*Encoding</p>
-</blockquote>
-<h3 id="3-协议-委托-命名"><a href="#3-协议-委托-命名" class="headerlink" title="3. 协议(委托)命名"></a>3. 协议(委托)命名</h3><blockquote>
-<p>与类命名相同,此外需添加“De*egate”后缀 </p>
-</blockquote>
-<p>举例:Rep<em>yViewDe</em>egate</p>
-<h3 id="4-方法命名"><a href="#4-方法命名" class="headerlink" title="4. 方法命名"></a>4. 方法命名</h3><p>首字母小写,之后每个单词首字母都大写， 具有足够的说明性</p>
-<ul>
-<li>首字母小写,之后每个单词首字母都大写 * 方法名使用动词短语<blockquote>
-<p>举例:- (void)setPostVa<em>ue:(int)va</em>ue</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="6-方法参数命名"><a href="#6-方法参数命名" class="headerlink" title="6. 方法参数命名"></a>6. 方法参数命名</h3><p> 首字母小写,之后每个单词首字母都大写</p>
-<ul>
-<li>具有足够的说明性</li>
-<li>不需要添加类型前缀<blockquote>
-<p>举例:- (void)sendUserInfo:(NSDictionary *)userInfo</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="7-变量命名"><a href="#7-变量命名" class="headerlink" title="7.变量命名"></a>7.变量命名</h3><ul>
-<li>首字母小写,之后每个单词首字母都大写 * 具有足够的说明性<ul>
-<li>成员变量不需要添加“_m”前缀</li>
-<li>成员变量添加“_”前缀</li>
-</ul>
-</li>
-</ul>
-<h3 id="8-常量"><a href="#8-常量" class="headerlink" title="8.常量"></a>8.常量</h3><ul>
-<li>常量(预定义,局部常量等)使用小写k开头的驼峰法<blockquote>
-<p>举例:kInva<em>idHand</em>e , kWritePerm</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>枚举类型命名首字母大写,之后每个单词首字母都大写,最后加“s”</li>
-<li><p>枚举变量使用枚举类型去掉“s”作为前缀,每个单词首字母大写,中间不允许加下划 线</p>
-<h3 id="9-图片命名"><a href="#9-图片命名" class="headerlink" title="9.图片命名"></a>9.图片命名</h3><h3 id="10-分组命名"><a href="#10-分组命名" class="headerlink" title="10.分组命名"></a>10.分组命名</h3><blockquote>
-<p>举例:<br>typedef enum UIContro<em>Events{ UIContro</em>EventTouchDown, UIContro<em>EventTouchUpInside }UIContro</em>Events;</p>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li>使用英文,首字母大写,之后每个单词首字母都大写 * 添加模块名作为前缀,避免冲突<ul>
-<li>图片应该与类文件一样,按模块分组放置<br>使用英文,首字母大写,之后每个单词首字母都大写 每个分组使用模块的名字 使用的开源库统一放在“<em>ibrary”分组下 使用的公共组件统一放在“Common”分组下 视图控制器及 AppDe</em>egate 统一放在“Contro**ers”分组下</li>
-</ul>
-</li>
-</ul>
-<h2 id="二、书写规范"><a href="#二、书写规范" class="headerlink" title="二、书写规范"></a>二、书写规范</h2><h3 id="1-注释"><a href="#1-注释" class="headerlink" title="1. 注释"></a>1. 注释</h3><pre><code> * 文件都包含文件头,要说明文件名、作者、创建时间、变更记录
- * 多人协作完成项目时,pub*ic 接口的每个方法都应该添加关于函数,参数,返回值以 及副作用的注释
-
-* 当if语句的判断条件复杂时,需要用注释说明判断内容
-* 接口类(继承于BaseC*ient)的头文件每个方法前都应该注明方法的作用
-</code></pre><h3 id="2-方法"><a href="#2-方法" class="headerlink" title="2. 方法"></a>2. 方法</h3><ul>
-<li>留一个空格在-或+和返回类型之间,但参数列表里的参数之间不要留间隔,每个冒号 之前都必须有对该参数的说明词,如:</li>
-</ul>
-<pre><code>- (void)doSomethingWithString:(NSString *)string number:(int)num
-</code></pre><ul>
-<li><p>如果参数过多,推荐每个参数各占一行。使用多行的情况下,在参数前加冒号用于对 齐,如:</p>
-<pre><code>-(void)doSomethingWith:(GTMFoo *)theFoo rect:(NSRect)theRect
-interva:(foat)theInterva*
-</code></pre></li>
-</ul>
-<h3 id="3-其他规范"><a href="#3-其他规范" class="headerlink" title="3.其他规范"></a>3.其他规范</h3><ul>
-<li>操作符前后都要加空格<ul>
-<li>避免相同的代码段在多个地方出现</li>
-<li>语句嵌套层次不得超过 3 层</li>
-<li>每个实现文件建议在 500 行以内,不能超过 1000 行,超过之后应考虑通过抽象类对 代码进行重构</li>
-<li>及时删除或注释掉无用的代码</li>
-</ul>
-</li>
-<li>UITab<em>eViewCe*</em> 里面的 network cient 都要委托出来<ul>
-<li>点击按钮之后需要切换按钮图片,当这两张图片没有关联时(例如一张图片相比另一<br>张图片有选中效果),不应该设置为 UIContro<em>Se</em>ected * 控件布局使用相对坐标</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>确定不使用的代码应该删除</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/javascript/">javascript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/javascript-原型编程/">javascript&原型编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/20/ios代码规范/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/20/ios代码规范/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/20/javascript高级特性与原理指引/" title="javascript高级特性与原理指引" itemprop="url">javascript高级特性与原理指引</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-20T07:11:56.000Z" itemprop="datePublished"> 发表于 2016-05-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="javascript高级特性与原理指引"><a href="#javascript高级特性与原理指引" class="headerlink" title="javascript高级特性与原理指引"></a>javascript高级特性与原理指引</h2><table>
-<thead>
-<tr>
-<th>参数名称</th>
-<th>是否必须</th>
-<th>描述</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sign</td>
-<td>是</td>
-<td>签名</td>
-<td>md5(uid + token)</td>
-</tr>
-<tr>
-<td>token</td>
-<td>是</td>
-<td>令牌key</td>
-<td>分发给访问渠道的令牌</td>
-</tr>
-<tr>
-<td>uid</td>
-<td>是</td>
-<td>用户ID，默认是0</td>
-<td>唯一标识用户</td>
-</tr>
-<tr>
-<td>p</td>
-<td>否</td>
-<td>页码</td>
-<td>分页查询使用</td>
-</tr>
-<tr>
-<td>r</td>
-<td>否</td>
-<td>每页显示条数</td>
-<td>分页查询使用</td>
-</tr>
-<tr>
-<td>channel</td>
-<td>是</td>
-<td>客户端访问渠道:ios,android,wechat,mobileWeb</td>
-<td>区分访问来源</td>
-</tr>
-<tr>
-<td>version</td>
-<td>否</td>
-<td>版本号</td>
-<td>只有app有值</td>
-</tr>
-</tbody>
-</table>
-<p>返回值：</p>
-<ol>
-<li>javascript</li>
-</ol>
-<ul>
-<li>原型编程</li>
-<li>javascript 基本单元有哪些</li>
-<li>javascript 支持哪些特性，如基本类型、var—&gt;与基本类型关系</li>
-<li>var–&gt;Object什么关系</li>
-<li>Object—&gt;instance什么关系</li>
-</ul>
-<p>javascript原型单元：</p>
-<p>function —-&gt;</p>
-<p>var objcA = {属性A:value,属性B:value};<br>objcA—&gt;function</p>
-<p>javascript—&gt;instance—&gt;function</p>
-<p>prototype—-&gt;instance—&gt;function</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/javascript/">javascript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/javascript-原型编程/">javascript&原型编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/20/javascript高级特性与原理指引/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/20/javascript高级特性与原理指引/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/16/安装xcode插件管理器/" title="安装xcode插件管理器" itemprop="url">安装xcode插件管理器</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-16T01:16:09.000Z" itemprop="datePublished"> 发表于 2016-05-16</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="安装xcode插件管理器"><a href="#安装xcode插件管理器" class="headerlink" title="安装xcode插件管理器"></a>安装xcode插件管理器</h1><ol>
-<li><a href="http://alcatraz.io/" target="_blank" rel="external">参照Alcatraz官网</a></li>
-</ol>
-<pre><code>curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/deploy/Scripts/install.sh | sh
-</code></pre><p><strong>ps:执行命令安装之前把xcode关闭。</strong></p>
-<p>由于天朝网络问题，用第二种比较靠谱，当然你要是可以越过长城，那就没问题，要是没有，就会和我一样：</p>
-<p><img src="blogCode/0002.png" alt="image"></p>
-<p>2.github clone install</p>
-<pre><code>git clone https://github.com/alcatraz/Alcatraz.git 
-</code></pre><p>1 . open with xcode    </p>
-<p>2 . run with xcode(agree all loadbundle)</p>
-<ul>
-<li>安装完成之后，打开xcode,在window导航栏下找到<code>package Manager</code>打开</li>
-</ul>
-<p><img src="http://alcatraz.io/images/menu@2x.png" alt="image"></p>
-<ul>
-<li>看到各种各样的插件，可以删除、管理、安装</li>
-</ul>
-<p><img src="http://alcatraz.io/images/screenshot@2x.png" alt="image"></p>
-<h2 id="卸载Alcatraz"><a href="#卸载Alcatraz" class="headerlink" title="卸载Alcatraz"></a>卸载Alcatraz</h2><p>Uninstall</p>
-<p>Delete the plugin:</p>
-<pre><code>rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin
-</code></pre><p>Remove all cached data:</p>
-<pre><code>rm -rf ~/Library/Application\ Support/Alcatraz
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Alcatraz/">Alcatraz</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Alcatraz安装与管理/">Alcatraz安装与管理</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/16/安装xcode插件管理器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/16/安装xcode插件管理器/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/05/mac新装mysql设置root密码/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-05T09:51:43.000Z" itemprop="datePublished"> 发表于 2016-05-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>title: mac系统新装mysql设置root密码<br>date: 1462441903000<br>categories: mysql</p>
-<h2 id="tags-mac与mysql"><a href="#tags-mac与mysql" class="headerlink" title="tags: mac与mysql"></a>tags: mac与mysql</h2><h1 id="mac新装mysql设置root密码"><a href="#mac新装mysql设置root密码" class="headerlink" title="mac新装mysql设置root密码"></a>mac新装mysql设置root密码</h1><p>默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># mysqladmin -uroot -p password &apos;newpassword&apos;</div><div class="line">Enter password:</div><div class="line">mysqladmin: connect to server at &apos;localhost&apos; failed</div><div class="line">error: &apos;Access denied for user &apos;root&apos;@&apos;localhost&apos; (using password: YES)&apos;</div></pre></td></tr></table></figure>
-<p><strong>ps:<br>mysql默认在安装后mysqladmin命令不是全局的，如果要设置为全部的，需要设置自启动(mysql的命令行默认在/usr/local/mysql/bin/下)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"># /etc/init.d/mysql stop</div><div class="line"># mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;</div><div class="line"># mysql -u root mysql</div><div class="line">mysql&gt; UPDATE user SET Password=PASSWORD(&apos;newpassword&apos;) where USER=&apos;root&apos;;</div><div class="line">mysql&gt; FLUSH PRIVILEGES;</div><div class="line">mysql&gt; quit</div><div class="line"># /etc/init.d/mysql restart</div><div class="line"># mysql -uroot -p</div><div class="line">Enter password: &lt;输入新设的密码newpassword&gt;</div></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/05/mac新装mysql设置root密码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/05/mac新装mysql设置root密码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/6/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/8/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/8/">Next<span></span></a>
   </nav>
 
 
@@ -1849,6 +1615,10 @@ interva:(foat)theInterva*
 		  
 		
 		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
 		  
 		
@@ -1866,6 +1636,10 @@ interva:(foat)theInterva*
 		
 		  
 			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1934,15 +1708,11 @@ interva:(foat)theInterva*
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -1950,11 +1720,19 @@ interva:(foat)theInterva*
 			
 		
 			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -1966,11 +1744,11 @@ interva:(foat)theInterva*
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
@@ -1983,10 +1761,6 @@ interva:(foat)theInterva*
 		
 			
 				<li><a href="/tags/tomcat/" title="tomcat">tomcat<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -2082,7 +1856,7 @@ interva:(foat)theInterva*
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2018 
 		
 		<a href="/about" target="_blank" title="sam">sam</a>
 		

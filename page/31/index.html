@@ -90,7 +90,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Unix有用命令行/" title="Unix有用命令行" itemprop="url">Unix有用命令行</a>
+      <a href="/2016/03/30/Validator.js/" title="Validator.js" itemprop="url">Validator.js</a>
   </h1>
   <p class="article-author">By
        
@@ -103,21 +103,21 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Unix有用命令行"><a href="#Unix有用命令行" class="headerlink" title="Unix有用命令行"></a>Unix有用命令行</h1><p>OSX 的文件系统 </p>
-<div><br><br>OSX 采用的Unix文件系统，所有文件都挂在跟目录 / 下面，所以不在要有Windows<br>下的盘符概念。<br><br></div>
+        <h1 id="Validator-js"><a href="#Validator-js" class="headerlink" title="Validator.js"></a>Validator.js</h1><p>Validator = {</p>
+<div><br><br>     Require : /.+/,<br><br></div>
 
-<div><br><br>你在桌面上看到的硬盘都挂在 /Volumes 下。<br><br></div>
+<div><br><br>     Email :<br>/\^\w+([-+.]\w+)* \w+([-.]\w+)*\.\w+([-.]\w+)*\$/,<br><br></div>
 
-<div><br><br>比如接上个叫做<br>USBHD的移动硬盘，桌面上会显示出一个硬盘图标，它实际在哪里呢？<br><br></div>
+<div><br><br>     Phone :<br>/\^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,11}(\-\d{1,6})?\$/,<br><br></div>
 
-<div><br><br>在终端里执行 ls /Volumes/USBHD, 看看显示出的是不是这个移动硬盘的内容。<br><br></div>
+<div><br><br>     Mobile :<br>/\^(852\d{8})|(((\(\d{2,3}\))|(\d{3}\-))?((13\d{9})|(15\d{9})|(18\d{9})))\$/,<br><br></div>
 
-<div><br><br>根目录位置是 / 核心 Mach_kernel 就在这里，<br><br></div>
+<div><br><br>     Url :<br>/\^(https|http):\/\/[A-Za-z0-9-]+\.[A-Za-z0-9-]+[\/=\?%\-&amp;_~` [\]\‘:+!]*([\^&lt;&gt;\“\“])*\$/,<br><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Unix有用命令行/#more">Read More</a>
+            <a href="/2016/03/30/Validator.js/#more">Read More</a>
           
        </p>
     </div>
@@ -143,7 +143,300 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Unix有用命令行/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Unix有用命令行/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Validator.js/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Validator.js/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/" title="CocoaPods 的一些略为高级一丁点的使用" itemprop="url">CocoaPods 的一些略为高级一丁点的使用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="CocoaPods-的一些略为高级一丁点的使用"><a href="#CocoaPods-的一些略为高级一丁点的使用" class="headerlink" title="CocoaPods 的一些略为高级一丁点的使用"></a>CocoaPods 的一些略为高级一丁点的使用</h1><p>记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当中早已经出现，甚至成为了开发的标配，尽管如此，CocoaPods依然是对iOS/Mac开发做出了巨大的贡献，在此为CocoaPods做出贡献的人表示感谢。</p>
+<p>CocoaPods功能不算太强大，但大部分时候足够好用，仅仅是最基本的样例配置，就可以满足你项目的大部分需求，但了解更多的一一些的特性，会让你更得心应手。</p>
+<h4 id="指定源"><a href="#指定源" class="headerlink" title="指定源"></a>指定源</h4><p>CocoaPods支持私有 Spec<br>仓库的，我们可以建立自己的源，也可以使用非官方的源，只要是符合规定的都可以指定。</p>
+<h4 id="抑制警告"><a href="#抑制警告" class="headerlink" title="抑制警告"></a>抑制警告</h4><p>inhibit_warnings参数能够有效的抑制CocoaPods引入的第三方代码库产生的warning。</p>
+<p>可以全部指定。</p>
+<p>也可以针对指定。</p>
+<h4 id="使用git的HEAD指向的分支"><a href="#使用git的HEAD指向的分支" class="headerlink" title="使用git的HEAD指向的分支"></a>使用git的HEAD指向的分支</h4><h4 id="使用-master-分支"><a href="#使用-master-分支" class="headerlink" title="使用 master 分支"></a>使用 master 分支</h4><h3 id="指定branch"><a href="#指定branch" class="headerlink" title="指定branch"></a>指定branch</h3><h4 id="指定tag"><a href="#指定tag" class="headerlink" title="指定tag"></a>指定tag</h4><h3 id="指定commit"><a href="#指定commit" class="headerlink" title="指定commit"></a>指定commit</h3><h4 id="使用子库"><a href="#使用子库" class="headerlink" title="使用子库"></a>使用子库</h4><p>可以这样</p>
+<p>也可以这样指定多个子库</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/CocoaPods 的一些略为高级一丁点的使用/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/阿里云遇到的问题/" title="阿里云遇到的问题" itemprop="url">阿里云遇到的问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="阿里云遇到的问题"><a href="#阿里云遇到的问题" class="headerlink" title="阿里云遇到的问题"></a>阿里云遇到的问题</h1><div><br><br>1,阿里云ECS服务器不支持直接升级磁盘空间，因之前买的配的系统磁盘空间太小，故重新买了一块独立的ssd云盘挂载在ECS服务器上，但后面如果要做负载均衡，ssd云盘就无法读定共用了<br><br></div>
+
+<div><br><br>RS:<br><br></div>
+
+<div><br><br>NFS解决文件共享问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>2，做负载均衡使用SLB还是用原始的nginx做？<br><br></div>
+
+<div><br><br>nginx做负载均衡<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/阿里云遇到的问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/阿里云遇到的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/阿里云遇到的问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/非root用户安装/" title="非root用户安装" itemprop="url">非root用户安装</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="非root用户安装"><a href="#非root用户安装" class="headerlink" title="非root用户安装"></a>非root用户安装</h1><p>非root用户安装apache、php、mysql</p>
+<div><br><br>tlanyan 发布于 2013 年 10 月 16 日2014 年 10 月 10 日<br><br></div>
+
+<div><br><br>文章主要参考：<a href="http://www.[cnblogs.com/ahomer/archive/2012/11/23/2783814.html](http://cnblogs.com/ahomer/archive/2012/11/23/2783814.html">http://www.[cnblogs.com/ahomer/archive/2012/11/23/2783814.html](http://cnblogs.com/ahomer/archive/2012/11/23/2783814.html</a>)<br><br></div>
+
+<div><br><br>linux下安装软件不像windows一样点击鼠标就可以完成，然而之前接触到的是从软件仓库里使用yum或者apt的工具来安装。最近接触到的服务器版本比较老，没有yum之类的软件，安装软件都是从源码安装。由于安全限制，服务器还不能直接访问外网（甚至两个子网都不能互通），wget方式获取软件源码的方法都不可行。由于路由的隔离，只能在能访问外网的机器上下载好软件，然后使用rz或者samba的方式拷贝到测试机器上，然后开发机使用ftp的方式从测试机上获取到安装包（scp和ssh都被屏蔽掉）。当然，这是安装前的工作。<br><br></div>
+
+<div><br><br>一、安装apache<br><br></div>
+
+<div><br><br>从官网 <a href="http://httpd.apache.org/download.cgi">http://httpd.apache.org/download.cgi</a> 下载apache2的安装源码。<br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/非root用户安装/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/非root用户安装/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/非root用户安装/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/Windows 命令行下修改文件访问控制权限/" title="Windows 命令行下修改文件访问控制权限" itemprop="url">Windows 命令行下修改文件访问控制权限</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Windows-命令行下修改文件访问控制权限"><a href="#Windows-命令行下修改文件访问控制权限" class="headerlink" title="Windows 命令行下修改文件访问控制权限"></a>Windows 命令行下修改文件访问控制权限</h1><div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><span
+style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;"><strong>一、使用Cacls．exe命令</strong>\<br>\<br> 　　这是一个在Windows 2000/XP/Server<br>2003操作系统下都可以使用的命令，作用是显示或者修改文件的访问控制表，在命令中可以使用通配符指定多个文件，也可以在命令中指定多个用户。命令语法如下：　　\<br> 　　</span><br><div
+style="word-wrap: break-word; overflow-x: hidden; overflow-y: hidden; margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 10px; padding-right: 0px; padding-bottom: 5px; padding-left: 10px; background-image: url(http://bbs.dianbo.org/static/image/common//codebg.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(247, 247, 247); color: rgb(102, 102, 102); zoom: 1; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); background-position: 0px 0px; background-repeat: no-repeat repeat;"><br><br><div style="word-wrap: break-word;"><br><br>1.  <span
+    style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">Cacls<br>    filename [/T] [/E] [/C] [/G user:perm] [/R user […]]<br>    [/P user:perm […]] [/D user […]]</span><br><br></div>
+
+<p><span
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/Windows 命令行下修改文件访问控制权限/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/Windows 命令行下修改文件访问控制权限/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Windows 命令行下修改文件访问控制权限/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -318,7 +611,7 @@ style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow'
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/" title="强大的负载均衡+静态文件WEB服务器nginx实战" itemprop="url">强大的负载均衡+静态文件WEB服务器nginx实战</a>
+      <a href="/2016/03/30/XCode下的iOS单元测试/" title="XCode下的iOS单元测试" itemprop="url">XCode下的iOS单元测试</a>
   </h1>
   <p class="article-author">By
        
@@ -331,22 +624,22 @@ style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow'
 </header>
     <div class="article-content">
         
-        <h1 id="强大的负载均衡-静态文件WEB服务器nginx实战"><a href="#强大的负载均衡-静态文件WEB服务器nginx实战" class="headerlink" title="强大的负载均衡+静态文件WEB服务器nginx实战"></a>强大的负载均衡+静态文件WEB服务器nginx实战</h1><p><span
-style="font: 16.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>强大的负载均衡+静态文件WEB服务器nginx实战</strong></span></p>
-<div><br><br>\<br><br></div>
+        <h1 id="XCode下的iOS单元测试"><a href="#XCode下的iOS单元测试" class="headerlink" title="XCode下的iOS单元测试"></a>XCode下的iOS单元测试</h1><div><br><br>如何在 XCode 4.2 下使用 OCUnit， GHUnit 和 OCMock 进行单元测试。<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br><span style="font-family: Helvetica;">    </span><br><br></div>
+<div><br><br><strong>OCUnit</strong><br><br></div>
 
-<p><span
-style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">模块依赖：\<br> 1 gzip支持，需要zlib <a href="http://www.zlib.net/">http://www.zlib.net/</a> 下载最新版即可\<br> 2 rewrite module requires pcre library <a href="http://www.pcre.org/">http://www.pcre.org/</a><br>下载最新版即可\<br> 3 ssl 功能需要 openssl 库 <a href="http://www.openssl.org/">http://www.openssl.org/</a> =&gt;<br><a href="http://www.openssl.org/source/">http://www.openssl.org/source/</a> LASTEST版本即可\<br>  \<br> 安装过程：\</p>
-<p>#下载以上source到/usr/local/src/nginx/目录下，解压，则该目录下情况如下：\<br> [root s16 nginx]# ls\<br> nginx-0.6.32  nginx-0.6.32.tar.gz  openssl-0.9.8i<br>
+<div><br><br>\<br><br></div>
+
+<div><br><br>在 XCode 下新建一个 OCUnitProject 工程，选中 Include Unit Tests 选择框，<br><br></div>
+
+<div><br><br>\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/#more">Read More</a>
+            <a href="/2016/03/30/XCode下的iOS单元测试/#more">Read More</a>
           
        </p>
     </div>
@@ -372,80 +665,7 @@ style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/Validator.js/" title="Validator.js" itemprop="url">Validator.js</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Validator-js"><a href="#Validator-js" class="headerlink" title="Validator.js"></a>Validator.js</h1><p>Validator = {</p>
-<div><br><br>     Require : /.+/,<br><br></div>
-
-<div><br><br>     Email :<br>/\^\w+([-+.]\w+)* \w+([-.]\w+)*\.\w+([-.]\w+)*\$/,<br><br></div>
-
-<div><br><br>     Phone :<br>/\^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,11}(\-\d{1,6})?\$/,<br><br></div>
-
-<div><br><br>     Mobile :<br>/\^(852\d{8})|(((\(\d{2,3}\))|(\d{3}\-))?((13\d{9})|(15\d{9})|(18\d{9})))\$/,<br><br></div>
-
-<div><br><br>     Url :<br>/\^(https|http):\/\/[A-Za-z0-9-]+\.[A-Za-z0-9-]+[\/=\?%\-&amp;_~` [\]\‘:+!]*([\^&lt;&gt;\“\“])*\$/,<br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Validator.js/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Validator.js/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Validator.js/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/XCode下的iOS单元测试/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/XCode下的iOS单元测试/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -546,7 +766,7 @@ style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webki
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/maven3常用命令笔记/" title="maven3常用命令笔记" itemprop="url">maven3常用命令笔记</a>
+      <a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/" title="强大的负载均衡+静态文件WEB服务器nginx实战" itemprop="url">强大的负载均衡+静态文件WEB服务器nginx实战</a>
   </h1>
   <p class="article-author">By
        
@@ -559,20 +779,22 @@ style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webki
 </header>
     <div class="article-content">
         
-        <h1 id="maven3常用命令笔记"><a href="#maven3常用命令笔记" class="headerlink" title="maven3常用命令笔记"></a>maven3常用命令笔记</h1><div><br><br>\<br><br></div>
-
-<div><br><br>//安装本地的jar到maven本地仓库\<br> mvn install:install-file -Dfile=jaxb-impl-2.1.9.jar<br>-DgroupId=com.sun.xml.bind -DartifactId=jaxb-impl<br>-Dversion=2.1.9 -Dpackaging=jar<br><br></div>
+        <h1 id="强大的负载均衡-静态文件WEB服务器nginx实战"><a href="#强大的负载均衡-静态文件WEB服务器nginx实战" class="headerlink" title="强大的负载均衡+静态文件WEB服务器nginx实战"></a>强大的负载均衡+静态文件WEB服务器nginx实战</h1><p><span
+style="font: 16.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>强大的负载均衡+静态文件WEB服务器nginx实战</strong></span></p>
+<div><br><br>\<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>//maven通过命令行指定端口：\<br> mvn -Djetty.port=9999 jetty:run<br><br></div>
+<div><br><br><span style="font-family: Helvetica;">    </span><br><br></div>
 
-<div><br><br>\<br><br></div><br>
+<p><span
+style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">模块依赖：\<br> 1 gzip支持，需要zlib <a href="http://www.zlib.net/">http://www.zlib.net/</a> 下载最新版即可\<br> 2 rewrite module requires pcre library <a href="http://www.pcre.org/">http://www.pcre.org/</a><br>下载最新版即可\<br> 3 ssl 功能需要 openssl 库 <a href="http://www.openssl.org/">http://www.openssl.org/</a> =&gt;<br><a href="http://www.openssl.org/source/">http://www.openssl.org/source/</a> LASTEST版本即可\<br>  \<br> 安装过程：\</p>
+<p>#下载以上source到/usr/local/src/nginx/目录下，解压，则该目录下情况如下：\<br> [root s16 nginx]# ls\<br> nginx-0.6.32  nginx-0.6.32.tar.gz  openssl-0.9.8i<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/maven3常用命令笔记/#more">Read More</a>
+            <a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/#more">Read More</a>
           
        </p>
     </div>
@@ -598,154 +820,7 @@ style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webki
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/maven3常用命令笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/maven3常用命令笔记/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/通过github_pages建立自己的博客/" title="通过github pages建立自己的博客" itemprop="url">通过github pages建立自己的博客</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:00.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="通过github-pages建立自己的博客"><a href="#通过github-pages建立自己的博客" class="headerlink" title="通过github pages建立自己的博客"></a>通过github pages建立自己的博客</h1><h2 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h2><p>废话不多说，本人参考了以下博客:  </p>
-<ol>
-<li><a href="http://blog.fens.me/hexo-blog-github/">Hexo在github上构建免费的Web应用</a></li>
-<li><a href="http://wsgzao.github.io/post/hexo-jacman">Jacman基于Pacman修改的Hexo主题</a></li>
-</ol>
-<p>不过在做那些操作时，你的电脑需要这些环境：</p>
-<ol>
-<li>nodejs</li>
-<li>ruby</li>
-<li><p>浏览器<br>由于我的电脑是mac，我本人又是一枚程序猿，所有这些环境都有，如果有人不知道怎么安装这些环境的:</p>
-<p> brew install nodejs</p>
-</li>
-</ol>
-<h3 id="安装hexo库"><a href="#安装hexo库" class="headerlink" title="安装hexo库"></a>安装hexo库</h3><p><a href="http://hexo.io/">hexo的官网</a></p>
-<p>如下方式安装：</p>
-<pre><code>$ npm install hexo-cli -g
-$ hexo init blog
-$ cd blog
-$ npm install
-$ hexo server
-</code></pre><p><em>因为国内墙的原因，ruby的源访问很慢，可以将镜像换成国内的镜像，目前我的是用的淘宝的，怎么换就自己google</em></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/通过github_pages建立自己的博客/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/github-博客/">github 博客</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/github上建立自己的博客/">github上建立自己的博客</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/通过github_pages建立自己的博客/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/通过github_pages建立自己的博客/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/07/xib cell/" title="xib cell" itemprop="url">xib cell</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-06T17:10:00.000Z" itemprop="datePublished"> 发表于 2016-03-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="xib-cell"><a href="#xib-cell" class="headerlink" title="xib cell"></a>xib cell</h1><div><br><br>Xib cell 不能同时定义两个cell,否则tableView加载时会报错<br><br></div>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/07/xib cell/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/07/xib cell/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -761,7 +836,7 @@ $ hexo server
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/30/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="page-number current">31</span>
+    <a class="extend prev" rel="prev" href="/page/30/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/32/">Next<span></span></a>
   </nav>
 
 
@@ -846,6 +921,10 @@ $ hexo server
 		  
 		
 		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>2</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
 		  
 		
@@ -863,6 +942,10 @@ $ hexo server
 		
 		  
 			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 		  
 		
 		  
@@ -931,15 +1014,11 @@ $ hexo server
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -947,11 +1026,19 @@ $ hexo server
 			
 		
 			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
@@ -963,11 +1050,11 @@ $ hexo server
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
@@ -980,10 +1067,6 @@ $ hexo server
 		
 			
 				<li><a href="/tags/tomcat/" title="tomcat">tomcat<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -1079,7 +1162,7 @@ $ hexo server
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2018 
 		
 		<a href="/about" target="_blank" title="sam">sam</a>
 		
