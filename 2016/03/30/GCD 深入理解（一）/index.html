@@ -15,26 +15,28 @@
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
     <meta name="description" content="GCD 深入理解（一）GCD深入理解（一）\发布于：2014-04-2809:32阅读数：16484\虽然GCD已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-C的平滑世界。我们将分两\“\”\\\\ 阅读器\ GCD\">
+<meta name="keywords" content="从印象笔记导入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD 深入理解（一）">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/GCD 深入理解（一）/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="GCD 深入理解（一）GCD深入理解（一）\发布于：2014-04-2809:32阅读数：16484\虽然GCD已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-C的平滑世界。我们将分两\“\”\\\\ 阅读器\ GCD\">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/7D2B7BEE-869D-4504-B12C-6E9B763E2A61.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/61DFB3DD-B09C-49B0-BA53-3DB89D02A0B3.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/1273A0D5-9A7D-4AF1-888E-A46ECF7D8ABA.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/30188F49-DBAB-42CC-9403-C3AC7FAB5DE8.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/621BF8C1-ABF4-4CC8-8A84-F9293859B3A7.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/8BD03D38-C9C3-4360-A23E-DA7B01452364.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/2B16920F-40E7-4B9E-8F1E-42F7A46F7A14.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/8CE99035-5275-446B-801A-6E92DB69F9CB.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/926D969A-057A-44F7-BC65-F6109932ABC1.gif">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/8148042C-0DC8-4481-88C0-D3466C308F76.gif">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/7D2B7BEE-869D-4504-B12C-6E9B763E2A61.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/61DFB3DD-B09C-49B0-BA53-3DB89D02A0B3.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/1273A0D5-9A7D-4AF1-888E-A46ECF7D8ABA.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/30188F49-DBAB-42CC-9403-C3AC7FAB5DE8.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/621BF8C1-ABF4-4CC8-8A84-F9293859B3A7.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/8BD03D38-C9C3-4360-A23E-DA7B01452364.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/2B16920F-40E7-4B9E-8F1E-42F7A46F7A14.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/8CE99035-5275-446B-801A-6E92DB69F9CB.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/926D969A-057A-44F7-BC65-F6109932ABC1.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/8148042C-0DC8-4481-88C0-D3466C308F76.gif">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD 深入理解（一）">
 <meta name="twitter:description" content="GCD 深入理解（一）GCD深入理解（一）\发布于：2014-04-2809:32阅读数：16484\虽然GCD已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-C的平滑世界。我们将分两\“\”\\\\ 阅读器\ GCD\">
-<meta name="twitter:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/7D2B7BEE-869D-4504-B12C-6E9B763E2A61.png">
+<meta name="twitter:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（一）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%80%EF%BC%89.resources/7D2B7BEE-869D-4504-B12C-6E9B763E2A61.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -227,10 +229,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/Windows 命令行下修改文件访问控制权限/" title="Windows 命令行下修改文件访问控制权限">
+ <a href="/2016/03/30/CentOS 6.0安装配置subversion/" title="CentOS 6.0安装配置subversion">
   <strong>上一篇：</strong><br/>
   <span>
-  Windows 命令行下修改文件访问控制权限</span>
+  CentOS 6.0安装配置subversion</span>
 </a>
 </div>
 
@@ -367,7 +369,7 @@
 		  
 		
 		  
-			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>2</sup></a></li>
 		  
 		
 		  
@@ -436,15 +438,19 @@
 			
 		
 			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -456,11 +462,7 @@
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -472,11 +474,11 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			

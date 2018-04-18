@@ -15,24 +15,26 @@
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
     <meta name="description" content="GCD 深入理解（二）GCD深入理解（二）\发布于：2014-05-1513:05阅读数：5291\在本系列的第一部分中，你已经学到超过你想像的关于并发、线程以及GCD如何工作的知识。通过在初始化时利用dispatch_once，你创建了一个线程安全的 PhotoManager 单例，而且你通过使用dispatch\“\”\\\\ 阅读器\ GCD\\">
+<meta name="keywords" content="从印象笔记导入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD 深入理解（二）">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/GCD 深入理解（二）/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="GCD 深入理解（二）GCD深入理解（二）\发布于：2014-05-1513:05阅读数：5291\在本系列的第一部分中，你已经学到超过你想像的关于并发、线程以及GCD如何工作的知识。通过在初始化时利用dispatch_once，你创建了一个线程安全的 PhotoManager 单例，而且你通过使用dispatch\“\”\\\\ 阅读器\ GCD\\">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/BE196C34-5AA7-4AB9-9032-CE6C741B5EE0.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/372B2833-98A8-47D8-92C6-1E3DF26CBCEB.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/15898141-FDE2-49D1-B602-2F7E0C5BFF1C.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/E4472260-C5D1-4861-9405-9B304C254936.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/0B0D5372-DD0E-42AF-AE84-EAC80AE279B2.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/178906E8-EBA3-47FF-9645-C835E23A0DB4.png">
-<meta property="og:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/2CF15A91-DEF1-4DBA-BD89-4A004DC0FDAB.png">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/BE196C34-5AA7-4AB9-9032-CE6C741B5EE0.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/372B2833-98A8-47D8-92C6-1E3DF26CBCEB.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/15898141-FDE2-49D1-B602-2F7E0C5BFF1C.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/E4472260-C5D1-4861-9405-9B304C254936.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/0B0D5372-DD0E-42AF-AE84-EAC80AE279B2.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/178906E8-EBA3-47FF-9645-C835E23A0DB4.png">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/2CF15A91-DEF1-4DBA-BD89-4A004DC0FDAB.png">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD 深入理解（二）">
 <meta name="twitter:description" content="GCD 深入理解（二）GCD深入理解（二）\发布于：2014-05-1513:05阅读数：5291\在本系列的第一部分中，你已经学到超过你想像的关于并发、线程以及GCD如何工作的知识。通过在初始化时利用dispatch_once，你创建了一个线程安全的 PhotoManager 单例，而且你通过使用dispatch\“\”\\\\ 阅读器\ GCD\\">
-<meta name="twitter:image" content="http://www.huguiqi.com/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png">
+<meta name="twitter:image" content="http://www.huguiqi.com/2016/03/30/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -217,18 +219,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/XCode下的iOS单元测试/" title="XCode下的iOS单元测试">
+ <a href="/2016/03/30/@synthesize和@dynamic区别/" title="synthesize和 dynamic区别">
   <strong>上一篇：</strong><br/>
   <span>
-  XCode下的iOS单元测试</span>
+  synthesize和 dynamic区别</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/强大的负载均衡+静态文件WEB服务器nginx实战/"  title="强大的负载均衡+静态文件WEB服务器nginx实战">
+<a href="/2016/03/30/GCD（Grand Central Dispatch）和Block 使用-浅析/"  title="GCD（Grand Central Dispatch）和Block 使用-浅析">
  <strong>下一篇：</strong><br/> 
- <span>强大的负载均衡+静态文件WEB服务器nginx实战
+ <span>GCD（Grand Central Dispatch）和Block 使用-浅析
 </span>
 </a>
 </div>
@@ -357,7 +359,7 @@
 		  
 		
 		  
-			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>2</sup></a></li>
 		  
 		
 		  
@@ -426,15 +428,19 @@
 			
 		
 			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -446,11 +452,7 @@
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -462,11 +464,11 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			

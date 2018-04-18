@@ -15,11 +15,13 @@
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
     <meta name="description" content="胡小黑 大型网络架构">
+<meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
 <meta property="og:type" content="website">
 <meta property="og:title" content="小黑的技术博客">
 <meta property="og:url" content="http://www.huguiqi.com/page/3/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="胡小黑 大型网络架构">
+<meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小黑的技术博客">
 <meta name="twitter:description" content="胡小黑 大型网络架构">
@@ -83,6 +85,81 @@
     </header>
     <div id="container">
       <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/06/07/AFNetWork3.1对https无证书访问支持/" title="AFNetWork3.1对https无证书访问支持" itemprop="url">AFNetWork3.1对https无证书访问支持</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-06-07T02:02:00.000Z" itemprop="datePublished"> 发表于 2017-06-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>昨天在新公司调用公司生产环境时，发现公司生产环境是https协议，而ios端用的AFNetWork去访问时，报出：</p>
+<p><code>In order to validate a domain name for self signed certificates, you MUST use pinning.</code></p>
+<p>从字面上看，这个错误是因为证书的问题导致的，应该是客户端需要证书认证，但问服务器，服务器说，不会给证书给客户端，可能服务端说的是私钥不会给，但正常情况下，应该需要授权公钥给客户端，那我只能通过免证书的方式去做了，google了一下，通过设置如下代码亲测有效：</p>
+<pre><code>NSURLSessionConfiguration *configuration = \[NSURLSessionConfiguration defaultSessionConfiguration];
+
+self.requestOperationManager = [[[AFHTTPSessionManager alloc] initWithSessionConfiguration:configuration];
+// 如果是需要验证自建证书，需要设置为YES
+self.requestOperationManager.securityPolicy.allowInvalidCertificates = YES;
+//设置是否域名一致性验证
+self.requestOperationManager.securityPolicy.validatesDomainName = NO;
+</code></pre><p><em>注意：后面<code>self.requestOperationManager.securityPolicy.validatesDomainName</code>必须设置为NO，否则https不起效。</em></p>
+<p>参考了这篇文章：</p>
+<p><a href="http://www.jianshu.com/p/f732749ce786" target="_blank" rel="external">AFNetWork3.1设置免证书访问https</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/AFNetWork3-1/">AFNetWork3.1</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/证书/">证书</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/06/07/AFNetWork3.1对https无证书访问支持/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/06/07/AFNetWork3.1对https无证书访问支持/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
 
    
     
@@ -233,6 +310,75 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/04/05/如何汉化gitlab8.9.2版本/" title="如何汉化gitlab8.9.2版本" itemprop="url">如何汉化gitlab8.9.2版本</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-05T05:27:53.000Z" itemprop="datePublished"> 发表于 2017-04-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="如何汉化gitlab8-9-2版本"><a href="#如何汉化gitlab8-9-2版本" class="headerlink" title="如何汉化gitlab8.9.2版本"></a>如何汉化gitlab8.9.2版本</h1><p>我参考了这些文章作汉化：</p>
+<p><a href="https://xuanwo.org/2016/04/13/gitlab-install-intro/#">Gitlab部署和汉化以及简单运维</a></p>
+<p><a href="http://www.jianshu.com/p/7a0d6917e009#">快速安装 GitLab 并汉化</a></p>
+<p>但是。。。。感觉他们都有些错误，而且我的是最新版本8.9.2，现在中文补丁只打到8.8.5；</p>
+<p>所以，我有个神奇的想法，是不是可以用8.8.5的汉化补丁用到8.9.2上，可能它有些样式上和部分汉化没有汉化到，但是基本上能用，哪怕部分汉化，也很好。。。。</p>
+<p>嗯，所以就这样：<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/04/05/如何汉化gitlab8.9.2版本/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/gitlabe汉化/">gitlabe汉化</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/04/05/如何汉化gitlab8.9.2版本/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/05/如何汉化gitlab8.9.2版本/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/05/用docker安装应用服务器/" title="用docker安装应用服务器" itemprop="url">用docker安装应用服务器</a>
   </h1>
   <p class="article-author">By
@@ -300,75 +446,6 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 	
 	  	<span></span>
 		<a href="/2017/04/05/用docker安装应用服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/05/用docker安装应用服务器/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/05/如何汉化gitlab8.9.2版本/" title="如何汉化gitlab8.9.2版本" itemprop="url">如何汉化gitlab8.9.2版本</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-05T05:27:53.000Z" itemprop="datePublished"> 发表于 2017-04-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="如何汉化gitlab8-9-2版本"><a href="#如何汉化gitlab8-9-2版本" class="headerlink" title="如何汉化gitlab8.9.2版本"></a>如何汉化gitlab8.9.2版本</h1><p>我参考了这些文章作汉化：</p>
-<p><a href="https://xuanwo.org/2016/04/13/gitlab-install-intro/#">Gitlab部署和汉化以及简单运维</a></p>
-<p><a href="http://www.jianshu.com/p/7a0d6917e009#">快速安装 GitLab 并汉化</a></p>
-<p>但是。。。。感觉他们都有些错误，而且我的是最新版本8.9.2，现在中文补丁只打到8.8.5；</p>
-<p>所以，我有个神奇的想法，是不是可以用8.8.5的汉化补丁用到8.9.2上，可能它有些样式上和部分汉化没有汉化到，但是基本上能用，哪怕部分汉化，也很好。。。。</p>
-<p>嗯，所以就这样：<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/04/05/如何汉化gitlab8.9.2版本/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/gitlabe汉化/">gitlabe汉化</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/04/05/如何汉化gitlab8.9.2版本/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/05/如何汉化gitlab8.9.2版本/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -819,74 +896,6 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/03/更换node版本到6-5对hexo的影响/" title="更换node版本到6.5对hexo的影响" itemprop="url">更换node版本到6.5对hexo的影响</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-03T06:33:00.000Z" itemprop="datePublished"> 发表于 2017-03-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>上午为了学习es6更多的特性,将node4.5升级到到6.5，但是，我的hexo博客却死都启动不了，一直报这个错误：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1488522828680utc7t3lr.png?imageslim" alt="paste image"></p>
-<p>大概的意思就是说很多module没有，好吧，那我就重新install一下，但是，还是不行。一直报这个错，很无奈，可能hexo还不支持高版本的node吧，只能乖乖的切换回来：</p>
-<p><code>nvm use 4.5</code></p>
-<p>再启动，完美。</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/14885230790107cx0tiw4.png?imageslim" alt="paste image"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/node/">node</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/hexo/">hexo</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/03/更换node版本到6-5对hexo的影响/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/03/更换node版本到6-5对hexo的影响/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -998,7 +1007,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 		  
 		
 		  
-			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1067,15 +1076,19 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -1087,11 +1100,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -1103,11 +1112,11 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			

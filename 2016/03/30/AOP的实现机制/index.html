@@ -14,47 +14,25 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="AOP的实现机制AOP的实现机制
-
-\
-
-1 AOP各种的实现
-
-AOP就是面向切面编程，我们可以从几个层面来实现AOP。
-
-在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。">
+    <meta name="description" content="AOP的实现机制AOP的实现机制  \  1 AOP各种的实现  AOP就是面向切面编程，我们可以从几个层面来实现AOP。  在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。">
+<meta name="keywords" content="从印象笔记导入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AOP的实现机制">
 <meta property="og:url" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="AOP的实现机制AOP的实现机制
-
-\
-
-1 AOP各种的实现
-
-AOP就是面向切面编程，我们可以从几个层面来实现AOP。
-
-在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。">
-<meta property="og:image" content="http://www.huguiqi.com/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/D338DA38-C625-46F1-991B-78FE8C1D3D5C.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/95514DA1-4671-498E-AB71-81C5CE025FE0.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/60573AB9-AA07-4201-B7E5-F2E70358DA91.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/9E4024CD-5D7E-4A8A-902E-6CDA8C7BCD7F.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1C300C10-A3C3-46C7-A641-30087D0F5040.jpg">
+<meta property="og:description" content="AOP的实现机制AOP的实现机制  \  1 AOP各种的实现  AOP就是面向切面编程，我们可以从几个层面来实现AOP。  在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/D338DA38-C625-46F1-991B-78FE8C1D3D5C.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/95514DA1-4671-498E-AB71-81C5CE025FE0.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/60573AB9-AA07-4201-B7E5-F2E70358DA91.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/9E4024CD-5D7E-4A8A-902E-6CDA8C7BCD7F.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1C300C10-A3C3-46C7-A641-30087D0F5040.jpg">
 <meta property="og:updated_time" content="2016-03-30T09:08:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AOP的实现机制">
-<meta name="twitter:description" content="AOP的实现机制AOP的实现机制
-
-\
-
-1 AOP各种的实现
-
-AOP就是面向切面编程，我们可以从几个层面来实现AOP。
-
-在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。">
-<meta name="twitter:image" content="http://www.huguiqi.com/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg">
+<meta name="twitter:description" content="AOP的实现机制AOP的实现机制  \  1 AOP各种的实现  AOP就是面向切面编程，我们可以从几个层面来实现AOP。  在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。">
+<meta name="twitter:image" content="http://www.huguiqi.com/2016/03/30/AOP的实现机制/AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -794,18 +772,18 @@ public boolean evaluateMsg(String message) {
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/30/centos 开启防火墙后ftp无法访问解决方案/" title="centos 开启防火墙后ftp无法访问解决方案">
+ <a href="/2016/03/30/节日记录/" title="节日记录">
   <strong>上一篇：</strong><br/>
   <span>
-  centos 开启防火墙后ftp无法访问解决方案</span>
+  节日记录</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/03/30/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/"  title="App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎">
+<a href="/2016/03/30/苹果mac网站论坛收藏/"  title="苹果mac网站论坛收藏">
  <strong>下一篇：</strong><br/> 
- <span>App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎
+ <span>苹果mac网站论坛收藏
 </span>
 </a>
 </div>
@@ -934,7 +912,7 @@ public boolean evaluateMsg(String message) {
 		  
 		
 		  
-			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1003,15 +981,19 @@ public boolean evaluateMsg(String message) {
 			
 		
 			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -1023,11 +1005,7 @@ public boolean evaluateMsg(String message) {
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -1039,11 +1017,11 @@ public boolean evaluateMsg(String message) {
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
 			
 		
 			
