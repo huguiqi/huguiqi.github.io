@@ -92,79 +92,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/springMVC web.xml filter-mapping/" title="springMVC web.xml filter-mapping" itemprop="url">springMVC web.xml filter-mapping</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="springMVC-web-xml-filter-mapping"><a href="#springMVC-web-xml-filter-mapping" class="headerlink" title="springMVC web.xml filter-mapping"></a>springMVC web.xml filter-mapping</h1><div><br><br>\<br><br></div>
-
-<p>springMVC 工程中的web配置诡异问题，如果在配成将finter-mapping配成如下：</p>
-<div><br><br>&lt;filter-mapping&gt;\<br>               springSecurityFilterChain\<br>               /*\<br><br><br></div>
-
-<div><br><br>则低您所访问的页面将会以文本的形式在浏览器中显示，正确的配置为:<br><br></div>
-
-<div><br><br>&lt;filter-mapping&gt;\<br>               springSecurityFilterChain\<br>               /\<br><br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/springMVC web.xml filter-mapping/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/springMVC web.xml filter-mapping/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/springMVC web.xml filter-mapping/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码/" title="spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码" itemprop="url">spring3.0发送电子邮件（velocity模板，带附件，群发，解决乱码</a>
   </h1>
   <p class="article-author">By
@@ -239,7 +166,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Maven仓库的两个概念：本地仓库和远程仓库/" title="Maven仓库的两个概念：本地仓库和远程仓库" itemprop="url">Maven仓库的两个概念：本地仓库和远程仓库</a>
+      <a href="/2016/03/30/NSSet 排序/" title="NSSet 排序" itemprop="url">NSSet 排序</a>
   </h1>
   <p class="article-author">By
        
@@ -252,154 +179,8 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Maven仓库的两个概念：本地仓库和远程仓库"><a href="#Maven仓库的两个概念：本地仓库和远程仓库" class="headerlink" title="Maven仓库的两个概念：本地仓库和远程仓库"></a>Maven仓库的两个概念：本地仓库和远程仓库</h1><p>Maven仓库的两个概念：本地仓库和远程仓库</p>
-<p>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。</p>
-<p>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：</p>
-<p>Xml代码</p>
-<pre><code>\
-</code></pre><p>   …      \<br>   D:\java\repository    \<br>   …      \<br>     \</p>
-<p>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:</p>
-<p>\${M2_HOME}/conf/setting.xml</p>
-<p>还可以通过在运行时指定目录，但是并不推荐这么做：</p>
-<p>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/</p>
-<p>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到\org\apache\maven<br>\project\pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：</p>
-<pre><code>\
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Maven仓库的两个概念：本地仓库和远程仓库/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Maven仓库的两个概念：本地仓库和远程仓库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Maven仓库的两个概念：本地仓库和远程仓库/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/NSDocumentDirectory NSDocumentationDirectory 的区别/" title="NSDocumentDirectory NSDocumentationDirectory 的区别" itemprop="url">NSDocumentDirectory NSDocumentationDirectory 的区别</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="NSDocumentDirectory-NSDocumentationDirectory-的区别"><a href="#NSDocumentDirectory-NSDocumentationDirectory-的区别" class="headerlink" title="NSDocumentDirectory NSDocumentationDirectory 的区别"></a>NSDocumentDirectory NSDocumentationDirectory 的区别</h1><div><br><br>在制作DEMO中，使用到了获取程序文件路径的自定义方法：<br><br><div style="font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; overflow: hidden; padding-top: 1px; text-align: left; opacity: 0.6; border-color: rgb(204, 204, 204); color: rgb(85, 85, 85); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/black/code.gif) 100% 0% no-repeat rgb(51, 51, 51);"><br><br><div style=" padding-left: 45px;"><br><br><div style="padding: 3px 8px 10px 10px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 9px; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; color: silver; border-left-width: 3px; border-left-style: solid; border-left-color: rgb(153, 153, 153);"><br><br><strong>[objc]</strong> <a href="http://blog.csdn.net/hanangellove/article/details/38203129#" title="view plain" target="_blank" rel="noopener">view<br>plain</a><a href="http://blog.csdn.net/hanangellove/article/details/38203129#" title="copy" target="_blank" rel="noopener">copy</a><a href="http://blog.csdn.net/hanangellove/article/details/38203129#" title="print" target="_blank" rel="noopener">print</a><a href="http://blog.csdn.net/hanangellove/article/details/38203129#" title="?" target="_blank" rel="noopener">?</a><br><div style=" left: 478px; top: 659px; z-index: 99;"><br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<ol>
-<li><span style=" padding: 0px; border: none; color: rgb(255, 255, 255); background-color: inherit;"><span style=" padding: 0px; border: none; color: rgb(255, 255, 255); background-color: inherit;">-(NSString*)documentsDirectory{  </span></span></li>
-<li><span style=" padding: 0px; border: none; color: rgb(255, 255, 255); background-color: inherit;">      </span></li>
-<li><span style=" padding: 0px; border: none; color: rgb(255, 255, 255); background-color: inherit;">    <span style=" padding: 0px; border: none; color: rgb(102, 204, 255); font-weight: bold; background-color: inherit;">NSArray</span><span style=" padding: 0px; border: none; color: rgb(255, 255, 255); background-color: inherit;"> *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, </span><span style=" padding: 0px; border: none; color: rgb(102, 204, 255); font-weight: bold; background-color: inherit;">YES</span><span style=" padding: 0px; border: none; color: rgb(255, 255, 255); background-color: inherit;">);  </span></span>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/NSDocumentDirectory NSDocumentationDirectory 的区别/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/NSDocumentDirectory NSDocumentationDirectory 的区别/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/NSDocumentDirectory NSDocumentationDirectory 的区别/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/svn merge/" title="svn merge" itemprop="url">svn merge</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="svn-merge"><a href="#svn-merge" class="headerlink" title="svn merge"></a>svn merge</h1><p><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">svn </span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">resolve </span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">–</span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">accept </span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">working</span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);"> removed_directory</span></p>
+        <h1 id="NSSet-排序"><a href="#NSSet-排序" class="headerlink" title="NSSet 排序"></a>NSSet 排序</h1><p><span style="font: 16.0px Verdana; font-kerning: none; color: #0066cc; background-color: #f5fafe; -webkit-text-stroke: 0px #0066cc"><a href="http://www.cnblogs.com/chenfulai/archive/2011/11/21/2257202.html" target="_blank" rel="noopener"><strong>nsset排序</strong></a></span><span style="font: 16.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
+</strong></span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">//如果想排序以后再取，可以这样：</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSSet<br>*users = [groupUser users];</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSSortDescriptor<br>*sd = [[NSSortDescriptor alloc] initWithKey: “displayName”<br>ascending:YES];</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSArray<br>*sortDescriptors = [NSArray arrayWithObjects:sd, nil];</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSArray<br>*userArray = [users<br>sortedArrayUsingDescriptors:sortDescriptors];</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">//如果直接取，可以这样：</span><span style="font: 12.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; background-color: #f5fafe; -webkit-text-stroke: 0px #000000">NSArray<br>*userArray = [users  allObjects];</span></p>
 
         
         
@@ -429,70 +210,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/svn merge/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/svn merge/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/svnserve/" title="svnserve" itemprop="url">svnserve</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="svnserve"><a href="#svnserve" class="headerlink" title="svnserve"></a>svnserve</h1><div><br><br><span style="color: rgb(102, 102, 102); font-family: arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> </span><span style="color: rgb(51, 51, 51); font-family: arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); float: none;">service<br>svnserve start </span><em>启动服务</em><span style="color: rgb(51, 51, 51); font-family: arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); float: none;"> service<br>svnserve stop 停止</span><em>服务</em><span style="color: rgb(51, 51, 51); font-family: arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); float: none;"> service<br>svnserve restart 重启</span><em>服务</em><br><br></div>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/svnserve/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/svnserve/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/NSSet 排序/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/NSSet 排序/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -587,6 +305,195 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/svn merge/" title="svn merge" itemprop="url">svn merge</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="svn-merge"><a href="#svn-merge" class="headerlink" title="svn merge"></a>svn merge</h1><p><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">svn </span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">resolve </span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">–</span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">accept </span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);">working</span><span style="color: rgb(51, 51, 51); font-size: 12px; line-height: 15px; background-color: rgb(255, 255, 255);"> removed_directory</span></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/svn merge/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/svn merge/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/NSURL 生成时有中文参数无法生成URL的解决方案/" title="NSURL 生成时有中文参数无法生成URL的解决方案" itemprop="url">NSURL 生成时有中文参数无法生成URL的解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="NSURL-生成时有中文参数无法生成URL的解决方案"><a href="#NSURL-生成时有中文参数无法生成URL的解决方案" class="headerlink" title="NSURL 生成时有中文参数无法生成URL的解决方案"></a>NSURL 生成时有中文参数无法生成URL的解决方案</h1><p><span style="font-family: Menlo; font-size: 14px; color: rgb(112, 61, 170);">NSString</span><br><span style="font-family: Menlo; font-size: 14px;">*a = [urlStr</span><br><span style="color: rgb(61, 29, 129); font-family: Menlo; font-size: 14px;">stringByAddingPercentEscapesUsingEncoding</span><span style="font-family: Menlo; font-size: 14px;">:</span><span style="color: rgb(61, 29, 129); font-family: Menlo; font-size: 14px;">NSUTF8StringEncoding</span><span style="font-family: Menlo; font-size: 14px;">];</span></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/NSURL 生成时有中文参数无法生成URL的解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/NSURL 生成时有中文参数无法生成URL的解决方案/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/svnserve/" title="svnserve" itemprop="url">svnserve</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="svnserve"><a href="#svnserve" class="headerlink" title="svnserve"></a>svnserve</h1><div><br><br><span style="color: rgb(102, 102, 102); font-family: arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"> </span><span style="color: rgb(51, 51, 51); font-family: arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); float: none;">service<br>svnserve start </span><em>启动服务</em><span style="color: rgb(51, 51, 51); font-family: arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); float: none;"> service<br>svnserve stop 停止</span><em>服务</em><span style="color: rgb(51, 51, 51); font-family: arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); float: none;"> service<br>svnserve restart 重启</span><em>服务</em><br><br></div>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/svnserve/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/svnserve/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/svn常用命令/" title="svn常用命令" itemprop="url">svn常用命令</a>
   </h1>
   <p class="article-author">By
@@ -653,7 +560,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/swift学习笔记/" title="swift学习笔记" itemprop="url">swift学习笔记</a>
+      <a href="/2016/03/30/NetworkEye：iOS 网络调试库/" title="NetworkEye：iOS 网络调试库" itemprop="url">NetworkEye：iOS 网络调试库</a>
   </h1>
   <p class="article-author">By
        
@@ -666,23 +573,22 @@
 </header>
     <div class="article-content">
         
-        <h1 id="swift学习笔记"><a href="#swift学习笔记" class="headerlink" title="swift学习笔记"></a>swift学习笔记</h1><hr>
-<p>title:  Swift学习笔记<br>date: 1459328933000<br>categories: swift</p>
-<h2 id="tags-swift学习"><a href="#tags-swift学习" class="headerlink" title="tags: swift学习"></a>tags: swift学习</h2><h3 id="Swift学习笔记"><a href="#Swift学习笔记" class="headerlink" title="Swift学习笔记"></a>Swift学习笔记</h3><h4 id="一-swift介绍"><a href="#一-swift介绍" class="headerlink" title="一. swift介绍"></a>一. swift介绍</h4><p>swift语言已经出来有一年多了，去年对于基础只是草草的学了些，现在正好沉下心来，深入学习这门语言。<br>对于这门语言的详细介绍，我就不多说了，推荐大家看这里：<br><br><a href="https://github.com/ipader/SwiftGuide#spl" target="_blank" rel="noopener">swift github学习区</a></p>
-<h4 id="二-基础语法"><a href="#二-基础语法" class="headerlink" title="二. 基础语法"></a>二. 基础语法</h4><ul>
-<li>基本类型、声明语法</li>
-</ul>
-<h6 id="1-变量"><a href="#1-变量" class="headerlink" title="1.变量"></a>1.变量</h6><p>obj-c:<br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> Type *typeInstance;&lt;br/&gt;</span><br><span class="line">NSString *str =  “”;&lt;br/&gt;</span><br><span class="line"> NSString *str2 = [NSString stringWithFormat: “aaaa% “, “bbb”];</span><br></pre></td></tr></table></figure>
-<p>swift:<br><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">    var a;//(直接这样声明变量是不允许的，必须要给一个初始值，以便来确定他的类型)</span><br><span class="line"></span><br><span class="line">&lt;!--more--&gt;</span><br><span class="line">var str = &quot;Hello, playground&quot;</span><br><span class="line">/** </span><br><span class="line">* var声明与let声明变量的区别:</span><br><span class="line">* 1,var声明值可变的变量，let则声明不可变的常量用的居多</span><br><span class="line">*</span><br><span class="line">**/</span><br><span class="line">var myVarible = 42</span><br><span class="line">myVarible = 50;</span><br><span class="line"></span><br><span class="line">let myConstant = 42;</span><br><span class="line">//注释打开则会编译出错</span><br><span class="line">//myConstant = 50</span><br></pre></td></tr></table></figure>
-<p>swift 的变量类型可以在声明初始值中直接通过初始值类型来确定<br><br></p>
-<p>Type Annotations <br><br><strong>如果想声明一个变量或者常量，但又暂时没有赋予初始值(分配内存空间)，则用这种方式:</strong><br><br>
+        <h1 id="NetworkEye：iOS-网络调试库"><a href="#NetworkEye：iOS-网络调试库" class="headerlink" title="NetworkEye：iOS 网络调试库"></a>NetworkEye：iOS 网络调试库</h1><p>NetworkEye是一个网络调试库，可以监控App内所有HTTP请求并显示请求相关的所有信息，方便App开发的网络调试。</p>
+<p>可以检测到包括网页，NSURLConnecttion,NSURLSession，AFNetworking,第三方库，第三方SDK等的HTTP请求，非常方便实用。</p>
+<p>NetworkEye,a iOS network debug library,It can monitor all HTTP requests<br>within the App and displays all information related to the request.</p>
+<h4 id="Podfile"><a href="#Podfile" class="headerlink" title="Podfile"></a><a href="https://github.com/coderyi/NetworkEye#podfile" target="_blank" rel="noopener"></a>Podfile</h4><h6 id="使用"><a href="#使用" class="headerlink" title="使用:"></a><a href="https://github.com/coderyi/NetworkEye#%E4%BD%BF%E7%94%A8" target="_blank" rel="noopener"></a>使用:</h6><p>注意请在DEBUG模式下使用NetworkEye<br>在AppDelegate.m里面加入下面代码就可以了</p>
+<p>使用的时候可以通过摇一摇（Shake<br>Gesture）手势调出监控数据界面NEHTTPEyeViewController<br>也可以用如下代码直接present出来。</p>
+<p>在NEHTTPEye.h里面有两个可以配置的参数即默认数据库密码是networkeye和默认监控最多300条请求，请求的保存位置在缓存目录的networkeye.sqlite内。</p>
+<p>NetworkEye使用了Aspects并且依赖仓库SQLCipher。<br>Aspects用于摇一摇手势，SQLCipher用于加密数据库。</p>
+<p>NetworkEye的监控数据界面如图：</p>
+<p><a href="https://raw.githubusercontent.com/coderyi/NetworkEye/master/NetworkEye/Resources/networkeye1.png" target="_blank" rel="noopener"></a></p>
+<p><a href="https://raw.githubusercontent.com/coderyi/NetworkEye/master/NetworkEye/Resources/networkeye2.png" target="_blank" rel="noopener"></a></p>
+<p><a href="https://raw.githubusercontent.com/coderyi/NetworkEye/master/NetworkEye/Resources/networkeye3.png" target="_blank" rel="noopener"></a></p>
+<p><a href="http://toutiao.io/r/xhls37" target="_blank" rel="noopener">查看原文</a></p>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/03/30/swift学习笔记/#more">Read More</a>
           
        </p>
     </div>
@@ -708,7 +614,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/swift学习笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/swift学习笔记/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/NetworkEye：iOS 网络调试库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/NetworkEye：iOS 网络调试库/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -784,6 +690,70 @@
 	
 	  	<span></span>
 		<a href="/2016/03/30/vim中字符串出现次数的统计及字符创替换/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/vim中字符串出现次数的统计及字符创替换/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/vi全局替换方法/" title="vi全局替换方法" itemprop="url">vi全局替换方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="vi全局替换方法"><a href="#vi全局替换方法" class="headerlink" title="vi全局替换方法"></a>vi全局替换方法</h1><p><span style="font: 18.0px Times; font-kerning: none; color: #3e73a0; -webkit-text-stroke: 0px #3e73a0">vi全局替换方法：</span><br><span style="font: 10.0px Arial; font-kerning: none; color: #747474; -webkit-text-stroke: 0px #747474">(2012-02-07<br>17:30:03)</span><span style="font: 12.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">\<br> <span style="font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><img src="vi%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%E6%96%B9%E6%B3%95.resources/2A0F9F62-9721-45A0-8463-CBDBC2DF2DBA.gif" alt="">\<br> 转载</span><span style="font: 7.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br> ▼\<br></span></span><span style="font: 12.0px Times; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">标签：<br><span style="font-kerning: none; color: #3e73a0; -webkit-text-stroke: 0px #3e73a0">杂谈</span>\<br>\<br></span><span style="font: 12.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">正文开始</span><span style="font: 14.0px Times; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">\<br></span><span style="font: 18.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d"><strong>1.<br>基本的替换</strong></span><span style="font: 12.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d">\<br></span><span style="font: 18.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d"><strong>:s/vivian/sky/<br>替换当前行第一个 vivian 为 sky</strong></span><span style="font: 12.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d">\<br></span><span style="font: 18.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d"><strong>:s/vivian/sky/g<br>替换当前行所有 vivian 为 sky</strong></span><span style="font: 12.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d">\<br></span><span style="font: 18.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d"><strong>:n,\$s/vivian/sky/<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/vi全局替换方法/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/vi全局替换方法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/vi全局替换方法/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -928,7 +898,7 @@
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>12</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>13</sup></a></li>
 		  
 		
 		  
@@ -973,15 +943,23 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
 			
 		
 			
@@ -993,27 +971,11 @@
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
 			
 		
 			
@@ -1025,11 +987,19 @@
 			
 		
 			
+				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 			
 		
 			

@@ -92,7 +92,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
+      <a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/" title="外网访问内网的解决方式" itemprop="url">外网访问内网的解决方式</a>
   </h1>
   <p class="article-author">By
        
@@ -105,123 +105,30 @@
 </header>
     <div class="article-content">
         
-        <hr>
-<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
-<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>查看mysql运行状态：</p>
-<pre><code>service mysql start    
-</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
-<pre><code> [root@localhost download]# mysql
-ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
-[root@localhost download]# service mysql status
-MySQL is not running                                       [失败]
-[root@localhost download]# service mysql start
-Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
-[root@localhost download]# reboot
-</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
-<ol>
-<li>安装包与系统不兼容</li>
-<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
+        <h1 id="通过公司的路由器转发到内网测试服务器"><a href="#通过公司的路由器转发到内网测试服务器" class="headerlink" title="通过公司的路由器转发到内网测试服务器"></a>通过公司的路由器转发到内网测试服务器</h1><p>折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。</p>
+<h2 id="准备工具："><a href="#准备工具：" class="headerlink" title="准备工具："></a>准备工具：</h2><ol>
+<li>nginx</li>
+<li><p>公司路由器</p>
+<ul>
+<li>虚拟主机端口转发</li>
+<li><p>DMZ主机托管</p>
+<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png" alt="image"></p>
+</li>
+</ul>
+</li>
 </ol>
-<p>mysql在linux上的安装方法：</p>
-<ul>
-<li>yum 方式</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">若系统有自带的mysql或libs，可选择先卸载再安装</span><br><span class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</span><br><span class="line"> rpm -e mysql                     //普通删除模式</span><br><span class="line"> rpm -e --nodeps mysql         // 强力删除模式</span><br><span class="line"> yum -y remove mysql-libs-*   //删除所有包</span><br><span class="line"> rpm -e --nodeps mysql</span><br><span class="line"></span><br><span class="line"> 安装</span><br><span class="line">//查看yum上提供的mysql数据库可下载的版本</span><br><span class="line"> yum list | grep mysql</span><br><span class="line"></span><br><span class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>通用安装</p>
-<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
-</code></pre></li>
-</ul>
-<ul>
-<li>npm包 安装 </li>
-</ul>
-<p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>安装完成后启动mysql:</p>
-<pre><code>service mysql start
-</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
-<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
-<pre><code># chkconfig --list mysql
-
-mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
-</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
+<p><strong>本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。</strong></p>
+<h2 id="指出错误的想法"><a href="#指出错误的想法" class="headerlink" title="指出错误的想法:"></a>指出错误的想法:</h2><ol>
+<li>源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理</li>
+<li>公网的IP是绑定在路由器上的，我们内网上网都是通过路由上网，所以如果要反向代理，就要在路由器上作反身代理，否则完全行不通</li>
+</ol>
+<h2 id="不可思议的问题"><a href="#不可思议的问题" class="headerlink" title="不可思议的问题"></a>不可思议的问题</h2><ol>
+<li>可以通过域名 + 端口的方向可以访问通过跟帖器端口转发的方式访问内网，但不支持80端口</li>
+</ol>
 
         
         
         <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/" title="关于MacBook电池的正确使用方法" itemprop="url">关于MacBook电池的正确使用方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="关于MacBook电池的正确使用方法，和保养技巧"><a href="#关于MacBook电池的正确使用方法，和保养技巧" class="headerlink" title="关于MacBook电池的正确使用方法，和保养技巧"></a>关于MacBook电池的正确使用方法，和保养技巧</h1><hr>
-<h2 id="標準充電方式"><a href="#標準充電方式" class="headerlink" title="標準充電方式"></a>標準充電方式</h2><p>當電池電量剩下約 15% 左右就要準備接電源充電了，剩 10% 時會有電量過低警示。 </p>
-<p>補充：沒有必要等到電池完全沒電時才充電，因為鋰電池本來就是設計給用戶隨時可補充電力用的。另外就是避免電池電量出現在 100% 或 0% 這兩個極端值，如果電量長期在 100% 不放電，會讓鋰電子沒有地方可以活動，一段時間後，你的鋰電池可能就會流「湯」出來喔！如果電量只有 0%，那將可能會造成電池陷入深度放電狀態，這樣會讓它永遠無法再蓄電。 </p>
-<h2 id="電池校正方式"><a href="#電池校正方式" class="headerlink" title="電池校正方式"></a>電池校正方式</h2><p>以下電池校正資訊來源為 Apple，適用於 PowerBook G4 (15 吋、雙層 SD)、MacBook (所有機型)、MacBook Pro (所有機型)、MacBook Pro (17 吋) (所有機型) 以及 MacBook Air。 </p>
-<p>　1. 插入電源轉換器並充足 PowerBook 電池的電力，直到電源轉換器上的指示燈或 LED 變成綠色，且選單列中 </p>
-<p>　　 的螢幕計量器指出電池已充足電為止。 </p>
-<p>　2. 讓電池保持在充足電力的狀態下至少兩小時。在此期間只要插上電源轉換器，仍然可以使用電腦。 </p>
-<p>　3. 在電腦的電源仍開啟時拔除電源轉換器，開始使用電池的電力讓電腦運轉。您可在這段時間內使用電腦。 </p>
-<p>　　 電池電力降低時，螢幕上會出現電池電力不足的警告對話框。 </p>
-<p>　4. 這時請儲存所有工作。請繼續使用電腦。如果電池電力非常低，電腦會自動進入睡眠狀態。 </p>
-<p>　5. 關閉電腦，或讓電腦處於睡眠狀態至少五小時。 </p>
-<p>　6. 接上電源轉換器，在電池再次充足電力之前都不要將其拔除。 </p>
-<p><strong>注意：電池校正約一個月做一次或 30 個充電循環做一次即可，常常校正可能會對電池產生不良影響。 </strong></p>
-<p><em>補充：電池具有內部微處理器，在充電及放電時，提供電池中電源的預估值。有時需要重新校準電池，以保持螢幕上顯示的電池時間及百分比能夠精確，並讓電池的效率保持在最佳狀態。第一次使用電腦以及其後每隔幾個月都應該執行這道程序。如果您的 Apple 可攜式電腦通常接上交流電電源，很少使用電池電力，則最好每個月執行一次。www.apple.com/tw/batteries 網站提供更多和電池有關的輔助資訊，也提供 iCal 行事曆，可提醒您要校正電池。</em> </p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/#more">Read More</a>
           
        </p>
     </div>
@@ -230,13 +137,13 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+  <a class="article-category-link" href="/categories/网络配置/">网络配置</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/macbook电池保养/">macbook电池保养</a>
+  <span></span> <a href="/tags/路由转发端口到内网服务器/">路由转发端口到内网服务器</a>
   </div>
 
 </div>
@@ -247,7 +154,7 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/关于macbook电池的正确使用方法，和保养技巧/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/通过公司的路由器转发到内网测试服务器/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -339,7 +246,7 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/iptables与docker的作死碰撞/" title="docker安装了iptalbes以后，出现的悲剧与解决方案" itemprop="url">docker安装了iptalbes以后，出现的悲剧与解决方案</a>
+      <a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" title="2012年年中的macbook显卡门解决方案" itemprop="url">2012年年中的macbook显卡门解决方案</a>
   </h1>
   <p class="article-author">By
        
@@ -352,14 +259,15 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 </header>
     <div class="article-content">
         
-        <h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a href="#docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" title="docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
-<p>情况是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</span><br><span class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</span><br><span class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</span><br><span class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</span><br><span class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</span><br><span class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</span><br><span class="line">[root@localhost ~]# docker start 782</span><br><span class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</span><br><span class="line"> (exit status 1)</span><br><span class="line">Error: failed to start containers: [782]</span><br><span class="line">[root@localhost ~]# docker rm 782</span><br></pre></td></tr></table></figure>
+        <h1 id="2012年年中的macbook-pro-retenia显卡门解决方案"><a href="#2012年年中的macbook-pro-retenia显卡门解决方案" class="headerlink" title="2012年年中的macbook pro retenia显卡门解决方案"></a>2012年年中的macbook pro retenia显卡门解决方案</h1><p>上个月买了前同事的一台macbookpro 是12年的15inch顶配，而且还是独立显卡的，才花了我7000块，本来很开心，但最近发现，他的电池循环数才201次，电池损耗量也很小，他的续航时间却特别的短，充满电才续航4个半小时，让我很生气。。。。。。</p>
+<p><img src="https://github.com/huguiqi/blogCode/blob/master/postImg/%7BH9F16EG8H%VN%_1G]K" alt="图片">)OX.jpg)</p>
+<p>后面上网查了下，发现是2012年的那款电脑硬件有严重缺陷，凡是带独立显卡的macbook 耗电非常大，而mac系统自带的自动切换显卡内核又非常不准确,推荐一款手动选择使用集成显卡还是独立显卡的软件：</p>
+<p><a href="https://github.com/codykrieger/gfxCardStatus" target="_blank" rel="noopener">gfxCardStatus</a></p>
+<p>可以选择集显还是独显，这样，长达5-6个小时的续航时间又回来了。。。。。。</p>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/06/13/iptables与docker的作死碰撞/#more">Read More</a>
           
        </p>
     </div>
@@ -374,7 +282,7 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/iptables与docker的作死碰撞/">iptables与docker的作死碰撞</a>
+  <span></span> <a href="/tags/macbook显卡门/">macbook显卡门</a>
   </div>
 
 </div>
@@ -385,7 +293,74 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/iptables与docker的作死碰撞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/iptables与docker的作死碰撞/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
+<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/" target="_blank" rel="noopener">下载地址(文档)</a></p>
+</li>
+<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/3d_touch例子一个/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -490,7 +465,7 @@ If you use the Fish shell then add the following line to your ~/.config/fish/con
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/如何添加brewcask没有的软件/" title="如何添加brewcask没有的软件" itemprop="url">如何添加brewcask没有的软件</a>
+      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
@@ -503,171 +478,52 @@ If you use the Fish shell then add the following line to your ~/.config/fish/con
 </header>
     <div class="article-content">
         
-        <h1 id="如何添加brewcask没有的软件"><a href="#如何添加brewcask没有的软件" class="headerlink" title="如何添加brewcask没有的软件"></a>如何添加brewcask没有的软件</h1><p>按照<a href="https://github.com/caskroom/homebrew-cask/blob/master/CONTRIBUTING.md#adding-a-cask" target="_blank" rel="noopener">brewcask的wiki</a>上说的步骤</p>
-<h2 id="添加步骤："><a href="#添加步骤：" class="headerlink" title="添加步骤："></a>添加步骤：</h2><ol>
-<li>fork homebrew-cask</li>
-<li>进入你的系统的homebrew-cask的repository目录，mac系统默认都在：<code>/usr/local/Library/Taps/phinze/homebrew-cask</code></li>
-<li>一定要先更新你的brewcask 的repository:<code>git pull</code></li>
-<li><p>按照官方文档的做法，把你的fork过去的项目url加入到remote里去</p>
-<pre><code>$ github_user=&apos;huguiqi&apos;
-$ cd &quot;$(brew --repository)&quot;/Library/Taps/caskroom/homebrew-cask
-$ git remote add &quot;$github_user&quot; &quot;https://github.com/$github_user/homebrew-cask&quot;
-</code></pre></li>
-<li><p>建立软件token(<strong>这一步官方文档上没写</strong>)</p>
-<pre><code>&quot;$(brew --repository)/Library/Taps/caskroom/homebrew-cask/developer/bin/generate_cask_token&quot; &apos;software_name&apos;
-</code></pre></li>
-</ol>
-<p>如已经在repostory目录了，则执行如下:</p>
-<pre><code>developer/bin/generate_cask_token &apos;solftName&apos;
-</code></pre><p>如果执行报错，那么可以<code>git pull试下</code><br>6 . 新建cask:<code>brew cask create solftName</code></p>
-<p>在这一步的时候，一直报错，后面看了报错信息，说是什么找不到这个token，在<code>/usr/local/Library/Taps/caskroom/homebrew-cask</code>目录下，这就奇了怪了，明明我的repository在另外一个目录，它怎么会往这个不存在的目录里去找呢，后面找了很久，发现是我更新了brew，而brew-cask还是用的老的：<code>phinze/homebrew-cask</code>，<a href="https://github.com/caskroom/homebrew-cask" target="_blank" rel="noopener">官方wiki上有这个问题的解决方案</a>：</p>
+        <hr>
+<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
+<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>查看mysql运行状态：</p>
+<pre><code>service mysql start    
+</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
+<pre><code> [root@localhost download]# mysql
+ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
+[root@localhost download]# service mysql status
+MySQL is not running                                       [失败]
+[root@localhost download]# service mysql start
+Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
+[root@localhost download]# reboot
+</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
 <ol>
-<li><code>$ brew update; brew cleanup; brew cask cleanup</code></li>
-<li><code>$ brew uninstall --force brew-cask; brew update</code></li>
-<li>如果还报错，则可能是之前你的没有卸载干净，再执行：<code>brew untap phinze/cask; brew untap caskroom/cask; brew update</code></li>
-<li>最后再重复第1、2步</li>
+<li>安装包与系统不兼容</li>
+<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
 </ol>
-<p><strong> cask重装以后再执行一遍repository下add remote url</strong></p>
-<p>执行 cask create 以后，会打开一个*.rb文件，如下：</p>
-<pre><code>cask &apos;my-new-cask&apos; do 
-    version &apos;&apos;
-    sha256 &apos;&apos;
-    url &apos;&apos;
-    name &apos;&apos;
-    homepage &apos;&apos;
-    license :unknown # TODO: change license and remove this comment; &apos;:unknown&apos; is a machine-generated placeholder
-    app &apos;&apos;
-end
-</code></pre><p>其中将：</p>
-<p>– my_new_cask改为新建cask名称 <br><br>– version 改成改软件最新版本，如果下方所提供的下载链接并不包含版本信息此处写成：version :latest <br><br>– sha256 下载文件的SHA-256校验值，当下方所提供的下载链接并不包含版本信息此处写成：sha256 :no_check <br><br>– url 为软件下载链接 <br><br>– name 为软件名称 <br><br>– homepage 为软件主页 <br><br>– license 可以分为以下几大类，同时大类下面又分成 gratis commercial freemium 等小类，具体请查阅参考1。 <br><br>– app 中填写url下载文件中*.app文件的相对位置 <br></p>
-<table>
-<thead>
-<tr>
-<th>symbol</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>:oss</td>
-<td>开源软件</td>
-</tr>
-<tr>
-<td>:closed</td>
-<td>闭源软件</td>
-</tr>
-<tr>
-<td>:unknown</td>
-<td>许可未知</td>
-</tr>
-<tr>
-<td>:oss</td>
-<td>其他</td>
-</tr>
-</tbody>
-</table>
-<h2 id="测试-cask"><a href="#测试-cask" class="headerlink" title="测试 cask"></a>测试 cask</h2><pre><code>bwcs readkit
-</code></pre><p>发现有可以搜索到了，太棒了。。。。。。</p>
-<p>安装呢，哈哈，我已经安装了，就不试了</p>
-<h2 id="提交到git库"><a href="#提交到git库" class="headerlink" title="提交到git库"></a>提交到git库</h2><pre><code>git commit -a -m &quot;readkit&quot;
-git push newRemote
-</code></pre><p>在push之前我遇到一个从示遇到的问题，就是push的时候老push不上去，总是报错：</p>
-<pre><code>sam@samhus-MBP /u/l/L/T/c/homebrew-cask&gt; gp huguiqi                      master
-Counting objects: 12, done.
-Delta compression using up to 8 threads.
-Compressing objects: 100% (12/12), done.
-Writing objects: 100% (12/12), 1.46 KiB | 0 bytes/s, done.
-Total 12 (delta 8), reused 1 (delta 0)
-To git@github.com:huguiqi/homebrew-cask.git
- ! [remote rejected] master -&gt; master (shallow update not allowed)
-error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.git&apos;
-</code></pre><p>google了一下，发现说什么，只要添加了remote或者更改了remote，shallow 的更新不被允许，我也不知道shallow啥意思，可能是个啥标志吧，就是要将老的remote库标志为unshallow(这样老库就不会更新了),新的remote才能push，这什么鬼规则。。。</p>
-<pre><code>master -&gt; master (shallow update not allowed)
-</code></pre><p>那怎么样去flag老的remote为unshallow呢，就要用fetch命令了。<br>好吧，我就干下吧，干的时候必须带上unshallow：</p>
-<pre><code>git fetch --unshallow origin 
-</code></pre><p><strong>ps:这个库是我从主库fork下来的，只是提交到我自己的公有库上，而对于brew-cask的主库而言，我是它无数个分支中的一个分支，别人暂时通过<code>brew cask search readkit</code> 是搜不到的，直到主库维护者将无数分支merge到主库，用户更新了brew-cask 的index，那就可以搜得到了</strong></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/brew-cask-添加cask/">brew-cask 添加cask</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/如何添加brewcask没有的软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/如何添加brewcask没有的软件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/" title="外网访问内网的解决方式" itemprop="url">外网访问内网的解决方式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="通过公司的路由器转发到内网测试服务器"><a href="#通过公司的路由器转发到内网测试服务器" class="headerlink" title="通过公司的路由器转发到内网测试服务器"></a>通过公司的路由器转发到内网测试服务器</h1><p>折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。</p>
-<h2 id="准备工具："><a href="#准备工具：" class="headerlink" title="准备工具："></a>准备工具：</h2><ol>
-<li>nginx</li>
-<li><p>公司路由器</p>
+<p>mysql在linux上的安装方法：</p>
 <ul>
-<li>虚拟主机端口转发</li>
-<li><p>DMZ主机托管</p>
-<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png" alt="image"></p>
-</li>
+<li>yum 方式</li>
 </ul>
-</li>
-</ol>
-<p><strong>本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。</strong></p>
-<h2 id="指出错误的想法"><a href="#指出错误的想法" class="headerlink" title="指出错误的想法:"></a>指出错误的想法:</h2><ol>
-<li>源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理</li>
-<li>公网的IP是绑定在路由器上的，我们内网上网都是通过路由上网，所以如果要反向代理，就要在路由器上作反身代理，否则完全行不通</li>
-</ol>
-<h2 id="不可思议的问题"><a href="#不可思议的问题" class="headerlink" title="不可思议的问题"></a>不可思议的问题</h2><ol>
-<li>可以通过域名 + 端口的方向可以访问通过跟帖器端口转发的方式访问内网，但不支持80端口</li>
-</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">若系统有自带的mysql或libs，可选择先卸载再安装</span><br><span class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</span><br><span class="line"> rpm -e mysql                     //普通删除模式</span><br><span class="line"> rpm -e --nodeps mysql         // 强力删除模式</span><br><span class="line"> yum -y remove mysql-libs-*   //删除所有包</span><br><span class="line"> rpm -e --nodeps mysql</span><br><span class="line"></span><br><span class="line"> 安装</span><br><span class="line">//查看yum上提供的mysql数据库可下载的版本</span><br><span class="line"> yum list | grep mysql</span><br><span class="line"></span><br><span class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>通用安装</p>
+<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
+</code></pre></li>
+</ul>
+<ul>
+<li>npm包 安装 </li>
+</ul>
+<p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>安装完成后启动mysql:</p>
+<pre><code>service mysql start
+</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
+<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
+<pre><code># chkconfig --list mysql
+
+mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
+</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
 
         
         
@@ -678,16 +534,6 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/网络配置/">网络配置</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/路由转发端口到内网服务器/">路由转发端口到内网服务器</a>
-  </div>
 
 </div>
 
@@ -697,7 +543,7 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/通过公司的路由器转发到内网测试服务器/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -790,6 +636,149 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/13/iptables与docker的作死碰撞/" title="docker安装了iptalbes以后，出现的悲剧与解决方案" itemprop="url">docker安装了iptalbes以后，出现的悲剧与解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a href="#docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" title="docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
+<p>情况是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</span><br><span class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</span><br><span class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</span><br><span class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</span><br><span class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</span><br><span class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</span><br><span class="line">[root@localhost ~]# docker start 782</span><br><span class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</span><br><span class="line"> (exit status 1)</span><br><span class="line">Error: failed to start containers: [782]</span><br><span class="line">[root@localhost ~]# docker rm 782</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/iptables与docker的作死碰撞/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iptables与docker的作死碰撞/">iptables与docker的作死碰撞</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/iptables与docker的作死碰撞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/iptables与docker的作死碰撞/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/" title="关于MacBook电池的正确使用方法" itemprop="url">关于MacBook电池的正确使用方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="关于MacBook电池的正确使用方法，和保养技巧"><a href="#关于MacBook电池的正确使用方法，和保养技巧" class="headerlink" title="关于MacBook电池的正确使用方法，和保养技巧"></a>关于MacBook电池的正确使用方法，和保养技巧</h1><hr>
+<h2 id="標準充電方式"><a href="#標準充電方式" class="headerlink" title="標準充電方式"></a>標準充電方式</h2><p>當電池電量剩下約 15% 左右就要準備接電源充電了，剩 10% 時會有電量過低警示。 </p>
+<p>補充：沒有必要等到電池完全沒電時才充電，因為鋰電池本來就是設計給用戶隨時可補充電力用的。另外就是避免電池電量出現在 100% 或 0% 這兩個極端值，如果電量長期在 100% 不放電，會讓鋰電子沒有地方可以活動，一段時間後，你的鋰電池可能就會流「湯」出來喔！如果電量只有 0%，那將可能會造成電池陷入深度放電狀態，這樣會讓它永遠無法再蓄電。 </p>
+<h2 id="電池校正方式"><a href="#電池校正方式" class="headerlink" title="電池校正方式"></a>電池校正方式</h2><p>以下電池校正資訊來源為 Apple，適用於 PowerBook G4 (15 吋、雙層 SD)、MacBook (所有機型)、MacBook Pro (所有機型)、MacBook Pro (17 吋) (所有機型) 以及 MacBook Air。 </p>
+<p>　1. 插入電源轉換器並充足 PowerBook 電池的電力，直到電源轉換器上的指示燈或 LED 變成綠色，且選單列中 </p>
+<p>　　 的螢幕計量器指出電池已充足電為止。 </p>
+<p>　2. 讓電池保持在充足電力的狀態下至少兩小時。在此期間只要插上電源轉換器，仍然可以使用電腦。 </p>
+<p>　3. 在電腦的電源仍開啟時拔除電源轉換器，開始使用電池的電力讓電腦運轉。您可在這段時間內使用電腦。 </p>
+<p>　　 電池電力降低時，螢幕上會出現電池電力不足的警告對話框。 </p>
+<p>　4. 這時請儲存所有工作。請繼續使用電腦。如果電池電力非常低，電腦會自動進入睡眠狀態。 </p>
+<p>　5. 關閉電腦，或讓電腦處於睡眠狀態至少五小時。 </p>
+<p>　6. 接上電源轉換器，在電池再次充足電力之前都不要將其拔除。 </p>
+<p><strong>注意：電池校正約一個月做一次或 30 個充電循環做一次即可，常常校正可能會對電池產生不良影響。 </strong></p>
+<p><em>補充：電池具有內部微處理器，在充電及放電時，提供電池中電源的預估值。有時需要重新校準電池，以保持螢幕上顯示的電池時間及百分比能夠精確，並讓電池的效率保持在最佳狀態。第一次使用電腦以及其後每隔幾個月都應該執行這道程序。如果您的 Apple 可攜式電腦通常接上交流電電源，很少使用電池電力，則最好每個月執行一次。www.apple.com/tw/batteries 網站提供更多和電池有關的輔助資訊，也提供 iCal 行事曆，可提醒您要校正電池。</em> </p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/macbook电池保养/">macbook电池保养</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/关于macbook电池的正确使用方法，和保养技巧/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/30/saas概述/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
@@ -848,518 +837,6 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 	
 	  	<span></span>
 		<a href="/2016/05/30/saas概述/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/30/saas概述/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/26/接口文档/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-26T07:36:00.000Z" itemprop="datePublished"> 发表于 2016-05-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="接口文档"><a href="#接口文档" class="headerlink" title="接口文档"></a>接口文档</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h3 id="接入前提"><a href="#接入前提" class="headerlink" title="接入前提"></a>接入前提</h3><blockquote>
-<p>服务端的公司内网服务器地址为：192.168.0.121:3000<br>外网服务器地址是：101.81.230.69:9000<br>接入服务器时需要token参数，android端与ios端各不一样</p>
-</blockquote>
-<h2 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h2><h3 id="1-1-1-符号定义"><a href="#1-1-1-符号定义" class="headerlink" title="1.1.1 符号定义"></a>1.1.1 符号定义</h3><table>
-<thead>
-<tr>
-<th>序号</th>
-<th>符号缩写</th>
-<th>符号性质</th>
-<th>符号说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>M</td>
-<td>强制域(Mandatory)</td>
-<td>此域必选，否则将被认为格式出错</td>
-</tr>
-<tr>
-<td>2</td>
-<td>C</td>
-<td>条件域(Conditional)</td>
-<td>此域在一定条件下必选</td>
-</tr>
-<tr>
-<td>3</td>
-<td>O</td>
-<td>选用域(Optional)</td>
-<td>此域由发送方自选</td>
-</tr>
-</tbody>
-</table>
-<h3 id="1-1-2-全局变量定义"><a href="#1-1-2-全局变量定义" class="headerlink" title="1.1.2 全局变量定义"></a>1.1.2 全局变量定义</h3><h2 id="1-2-协议"><a href="#1-2-协议" class="headerlink" title="1.2. 协议"></a>1.2. 协议</h2><blockquote>
-<ul>
-<li>目前仅提供HTTP通信协议采用RESTful风格；<ul>
-<li>请求提供GET,POST两种方式；</li>
-<li>接受的请求参数JSON或者表单形式</li>
-<li>返回结果均采用JSON；</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<p><strong>注意</strong></p>
-<ol>
-<li>请求参数为JSON模式，请求头需设置Content-Type: application/json;</li>
-<li>请求参数表单模式须设置请求头为Content-Type:application/x-www-form-urlencoded;</li>
-<li>请求头需要增加一个KEY名为 G-Agent 值组成为：<code>app名称简写;app版本号;设备类型;设备系统版本</code>  设备类型iphone为1，安卓为2</li>
-<li>判断是否登录的标识符 如果登录成功后 须在请求头（或者放在queryString参数上）设上 userId 值</li>
-<li>签名算法为 G-Agent + 接入KEY(token) + userId(userId 未登录传空字符串) 组合字符串的MD5值， 并在请求头设（或者放在queryString参数）上sign值</li>
-</ol>
-<p><code>签名验证</code></p>
-<pre><code>G-Agent=&quot;lbd;1.0;1;ios-9.3&quot;
-ticket=&quot;&quot;
-token=&quot;3E8802D881C51$%DE36FE0C#CA6C4F4D,233E8802D881C519DE36FE0CCA6C4F4D23&quot;
-sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&quot;
-</code></pre><p>例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">* G-Agent 放在请求头</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">request.setHeader(&quot;G-Agent&quot;,&quot;lbd;1.0;1;ios-9.3&quot;)</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* 登录成功后</span><br><span class="line">*/</span><br><span class="line">request.setHeader(&quot;userId&quot;,&quot;$&#123;userId&#125;&quot;)</span><br></pre></td></tr></table></figure>
-<p>放在请求参数上:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">*签名</span><br><span class="line">*/</span><br><span class="line">http://&#123;domian&#125;:&#123;port&#125;/url/request?sign=MD5(G-Agent + KEY + ticket )</span><br></pre></td></tr></table></figure>
-<h2 id="1-3-编码"><a href="#1-3-编码" class="headerlink" title="1.3 编码"></a>1.3 编码</h2><p>所有接口采用 UTF-8</p>
-<h2 id="1-4-公共参数"><a href="#1-4-公共参数" class="headerlink" title="1.4 公共参数"></a>1.4 公共参数</h2><p>所有的请求都有以下参数，以便识别请求来源是否合法</p>
-<ul>
-<li>request:</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>参数名称</th>
-<th>是否必须</th>
-<th>描述</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sign</td>
-<td>是</td>
-<td>签名</td>
-<td>md5(uid + token)</td>
-</tr>
-<tr>
-<td>token</td>
-<td>是</td>
-<td>令牌key</td>
-<td>分发给访问渠道的令牌</td>
-</tr>
-<tr>
-<td>uid</td>
-<td>是</td>
-<td>用户ID，默认是0</td>
-<td>唯一标识用户</td>
-</tr>
-<tr>
-<td>p</td>
-<td>否</td>
-<td>页码</td>
-<td>分页查询使用</td>
-</tr>
-<tr>
-<td>r</td>
-<td>否</td>
-<td>每页显示条数</td>
-<td>分页查询使用</td>
-</tr>
-<tr>
-<td>channel</td>
-<td>是</td>
-<td>客户端访问渠道:ios,android,wechat,mobileWeb</td>
-<td>区分访问来源</td>
-</tr>
-<tr>
-<td>version</td>
-<td>否</td>
-<td>版本号</td>
-<td>只有app有值</td>
-</tr>
-</tbody>
-</table>
-<h3 id="1-4-1-报文说明"><a href="#1-4-1-报文说明" class="headerlink" title="1.4.1 报文说明"></a>1.4.1 报文说明</h3><p>报文格式采用JSON 根域下面有三个域分别为</p>
-<table>
-<thead>
-<tr>
-<th>节点</th>
-<th>必填</th>
-<th>类型</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>code</td>
-<td>是</td>
-<td>N</td>
-<td>响应码代表服务器处理状态</td>
-</tr>
-<tr>
-<td>data</td>
-<td>可选</td>
-<td>JSON</td>
-<td>响应数据可能为空</td>
-</tr>
-<tr>
-<td>msg</td>
-<td>可选</td>
-<td>ANS</td>
-<td>响应的消息</td>
-</tr>
-</tbody>
-</table>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &#123;  </span><br><span class="line"> &quot;msg&quot;:&quot;success&quot;, </span><br><span class="line"> &quot;data&quot;:&#123;</span><br><span class="line">  &quot;name&quot;:&quot;tom&quot;,</span><br><span class="line">  &quot;age&quot;:12</span><br><span class="line">  &#125;</span><br><span class="line">  &quot;code&quot;:200 // 见1.4.1 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="1-4-2-响应码定义"><a href="#1-4-2-响应码定义" class="headerlink" title="1.4.2 响应码定义"></a>1.4.2 响应码定义</h3><table>
-<thead>
-<tr>
-<th>序号</th>
-<th>code值</th>
-<th>符号说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>200</td>
-<td>处理成功</td>
-</tr>
-<tr>
-<td>2</td>
-<td>400</td>
-<td>参数输入不正确</td>
-</tr>
-<tr>
-<td>3</td>
-<td>401</td>
-<td>session失效需要重新登录</td>
-</tr>
-<tr>
-<td>4</td>
-<td>404</td>
-<td>资源链接不存在，或者请求的数据资源不存在</td>
-</tr>
-<tr>
-<td>5</td>
-<td>406</td>
-<td>签名不正确</td>
-</tr>
-<tr>
-<td>6</td>
-<td>500</td>
-<td>业务处理失败</td>
-</tr>
-<tr>
-<td>7</td>
-<td>10000</td>
-<td>10000以上表示自定义错误,如验证手机号码</td>
-</tr>
-</tbody>
-</table>
-<h1 id="用户接口"><a href="#用户接口" class="headerlink" title="用户接口"></a>用户接口</h1><p><del>## 2.1 验证手机号码是否被注册</del></p>
-<p>请求：</p>
-<p><code>GET  http://${domain}:${port}/user/mobile</code></p>
-<p>输入</p>
-<pre><code>{
- &quot;mobile&quot;: &quot;13524101981&quot; 11位手机号
-}
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 10001,
-&quot;msg&quot;: &quot;手机号码已存在&quot;
-}
-</code></pre><p><strong>注意：只有code为200的情况下，手机号可用</strong></p>
-<h2 id="2-2-用户注册"><a href="#2-2-用户注册" class="headerlink" title="2.2 用户注册"></a>2.2 用户注册</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/user/register</code></p>
-<p>输入</p>
-<pre><code>{
- &quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号
- &quot;password&quot;:&quot;123456&quot;, String、用户密码
- &quot;repassword&quot;:&quot;123456&quot;, String、确认密码
-    &quot;verificationCode&quot;:&quot;4532&quot;,String 验证码
-}
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;,
-&quot;data&quot;:{
-&quot;uid&quot;:&quot;8686ae2da1c217df4815b90a8a6c2abf&quot;,
-&quot;mobile&quot;:&quot;13524101981&quot;
-}    
-}
-</code></pre><table>
-<thead>
-<tr>
-<th>code</th>
-<th>msg</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10008</td>
-<td>验证码失效了</td>
-</tr>
-<tr>
-<td>10007</td>
-<td>验证码不正确</td>
-</tr>
-<tr>
-<td>10003</td>
-<td>手机号已经存在</td>
-</tr>
-</tbody>
-</table>
-<p><strong>注意：只有code为200的情况下，注册成功并返回uid、手机号码</strong></p>
-<h2 id="2-3-用户登录"><a href="#2-3-用户登录" class="headerlink" title="2.3 用户登录"></a>2.3 用户登录</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/user/login</code></p>
-<p>输入</p>
-<pre><code>{
- &quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号
- &quot;password&quot;:&quot;123456&quot; String、用户密码
-}
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;,
-&quot;data&quot;:{
-    &quot;uid&quot;: &quot;asdasdasdsadasdasdas&quot;, String、用户唯一标识
-    &quot;mobile&quot;: &quot;13127538810&quot;, String、手机号码
-    &quot;headPath&quot;:&quot;头像服务器路径&quot;,String、头像服务器路径
-    &quot;userName&quot;:&quot;昵称&quot;,String、昵称
-    &quot;gender&quot;:&quot;性别&quot;,String、性别
-    &quot;age&quot;:18, Int、年龄
-    &quot;professional&quot;:&quot;职业&quot;,String、职业
-    &quot;regChannel&quot;:&quot;暂无&quot;,String
-    &quot;level&quot;:1 Int、会员等级
-}    
-}
-</code></pre><p><strong>注意：只有code为200的情况下，注册成功并返回</strong></p>
-<h2 id="2-4-忘记密码"><a href="#2-4-忘记密码" class="headerlink" title="2.4 忘记密码"></a>2.4 忘记密码</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/user/pwdUpdate</code></p>
-<p>输入</p>
-<pre><code>{
- &quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号
- &quot;password&quot;:&quot;123456&quot;, String、用户密码
- &quot;repassword&quot;:&quot;123456&quot; String、重复密码    
- }
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;
-}
-</code></pre><p><strong>注意：只有code为200的情况下，用户密码修改成功</strong></p>
-<h2 id="2-5-个人资料修改"><a href="#2-5-个人资料修改" class="headerlink" title="2.5 个人资料修改"></a>2.5 个人资料修改</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/user/dataUpdate</code></p>
-<p>输入</p>
-<pre><code>{
-&quot;uid&quot;:&quot;&quot; ,String、用户唯一标识(必填)     
-&quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号（必填）
- &quot;headPath&quot;:&quot;头像服务器路径&quot;,String、头像服务器路径
-&quot;userName&quot;:&quot;昵称&quot;,String、昵称
-&quot;gender&quot;:&quot;性别&quot;,String、性别
-&quot;age&quot;:18, Int、年龄
-&quot;professional&quot;:&quot;职业&quot;,String、职业
-&quot;regChannel&quot;:&quot;暂无&quot;,String
-&quot;level&quot;:1 Int、会员等级    
- }
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;
-}
-</code></pre><p><strong>注意：只有code为200的情况下，用户密码修改成功</strong></p>
-<h1 id="七牛token接口"><a href="#七牛token接口" class="headerlink" title="七牛token接口"></a>七牛token接口</h1><h2 id="3-1-生成tonken-只作七牛生成token测试用，上线前会删除"><a href="#3-1-生成tonken-只作七牛生成token测试用，上线前会删除" class="headerlink" title="3.1 生成tonken(只作七牛生成token测试用，上线前会删除)"></a>3.1 生成tonken(只作七牛生成token测试用，上线前会删除)</h2><p>请求：</p>
-<p><code>GET  http://${domain}:${port}/util/:accessKey/:secretKey/:bucket</code></p>
-<p>输入</p>
-<pre><code> `accessKey`:`mvjj9lnueTe85lpJhSKqLosI0nUUWNIrBF38-XLj`, 账户AK地址
- `secretKey`:`t2-NhHB_GQbqN_RSjC_d_EGmCPYYayoESkd2FwV3`, 账户SK地址
-`bucket`:七牛空间名字
-</code></pre><p>输出</p>
-<pre><code>token:mvjj9lnueTe85lpJhSKqLosI0nUUWNIrBF38-XLj:2rSiSh1Y3R9h2KAyoQIpyttKuy4=:eyJkZWFkbGluZSI6MTQ5NTA4MTI3NH0=
-</code></pre><p><strong>注意：只有token: 为授权码</strong></p>
-<h2 id="3-2-发送手机验证码"><a href="#3-2-发送手机验证码" class="headerlink" title="3.2 发送手机验证码"></a>3.2 发送手机验证码</h2><p>请求：</p>
-<p><code>GET http://${domain}:${port}/user/sms/sendValidCode</code></p>
-<p>输入：</p>
-<pre><code>{
-&quot;mobile&quot;: &quot;13524101981&quot;, 11位手机号
-}
-</code></pre><p>输出：</p>
-<pre><code>{
-&quot;code&quot;: 200
-&quot;msg&quot;: &quot;success&quot;
-}
-</code></pre><table>
-<thead>
-<tr>
-<th>code</th>
-<th>msg</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10009</td>
-<td>验证码已经发送了,验证码有效时间为15分钟,如未收到,请耐心等待</td>
-</tr>
-<tr>
-<td>10010</td>
-<td>验证码发送失败,请稍候再试</td>
-</tr>
-<tr>
-<td>10011</td>
-<td>验证码发送失败,请稍候再试</td>
-</tr>
-</tbody>
-</table>
-<h1 id="设备信息"><a href="#设备信息" class="headerlink" title="设备信息"></a>设备信息</h1><h2 id="4-1-设备信息列表API"><a href="#4-1-设备信息列表API" class="headerlink" title="4.1 设备信息列表API"></a>4.1 设备信息列表API</h2><p>请求：</p>
-<p><code>GET  http://${domain}:${port}/device/findById</code></p>
-<p>输入：</p>
-<pre><code>&quot;uid&quot;: &quot;1&quot; String、用户ID
-</code></pre><p>输出：</p>
-<pre><code>{
-    &quot;code&quot;:200,
-    &quot;msg&quot;:&quot;success&quot;,
-    &quot;data&quot;:[
-                {
-                    &quot;name&quot;:&quot;anne&quot;,
-                    &quot;did&quot;:&quot;1&quot;
-                }
-            ]
-}
-</code></pre><p><strong>注意：当result为空数组时，该用户下没有设备</strong></p>
-<h2 id="4-2-设备信息添加API"><a href="#4-2-设备信息添加API" class="headerlink" title="4.2 设备信息添加API"></a>4.2 设备信息添加API</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/device/save</code></p>
-<p>输入：</p>
-<pre><code>{
-    &quot;did&quot;:&quot;1&quot;,   String、唯一ID
-    &quot;name&quot;:&quot;anne&quot;,   String、设备名称
-    &quot;type&quot;: 1,      Int、设备类型  1.消毒底座  2.牙刷  3.手环)
-    &quot;uid&quot;: &quot;1&quot;,  String、用户ID
-    &quot;bluetoothName&quot;: &quot;lbd&quot; String、蓝牙名称
-}
-</code></pre><p>输出：</p>
-<pre><code>{
-    &quot;code&quot;:200,
-    &quot;msg&quot;:&quot;success&quot;
-}
-</code></pre><p><strong>注意：当code为200的情况下，设备信息添加成功</strong></p>
-<p><br></p>
-<h1 id="广告列表接口"><a href="#广告列表接口" class="headerlink" title="广告列表接口"></a>广告列表接口</h1><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/ad/list</code></p>
-<p>参数:</p>
-<pre><code>默认参数
-</code></pre><p>输出：</p>
-<pre><code>{
-    &quot;code&quot;:200,
-    &quot;msg&quot;:&quot;success&quot;,
-    &quot;data&quot;:[
-                {
-                    &quot;adId&quot;:1,
-                    &quot;adType&quot;:1,
-                    &quot;imgUrl&quot;:&quot;http://xxxx/xxx.png&quot;,
-                    &quot;title&quot;:&quot;广告一&quot;,
-                    &quot;flag&quot;:0
-                },
-                {
-                    &quot;adId&quot;:2,
-                    &quot;adType&quot;:2,
-                    &quot;imgUrl&quot;:&quot;http://xxxx/xxx.png&quot;,
-                    &quot;title&quot;:&quot;广告一&quot;,
-                    &quot;flag&quot;:2
-                },
-                {
-                    &quot;adId&quot;:3,
-                    &quot;adType&quot;:3,
-                    &quot;imgUrl&quot;:&quot;http://xxxx/xxx.png&quot;,
-                    &quot;title&quot;:&quot;广告一&quot;,
-                    &quot;flag&quot;:3,
-                    &quot;appPage&quot;:1001
-                }
-            ]
-}
-</code></pre><p>返回参数说明：</p>
-<table>
-<thead>
-<tr>
-<th>参数名称</th>
-<th>描述</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>adId</td>
-<td>广告ID</td>
-<td>广告唯一标识</td>
-</tr>
-<tr>
-<td>adType</td>
-<td>广告内容类型：1、2、3，分别代表:url、content、appPage</td>
-<td>app跳转,如果是url则跳转到app内部网页，content则跳到原生固定详情页面，appPage则跳转到app指定页面</td>
-</tr>
-<tr>
-<td>appPage</td>
-<td>跳转到某个页面的名称</td>
-<td>adType为3的情况下才会有值，用来跳转到app指定页面，内容为app页面码</td>
-</tr>
-<tr>
-<td>imgUrl</td>
-<td>广告图片地址</td>
-<td>显示在手机banner页面上</td>
-</tr>
-<tr>
-<td>title</td>
-<td>广告标题</td>
-<td>广告标题</td>
-</tr>
-<tr>
-<td>flag</td>
-<td>0（普通）、1(特价促销)、2(火爆) 、3(秒杀)</td>
-<td>在手机上banner上显示特殊标记</td>
-</tr>
-</tbody>
-</table>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/26/接口文档/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/26/接口文档/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1504,7 +981,7 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>12</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>13</sup></a></li>
 		  
 		
 		  
@@ -1549,15 +1026,23 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
 			
 		
 			
@@ -1569,27 +1054,11 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
 			
 		
 			
@@ -1601,11 +1070,19 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 			
 		
 			
+				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 			
 		
 			

@@ -92,6 +92,79 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/对javascript的理解/" title="对javascript的理解" itemprop="url">对javascript的理解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="对javascript的理解"><a href="#对javascript的理解" class="headerlink" title="对javascript的理解"></a>对javascript的理解</h1><p><span style="font-size: 18px;">按照定义，每个javascript对象都有一个原型对象（简称原型），这个原型是由该对象的构造函数所定义（javascript自动创建的），并且对象继承原型的所有属性和方法（函数），比如<br>一个String对象 的原型为 String.prototype<br>，如果我们想要给String类添加方法，可以这样做（比如添加常用的trim()方法）：</span></p>
+<div><br><br><span style="font-size: 18px;">js 代码</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">String.prototype.trim = function (){<br>  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">  return<br>this.replace(/(\^\s*)|(\s*\$)/g, “”);   </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">}  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/对javascript的理解/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/对javascript的理解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对javascript的理解/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/对象序列化框架/" title="对象序列化框架" itemprop="url">对象序列化框架</a>
   </h1>
   <p class="article-author">By
@@ -145,7 +218,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/SVN分支与合并/" title="SVN分支与合并" itemprop="url">SVN分支与合并</a>
+      <a href="/2016/03/30/StoryBoard学习博客/" title="StoryBoard学习博客" itemprop="url">StoryBoard学习博客</a>
   </h1>
   <p class="article-author">By
        
@@ -158,75 +231,14 @@
 </header>
     <div class="article-content">
         
-        <h1 id="SVN分支与合并"><a href="#SVN分支与合并" class="headerlink" title="SVN分支与合并"></a>SVN分支与合并</h1><h1 id="SVN分支与合并-1"><a href="#SVN分支与合并-1" class="headerlink" title="SVN分支与合并"></a><a href="http://www.cnblogs.com/cnblogsfans/archive/2011/02/16/1955808.html" target="_blank" rel="noopener">SVN分支与合并</a></h1><div><br><br><strong>一些相关的概念和原理</strong><br><br>· 分支(branch)和标记(tag)对于 SVN<br>来说就只是副本(copy)，没有任何其它意义。分支和标记的意义是我们人为给予的。<br><br>· SVN 的副本是通过”cheap copies “来实现的，建立一个副本就类似 Unix<br>中创建一个硬链接(hard<br>link)，空间和时间的消耗都是固定并且很小的，因此不必太过担心副本太多而导致性能问题。<br><br>· SVN 的文件储存<br>是通过差异(diff)来实现的，底层储存方法有两种：1、Berkeley<br>DB，完整保存一个文件的最新版本(revision)，旧版本通过反向差异(reverse<br>diffs)来获取。2、FSFS，跟 BDB<br>相反，完整保存一个文件的初始版本，后续版本通过正向差异来获取。当然，为了避免版本太多而造成性能下降，SVN<br>还使用了”skip-deltas “来减少需要追溯的版本数。<br><br>· SVN 属性(property<br>)可以附带在文件、目录和版本(revision)上。文件和目录的属性类似文件内容，会被记录进版本库中的，例如每次提交时的注释，其实就是该版本的一<br>个属性<br>svn:log。以”svn:”开头的属性是系统预留的，用户不应该自定义这样的属性。<br><br><strong>进行分支开发的最佳实践</strong><br><br>·<br>做分支上做开发的时候，必须定期使分支与主干同步，避免开发完成后合并(merge)回主干时出现严重冲突(confict)。<br><br>·<br>进行合并前，处理掉工作副本上的所有本地修改，方便合并失败时进行回滚(revert)。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/SVN分支与合并/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
+        <h1 id="StoryBoard学习博客"><a href="#StoryBoard学习博客" class="headerlink" title="StoryBoard学习博客"></a>StoryBoard学习博客</h1><div><br><br>StoryBoard学习博客<br><br></div>
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
+<p><a href="http://beer998.blog.51cto.com" target="_blank" rel="noopener">http://beer998.blog.51cto.com</a></p>
+<div><br><br>\<br><br></div>
 
+<div><br><br><a href="http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html" target="_blank" rel="noopener">http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html</a>\<br><div><br><br>\<br><br></div>
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/SVN分支与合并/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN分支与合并/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/" title="SVN客户端命令行设置忽略文件列表" itemprop="url">SVN客户端命令行设置忽略文件列表</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="SVN客户端命令行设置忽略文件列表"><a href="#SVN客户端命令行设置忽略文件列表" class="headerlink" title="SVN客户端命令行设置忽略文件列表"></a>SVN客户端命令行设置忽略文件列表</h1><p><span style="font: 20.0px Times">SVN设置忽略文件列表\<br></span><span style="font: 12.0px Arial; background-color: #eeeeee">\<br></span><span style="font: 12.0px Arial">\<br></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">在公司中项目的版本管控一般都是使用集中式的SVN，我也是从svn工具中熟悉基本的版本管理概念和操作。但是作为一个Linux系统及应用开发者，自然对Git分布式管理工具要有所熟悉。现在个人项目管理都是使用git进行版本控制，对git的一些操作也比较熟悉，而svn一般用的是Windows下的图像工具，而对svn的命令行稍显陌生。\</span></p>
-<p>在git工具中，设置忽略文件只需要修改版本库根目录下的.gitignore文件就可以了，没有的话创建一个，非常简单，一个示例的.gitignore文件如下：过滤文件模式以行进行分隔\<br>\<br><span style="font: 13.0px 'Courier New'; color: #afafaf">01\<br></span><span style="font: 13.0px 'Courier New'">*.o\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">02\<br></span><span style="font: 13.0px 'Courier New'">*.lo\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">03\<br></span><span style="font: 13.0px 'Courier New'">*.la\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">04\<br></span><span style="font: 13.0px 'Courier New'">*.gcda\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">05\<br></span><span style="font: 13.0px 'Courier New'">*.gcno\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">06\<br></span><span style="font: 13.0px 'Courier New'">aclocal.m4\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">07\<br></span><span style="font: 13.0px 'Courier New'">autom4te.cache\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">08\<br></span><span style="font: 13.0px 'Courier New'">build\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">09\<br></span><span style="font: 13.0px 'Courier New'">compile\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">10\<br></span><span style="font: 13.0px 'Courier New'">config.guess\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">11\<br></span><span style="font: 13.0px 'Courier New'">config.h\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">12\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span <!--more--=""><br>style=”font: 13.0px ‘Courier New’”&gt;\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">13\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span style="font: 13.0px 'Courier New'">~\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">14\<br></span><span style="font: 13.0px 'Courier New'">config.log\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">15\<br></span><span style="font: 13.0px 'Courier New'">config.status\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">16\<br></span><span style="font: 13.0px 'Courier New'">config.sub\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">17\<br></span><span style="font: 13.0px 'Courier New'">configure\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">18\<br></span><span style="font: 13.0px 'Courier New'">depcomp\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">19\<br></span><span style="font: 13.0px 'Courier New'">.deps\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">20\<br></span><span style="font: 13.0px 'Courier New'; color: #ff2f93">install</span><span style="font: 13.0px 'Courier New'">-sh\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">21\<br></span><span style="font: 13.0px 'Courier New'">.libs\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">22\<br></span><span style="font: 13.0px 'Courier New'">libtool\<br></span><span style="font: 14.0px Arial">今天在使用svn时想设置忽略一些临时的项目开发文件，一下子不知道怎么弄，上网搜索和实践后，发现也不难，在此记录一下。配置的方法有以下几种：</span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br>\<br></span><span style="font: 24.0px Arial"><strong>Linux下svn命令行配置\
-</strong></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br></span><span style="font: 20.0px Arial"><strong>1. 修改版本库的相关属性\
-</strong></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ svn propedit<br>svn:ignore </span><span style="font: 13.0px 'Courier New'; color: #ff2f93">dir</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">其中 dir<br>就是你所想设置过滤文件列表的目录，执行命令之后，会出现编辑界面，按照空格将你想过滤文件（通常使用通配符的方式）以空格分开，保存退出即可。这个属性是针对版本库进行的修改，因此需要提交这个修改。svn:ignore是svn的一个参数。 \<br> 注意：这个设置无法递归，也就是如果 dir<br>目录下还有子目录的话，是单独设置的。 \<br></span><span style="font: 20.0px Arial"><strong>2. svn 客户端的配置\
-</strong></span><span style="font: 14.0px Arial">对 svn<br>命令的配置文件修改即可。进入个人用户目录 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ vim<br>.subversion/config\<br></span><span style="font: 14.0px Arial">找到包含  [miscellany]<br>这一行，取消注释，然后编辑包含 global-ignores<br>的那一行，取消注释，并添加需要过滤文件的通配符即可。如下所示：注意开头不能有空格，否则svn会报错。 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">global-ignores = *.so<br>*.a *.o *.lo *.la .*.rej *.rej .*~ *~ .</span><span style="font: 13.0px 'Courier New'; color: #008200">#*<br>.DS_Store</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">这个配置是对客户端的修改，对版本库没有任何影响。同时，这个配置也是全局的，适用于本机所有<br>svn 管理的项目。</span></p>
+<p></p></div><p></p>
 
         
         
@@ -256,7 +268,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN客户端命令行设置忽略文件列表/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/StoryBoard学习博客/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/StoryBoard学习博客/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -346,6 +358,73 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/" title="彻底删除Mac OS X开机自启动项目" itemprop="url">彻底删除Mac OS X开机自启动项目</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="彻底删除Mac-OS-X开机自启动项目"><a href="#彻底删除Mac-OS-X开机自启动项目" class="headerlink" title="彻底删除Mac OS X开机自启动项目"></a>彻底删除Mac OS X开机自启动项目</h1><div style="font-size: 24px; margin: 10px; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; background-color: rgb(255, 255, 255);"><br><br>彻底删除Mac OS X开机自启动项目<span style="font-size: 14px; float: right; margin: 5px 10px 0px 0px; cursor: pointer; color: rgb(255, 0, 0);">进入全屏</span><br><div style="font-size: 0px;"><br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/63A76FC7-7BC5-4F9F-ADA0-FDA2B807808E.gif" alt=""><br><br></div>
+
+<p></p></div><p></p>
+<div style="zoom: 1; padding: 20px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(221, 221, 221); overflow: hidden; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; font-size: 16px; line-height: 24px; background-color: rgb(255, 255, 255);"><br><br>今天重新安装了SSD硬盘上的OS<br>X系统，所有数据都从另外一块HD硬盘迁移过来的，所以直接导致一些不需要的东西直接开机自启动了，试图从<span style="color: rgb(255, 0, 0);">LoginItems</span>（打开System<br>Preferences，选择System -&gt; Accounts，选择Login<br>Items选项卡）进行管理，但这里已经是OK的了。所以只能通过删除<span style="color: rgb(255, 0, 0);">LaunchAgents</span>的方法搞定了，LaunchAgents目录：/Library/LaunchAgents，下面其实有好多东西都是可以强制删掉的：<br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/858844E8-8EEC-4BE8-ADAC-DFF0BF88826E.png" alt="">\<br><br>当然，如果这都不能解决问题，还可以通过清理<span style="color: rgb(51, 51, 51); font-family: arial;"><span style="color: rgb(255, 0, 0);">StartupItems</span></span>的方式搞定，StartupItems的目录：/Library/StartupItems<br><br>一些系统级别的，可以到这里去清理：/System/Library/StartupItems<br><br>\<br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/彻底删除Mac OS X开机自启动项目/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">开源中国 Maven 库</a>
   </h1>
   <p class="article-author">By
@@ -398,137 +477,6 @@
 	
 	  	<span></span>
 		<a href="/2016/03/30/开源中国 Maven 库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/开源中国 Maven 库/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/SVN使用经验心得/" title="SVN使用经验心得" itemprop="url">SVN使用经验心得</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="SVN使用经验心得"><a href="#SVN使用经验心得" class="headerlink" title="SVN使用经验心得"></a>SVN使用经验心得</h1><div><br><br><div><br><br><div><br><br><span lang="EN-US">1、如果已经有人lock了一个文件，但另外一个人需要编辑此文件，有两个选择，一个是由管理员来解除锁定，另外一个是在get<br>lock选项中有个steal the locks，选择后，即可以编辑该文件</span><br><br><span lang="EN-US">2、SVN的版本概念是针对目录而非文件，即使只更新了一个文件，那么，整体的版本也需要加1</span><br><br><span lang="EN-US">3、推荐使用目录树为\<br> /repos/trunk         用来保存主线，所有的code都存放在这个目录中\<br> /repos/branches<br>用来保存目录分支，OEM、新功能、设计方案调整，都有可能需要创建分支目录\<br> /repos/tags<br>用来保存标签拷贝，文档宝的阶段性成果可以打个标签存放到此目录下</span><br><br><span lang="EN-US">4、SVN的上传和更新是异步的，可以分开操作，而不用担心在update的同时把自己不成熟的代码commit从而影响别人的工作。</span><br><br><span lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情况和来管理工作copy的，如果不小心删除了，可以把该目录整个删掉，然后返回父目录，并使用update，则会从服务器上重新下载该目录并包含新的.svn</span><br><br><span lang="EN-US">6、SVN常用操作\<br> a、保持客户端和服务器端的一致，从服务器上更新文件，update\<br> b、对客户端文件的增、删、改、剪切，add,delete,copy,move\<br> c、状态比较 status，diff\<br> d、取消对服务器上文件的修改，revert\<br> e、合并别人的修改(后更新的人需要做这个操作)update,resolved\<br> f、客户端修改的文件更新到服务器上，commit</span><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/SVN使用经验心得/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/SVN使用经验心得/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN使用经验心得/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/" title="彻底删除Mac OS X开机自启动项目" itemprop="url">彻底删除Mac OS X开机自启动项目</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="彻底删除Mac-OS-X开机自启动项目"><a href="#彻底删除Mac-OS-X开机自启动项目" class="headerlink" title="彻底删除Mac OS X开机自启动项目"></a>彻底删除Mac OS X开机自启动项目</h1><div style="font-size: 24px; margin: 10px; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; background-color: rgb(255, 255, 255);"><br><br>彻底删除Mac OS X开机自启动项目<span style="font-size: 14px; float: right; margin: 5px 10px 0px 0px; cursor: pointer; color: rgb(255, 0, 0);">进入全屏</span><br><div style="font-size: 0px;"><br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/63A76FC7-7BC5-4F9F-ADA0-FDA2B807808E.gif" alt=""><br><br></div>
-
-<p></p></div><p></p>
-<div style="zoom: 1; padding: 20px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(221, 221, 221); overflow: hidden; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; font-size: 16px; line-height: 24px; background-color: rgb(255, 255, 255);"><br><br>今天重新安装了SSD硬盘上的OS<br>X系统，所有数据都从另外一块HD硬盘迁移过来的，所以直接导致一些不需要的东西直接开机自启动了，试图从<span style="color: rgb(255, 0, 0);">LoginItems</span>（打开System<br>Preferences，选择System -&gt; Accounts，选择Login<br>Items选项卡）进行管理，但这里已经是OK的了。所以只能通过删除<span style="color: rgb(255, 0, 0);">LaunchAgents</span>的方法搞定了，LaunchAgents目录：/Library/LaunchAgents，下面其实有好多东西都是可以强制删掉的：<br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/858844E8-8EEC-4BE8-ADAC-DFF0BF88826E.png" alt="">\<br><br>当然，如果这都不能解决问题，还可以通过清理<span style="color: rgb(51, 51, 51); font-family: arial;"><span style="color: rgb(255, 0, 0);">StartupItems</span></span>的方式搞定，StartupItems的目录：/Library/StartupItems<br><br>一些系统级别的，可以到这里去清理：/System/Library/StartupItems<br><br>\<br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/彻底删除Mac OS X开机自启动项目/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -623,7 +571,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/" title="Session，Cookie，jsessionid，Url重写" itemprop="url">Session，Cookie，jsessionid，Url重写</a>
+      <a href="/2016/03/30/String.prototype 工具常用类/" title="String.prototype 工具常用类" itemprop="url">String.prototype 工具常用类</a>
   </h1>
   <p class="article-author">By
        
@@ -636,24 +584,341 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Session，Cookie，jsessionid，Url重写"><a href="#Session，Cookie，jsessionid，Url重写" class="headerlink" title="Session，Cookie，jsessionid，Url重写"></a>Session，Cookie，jsessionid，Url重写</h1><div><br><br>\<br><br></div>
+        <h1 id="String-prototype-工具常用类"><a href="#String-prototype-工具常用类" class="headerlink" title="String.prototype 工具常用类"></a>String.prototype 工具常用类</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 得到字符串的长度，包括中文和英文</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.prototype.charlen = function() &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var arr = this.match(/[^\x00-\xff]/ig);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return this.length + (arr == null ? 0 : arr.length);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--more--&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; // 返回字符串的长度，一个中文算2个字节(英文字母和英文标点符号一个字符占一个字节，全部把页面字符串转成字节长度，以便与数据库字段长度相匹配)  </span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<p>String.prototype.ChineseLength=function()  \<br> {    \<br>       return this.replace(/[\^\x00-\xff]/g,”**“).length;  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; &#125;;  </span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 格式化字符串$&#123;0&#125; -&gt; 参考printf %s</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.prototype.format = function() &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var args = arguments;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return this.replace(/\$\&#123;(\d+)\&#125;/g,</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function(m, i)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return args[i];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 字符串首尾去空格</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.prototype.trim = function() &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return this.replace(/(^\s*)|(\s*$)/g, &quot;&quot;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 字符串包含字符串判断</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.prototype.contains = function(sub) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return this.indexOf(sub) != -1;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 字符串比较大小</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.prototype.compare = function(b) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(!b)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return -1;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   if(this.length != b.length)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return this.length - b.length;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   var i = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (; i &lt; this.length; i++)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var val = this.charCodeAt(i) - b.charCodeAt(i);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(val != 0)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return val;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   return 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 替换字符</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.prototype.replaceLen = function(start, len, replaced) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(!len)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return this;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   if(start &gt;= this.length)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return this;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   var returnSeg = &apos;&apos;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var returnSeg2 = &apos;&apos;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var i = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (; i &lt; this.length; i++)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var c = this.charAt(i);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(i &lt; start)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">returnSeg += c;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">    if(i &gt;= start + len)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">returnSeg2 += c;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   return returnSeg + replaced + returnSeg2;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 替换字符，这个在替换填入比较有用，比如***天***小时 替换为 &lt;input /&gt;天&lt;input /&gt;小时</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String.prototype.replaceChar = function(target, replaced, start) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(!target)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return this;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   if(!start)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   var returnVal = this.substring(0, start);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var index = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (var i = start; i &lt; this.length; i++) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var c = this.charAt(i);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target = typeof target == &apos;function&apos; ? target.call(this, index) : target;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (c == target) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">returnVal += typeof replaced == &apos;function&apos; ? replaced.call(this, index) : replaced;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">while (i &lt; this.length - 1 &amp;&amp; this.charAt(i + 1) == c) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i++;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index++;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;else&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">returnVal += c;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   return returnVal;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 克隆复制（简单copy而已）</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.clone = function()&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var i = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(; i &lt; this.length; i++)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">switch(typeof this[i])&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">case &apos;object&apos;:</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(key in this[i])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj[key] = this[i][key];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.push(obj);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">break;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default:</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.push(this[i]);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">break;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return arr;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 清空</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.clear = function() &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.splice(0, this.length);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 数组包含元素</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.contains = function(el) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var i;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(i = 0; i &lt; this.length; i++) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(this[i] == el)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return true;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return false;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 数组添加数组</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.merge = function(arr) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(arr)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var i;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(i = 0; i &lt; arr.length; i++) &#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.push(arr[i]);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 根据值和属性获取到数组的对象下标</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.indexOf = function(val, field)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var i = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(; i &lt; this.length; i++)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(this[i] &amp;&amp; (field ? this[i][field] == val : this[i] == val))&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return i;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return -1;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 最后一个下标</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.lastIndexOf = function(val, field)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var i = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var max = -1;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(; i &lt; this.length; i++)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(this[i] &amp;&amp; (field ? this[i][field] == val : this[i] == val))&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">max = i;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return max;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 数组唯一</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.unique = function(field)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   var i = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(; i &lt; this.length; i++)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var val = field ? this[i][field] : this[i];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var index = this.lastIndexOf(val, field);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(index == i)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.push(this[i]);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   return arr;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 数组最大值</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.max = function(field)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var result = -1;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   var i = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(; i &lt; this.length; i++)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var val = field ? this[i][field] : this[i];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(val &gt; result)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = val;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   return result;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 数组最小值</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.min = function(field)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var result = -1;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   var i = 0;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(; i &lt; this.length; i++)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var val = field ? this[i][field] : this[i];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(val &lt; result)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = val;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">   return result;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  /**</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 扩展基础类</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* 日期格式化</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date.prototype.format = function(pat)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var year = this.getFullYear();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var month = this.getMonth() + 1;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var day = this.getDate();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var hour = this.getHours();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var minute = this.getMinutes();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var second = this.getSeconds();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// 两位补齐</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">month = month &gt; 9 ? month : &quot;0&quot; + month;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">day = day &gt; 9 ? day : &quot;0&quot; + day;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hour = hour &gt; 9 ? hour : &quot;0&quot; + hour;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minute = minute &gt; 9 ? minute : &quot;0&quot; + minute;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">second = second &gt; 9 ? second : &quot;0&quot; + second;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(!pat)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pat = &quot;yyyy-MM-dd&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pat = pat.replace(/yyyy/g, year);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pat = pat.replace(/MM/g, month);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pat = pat.replace(/dd/g, day);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pat = pat.replace(/HH/gi, hour);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pat = pat.replace(/mm/g, minute);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pat = pat.replace(/ss/g, second);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return pat;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  // 减去时差的毫秒数（取决于使用的浏览器的locale设置）</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date.prototype.getTime2 = function()&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//   return this.getTime();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return this.getTime() - this.getTimezoneOffset() / 60 * 3600 * 1000;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  // 日期相差天数</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date.prototype.diff = function(date)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return Math.ceil((this - date) / (1000 * 60 * 60 * 24));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  // 日期加减计算</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date.prototype.add = function(days)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return new Date(this.getTime() + days * (1000 * 60 * 60 * 24));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  // 日期加减计算</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date.prototype.addMonth = function(months)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var day = this.getDate();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var month = this.getMonth() + 1;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var year = this.getFullYear();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">month += months;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(month &gt; 12)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">year += Math.floor(month / 12);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">month = month % 12;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return Date.parse(month + &apos;/&apos; + day + &apos;/&apos; + year);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  // 解析字符串，以默认 pat = &quot;yyyy-MM-dd&quot;的格式，而不是MM/dd/yyyy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date.parse2 = function(str, pat)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(str == null || str == &apos;&apos;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return new Date();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var rstr = str.replace(/(\d&#123;4&#125;)([-\./])(\d&#123;1,2&#125;)\2(\d&#123;1,2&#125;)/, &quot;$3/$4/$1&quot;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return new Date(Date.parse(rstr));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">``` &#123;style=&quot;font-size: 16px;&quot;&#125;</span><br><span class="line">  // 解析字符串，json date obj</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// 减去时差的毫秒数（取决于使用的浏览器的locale设置）</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date.parse3 = function(obj)&#123;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//   return new Date(obj.time);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return new Date(obj.time - new Date().getTimezoneOffset() / 60 * 3600 * 1000);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//   var str = obj.year + &apos;-&apos; + (obj.month + 1) + &apos;-&apos; + obj.date + &apos; &apos; +</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//    obj.hours + &apos;:&apos; + obj.minutes + &apos;:&apos; + obj.seconds;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//   return Date.parse2(str);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><span lang="EN-US">  </span></p>
+<p><span style="font-size: 16px;">其中日期部分是为了和后台</span><span lang="EN-US" style="font-size: 16px;">json-lib</span><span style="font-size: 16px;">交互用，用了时间戳。</span></p>
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">\<br></span><br><br></div>
 
-<div><br><br>在一些投票之类的场合，我们往往因为公平的原则要求每人只能投一票，在一些WEB开发中也有类似的情况，这时候我们通常会使用COOKIE来实现，例如如下的代码：<br><br></div>
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">\<br></span><br><br></div>
 
-<p>&lt; % cookie[]cookies = request.getCookies();</p>
-<p>if (cookies.lenght == 0 || cookies == null){</p>
-<p>doStuffForNewbie();</p>
-<p>//没有访问过</p>
-<p>}else{</p>
-<p>doStuffForReturnVisitor(); //已经访问过了</p>
-<p>}</p>
-<p>% &gt;</p>
-<p>这是很浅显易懂的道理，检测COOKIE的存在，如果存在说明已经运行过写入COOKIE的代码了，然而运行以上的代码后，无论何时结果都是执行<br>doStuffForReturnVisitor()，通过控制面板-Internet选项-设置-察看文件却始终看不到生成的cookie文件，奇怪，<br>代码明明没有问题，不过既然有cookie，那就显示出来看看。<br>
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">\<br></span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">\<br></span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">\<br> 把之前两次的扩展总结一下，trim 方法有四种使用方法：\<br> trim()     去除字符串左右两端的空格\<br> trim(“xyz”)   去除字符串左右两端的字符xyz\<br> trim(/[0-9]/g)   去除字符串左右两端的数字\<br> trim(0,3)   去除字符串右端3个字符\<br> trim 方法代码如下：\<br> String.prototype.trim = function(){\<br>         var _argument = arguments[0]==undefined ? “<br>“:arguments[0];\<br>         if(typeof(_argument)==”string”){\<br>               return this.replace(_argument == “ “?/(\^s*)|(s*\$)/g<br>: new RegExp(“(\^”+_argument+”*)|(“+_argument+”*\$)”,”g”),””);\<br>         }else if(typeof(_argument)==”object”){\<br>               return this.replace(_argument,””)\<br>         }else if(typeof(_argument)==”number” &amp;&amp;<br>arguments.length&gt;=1){\<br>               return arguments.length==1?<br>this.substring(arguments[0]) :<br>this.substring(arguments[0],this.length-arguments[1]);\<br>         }\<br> };\<br>\<br>\<br></span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">//trim扩展,(注：ie和chrome，Safari都没有提供trim方法，而在firefox下却有trim方法，而且还可以用，不过最好是重写一个，以便浏览器兼容)\<br> String.prototype.trim = function() {\<br>         //去除左右空格\<br>         return this.replace(/(\^\s*)|(\s*\$)/g,””);  \<br>         //去除所有空格\<br>         //return this.replace(/\s+/g, “”);\<br> }\<br>\<br> // 返回字符的长度，一个中文算2个  \<br> String.prototype.ChineseLength=function()  \<br> {    \<br>       return this.replace(/[\^\x00-\xff]/g,”**“).length;  \<br> };</span><span style="font-family: 宋体;">  </span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">\<br></span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">\<br></span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">//判断输入是否为手机或者电话号码(国内)</span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;"><span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span style="font-family: 宋体; font-size: 16px;">String.prototype.isMobileOrPhone<br>= function(){</span></span></span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">               var mobile =<br>/\^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})\$/;\<br>               var tel = /\^\d{3,4}-\d{7,8}(-\d{3,4})?\$/;\<br>         return  mobile.test(this) || tel.test(this); </span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">}</span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">\<br></span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">\<br></span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><span style="font-family: 宋体;">//以下是在项目中用到的基于jquery.class插件的js身份证验证类</span><br><br></div>
+
+<div style="font-size: 16px;"><br><br><a href="String.prototype%20%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E7%B1%BB.resources/idCardHelper.js">idCardHelper.js</a>\<br><br></div>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#more">Read More</a>
           
        </p>
     </div>
@@ -679,7 +944,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Session，Cookie，jsessionid，Url重写/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/String.prototype 工具常用类/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/String.prototype 工具常用类/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -746,6 +1011,80 @@
 	
 	  	<span></span>
 		<a href="/2016/03/30/手机端(iOS,android)自动化测试框架(淘宝用的)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/手机端(iOS,android)自动化测试框架(淘宝用的)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/把你的程序布署在TOMCAT/" title="把你的程序布署在TOMCAT" itemprop="url">把你的程序布署在TOMCAT</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="把你的程序布署在TOMCAT"><a href="#把你的程序布署在TOMCAT" class="headerlink" title="把你的程序布署在TOMCAT"></a>把你的程序布署在TOMCAT</h1><div><br><br>把你的程序布署在TOMCAT上！！  (2011-04-11 09:08:40)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="%E6%8A%8A%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%B8%83%E7%BD%B2%E5%9C%A8TOMCAT.resources/31FCB674-06D6-4F00-8356-8F42DEF64A98.gif" alt=""><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>网站开发完成了最终<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/把你的程序布署在TOMCAT/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/把你的程序布署在TOMCAT/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/把你的程序布署在TOMCAT/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -890,7 +1229,7 @@
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>12</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>13</sup></a></li>
 		  
 		
 		  
@@ -935,15 +1274,23 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
 			
 		
 			
@@ -955,27 +1302,11 @@
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
 			
 		
 			
@@ -987,11 +1318,19 @@
 			
 		
 			
+				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 			
 		
 			
