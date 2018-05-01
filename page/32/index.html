@@ -220,7 +220,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/maven 启动时windows下静态文件（html、css、js）被锁定/" title="maven 启动时windows下静态文件（html、css、js）被锁定" itemprop="url">maven 启动时windows下静态文件（html、css、js）被锁定</a>
+      <a href="/2016/03/30/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/" title="iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD" itemprop="url">iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD</a>
   </h1>
   <p class="article-author">By
        
@@ -233,19 +233,12 @@
 </header>
     <div class="article-content">
         
-        <h1 id="maven-启动时windows下静态文件（html、css、js）被锁定"><a href="#maven-启动时windows下静态文件（html、css、js）被锁定" class="headerlink" title="maven 启动时windows下静态文件（html、css、js）被锁定"></a>maven 启动时windows下静态文件（html、css、js）被锁定</h1><div><br><br>\<br><br></div>
-
-<div><br><br>使用Maven进行Java的web开发，Jetty<br>Plugin是必不可缺的插件，可以极大的提到开发效率。但在Windows环境下会遇到静态文件（html、css、js）被锁定、无法即时更新的问<br>题。要想更新这些文件，只能先停掉Jetty，保存修改，再启动Jetty，非常不方便。<br><br></div>
-
-<div><br><br><span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">解决办法是这样的：\<br><br>1、从jetty.jar中解出webdefault.xml（位于org.mortbay.jetty.webapp包下）这个文件，把这个useFileMappedBuffer参数设为false\<br></span><br><div><br><br><div><br><br><span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">Java代码<br>  <img src="maven%20%E5%90%AF%E5%8A%A8%E6%97%B6windows%E4%B8%8B%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%EF%BC%88html%E3%80%81css%E3%80%81js%EF%BC%89%E8%A2%AB%E9%94%81%E5%AE%9A.resources/948C06FC-A4A9-4D20-8D00-5569CF23DEE2.png" alt=""></span><br><br></div>
-
-<ol>
-<li><span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span>    </span></span>
+        <h1 id="iOS多线程编程技术之NSThread、Cocoa-NSOperation、GCD"><a href="#iOS多线程编程技术之NSThread、Cocoa-NSOperation、GCD" class="headerlink" title="iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD"></a>iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD</h1><p><span style="font: 24.0px 'Helvetica Neue'; font-kerning: none; color: #3a3a3a; background-color: #fafafa; -webkit-text-stroke: 0px #3a3a3a">iOS多线程编程技术之NSThread、Cocoa<br>NSOperation、GCD</span><span style="font: 24.0px 'Helvetica Neue'; font-kerning: none; color: #3a3a3a; -webkit-text-stroke: 0px #3a3a3a">\<br></span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #888888; background-color: #fafafa; -webkit-text-stroke: 0px #888888">2014-05-20<br>11:14 编辑： <a href="http://www.cocoachina.com/bbs/u.php?action=feed&amp;uid=304691" target="_blank" rel="noopener"><span style="font-kerning: none; color: #3a3a3a; -webkit-text-stroke: 0px #3a3a3a">wupeng</span></a><br>分类：<a href="http://www.cocoachina.com/ios/" target="_blank" rel="noopener"><span style="font-kerning: none; color: #3a3a3a; -webkit-text-stroke: 0px #3a3a3a">iOS开发</span></a><br>来源：CocoaChina</span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #888888; -webkit-text-stroke: 0px #888888">\<br></span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #888888; background-color: #fafafa; -webkit-text-stroke: 0px #888888">0<br>7139</span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #888888; -webkit-text-stroke: 0px #888888">\<br> <a href="http://www.cocoachina.com/cms/tags.php?/iOS/" target="_blank" rel="noopener"><span style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">iOS</span></a><a href="http://www.cocoachina.com/cms/tags.php?/GCD/" target="_blank" rel="noopener"><span style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">GCD</span></a><a href="http://www.cocoachina.com/cms/tags.php?/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" target="_blank" rel="noopener"><span style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">多线程编程</span></a><a href="http://www.cocoachina.com/cms/tags.php?/NSThread/" target="_blank" rel="noopener"><span style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">NSThread</span></a><a href="http://www.cocoachina.com/cms/tags.php?/Cocoa+NSOperation/" target="_blank" rel="noopener"><span style="font-kerning: none; color: #ffffff; background-color: #7ebbff; -webkit-text-stroke: 0px #ffffff">Cocoa<br>NSOperation</span></a>\<br></span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #010101; -webkit-text-stroke: 0px #010101">招聘信息：\<br></span> <span style="font: 12.0px 'Helvetica Neue'; color: #010101; -webkit-text-stroke: 0px #010101"><a href="http://www.cocoachina.com/bbs/read.php?tid=273970" target="_blank" rel="noopener"><span style="font-kerning: none">精益求精，只为你的再次选择！－－上海盟曼iOS，andriod软件外包！</span></a></span><span style="font: 12.0px 'Helvetica Neue'; font-kerning: none; color: #010101; -webkit-text-stroke: 0px #010101">\<br></span> <span style="font: 12.0px 'Helvetica Neue'; color: #010101; -webkit-text-stroke: 0px #010101"><a href="http://www.cocoachina.com/bbs/read.php?tid=273982" target="_blank" rel="noopener"><span style="font-kerning: none">[北京] 外企 [Web Front-end/ Back-end<br>/Ios/Big data/数据挖掘/算法]<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/maven 启动时windows下静态文件（html、css、js）被锁定/#more">Read More</a>
+            <a href="/2016/03/30/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/#more">Read More</a>
           
        </p>
     </div>
@@ -271,7 +264,81 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/maven 启动时windows下静态文件（html、css、js）被锁定/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/maven 启动时windows下静态文件（html、css、js）被锁定/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/mysql for mac 中文问题/" title="mysql for mac 中文问题" itemprop="url">mysql for mac 中文问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="mysql-for-mac-中文问题"><a href="#mysql-for-mac-中文问题" class="headerlink" title="mysql for mac 中文问题"></a>mysql for mac 中文问题</h1><div><br><br>默认安装路径：<br><br></div>
+
+<div><br><br>/usr/local/mysql<br><br></div>
+
+<div><br><br>命令行在：<br><br></div>
+
+<div><br><br>/usr/local/mysql/bin<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/mysql for mac 中文问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/mysql for mac 中文问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/mysql for mac 中文问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
