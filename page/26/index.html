@@ -218,6 +218,359 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/StoryBoard学习博客/" title="StoryBoard学习博客" itemprop="url">StoryBoard学习博客</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="StoryBoard学习博客"><a href="#StoryBoard学习博客" class="headerlink" title="StoryBoard学习博客"></a>StoryBoard学习博客</h1><div><br><br>StoryBoard学习博客<br><br></div>
+
+<p><a href="http://beer998.blog.51cto.com" target="_blank" rel="noopener">http://beer998.blog.51cto.com</a></p>
+<div><br><br>\<br><br></div>
+
+<div><br><br><a href="http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html" target="_blank" rel="noopener">http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html</a>\<br><div><br><br>\<br><br></div>
+
+<p></p></div><p></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/StoryBoard学习博客/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/StoryBoard学习博客/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" title="建立你自己的本地仓库(Maven仓库管理-Nexus)" itemprop="url">建立你自己的本地仓库(Maven仓库管理-Nexus)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="建立你自己的本地仓库-Maven仓库管理-Nexus"><a href="#建立你自己的本地仓库-Maven仓库管理-Nexus" class="headerlink" title="建立你自己的本地仓库(Maven仓库管理-Nexus)"></a>建立你自己的本地仓库(Maven仓库管理-Nexus)</h1><p>建立你自己的本地仓库(Maven仓库管理-Nexus)\<br>前面我讲到为什么要使用Maven,<br>Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个Hello<br>World，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\<br>\<br>这一个章节，我分两部分来介绍，首先介绍一下Maven的仓库，然后在说一下如何通过Nexus来建立我们自己的仓库，以及如何使用。\<br>\<br>Maven仓库\<br>在以前使用Ant的时候，我们会建立一个lib目录在存放我们的jar包，比如项目所依赖的第三方包，每建立一个项目都要建立一个lib，不停的做copy工作，不仅是对于磁盘的浪费，而且也造成了版本管理上的麻烦。而且我们还需要通过提交到svn上来对lib进行管理，但是svn对于这种二进制文件的管理并不出色。\<br>\<br>Maven仓库的初中就是为了解决这个问题，是所有常用的第三方包的集中营。这样所有的Maven项目就可以从这个仓库中获取所需要的资源，Maven仓库中对jar通过Group<br>Id, Atifact Id, version<br>来管理，所以Maven项目可以很方便的进行依赖管理。你不需要自己来管理这个庞大的资源仓库，当然你可以创建一个公司层面的仓库管理器，这个我在这个章节的后面会介绍。\<br>\<br>Maven仓库的两个概念：本地仓库和远程仓库\<br>\<br>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。\<br>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：\<br>Xml代码\</p>
+<ol>
+<li>&lt;settings&gt;\</li>
+<li>…\</li>
+<li>&lt;localRepository&gt;D:/java/repository&lt;/localRepository&gt;\</li>
+<li>…\</li>
+<li>&lt;/settings&gt;\<br>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:\<br>\${M2_HOME}/conf/setting.xml\<br>\<br>还可以通过在运行时指定目录，但是并不推荐这么做：\<br>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/\<br>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到/org/apache/maven/project/pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：\
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/" title="彻底删除Mac OS X开机自启动项目" itemprop="url">彻底删除Mac OS X开机自启动项目</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="彻底删除Mac-OS-X开机自启动项目"><a href="#彻底删除Mac-OS-X开机自启动项目" class="headerlink" title="彻底删除Mac OS X开机自启动项目"></a>彻底删除Mac OS X开机自启动项目</h1><div style="font-size: 24px; margin: 10px; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; background-color: rgb(255, 255, 255);"><br><br>彻底删除Mac OS X开机自启动项目<span style="font-size: 14px; float: right; margin: 5px 10px 0px 0px; cursor: pointer; color: rgb(255, 0, 0);">进入全屏</span><br><div style="font-size: 0px;"><br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/63A76FC7-7BC5-4F9F-ADA0-FDA2B807808E.gif" alt=""><br><br></div>
+
+<p></p></div><p></p>
+<div style="zoom: 1; padding: 20px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(221, 221, 221); overflow: hidden; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; font-size: 16px; line-height: 24px; background-color: rgb(255, 255, 255);"><br><br>今天重新安装了SSD硬盘上的OS<br>X系统，所有数据都从另外一块HD硬盘迁移过来的，所以直接导致一些不需要的东西直接开机自启动了，试图从<span style="color: rgb(255, 0, 0);">LoginItems</span>（打开System<br>Preferences，选择System -&gt; Accounts，选择Login<br>Items选项卡）进行管理，但这里已经是OK的了。所以只能通过删除<span style="color: rgb(255, 0, 0);">LaunchAgents</span>的方法搞定了，LaunchAgents目录：/Library/LaunchAgents，下面其实有好多东西都是可以强制删掉的：<br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/858844E8-8EEC-4BE8-ADAC-DFF0BF88826E.png" alt="">\<br><br>当然，如果这都不能解决问题，还可以通过清理<span style="color: rgb(51, 51, 51); font-family: arial;"><span style="color: rgb(255, 0, 0);">StartupItems</span></span>的方式搞定，StartupItems的目录：/Library/StartupItems<br><br>一些系统级别的，可以到这里去清理：/System/Library/StartupItems<br><br>\<br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/彻底删除Mac OS X开机自启动项目/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">开源中国 Maven 库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="开源中国-Maven-库"><a href="#开源中国-Maven-库" class="headerlink" title="开源中国 Maven 库"></a>开源中国 Maven 库</h1><p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>开源中国 Maven 库使用帮助<br>=========================<br><br><div><br><br><div><br><br></div>
+
+<p></p></div><p></p>
+<p></p></div><p></p>
+<div><br><br>亲爱的小伙伴们，开源中国的 Maven 库上线咯！为了方便广大开发同学，开源中国特别推出国内的 Maven 中央库，提供高速稳定的网络和服务，为国内 Maven 使用者提供便捷服务。本 Maven 库是从 <a href="http://mirrors.ibiblio.org/maven2/" target="_blank" rel="noopener">ibiblio</a> 同步过来的，因为网络等原因，保持每天一次更新。本 Maven 库使用开源软件 <a href="http://www.oschina.net/p/nexus" target="_blank" rel="noopener">Nexus</a> 搭建，对外镜像链接地址为：<a href="http://maven.oschina.net/content/groups/public/" target="_blank" rel="noopener">  http://maven.oschina.net/content/groups/public/  </a>。<br><br></div>
+
+<div><br><br>接下来将简单介绍如何在您的项目中使用 Maven，以及使用 <a href="http://www.oschina.net/" target="_blank" rel="noopener">OSChina</a> 提供的 Maven 服务。<br><br>##### 1.安装 Maven<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/开源中国 Maven 库/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/开源中国 Maven 库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/开源中国 Maven 库/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/怎么关闭U盘的自动播放功能/" title="怎么关闭U盘的自动播放功能" itemprop="url">怎么关闭U盘的自动播放功能</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="怎么关闭U盘的自动播放功能"><a href="#怎么关闭U盘的自动播放功能" class="headerlink" title="怎么关闭U盘的自动播放功能"></a>怎么关闭U盘的自动播放功能</h1><h1 id="怎么关闭U盘的自动播放功能-1"><a href="#怎么关闭U盘的自动播放功能-1" class="headerlink" title="怎么关闭U盘的自动播放功能"></a><span>怎么关闭U盘的自动播放功能</span></h1><pre><code>每次把移动硬盘查到USB口就会自动播放，尤其是移动硬盘分了N个区的时候，要手动一个一个的关掉，真是十分的麻烦！怎么样能解决这个问题呢？下面西部e网这里了几种关闭移动硬盘或者U盘自动播放的方法供大家参考：  
+
+ 1、SHIFT按键法   这个方法早在Windows98就用过了吧？好像是哦，反正我最早在关闭自动播放CD的时候就使用的这种方法。插入移动硬盘的时候按住SHIFT键，移动硬盘就不会自动播放啦。   
+
+2、策略组关闭法   在前段时间熊猫烧香流行的时候，网上就流传着使用策略组关闭移动硬盘或者U盘自动关闭功能的方法。具体如：单击“开始-运行”，在“打开”框中，键入“gpedit.msc”，单击“确定”按钮，打开“组策略”窗口。在左窗格的“本地计算机策略”下，展开“计算机配置-管理模板-系统”，然后在右窗格的“设置”标题下，双击“关闭自动播放”。单击“设置”选项卡，选中“已启用”复选钮，然后在“关闭自动播放”框中单击“所有驱动器”，单击“确定”按钮，最后关闭组策略窗口。   
+
+3、关闭服务法   在“我的电脑”点击鼠标右键，选择“管理”，在打开的“计算机管理”中找到“服务和应用程序-服务”，然后在右窗格找到“Shell Hardware Detection”服务，这个服务的功能就是为自动播放硬件事件提供通知，双击它，在“状态”中点击“停止”按钮，然后将“启动类型”修改为“已禁用”或者“手动”就可以了。   
+
+4、磁盘操作法   这个方法对Windows XP有效，也比较好用。打开“我的电脑”，在“硬盘”里面或者在“有可移动的存储设备”下面会看到你的盘符，一般移动硬盘的盘符会在“硬盘”中，U盘或者数码相机什么的在“有可移动的存储设备”中。鼠标右键点击需要关闭自动播放功能的盘符，选择“属性”，在弹出的窗体中选择“自动播放”选项卡，在这里用户可以针对“音乐文件”、“图片”、“视频文件”、“混合内容”和“音乐CD”五类内容设置不同的操作方式，都选用“不执行操作”即可禁用自动运行功能，“确定”后设置立即生效。这种方法同样使用于针对DVD/CD驱动器。   
+
+5、注册表法   注册表是个麻烦的东西，一般不建议使用注册表来修改。
+
+ 打开注册表编辑器，展开到[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Exploer]主键下，在右窗格中找到“NoDriveTypeAutoRun”，就是这个键决定了是否执行CDROM或硬盘的AutoRun功能。   NoDriveTypeAutoRun这个键决定了是否执行Autorun功能。其中每一位代表一个设备，不同设备用以下数值表示：     设备名称 第几位 数值 设备用如下数值表示 设备名称含义   DRIVE_UNKNOWN 0 1 01H 不能识别的类型设备   DRIVE_NO_ROOT_DIR 1 0 02H 没有根目录的驱动器   DRIVE_REMOVABLE 2 1 04H 可移动驱动器   DRIVE_FIXED 3 0 08H 固定的驱动器   DRIVE_REMOTE 4 1 10H 网络驱动器   DRIVE_CDROM 5 0 20H 光驱   DRIVE_RAMDISK 6 0 40H RAM磁盘      以上值“0”表示设备运行，“1”表示设备不运行。   6、软件法   Tweak UI是Microsoft出品的软件，可以针对任何操作系统。使用Tweak UI软件，可以控制任意盘符是否可以自动播放。
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/怎么关闭U盘的自动播放功能/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/怎么关闭U盘的自动播放功能/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/String.prototype 工具常用类/" title="String.prototype 工具常用类" itemprop="url">String.prototype 工具常用类</a>
   </h1>
   <p class="article-author">By
@@ -611,356 +964,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" title="建立你自己的本地仓库(Maven仓库管理-Nexus)" itemprop="url">建立你自己的本地仓库(Maven仓库管理-Nexus)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="建立你自己的本地仓库-Maven仓库管理-Nexus"><a href="#建立你自己的本地仓库-Maven仓库管理-Nexus" class="headerlink" title="建立你自己的本地仓库(Maven仓库管理-Nexus)"></a>建立你自己的本地仓库(Maven仓库管理-Nexus)</h1><p>建立你自己的本地仓库(Maven仓库管理-Nexus)\<br>前面我讲到为什么要使用Maven,<br>Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个Hello<br>World，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\<br>\<br>这一个章节，我分两部分来介绍，首先介绍一下Maven的仓库，然后在说一下如何通过Nexus来建立我们自己的仓库，以及如何使用。\<br>\<br>Maven仓库\<br>在以前使用Ant的时候，我们会建立一个lib目录在存放我们的jar包，比如项目所依赖的第三方包，每建立一个项目都要建立一个lib，不停的做copy工作，不仅是对于磁盘的浪费，而且也造成了版本管理上的麻烦。而且我们还需要通过提交到svn上来对lib进行管理，但是svn对于这种二进制文件的管理并不出色。\<br>\<br>Maven仓库的初中就是为了解决这个问题，是所有常用的第三方包的集中营。这样所有的Maven项目就可以从这个仓库中获取所需要的资源，Maven仓库中对jar通过Group<br>Id, Atifact Id, version<br>来管理，所以Maven项目可以很方便的进行依赖管理。你不需要自己来管理这个庞大的资源仓库，当然你可以创建一个公司层面的仓库管理器，这个我在这个章节的后面会介绍。\<br>\<br>Maven仓库的两个概念：本地仓库和远程仓库\<br>\<br>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。\<br>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：\<br>Xml代码\</p>
-<ol>
-<li>&lt;settings&gt;\</li>
-<li>…\</li>
-<li>&lt;localRepository&gt;D:/java/repository&lt;/localRepository&gt;\</li>
-<li>…\</li>
-<li>&lt;/settings&gt;\<br>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:\<br>\${M2_HOME}/conf/setting.xml\<br>\<br>还可以通过在运行时指定目录，但是并不推荐这么做：\<br>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/\<br>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到/org/apache/maven/project/pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：\
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/建立你自己的本地仓库(Maven仓库管理-Nexus)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/" title="彻底删除Mac OS X开机自启动项目" itemprop="url">彻底删除Mac OS X开机自启动项目</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="彻底删除Mac-OS-X开机自启动项目"><a href="#彻底删除Mac-OS-X开机自启动项目" class="headerlink" title="彻底删除Mac OS X开机自启动项目"></a>彻底删除Mac OS X开机自启动项目</h1><div style="font-size: 24px; margin: 10px; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; background-color: rgb(255, 255, 255);"><br><br>彻底删除Mac OS X开机自启动项目<span style="font-size: 14px; float: right; margin: 5px 10px 0px 0px; cursor: pointer; color: rgb(255, 0, 0);">进入全屏</span><br><div style="font-size: 0px;"><br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/63A76FC7-7BC5-4F9F-ADA0-FDA2B807808E.gif" alt=""><br><br></div>
-
-<p></p></div><p></p>
-<div style="zoom: 1; padding: 20px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(221, 221, 221); overflow: hidden; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; font-size: 16px; line-height: 24px; background-color: rgb(255, 255, 255);"><br><br>今天重新安装了SSD硬盘上的OS<br>X系统，所有数据都从另外一块HD硬盘迁移过来的，所以直接导致一些不需要的东西直接开机自启动了，试图从<span style="color: rgb(255, 0, 0);">LoginItems</span>（打开System<br>Preferences，选择System -&gt; Accounts，选择Login<br>Items选项卡）进行管理，但这里已经是OK的了。所以只能通过删除<span style="color: rgb(255, 0, 0);">LaunchAgents</span>的方法搞定了，LaunchAgents目录：/Library/LaunchAgents，下面其实有好多东西都是可以强制删掉的：<br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/858844E8-8EEC-4BE8-ADAC-DFF0BF88826E.png" alt="">\<br><br>当然，如果这都不能解决问题，还可以通过清理<span style="color: rgb(51, 51, 51); font-family: arial;"><span style="color: rgb(255, 0, 0);">StartupItems</span></span>的方式搞定，StartupItems的目录：/Library/StartupItems<br><br>一些系统级别的，可以到这里去清理：/System/Library/StartupItems<br><br>\<br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/彻底删除Mac OS X开机自启动项目/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/彻底删除Mac OS X开机自启动项目/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">开源中国 Maven 库</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="开源中国-Maven-库"><a href="#开源中国-Maven-库" class="headerlink" title="开源中国 Maven 库"></a>开源中国 Maven 库</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>开源中国 Maven 库使用帮助<br>=========================<br><br><div><br><br><div><br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<div><br><br>亲爱的小伙伴们，开源中国的 Maven 库上线咯！为了方便广大开发同学，开源中国特别推出国内的 Maven 中央库，提供高速稳定的网络和服务，为国内 Maven 使用者提供便捷服务。本 Maven 库是从 <a href="http://mirrors.ibiblio.org/maven2/" target="_blank" rel="noopener">ibiblio</a> 同步过来的，因为网络等原因，保持每天一次更新。本 Maven 库使用开源软件 <a href="http://www.oschina.net/p/nexus" target="_blank" rel="noopener">Nexus</a> 搭建，对外镜像链接地址为：<a href="http://maven.oschina.net/content/groups/public/" target="_blank" rel="noopener">  http://maven.oschina.net/content/groups/public/  </a>。<br><br></div>
-
-<div><br><br>接下来将简单介绍如何在您的项目中使用 Maven，以及使用 <a href="http://www.oschina.net/" target="_blank" rel="noopener">OSChina</a> 提供的 Maven 服务。<br><br>##### 1.安装 Maven<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/开源中国 Maven 库/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/开源中国 Maven 库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/开源中国 Maven 库/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/怎么关闭U盘的自动播放功能/" title="怎么关闭U盘的自动播放功能" itemprop="url">怎么关闭U盘的自动播放功能</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="怎么关闭U盘的自动播放功能"><a href="#怎么关闭U盘的自动播放功能" class="headerlink" title="怎么关闭U盘的自动播放功能"></a>怎么关闭U盘的自动播放功能</h1><h1 id="怎么关闭U盘的自动播放功能-1"><a href="#怎么关闭U盘的自动播放功能-1" class="headerlink" title="怎么关闭U盘的自动播放功能"></a><span>怎么关闭U盘的自动播放功能</span></h1><pre><code>每次把移动硬盘查到USB口就会自动播放，尤其是移动硬盘分了N个区的时候，要手动一个一个的关掉，真是十分的麻烦！怎么样能解决这个问题呢？下面西部e网这里了几种关闭移动硬盘或者U盘自动播放的方法供大家参考：  
-
- 1、SHIFT按键法   这个方法早在Windows98就用过了吧？好像是哦，反正我最早在关闭自动播放CD的时候就使用的这种方法。插入移动硬盘的时候按住SHIFT键，移动硬盘就不会自动播放啦。   
-
-2、策略组关闭法   在前段时间熊猫烧香流行的时候，网上就流传着使用策略组关闭移动硬盘或者U盘自动关闭功能的方法。具体如：单击“开始-运行”，在“打开”框中，键入“gpedit.msc”，单击“确定”按钮，打开“组策略”窗口。在左窗格的“本地计算机策略”下，展开“计算机配置-管理模板-系统”，然后在右窗格的“设置”标题下，双击“关闭自动播放”。单击“设置”选项卡，选中“已启用”复选钮，然后在“关闭自动播放”框中单击“所有驱动器”，单击“确定”按钮，最后关闭组策略窗口。   
-
-3、关闭服务法   在“我的电脑”点击鼠标右键，选择“管理”，在打开的“计算机管理”中找到“服务和应用程序-服务”，然后在右窗格找到“Shell Hardware Detection”服务，这个服务的功能就是为自动播放硬件事件提供通知，双击它，在“状态”中点击“停止”按钮，然后将“启动类型”修改为“已禁用”或者“手动”就可以了。   
-
-4、磁盘操作法   这个方法对Windows XP有效，也比较好用。打开“我的电脑”，在“硬盘”里面或者在“有可移动的存储设备”下面会看到你的盘符，一般移动硬盘的盘符会在“硬盘”中，U盘或者数码相机什么的在“有可移动的存储设备”中。鼠标右键点击需要关闭自动播放功能的盘符，选择“属性”，在弹出的窗体中选择“自动播放”选项卡，在这里用户可以针对“音乐文件”、“图片”、“视频文件”、“混合内容”和“音乐CD”五类内容设置不同的操作方式，都选用“不执行操作”即可禁用自动运行功能，“确定”后设置立即生效。这种方法同样使用于针对DVD/CD驱动器。   
-
-5、注册表法   注册表是个麻烦的东西，一般不建议使用注册表来修改。
-
- 打开注册表编辑器，展开到[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Exploer]主键下，在右窗格中找到“NoDriveTypeAutoRun”，就是这个键决定了是否执行CDROM或硬盘的AutoRun功能。   NoDriveTypeAutoRun这个键决定了是否执行Autorun功能。其中每一位代表一个设备，不同设备用以下数值表示：     设备名称 第几位 数值 设备用如下数值表示 设备名称含义   DRIVE_UNKNOWN 0 1 01H 不能识别的类型设备   DRIVE_NO_ROOT_DIR 1 0 02H 没有根目录的驱动器   DRIVE_REMOVABLE 2 1 04H 可移动驱动器   DRIVE_FIXED 3 0 08H 固定的驱动器   DRIVE_REMOTE 4 1 10H 网络驱动器   DRIVE_CDROM 5 0 20H 光驱   DRIVE_RAMDISK 6 0 40H RAM磁盘      以上值“0”表示设备运行，“1”表示设备不运行。   6、软件法   Tweak UI是Microsoft出品的软件，可以针对任何操作系统。使用Tweak UI软件，可以控制任意盘符是否可以自动播放。
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/怎么关闭U盘的自动播放功能/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/怎么关闭U盘的自动播放功能/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/" title="SVN客户端命令行设置忽略文件列表" itemprop="url">SVN客户端命令行设置忽略文件列表</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="SVN客户端命令行设置忽略文件列表"><a href="#SVN客户端命令行设置忽略文件列表" class="headerlink" title="SVN客户端命令行设置忽略文件列表"></a>SVN客户端命令行设置忽略文件列表</h1><p><span style="font: 20.0px Times">SVN设置忽略文件列表\<br></span><span style="font: 12.0px Arial; background-color: #eeeeee">\<br></span><span style="font: 12.0px Arial">\<br></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">在公司中项目的版本管控一般都是使用集中式的SVN，我也是从svn工具中熟悉基本的版本管理概念和操作。但是作为一个Linux系统及应用开发者，自然对Git分布式管理工具要有所熟悉。现在个人项目管理都是使用git进行版本控制，对git的一些操作也比较熟悉，而svn一般用的是Windows下的图像工具，而对svn的命令行稍显陌生。\</span></p>
-<p>在git工具中，设置忽略文件只需要修改版本库根目录下的.gitignore文件就可以了，没有的话创建一个，非常简单，一个示例的.gitignore文件如下：过滤文件模式以行进行分隔\<br>\<br><span style="font: 13.0px 'Courier New'; color: #afafaf">01\<br></span><span style="font: 13.0px 'Courier New'">*.o\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">02\<br></span><span style="font: 13.0px 'Courier New'">*.lo\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">03\<br></span><span style="font: 13.0px 'Courier New'">*.la\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">04\<br></span><span style="font: 13.0px 'Courier New'">*.gcda\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">05\<br></span><span style="font: 13.0px 'Courier New'">*.gcno\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">06\<br></span><span style="font: 13.0px 'Courier New'">aclocal.m4\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">07\<br></span><span style="font: 13.0px 'Courier New'">autom4te.cache\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">08\<br></span><span style="font: 13.0px 'Courier New'">build\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">09\<br></span><span style="font: 13.0px 'Courier New'">compile\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">10\<br></span><span style="font: 13.0px 'Courier New'">config.guess\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">11\<br></span><span style="font: 13.0px 'Courier New'">config.h\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">12\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span <!--more--=""><br>style=”font: 13.0px ‘Courier New’”&gt;\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">13\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span style="font: 13.0px 'Courier New'">~\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">14\<br></span><span style="font: 13.0px 'Courier New'">config.log\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">15\<br></span><span style="font: 13.0px 'Courier New'">config.status\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">16\<br></span><span style="font: 13.0px 'Courier New'">config.sub\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">17\<br></span><span style="font: 13.0px 'Courier New'">configure\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">18\<br></span><span style="font: 13.0px 'Courier New'">depcomp\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">19\<br></span><span style="font: 13.0px 'Courier New'">.deps\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">20\<br></span><span style="font: 13.0px 'Courier New'; color: #ff2f93">install</span><span style="font: 13.0px 'Courier New'">-sh\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">21\<br></span><span style="font: 13.0px 'Courier New'">.libs\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">22\<br></span><span style="font: 13.0px 'Courier New'">libtool\<br></span><span style="font: 14.0px Arial">今天在使用svn时想设置忽略一些临时的项目开发文件，一下子不知道怎么弄，上网搜索和实践后，发现也不难，在此记录一下。配置的方法有以下几种：</span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br>\<br></span><span style="font: 24.0px Arial"><strong>Linux下svn命令行配置\
-</strong></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br></span><span style="font: 20.0px Arial"><strong>1. 修改版本库的相关属性\
-</strong></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ svn propedit<br>svn:ignore </span><span style="font: 13.0px 'Courier New'; color: #ff2f93">dir</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">其中 dir<br>就是你所想设置过滤文件列表的目录，执行命令之后，会出现编辑界面，按照空格将你想过滤文件（通常使用通配符的方式）以空格分开，保存退出即可。这个属性是针对版本库进行的修改，因此需要提交这个修改。svn:ignore是svn的一个参数。 \<br> 注意：这个设置无法递归，也就是如果 dir<br>目录下还有子目录的话，是单独设置的。 \<br></span><span style="font: 20.0px Arial"><strong>2. svn 客户端的配置\
-</strong></span><span style="font: 14.0px Arial">对 svn<br>命令的配置文件修改即可。进入个人用户目录 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ vim<br>.subversion/config\<br></span><span style="font: 14.0px Arial">找到包含  [miscellany]<br>这一行，取消注释，然后编辑包含 global-ignores<br>的那一行，取消注释，并添加需要过滤文件的通配符即可。如下所示：注意开头不能有空格，否则svn会报错。 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">global-ignores = *.so<br>*.a *.o *.lo *.la .*.rej *.rej .*~ *~ .</span><span style="font: 13.0px 'Courier New'; color: #008200">#*<br>.DS_Store</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">这个配置是对客户端的修改，对版本库没有任何影响。同时，这个配置也是全局的，适用于本机所有<br>svn 管理的项目。</span></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN客户端命令行设置忽略文件列表/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/手机端(iOS,android)自动化测试框架(淘宝用的)/" title="手机端(iOS,android)自动化测试框架(淘宝用的)" itemprop="url">手机端(iOS,android)自动化测试框架(淘宝用的)</a>
   </h1>
   <p class="article-author">By
@@ -1186,7 +1189,7 @@
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>3</sup></a></li>
 		  
 		
 		  
@@ -1271,11 +1274,15 @@
 			
 		
 			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
 			
 		
 			
@@ -1291,15 +1298,11 @@
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			

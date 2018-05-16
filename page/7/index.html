@@ -92,7 +92,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/" title="将 Mac 中的文件夹共享到虚拟机" itemprop="url">将 Mac 中的文件夹共享到虚拟机</a>
+      <a href="/2016/06/13/iptables与docker的作死碰撞/" title="docker安装了iptalbes以后，出现的悲剧与解决方案" itemprop="url">docker安装了iptalbes以后，出现的悲剧与解决方案</a>
   </h1>
   <p class="article-author">By
        
@@ -105,16 +105,14 @@
 </header>
     <div class="article-content">
         
-        <h2 id="将-Mac-中的文件夹共享到虚拟机"><a href="#将-Mac-中的文件夹共享到虚拟机" class="headerlink" title="将 Mac 中的文件夹共享到虚拟机"></a>将 Mac 中的文件夹共享到虚拟机</h2><hr>
-<p>我用的是vmware Fusion 7.0</p>
-<p><strong>要在 Linux 或 Solaris 虚拟机中配置共享文件夹，请执行以下操作：</strong></p>
-<p><em>注意：FreeBSD 不支持共享文件夹。</em></p>
-<p>启动 VMware Fusion。<br>关闭虚拟机。<br>单击虚拟机 &gt; 设置。<br>单击共享。<br>在 Fusion 8.x 和 7.x 中，选择启用共享文件夹选项。在 Fusion 6.x 、5.x 和 4.x 中，将共享文件夹选项选为开启。在 Fusion 3.x 中，选择在 Mac 上共享文件夹选项。<br>
+        <h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a href="#docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" title="docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
+<p>情况是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</span><br><span class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</span><br><span class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</span><br><span class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</span><br><span class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</span><br><span class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</span><br><span class="line">[root@localhost ~]# docker start 782</span><br><span class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</span><br><span class="line"> (exit status 1)</span><br><span class="line">Error: failed to start containers: [782]</span><br><span class="line">[root@localhost ~]# docker rm 782</span><br></pre></td></tr></table></figure>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/#more">Read More</a>
+            <a href="/2016/06/13/iptables与docker的作死碰撞/#more">Read More</a>
           
        </p>
     </div>
@@ -129,7 +127,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/mac-虚拟机-共享-vmware/">mac 虚拟机 共享 vmware</a>
+  <span></span> <a href="/tags/iptables与docker的作死碰撞/">iptables与docker的作死碰撞</a>
   </div>
 
 </div>
@@ -140,7 +138,330 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/将_mac_中的文件夹共享到虚拟机/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/iptables与docker的作死碰撞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/iptables与docker的作死碰撞/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/docker_换国内镜像/" title="docker 换国内镜像" itemprop="url">docker 换国内镜像</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="docker-换国内镜像"><a href="#docker-换国内镜像" class="headerlink" title="docker 换国内镜像"></a>docker 换国内镜像</h2><p>搞了一天，终于把docker的地址换成国内镜像了，搞死我了。。。。。。</p>
+<p>把链接附上，这是国内号称永久免费的镜像服务，需要注册<br><a href="https://dashboard.daocloud.io/mirror" target="_blank" rel="noopener">https://dashboard.daocloud.io/mirror</a></p>
+<p>安装或升级Mac OS版本Boot2Docker</p>
+<p>Docker 1.3.2 版本以上支持加速器，如果您没有安装 Docker 或者版本较旧，请安装或升级。</p>
+<p>参考 Boot2Docker 安装文档。高速下载 Boot2Docker</p>
+<p>配置Docker加速器</p>
+<p>请确认你的 Boot2Docker 已经启动，并执行<br><code><br>boot2docker up</code></p>
+<p>boot2docker ssh “echo $’EXTRA_ARGS=\”–registry-mirror=<a href="http://xxxx.m.daocloud.io\" target="_blank" rel="noopener">http://xxxx.m.daocloud.io\</a>“‘ | sudo tee -a /var/lib/boot2docker/profile”</p>
+<p>boot2docker restart<br> </p>
+<p><strong>其中xxxx是你登陆以后分配给你的mirror</strong>  </p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/docker_换国内镜像/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker-国内镜像/">docker 国内镜像</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/docker_换国内镜像/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/docker_换国内镜像/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
+<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/" target="_blank" rel="noopener">下载地址(文档)</a></p>
+</li>
+<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/3d_touch例子一个/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <hr>
+<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
+<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>查看mysql运行状态：</p>
+<pre><code>service mysql start    
+</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
+<pre><code> [root@localhost download]# mysql
+ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
+[root@localhost download]# service mysql status
+MySQL is not running                                       [失败]
+[root@localhost download]# service mysql start
+Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
+[root@localhost download]# reboot
+</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
+<ol>
+<li>安装包与系统不兼容</li>
+<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
+</ol>
+<p>mysql在linux上的安装方法：</p>
+<ul>
+<li>yum 方式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">若系统有自带的mysql或libs，可选择先卸载再安装</span><br><span class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</span><br><span class="line"> rpm -e mysql                     //普通删除模式</span><br><span class="line"> rpm -e --nodeps mysql         // 强力删除模式</span><br><span class="line"> yum -y remove mysql-libs-*   //删除所有包</span><br><span class="line"> rpm -e --nodeps mysql</span><br><span class="line"></span><br><span class="line"> 安装</span><br><span class="line">//查看yum上提供的mysql数据库可下载的版本</span><br><span class="line"> yum list | grep mysql</span><br><span class="line"></span><br><span class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>通用安装</p>
+<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
+</code></pre></li>
+</ul>
+<ul>
+<li>npm包 安装 </li>
+</ul>
+<p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>安装完成后启动mysql:</p>
+<pre><code>service mysql start
+</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
+<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
+<pre><code># chkconfig --list mysql
+
+mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
+</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/oh_my_zsh安装出现的问题/" title="oh my zsh安装出现的问题" itemprop="url">oh my zsh安装出现的问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="oh-my-zsh安装出现的问题"><a href="#oh-my-zsh安装出现的问题" class="headerlink" title="oh my zsh安装出现的问题"></a>oh my zsh安装出现的问题</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1,安装"></a>1,安装</h2><pre><code>wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+</code></pre><p>参考强哥的博客，<a href="http://macshuo.com/?p=676" target="_blank" rel="noopener">安装oh my zsh出现的问题</a></p>
+<ol>
+<li>安装完成后，终端背景显示没变，使用的是默认主题</li>
+<li>需要将终端背景显示设置一下才会变成黑色背景</li>
+<li>vi ~/.zshrc 设置了值改了配置后不会立即生效，需要source一下</li>
+<li>安装autojump插件home目录下没有.autojump目录，可能是由于autojump升级了，不需要这个目录了</li>
+</ol>
+<p>我用home brew 安装的，第一次安装没仔细看，后来重新安装了下，发现安装成功后给我了提示，如下：</p>
+<pre><code>==&gt; Pouring autojump-22.3.0.el_capitan.bottle.tar.gz
+==&gt; Caveats
+Add the following line to your ~/.bash_profile or ~/.zshrc file (and remember
+to source the file to update your current session):
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] &amp;&amp; . $(brew --prefix)/etc/profile.d/autojump.sh
+
+If you use the Fish shell then add the following line to your ~/.config/fish/config.fish:
+[ -f /usr/local/share/autojump/autojump.fish ]; and . /usr/local/share/autojump/autojump.fish
+</code></pre><ol>
+<li>我用的是oh my zsh,是zsh的封装，也就是说适用第一个提示，要把这段代码加到.zshrc配置里</li>
+<li>.zshrc的插件配置里需要把autojump支持加上</li>
+<li><code>source .zshrc</code> 使配置生效</li>
+</ol>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/oh_my_zsh安装出现的问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/oh-my-zsh-vim-macos/">oh-my-zsh vim macos</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/oh_my_zsh安装出现的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/oh_my_zsh安装出现的问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -380,7 +701,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
+      <a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" title="2012年年中的macbook显卡门解决方案" itemprop="url">2012年年中的macbook显卡门解决方案</a>
   </h1>
   <p class="article-author">By
        
@@ -393,271 +714,15 @@
 </header>
     <div class="article-content">
         
-        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
-<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/" target="_blank" rel="noopener">下载地址(文档)</a></p>
-</li>
-<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/06/13/3d_touch例子一个/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/oh_my_zsh安装出现的问题/" title="oh my zsh安装出现的问题" itemprop="url">oh my zsh安装出现的问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="oh-my-zsh安装出现的问题"><a href="#oh-my-zsh安装出现的问题" class="headerlink" title="oh my zsh安装出现的问题"></a>oh my zsh安装出现的问题</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1,安装"></a>1,安装</h2><pre><code>wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
-</code></pre><p>参考强哥的博客，<a href="http://macshuo.com/?p=676" target="_blank" rel="noopener">安装oh my zsh出现的问题</a></p>
-<ol>
-<li>安装完成后，终端背景显示没变，使用的是默认主题</li>
-<li>需要将终端背景显示设置一下才会变成黑色背景</li>
-<li>vi ~/.zshrc 设置了值改了配置后不会立即生效，需要source一下</li>
-<li>安装autojump插件home目录下没有.autojump目录，可能是由于autojump升级了，不需要这个目录了</li>
-</ol>
-<p>我用home brew 安装的，第一次安装没仔细看，后来重新安装了下，发现安装成功后给我了提示，如下：</p>
-<pre><code>==&gt; Pouring autojump-22.3.0.el_capitan.bottle.tar.gz
-==&gt; Caveats
-Add the following line to your ~/.bash_profile or ~/.zshrc file (and remember
-to source the file to update your current session):
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] &amp;&amp; . $(brew --prefix)/etc/profile.d/autojump.sh
-
-If you use the Fish shell then add the following line to your ~/.config/fish/config.fish:
-[ -f /usr/local/share/autojump/autojump.fish ]; and . /usr/local/share/autojump/autojump.fish
-</code></pre><ol>
-<li>我用的是oh my zsh,是zsh的封装，也就是说适用第一个提示，要把这段代码加到.zshrc配置里</li>
-<li>.zshrc的插件配置里需要把autojump支持加上</li>
-<li><code>source .zshrc</code> 使配置生效</li>
-</ol>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/06/13/oh_my_zsh安装出现的问题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/oh-my-zsh-vim-macos/">oh-my-zsh vim macos</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/oh_my_zsh安装出现的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/oh_my_zsh安装出现的问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
-<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>查看mysql运行状态：</p>
-<pre><code>service mysql start    
-</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
-<pre><code> [root@localhost download]# mysql
-ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
-[root@localhost download]# service mysql status
-MySQL is not running                                       [失败]
-[root@localhost download]# service mysql start
-Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
-[root@localhost download]# reboot
-</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
-<ol>
-<li>安装包与系统不兼容</li>
-<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
-</ol>
-<p>mysql在linux上的安装方法：</p>
-<ul>
-<li>yum 方式</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">若系统有自带的mysql或libs，可选择先卸载再安装</span><br><span class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</span><br><span class="line"> rpm -e mysql                     //普通删除模式</span><br><span class="line"> rpm -e --nodeps mysql         // 强力删除模式</span><br><span class="line"> yum -y remove mysql-libs-*   //删除所有包</span><br><span class="line"> rpm -e --nodeps mysql</span><br><span class="line"></span><br><span class="line"> 安装</span><br><span class="line">//查看yum上提供的mysql数据库可下载的版本</span><br><span class="line"> yum list | grep mysql</span><br><span class="line"></span><br><span class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>通用安装</p>
-<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
-</code></pre></li>
-</ul>
-<ul>
-<li>npm包 安装 </li>
-</ul>
-<p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>安装完成后启动mysql:</p>
-<pre><code>service mysql start
-</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
-<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
-<pre><code># chkconfig --list mysql
-
-mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
-</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
+        <h1 id="2012年年中的macbook-pro-retenia显卡门解决方案"><a href="#2012年年中的macbook-pro-retenia显卡门解决方案" class="headerlink" title="2012年年中的macbook pro retenia显卡门解决方案"></a>2012年年中的macbook pro retenia显卡门解决方案</h1><p>上个月买了前同事的一台macbookpro 是12年的15inch顶配，而且还是独立显卡的，才花了我7000块，本来很开心，但最近发现，他的电池循环数才201次，电池损耗量也很小，他的续航时间却特别的短，充满电才续航4个半小时，让我很生气。。。。。。</p>
+<p><img src="https://github.com/huguiqi/blogCode/blob/master/postImg/%7BH9F16EG8H%VN%_1G]K" alt="图片">)OX.jpg)</p>
+<p>后面上网查了下，发现是2012年的那款电脑硬件有严重缺陷，凡是带独立显卡的macbook 耗电非常大，而mac系统自带的自动切换显卡内核又非常不准确,推荐一款手动选择使用集成显卡还是独立显卡的软件：</p>
+<p><a href="https://github.com/codykrieger/gfxCardStatus" target="_blank" rel="noopener">gfxCardStatus</a></p>
+<p>可以选择集显还是独显，这样，长达5-6个小时的续航时间又回来了。。。。。。</p>
 
         
         
         <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/docker_换国内镜像/" title="docker 换国内镜像" itemprop="url">docker 换国内镜像</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="docker-换国内镜像"><a href="#docker-换国内镜像" class="headerlink" title="docker 换国内镜像"></a>docker 换国内镜像</h2><p>搞了一天，终于把docker的地址换成国内镜像了，搞死我了。。。。。。</p>
-<p>把链接附上，这是国内号称永久免费的镜像服务，需要注册<br><a href="https://dashboard.daocloud.io/mirror" target="_blank" rel="noopener">https://dashboard.daocloud.io/mirror</a></p>
-<p>安装或升级Mac OS版本Boot2Docker</p>
-<p>Docker 1.3.2 版本以上支持加速器，如果您没有安装 Docker 或者版本较旧，请安装或升级。</p>
-<p>参考 Boot2Docker 安装文档。高速下载 Boot2Docker</p>
-<p>配置Docker加速器</p>
-<p>请确认你的 Boot2Docker 已经启动，并执行<br><code><br>boot2docker up</code></p>
-<p>boot2docker ssh “echo $’EXTRA_ARGS=\”–registry-mirror=<a href="http://xxxx.m.daocloud.io\" target="_blank" rel="noopener">http://xxxx.m.daocloud.io\</a>“‘ | sudo tee -a /var/lib/boot2docker/profile”</p>
-<p>boot2docker restart<br> </p>
-<p><strong>其中xxxx是你登陆以后分配给你的mirror</strong>  </p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/06/13/docker_换国内镜像/#more">Read More</a>
           
        </p>
     </div>
@@ -672,7 +737,7 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/docker-国内镜像/">docker 国内镜像</a>
+  <span></span> <a href="/tags/macbook显卡门/">macbook显卡门</a>
   </div>
 
 </div>
@@ -683,73 +748,7 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/docker_换国内镜像/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/docker_换国内镜像/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/iptables与docker的作死碰撞/" title="docker安装了iptalbes以后，出现的悲剧与解决方案" itemprop="url">docker安装了iptalbes以后，出现的悲剧与解决方案</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a href="#docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" title="docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
-<p>情况是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</span><br><span class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</span><br><span class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</span><br><span class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</span><br><span class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</span><br><span class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</span><br><span class="line">[root@localhost ~]# docker start 782</span><br><span class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</span><br><span class="line"> (exit status 1)</span><br><span class="line">Error: failed to start containers: [782]</span><br><span class="line">[root@localhost ~]# docker rm 782</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/06/13/iptables与docker的作死碰撞/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/iptables与docker的作死碰撞/">iptables与docker的作死碰撞</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/iptables与docker的作死碰撞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/iptables与docker的作死碰撞/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -931,7 +930,7 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>3</sup></a></li>
 		  
 		
 		  
@@ -1016,11 +1015,15 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 			
 		
 			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
 			
 		
 			
@@ -1036,15 +1039,11 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			

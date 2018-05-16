@@ -92,6 +92,102 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/09/24/springboot集成redis/" title="springboot如何使用redis" itemprop="url">springboot如何使用redis</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-09-24T09:50:59.000Z" itemprop="datePublished"> 发表于 2017-09-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="spring-boot-redis"><a href="#spring-boot-redis" class="headerlink" title="spring-boot-redis"></a>spring-boot-redis</h1><p>springboot  + mybaties + h2 双数据源配置，支持分布式事务处理</p>
+<h2 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h2><p>Mac 下安装：</p>
+<ol>
+<li>官网<a href="http://redis.io/" target="_blank" rel="noopener">http://redis.io/</a> 下载最新的稳定版本,这里是3.2.0</li>
+<li>sudu mv 到 /usr/local/</li>
+<li>sudo tar -zxf redis-3.2.0.tar 解压文件</li>
+<li>进入解压后的目录 cd redis-3.2.0</li>
+<li>sudo make test 测试编译</li>
+<li>sudo make install </li>
+</ol>
+<p>启动：<br>mac:</p>
+<p>redis-server</p>
+<p>windows:</p>
+<p>  ./redis-server.exe redis.windows.conf</p>
+<p>客户端连接：</p>
+<p>redis-cli -h 127.0.0.1 -p 6379</p>
+<p>进入连接：</p>
+<p>设置和获取cache:</p>
+<p>set myKey abc<br>get myKey</p>
+<h2 id="redis-发布订阅"><a href="#redis-发布订阅" class="headerlink" title="redis 发布订阅"></a>redis 发布订阅</h2><p><a href="">link</a>(<a href="http://www.jianshu.com/p/a2ab17707eff" target="_blank" rel="noopener">http://www.jianshu.com/p/a2ab17707eff</a>)</p>
+<h3 id="annotation-based-caching"><a href="#annotation-based-caching" class="headerlink" title="annotation-based caching"></a>annotation-based caching</h3><p>因为springboot集成了标准的cache接口,对redis也是内置支持的，所以用redis只要按照spring的标准做就可以了。</p>
+<p><a href="">spring关于annotation cache的注解介绍</a>(<a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/cache.html" target="_blank" rel="noopener">https://docs.spring.io/spring/docs/current/spring-framework-reference/html/cache.html</a>)</p>
+<p><a href="">annotation Cache注解中SpEL语法介绍</a>(<a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/expressions.html" target="_blank" rel="noopener">https://docs.spring.io/spring/docs/current/spring-framework-reference/html/expressions.html</a>)</p>
+<p><a href="">我的springboot集成项目地址</a>(<a href="https://github.com/huguiqi/springboot-redis.git" target="_blank" rel="noopener">https://github.com/huguiqi/springboot-redis.git</a>)</p>
+<h2 id="cacheManger"><a href="#cacheManger" class="headerlink" title="cacheManger"></a>cacheManger</h2><p>根据文档描述：</p>
+<blockquote>
+<p>The bean name of the CacheResolver that is to be used to resolve the backing caches. This attribute is not required, and only needs to be specified as an alternative to the ‘cache-manager’ attribute.</p>
+</blockquote>
+<p>畎认值解析类是：SimpleCacheResolver；<br>使用的是cacheManager对象来管理cache。<br>意思是有个叫CacheResolver的接口来解析后台cache的配置。其中有个属性是cache-manager。</p>
+<p>而cacheManager，另据文档描述：</p>
+<blockquote>
+<p> Name of cache manager to use. A default CacheResolver will be initialized behind the scenes with this cache manager (or <code>cacheManager</code>if not set). For more fine-grained management of the cache resolution, consider setting the ‘cache-resolver’ attribute.</p>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/09/24/springboot集成redis/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springboot/">springboot</a><a href="/tags/redis/">redis</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/09/24/springboot集成redis/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/09/24/springboot集成redis/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/09/07/当新团队公司和领导价值观与你不同时该怎么办/" title="当新团队公司和领导价值观与你不同时该怎么办？" itemprop="url">当新团队公司和领导价值观与你不同时该怎么办？</a>
   </h1>
   <p class="article-author">By
@@ -1039,181 +1135,6 @@ public void run() {
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/06/30/TreeMap实现原理深究/" title="TreeMap实现原理深究" itemprop="url">TreeMap实现原理深究</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-06-30T13:22:00.000Z" itemprop="datePublished"> 发表于 2017-06-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>Java TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering），也可以通过构造时传入的比较器（Comparator）。<br>TreeMap底层通过红黑树（Red-Black tree）实现，也就意味着containsKey(), get(), put(), remove()都有着log(n)的时间复杂度。</p>
-</blockquote>
-<p>这句话是我在网上摘抄的，对于这句话，有很多的不理解，所以通过查阅TreeMap的源码来解惑。(其实就是原文作者装逼，很多知识点就是不明说)</p>
-<h2 id="惑一：natural-ordering"><a href="#惑一：natural-ordering" class="headerlink" title="惑一：natural ordering"></a>惑一：natural ordering</h2><blockquote>
-<p>TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering）</p>
-</blockquote>
-<p>先来看看这段代码：</p>
-<pre><code>TreeMap map = new TreeMap();
-map.put(&quot;A&quot;,&quot;1&quot;);
-map.put(&quot;C&quot;,&quot;2&quot;);
-map.put(&quot;B&quot;,&quot;3&quot;);
-map.put(&quot;E&quot;,&quot;4&quot;);
-map.put(&quot;D&quot;,&quot;5&quot;);
-System.out.println(map);
-</code></pre><p>output:</p>
-<pre><code>{A=1, B=3, C=2, D=5, E=4}
-</code></pre><p>可以发现，默认按照升序自动排序了。</p>
-<p>通过查阅TreeMap源码，发现treeMap的put方法如下：</p>
-<pre><code>public V put(K key, V value) {
-Entry&lt;K,V&gt; t = root;
-if (t == null) {
-compare(key, key); // type (and possibly null) check
-
-root = new Entry&lt;&gt;(key, value, null);
-size = 1;
-modCount++;
-return null;
-}
-int cmp;
-Entry&lt;K,V&gt; parent;
-// split comparator and comparable paths
-Comparator&lt;? super K&gt; cpr = comparator;
-if (cpr != null) {
-do {
-parent = t;
-cmp = cpr.compare(key, t.key);
-if (cmp &lt; 0)
-t = t.left;
-else if (cmp &gt; 0)
-t = t.right;
-else
-return t.setValue(value);
-} while (t != null);
-}
-else {
-if (key == null)
-throw new NullPointerException();
-@SuppressWarnings(&quot;unchecked&quot;)
-Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
-do {
-parent = t;
-cmp = k.compareTo(t.key);
-if (cmp &lt; 0)
-t = t.left;
-else if (cmp &gt; 0)
-t = t.right;
-else
-return t.setValue(value);
-} while (t != null);
-}
-Entry&lt;K,V&gt; e = new Entry&lt;&gt;(key, value, parent);
-if (cmp &lt; 0)
-parent.left = e;
-else
-parent.right = e;
-fixAfterInsertion(e);
-size++;
-modCount++;
-return null;
-}
-
-
-/**
-Compares two keys using the correct comparison method for this TreeMap.
- */
-@SuppressWarnings(&quot;unchecked&quot;)
-final int compare(Object k1, Object k2) {
-return comparator==null ? ((Comparable&lt;? super K&gt;)k1).compareTo((K)k2)
-: comparator.compare((K)k1, (K)k2);
-}
-</code></pre><p>找出关键代码：</p>
-<pre><code>Comparator&lt;? super K&gt; cpr = comparator;
-if (cpr != null) {
-do {
-parent = t;
-cmp = cpr.compare(key, t.key);
-if (cmp &lt; 0)
-t = t.left;
-else if (cmp &gt; 0)
-t = t.right;
-else
-return t.setValue(value);
-} while (t != null);
-}
-else {
-if (key == null)
-throw new NullPointerException();
-@SuppressWarnings(&quot;unchecked&quot;)
-Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
-do {
-parent = t;
-cmp = k.compareTo(t.key);
-if (cmp &lt; 0)
-t = t.left;
-else if (cmp &gt; 0)
-t = t.right;
-else
-return t.setValue(value);
-} while (t != null);
-}
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/06/30/TreeMap实现原理深究/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/java/">java</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/面试题/">面试题</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/06/30/TreeMap实现原理深究/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/06/30/TreeMap实现原理深究/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -1305,7 +1226,7 @@ return t.setValue(value);
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>3</sup></a></li>
 		  
 		
 		  
@@ -1390,11 +1311,15 @@ return t.setValue(value);
 			
 		
 			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
 			
 		
 			
@@ -1410,15 +1335,11 @@ return t.setValue(value);
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
