@@ -382,147 +382,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Unix有用命令行/" title="Unix有用命令行" itemprop="url">Unix有用命令行</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Unix有用命令行"><a href="#Unix有用命令行" class="headerlink" title="Unix有用命令行"></a>Unix有用命令行</h1><p>OSX 的文件系统 </p>
-<div><br><br>OSX 采用的Unix文件系统，所有文件都挂在跟目录 / 下面，所以不在要有Windows<br>下的盘符概念。<br><br></div>
-
-<div><br><br>你在桌面上看到的硬盘都挂在 /Volumes 下。<br><br></div>
-
-<div><br><br>比如接上个叫做<br>USBHD的移动硬盘，桌面上会显示出一个硬盘图标，它实际在哪里呢？<br><br></div>
-
-<div><br><br>在终端里执行 ls /Volumes/USBHD, 看看显示出的是不是这个移动硬盘的内容。<br><br></div>
-
-<div><br><br>根目录位置是 / 核心 Mach_kernel 就在这里，<br><br></div>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Unix有用命令行/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Unix有用命令行/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Unix有用命令行/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/软链接/" title="软链接" itemprop="url">软链接</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h1><p><span style="font: 14.0px Arial; font-kerning: none; color: #78afd3; -webkit-text-stroke: 0px #78afd3"><a href="http://www.cnblogs.com/xiaochaohuashengmi/archive/2011/10/05/2199534.html" target="_blank" rel="noopener"><strong>linux下创建和删除软、硬链接</strong></a></span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
-</strong>在Linux系统中,内核为每一个新创建的文件分配一个Inode(索引结点),每个文件都有一个惟一的inode号。文件属性保存在索引结点里，在访问文件时，索引结点被复制到内存在，从而实现文件的快速访问。\</span></p>
-<p>链接是一种在共享文件和访问它的用户的若干目录项之间建立联系的一种方法。Linux中包括两种链接：硬链接(Hard<br>Link)和软链接(Soft Link),软链接又称为符号链接（Symbolic<br>link）。符号连接相当于Windows下的快捷方式。\<br> <strong>一、硬链接</strong>\</p>
-<p>硬链接说白了是一个指针，指向文件索引节点，系统并不为它重新分配inode。可以用:ln命令来建立硬链接。\<br> 语法:\<br> ln [options] existingfile newfile（sexistingfile<br>待建立链接文件的文件，newfile是新创建的链接文件）\<br> ln [options] existingfile-list directory\<br> -f 建立时，将同档案名删除.\<br> -i 删除前进行询问.\<br> ln -s abc cde 建立abc 的软连接\<br> ln abc cde 建立abc的硬连接，\<br> 用法:\<br> 第一种:为”existingfile”创建硬链接,文件名为”newfile”。\</p>
-<p>第二种:在”directory”目录中,为”existingfile-list”中包含的所有文件创建一个同名的硬链接。\<br> 常用可选[options] –f 无论”newfile”存在与否,都创建链接。-n<br>如果”newfile”已存在,就不创建链接。\<br> 下面举一些例子:\<br><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ls -il\<br> 总计 0\<br> 1491138 -rw-r–r– 1 root root 48 07-14 14:17 file1\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2\<br> &lt;%5Broot rekfan.com&gt; test]# ln file2 file2hand\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/软链接/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/软链接/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/软链接/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/Validator.js/" title="Validator.js" itemprop="url">Validator.js</a>
   </h1>
   <p class="article-author">By
@@ -596,7 +455,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)" itemprop="url">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a>
+      <a href="/2016/03/30/软链接/" title="软链接" itemprop="url">软链接</a>
   </h1>
   <p class="article-author">By
        
@@ -609,12 +468,16 @@
 </header>
     <div class="article-content">
         
-        <h1 id="让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题"><a href="#让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题" class="headerlink" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)"></a>让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</h1><div style="HEIGHT: auto !important"><br><br>+————————————————————————–+<br>| <div style="POSITION: relative; HEIGHT: 100%; OVERFLOW: hidden">         |<br>|                                                                          |<br>| <div style="FONT-SIZE: 14px">                                            |<br>|                                                                          |<br>| 如果你用maven编译项目，而且在项目中用了SUN的专用API，你会得到警告信息，然后Maven会报告编译失败，像这个样子： |<br>|                                                                          |<br>|                                                                          |<br>| &gt; …\                                                                     |<br>| &gt;  [ERROR]                                                             |<br>| &gt; \workspaces\mvn\javac-warning-test\src\main\java\com\juvenxu\ |<br>| TestJavacWarning.java:[7,32]                                           |<br>| &gt; 警告：sun.misc.BASE64Decoder 是 Sun 的专用\                            |<br>| &gt;  API，可能会在未来版本中删除\                                          |<br>| &gt;  [INFO] ————————————————————-\                                       |<br>| &gt;  [INFO] BUILD FAILURE                                                |<br>|                                                                          |<br>| 这当然是不合理的，javac只是警告而已，maven凭什么就直接报失败呢？         |<br>|                                                                          |<br>| 其实最好的解决办法是避免用到这些SUN专用的API,这些API都有现成的替代品，不过本文要讨论的不是这个，如果你用了某个依赖，该依赖用了SUN专 |<br>| 用API，你往往会束手无策。                                                |<br>|                                                                          |<br>| 第一反应是Maven肯定可以提供一些配置点，允许我们忽略这种警告，嗯，当初我也是这么想的，一次培训的时候，一同学问到这个问题，我想当然的回答，“ |<br>| 这个配置javac忽略警告就可以啦，不是Maven的问题”，我自己根本没有试过，这么不负责任的回答我现在想想都脸红。后来和 |<br>|                                                                          |<br>| <a href="http://www.intellij.org.cn/blog/" target="_blank" rel="noopener">linux_china</a>                         |<br>| 又讨论到这个问题，然后我动手尝试了下，折腾了几乎所有maven-compiler-plugin的配置，到最后竟然是无解！（其实也不算完全无解，至 |<br>| 少我们可以配置maven-compiler-plugin忽略编译错误，不过这个解决办法连我自己都觉得太恶心） |<br>|                                                                          |<br>|                                                                          |<br>| 无解归无解，至少我找到了<a href="http://jira.codehaus.org/browse/MCOMPILER-109" target="_blank" rel="noopener">这个问题的根本原因</a>，其 |<br>
+        <h1 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h1><p><span style="font: 14.0px Arial; font-kerning: none; color: #78afd3; -webkit-text-stroke: 0px #78afd3"><a href="http://www.cnblogs.com/xiaochaohuashengmi/archive/2011/10/05/2199534.html" target="_blank" rel="noopener"><strong>linux下创建和删除软、硬链接</strong></a></span><span style="font: 14.0px Arial; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
+</strong>在Linux系统中,内核为每一个新创建的文件分配一个Inode(索引结点),每个文件都有一个惟一的inode号。文件属性保存在索引结点里，在访问文件时，索引结点被复制到内存在，从而实现文件的快速访问。\</span></p>
+<p>链接是一种在共享文件和访问它的用户的若干目录项之间建立联系的一种方法。Linux中包括两种链接：硬链接(Hard<br>Link)和软链接(Soft Link),软链接又称为符号链接（Symbolic<br>link）。符号连接相当于Windows下的快捷方式。\<br> <strong>一、硬链接</strong>\</p>
+<p>硬链接说白了是一个指针，指向文件索引节点，系统并不为它重新分配inode。可以用:ln命令来建立硬链接。\<br> 语法:\<br> ln [options] existingfile newfile（sexistingfile<br>待建立链接文件的文件，newfile是新创建的链接文件）\<br> ln [options] existingfile-list directory\<br> -f 建立时，将同档案名删除.\<br> -i 删除前进行询问.\<br> ln -s abc cde 建立abc 的软连接\<br> ln abc cde 建立abc的硬连接，\<br> 用法:\<br> 第一种:为”existingfile”创建硬链接,文件名为”newfile”。\</p>
+<p>第二种:在”directory”目录中,为”existingfile-list”中包含的所有文件创建一个同名的硬链接。\<br> 常用可选[options] –f 无论”newfile”存在与否,都创建链接。-n<br>如果”newfile”已存在,就不创建链接。\<br> 下面举一些例子:\<br><span style="font: 14.0px Arial; font-kerning: none; color: #0433ff; -webkit-text-stroke: 0px #0433ff">&lt;%5Broot rekfan.com&gt;<br>test]# ls -il\<br> 总计 0\<br> 1491138 -rw-r–r– 1 root root 48 07-14 14:17 file1\<br> 1491139 -rw-r–r– 2 root root 0 07-14 14:17 file2\<br> &lt;%5Broot rekfan.com&gt; test]# ln file2 file2hand\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#more">Read More</a>
+            <a href="/2016/03/30/软链接/#more">Read More</a>
           
        </p>
     </div>
@@ -640,7 +503,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/软链接/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/软链接/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -768,7 +631,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/CentOS6.5使用yum命令方式安装/" title="CentOS6.5使用yum命令方式安装" itemprop="url">CentOS6.5使用yum命令方式安装</a>
+      <a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)" itemprop="url">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a>
   </h1>
   <p class="article-author">By
        
@@ -781,20 +644,12 @@
 </header>
     <div class="article-content">
         
-        <h1 id="CentOS6-5使用yum命令方式安装"><a href="#CentOS6-5使用yum命令方式安装" class="headerlink" title="CentOS6.5使用yum命令方式安装"></a>CentOS6.5使用yum命令方式安装</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>CentOS6.5使用yum命令方便快捷安装Nginx<br>=====================================<br><br><div><br><br><div><br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<div><br><br><span>作者：佚名</span><br><span>TAG：<a href="http://www.myhack58.com/Article/tag.asp?name=CentOS" target="_blank" rel="noopener">CentOS</a><br><a href="http://www.myhack58.com/Article/tag.asp?name=Nginx" target="_blank" rel="noopener">Nginx</a> </span><br><br></div>
-
-<p> 当然，首先要求是可以联网的系统，因为yum安装需要互联网连接。 </p>
-<div><br>
+        <h1 id="让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题"><a href="#让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题" class="headerlink" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)"></a>让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</h1><div style="HEIGHT: auto !important"><br><br>+————————————————————————–+<br>| <div style="POSITION: relative; HEIGHT: 100%; OVERFLOW: hidden">         |<br>|                                                                          |<br>| <div style="FONT-SIZE: 14px">                                            |<br>|                                                                          |<br>| 如果你用maven编译项目，而且在项目中用了SUN的专用API，你会得到警告信息，然后Maven会报告编译失败，像这个样子： |<br>|                                                                          |<br>|                                                                          |<br>| &gt; …\                                                                     |<br>| &gt;  [ERROR]                                                             |<br>| &gt; \workspaces\mvn\javac-warning-test\src\main\java\com\juvenxu\ |<br>| TestJavacWarning.java:[7,32]                                           |<br>| &gt; 警告：sun.misc.BASE64Decoder 是 Sun 的专用\                            |<br>| &gt;  API，可能会在未来版本中删除\                                          |<br>| &gt;  [INFO] ————————————————————-\                                       |<br>| &gt;  [INFO] BUILD FAILURE                                                |<br>|                                                                          |<br>| 这当然是不合理的，javac只是警告而已，maven凭什么就直接报失败呢？         |<br>|                                                                          |<br>| 其实最好的解决办法是避免用到这些SUN专用的API,这些API都有现成的替代品，不过本文要讨论的不是这个，如果你用了某个依赖，该依赖用了SUN专 |<br>| 用API，你往往会束手无策。                                                |<br>|                                                                          |<br>| 第一反应是Maven肯定可以提供一些配置点，允许我们忽略这种警告，嗯，当初我也是这么想的，一次培训的时候，一同学问到这个问题，我想当然的回答，“ |<br>| 这个配置javac忽略警告就可以啦，不是Maven的问题”，我自己根本没有试过，这么不负责任的回答我现在想想都脸红。后来和 |<br>|                                                                          |<br>| <a href="http://www.intellij.org.cn/blog/" target="_blank" rel="noopener">linux_china</a>                         |<br>| 又讨论到这个问题，然后我动手尝试了下，折腾了几乎所有maven-compiler-plugin的配置，到最后竟然是无解！（其实也不算完全无解，至 |<br>| 少我们可以配置maven-compiler-plugin忽略编译错误，不过这个解决办法连我自己都觉得太恶心） |<br>|                                                                          |<br>|                                                                          |<br>| 无解归无解，至少我找到了<a href="http://jira.codehaus.org/browse/MCOMPILER-109" target="_blank" rel="noopener">这个问题的根本原因</a>，其 |<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/CentOS6.5使用yum命令方式安装/#more">Read More</a>
+            <a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#more">Read More</a>
           
        </p>
     </div>
@@ -820,7 +675,142 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/CentOS6.5使用yum命令方式安装/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/CentOS6.5使用yum命令方式安装/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/" title="CocoaPods 的一些略为高级一丁点的使用" itemprop="url">CocoaPods 的一些略为高级一丁点的使用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="CocoaPods-的一些略为高级一丁点的使用"><a href="#CocoaPods-的一些略为高级一丁点的使用" class="headerlink" title="CocoaPods 的一些略为高级一丁点的使用"></a>CocoaPods 的一些略为高级一丁点的使用</h1><p>记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当中早已经出现，甚至成为了开发的标配，尽管如此，CocoaPods依然是对iOS/Mac开发做出了巨大的贡献，在此为CocoaPods做出贡献的人表示感谢。</p>
+<p>CocoaPods功能不算太强大，但大部分时候足够好用，仅仅是最基本的样例配置，就可以满足你项目的大部分需求，但了解更多的一一些的特性，会让你更得心应手。</p>
+<h4 id="指定源"><a href="#指定源" class="headerlink" title="指定源"></a>指定源</h4><p>CocoaPods支持私有 Spec<br>仓库的，我们可以建立自己的源，也可以使用非官方的源，只要是符合规定的都可以指定。</p>
+<h4 id="抑制警告"><a href="#抑制警告" class="headerlink" title="抑制警告"></a>抑制警告</h4><p>inhibit_warnings参数能够有效的抑制CocoaPods引入的第三方代码库产生的warning。</p>
+<p>可以全部指定。</p>
+<p>也可以针对指定。</p>
+<h4 id="使用git的HEAD指向的分支"><a href="#使用git的HEAD指向的分支" class="headerlink" title="使用git的HEAD指向的分支"></a>使用git的HEAD指向的分支</h4><h4 id="使用-master-分支"><a href="#使用-master-分支" class="headerlink" title="使用 master 分支"></a>使用 master 分支</h4><h3 id="指定branch"><a href="#指定branch" class="headerlink" title="指定branch"></a>指定branch</h3><h4 id="指定tag"><a href="#指定tag" class="headerlink" title="指定tag"></a>指定tag</h4><h3 id="指定commit"><a href="#指定commit" class="headerlink" title="指定commit"></a>指定commit</h3><h4 id="使用子库"><a href="#使用子库" class="headerlink" title="使用子库"></a>使用子库</h4><p>可以这样</p>
+<p>也可以这样指定多个子库</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/CocoaPods 的一些略为高级一丁点的使用/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/apple_worldwide_developer_relations_证书过期问题/" title="apple Worldwide Developer Relations 证书过期问题" itemprop="url">apple Worldwide Developer Relations 证书过期问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="apple-Worldwide-Developer-Relations-证书过期问题"><a href="#apple-Worldwide-Developer-Relations-证书过期问题" class="headerlink" title="apple Worldwide Developer Relations 证书过期问题"></a>apple Worldwide Developer Relations 证书过期问题</h3><p>1016年过完年打开电脑xcode发布新版本app，发现所有的开发证书都过期了，花了一小时终于搞清楚什么原因了，原来是mac上一个系统根证书(Apple Worldwide Developer Relations Certification Authority)过期了，而所有的开发证书的签发证书都是它，少废话，直接上链接：<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/apple_worldwide_developer_relations_证书过期问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ios-developer-证书过期/">ios developer 证书过期</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/apple_worldwide_developer_relations_证书过期问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/apple_worldwide_developer_relations_证书过期问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 

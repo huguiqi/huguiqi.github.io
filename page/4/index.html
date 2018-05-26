@@ -92,6 +92,114 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/20/最近后端java面试题整理/" title="最近后端java面试题整理" itemprop="url">最近后端java面试题整理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-20T10:00:00.000Z" itemprop="datePublished"> 发表于 2017-03-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="最近后端java面试题整理"><a href="#最近后端java面试题整理" class="headerlink" title="最近后端java面试题整理"></a>最近后端java面试题整理</h1><p>最近想从前端管理岗位重新换到我最初起点的工作——java后端开发，已经有两三年没有用java语言进行开发了，发现很多基础都忘记了，其实我只是想重新换一个安静敲代码的工作，不过现在发现，并不是那么容易的。</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/14901501493763z9yf85f.png?imageslim" alt="paste image"></p>
+<p>以下是我最近面试我整理的面试题：</p>
+<h2 id="基础类："><a href="#基础类：" class="headerlink" title="基础类："></a>基础类：</h2><ol>
+<li>集合类(collection)下面有哪些类</li>
+<li>Map/List<ul>
+<li>HashMap、HashSet的特性与区别</li>
+<li>HashMap、HashTable区别</li>
+<li>HashMap、MapTree的区别</li>
+<li>HashMap、LinkedHashMap区别</li>
+<li>HashMap、HashSet区别</li>
+</ul>
+</li>
+</ol>
+<p>hashMap实现了Map接口，是线程非安全的，它允许空(null)键值，效率上高于hashTalbe,hashMap的方法不是同步的，而hashTalbe的方法是同步的，线程是安全的。<br>HashTable.put方法：<br>public synchronized V put(K key, V value) {<br>…….<br>}</p>
+<p>get方法：<br>public synchronized V get(Object key) {<br>…..<br>}<br>remove方法：<br>public synchronized V remove(Object key){<br>……<br>}<br>等等，所有的方法都是同步的，这样效率自然不高。</p>
+<p>HashSet实现了Set接口，它不允许集合中有重复的值，当我们提到HashSet时，第一件事情就是在将对象存储在HashSet之前，要先确保对象重写equals()和hashCode()方法，这样才能比较对象的值是否相等，以确保set中没有储存相等的对象。如果我们没有重写这两个方法，将会使用这个方法的默认实现。<br>public boolean add(Object o)方法用来在Set中添加元素，当元素值重复时则会立即返回false，如果成功添加的话会返回true。</p>
+<ul>
+<li>HashMap\HashSet的内部实现方式以及工作原理</li>
+</ul>
+<p><a href="http://blog.csdn.net/wulunbi/article/details/51105028" title="HashTable与HashMap" target="_blank" rel="noopener">HashMap与HashTable的不同参考这里</a></p>
+<h3 id="HashSet与HashMap的实质"><a href="#HashSet与HashMap的实质" class="headerlink" title="HashSet与HashMap的实质"></a>HashSet与HashMap的实质</h3><p>(1)HashSet是set的一个实现类,hashMap是Map的一个实现类,同时hashMap是hashTable的替代品(为什么后面会讲到).<br>(2)HashSet以对象作为元素,而HashMap以(key-value)的一组对象作为元素,且HashSet拒绝接受重复的对象.HashMap可以看作三个视图：key的Set，value的Collection，Entry的Set。 这里HashSet就是其实就是HashMap的一个视图。<br>HashSet内部就是使用Hashmap实现的，和Hashmap不同的是它不需要Key和Value两个值。<br>往hashset中插入对象其实只不过是内部做了<br>      public boolean add(Object o) {<br>    return map.put(o, PRESENT)==null;<br>      }</p>
+<ul>
+<li>ArrayList与LinkList使用场景与优缺点，工作原理是什么</li>
+</ul>
+<ul>
+<li>相同点：<br> 1), ArrayList,LinkedList,Vector这三个类都实现了java.util.List接口<br> 2)，都是线程不同步的，非线程安全的</li>
+<li>ArrayList与linkList区别<br> 优缺点：<br>  1），ArrayList是实现了基于动态数组的数据结构，而LinkLIst是基于链表的数据结构，所以，ArrayList在未末尾进行添加删除操作时，速度比不上linkList,因为ArrayList需要移动数据位置，而LinkList不需要<br>  2）而对于get/set随机访问集合元素操作时，LinkList的访问速度不如ArrayList，因为LinkList需要移动指针。</li>
+</ul>
+<ol>
+<li>java基类里面你知道的有哪些方法，主要用来做什么？<ul>
+<li>clone方法</li>
+<li>equals</li>
+<li>finalize</li>
+<li>getClass</li>
+<li>haseCode</li>
+<li>notify</li>
+<li>notifyAll</li>
+<li>toString</li>
+<li>wait</li>
+<li>waitAll</li>
+</ul>
+</li>
+</ol>
+<p>见字如面。。。。。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/03/20/最近后端java面试题整理/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/面试题/">面试题</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/20/最近后端java面试题整理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/20/最近后端java面试题整理/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/03/17/PLA 1.2/" title="PLA 1.2" itemprop="url">PLA 1.2</a>
   </h1>
   <p class="article-author">By
@@ -930,93 +1038,6 @@ find . -name &quot;*.java&quot;|xargs cat|grep -v -e ^$ -e ^\s*\/\/.*$|wc -l    
 	
 	  	<span></span>
 		<a href="/2017/02/21/房子婚姻和钱/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/21/房子婚姻和钱/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/02/10/react app一步步学习/" title="react app一步步学习" itemprop="url">react app一步步学习</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-02-10T06:21:00.000Z" itemprop="datePublished"> 发表于 2017-02-10</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="react-app一步步学习"><a href="#react-app一步步学习" class="headerlink" title="react app一步步学习"></a>react app一步步学习</h1><p>近期打算将公司原有的app转成reactApp模式，开始学习，以下是学习目标：</p>
-<ul>
-<li>学习reactApp的基本语法，可以调用组件生成模块化控件</li>
-<li>组件间通信</li>
-<li>原有的app里调用组件</li>
-<li>原生app页面调用react组件页面</li>
-</ul>
-<h1 id="REACT-FOR-JSX"><a href="#REACT-FOR-JSX" class="headerlink" title="REACT FOR JSX"></a>REACT FOR JSX</h1><script src="../../build/react.js"></script>
-    <script src="../../build/react-dom.js"></script>  
-    <script src="../../build/browser.min.js"></script>  
-
-
-<p>index.html中的三个引入文件分别的作用:  </p>
-<p>* react.js  </p>
-<pre><code>react核心库  
-</code></pre><p>   * react-dom.js  </p>
-<pre><code>react的dom解析库  
-</code></pre><p>* browser.min.js  </p>
-<p>   jsx语言转化为js语言的转化库,<code>Browser.js</code> 的作用是将<code>JSX</code>语法转为<code>JavaScript</code> 语法，这一步很消耗时间，实际上线的时候，应该将它放到服务器完成。  </p>
-<p><strong>疑问?</strong><br>怎么放到服务器上,浏览器就不需要加载了  </p>
-<h2 id="react语法"><a href="#react语法" class="headerlink" title="react语法"></a>react语法</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><blockquote>
-<p>React 使用 JSX 来替代常规的 JavaScript。<br>JSX 是一个看起来很像 XML 的 JavaScript 语法扩展。  </p>
-</blockquote>
-<p><a href="http://jsx.github.io/" title="jsx官方github主页" target="_blank" rel="noopener">http://jsx.github.io/</a></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/02/10/react app一步步学习/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/前端技术/">前端技术</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ReactNative/">ReactNative</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/02/10/react app一步步学习/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/10/react app一步步学习/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 

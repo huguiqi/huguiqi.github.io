@@ -241,7 +241,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/" title="SVN客户端命令行设置忽略文件列表" itemprop="url">SVN客户端命令行设置忽略文件列表</a>
+      <a href="/2016/03/30/UIScrollView/" title="UIScrollView" itemprop="url">UIScrollView</a>
   </h1>
   <p class="article-author">By
        
@@ -254,11 +254,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 </header>
     <div class="article-content">
         
-        <h1 id="SVN客户端命令行设置忽略文件列表"><a href="#SVN客户端命令行设置忽略文件列表" class="headerlink" title="SVN客户端命令行设置忽略文件列表"></a>SVN客户端命令行设置忽略文件列表</h1><p><span style="font: 20.0px Times">SVN设置忽略文件列表\<br></span><span style="font: 12.0px Arial; background-color: #eeeeee">\<br></span><span style="font: 12.0px Arial">\<br></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">在公司中项目的版本管控一般都是使用集中式的SVN，我也是从svn工具中熟悉基本的版本管理概念和操作。但是作为一个Linux系统及应用开发者，自然对Git分布式管理工具要有所熟悉。现在个人项目管理都是使用git进行版本控制，对git的一些操作也比较熟悉，而svn一般用的是Windows下的图像工具，而对svn的命令行稍显陌生。\</span></p>
-<p>在git工具中，设置忽略文件只需要修改版本库根目录下的.gitignore文件就可以了，没有的话创建一个，非常简单，一个示例的.gitignore文件如下：过滤文件模式以行进行分隔\<br>\<br><span style="font: 13.0px 'Courier New'; color: #afafaf">01\<br></span><span style="font: 13.0px 'Courier New'">*.o\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">02\<br></span><span style="font: 13.0px 'Courier New'">*.lo\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">03\<br></span><span style="font: 13.0px 'Courier New'">*.la\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">04\<br></span><span style="font: 13.0px 'Courier New'">*.gcda\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">05\<br></span><span style="font: 13.0px 'Courier New'">*.gcno\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">06\<br></span><span style="font: 13.0px 'Courier New'">aclocal.m4\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">07\<br></span><span style="font: 13.0px 'Courier New'">autom4te.cache\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">08\<br></span><span style="font: 13.0px 'Courier New'">build\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">09\<br></span><span style="font: 13.0px 'Courier New'">compile\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">10\<br></span><span style="font: 13.0px 'Courier New'">config.guess\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">11\<br></span><span style="font: 13.0px 'Courier New'">config.h\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">12\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span <!--more--=""><br>style=”font: 13.0px ‘Courier New’”&gt;\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">13\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span style="font: 13.0px 'Courier New'">~\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">14\<br></span><span style="font: 13.0px 'Courier New'">config.log\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">15\<br></span><span style="font: 13.0px 'Courier New'">config.status\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">16\<br></span><span style="font: 13.0px 'Courier New'">config.sub\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">17\<br></span><span style="font: 13.0px 'Courier New'">configure\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">18\<br></span><span style="font: 13.0px 'Courier New'">depcomp\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">19\<br></span><span style="font: 13.0px 'Courier New'">.deps\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">20\<br></span><span style="font: 13.0px 'Courier New'; color: #ff2f93">install</span><span style="font: 13.0px 'Courier New'">-sh\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">21\<br></span><span style="font: 13.0px 'Courier New'">.libs\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">22\<br></span><span style="font: 13.0px 'Courier New'">libtool\<br></span><span style="font: 14.0px Arial">今天在使用svn时想设置忽略一些临时的项目开发文件，一下子不知道怎么弄，上网搜索和实践后，发现也不难，在此记录一下。配置的方法有以下几种：</span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br>\<br></span><span style="font: 24.0px Arial"><strong>Linux下svn命令行配置\
-</strong></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br></span><span style="font: 20.0px Arial"><strong>1. 修改版本库的相关属性\
-</strong></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ svn propedit<br>svn:ignore </span><span style="font: 13.0px 'Courier New'; color: #ff2f93">dir</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">其中 dir<br>就是你所想设置过滤文件列表的目录，执行命令之后，会出现编辑界面，按照空格将你想过滤文件（通常使用通配符的方式）以空格分开，保存退出即可。这个属性是针对版本库进行的修改，因此需要提交这个修改。svn:ignore是svn的一个参数。 \<br> 注意：这个设置无法递归，也就是如果 dir<br>目录下还有子目录的话，是单独设置的。 \<br></span><span style="font: 20.0px Arial"><strong>2. svn 客户端的配置\
-</strong></span><span style="font: 14.0px Arial">对 svn<br>命令的配置文件修改即可。进入个人用户目录 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ vim<br>.subversion/config\<br></span><span style="font: 14.0px Arial">找到包含  [miscellany]<br>这一行，取消注释，然后编辑包含 global-ignores<br>的那一行，取消注释，并添加需要过滤文件的通配符即可。如下所示：注意开头不能有空格，否则svn会报错。 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">global-ignores = *.so<br>*.a *.o *.lo *.la .*.rej *.rej .*~ *~ .</span><span style="font: 13.0px 'Courier New'; color: #008200">#*<br>.DS_Store</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">这个配置是对客户端的修改，对版本库没有任何影响。同时，这个配置也是全局的，适用于本机所有<br>svn 管理的项目。</span></p>
+        <h1 id="UIScrollView"><a href="#UIScrollView" class="headerlink" title="UIScrollView"></a>UIScrollView</h1><div><br><br><span style="font-size: 14px;">//scrollView中如果有多个子view，滚动时默认是整块滚动的，起作用的属性就是</span><span style="color: rgb(0, 143, 0); font-family: Menlo; font-size: 14px;">pagingEnabled<br>默认值为NO,设为YES时滚动时就不是一个整块滚动，而是分view滚动\<br></span><span style="font-size: 14px; font-family: Menlo; color: rgb(0, 143, 0);">self.topScrollView.pagingEnabled<br>= YES</span><br><br></div>
 
         
         
@@ -288,7 +284,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN客户端命令行设置忽略文件列表/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/UIScrollView/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIScrollView/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -440,69 +436,6 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/UIScrollView/" title="UIScrollView" itemprop="url">UIScrollView</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="UIScrollView"><a href="#UIScrollView" class="headerlink" title="UIScrollView"></a>UIScrollView</h1><div><br><br><span style="font-size: 14px;">//scrollView中如果有多个子view，滚动时默认是整块滚动的，起作用的属性就是</span><span style="color: rgb(0, 143, 0); font-family: Menlo; font-size: 14px;">pagingEnabled<br>默认值为NO,设为YES时滚动时就不是一个整块滚动，而是分view滚动\<br></span><span style="font-size: 14px; font-family: Menlo; color: rgb(0, 143, 0);">self.topScrollView.pagingEnabled<br>= YES</span><br><br></div>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/UIScrollView/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIScrollView/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/UIBezierPath使用/" title="UIBezierPath使用" itemprop="url">UIBezierPath使用</a>
   </h1>
   <p class="article-author">By
@@ -556,6 +489,80 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 	
 	  	<span></span>
 		<a href="/2016/03/30/UIBezierPath使用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIBezierPath使用/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/UISearchBar与UISearchDisplayController结合使用时注意的事项/" title="UISearchBar与UISearchDisplayController结合使用时注意的事项" itemprop="url">UISearchBar与UISearchDisplayController结合使用时注意的事项</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="UISearchBar与UISearchDisplayController结合使用时注意的事项"><a href="#UISearchBar与UISearchDisplayController结合使用时注意的事项" class="headerlink" title="UISearchBar与UISearchDisplayController结合使用时注意的事项"></a>UISearchBar与UISearchDisplayController结合使用时注意的事项</h1><div><br><br>\<br><br></div>
+
+<div><br><br>问题描述：<br><br></div>
+
+<div><br><br>1，在一个页面里有个UISearchBar，初始化进来时有个默认的tableview展示历史搜索记录<br><br></div>
+
+<div><br><br>2，点击UISearchBar时，弹出新的搜索页面，由于需要，我将UISearchDisplayController重新封装了，也就说，有两个tableView在这个页面起作用，一个默认tableView，一个displayControoler里的tableView，即searchResultsTableView<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>但是当完成后，发现两个tableView无法切换，而且display里的tableView在输入搜索词时不能自动换成搜索模式，或者说灰色透明背景没有隐藏。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/UISearchBar与UISearchDisplayController结合使用时注意的事项/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/UISearchBar与UISearchDisplayController结合使用时注意的事项/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UISearchBar与UISearchDisplayController结合使用时注意的事项/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -638,7 +645,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/UISearchBar与UISearchDisplayController结合使用时注意的事项/" title="UISearchBar与UISearchDisplayController结合使用时注意的事项" itemprop="url">UISearchBar与UISearchDisplayController结合使用时注意的事项</a>
+      <a href="/2016/03/30/CentOS6.5使用yum命令方式安装/" title="CentOS6.5使用yum命令方式安装" itemprop="url">CentOS6.5使用yum命令方式安装</a>
   </h1>
   <p class="article-author">By
        
@@ -651,22 +658,20 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 </header>
     <div class="article-content">
         
-        <h1 id="UISearchBar与UISearchDisplayController结合使用时注意的事项"><a href="#UISearchBar与UISearchDisplayController结合使用时注意的事项" class="headerlink" title="UISearchBar与UISearchDisplayController结合使用时注意的事项"></a>UISearchBar与UISearchDisplayController结合使用时注意的事项</h1><div><br><br>\<br><br></div>
+        <h1 id="CentOS6-5使用yum命令方式安装"><a href="#CentOS6-5使用yum命令方式安装" class="headerlink" title="CentOS6.5使用yum命令方式安装"></a>CentOS6.5使用yum命令方式安装</h1><p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>CentOS6.5使用yum命令方便快捷安装Nginx<br>=====================================<br><br><div><br><br><div><br><br></div>
 
-<div><br><br>问题描述：<br><br></div>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<div><br><br><span>作者：佚名</span><br><span>TAG：<a href="http://www.myhack58.com/Article/tag.asp?name=CentOS" target="_blank" rel="noopener">CentOS</a><br><a href="http://www.myhack58.com/Article/tag.asp?name=Nginx" target="_blank" rel="noopener">Nginx</a> </span><br><br></div>
 
-<div><br><br>1，在一个页面里有个UISearchBar，初始化进来时有个默认的tableview展示历史搜索记录<br><br></div>
-
-<div><br><br>2，点击UISearchBar时，弹出新的搜索页面，由于需要，我将UISearchDisplayController重新封装了，也就说，有两个tableView在这个页面起作用，一个默认tableView，一个displayControoler里的tableView，即searchResultsTableView<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>但是当完成后，发现两个tableView无法切换，而且display里的tableView在输入搜索词时不能自动换成搜索模式，或者说灰色透明背景没有隐藏。<br>
+<p> 当然，首先要求是可以联网的系统，因为yum安装需要互联网连接。 </p>
+<div><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/UISearchBar与UISearchDisplayController结合使用时注意的事项/#more">Read More</a>
+            <a href="/2016/03/30/CentOS6.5使用yum命令方式安装/#more">Read More</a>
           
        </p>
     </div>
@@ -692,7 +697,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/UISearchBar与UISearchDisplayController结合使用时注意的事项/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UISearchBar与UISearchDisplayController结合使用时注意的事项/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/CentOS6.5使用yum命令方式安装/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/CentOS6.5使用yum命令方式安装/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
