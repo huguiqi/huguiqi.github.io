@@ -92,6 +92,154 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/07/14/maven无法更新jar的解决方案/" title="maven无法更新jar的解决方案" itemprop="url">maven无法更新jar的解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-13T23:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="maven无法更新jar的解决方案"><a href="#maven无法更新jar的解决方案" class="headerlink" title="maven无法更新jar的解决方案"></a>maven无法更新jar的解决方案</h1><p>原因：<br>是由于上次运行mvn install 时，jar下载完全，或者老的jar没有删除干净，导致下载新的jar时，有冲突。</p>
+<p>I had a related problem, but Raghuram’s answer helped. (I don’t have enough reputation yet to vote his answer up). I’m using Maven bundled with NetBeans, and was getting the same “…was cached in the local repository, resolution will not be reattempted until the update interval of nexus has elapsed or updates are forced -> <a href="">Help 1</a>“ error.<br>To fix this I added \<updatepolicy\>always\</updatepolicy\> to my settings file (C:\Program Files\NetBeans 7.0\java\maven\conf\settings.xml)</p>
+<pre><code>&lt;profile&gt;
+  &lt;id&gt;nexus&lt;/id&gt;
+  &lt;!--Enable snapshots for the built in central repo to direct --&gt;
+  &lt;!--all requests to nexus via the mirror --&gt;
+  &lt;repositories&gt;
+&lt;repository&gt;
+  &lt;id&gt;central&lt;/id&gt;
+  &lt;url&gt;http://central&lt;/url&gt;
+  &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/releases&gt;
+  &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/snapshots&gt;
+&lt;/repository&gt;
+  &lt;/repositories&gt;
+ &lt;pluginRepositories&gt;
+&lt;pluginRepository&gt;
+  &lt;id&gt;central&lt;/id&gt;
+  &lt;url&gt;http://central&lt;/url&gt;
+  &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/releases&gt;
+  &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/snapshots&gt;
+&lt;/pluginRepository&gt;
+  &lt;/pluginRepositories&gt;
+&lt;/profile&gt;
+</code></pre><p>或者通过pom.xml配置<br>pom.xml:</p>
+<pre><code>&lt;repositories&gt;
+&lt;repository&gt;
+&lt;id&gt;alimaven&lt;/id&gt;
+&lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;false&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+&lt;/releases&gt;
+&lt;/repository&gt;
+&lt;repository&gt;
+&lt;id&gt;archiva.default&lt;/id&gt;
+&lt;url&gt;http://repository.sonatype.org/&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/releases&gt;
+&lt;snapshots&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/snapshots&gt;
+&lt;/repository&gt;
+
+&lt;repository&gt;
+&lt;id&gt;archiva.3&lt;/id&gt;
+&lt;url&gt;http://www.mvnrepository.com/&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/releases&gt;
+&lt;snapshots&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/snapshots&gt;
+&lt;/repository&gt;
+&lt;repository&gt;
+&lt;id&gt;archiva.5&lt;/id&gt;
+&lt;url&gt;http://repository.jboss.com/maven2/&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/releases&gt;
+&lt;snapshots&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/snapshots&gt;
+&lt;/repository&gt;
+&lt;repository&gt;
+&lt;id&gt;releases&lt;/id&gt;
+&lt;name&gt;Releases&lt;/name&gt;
+&lt;url&gt;https://oss.sonatype.org/content/repositories/releases&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/releases&gt;
+&lt;snapshots&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/snapshots&gt;
+&lt;/repository&gt;
+&lt;/repositories&gt;
+</code></pre><p>再次运行mvn clean install 解决。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/maven/">maven</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/14/maven无法更新jar的解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/14/maven无法更新jar的解决方案/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/07/13/分布式系统事务一致性解决方案与实践/" title="分布式系统事务一致性解决方案与实践" itemprop="url">分布式系统事务一致性解决方案与实践</a>
   </h1>
   <p class="article-author">By
@@ -1094,75 +1242,6 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/05/如何汉化gitlab8.9.2版本/" title="如何汉化gitlab8.9.2版本" itemprop="url">如何汉化gitlab8.9.2版本</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-05T05:27:53.000Z" itemprop="datePublished"> 发表于 2017-04-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="如何汉化gitlab8-9-2版本"><a href="#如何汉化gitlab8-9-2版本" class="headerlink" title="如何汉化gitlab8.9.2版本"></a>如何汉化gitlab8.9.2版本</h1><p>我参考了这些文章作汉化：</p>
-<p><a href="https://xuanwo.org/2016/04/13/gitlab-install-intro/#" target="_blank" rel="noopener">Gitlab部署和汉化以及简单运维</a></p>
-<p><a href="http://www.jianshu.com/p/7a0d6917e009#" target="_blank" rel="noopener">快速安装 GitLab 并汉化</a></p>
-<p>但是。。。。感觉他们都有些错误，而且我的是最新版本8.9.2，现在中文补丁只打到8.8.5；</p>
-<p>所以，我有个神奇的想法，是不是可以用8.8.5的汉化补丁用到8.9.2上，可能它有些样式上和部分汉化没有汉化到，但是基本上能用，哪怕部分汉化，也很好。。。。</p>
-<p>嗯，所以就这样：<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/04/05/如何汉化gitlab8.9.2版本/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/gitlabe汉化/">gitlabe汉化</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/04/05/如何汉化gitlab8.9.2版本/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/05/如何汉化gitlab8.9.2版本/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1310,7 +1389,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 		  
 		
 		  
-			<li><a href="/categories/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
 		  
 		
 		  
@@ -1331,7 +1410,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>6</sup></a></li>
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
 			
 		
 			

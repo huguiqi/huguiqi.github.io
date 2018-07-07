@@ -92,6 +92,58 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/03/26/ActiviMQ/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-03-26T02:57:58.876Z" itemprop="datePublished"> 发表于 2018-03-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/03/26/ActiviMQ/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/03/26/ActiviMQ/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/11/26/致我逝去的青春/" title="致我逝去的青春" itemprop="url">致我逝去的青春</a>
   </h1>
   <p class="article-author">By
@@ -877,154 +929,6 @@ error-page=&quot;/auth/denied&quot;
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/07/14/maven无法更新jar的解决方案/" title="maven无法更新jar的解决方案" itemprop="url">maven无法更新jar的解决方案</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-07-13T23:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-14</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="maven无法更新jar的解决方案"><a href="#maven无法更新jar的解决方案" class="headerlink" title="maven无法更新jar的解决方案"></a>maven无法更新jar的解决方案</h1><p>原因：<br>是由于上次运行mvn install 时，jar下载完全，或者老的jar没有删除干净，导致下载新的jar时，有冲突。</p>
-<p>I had a related problem, but Raghuram’s answer helped. (I don’t have enough reputation yet to vote his answer up). I’m using Maven bundled with NetBeans, and was getting the same “…was cached in the local repository, resolution will not be reattempted until the update interval of nexus has elapsed or updates are forced -> <a href="">Help 1</a>“ error.<br>To fix this I added \<updatepolicy\>always\</updatepolicy\> to my settings file (C:\Program Files\NetBeans 7.0\java\maven\conf\settings.xml)</p>
-<pre><code>&lt;profile&gt;
-  &lt;id&gt;nexus&lt;/id&gt;
-  &lt;!--Enable snapshots for the built in central repo to direct --&gt;
-  &lt;!--all requests to nexus via the mirror --&gt;
-  &lt;repositories&gt;
-&lt;repository&gt;
-  &lt;id&gt;central&lt;/id&gt;
-  &lt;url&gt;http://central&lt;/url&gt;
-  &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/releases&gt;
-  &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/snapshots&gt;
-&lt;/repository&gt;
-  &lt;/repositories&gt;
- &lt;pluginRepositories&gt;
-&lt;pluginRepository&gt;
-  &lt;id&gt;central&lt;/id&gt;
-  &lt;url&gt;http://central&lt;/url&gt;
-  &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/releases&gt;
-  &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/snapshots&gt;
-&lt;/pluginRepository&gt;
-  &lt;/pluginRepositories&gt;
-&lt;/profile&gt;
-</code></pre><p>或者通过pom.xml配置<br>pom.xml:</p>
-<pre><code>&lt;repositories&gt;
-&lt;repository&gt;
-&lt;id&gt;alimaven&lt;/id&gt;
-&lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;
-&lt;releases&gt;
-&lt;enabled&gt;false&lt;/enabled&gt;
-&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-&lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-&lt;/releases&gt;
-&lt;/repository&gt;
-&lt;repository&gt;
-&lt;id&gt;archiva.default&lt;/id&gt;
-&lt;url&gt;http://repository.sonatype.org/&lt;/url&gt;
-&lt;releases&gt;
-&lt;enabled&gt;true&lt;/enabled&gt;
-&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-&lt;/releases&gt;
-&lt;snapshots&gt;
-&lt;enabled&gt;true&lt;/enabled&gt;
-&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-&lt;/snapshots&gt;
-&lt;/repository&gt;
-
-&lt;repository&gt;
-&lt;id&gt;archiva.3&lt;/id&gt;
-&lt;url&gt;http://www.mvnrepository.com/&lt;/url&gt;
-&lt;releases&gt;
-&lt;enabled&gt;true&lt;/enabled&gt;
-&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-&lt;/releases&gt;
-&lt;snapshots&gt;
-&lt;enabled&gt;true&lt;/enabled&gt;
-&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-&lt;/snapshots&gt;
-&lt;/repository&gt;
-&lt;repository&gt;
-&lt;id&gt;archiva.5&lt;/id&gt;
-&lt;url&gt;http://repository.jboss.com/maven2/&lt;/url&gt;
-&lt;releases&gt;
-&lt;enabled&gt;true&lt;/enabled&gt;
-&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-&lt;/releases&gt;
-&lt;snapshots&gt;
-&lt;enabled&gt;true&lt;/enabled&gt;
-&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-&lt;/snapshots&gt;
-&lt;/repository&gt;
-&lt;repository&gt;
-&lt;id&gt;releases&lt;/id&gt;
-&lt;name&gt;Releases&lt;/name&gt;
-&lt;url&gt;https://oss.sonatype.org/content/repositories/releases&lt;/url&gt;
-&lt;releases&gt;
-&lt;enabled&gt;true&lt;/enabled&gt;
-&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-&lt;/releases&gt;
-&lt;snapshots&gt;
-&lt;enabled&gt;true&lt;/enabled&gt;
-&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-&lt;/snapshots&gt;
-&lt;/repository&gt;
-&lt;/repositories&gt;
-</code></pre><p>再次运行mvn clean install 解决。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/java/">java</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/maven/">maven</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/07/14/maven无法更新jar的解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/14/maven无法更新jar的解决方案/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -1172,7 +1076,7 @@ error-page=&quot;/auth/denied&quot;
 		  
 		
 		  
-			<li><a href="/categories/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
 		  
 		
 		  
@@ -1193,7 +1097,7 @@ error-page=&quot;/auth/denied&quot;
 			
 		
 			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>6</sup></a></li>
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
 			
 		
 			

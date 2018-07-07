@@ -92,6 +92,87 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/01/gitlab常用命令/" title="gitlab常用命令" itemprop="url">gitlab常用命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-01T05:55:07.000Z" itemprop="datePublished"> 发表于 2016-07-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="gitlab常用命令"><a href="#gitlab常用命令" class="headerlink" title="gitlab常用命令"></a>gitlab常用命令</h1><ol>
+<li><p>重启 </p>
+<pre><code>sudo gitlab-ctl restart
+</code></pre></li>
+</ol>
+<ol>
+<li>导入git仓库</li>
+</ol>
+<p><a href="http://docs.gitlab.com/ee/raketasks/import.html" target="_blank" rel="noopener">导入git仓库</a></p>
+<pre><code>sudo gitlab-rake gitlab:import:repos
+</code></pre><p>GitLab头像无法正常显示<br>原因：gravatar被墙<br>解决办法：<br>编辑 /etc/gitlab/gitlab.rb，将gravatar_plain_url改为：</p>
+<pre><code>#gitlab_rails[&apos;gravatar_plain_url&apos;] = &apos;http://gravatar.duoshuo.com/avatar/%{hash}?s=%{size}&amp;d=identicon&apos;        
+</code></pre><p>然后执行：</p>
+<pre><code>sudo gitlab-ctl reconfigure 
+sudo gitlab-rake cache:clear RAILS_ENV=production
+</code></pre><h2 id="external-url-问题"><a href="#external-url-问题" class="headerlink" title="external_url 问题"></a>external_url 问题</h2><p>由于这个gitlab是9.8.3的CE版本，是放在我公司的测试服务器上的，由于我公司的公网IP是动态的，所以我用了花生壳去绑定了公司的IP，但问题来了，gitlab里面有个配置叫<code>external_url</code>，这个地址是用来外网访问地址，比如<code>new issue</code>这个就是用的<code>external_url</code>配置的地址，问题就出在这里，我的外网是绑定在花生壳的域名上的：<code>http://15dsdsdf.net</code>,路由器的80端口不能直接映射，所以只能这样：</p>
+<pre><code>`8001---&gt;80`//外网8001映射内网80端口
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/07/01/gitlab常用命令/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/gitlabe-ce/">gitlabe-ce</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/01/gitlab常用命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/01/gitlab常用命令/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/13/iptables与docker的作死碰撞/" title="docker安装了iptalbes以后，出现的悲剧与解决方案" itemprop="url">docker安装了iptalbes以后，出现的悲剧与解决方案</a>
   </h1>
   <p class="article-author">By
@@ -139,315 +220,6 @@
 	
 	  	<span></span>
 		<a href="/2016/06/13/iptables与docker的作死碰撞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/iptables与docker的作死碰撞/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/如何添加brewcask没有的软件/" title="如何添加brewcask没有的软件" itemprop="url">如何添加brewcask没有的软件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="如何添加brewcask没有的软件"><a href="#如何添加brewcask没有的软件" class="headerlink" title="如何添加brewcask没有的软件"></a>如何添加brewcask没有的软件</h1><p>按照<a href="https://github.com/caskroom/homebrew-cask/blob/master/CONTRIBUTING.md#adding-a-cask" target="_blank" rel="noopener">brewcask的wiki</a>上说的步骤</p>
-<h2 id="添加步骤："><a href="#添加步骤：" class="headerlink" title="添加步骤："></a>添加步骤：</h2><ol>
-<li>fork homebrew-cask</li>
-<li>进入你的系统的homebrew-cask的repository目录，mac系统默认都在：<code>/usr/local/Library/Taps/phinze/homebrew-cask</code></li>
-<li>一定要先更新你的brewcask 的repository:<code>git pull</code></li>
-<li><p>按照官方文档的做法，把你的fork过去的项目url加入到remote里去</p>
-<pre><code>$ github_user=&apos;huguiqi&apos;
-$ cd &quot;$(brew --repository)&quot;/Library/Taps/caskroom/homebrew-cask
-$ git remote add &quot;$github_user&quot; &quot;https://github.com/$github_user/homebrew-cask&quot;
-</code></pre></li>
-<li><p>建立软件token(<strong>这一步官方文档上没写</strong>)</p>
-<pre><code>&quot;$(brew --repository)/Library/Taps/caskroom/homebrew-cask/developer/bin/generate_cask_token&quot; &apos;software_name&apos;
-</code></pre></li>
-</ol>
-<p>如已经在repostory目录了，则执行如下:</p>
-<pre><code>developer/bin/generate_cask_token &apos;solftName&apos;
-</code></pre><p>如果执行报错，那么可以<code>git pull试下</code><br>6 . 新建cask:<code>brew cask create solftName</code></p>
-<p>在这一步的时候，一直报错，后面看了报错信息，说是什么找不到这个token，在<code>/usr/local/Library/Taps/caskroom/homebrew-cask</code>目录下，这就奇了怪了，明明我的repository在另外一个目录，它怎么会往这个不存在的目录里去找呢，后面找了很久，发现是我更新了brew，而brew-cask还是用的老的：<code>phinze/homebrew-cask</code>，<a href="https://github.com/caskroom/homebrew-cask" target="_blank" rel="noopener">官方wiki上有这个问题的解决方案</a>：</p>
-<ol>
-<li><code>$ brew update; brew cleanup; brew cask cleanup</code></li>
-<li><code>$ brew uninstall --force brew-cask; brew update</code></li>
-<li>如果还报错，则可能是之前你的没有卸载干净，再执行：<code>brew untap phinze/cask; brew untap caskroom/cask; brew update</code></li>
-<li>最后再重复第1、2步</li>
-</ol>
-<p><strong> cask重装以后再执行一遍repository下add remote url</strong></p>
-<p>执行 cask create 以后，会打开一个*.rb文件，如下：</p>
-<pre><code>cask &apos;my-new-cask&apos; do 
-    version &apos;&apos;
-    sha256 &apos;&apos;
-    url &apos;&apos;
-    name &apos;&apos;
-    homepage &apos;&apos;
-    license :unknown # TODO: change license and remove this comment; &apos;:unknown&apos; is a machine-generated placeholder
-    app &apos;&apos;
-end
-</code></pre><p>其中将：</p>
-<p>– my_new_cask改为新建cask名称 <br><br>– version 改成改软件最新版本，如果下方所提供的下载链接并不包含版本信息此处写成：version :latest <br><br>– sha256 下载文件的SHA-256校验值，当下方所提供的下载链接并不包含版本信息此处写成：sha256 :no_check <br><br>– url 为软件下载链接 <br><br>– name 为软件名称 <br><br>– homepage 为软件主页 <br><br>– license 可以分为以下几大类，同时大类下面又分成 gratis commercial freemium 等小类，具体请查阅参考1。 <br><br>– app 中填写url下载文件中*.app文件的相对位置 <br></p>
-<table>
-<thead>
-<tr>
-<th>symbol</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>:oss</td>
-<td>开源软件</td>
-</tr>
-<tr>
-<td>:closed</td>
-<td>闭源软件</td>
-</tr>
-<tr>
-<td>:unknown</td>
-<td>许可未知</td>
-</tr>
-<tr>
-<td>:oss</td>
-<td>其他</td>
-</tr>
-</tbody>
-</table>
-<h2 id="测试-cask"><a href="#测试-cask" class="headerlink" title="测试 cask"></a>测试 cask</h2><pre><code>bwcs readkit
-</code></pre><p>发现有可以搜索到了，太棒了。。。。。。</p>
-<p>安装呢，哈哈，我已经安装了，就不试了</p>
-<h2 id="提交到git库"><a href="#提交到git库" class="headerlink" title="提交到git库"></a>提交到git库</h2><pre><code>git commit -a -m &quot;readkit&quot;
-git push newRemote
-</code></pre><p>在push之前我遇到一个从示遇到的问题，就是push的时候老push不上去，总是报错：</p>
-<pre><code>sam@samhus-MBP /u/l/L/T/c/homebrew-cask&gt; gp huguiqi                      master
-Counting objects: 12, done.
-Delta compression using up to 8 threads.
-Compressing objects: 100% (12/12), done.
-Writing objects: 100% (12/12), 1.46 KiB | 0 bytes/s, done.
-Total 12 (delta 8), reused 1 (delta 0)
-To git@github.com:huguiqi/homebrew-cask.git
- ! [remote rejected] master -&gt; master (shallow update not allowed)
-error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.git&apos;
-</code></pre><p>google了一下，发现说什么，只要添加了remote或者更改了remote，shallow 的更新不被允许，我也不知道shallow啥意思，可能是个啥标志吧，就是要将老的remote库标志为unshallow(这样老库就不会更新了),新的remote才能push，这什么鬼规则。。。</p>
-<pre><code>master -&gt; master (shallow update not allowed)
-</code></pre><p>那怎么样去flag老的remote为unshallow呢，就要用fetch命令了。<br>好吧，我就干下吧，干的时候必须带上unshallow：</p>
-<pre><code>git fetch --unshallow origin 
-</code></pre><p><strong>ps:这个库是我从主库fork下来的，只是提交到我自己的公有库上，而对于brew-cask的主库而言，我是它无数个分支中的一个分支，别人暂时通过<code>brew cask search readkit</code> 是搜不到的，直到主库维护者将无数分支merge到主库，用户更新了brew-cask 的index，那就可以搜得到了</strong></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/brew-cask-添加cask/">brew-cask 添加cask</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/如何添加brewcask没有的软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/如何添加brewcask没有的软件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/2016.1_jetbrains注册与破解/" title="2016.1_JetBrains注册与破解" itemprop="url">2016.1_JetBrains注册与破解</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="2016-1-JetBrains注册与破解"><a href="#2016-1-JetBrains注册与破解" class="headerlink" title="2016.1_JetBrains注册与破解"></a>2016.1_JetBrains注册与破解</h1><h2 id="一，下载2016版的webStorm"><a href="#一，下载2016版的webStorm" class="headerlink" title="一，下载2016版的webStorm"></a>一，下载2016版的webStorm</h2><p>安装后<a href="链接: http://pan.baidu.com/s/1kTW4aR9">下载破解包</a><br> 密码: tp7k</p>
-<h2 id="二，破解webStorm"><a href="#二，破解webStorm" class="headerlink" title="二，破解webStorm"></a>二，破解webStorm</h2><p>下载JetbrainsCrack_2016.1.jar,打开webStorm.app所在application,右键show Packages Contents,进入Contents/bin目录，copy JetbrainsCrack_2016.1.jar ,打开webstorm.vmoptions文件，在最后一行加上:</p>
-<pre><code>-javaagent:JetbrainsCrack_2016.1.jar
-</code></pre><p>保存关闭，重新打开webStorm，会发现已经破解成功</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/webStorm破解/">webStorm破解</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/2016.1_jetbrains注册与破解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/2016.1_jetbrains注册与破解/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
-<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>查看mysql运行状态：</p>
-<pre><code>service mysql start    
-</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
-<pre><code> [root@localhost download]# mysql
-ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
-[root@localhost download]# service mysql status
-MySQL is not running                                       [失败]
-[root@localhost download]# service mysql start
-Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
-[root@localhost download]# reboot
-</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
-<ol>
-<li>安装包与系统不兼容</li>
-<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
-</ol>
-<p>mysql在linux上的安装方法：</p>
-<ul>
-<li>yum 方式</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">若系统有自带的mysql或libs，可选择先卸载再安装</span><br><span class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</span><br><span class="line"> rpm -e mysql                     //普通删除模式</span><br><span class="line"> rpm -e --nodeps mysql         // 强力删除模式</span><br><span class="line"> yum -y remove mysql-libs-*   //删除所有包</span><br><span class="line"> rpm -e --nodeps mysql</span><br><span class="line"></span><br><span class="line"> 安装</span><br><span class="line">//查看yum上提供的mysql数据库可下载的版本</span><br><span class="line"> yum list | grep mysql</span><br><span class="line"></span><br><span class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>通用安装</p>
-<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
-</code></pre></li>
-</ul>
-<ul>
-<li>npm包 安装 </li>
-</ul>
-<p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>安装完成后启动mysql:</p>
-<pre><code>service mysql start
-</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
-<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
-<pre><code># chkconfig --list mysql
-
-mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
-</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -640,6 +412,258 @@ GATEWAY192.168
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <hr>
+<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
+<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>查看mysql运行状态：</p>
+<pre><code>service mysql start    
+</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
+<pre><code> [root@localhost download]# mysql
+ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
+[root@localhost download]# service mysql status
+MySQL is not running                                       [失败]
+[root@localhost download]# service mysql start
+Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
+[root@localhost download]# reboot
+</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
+<ol>
+<li>安装包与系统不兼容</li>
+<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
+</ol>
+<p>mysql在linux上的安装方法：</p>
+<ul>
+<li>yum 方式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">若系统有自带的mysql或libs，可选择先卸载再安装</span><br><span class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</span><br><span class="line"> rpm -e mysql                     //普通删除模式</span><br><span class="line"> rpm -e --nodeps mysql         // 强力删除模式</span><br><span class="line"> yum -y remove mysql-libs-*   //删除所有包</span><br><span class="line"> rpm -e --nodeps mysql</span><br><span class="line"></span><br><span class="line"> 安装</span><br><span class="line">//查看yum上提供的mysql数据库可下载的版本</span><br><span class="line"> yum list | grep mysql</span><br><span class="line"></span><br><span class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>通用安装</p>
+<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
+</code></pre></li>
+</ul>
+<ul>
+<li>npm包 安装 </li>
+</ul>
+<p>server:</p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>client:    </p>
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
+</code></pre><p>安装完成后启动mysql:</p>
+<pre><code>service mysql start
+</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
+<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
+<pre><code># chkconfig --list mysql
+
+mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
+</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/" title="外网访问内网的解决方式" itemprop="url">外网访问内网的解决方式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="通过公司的路由器转发到内网测试服务器"><a href="#通过公司的路由器转发到内网测试服务器" class="headerlink" title="通过公司的路由器转发到内网测试服务器"></a>通过公司的路由器转发到内网测试服务器</h1><p>折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。</p>
+<h2 id="准备工具："><a href="#准备工具：" class="headerlink" title="准备工具："></a>准备工具：</h2><ol>
+<li>nginx</li>
+<li><p>公司路由器</p>
+<ul>
+<li>虚拟主机端口转发</li>
+<li><p>DMZ主机托管</p>
+<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png" alt="image"></p>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。</strong></p>
+<h2 id="指出错误的想法"><a href="#指出错误的想法" class="headerlink" title="指出错误的想法:"></a>指出错误的想法:</h2><ol>
+<li>源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理</li>
+<li>公网的IP是绑定在路由器上的，我们内网上网都是通过路由上网，所以如果要反向代理，就要在路由器上作反身代理，否则完全行不通</li>
+</ol>
+<h2 id="不可思议的问题"><a href="#不可思议的问题" class="headerlink" title="不可思议的问题"></a>不可思议的问题</h2><ol>
+<li>可以通过域名 + 端口的方向可以访问通过跟帖器端口转发的方式访问内网，但不支持80端口</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络配置/">网络配置</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/路由转发端口到内网服务器/">路由转发端口到内网服务器</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/通过公司的路由器转发到内网测试服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/通过公司的路由器转发到内网测试服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" title="《西游记》里有哪些不易发现却很打动人的小细节？" itemprop="url">《西游记》里有哪些不易发现却很打动人的小细节？</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="《西游记》里有哪些不易发现却很打动人的小细节？"><a href="#《西游记》里有哪些不易发现却很打动人的小细节？" class="headerlink" title="《西游记》里有哪些不易发现却很打动人的小细节？"></a>《西游记》里有哪些不易发现却很打动人的小细节？</h1><p>补充一个，因为徒弟们都是正儿八经的神仙，唐长老的理论水平比起他三个徒弟不知道差到哪里去了。\<br>\<br>比如长老出门尿尿顺便喊大家赏月吟个诗，结果接受徒弟们的理论基础再教育，还被狠狠吐槽了一番。徒弟们之间还顺便开展了理论探讨。\<br>\</p>
+<blockquote>
+<p>唐僧举步出门小解，只见明月当天，叫：“徒弟。”行者、八戒，沙僧都出来侍立。因感这月清光皎洁，玉宇深沉，真是一轮高照，大地分明，对月怀归，口占一首古风长篇。</p>
+</blockquote>
+<p>长老呀！要提高自己的姿势水平，晓得不晓得啊？我为你着急啊！<br>===========================================================\<br>\<br>白龙马的尿，有奇效。\<br>\</p>
+<blockquote>
+<p>行者道：“你不知就里，我那马不是凡马，他本是西海龙身。</p>
+</blockquote>
+<p>\<br>因此白龙马的尿的作用包括：\<br>包治百病；\<br>把鱼升级成龙；\<br>把草升级成灵芝；\<br>长寿。\</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/13/oh_my_zsh安装出现的问题/" title="oh my zsh安装出现的问题" itemprop="url">oh my zsh安装出现的问题</a>
   </h1>
   <p class="article-author">By
@@ -798,7 +822,7 @@ If you use the Fish shell then add the following line to your ~/.config/fish/con
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" title="《西游记》里有哪些不易发现却很打动人的小细节？" itemprop="url">《西游记》里有哪些不易发现却很打动人的小细节？</a>
+      <a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/" title="关于MacBook电池的正确使用方法" itemprop="url">关于MacBook电池的正确使用方法</a>
   </h1>
   <p class="article-author">By
        
@@ -811,20 +835,25 @@ If you use the Fish shell then add the following line to your ~/.config/fish/con
 </header>
     <div class="article-content">
         
-        <h1 id="《西游记》里有哪些不易发现却很打动人的小细节？"><a href="#《西游记》里有哪些不易发现却很打动人的小细节？" class="headerlink" title="《西游记》里有哪些不易发现却很打动人的小细节？"></a>《西游记》里有哪些不易发现却很打动人的小细节？</h1><p>补充一个，因为徒弟们都是正儿八经的神仙，唐长老的理论水平比起他三个徒弟不知道差到哪里去了。\<br>\<br>比如长老出门尿尿顺便喊大家赏月吟个诗，结果接受徒弟们的理论基础再教育，还被狠狠吐槽了一番。徒弟们之间还顺便开展了理论探讨。\<br>\</p>
-<blockquote>
-<p>唐僧举步出门小解，只见明月当天，叫：“徒弟。”行者、八戒，沙僧都出来侍立。因感这月清光皎洁，玉宇深沉，真是一轮高照，大地分明，对月怀归，口占一首古风长篇。</p>
-</blockquote>
-<p>长老呀！要提高自己的姿势水平，晓得不晓得啊？我为你着急啊！<br>===========================================================\<br>\<br>白龙马的尿，有奇效。\<br>\</p>
-<blockquote>
-<p>行者道：“你不知就里，我那马不是凡马，他本是西海龙身。</p>
-</blockquote>
-<p>\<br>因此白龙马的尿的作用包括：\<br>包治百病；\<br>把鱼升级成龙；\<br>把草升级成灵芝；\<br>长寿。\</p>
+        <h1 id="关于MacBook电池的正确使用方法，和保养技巧"><a href="#关于MacBook电池的正确使用方法，和保养技巧" class="headerlink" title="关于MacBook电池的正确使用方法，和保养技巧"></a>关于MacBook电池的正确使用方法，和保养技巧</h1><hr>
+<h2 id="標準充電方式"><a href="#標準充電方式" class="headerlink" title="標準充電方式"></a>標準充電方式</h2><p>當電池電量剩下約 15% 左右就要準備接電源充電了，剩 10% 時會有電量過低警示。 </p>
+<p>補充：沒有必要等到電池完全沒電時才充電，因為鋰電池本來就是設計給用戶隨時可補充電力用的。另外就是避免電池電量出現在 100% 或 0% 這兩個極端值，如果電量長期在 100% 不放電，會讓鋰電子沒有地方可以活動，一段時間後，你的鋰電池可能就會流「湯」出來喔！如果電量只有 0%，那將可能會造成電池陷入深度放電狀態，這樣會讓它永遠無法再蓄電。 </p>
+<h2 id="電池校正方式"><a href="#電池校正方式" class="headerlink" title="電池校正方式"></a>電池校正方式</h2><p>以下電池校正資訊來源為 Apple，適用於 PowerBook G4 (15 吋、雙層 SD)、MacBook (所有機型)、MacBook Pro (所有機型)、MacBook Pro (17 吋) (所有機型) 以及 MacBook Air。 </p>
+<p>　1. 插入電源轉換器並充足 PowerBook 電池的電力，直到電源轉換器上的指示燈或 LED 變成綠色，且選單列中 </p>
+<p>　　 的螢幕計量器指出電池已充足電為止。 </p>
+<p>　2. 讓電池保持在充足電力的狀態下至少兩小時。在此期間只要插上電源轉換器，仍然可以使用電腦。 </p>
+<p>　3. 在電腦的電源仍開啟時拔除電源轉換器，開始使用電池的電力讓電腦運轉。您可在這段時間內使用電腦。 </p>
+<p>　　 電池電力降低時，螢幕上會出現電池電力不足的警告對話框。 </p>
+<p>　4. 這時請儲存所有工作。請繼續使用電腦。如果電池電力非常低，電腦會自動進入睡眠狀態。 </p>
+<p>　5. 關閉電腦，或讓電腦處於睡眠狀態至少五小時。 </p>
+<p>　6. 接上電源轉換器，在電池再次充足電力之前都不要將其拔除。 </p>
+<p><strong>注意：電池校正約一個月做一次或 30 個充電循環做一次即可，常常校正可能會對電池產生不良影響。 </strong></p>
+<p><em>補充：電池具有內部微處理器，在充電及放電時，提供電池中電源的預估值。有時需要重新校準電池，以保持螢幕上顯示的電池時間及百分比能夠精確，並讓電池的效率保持在最佳狀態。第一次使用電腦以及其後每隔幾個月都應該執行這道程序。如果您的 Apple 可攜式電腦通常接上交流電電源，很少使用電池電力，則最好每個月執行一次。www.apple.com/tw/batteries 網站提供更多和電池有關的輔助資訊，也提供 iCal 行事曆，可提醒您要校正電池。</em> </p>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#more">Read More</a>
+            <a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/#more">Read More</a>
           
        </p>
     </div>
@@ -833,13 +862,13 @@ If you use the Fish shell then add the following line to your ~/.config/fish/con
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  <span></span> <a href="/tags/macbook电池保养/">macbook电池保养</a>
   </div>
 
 </div>
@@ -850,74 +879,7 @@ If you use the Fish shell then add the following line to your ~/.config/fish/con
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" title="2012年年中的macbook显卡门解决方案" itemprop="url">2012年年中的macbook显卡门解决方案</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="2012年年中的macbook-pro-retenia显卡门解决方案"><a href="#2012年年中的macbook-pro-retenia显卡门解决方案" class="headerlink" title="2012年年中的macbook pro retenia显卡门解决方案"></a>2012年年中的macbook pro retenia显卡门解决方案</h1><p>上个月买了前同事的一台macbookpro 是12年的15inch顶配，而且还是独立显卡的，才花了我7000块，本来很开心，但最近发现，他的电池循环数才201次，电池损耗量也很小，他的续航时间却特别的短，充满电才续航4个半小时，让我很生气。。。。。。</p>
-<p><img src="https://github.com/huguiqi/blogCode/blob/master/postImg/%7BH9F16EG8H%VN%_1G]K" alt="图片">)OX.jpg)</p>
-<p>后面上网查了下，发现是2012年的那款电脑硬件有严重缺陷，凡是带独立显卡的macbook 耗电非常大，而mac系统自带的自动切换显卡内核又非常不准确,推荐一款手动选择使用集成显卡还是独立显卡的软件：</p>
-<p><a href="https://github.com/codykrieger/gfxCardStatus" target="_blank" rel="noopener">gfxCardStatus</a></p>
-<p>可以选择集显还是独显，这样，长达5-6个小时的续航时间又回来了。。。。。。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/macbook显卡门/">macbook显卡门</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/关于macbook电池的正确使用方法，和保养技巧/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1078,7 +1040,7 @@ If you use the Fish shell then add the following line to your ~/.config/fish/con
 		  
 		
 		  
-			<li><a href="/categories/随笔/" title="随笔">随笔<sup>2</sup></a></li>
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
 		  
 		
 		  
@@ -1099,7 +1061,7 @@ If you use the Fish shell then add the following line to your ~/.config/fish/con
 			
 		
 			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>6</sup></a></li>
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
 			
 		
 			
