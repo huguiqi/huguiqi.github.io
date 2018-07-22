@@ -92,6 +92,222 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/07/14/nginx搭建高可用服务器/" title="nginx搭建高可用服务器" itemprop="url">nginx搭建高可用服务器</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-14T15:40:00.000Z" itemprop="datePublished"> 发表于 2018-07-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="nginx搭建高可用服务器"><a href="#nginx搭建高可用服务器" class="headerlink" title="nginx搭建高可用服务器"></a>nginx搭建高可用服务器</h1><p>之间搭建了一个nginx+keepalived的高可用负载均衡服务器，keepalive的配置真的很复杂，而且容易出错，之前用docker做的，过了几个月，今天发现启动不了，不可用了。</p>
+<p>ok，那我们来换一种方式搭建吧，我们来列一下，目前流行的高可用服务器的服务器软件吧：</p>
+<p>架设服务器均衡负载方式有多种，Nginx、LVS、HAProxy+Keepalived是目前使用最广泛的三种方案。<br>关于三者的区别与优缺点可参考此文章：</p>
+<p><a href="http://www.rootop.org/pages/2773.html" title="nginx+LVS+HAProxy区别" target="_blank" rel="noopener">http://www.rootop.org/pages/2773.html</a></p>
+<p>而搭建高可用的服务器，nginx原生是不支持，只能够做简单的负载均衡而已，那之前我就用nginx+keepalived来解决高可用的服务器。</p>
+<p>今天我就用nginx+checkheath插件来完成高可用服务器的搭建。</p>
+<p>遇到点困难，后面有时间再弄吧。。。。。。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nginx/">nginx</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/14/nginx搭建高可用服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/14/nginx搭建高可用服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/07/13/centos修改docker镜象存储与容器目录/" title="centos修改docker镜象存储与容器目录" itemprop="url">centos修改docker镜象存储与容器目录</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-13T08:00:00.000Z" itemprop="datePublished"> 发表于 2018-07-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="centos修改docker镜象存储与容器目录"><a href="#centos修改docker镜象存储与容器目录" class="headerlink" title="centos修改docker镜象存储与容器目录"></a>centos修改docker镜象存储与容器目录</h1><h2 id="修改docker容器存储目录"><a href="#修改docker容器存储目录" class="headerlink" title="修改docker容器存储目录"></a>修改docker容器存储目录</h2><p>vim  /usr/lib/systemd/system/docker.service</p>
+<p>修改如下：</p>
+<pre><code>[Unit]
+Description=Docker Application Container Engine
+Documentation=http://docs.docker.com
+After=network.target rhel-push-plugin.socket registries.service
+Wants=docker-storage-setup.service
+Requires=docker-cleanup.timer
+
+[Service]
+Type=notify
+NotifyAccess=all
+EnvironmentFile=-/run/containers/registries.conf
+EnvironmentFile=-/etc/sysconfig/docker
+EnvironmentFile=-/etc/sysconfig/docker-storage
+EnvironmentFile=-/etc/sysconfig/docker-network
+Environment=GOTRACEBACK=crash
+Environment=DOCKER_HTTP_HOST_COMPAT=1
+Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin
+ExecStart=/usr/bin/dockerd-current \
+   -g /mnt/docker \
+  --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current \
+  --default-runtime=docker-runc \
+  --exec-opt native.cgroupdriver=systemd \
+  --userland-proxy-path=/usr/libexec/docker/docker-proxy-current \
+  --init-path=/usr/libexec/docker/docker-init-current \
+  --seccomp-profile=/etc/docker/seccomp.json \
+  $OPTIONS \
+  $DOCKER_STORAGE_OPTIONS \
+  $DOCKER_NETWORK_OPTIONS \
+  $ADD_REGISTRY \
+  $BLOCK_REGISTRY \
+  $INSECURE_REGISTRY \
+  $REGISTRIES
+ExecReload=/bin/kill -s HUP $MAINPID
+LimitNOFILE=1048576
+LimitNPROC=1048576
+LimitCORE=infinity
+TimeoutStartSec=0
+Restart=on-abnormal
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+</code></pre><p>保存后，重启docker</p>
+<pre><code>service docker restart
+</code></pre><p>重启时提示需要更新systemctl</p>
+<pre><code>systemctl daemon-reload
+</code></pre><h2 id="添加docker国内镜像地址"><a href="#添加docker国内镜像地址" class="headerlink" title="添加docker国内镜像地址"></a>添加docker国内镜像地址</h2><pre><code>vi /etc/docker/daemon.json
+</code></pre><p>然后添加：</p>
+<pre><code>{
+  &quot;registry-mirrors&quot; : [
+    &quot;http://917ad9c3.m.daocloud.io&quot;,
+    &quot;https://1nrb7s9c.mirror.aliyuncs.com&quot;
+  ]
+}
+</code></pre><p>执行：</p>
+<pre><code>systemctl daemon-reload
+
+service  docker restart
+</code></pre><p>ok….</p>
+<p>将docker加入开机启动：</p>
+<pre><code>systemctl enable docker.service
+</code></pre><h2 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h2><ol>
+<li>安装</li>
+</ol>
+<pre><code>sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+</code></pre><ol>
+<li>授权</li>
+</ol>
+<pre><code>sudo chmod +x /usr/local/bin/docker-compose
+</code></pre><ol>
+<li>可用</li>
+</ol>
+<p>本来在很多操作系统里，/usr/local/bin目录下本来已经是全局环境变量里了，按理说应该在任何地方执行docker-compose命令都是可以的，可现实是：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532262432906x88x9ej6.png?imageslim" alt="paste image"></p>
+<p>看看系统变量有哪些目录是支持全局的：</p>
+<pre><code>echo $PATH
+</code></pre><p>出来这个：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532262596373ggfk14ba.png?imageslim" alt="paste image"></p>
+<p>这个目录在全局变量里啊，不管了，那我把这个可执行文件软链到/usr/bin这个目录里吧，这个目录肯定可以的。</p>
+<pre><code>ln -s /usr/local/bin/docker-compose /usr/bin/
+</code></pre><p>再执行：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532262801723b0xqlhvt.png?imageslim" alt="paste image"></p>
+<p>ok了。。。。。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/13/centos修改docker镜象存储与容器目录/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/13/centos修改docker镜象存储与容器目录/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/07/07/义字当头，毅然落草/" title="义字当头，毅然落草" itemprop="url">义字当头，毅然落草</a>
   </h1>
   <p class="article-author">By
@@ -1356,458 +1572,9 @@ $ sudo npm install hexo-cli -g --no-optional
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/06/7天学会使用springcloud/" title="7天学会使用springcloud(一)" itemprop="url">7天学会使用springcloud(一)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-06T09:27:00.000Z" itemprop="datePublished"> 发表于 2018-04-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<h1 id="7天学会使用springcloud（一）"><a href="#7天学会使用springcloud（一）" class="headerlink" title="7天学会使用springcloud（一）"></a>7天学会使用springcloud（一）</h1><h2 id="什么是spring-cloud"><a href="#什么是spring-cloud" class="headerlink" title="什么是spring cloud?"></a>什么是spring cloud?</h2><p>官方解释：</p>
-<blockquote>
-<blockquote>
-<p> Spring Cloud</p>
-</blockquote>
-<p>Spring Cloud provides tools for developers to quickly build some of the common patterns in distributed systems (e.g. configuration management, service discovery, circuit breakers, intelligent routing, micro-proxy, control bus, one-time tokens, global locks, leadership election, distributed sessions, cluster state). Coordination of distributed systems leads to boiler plate patterns, and using Spring Cloud developers can quickly stand up services and applications that implement those patterns. They will work well in any distributed environment, including the developer’s own laptop, bare metal data centres, and managed platforms such as Cloud Foundry.</p>
-</blockquote>
-<p>意思是spring Cloud  是为快速开发生产系统提供的一系列公用组件或者工具。实现快速启动应用服务，让开发到生产更简单。</p>
-<p>嗯，官方点进去还有一段：</p>
-<blockquote>
-<p>Spring Cloud builds on Spring Boot by providing a bunch of libraries that enhance the behaviour of an application when added to the classpath. You can take advantage of the basic default behaviour to get started really quickly, and then when you need to, you can configure or extend to create a custom solution.</p>
-</blockquote>
-<p>spring cloud是作为组件库的形式运行在spring boot上的。你可以下载官方基础版本来快速在其基础上开发或者你额外创建一个自定义项目。</p>
-<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><ol>
-<li>从官方网站下载带有springcloud基本组件的eureka Server(等下再介绍它的作用)</li>
-</ol>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523008669657fh46tqfu.png?imageslim" alt="paste image"></p>
-<ol>
-<li>直接用idea新建springboot项目，添加上eureka Server组件</li>
-</ol>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/152300877569093stlsyw.png?imageslim" alt="paste image"></p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523008812084dn7tifyo.png?imageslim" alt="paste image"></p>
-<p>以下睁大眼看看，eureka server组件是cloud config里的</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523008886524lwpx5d9m.png?imageslim" alt="paste image"></p>
-<h2 id="什么是eureka"><a href="#什么是eureka" class="headerlink" title="什么是eureka"></a>什么是eureka</h2><p>先来介绍一下netflix</p>
-<blockquote>
-<p>Spring Cloud Netflix<br>Spring Cloud Netflix provides Netflix OSS integrations for Spring Boot apps through autoconfiguration and binding to the Spring Environment and other Spring programming model idioms. With a few simple annotations you can quickly enable and configure the common patterns inside your application and build large distributed systems with battle-tested Netflix components. The patterns provided include Service Discovery (Eureka), Circuit Breaker (Hystrix), Intelligent Routing (Zuul) and Client Side Load Balancing (Ribbon)..</p>
-</blockquote>
-<p>netflix 通过用一些简单的注解快速启动和配置组件自动配置和绑定环境变量为spring boot 应用提供OSS 集成。</p>
-<p>eureka它是Spring Cloud Netflix的Eureka ,eureka是一个服务注册和发现模块。</p>
-<p>官网的介绍：</p>
-<blockquote>
-<p>Eureka is a REST (Representational State Transfer) based service that is primarily used in the AWS cloud for locating services for the purpose of load balancing and failover of middle-tier servers. We call this service, the Eureka Server. Eureka also comes with a Java-based client component,the Eureka Client, which makes interactions with the service much easier. The client also has a built-in load balancer that does basic round-robin load balancing. At Netflix, a much more sophisticated load balancer wraps Eureka to provide weighted load balancing based on several factors like traffic, resource usage, error conditions etc to provide superior resiliency.</p>
-</blockquote>
-<p>eureka是一种 REST (代表状态转移) 的服务, 主要用于 AWS（即自动报警系统） 云中, 用于定位服务, 以便于中间层服务器的负载均衡和故障切换。我们称之为服务, eureka服务器。eureka还附带了一个基于 Java 的客户端组件, eureka client, 这使得与服务的交互变得容易得多。客户端还具有内置的负载均衡器, 可进行基本的循环负载均衡。在 Netflix, 一个更复杂的负载均衡器包装eureka提供权重负载均衡的基础上的几个因素, 如流量, 资源使用, 错误条件等, 以提供优越的弹性。</p>
-<h2 id="eureka-干嘛用的"><a href="#eureka-干嘛用的" class="headerlink" title="eureka 干嘛用的"></a>eureka 干嘛用的</h2><p>官方：</p>
-<blockquote>
-<p>In AWS cloud, because of its inherent nature, servers come and go. Unlike the traditional load balancers which work with servers with well known IP addresses and host names, in AWS, load balancing requires much more sophistication in registering and de-registering servers with load balancer on the fly. Since AWS does not yet provide a middle tier load balancer, Eureka fills a big gap in the area of mid-tier load balancing.</p>
-</blockquote>
-<p>由于AWS云它固有的特性, 服务器来了又走。<br>与使用已知 IP 地址和主机名的服务器的传统负载均衡器不同, 在 AWS 中, 负载均衡在使用负载平衡器进行注册和取消注册服务器时更加复杂。由于 AWS 还没有提供中间层负载平衡器, eureka填补了中端（应用层）负载平衡领域的巨大缺口。</p>
-<p>也就是说用eureka可以实现负载均衡快速切换，而且可以不需要知道ip地址。</p>
-<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><p>eureka分client和server端</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523074238953hsymscux.png?imageslim" alt="paste image"></p>
-<p>client端又分为service和client</p>
-<p>从图可以看出在这个体系中，有2个角色，即Eureka Server和Eureka Client。而Eureka Client又分为Applicaton Service和Application Client，即服务提供者和服务消费者。 每个区域有一个Eureka集群，并且每个区域至少有一个eureka服务器可以处理区域故障，以防服务器瘫痪。</p>
-<p>Eureka Client向Eureka Server注册，并将自己的一些客户端信息发送Eureka Server。然后，Eureka Client通过向Eureka Server发送心跳（每30秒）来续约服务的。 如果客户端持续不能续约，那么，它将在大约90秒内从服务器注册表中删除。 注册信息和续订被复制到集群中的Eureka Server所有节点。 来自任何区域的Eureka Client都可以查找注册表信息（每30秒发生一次）。根据这些注册表信息，Application Client可以远程调用Applicaton Service来消费服务。</p>
-<p>springboot集成eureka.</p>
-<p>在springboot的application启动里上添加一个启动eureka注解：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523073798777qh7i8cb1.png?imageslim" alt="paste image"></p>
-<p>如果是从官网下载的springboot初始项目运行，可能会报错：</p>
-<pre><code>java.lang.IllegalStateException: Error processing condition on org.springframework.cloud.netflix.eureka.server.EurekaServerAutoConfiguration.peerEurekaNodes
-at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:64) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:109) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForBeanMethod(ConfigurationClassBeanDefinitionReader.java:179) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:141) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:117) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:328) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:233) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:273) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:93) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:693) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:531) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:388) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.SpringApplication.run(SpringApplication.java:327) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.SpringApplication.run(SpringApplication.java:1246) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.SpringApplication.run(SpringApplication.java:1234) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at com.example.cloud.EurekaServerApplication.main(EurekaServerApplication.java:12) [classes/:na]
-Caused by: java.lang.IllegalStateException: Failed to introspect Class [org.springframework.cloud.netflix.eureka.server.EurekaServerAutoConfiguration] from ClassLoader [sun.misc.Launcher$AppClassLoader@18b4aac2]
-at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:659) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:556) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:541) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.util.ReflectionUtils.getUniqueDeclaredMethods(ReflectionUtils.java:599) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryMethod(AbstractAutowireCapableBeanFactory.java:728) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineTargetType(AbstractAutowireCapableBeanFactory.java:669) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.predictBeanType(AbstractAutowireCapableBeanFactory.java:637) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractBeanFactory.isFactoryBean(AbstractBeanFactory.java:1489) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractBeanFactory.isFactoryBean(AbstractBeanFactory.java:1007) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.boot.autoconfigure.condition.BeanTypeRegistry.addBeanTypeForNonAliasDefinition(BeanTypeRegistry.java:168) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.BeanTypeRegistry.addBeanType(BeanTypeRegistry.java:157) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.BeanTypeRegistry.updateTypesIfNecessary(BeanTypeRegistry.java:207) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.BeanTypeRegistry.getNamesForType(BeanTypeRegistry.java:114) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.OnBeanCondition.collectBeanNamesForType(OnBeanCondition.java:266) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getBeanNamesForType(OnBeanCondition.java:255) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getMatchingBeans(OnBeanCondition.java:197) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getMatchOutcome(OnBeanCondition.java:116) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:47) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-... 16 common frames omitted
-Caused by: java.lang.NoClassDefFoundError: javax/ws/rs/core/Application
-at java.lang.Class.getDeclaredMethods0(Native Method) ~[na:1.8.0_74]
-at java.lang.Class.privateGetDeclaredMethods(Class.java:2701) ~[na:1.8.0_74]
-at java.lang.Class.getDeclaredMethods(Class.java:1975) ~[na:1.8.0_74]
-at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:641) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-... 33 common frames omitted
-Caused by: java.lang.ClassNotFoundException: javax.ws.rs.core.Application
-at java.net.URLClassLoader.findClass(URLClassLoader.java:381) ~[na:1.8.0_74]
-at java.lang.ClassLoader.loadClass(ClassLoader.java:424) ~[na:1.8.0_74]
-at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331) ~[na:1.8.0_74]
-at java.lang.ClassLoader.loadClass(ClassLoader.java:357) ~[na:1.8.0_74]
-... 37 common frames omitted
-</code></pre><p>我们找到报错原因：</p>
-<pre><code>Caused by: java.lang.NoClassDefFoundError: javax/ws/rs/core/Application
-</code></pre><p>就是说Application类没找到，这是javax的ws.rs包默认是没有的，一般如果我们直接通过application启动，则会报这个错，但是如果用tomcat容器呢？这个还没试，后面有时间试下。</p>
-<p>我把这个包加到pom.xml:</p>
-<pre><code>&lt;dependency&gt;
-&lt;groupId&gt;javax.ws.rs&lt;/groupId&gt;
-&lt;artifactId&gt;javax.ws.rs-api&lt;/artifactId&gt;
-&lt;version&gt;2.0.1&lt;/version&gt;
-&lt;scope&gt;jar&lt;/scope&gt;
-&lt;/dependency&gt;
-</code></pre><p>再运行，成功。</p>
-<p>访问：<a href="http://localhost:8888" target="_blank" rel="noopener">http://localhost:8888</a></p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523075571296i1lje386.png?imageslim" alt="paste image"></p>
-<p>看看我的配置文件：</p>
-<p>application.yml:</p>
-<pre><code>server:
-  port: 8888
-
-
-logging:
-  level:
-    com.netflix.discovery: &apos;OFF&apos;
-    org.springframework.cloud: &apos;DEBUG&apos;
-
-eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /admin/info
-    healthCheckUrlPath: /admin/health
-
-eureka:
-  instance:
-    hostname: localhost
-    nonSecurePort: 80
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-    registerWithEureka: false
-    fetchRegistry: false
-</code></pre><p>registerWithEureka: 值为false意味着自身仅作为服务器，不作为客户端</p>
-<p>fetchRegistry: 值为false意味着无需注册自身</p>
-<p>serviceUrl.defaultZone: 指明了应用的URL</p>
-<p>关于配置，<a href="https://github.com/Netflix/eureka/wiki/Configuring-Eureka" target="_blank" rel="noopener">参考官方文档</a></p>
-<h2 id="建立app-client"><a href="#建立app-client" class="headerlink" title="建立app-client"></a>建立app-client</h2><p>client其实是调用服务提供者来消费的一个client,我们来建立一个app-client</p>
-<p>pom.xml:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.example&lt;/groupId&gt;
-    &lt;artifactId&gt;eureka-client1&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;war&lt;/packaging&gt;
-
-    &lt;name&gt;eureka-client1&lt;/name&gt;
-    &lt;description&gt;Demo project for Spring Boot(spring cloud)&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.0.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.M9&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;!--&lt;dependency&gt;--&gt;
-            &lt;!--&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;--&gt;
-            &lt;!--&lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;--&gt;
-            &lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;
-        &lt;!--&lt;/dependency&gt;--&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-
-&lt;/project&gt;
-</code></pre><p>入口类EurekaClientApplication：</p>
-<pre><code>package com.example.cloud;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@SpringBootApplication
-public class EurekaClientApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(EurekaClientApplication.class, args);
-    }
-
-
-    @Value(&quot;${server.port}&quot;)
-    String port;
-    @RequestMapping(&quot;/hi&quot;)
-    public String home(@RequestParam String name) {
-            return
-                &quot;hi &quot;+name+&quot;,i am from port:&quot; +port;
-    }
-
-}
-</code></pre><p>配置文件：</p>
-<pre><code>spring:
-  application:
-    name: client-service
-  cloud:
-    config:
-      uri: http://localhost:8761/
-      label: master
-      profile: dev
-  security:
-    user:
-      name: sam
-      password: 123456
-
-
-eureka:
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${eureka.instance.hostname}:${server.port}
-    nonSecurePort: 80
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
-server:
-  port: 8882
-
-spring.cloud.vault:
-    config.lifecycle.enabled: true
-    fail-fast: true
-</code></pre><p>写一个restController测试接口，启动后刷新eurake页面，发现已经注册进去了：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525008085202ufhuf38m.png?imageslim" alt="paste image"></p>
-<p>那我们访问那个接口试下client是否正常运行：</p>
-<pre><code>http://localhost:8882/hi?name=test
-</code></pre><p>发现访问正常。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/spring-cloud/">spring cloud</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/06/7天学会使用springcloud/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/06/7天学会使用springcloud/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/02/回到那个熟悉的工作环境吧/" title="回到那个熟悉的工作环境吧" itemprop="url">回到那个熟悉的工作环境吧</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-02T09:27:00.000Z" itemprop="datePublished"> 发表于 2018-04-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>和原领导联系了很久，原领导希望我回去帮他解决一些问题，考虑了一段时间，欣然答应了。。。。。</p>
-<p>回去的目标：</p>
-<ol>
-<li>将服务端技术提升上一个台阶</li>
-<li>帮助老朋友解决掉目前的困难</li>
-<li>让漂泊的心暂时稳定下来</li>
-<li>考驾照</li>
-<li>往架构师方向发展</li>
-</ol>
-<p>很感谢原来的老朋友如此信任我，我必将不负所托，出色完成任务。<br>回到锦江，心情还是挻愉悦的。。。。。。。</p>
-<p>记录一下，今天是我重新入职的第一天，happy day。。。。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/随笔/">随笔</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/随笔/">随笔</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/02/回到那个熟悉的工作环境吧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/02/回到那个熟悉的工作环境吧/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 
@@ -1940,7 +1707,7 @@ spring.cloud.vault:
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>13</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>15</sup></a></li>
 		  
 		
 		  
@@ -1949,6 +1716,8 @@ spring.cloud.vault:
 		
 		  
 			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -1989,6 +1758,14 @@ spring.cloud.vault:
 			
 		
 			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
@@ -1997,19 +1774,11 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
 			
 		
 			
@@ -2017,11 +1786,11 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/springboot-activiti/" title="springboot-activiti">springboot-activiti<sup>1</sup></a></li>
 			
 		
 			
@@ -2037,11 +1806,11 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			

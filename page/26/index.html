@@ -92,7 +92,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/XCode下的iOS单元测试/" title="XCode下的iOS单元测试" itemprop="url">XCode下的iOS单元测试</a>
+      <a href="/2016/03/30/Redis 横向扩展案例/" title="Redis 横向扩展案例" itemprop="url">Redis 横向扩展案例</a>
   </h1>
   <p class="article-author">By
        
@@ -105,22 +105,16 @@
 </header>
     <div class="article-content">
         
-        <h1 id="XCode下的iOS单元测试"><a href="#XCode下的iOS单元测试" class="headerlink" title="XCode下的iOS单元测试"></a>XCode下的iOS单元测试</h1><div><br><br>如何在 XCode 4.2 下使用 OCUnit， GHUnit 和 OCMock 进行单元测试。<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br><strong>OCUnit</strong><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>在 XCode 下新建一个 OCUnitProject 工程，选中 Include Unit Tests 选择框，<br><br></div>
-
-<div><br><br>\<br>
+        <h1 id="Redis-横向扩展案例"><a href="#Redis-横向扩展案例" class="headerlink" title="Redis 横向扩展案例"></a>Redis 横向扩展案例</h1><h2 id="0x01-背景介绍"><a href="#0x01-背景介绍" class="headerlink" title="0x01 背景介绍"></a>0x01 背景介绍</h2><p>A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A<br>项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达<br>100K，甚至一度达到<br>120K。某天晚上，终于崩溃了。这也印证了「<strong>墨菲定律</strong>」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anything<br>that can go wrong will go<br>wrong）。所以，平时的运维过程，千万不要抱有侥幸心理，有问题就第一时间反应，有隐患就及时处理。</p>
+<hr>
+<h2 id="0x02-分析解决"><a href="#0x02-分析解决" class="headerlink" title="0x02 分析解决"></a>0x02 分析解决</h2><h3 id="2-1-初步分析"><a href="#2-1-初步分析" class="headerlink" title="2.1 初步分析"></a>2.1 初步分析</h3><p>单点 Redis<br>实例崩溃的现象就是新的连接不能建立，超时严重，数据不能及时读取。查看系统日志，发现有大量形如「kernel:<br>Possible SYN flooding on port xxxx. Sending<br>cookies」的日志。我们很快排查了系统遭受攻击的可能性。查看端口占用情况，确实是被<br>Redis 消耗了。分析监控数据和端口数情况，此时的 Redis 连接数达到了<br>7K，QPS 已经达到 100K。现在亟待解决的问题就是连接数高的问题。另外，针对<br>QPS 过高的问题，确认是否可以使用 Redis 管道技术。</p>
+<p><img src="http://i.imgur.com/OFlADoe.png" alt="QPS of Redis at Crash time"></p>
+<p>经过和研发沟通，得知程序采用 Nginx Lua 实现。Lua<br>是一个简洁、轻量、可扩展的脚本语言，也是号称性能最高的脚本语言。使用<br>Nginx Lua，再加上 LuaRedisModule 模块，就可以原生地和 Redis<br>建立请求，并解析响应。但真实的项目中采用的是 lua-resty-redis，这是一个为<br>ngx_lua 设计的，基于 cosocket API 的 Redis Lua 客户端。</p>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/XCode下的iOS单元测试/#more">Read More</a>
+            <a href="/2016/03/30/Redis 横向扩展案例/#more">Read More</a>
           
        </p>
     </div>
@@ -146,7 +140,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/XCode下的iOS单元测试/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/XCode下的iOS单元测试/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Redis 横向扩展案例/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Redis 横向扩展案例/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -166,7 +160,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/apple_worldwide_developer_relations_证书过期问题/" title="apple Worldwide Developer Relations 证书过期问题" itemprop="url">apple Worldwide Developer Relations 证书过期问题</a>
+      <a href="/2016/03/30/SVN使用经验心得/" title="SVN使用经验心得" itemprop="url">SVN使用经验心得</a>
   </h1>
   <p class="article-author">By
        
@@ -179,85 +173,12 @@
 </header>
     <div class="article-content">
         
-        <h3 id="apple-Worldwide-Developer-Relations-证书过期问题"><a href="#apple-Worldwide-Developer-Relations-证书过期问题" class="headerlink" title="apple Worldwide Developer Relations 证书过期问题"></a>apple Worldwide Developer Relations 证书过期问题</h3><p>1016年过完年打开电脑xcode发布新版本app，发现所有的开发证书都过期了，花了一小时终于搞清楚什么原因了，原来是mac上一个系统根证书(Apple Worldwide Developer Relations Certification Authority)过期了，而所有的开发证书的签发证书都是它，少废话，直接上链接：<br>
+        <h1 id="SVN使用经验心得"><a href="#SVN使用经验心得" class="headerlink" title="SVN使用经验心得"></a>SVN使用经验心得</h1><div><br><br><div><br><br><div><br><br><span lang="EN-US">1、如果已经有人lock了一个文件，但另外一个人需要编辑此文件，有两个选择，一个是由管理员来解除锁定，另外一个是在get<br>lock选项中有个steal the locks，选择后，即可以编辑该文件</span><br><br><span lang="EN-US">2、SVN的版本概念是针对目录而非文件，即使只更新了一个文件，那么，整体的版本也需要加1</span><br><br><span lang="EN-US">3、推荐使用目录树为\<br> /repos/trunk         用来保存主线，所有的code都存放在这个目录中\<br> /repos/branches<br>用来保存目录分支，OEM、新功能、设计方案调整，都有可能需要创建分支目录\<br> /repos/tags<br>用来保存标签拷贝，文档宝的阶段性成果可以打个标签存放到此目录下</span><br><br><span lang="EN-US">4、SVN的上传和更新是异步的，可以分开操作，而不用担心在update的同时把自己不成熟的代码commit从而影响别人的工作。</span><br><br><span lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情况和来管理工作copy的，如果不小心删除了，可以把该目录整个删掉，然后返回父目录，并使用update，则会从服务器上重新下载该目录并包含新的.svn</span><br><br><span lang="EN-US">6、SVN常用操作\<br> a、保持客户端和服务器端的一致，从服务器上更新文件，update\<br> b、对客户端文件的增、删、改、剪切，add,delete,copy,move\<br> c、状态比较 status，diff\<br> d、取消对服务器上文件的修改，revert\<br> e、合并别人的修改(后更新的人需要做这个操作)update,resolved\<br> f、客户端修改的文件更新到服务器上，commit</span><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/apple_worldwide_developer_relations_证书过期问题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ios-developer-证书过期/">ios developer 证书过期</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/apple_worldwide_developer_relations_证书过期问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/apple_worldwide_developer_relations_证书过期问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/Mac 安装软件新方法：Homebrew-cask/" title="Mac 安装软件新方法：Homebrew-cask" itemprop="url">Mac 安装软件新方法：Homebrew-cask</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Mac-安装软件新方法：Homebrew-cask"><a href="#Mac-安装软件新方法：Homebrew-cask" class="headerlink" title="Mac 安装软件新方法：Homebrew-cask"></a>Mac 安装软件新方法：Homebrew-cask</h1><p>Mac 安装软件新方法：Homebrew-cask</p>
-<div><br><br>工具控 · ouyang · 于 1 年前发布 · 最后由 lucky215 于 1 年前回复 · 5773<br>次阅读<br><br></div>
-
-<div><br><br>￼<br><br></div>
-
-<div><br><br>Homebrew是Ruby社区极富想象力的一个作品，使得Mac下安装Mysql等常用包不再困难。那么，是否也可以通过brew<br>install mysql这样简单的方式来安装chrome浏览器？<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>近期，phinze的作品homebrew-cask解决了这一问题。<br><br></div>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Mac 安装软件新方法：Homebrew-cask/#more">Read More</a>
+            <a href="/2016/03/30/SVN使用经验心得/#more">Read More</a>
           
        </p>
     </div>
@@ -283,7 +204,71 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Mac 安装软件新方法：Homebrew-cask/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Mac 安装软件新方法：Homebrew-cask/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/SVN使用经验心得/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN使用经验心得/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/SVN分支与合并/" title="SVN分支与合并" itemprop="url">SVN分支与合并</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="SVN分支与合并"><a href="#SVN分支与合并" class="headerlink" title="SVN分支与合并"></a>SVN分支与合并</h1><h1 id="SVN分支与合并-1"><a href="#SVN分支与合并-1" class="headerlink" title="SVN分支与合并"></a><a href="http://www.cnblogs.com/cnblogsfans/archive/2011/02/16/1955808.html" target="_blank" rel="noopener">SVN分支与合并</a></h1><div><br><br><strong>一些相关的概念和原理</strong><br><br>· 分支(branch)和标记(tag)对于 SVN<br>来说就只是副本(copy)，没有任何其它意义。分支和标记的意义是我们人为给予的。<br><br>· SVN 的副本是通过”cheap copies “来实现的，建立一个副本就类似 Unix<br>中创建一个硬链接(hard<br>link)，空间和时间的消耗都是固定并且很小的，因此不必太过担心副本太多而导致性能问题。<br><br>· SVN 的文件储存<br>是通过差异(diff)来实现的，底层储存方法有两种：1、Berkeley<br>DB，完整保存一个文件的最新版本(revision)，旧版本通过反向差异(reverse<br>diffs)来获取。2、FSFS，跟 BDB<br>相反，完整保存一个文件的初始版本，后续版本通过正向差异来获取。当然，为了避免版本太多而造成性能下降，SVN<br>还使用了”skip-deltas “来减少需要追溯的版本数。<br><br>· SVN 属性(property<br>)可以附带在文件、目录和版本(revision)上。文件和目录的属性类似文件内容，会被记录进版本库中的，例如每次提交时的注释，其实就是该版本的一<br>个属性<br>svn:log。以”svn:”开头的属性是系统预留的，用户不应该自定义这样的属性。<br><br><strong>进行分支开发的最佳实践</strong><br><br>·<br>做分支上做开发的时候，必须定期使分支与主干同步，避免开发完成后合并(merge)回主干时出现严重冲突(confict)。<br><br>·<br>进行合并前，处理掉工作副本上的所有本地修改，方便合并失败时进行回滚(revert)。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/SVN分支与合并/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/SVN分支与合并/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN分支与合并/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -501,7 +486,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/MAC OS X 关闭 SPOTLIGHT MAC降温大法/" title="MAC OS X 关闭 SPOTLIGHT MAC降温大法" itemprop="url">MAC OS X 关闭 SPOTLIGHT MAC降温大法</a>
+      <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/" title="SVN客户端命令行设置忽略文件列表" itemprop="url">SVN客户端命令行设置忽略文件列表</a>
   </h1>
   <p class="article-author">By
        
@@ -514,8 +499,11 @@
 </header>
     <div class="article-content">
         
-        <h1 id="MAC-OS-X-关闭-SPOTLIGHT-MAC降温大法"><a href="#MAC-OS-X-关闭-SPOTLIGHT-MAC降温大法" class="headerlink" title="MAC OS X 关闭 SPOTLIGHT MAC降温大法"></a>MAC OS X 关闭 SPOTLIGHT MAC降温大法</h1><p><span style="font: 20.0px 'PT Sans Narrow'; color: #323333; background-color: #efefef"><a href="http://hunsefee.diandian.com/post/2011-11-27/7318003" target="_blank" rel="noopener"><strong>MAC OS X 关闭 SPOTLIGHT MAC降温大法</strong></a></span><span style="font: 15.0px 'PT Sans'; color: #666666">\</span></p>
-<p>禁用分两部分，第一部分禁用服务，第二部分移除菜单栏图标，以下动作需在终端中进行\<br> 禁用方法 1，禁用spotlight服务\<br> sudo mdutil -a -i off\<br> 2，删除菜单栏spotlight图标：\<br> cd /System/Library/CoreServices/ sudo mv Search.bundle/<br>Search2.bundle/\<br> 然后在活动监视器退出 SystemUIServer 进程，或者注销再登陆。\<br> 恢复方法 1，启用spotlight服务，\<br> sudo mdutil -a -i off\<br> 2，恢复菜单栏图标\<br> cd /System/Library/CoreServices/ sudo mv Search2.bundle/<br>Search.bundle/\<br> 然后在活动监视器退出 SystemUIServer 进程，或者注销再登陆。\<br> spotlight的替代品：<br>一般我们用spotlight主要是干两件事，第一是快速启动程序，第二是快速查找文件，对于前者，lion中的lauchpad已经很好用了，建议自己好<br>好整理一下，将常用的程序放在前面，不常用的按照种类文件夹管理，这是个一劳永逸的方法，速度不会比spotlight慢，如果愿意研究，可以试试<br>QuickSilver或者alfred之类的启动器软件，稍微复杂些；对于后者，我选择了一个叫easyfind的软件，它是实时搜索的，不用建立索<br>引，由于air硬盘小，所以文件也不少，加上SSD也不慢，所以即用即搜也ok了。</p>
+        <h1 id="SVN客户端命令行设置忽略文件列表"><a href="#SVN客户端命令行设置忽略文件列表" class="headerlink" title="SVN客户端命令行设置忽略文件列表"></a>SVN客户端命令行设置忽略文件列表</h1><p><span style="font: 20.0px Times">SVN设置忽略文件列表\<br></span><span style="font: 12.0px Arial; background-color: #eeeeee">\<br></span><span style="font: 12.0px Arial">\<br></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">在公司中项目的版本管控一般都是使用集中式的SVN，我也是从svn工具中熟悉基本的版本管理概念和操作。但是作为一个Linux系统及应用开发者，自然对Git分布式管理工具要有所熟悉。现在个人项目管理都是使用git进行版本控制，对git的一些操作也比较熟悉，而svn一般用的是Windows下的图像工具，而对svn的命令行稍显陌生。\</span></p>
+<p>在git工具中，设置忽略文件只需要修改版本库根目录下的.gitignore文件就可以了，没有的话创建一个，非常简单，一个示例的.gitignore文件如下：过滤文件模式以行进行分隔\<br>\<br><span style="font: 13.0px 'Courier New'; color: #afafaf">01\<br></span><span style="font: 13.0px 'Courier New'">*.o\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">02\<br></span><span style="font: 13.0px 'Courier New'">*.lo\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">03\<br></span><span style="font: 13.0px 'Courier New'">*.la\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">04\<br></span><span style="font: 13.0px 'Courier New'">*.gcda\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">05\<br></span><span style="font: 13.0px 'Courier New'">*.gcno\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">06\<br></span><span style="font: 13.0px 'Courier New'">aclocal.m4\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">07\<br></span><span style="font: 13.0px 'Courier New'">autom4te.cache\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">08\<br></span><span style="font: 13.0px 'Courier New'">build\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">09\<br></span><span style="font: 13.0px 'Courier New'">compile\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">10\<br></span><span style="font: 13.0px 'Courier New'">config.guess\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">11\<br></span><span style="font: 13.0px 'Courier New'">config.h\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">12\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span <!--more--=""><br>style=”font: 13.0px ‘Courier New’”&gt;\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">13\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span style="font: 13.0px 'Courier New'">~\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">14\<br></span><span style="font: 13.0px 'Courier New'">config.log\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">15\<br></span><span style="font: 13.0px 'Courier New'">config.status\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">16\<br></span><span style="font: 13.0px 'Courier New'">config.sub\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">17\<br></span><span style="font: 13.0px 'Courier New'">configure\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">18\<br></span><span style="font: 13.0px 'Courier New'">depcomp\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">19\<br></span><span style="font: 13.0px 'Courier New'">.deps\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">20\<br></span><span style="font: 13.0px 'Courier New'; color: #ff2f93">install</span><span style="font: 13.0px 'Courier New'">-sh\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">21\<br></span><span style="font: 13.0px 'Courier New'">.libs\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">22\<br></span><span style="font: 13.0px 'Courier New'">libtool\<br></span><span style="font: 14.0px Arial">今天在使用svn时想设置忽略一些临时的项目开发文件，一下子不知道怎么弄，上网搜索和实践后，发现也不难，在此记录一下。配置的方法有以下几种：</span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br>\<br></span><span style="font: 24.0px Arial"><strong>Linux下svn命令行配置\
+</strong></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br></span><span style="font: 20.0px Arial"><strong>1. 修改版本库的相关属性\
+</strong></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ svn propedit<br>svn:ignore </span><span style="font: 13.0px 'Courier New'; color: #ff2f93">dir</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">其中 dir<br>就是你所想设置过滤文件列表的目录，执行命令之后，会出现编辑界面，按照空格将你想过滤文件（通常使用通配符的方式）以空格分开，保存退出即可。这个属性是针对版本库进行的修改，因此需要提交这个修改。svn:ignore是svn的一个参数。 \<br> 注意：这个设置无法递归，也就是如果 dir<br>目录下还有子目录的话，是单独设置的。 \<br></span><span style="font: 20.0px Arial"><strong>2. svn 客户端的配置\
+</strong></span><span style="font: 14.0px Arial">对 svn<br>命令的配置文件修改即可。进入个人用户目录 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ vim<br>.subversion/config\<br></span><span style="font: 14.0px Arial">找到包含  [miscellany]<br>这一行，取消注释，然后编辑包含 global-ignores<br>的那一行，取消注释，并添加需要过滤文件的通配符即可。如下所示：注意开头不能有空格，否则svn会报错。 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">global-ignores = *.so<br>*.a *.o *.lo *.la .*.rej *.rej .*~ *~ .</span><span style="font: 13.0px 'Courier New'; color: #008200">#*<br>.DS_Store</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">这个配置是对客户端的修改，对版本库没有任何影响。同时，这个配置也是全局的，适用于本机所有<br>svn 管理的项目。</span></p>
 
         
         
@@ -545,7 +533,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/MAC OS X 关闭 SPOTLIGHT MAC降温大法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/MAC OS X 关闭 SPOTLIGHT MAC降温大法/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN客户端命令行设置忽略文件列表/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -565,7 +553,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Linux下必须知道的11个网络命令/" title="Linux下必须知道的11个网络命令" itemprop="url">Linux下必须知道的11个网络命令</a>
+      <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/" title="Session，Cookie，jsessionid，Url重写" itemprop="url">Session，Cookie，jsessionid，Url重写</a>
   </h1>
   <p class="article-author">By
        
@@ -578,18 +566,24 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Linux下必须知道的11个网络命令"><a href="#Linux下必须知道的11个网络命令" class="headerlink" title="Linux下必须知道的11个网络命令"></a>Linux下必须知道的11个网络命令</h1><div><br><br><strong>1.curl &amp; wget</strong><br><br>使用curl或wget命令，不用离开终端就可以下载文件。如你用curl，键入curl<br>-O后面跟一个文件路径。wget则不需要任何选项。下载的文件在当前目录。<br><br></div>
+        <h1 id="Session，Cookie，jsessionid，Url重写"><a href="#Session，Cookie，jsessionid，Url重写" class="headerlink" title="Session，Cookie，jsessionid，Url重写"></a>Session，Cookie，jsessionid，Url重写</h1><div><br><br>\<br><br></div>
 
-<div><br><br><span style="font-family: Tahoma, Helvetica, Arial, 宋体, sans-serif;"><span style="color: rgb(68, 68, 68);">\<br></span></span><br><br></div>
+<div><br><br>在一些投票之类的场合，我们往往因为公平的原则要求每人只能投一票，在一些WEB开发中也有类似的情况，这时候我们通常会使用COOKIE来实现，例如如下的代码：<br><br></div>
 
-<div><br><br><span style="font-family: Tahoma, Helvetica, Arial, 宋体, sans-serif;"><span style="color: rgb(68, 68, 68);">\<br></span></span><br><br></div>
-
-<div><br><br><div style="clear: both; border: 1px solid rgb(0, 153, 204); padding: 0px 3px; font-size: 12px; background-color: rgb(246, 251, 255); overflow: hidden; color: rgb(68, 68, 68); font-family: Tahoma, Helvetica, Arial, 宋体, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-position: initial initial; background-repeat: initial initial;"><br><br><div style="float: right;"><br>
+<p>&lt; % cookie[]cookies = request.getCookies();</p>
+<p>if (cookies.lenght == 0 || cookies == null){</p>
+<p>doStuffForNewbie();</p>
+<p>//没有访问过</p>
+<p>}else{</p>
+<p>doStuffForReturnVisitor(); //已经访问过了</p>
+<p>}</p>
+<p>% &gt;</p>
+<p>这是很浅显易懂的道理，检测COOKIE的存在，如果存在说明已经运行过写入COOKIE的代码了，然而运行以上的代码后，无论何时结果都是执行<br>doStuffForReturnVisitor()，通过控制面板-Internet选项-设置-察看文件却始终看不到生成的cookie文件，奇怪，<br>代码明明没有问题，不过既然有cookie，那就显示出来看看。<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Linux下必须知道的11个网络命令/#more">Read More</a>
+            <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#more">Read More</a>
           
        </p>
     </div>
@@ -615,7 +609,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Linux下必须知道的11个网络命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Linux下必须知道的11个网络命令/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Session，Cookie，jsessionid，Url重写/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -635,7 +629,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Linux下批量删除.git文件夹的命令/" title="Linux下批量删除.git文件夹的命令" itemprop="url">Linux下批量删除.git文件夹的命令</a>
+      <a href="/2016/03/30/StoryBoard学习博客/" title="StoryBoard学习博客" itemprop="url">StoryBoard学习博客</a>
   </h1>
   <p class="article-author">By
        
@@ -648,23 +642,18 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Linux下批量删除-git文件夹的命令"><a href="#Linux下批量删除-git文件夹的命令" class="headerlink" title="Linux下批量删除.git文件夹的命令"></a>Linux下批量删除.git文件夹的命令</h1><p>Linux下批量删除.git文件夹的命令</p>
-<div><br><br>2013-09-25 22:33 1142人阅读 评论(1) 收藏 举报<br><br></div>
+        <h1 id="StoryBoard学习博客"><a href="#StoryBoard学习博客" class="headerlink" title="StoryBoard学习博客"></a>StoryBoard学习博客</h1><div><br><br>StoryBoard学习博客<br><br></div>
 
-<div><br><br>find . -name .git -type d -exec rm -fr {} \;<br><br></div>
-
+<p><a href="http://beer998.blog.51cto.com" target="_blank" rel="noopener">http://beer998.blog.51cto.com</a></p>
 <div><br><br>\<br><br></div>
 
-<div><br><br>(注意：最后的分号就必须添加的)<br><br></div>
+<div><br><br><a href="http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html" target="_blank" rel="noopener">http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html</a>\<br><div><br><br>\<br><br></div>
 
-<div><br><br>\<br><br></div>
+<p></p></div><p></p>
 
-<div><br><br>
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/03/30/Linux下批量删除.git文件夹的命令/#more">Read More</a>
           
        </p>
     </div>
@@ -690,7 +679,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Linux下批量删除.git文件夹的命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Linux下批量删除.git文件夹的命令/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/StoryBoard学习博客/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/StoryBoard学习博客/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -777,7 +766,7 @@
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/25/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/27/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/25/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/27/">Next<span></span></a>
   </nav>
 
 
@@ -910,7 +899,7 @@
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>13</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>15</sup></a></li>
 		  
 		
 		  
@@ -919,6 +908,8 @@
 		
 		  
 			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -959,6 +950,14 @@
 			
 		
 			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
@@ -967,19 +966,11 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
 			
 		
 			
@@ -987,11 +978,11 @@
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/springboot-activiti/" title="springboot-activiti">springboot-activiti<sup>1</sup></a></li>
 			
 		
 			
@@ -1007,11 +998,11 @@
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
 			
 		
 			
