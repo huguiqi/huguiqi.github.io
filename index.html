@@ -92,6 +92,455 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/07/22/docker-docker-compose搭建高可用集群/" title="docker+docker-compose搭建高可用集群" itemprop="url">docker+docker-compose搭建高可用集群</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-22T12:49:00.000Z" itemprop="datePublished"> 发表于 2018-07-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="maven-docker-docker-compose搭建高可用集群"><a href="#maven-docker-docker-compose搭建高可用集群" class="headerlink" title="maven+docker+docker-compose搭建高可用集群"></a>maven+docker+docker-compose搭建高可用集群</h1><p>首先搭建eurake+gateway+client</p>
+<h2 id="eurake项目"><a href="#eurake项目" class="headerlink" title="eurake项目"></a>eurake项目</h2><p>pom.xml:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.xx&lt;/groupId&gt;
+    &lt;artifactId&gt;xx-eurake&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;name&gt;${project.artifactId}&lt;/name&gt;
+    &lt;description&gt;注册中心服务&lt;/description&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
+        &lt;docker.image.prefix&gt;xx&lt;/docker.image.prefix&gt;
+    &lt;/properties&gt;
+
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;dev&lt;/id&gt;
+            &lt;properties&gt;
+                &lt;profiles.active&gt;dev&lt;/profiles.active&gt;
+            &lt;/properties&gt;
+            &lt;activation&gt;
+                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+            &lt;/activation&gt;
+        &lt;/profile&gt;
+        &lt;profile&gt;
+            &lt;id&gt;test&lt;/id&gt;
+            &lt;properties&gt;
+                &lt;profiles.active&gt;test&lt;/profiles.active&gt;
+            &lt;/properties&gt;
+        &lt;/profile&gt;
+        &lt;profile&gt;
+            &lt;id&gt;prod&lt;/id&gt;
+            &lt;properties&gt;
+                &lt;profiles.active&gt;prod&lt;/profiles.active&gt;
+            &lt;/properties&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+
+   &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+
+    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
+                &lt;type&gt;pom&lt;/type&gt;
+                &lt;scope&gt;import&lt;/scope&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+
+    &lt;build&gt;
+        &lt;finalName&gt;${project.name}&lt;/finalName&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.1.0&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;id&gt;copy-resources&lt;/id&gt;
+                        &lt;!-- here the phase you need --&gt;
+                        &lt;phase&gt;validate&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;copy-resources&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;outputDirectory&gt;${basedir}/target/classes&lt;/outputDirectory&gt;
+                            &lt;resources&gt;
+                                &lt;resource&gt;
+                                    &lt;directory&gt;src/main/resources/profiles&lt;/directory&gt;
+                                    &lt;filtering&gt;true&lt;/filtering&gt;
+                                    &lt;includes&gt;
+                                        &lt;include&gt;${profiles.active}-bootstrap.yml&lt;/include&gt;
+                                    &lt;/includes&gt;
+                                &lt;/resource&gt;
+                            &lt;/resources&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+
+            &lt;plugin&gt;
+                &lt;groupId&gt;com.spotify&lt;/groupId&gt;
+                &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.1.1&lt;/version&gt;
+                        &lt;configuration&gt;
+                            &lt;imageName&gt;${docker.image.prefix}/${project.artifactId}&lt;/imageName&gt;
+                            &lt;dockerDirectory&gt;${project.basedir}&lt;/dockerDirectory&gt;
+                            &lt;resources&gt;
+                                &lt;resource&gt;
+                                    &lt;targetPath&gt;/&lt;/targetPath&gt;
+                                    &lt;directory&gt;${project.build.directory}&lt;/directory&gt;
+                                    &lt;include&gt;${project.build.finalName}.jar&lt;/include&gt;
+                                &lt;/resource&gt;
+                            &lt;/resources&gt;
+                        &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/resources&lt;/directory&gt;
+                &lt;!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 --&gt;
+                &lt;excludes&gt;
+                    &lt;exclude&gt;profiles/*.yml&lt;/exclude&gt;
+                &lt;/excludes&gt;
+            &lt;/resource&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/resources&lt;/directory&gt;
+                &lt;filtering&gt;true&lt;/filtering&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;bootstrap.yml&lt;/include&gt;
+                    &lt;include&gt;${profiles.active}-bootstrap.yml&lt;/include&gt;
+                &lt;/includes&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+    &lt;/build&gt;
+
+
+
+&lt;/project&gt;
+</code></pre><ul>
+<li>这里面我用了一个dockerfile的插件，可以自动构建服务镜像的</li>
+</ul>
+<p>Dockerfile内容如下：</p>
+<pre><code>FROM ascdc/jdk8
+RUN mkdir -p /data /workspace
+VOLUME [&quot;/data&quot;]
+WORKDIR /workspace
+ADD ./target/xx-eurake.jar app.jar
+#RUN bash -c &apos;touch /app.jar&apos;
+ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;-Dport=8888&quot;,&quot;app.jar&quot;]
+
+EXPOSE 8888
+</code></pre><h2 id="eurake集群配置"><a href="#eurake集群配置" class="headerlink" title="eurake集群配置"></a>eurake集群配置</h2><p>bootstrap.yml:</p>
+<pre><code>server:
+  port: ${port}
+
+spring:
+  application:
+    name: marketing-eurake
+  profiles:
+      active: @profiles.active@
+
+eureka:
+  instance:
+    hostname: ${HOST_NAME}
+    prefer-ip-address: false
+    instance-id: ${eureka.instance.hostname}:${server.port}
+    appname: ${spring.application.name}
+  client:
+        #默认情况下，应用会向注册中心（也是它自己）注册它自己，设置为false表示禁止这种默认行为
+    register-withEureka: true
+        #表示不去检索其他的Eureka Server获取注册信息，因为服务注册中心本身的职责就是维护服务实例，它也不需要去检索其他服务
+    fetch-registry: false
+    service-url:
+        #对外暴露的地址
+      defaultZone: http://${EUREKA_SERVER_ADDRESS}:8888/eureka
+    registry-fetch-interval-seconds: 5
+
+spring.cloud.vault.discovery:
+    enabled: true
+    service-id: my-server
+
+spring.cloud.vault:
+    config.lifecycle.enabled: true
+</code></pre><ul>
+<li>eurake集群配置必要配置</li>
+</ul>
+<ol>
+<li><p>eureka.instance.appname 必须等于 spring.application.name 并且不可缺省,所以直接占位符 appname: ${spring.application.name}</p>
+</li>
+<li><p>prefer-ip-address: 必须为false 或者缺省</p>
+</li>
+<li><p>fetch-registry 必须为false 或者缺省</p>
+</li>
+<li><p>register-withEureka 必须为true</p>
+</li>
+<li>service-url.defaultZone 必须互相注册（A&lt;—&gt;B）</li>
+</ol>
+<p>启动后的状态结果必须为可用才行：</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532264970231dwup0qt6.png?imageslim" alt="paste image"></p>
+<h2 id="构建eurake镜像文件"><a href="#构建eurake镜像文件" class="headerlink" title="构建eurake镜像文件"></a>构建eurake镜像文件</h2><p>两种方式，</p>
+<ul>
+<li>命令行：</li>
+</ul>
+<pre><code>docker build -t xx/eurake:latest .
+</code></pre><p>这种方式烦就烦在天天记命令。</p>
+<ul>
+<li>maven 插件形式</li>
+</ul>
+<pre><code>mvn clean package docker:build
+</code></pre><p>这种方式又回到了亲爱的maven构建方式了，插件的具体其它用法，可参见官网：</p>
+<p><a href="https://github.com/spotify/docker-maven-plugin#specify-build-info-in-the-pom" target="_blank" rel="noopener">docker-maven插件</a></p>
+<h2 id="gateway项目"><a href="#gateway项目" class="headerlink" title="gateway项目"></a>gateway项目</h2><p>maven 的pom.xml同eurake</p>
+<h3 id="Dockfile"><a href="#Dockfile" class="headerlink" title="Dockfile"></a>Dockfile</h3><pre><code>FROM ascdc/jdk8
+RUN mkdir -p /data /workspace
+VOLUME [&quot;/data&quot;]
+WORKDIR /workspace
+ADD ./target/xx-gateway.jar app.jar
+#RUN bash -c &apos;touch /app.jar&apos;
+ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;-Dport=8888&quot;,&quot;app.jar&quot;]
+
+EXPOSE 8888
+</code></pre><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><pre><code>server:
+    port: ${port}
+
+spring:
+    application:
+        name: xx-gateway
+    cloud:
+        config:
+        uri: http://localhost:8761/
+        label: master
+
+
+eureka:
+    instance:
+        hostname: ${HOST_NAME}
+        prefer-ip-address: true
+        instance-id: ${eureka.instance.hostname}:${server.port}
+        nonSecurePort: 80
+    client:
+        service-url:
+            defaultZone: http://${EUREKA_SERVER_ADDRESS}:8888/eureka
+</code></pre><h2 id="构建gateway镜像文件"><a href="#构建gateway镜像文件" class="headerlink" title="构建gateway镜像文件"></a>构建gateway镜像文件</h2><pre><code>mvn clean package docker:build
+</code></pre><p>镜像文件构建完成后，查看一下：</p>
+<pre><code>docker images
+</code></pre><p><img src="http://ojnkdvkci.bkt.clouddn.com/15322657678779h70jqhd.png?imageslim" alt="paste image"></p>
+<h1 id="使用docker-compose启动实例"><a href="#使用docker-compose启动实例" class="headerlink" title="使用docker-compose启动实例"></a>使用docker-compose启动实例</h1><p>安装这里就不说了，自己官网安装去。</p>
+<p>新建一个目录，叫dockerCompose:</p>
+<pre><code>mkdir dockerCompose
+</code></pre><p>进入目录，执行：</p>
+<pre><code>docker swarm init
+</code></pre><p>后面的容器将会按照swarm模型核心去执行（注，docker-compose方式自建网络目录只支持swarm）</p>
+<p>docker-compose.yml:</p>
+<pre><code>version: &quot;3&quot;
+services:
+  eurake1:
+    # replace username/repo:tag with your name and image details
+    image: xx/eurake:latest
+    command: ifconfig
+    environment:
+                - EUREKA_SERVER_ADDRESS=190.100.0.3
+                - HOST_NAME=190.100.0.2
+    ports:
+      - &quot;9001:8888&quot;
+    networks:
+        app_net:
+              ipv4_address: 190.100.0.2
+  eurake2:
+      # replace username/repo:tag with your name and image details
+      image: xx/eurake:latest
+      environment:
+            - EUREKA_SERVER_ADDRESS=190.100.0.2
+            - HOST_NAME=190.100.0.3
+      ports:
+        - &quot;9002:8888&quot;
+      networks:
+          app_net:
+                ipv4_address: 190.100.0.3
+
+  gateway1:
+    # replace username/repo:tag with your name and image details
+    image: xx/gateway:latest
+    command: ifconfig
+    environment:
+                - EUREKA_SERVER_ADDRESS=190.100.0.2
+                - HOST_NAME=180.100.0.4
+    ports:
+      - &quot;10001:8888&quot;
+    networks:
+        app_net:
+              ipv4_address: 190.100.0.4
+  gatewa2:
+      # replace username/repo:tag with your name and image details
+      image: xx/gateway:latest
+      environment:
+            - EUREKA_SERVER_ADDRESS=190.100.0.2
+            - HOST_NAME=180.100.0.5
+      ports:
+        - &quot;10002:8888&quot;
+      networks:
+          app_net:
+                ipv4_address: 190.100.0.5
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 190.100.0.0/24
+</code></pre><ul>
+<li><p>最后启动服务器容器：</p>
+<p>  docker-compose -f docker-compose.yml up -d</p>
+</li>
+</ul>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532267017830fi8hvn68.png?imageslim" alt="paste image"></p>
+<ul>
+<li><p>停止服务：</p>
+<p>  docker-compose down</p>
+</li>
+</ul>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532267223066u7as2c1k.png?imageslim" alt="paste image"></p>
+<p>其实如果不用docker-compose组建网络固定IP，用docker run的形式也是可以的，但是必须是这样：</p>
+<ul>
+<li><p>自定义桥接网络(默认是bridge)</p>
+<pre><code>docker network create --subnet=172.100.0.0/16 xxNetwork
+</code></pre></li>
+<li><p>启动实例</p>
+<pre><code>docker run -itd --name xx-eurake1 --net xxNetwork --ip 172.100.0.1 -p 8888:8888 xx/eurake --eureka.instance.hostname=172.100.0.1 --eureka.client.serviceUrl.defaultZone=http://172.100.0.2:8888/eureka/
+</code></pre></li>
+</ul>
+<h2 id="部署集群服务"><a href="#部署集群服务" class="headerlink" title="部署集群服务"></a>部署集群服务</h2><ul>
+<li>建立一个管理虚机m1</li>
+</ul>
+<p>docker-machine create –virtualbox-boot2docker-url=/Users/sam/boot2docker_iso/boot2docker.iso m1</p>
+<ul>
+<li>建立两个node虚机w1,w2</li>
+</ul>
+<p>docker-machine create –virtualbox-boot2docker-url=/Users/sam/boot2docker_iso/boot2docker.iso w1 w2</p>
+<ul>
+<li>进入m1，初始化swarm</li>
+</ul>
+<pre><code>docker-machine ssh m1
+
+docker swarm init --advertise-addr [m1主机的IP]
+</code></pre><p><img src="http://ojnkdvkci.bkt.clouddn.com/1532275393584iwc3n9yv.png?imageslim" alt="paste image"></p>
+<ul>
+<li>将w1,w2加入m1管理，组成一个小型集群</li>
+</ul>
+<pre><code>docker-machine ssh w1
+
+docker swarm join --token SWMTKN-1-0pbw9ult7vdycem4db6436nyti716m33tak1rwg1iv6y2sfn1z-d92emox2ae1k1cqqjfc06o067 192.168.99.100:2377
+</code></pre><p>最后，把docker-compose.yml copy到m1里，然后部署：</p>
+<pre><code>docker stack deploy --compose-file=stack-compose.yml [集群名称]
+</code></pre><p>只需要以上步骤，Docker Swarm 会全自动地将所有服务以负载均衡的方式部署在不同的主机上，几乎不需要人工干预，通过以下命令可以在m1主机查看集群和服务的部署情况</p>
+<pre><code>docker stack ls
+docker service ls
+</code></pre><h2 id="图形化界面查看集群"><a href="#图形化界面查看集群" class="headerlink" title="图形化界面查看集群"></a>图形化界面查看集群</h2><p>输入：<a href="http://localhost:10000" target="_blank" rel="noopener">http://localhost:10000</a></p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532275823759kh2f47hu.png?imageslim" alt="集群图"></p>
+<p>拓展服务的部署数量非常简单，只需在m1执行如下命令</p>
+<pre><code>docker service scale [需要拓展的服务]=3
+</code></pre><p>删除部署<br>如果不希望保留集群，执行下面命令即可清理</p>
+<pre><code>docker stack rm [集群名称]
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/docker-compose/">docker-compose</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/22/docker-docker-compose搭建高可用集群/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/22/docker-docker-compose搭建高可用集群/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/07/14/nginx搭建高可用服务器/" title="nginx搭建高可用服务器" itemprop="url">nginx搭建高可用服务器</a>
   </h1>
   <p class="article-author">By
@@ -1503,75 +1952,6 @@ $ sudo npm install hexo-cli -g --no-optional
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/19/XX-net翻墙神器/" title="介绍一款科学上网神器" itemprop="url">介绍一款科学上网神器</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-18T17:05:00.000Z" itemprop="datePublished"> 发表于 2018-04-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>xx-net，目前已经更新到3.11.9了。<br>作为一名技术狗，基本上不限流量，快乐科学安全上网。。。。</p>
-<p>github地址：<a href="https://github.com/XX-net/XX-Net" title="xx-net科学上网" target="_blank" rel="noopener">https://github.com/XX-net/XX-Net</a></p>
-<p>配置好gae后，将appid的通过访问：<a href="https://%E4%BD%A0%E7%9A%84appid.appspot.com/" target="_blank" rel="noopener">https://appid.appspot.com/</a></p>
-<p>显示：</p>
-<pre><code>GoAgent 服务端已经在 2018-04-19 00:17:27 升级到 3.3.1 版本, 请更新您的客户端。
-</code></pre><p>具体用法github上介绍非常详细。。。。。。。。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/科学上网/">科学上网</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/科学上网/">科学上网</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/19/XX-net翻墙神器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/19/XX-net翻墙神器/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1707,7 +2087,7 @@ $ sudo npm install hexo-cli -g --no-optional
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>15</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>16</sup></a></li>
 		  
 		
 		  
@@ -1758,6 +2138,10 @@ $ sudo npm install hexo-cli -g --no-optional
 			
 		
 			
+				<li><a href="/tags/docker/" title="docker">docker<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
@@ -1774,11 +2158,7 @@ $ sudo npm install hexo-cli -g --no-optional
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -1786,7 +2166,7 @@ $ sudo npm install hexo-cli -g --no-optional
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			

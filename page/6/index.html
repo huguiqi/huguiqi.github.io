@@ -92,6 +92,72 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/12/28/（模板方法的运用）持久层操作的java代码/" title="（模板方法的运用）持久层操作的java代码" itemprop="url">（模板方法的运用）持久层操作的java代码</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-12-28T07:58:18.000Z" itemprop="datePublished"> 发表于 2016-12-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="（模板方法的运用）持久层操作的java代码"><a href="#（模板方法的运用）持久层操作的java代码" class="headerlink" title="（模板方法的运用）持久层操作的java代码"></a>（模板方法的运用）持久层操作的java代码</h1><div><br><br><span style="font-size: large"><span style="color: red">\<br></span></span><br><br></div>
+
+<div><br><br><span style="font-size: large"><span style="color: red">第一个是操作数据库方法的抽象接口，<br> 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。<br><br>为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。<br></span></span><br><br><div><br><br><div><br><br>Java代码<br><br><br>1.  <span>package</span><span>  com.yd.idao;    </span><br>2.  <span>    </span><br>3.  <span>import</span><span>  java.util.List;    </span><br>4.  <span>import</span><span>  java.sql.Connection;    </span><br>5.  <span>import</span><span>  java.sql.ResultSet;    </span><br>6.  <span>import</span><span>  java.sql.SQLException;    </span><br>7.  <span>    </span><br>8.  <span>import</span><span>  com.yd.support.JDataSet;    </span><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/12/28/（模板方法的运用）持久层操作的java代码/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/12/28/（模板方法的运用）持久层操作的java代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/12/28/（模板方法的运用）持久层操作的java代码/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/10/25/charles_4.0.1破解/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
@@ -384,284 +450,6 @@ df -h
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/27/fedora20系统上安装svn_server/" title="fedora20系统上安装svn" itemprop="url">fedora20系统上安装svn</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="fedora20系统上安装svn-server"><a href="#fedora20系统上安装svn-server" class="headerlink" title="fedora20系统上安装svn server"></a>fedora20系统上安装svn server</h1><pre><code>yum install svnserver    
-</code></pre><h3 id="权限-amp-用户配置"><a href="#权限-amp-用户配置" class="headerlink" title="权限&amp;用户配置"></a>权限&amp;用户配置</h3><p>创建一个svn库目录：</p>
-<pre><code>mkdir /opt/svnRepos
-</code></pre><p>创建一个svn库：</p>
-<pre><code>svnadmin create svntest
-</code></pre><p>配置用户名/密码与权限:</p>
-<pre><code>vi svntest/config/svnserve.conf
-</code></pre><p>svnserver.conf的主要配置：</p>
-<pre><code>[general]
-anon-access = none
-auth-access = write
-password-db = ../../userConf/passwd
-authz-db = ../../userConf/authz
-realm = lebond-ios
-</code></pre><p>fedora 20 系统上设置svnserve自启动：<br>先查看下svnserve.service的启动命令：</p>
-<pre><code>vi /usr/lib/systemd/system/svnserve.service 
-</code></pre><p>发现里面加载了<code>/etc/sysconfig/svnserve</code></p>
-<p>则修改/etc/sysconfig/svnserve配置文件如下：</p>
-<pre><code>[root@localhost ~]# vi /etc/sysconfig/svnserve 
-
-OPTIONS=&quot;-r /opt/lebondSvnRepo&quot;
-</code></pre><p>然后执行:</p>
-<pre><code>systemctl enable svnserve.service
-chkconfig --level 2345 svnserve on
-</code></pre><p>然后重启服务器测试一下。。。。</p>
-<p>另一种方式：<br>Fedora 20 这个版本系统是没有 rc.local 这个开机脚本文件了，当然，也不是说官方打算取消这个功能，而且如果有需要，需要自己新建，并且手动配置。</p>
-<p>现在我需要开机自启动这个服务，利用 rc.local 这个文件，位于 /etc/rc.d/ 目录下，如果没有就自己创建一个。</p>
-<pre><code>su
-cd /etc/rc.d
-touch rc.local
-</code></pre><p>然后赋予其运行权限：</p>
-<pre><code>chmod +x rc.local
-</code></pre><p>接下来就可以在里面写入你需要开机执行的命令了！我除了运行 DNSCrypt 服务，还需要打开 Goagent ，那么我在 rc.local 写入的内容就是：</p>
-<pre><code>#!/bin/bash
-svnserve -d -r /opt/lebondSvnRepo
-</code></pre><p>然后重启一下 rc.local 服务，一样要用到 systemctl 命令。</p>
-<pre><code>systemctl restart rc-local.service
-</code></pre><h3 id="开机启动svnserve遇到的问题："><a href="#开机启动svnserve遇到的问题：" class="headerlink" title="开机启动svnserve遇到的问题："></a>开机启动svnserve遇到的问题：</h3><ol>
-<li>虽然两种方法都可以实现开机启动svnserve，但是在客户端访问时，却是报错的，原因还不明确</li>
-<li>检查了端口和目录设置，全部都没有问题，只能每次打开服务器以后执行一遍开启svnserve的sh</li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/安装svn/">安装svn</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/27/fedora20系统上安装svn_server/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/fedora20系统上安装svn_server/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/07/27/nodejs_异步异常处理/" title="nodejs异步异常处理" itemprop="url">nodejs异步异常处理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="nodejs-异步异常处理"><a href="#nodejs-异步异常处理" class="headerlink" title="nodejs 异步异常处理"></a>nodejs 异步异常处理</h1><p> 环境：</p>
-<blockquote>
-<p>nodejs : 4.4.4<br>express :4.1.13</p>
-<p>pm2 :1.1.3</p>
-</blockquote>
-<p>nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。</p>
-<p>那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处理的异常抛出给统一的ExceptionHandler去处理呢？</p>
-<p><strong>注意，这里要处理的都是异步的业务异常，同步的异常处理不在这里讨论</strong></p>
-<p>同步异常处理：</p>
-<pre><code>//处理所有同步异常
-app.use(function (err, req, res, next) {
-// 带有四个参数的 middleware 专门用来处理异常
-res.json(&quot;{&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;}&quot;);
-});
-</code></pre><h2 id="怎么解决"><a href="#怎么解决" class="headerlink" title="怎么解决"></a>怎么解决</h2><p>目前其实还没有完美的方法去解决这个问题，但总是有替代的或者相似的解决方案：</p>
-<ul>
-<li>uncaughtException事件监听</li>
-<li>使用domain模块捕捉异常</li>
-</ul>
-<h3 id="uncaughtException事件监听"><a href="#uncaughtException事件监听" class="headerlink" title="uncaughtException事件监听"></a>uncaughtException事件监听</h3><p>uncaughtException 是一个非常古老的事件。当 Node 发现一个未捕获的异常时，会触发这个事件。并且如果这个事件存在回调函数，Node 就不会强制结束进程。</p>
-<p>一般情况下，我们会将有可能出错的代码放到try/catch块里。但是到了Node.js，由于try/catch无法捕捉异步回调里的异常，Node.js原生提供uncaughtException事件挂到process对象上，用于捕获所有未处理的异常，以下是一个模似一个异步异常：</p>
-<pre><code>process.on(&apos;uncaughtException&apos;, function(err) {
-console.error(&apos;Error caught in uncaughtException event:&apos;, err);
-});
-
-try {
-process.nextTick(function() {
-    fs.readFile(&apos;non_existent.js&apos;, function(err, str) {
-        if(err) throw err;
-        else console.log(str);
-    });
-});
-} catch(e) {
-console.error(&apos;Error caught by catch block:&apos;, e);
-}
-</code></pre><p>执行的结果是代码进到了uncaughtException的回调里而不是catch块。 uncaughtException虽然能够捕获异常，但是此时错误的上下文已经丢失，即使看到错误也不知道哪儿报的错，定位问题非常的不利。而且一旦uncaughtException事件触发，而且我们没有自定义重写process的uncaughtException挂载的话，整个node进程将crash掉。</p>
-<p>NodeJS对于未捕获异常的默认处理是： - 触发 uncaughtException 事件 - 如果 uncaughtException 没有被监听，那么 - 打印异常的堆栈信息 - 触发进程的 exit 事件;<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/07/27/nodejs_异步异常处理/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/express-异常处理/">express 异常处理</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/27/nodejs_异步异常处理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/nodejs_异步异常处理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/07/27/无标题/" title="git 撤销commit" itemprop="url">git 撤销commit</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="无标题"><a href="#无标题" class="headerlink" title="无标题"></a>无标题</h1><p>git 撤销commit</p>
-<div><br><br>\<br><br></div>
-
-<div><br><br>博客分类： git<br><br></div>
-
-<div><br><br>gitcommit撤销<br><br></div>
-
-<div><br><br>如果不小心commit了一个不需要commit的文件，可以对其进行撤销。<br><br></div>
-
-<div><br><br><br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/07/27/无标题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/07/27/无标题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/无标题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/07/27/管理者的自省/" title="如何准确清楚认识自己" itemprop="url">如何准确清楚认识自己</a>
   </h1>
   <p class="article-author">By
@@ -876,88 +664,160 @@ console.error(&apos;Error caught by catch block:&apos;, e);
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/27/构建最新的nodejs_docker服务器/" title="构建最新的nodejs docker服务器" itemprop="url">构建最新的nodejs docker服务器</a>
+      <a href="/2016/07/27/nodejs_异步异常处理/" title="nodejs异步异常处理" itemprop="url">nodejs异步异常处理</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-27T13:36:42.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
+    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="构建最新的nodejs-docker服务器"><a href="#构建最新的nodejs-docker服务器" class="headerlink" title="构建最新的nodejs docker服务器"></a>构建最新的nodejs docker服务器</h1><p><a href="https://nodejs.org/en/docs/guides/nodejs-docker-webapp/" target="_blank" rel="noopener">参考文档</a></p>
+        <h1 id="nodejs-异步异常处理"><a href="#nodejs-异步异常处理" class="headerlink" title="nodejs 异步异常处理"></a>nodejs 异步异常处理</h1><p> 环境：</p>
+<blockquote>
+<p>nodejs : 4.4.4<br>express :4.1.13</p>
+<p>pm2 :1.1.3</p>
+</blockquote>
+<p>nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。</p>
+<p>那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处理的异常抛出给统一的ExceptionHandler去处理呢？</p>
+<p><strong>注意，这里要处理的都是异步的业务异常，同步的异常处理不在这里讨论</strong></p>
+<p>同步异常处理：</p>
+<pre><code>//处理所有同步异常
+app.use(function (err, req, res, next) {
+// 带有四个参数的 middleware 专门用来处理异常
+res.json(&quot;{&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;}&quot;);
+});
+</code></pre><h2 id="怎么解决"><a href="#怎么解决" class="headerlink" title="怎么解决"></a>怎么解决</h2><p>目前其实还没有完美的方法去解决这个问题，但总是有替代的或者相似的解决方案：</p>
 <ul>
-<li><p>新建一个目录作为我的dockerImages的目录，然后执行：</p>
-<pre><code>mkdir /Users/samhu/Public/dockerImages
-</code></pre></li>
-<li><p>新建package.json</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">	&#123;</span><br><span class="line">  &quot;name&quot;: &quot;docker_web_app&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;Node.js on Docker&quot;,</span><br><span class="line">  &quot;author&quot;: &quot;First Last &lt;first.last@example.com&gt;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;server.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">              &quot;start&quot;: &quot;node server.js&quot;</span><br><span class="line">              &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">                    &quot;express&quot;: &quot;^4.13.3&quot;</span><br><span class="line">                  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
+<li>uncaughtException事件监听</li>
+<li>使用domain模块捕捉异常</li>
 </ul>
-<ul>
-<li>新建server.js文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&apos;use strict&apos;;</span><br><span class="line"></span><br><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line"></span><br><span class="line">// Constants</span><br><span class="line"> const PORT = 8080;</span><br><span class="line">//</span><br><span class="line">// // App</span><br><span class="line"> const app = express();</span><br><span class="line"> app.get(&apos;/&apos;, function (req, res) &#123;</span><br><span class="line">   res.send(&apos;Hello world\n&apos;);</span><br><span class="line">   &#125;);</span><br><span class="line"></span><br><span class="line">   app.listen(PORT);</span><br><span class="line">   console.log(&apos;Running on http://localhost:&apos; + PORT);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">* 新建Dockerfile</span><br><span class="line"></span><br><span class="line">		vi Dockerfile </span><br><span class="line">		</span><br><span class="line">内容为：</span><br></pre></td></tr></table></figure>
-<p>  FROM node:argon</p>
-<h1 id="Create-app-directory"><a href="#Create-app-directory" class="headerlink" title="Create app directory"></a>Create app directory</h1><p>RUN mkdir -p /usr/src/app<br>WORKDIR /usr/src/app</p>
-<h1 id="Install-app-dependencies"><a href="#Install-app-dependencies" class="headerlink" title="Install app dependencies"></a>Install app dependencies</h1><p>COPY package.json /usr/src/app/<br>RUN npm install</p>
-<h1 id="Bundle-app-source"><a href="#Bundle-app-source" class="headerlink" title="Bundle app source"></a>Bundle app source</h1><p>COPY . /usr/src/app</p>
-<p>VOLUME [“/var/www”, “/usr/src/app”, “/var/nginx”]</p>
-<p>EXPOSE 8080</p>
-<p>#CMD [ “npm”, “start” ]</p>
-<p>RUN PORT=8080 npm start</p>
-<p>  ```</p>
-<p>CMD内容 npm start 会执行 node server.js这个命令。。。。。</p>
-<p>最后在dockerImage目录下，build成image:</p>
-<pre><code>docker build -t sam.hu/node-web-app . 
-</code></pre><p>启动一个nodejs应用服务器，端口号是40000：</p>
-<pre><code>docker run -p 40000:8080 --rm -it -v $(pwd):/usr/src/app sam.hu/node-web-app
-</code></pre><p>不加 <code>-it</code> 是为容器启动</p>
-<p>查看docker容器使用情况:</p>
-<pre><code>docker stats
-</code></pre><h1 id="安装Apache-Bench（ab-作压力测试"><a href="#安装Apache-Bench（ab-作压力测试" class="headerlink" title="安装Apache Bench（ab)作压力测试"></a>安装Apache Bench（ab)作压力测试</h1><p>三种方式：</p>
-<ul>
-<li><p>源码安装</p>
-<p><a href="http://httpd.apache.org/" target="_blank" rel="noopener">download</a></p>
-<p>下载后解压，终端执行：</p>
-<pre><code>./configuare
-</code></pre></li>
-<li><p>二进制安装</p>
-<pre><code>命令行忘记了    
-</code></pre></li>
-<li><p>命令行安装</p>
-<pre><code>yum install httpd
-</code></pre></li>
-</ul>
-<h2 id="使用ab测试并发"><a href="#使用ab测试并发" class="headerlink" title="使用ab测试并发"></a>使用ab测试并发</h2><pre><code>ab -n 5000 -c 600 http://www.jinjiang.com/
-</code></pre><p>如果出现错误：</p>
-<pre><code>enchmarking www.jinjiang.com (be patient)
-socket: Too many open files (24)
-</code></pre><p>则是因为服务器对并发文件连接有open files限制    ，登陆服务器执行：</p>
-<pre><code>ulimit -a  
-</code></pre><p>找到：</p>
-<pre><code>open files                      (-n) 1024    
-</code></pre><p>调整可以打开的文件数：</p>
-<pre><code>ulimit -n 65535
-</code></pre><p>同时修改nginx.conf添加</p>
-<pre><code>worker_rlimit_nofile 65535;
-</code></pre><p>但是在nginx服务器可以打开的文件数量受你操作系统的限制，所以编辑<br><code>/etc/sysctl.conf</code> 添加如下内容：</p>
-<pre><code>fs.file-max = 70000
-</code></pre><p>保存退出，从新读取系统配置</p>
-<p><code>sysctl -p</code></p>
-<p>再编辑 <code>/etc/security/limits.conf</code> 添加内容:</p>
-<pre><code>soft nofile 10000
-hard nofile 30000
-</code></pre><p>此修改内容需要reboot系统才能生效，所以务必从新启动下服务器。</p>
-<p>再次查看系统输出</p>
-<pre><code>ulimit -Hn
-ulimit -Sn    
-</code></pre><p>输出：</p>
-<p>30000 10000</p>
+<h3 id="uncaughtException事件监听"><a href="#uncaughtException事件监听" class="headerlink" title="uncaughtException事件监听"></a>uncaughtException事件监听</h3><p>uncaughtException 是一个非常古老的事件。当 Node 发现一个未捕获的异常时，会触发这个事件。并且如果这个事件存在回调函数，Node 就不会强制结束进程。</p>
+<p>一般情况下，我们会将有可能出错的代码放到try/catch块里。但是到了Node.js，由于try/catch无法捕捉异步回调里的异常，Node.js原生提供uncaughtException事件挂到process对象上，用于捕获所有未处理的异常，以下是一个模似一个异步异常：</p>
+<pre><code>process.on(&apos;uncaughtException&apos;, function(err) {
+console.error(&apos;Error caught in uncaughtException event:&apos;, err);
+});
+
+try {
+process.nextTick(function() {
+    fs.readFile(&apos;non_existent.js&apos;, function(err, str) {
+        if(err) throw err;
+        else console.log(str);
+    });
+});
+} catch(e) {
+console.error(&apos;Error caught by catch block:&apos;, e);
+}
+</code></pre><p>执行的结果是代码进到了uncaughtException的回调里而不是catch块。 uncaughtException虽然能够捕获异常，但是此时错误的上下文已经丢失，即使看到错误也不知道哪儿报的错，定位问题非常的不利。而且一旦uncaughtException事件触发，而且我们没有自定义重写process的uncaughtException挂载的话，整个node进程将crash掉。</p>
+<p>NodeJS对于未捕获异常的默认处理是： - 触发 uncaughtException 事件 - 如果 uncaughtException 没有被监听，那么 - 打印异常的堆栈信息 - 触发进程的 exit 事件;<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/07/27/nodejs_异步异常处理/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/express-异常处理/">express 异常处理</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/27/nodejs_异步异常处理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/nodejs_异步异常处理/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/27/fedora20系统上安装svn_server/" title="fedora20系统上安装svn" itemprop="url">fedora20系统上安装svn</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="fedora20系统上安装svn-server"><a href="#fedora20系统上安装svn-server" class="headerlink" title="fedora20系统上安装svn server"></a>fedora20系统上安装svn server</h1><pre><code>yum install svnserver    
+</code></pre><h3 id="权限-amp-用户配置"><a href="#权限-amp-用户配置" class="headerlink" title="权限&amp;用户配置"></a>权限&amp;用户配置</h3><p>创建一个svn库目录：</p>
+<pre><code>mkdir /opt/svnRepos
+</code></pre><p>创建一个svn库：</p>
+<pre><code>svnadmin create svntest
+</code></pre><p>配置用户名/密码与权限:</p>
+<pre><code>vi svntest/config/svnserve.conf
+</code></pre><p>svnserver.conf的主要配置：</p>
+<pre><code>[general]
+anon-access = none
+auth-access = write
+password-db = ../../userConf/passwd
+authz-db = ../../userConf/authz
+realm = lebond-ios
+</code></pre><p>fedora 20 系统上设置svnserve自启动：<br>先查看下svnserve.service的启动命令：</p>
+<pre><code>vi /usr/lib/systemd/system/svnserve.service 
+</code></pre><p>发现里面加载了<code>/etc/sysconfig/svnserve</code></p>
+<p>则修改/etc/sysconfig/svnserve配置文件如下：</p>
+<pre><code>[root@localhost ~]# vi /etc/sysconfig/svnserve 
+
+OPTIONS=&quot;-r /opt/lebondSvnRepo&quot;
+</code></pre><p>然后执行:</p>
+<pre><code>systemctl enable svnserve.service
+chkconfig --level 2345 svnserve on
+</code></pre><p>然后重启服务器测试一下。。。。</p>
+<p>另一种方式：<br>Fedora 20 这个版本系统是没有 rc.local 这个开机脚本文件了，当然，也不是说官方打算取消这个功能，而且如果有需要，需要自己新建，并且手动配置。</p>
+<p>现在我需要开机自启动这个服务，利用 rc.local 这个文件，位于 /etc/rc.d/ 目录下，如果没有就自己创建一个。</p>
+<pre><code>su
+cd /etc/rc.d
+touch rc.local
+</code></pre><p>然后赋予其运行权限：</p>
+<pre><code>chmod +x rc.local
+</code></pre><p>接下来就可以在里面写入你需要开机执行的命令了！我除了运行 DNSCrypt 服务，还需要打开 Goagent ，那么我在 rc.local 写入的内容就是：</p>
+<pre><code>#!/bin/bash
+svnserve -d -r /opt/lebondSvnRepo
+</code></pre><p>然后重启一下 rc.local 服务，一样要用到 systemctl 命令。</p>
+<pre><code>systemctl restart rc-local.service
+</code></pre><h3 id="开机启动svnserve遇到的问题："><a href="#开机启动svnserve遇到的问题：" class="headerlink" title="开机启动svnserve遇到的问题："></a>开机启动svnserve遇到的问题：</h3><ol>
+<li>虽然两种方法都可以实现开机启动svnserve，但是在客户端访问时，却是报错的，原因还不明确</li>
+<li>检查了端口和目录设置，全部都没有问题，只能每次打开服务器以后执行一遍开启svnserve的sh</li>
+</ol>
 
         
         
@@ -970,13 +830,13 @@ ulimit -Sn
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/docker/">docker</a>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/nodejs/">nodejs</a>
+  <span></span> <a href="/tags/安装svn/">安装svn</a>
   </div>
 
 </div>
@@ -987,7 +847,82 @@ ulimit -Sn
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/07/27/构建最新的nodejs_docker服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/构建最新的nodejs_docker服务器/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/07/27/fedora20系统上安装svn_server/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/fedora20系统上安装svn_server/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/27/无标题/" title="git 撤销commit" itemprop="url">git 撤销commit</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="无标题"><a href="#无标题" class="headerlink" title="无标题"></a>无标题</h1><p>git 撤销commit</p>
+<div><br><br>\<br><br></div>
+
+<div><br><br>博客分类： git<br><br></div>
+
+<div><br><br>gitcommit撤销<br><br></div>
+
+<div><br><br>如果不小心commit了一个不需要commit的文件，可以对其进行撤销。<br><br></div>
+
+<div><br><br><br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/07/27/无标题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/27/无标题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/无标题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1136,7 +1071,7 @@ ulimit -Sn
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>15</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>16</sup></a></li>
 		  
 		
 		  
@@ -1187,6 +1122,10 @@ ulimit -Sn
 			
 		
 			
+				<li><a href="/tags/docker/" title="docker">docker<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
@@ -1203,11 +1142,7 @@ ulimit -Sn
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -1215,7 +1150,7 @@ ulimit -Sn
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			

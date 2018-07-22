@@ -92,6 +92,137 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/27/构建最新的nodejs_docker服务器/" title="构建最新的nodejs docker服务器" itemprop="url">构建最新的nodejs docker服务器</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-27T13:36:42.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="构建最新的nodejs-docker服务器"><a href="#构建最新的nodejs-docker服务器" class="headerlink" title="构建最新的nodejs docker服务器"></a>构建最新的nodejs docker服务器</h1><p><a href="https://nodejs.org/en/docs/guides/nodejs-docker-webapp/" target="_blank" rel="noopener">参考文档</a></p>
+<ul>
+<li><p>新建一个目录作为我的dockerImages的目录，然后执行：</p>
+<pre><code>mkdir /Users/samhu/Public/dockerImages
+</code></pre></li>
+<li><p>新建package.json</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">	&#123;</span><br><span class="line">  &quot;name&quot;: &quot;docker_web_app&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;Node.js on Docker&quot;,</span><br><span class="line">  &quot;author&quot;: &quot;First Last &lt;first.last@example.com&gt;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;server.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">              &quot;start&quot;: &quot;node server.js&quot;</span><br><span class="line">              &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">                    &quot;express&quot;: &quot;^4.13.3&quot;</span><br><span class="line">                  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>新建server.js文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&apos;use strict&apos;;</span><br><span class="line"></span><br><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line"></span><br><span class="line">// Constants</span><br><span class="line"> const PORT = 8080;</span><br><span class="line">//</span><br><span class="line">// // App</span><br><span class="line"> const app = express();</span><br><span class="line"> app.get(&apos;/&apos;, function (req, res) &#123;</span><br><span class="line">   res.send(&apos;Hello world\n&apos;);</span><br><span class="line">   &#125;);</span><br><span class="line"></span><br><span class="line">   app.listen(PORT);</span><br><span class="line">   console.log(&apos;Running on http://localhost:&apos; + PORT);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">* 新建Dockerfile</span><br><span class="line"></span><br><span class="line">		vi Dockerfile </span><br><span class="line">		</span><br><span class="line">内容为：</span><br></pre></td></tr></table></figure>
+<p>  FROM node:argon</p>
+<h1 id="Create-app-directory"><a href="#Create-app-directory" class="headerlink" title="Create app directory"></a>Create app directory</h1><p>RUN mkdir -p /usr/src/app<br>WORKDIR /usr/src/app</p>
+<h1 id="Install-app-dependencies"><a href="#Install-app-dependencies" class="headerlink" title="Install app dependencies"></a>Install app dependencies</h1><p>COPY package.json /usr/src/app/<br>RUN npm install</p>
+<h1 id="Bundle-app-source"><a href="#Bundle-app-source" class="headerlink" title="Bundle app source"></a>Bundle app source</h1><p>COPY . /usr/src/app</p>
+<p>VOLUME [“/var/www”, “/usr/src/app”, “/var/nginx”]</p>
+<p>EXPOSE 8080</p>
+<p>#CMD [ “npm”, “start” ]</p>
+<p>RUN PORT=8080 npm start</p>
+<p>  ```</p>
+<p>CMD内容 npm start 会执行 node server.js这个命令。。。。。</p>
+<p>最后在dockerImage目录下，build成image:</p>
+<pre><code>docker build -t sam.hu/node-web-app . 
+</code></pre><p>启动一个nodejs应用服务器，端口号是40000：</p>
+<pre><code>docker run -p 40000:8080 --rm -it -v $(pwd):/usr/src/app sam.hu/node-web-app
+</code></pre><p>不加 <code>-it</code> 是为容器启动</p>
+<p>查看docker容器使用情况:</p>
+<pre><code>docker stats
+</code></pre><h1 id="安装Apache-Bench（ab-作压力测试"><a href="#安装Apache-Bench（ab-作压力测试" class="headerlink" title="安装Apache Bench（ab)作压力测试"></a>安装Apache Bench（ab)作压力测试</h1><p>三种方式：</p>
+<ul>
+<li><p>源码安装</p>
+<p><a href="http://httpd.apache.org/" target="_blank" rel="noopener">download</a></p>
+<p>下载后解压，终端执行：</p>
+<pre><code>./configuare
+</code></pre></li>
+<li><p>二进制安装</p>
+<pre><code>命令行忘记了    
+</code></pre></li>
+<li><p>命令行安装</p>
+<pre><code>yum install httpd
+</code></pre></li>
+</ul>
+<h2 id="使用ab测试并发"><a href="#使用ab测试并发" class="headerlink" title="使用ab测试并发"></a>使用ab测试并发</h2><pre><code>ab -n 5000 -c 600 http://www.jinjiang.com/
+</code></pre><p>如果出现错误：</p>
+<pre><code>enchmarking www.jinjiang.com (be patient)
+socket: Too many open files (24)
+</code></pre><p>则是因为服务器对并发文件连接有open files限制    ，登陆服务器执行：</p>
+<pre><code>ulimit -a  
+</code></pre><p>找到：</p>
+<pre><code>open files                      (-n) 1024    
+</code></pre><p>调整可以打开的文件数：</p>
+<pre><code>ulimit -n 65535
+</code></pre><p>同时修改nginx.conf添加</p>
+<pre><code>worker_rlimit_nofile 65535;
+</code></pre><p>但是在nginx服务器可以打开的文件数量受你操作系统的限制，所以编辑<br><code>/etc/sysctl.conf</code> 添加如下内容：</p>
+<pre><code>fs.file-max = 70000
+</code></pre><p>保存退出，从新读取系统配置</p>
+<p><code>sysctl -p</code></p>
+<p>再编辑 <code>/etc/security/limits.conf</code> 添加内容:</p>
+<pre><code>soft nofile 10000
+hard nofile 30000
+</code></pre><p>此修改内容需要reboot系统才能生效，所以务必从新启动下服务器。</p>
+<p>再次查看系统输出</p>
+<pre><code>ulimit -Hn
+ulimit -Sn    
+</code></pre><p>输出：</p>
+<p>30000 10000</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/docker/">docker</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nodejs/">nodejs</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/27/构建最新的nodejs_docker服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/构建最新的nodejs_docker服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/07/23/docker_1.8到docker1.10之间到底发生了什么/" title="docker\_1.8到docker1.10之间到底发生了什么" itemprop="url">docker\_1.8到docker1.10之间到底发生了什么</a>
   </h1>
   <p class="article-author">By
@@ -329,7 +460,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/fodera20安装mysql/" title="" itemprop="url"></a>
+      <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" title="《西游记》里有哪些不易发现却很打动人的小细节？" itemprop="url">《西游记》里有哪些不易发现却很打动人的小细节？</a>
   </h1>
   <p class="article-author">By
        
@@ -342,62 +473,36 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 </header>
     <div class="article-content">
         
-        <hr>
-<p>title: linux安装mysql<br>date: 1465812376000<br>categories: 系统&amp;运维</p>
-<h2 id="tags-linux与mysql"><a href="#tags-linux与mysql" class="headerlink" title="tags: linux与mysql"></a>tags: linux与mysql</h2><h1 id="fodera20安装mysql"><a href="#fodera20安装mysql" class="headerlink" title="fodera20安装mysql"></a>fodera20安装mysql</h1><p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>查看mysql运行状态：</p>
-<pre><code>service mysql start    
-</code></pre><p>如果出现启动失败的情况，则通过以下解决：</p>
-<pre><code> [root@localhost download]# mysql
-ERROR 2002 (HY000): Can&apos;t connect to local MySQL server through socket &apos;/var/lib/mysql/mysql.sock&apos; (2)
-[root@localhost download]# service mysql status
-MySQL is not running                                       [失败]
-[root@localhost download]# service mysql start
-Starting MySQL.The server quit without updating PID file (/[失败]b/mysql/localhost.localdomain.pid).
-[root@localhost download]# reboot
-</code></pre><p>一般情况下，mysql安装失败，有两种情况：</p>
-<ol>
-<li>安装包与系统不兼容</li>
-<li>系统上有mysql数据库或者有未删除干净的mysql残余文件</li>
-</ol>
-<p>mysql在linux上的安装方法：</p>
-<ul>
-<li>yum 方式</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">若系统有自带的mysql或libs，可选择先卸载再安装</span><br><span class="line"> rpm -qa | grep mysql           //查看该操作系统上是否已经安装了mysql数据库</span><br><span class="line"> rpm -e mysql                     //普通删除模式</span><br><span class="line"> rpm -e --nodeps mysql         // 强力删除模式</span><br><span class="line"> yum -y remove mysql-libs-*   //删除所有包</span><br><span class="line"> rpm -e --nodeps mysql</span><br><span class="line"></span><br><span class="line"> 安装</span><br><span class="line">//查看yum上提供的mysql数据库可下载的版本</span><br><span class="line"> yum list | grep mysql</span><br><span class="line"></span><br><span class="line"> yum -y install mysql-server    //提示&quot;Complete!&quot;则安装成功    rpm -qi mysql-server            //查看安装版本</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>通用安装</p>
-<pre><code>tar xvf MySQL-server-5.6.30-1.tar.gz &amp;&amp; cd MySQL-server-5.6.30-1 &amp;&amp; ./confgure &amp;&amp; make install
-</code></pre></li>
-</ul>
-<ul>
-<li>npm包 安装 </li>
-</ul>
-<p>server:</p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>client:    </p>
-<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.30-1.linux_glibc2.5.x86_64.rpm
-</code></pre><p>安装完成后启动mysql:</p>
-<pre><code>service mysql start
-</code></pre><p>如果是刚刚删除了原来的mysql文件，则需要重启一下服务器，不然会无法启动。。。。</p>
-<p>将mysql服务添加到系统开机启动：<br>查看下：</p>
-<pre><code># chkconfig --list mysql
-
-mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
-</code></pre><p>2、3、4、5都是on，说明已经加入到开机启动</p>
-
+        <h1 id="《西游记》里有哪些不易发现却很打动人的小细节？"><a href="#《西游记》里有哪些不易发现却很打动人的小细节？" class="headerlink" title="《西游记》里有哪些不易发现却很打动人的小细节？"></a>《西游记》里有哪些不易发现却很打动人的小细节？</h1><p>补充一个，因为徒弟们都是正儿八经的神仙，唐长老的理论水平比起他三个徒弟不知道差到哪里去了。\<br>\<br>比如长老出门尿尿顺便喊大家赏月吟个诗，结果接受徒弟们的理论基础再教育，还被狠狠吐槽了一番。徒弟们之间还顺便开展了理论探讨。\<br>\</p>
+<blockquote>
+<p>唐僧举步出门小解，只见明月当天，叫：“徒弟。”行者、八戒，沙僧都出来侍立。因感这月清光皎洁，玉宇深沉，真是一轮高照，大地分明，对月怀归，口占一首古风长篇。</p>
+</blockquote>
+<p>长老呀！要提高自己的姿势水平，晓得不晓得啊？我为你着急啊！<br>===========================================================\<br>\<br>白龙马的尿，有奇效。\<br>\</p>
+<blockquote>
+<p>行者道：“你不知就里，我那马不是凡马，他本是西海龙身。</p>
+</blockquote>
+<p>\<br>因此白龙马的尿的作用包括：\<br>包治百病；\<br>把鱼升级成龙；\<br>把草升级成灵芝；\<br>长寿。\</p>
         
         
         <p class="article-more-link">
+          
+            <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#more">Read More</a>
           
        </p>
     </div>
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
 
 </div>
 
@@ -407,7 +512,7 @@ mysql              0:off    1:off    2:on    3:on    4:on    5:on    6:off
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/fodera20安装mysql/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/fodera20安装mysql/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -532,6 +637,73 @@ GATEWAY192.168
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
+<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/" target="_blank" rel="noopener">下载地址(文档)</a></p>
+</li>
+<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/3d_touch例子一个/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/06/13/docker_换国内镜像/" title="docker 换国内镜像" itemprop="url">docker 换国内镜像</a>
   </h1>
   <p class="article-author">By
@@ -605,7 +777,7 @@ GATEWAY192.168
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" title="《西游记》里有哪些不易发现却很打动人的小细节？" itemprop="url">《西游记》里有哪些不易发现却很打动人的小细节？</a>
+      <a href="/2016/06/13/2016.1_jetbrains注册与破解/" title="2016.1_JetBrains注册与破解" itemprop="url">2016.1_JetBrains注册与破解</a>
   </h1>
   <p class="article-author">By
        
@@ -618,20 +790,14 @@ GATEWAY192.168
 </header>
     <div class="article-content">
         
-        <h1 id="《西游记》里有哪些不易发现却很打动人的小细节？"><a href="#《西游记》里有哪些不易发现却很打动人的小细节？" class="headerlink" title="《西游记》里有哪些不易发现却很打动人的小细节？"></a>《西游记》里有哪些不易发现却很打动人的小细节？</h1><p>补充一个，因为徒弟们都是正儿八经的神仙，唐长老的理论水平比起他三个徒弟不知道差到哪里去了。\<br>\<br>比如长老出门尿尿顺便喊大家赏月吟个诗，结果接受徒弟们的理论基础再教育，还被狠狠吐槽了一番。徒弟们之间还顺便开展了理论探讨。\<br>\</p>
-<blockquote>
-<p>唐僧举步出门小解，只见明月当天，叫：“徒弟。”行者、八戒，沙僧都出来侍立。因感这月清光皎洁，玉宇深沉，真是一轮高照，大地分明，对月怀归，口占一首古风长篇。</p>
-</blockquote>
-<p>长老呀！要提高自己的姿势水平，晓得不晓得啊？我为你着急啊！<br>===========================================================\<br>\<br>白龙马的尿，有奇效。\<br>\</p>
-<blockquote>
-<p>行者道：“你不知就里，我那马不是凡马，他本是西海龙身。</p>
-</blockquote>
-<p>\<br>因此白龙马的尿的作用包括：\<br>包治百病；\<br>把鱼升级成龙；\<br>把草升级成灵芝；\<br>长寿。\</p>
+        <h1 id="2016-1-JetBrains注册与破解"><a href="#2016-1-JetBrains注册与破解" class="headerlink" title="2016.1_JetBrains注册与破解"></a>2016.1_JetBrains注册与破解</h1><h2 id="一，下载2016版的webStorm"><a href="#一，下载2016版的webStorm" class="headerlink" title="一，下载2016版的webStorm"></a>一，下载2016版的webStorm</h2><p>安装后<a href="链接: http://pan.baidu.com/s/1kTW4aR9">下载破解包</a><br> 密码: tp7k</p>
+<h2 id="二，破解webStorm"><a href="#二，破解webStorm" class="headerlink" title="二，破解webStorm"></a>二，破解webStorm</h2><p>下载JetbrainsCrack_2016.1.jar,打开webStorm.app所在application,右键show Packages Contents,进入Contents/bin目录，copy JetbrainsCrack_2016.1.jar ,打开webstorm.vmoptions文件，在最后一行加上:</p>
+<pre><code>-javaagent:JetbrainsCrack_2016.1.jar
+</code></pre><p>保存关闭，重新打开webStorm，会发现已经破解成功</p>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#more">Read More</a>
           
        </p>
     </div>
@@ -640,13 +806,13 @@ GATEWAY192.168
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  <span></span> <a href="/tags/webStorm破解/">webStorm破解</a>
   </div>
 
 </div>
@@ -657,7 +823,7 @@ GATEWAY192.168
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/2016.1_jetbrains注册与破解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/2016.1_jetbrains注册与破解/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -735,139 +901,6 @@ GATEWAY192.168
 	
 	  	<span></span>
 		<a href="/2016/06/13/关于macbook电池的正确使用方法，和保养技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/关于macbook电池的正确使用方法，和保养技巧/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
-<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/" target="_blank" rel="noopener">下载地址(文档)</a></p>
-</li>
-<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/06/13/3d_touch例子一个/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/iptables与docker的作死碰撞/" title="docker安装了iptalbes以后，出现的悲剧与解决方案" itemprop="url">docker安装了iptalbes以后，出现的悲剧与解决方案</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a href="#docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" title="docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
-<p>情况是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</span><br><span class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</span><br><span class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</span><br><span class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</span><br><span class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</span><br><span class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</span><br><span class="line">[root@localhost ~]# docker start 782</span><br><span class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</span><br><span class="line"> (exit status 1)</span><br><span class="line">Error: failed to start containers: [782]</span><br><span class="line">[root@localhost ~]# docker rm 782</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/06/13/iptables与docker的作死碰撞/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/iptables与docker的作死碰撞/">iptables与docker的作死碰撞</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/iptables与docker的作死碰撞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/iptables与docker的作死碰撞/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1016,7 +1049,7 @@ GATEWAY192.168
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>15</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>16</sup></a></li>
 		  
 		
 		  
@@ -1067,6 +1100,10 @@ GATEWAY192.168
 			
 		
 			
+				<li><a href="/tags/docker/" title="docker">docker<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
@@ -1083,11 +1120,7 @@ GATEWAY192.168
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker/" title="docker">docker<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -1095,7 +1128,7 @@ GATEWAY192.168
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
