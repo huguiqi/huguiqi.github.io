@@ -92,7 +92,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/mac系统终端常用命令与mac系统常用的技巧/" title="mac系统终端常用命令与mac系统常用的技巧" itemprop="url">mac系统终端常用命令与mac系统常用的技巧</a>
+      <a href="/2016/03/30/centos 开启防火墙后ftp无法访问解决方案/" title="centos 开启防火墙后ftp无法访问解决方案" itemprop="url">centos 开启防火墙后ftp无法访问解决方案</a>
   </h1>
   <p class="article-author">By
        
@@ -105,19 +105,16 @@
 </header>
     <div class="article-content">
         
-        <h1 id="mac系统终端常用命令与mac系统常用的技巧"><a href="#mac系统终端常用命令与mac系统常用的技巧" class="headerlink" title="mac系统终端常用命令与mac系统常用的技巧"></a>mac系统终端常用命令与mac系统常用的技巧</h1><p><span style="color: rgb(17, 17, 17); font-family: 微软雅黑, Arial, HELVETICA; font-size: 14px; line-height: 28px; background-color: rgb(254, 254, 254);">这些天自已研究了一下mac的终端，学习过程中，本来想发原创贴，但后来发现已经有很多前辈的经验贴，谁叫我入手macbook不久呢，呵呵,但在威锋里却找不到很全的资料，特将自已的经验加上前辈们的经验简单修改发布如下，高手可以不用看了，这只是基础部分的内容，呵呵：</span></p>
-<div><br><br>\<br><br></div>
-
-<div><br><br><span style="color: rgb(17, 17, 17); font-family: 微软雅黑, Arial, HELVETICA; font-size: 14px; line-height: 28px; background-color: rgb(254, 254, 254);">*</span><span style="word-wrap: break-word; font-weight: 700; color: rgb(17, 17, 17); font-family: 微软雅黑, Arial, HELVETICA; font-size: 14px; line-height: 28px; background-color: rgb(254, 254, 254);">以下所涉及到的命令基本限于安装kext，修改plist，更换核心<br>所碰到的操作</span><span style="color: rgb(17, 17, 17); font-family: 微软雅黑, Arial, HELVETICA; font-size: 14px; line-height: 28px; background-color: rgb(254, 254, 254);">*</span><br><br></div>
+        <h1 id="centos-开启防火墙后ftp无法访问解决方案"><a href="#centos-开启防火墙后ftp无法访问解决方案" class="headerlink" title="centos 开启防火墙后ftp无法访问解决方案"></a>centos 开启防火墙后ftp无法访问解决方案</h1><div><br><br>Your question isn’t phrased very well, but the symptoms you describe are<br>indicative of a passive FTP not working correctly in combination with<br>your firewall.<br><br>Typically the<br>command <code>insmod nf_conntrack_ftp</code>{style=”padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, ‘Lucida Console’, ‘Liberation Mono’, ‘DejaVu Sans Mono’, ‘Bitstream Vera Sans Mono’, ‘Courier New’, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);”} is<br>sufficient to load the FTP helper module in a badly configured RHEL6 or<br>CentOS firewall.<br><br>To make that persistent:<br><br>Edit the configuration<br>file <code>/etc/sysconfig/iptables-config</code>{style=” padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, ‘Lucida Console’, ‘Liberation Mono’, ‘DejaVu Sans Mono’, ‘Bitstream Vera Sans Mono’, ‘Courier New’, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);”} and<br>add the helper<br>module <code>nf_conntrack_ftp</code>{style=” padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, ‘Lucida Console’, ‘Liberation Mono’, ‘DejaVu Sans Mono’, ‘Bitstream Vera Sans Mono’, ‘Courier New’, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);”} to<br>the IPTABLES_MODULES variable:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IPTABLES_MODULES=&quot;nf_conntrack_ftp&quot;</span><br></pre></td></tr></table></figure><br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>先简单的说一下：\<br><span style="word-wrap: break-word; font-weight: 700;">OSX<br>采用的Unix文件系统，所有文件都挂在跟目录“ /” 下面，所以不在要有Windows<br>下的盘符概念。比如什么“C：”你在桌面上看到的硬盘都挂在 /Volumes 下。\<br><br><em>比如接上个叫做“XX”的移动硬盘，桌面上会显示出一个硬盘图标，它实际在哪里呢？\<br> 在终端里执行：“ls /Volumes/XX”,<br>
+<div style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/mac系统终端常用命令与mac系统常用的技巧/#more">Read More</a>
+            <a href="/2016/03/30/centos 开启防火墙后ftp无法访问解决方案/#more">Read More</a>
           
        </p>
     </div>
@@ -143,7 +140,78 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/mac系统终端常用命令与mac系统常用的技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/mac系统终端常用命令与mac系统常用的技巧/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/centos 开启防火墙后ftp无法访问解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/centos 开启防火墙后ftp无法访问解决方案/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/maven 启动时windows下静态文件（html、css、js）被锁定/" title="maven 启动时windows下静态文件（html、css、js）被锁定" itemprop="url">maven 启动时windows下静态文件（html、css、js）被锁定</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="maven-启动时windows下静态文件（html、css、js）被锁定"><a href="#maven-启动时windows下静态文件（html、css、js）被锁定" class="headerlink" title="maven 启动时windows下静态文件（html、css、js）被锁定"></a>maven 启动时windows下静态文件（html、css、js）被锁定</h1><div><br><br>\<br><br></div>
+
+<div><br><br>使用Maven进行Java的web开发，Jetty<br>Plugin是必不可缺的插件，可以极大的提到开发效率。但在Windows环境下会遇到静态文件（html、css、js）被锁定、无法即时更新的问<br>题。要想更新这些文件，只能先停掉Jetty，保存修改，再启动Jetty，非常不方便。<br><br></div>
+
+<div><br><br><span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">解决办法是这样的：\<br><br>1、从jetty.jar中解出webdefault.xml（位于org.mortbay.jetty.webapp包下）这个文件，把这个useFileMappedBuffer参数设为false\<br></span><br><div><br><br><div><br><br><span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;">Java代码<br>  <img src="maven%20%E5%90%AF%E5%8A%A8%E6%97%B6windows%E4%B8%8B%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6%EF%BC%88html%E3%80%81css%E3%80%81js%EF%BC%89%E8%A2%AB%E9%94%81%E5%AE%9A.resources/948C06FC-A4A9-4D20-8D00-5569CF23DEE2.png" alt=""></span><br><br></div>
+
+<ol>
+<li><span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span>    </span></span>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/maven 启动时windows下静态文件（html、css、js）被锁定/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/maven 启动时windows下静态文件（html、css、js）被锁定/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/maven 启动时windows下静态文件（html、css、js）被锁定/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -435,6 +503,10 @@ $ hexo server
 		  
 		
 		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
 		  
 		
@@ -522,7 +594,7 @@ $ hexo server
 			
 		
 			
-				<li><a href="/tags/springboot-activiti/" title="springboot-activiti">springboot-activiti<sup>1</sup></a></li>
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
 			
 		
 			

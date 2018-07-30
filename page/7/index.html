@@ -92,6 +92,109 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/07/27/fedora20系统上安装svn_server/" title="fedora20系统上安装svn" itemprop="url">fedora20系统上安装svn</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-27T13:38:16.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="fedora20系统上安装svn-server"><a href="#fedora20系统上安装svn-server" class="headerlink" title="fedora20系统上安装svn server"></a>fedora20系统上安装svn server</h1><pre><code>yum install svnserver    
+</code></pre><h3 id="权限-amp-用户配置"><a href="#权限-amp-用户配置" class="headerlink" title="权限&amp;用户配置"></a>权限&amp;用户配置</h3><p>创建一个svn库目录：</p>
+<pre><code>mkdir /opt/svnRepos
+</code></pre><p>创建一个svn库：</p>
+<pre><code>svnadmin create svntest
+</code></pre><p>配置用户名/密码与权限:</p>
+<pre><code>vi svntest/config/svnserve.conf
+</code></pre><p>svnserver.conf的主要配置：</p>
+<pre><code>[general]
+anon-access = none
+auth-access = write
+password-db = ../../userConf/passwd
+authz-db = ../../userConf/authz
+realm = lebond-ios
+</code></pre><p>fedora 20 系统上设置svnserve自启动：<br>先查看下svnserve.service的启动命令：</p>
+<pre><code>vi /usr/lib/systemd/system/svnserve.service 
+</code></pre><p>发现里面加载了<code>/etc/sysconfig/svnserve</code></p>
+<p>则修改/etc/sysconfig/svnserve配置文件如下：</p>
+<pre><code>[root@localhost ~]# vi /etc/sysconfig/svnserve 
+
+OPTIONS=&quot;-r /opt/lebondSvnRepo&quot;
+</code></pre><p>然后执行:</p>
+<pre><code>systemctl enable svnserve.service
+chkconfig --level 2345 svnserve on
+</code></pre><p>然后重启服务器测试一下。。。。</p>
+<p>另一种方式：<br>Fedora 20 这个版本系统是没有 rc.local 这个开机脚本文件了，当然，也不是说官方打算取消这个功能，而且如果有需要，需要自己新建，并且手动配置。</p>
+<p>现在我需要开机自启动这个服务，利用 rc.local 这个文件，位于 /etc/rc.d/ 目录下，如果没有就自己创建一个。</p>
+<pre><code>su
+cd /etc/rc.d
+touch rc.local
+</code></pre><p>然后赋予其运行权限：</p>
+<pre><code>chmod +x rc.local
+</code></pre><p>接下来就可以在里面写入你需要开机执行的命令了！我除了运行 DNSCrypt 服务，还需要打开 Goagent ，那么我在 rc.local 写入的内容就是：</p>
+<pre><code>#!/bin/bash
+svnserve -d -r /opt/lebondSvnRepo
+</code></pre><p>然后重启一下 rc.local 服务，一样要用到 systemctl 命令。</p>
+<pre><code>systemctl restart rc-local.service
+</code></pre><h3 id="开机启动svnserve遇到的问题："><a href="#开机启动svnserve遇到的问题：" class="headerlink" title="开机启动svnserve遇到的问题："></a>开机启动svnserve遇到的问题：</h3><ol>
+<li>虽然两种方法都可以实现开机启动svnserve，但是在客户端访问时，却是报错的，原因还不明确</li>
+<li>检查了端口和目录设置，全部都没有问题，只能每次打开服务器以后执行一遍开启svnserve的sh</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/安装svn/">安装svn</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/07/27/fedora20系统上安装svn_server/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/07/27/fedora20系统上安装svn_server/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/07/27/构建最新的nodejs_docker服务器/" title="构建最新的nodejs docker服务器" itemprop="url">构建最新的nodejs docker服务器</a>
   </h1>
   <p class="article-author">By
@@ -460,7 +563,7 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" title="《西游记》里有哪些不易发现却很打动人的小细节？" itemprop="url">《西游记》里有哪些不易发现却很打动人的小细节？</a>
+      <a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" title="2012年年中的macbook显卡门解决方案" itemprop="url">2012年年中的macbook显卡门解决方案</a>
   </h1>
   <p class="article-author">By
        
@@ -473,20 +576,15 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 </header>
     <div class="article-content">
         
-        <h1 id="《西游记》里有哪些不易发现却很打动人的小细节？"><a href="#《西游记》里有哪些不易发现却很打动人的小细节？" class="headerlink" title="《西游记》里有哪些不易发现却很打动人的小细节？"></a>《西游记》里有哪些不易发现却很打动人的小细节？</h1><p>补充一个，因为徒弟们都是正儿八经的神仙，唐长老的理论水平比起他三个徒弟不知道差到哪里去了。\<br>\<br>比如长老出门尿尿顺便喊大家赏月吟个诗，结果接受徒弟们的理论基础再教育，还被狠狠吐槽了一番。徒弟们之间还顺便开展了理论探讨。\<br>\</p>
-<blockquote>
-<p>唐僧举步出门小解，只见明月当天，叫：“徒弟。”行者、八戒，沙僧都出来侍立。因感这月清光皎洁，玉宇深沉，真是一轮高照，大地分明，对月怀归，口占一首古风长篇。</p>
-</blockquote>
-<p>长老呀！要提高自己的姿势水平，晓得不晓得啊？我为你着急啊！<br>===========================================================\<br>\<br>白龙马的尿，有奇效。\<br>\</p>
-<blockquote>
-<p>行者道：“你不知就里，我那马不是凡马，他本是西海龙身。</p>
-</blockquote>
-<p>\<br>因此白龙马的尿的作用包括：\<br>包治百病；\<br>把鱼升级成龙；\<br>把草升级成灵芝；\<br>长寿。\</p>
+        <h1 id="2012年年中的macbook-pro-retenia显卡门解决方案"><a href="#2012年年中的macbook-pro-retenia显卡门解决方案" class="headerlink" title="2012年年中的macbook pro retenia显卡门解决方案"></a>2012年年中的macbook pro retenia显卡门解决方案</h1><p>上个月买了前同事的一台macbookpro 是12年的15inch顶配，而且还是独立显卡的，才花了我7000块，本来很开心，但最近发现，他的电池循环数才201次，电池损耗量也很小，他的续航时间却特别的短，充满电才续航4个半小时，让我很生气。。。。。。</p>
+<p><img src="https://github.com/huguiqi/blogCode/blob/master/postImg/%7BH9F16EG8H%VN%_1G]K" alt="图片">)OX.jpg)</p>
+<p>后面上网查了下，发现是2012年的那款电脑硬件有严重缺陷，凡是带独立显卡的macbook 耗电非常大，而mac系统自带的自动切换显卡内核又非常不准确,推荐一款手动选择使用集成显卡还是独立显卡的软件：</p>
+<p><a href="https://github.com/codykrieger/gfxCardStatus" target="_blank" rel="noopener">gfxCardStatus</a></p>
+<p>可以选择集显还是独显，这样，长达5-6个小时的续航时间又回来了。。。。。。</p>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#more">Read More</a>
           
        </p>
     </div>
@@ -495,13 +593,13 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  <span></span> <a href="/tags/macbook显卡门/">macbook显卡门</a>
   </div>
 
 </div>
@@ -512,7 +610,75 @@ sudo gitlab-rake cache:clear RAILS_ENV=production
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/《西游记》里有哪些不易发现却很打动人的小细节？/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/2012年年中的macbook_pro_retenia显卡门解决方案/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/" title="将 Mac 中的文件夹共享到虚拟机" itemprop="url">将 Mac 中的文件夹共享到虚拟机</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="将-Mac-中的文件夹共享到虚拟机"><a href="#将-Mac-中的文件夹共享到虚拟机" class="headerlink" title="将 Mac 中的文件夹共享到虚拟机"></a>将 Mac 中的文件夹共享到虚拟机</h2><hr>
+<p>我用的是vmware Fusion 7.0</p>
+<p><strong>要在 Linux 或 Solaris 虚拟机中配置共享文件夹，请执行以下操作：</strong></p>
+<p><em>注意：FreeBSD 不支持共享文件夹。</em></p>
+<p>启动 VMware Fusion。<br>关闭虚拟机。<br>单击虚拟机 &gt; 设置。<br>单击共享。<br>在 Fusion 8.x 和 7.x 中，选择启用共享文件夹选项。在 Fusion 6.x 、5.x 和 4.x 中，将共享文件夹选项选为开启。在 Fusion 3.x 中，选择在 Mac 上共享文件夹选项。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mac-虚拟机-共享-vmware/">mac 虚拟机 共享 vmware</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/06/13/将_mac_中的文件夹共享到虚拟机/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/将_mac_中的文件夹共享到虚拟机/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -637,7 +803,7 @@ GATEWAY192.168
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/06/13/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
+      <a href="/2016/06/13/iptables与docker的作死碰撞/" title="docker安装了iptalbes以后，出现的悲剧与解决方案" itemprop="url">docker安装了iptalbes以后，出现的悲剧与解决方案</a>
   </h1>
   <p class="article-author">By
        
@@ -650,88 +816,14 @@ GATEWAY192.168
 </header>
     <div class="article-content">
         
-        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
-<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/" target="_blank" rel="noopener">下载地址(文档)</a></p>
-</li>
-<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
+        <h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a href="#docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" title="docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
+<p>情况是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@localhost ~]# docker ps -a</span><br><span class="line">CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES</span><br><span class="line">5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab</span><br><span class="line">782e02f14fb3        sameersbn/gitlab:8.6.4                                             &quot;/sbin/entrypoint.sh &quot;   4 days ago          Exited (128) 3 minutes ago                                                           gitlab</span><br><span class="line">7a3f275fa634        sameersbn/redis:latest                                             &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis</span><br><span class="line">6960c6b73115        sameersbn/postgresql:9.4-18                                        &quot;/sbin/entrypoint.sh&quot;    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql</span><br><span class="line">2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   &quot;/bin/sh -c &apos;pip inst&quot;   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi</span><br><span class="line">[root@localhost ~]# docker start 782</span><br><span class="line">Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.</span><br><span class="line"> (exit status 1)</span><br><span class="line">Error: failed to start containers: [782]</span><br><span class="line">[root@localhost ~]# docker rm 782</span><br></pre></td></tr></table></figure>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/06/13/3d_touch例子一个/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/docker_换国内镜像/" title="docker 换国内镜像" itemprop="url">docker 换国内镜像</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="docker-换国内镜像"><a href="#docker-换国内镜像" class="headerlink" title="docker 换国内镜像"></a>docker 换国内镜像</h2><p>搞了一天，终于把docker的地址换成国内镜像了，搞死我了。。。。。。</p>
-<p>把链接附上，这是国内号称永久免费的镜像服务，需要注册<br><a href="https://dashboard.daocloud.io/mirror" target="_blank" rel="noopener">https://dashboard.daocloud.io/mirror</a></p>
-<p>安装或升级Mac OS版本Boot2Docker</p>
-<p>Docker 1.3.2 版本以上支持加速器，如果您没有安装 Docker 或者版本较旧，请安装或升级。</p>
-<p>参考 Boot2Docker 安装文档。高速下载 Boot2Docker</p>
-<p>配置Docker加速器</p>
-<p>请确认你的 Boot2Docker 已经启动，并执行<br><code><br>boot2docker up</code></p>
-<p>boot2docker ssh “echo $’EXTRA_ARGS=\”–registry-mirror=<a href="http://xxxx.m.daocloud.io\" target="_blank" rel="noopener">http://xxxx.m.daocloud.io\</a>“‘ | sudo tee -a /var/lib/boot2docker/profile”</p>
-<p>boot2docker restart<br> </p>
-<p><strong>其中xxxx是你登陆以后分配给你的mirror</strong>  </p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/06/13/docker_换国内镜像/#more">Read More</a>
+            <a href="/2016/06/13/iptables与docker的作死碰撞/#more">Read More</a>
           
        </p>
     </div>
@@ -746,7 +838,7 @@ GATEWAY192.168
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/docker-国内镜像/">docker 国内镜像</a>
+  <span></span> <a href="/tags/iptables与docker的作死碰撞/">iptables与docker的作死碰撞</a>
   </div>
 
 </div>
@@ -757,73 +849,7 @@ GATEWAY192.168
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/06/13/docker_换国内镜像/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/docker_换国内镜像/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/06/13/2016.1_jetbrains注册与破解/" title="2016.1_JetBrains注册与破解" itemprop="url">2016.1_JetBrains注册与破解</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-06-13T10:06:16.000Z" itemprop="datePublished"> 发表于 2016-06-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="2016-1-JetBrains注册与破解"><a href="#2016-1-JetBrains注册与破解" class="headerlink" title="2016.1_JetBrains注册与破解"></a>2016.1_JetBrains注册与破解</h1><h2 id="一，下载2016版的webStorm"><a href="#一，下载2016版的webStorm" class="headerlink" title="一，下载2016版的webStorm"></a>一，下载2016版的webStorm</h2><p>安装后<a href="链接: http://pan.baidu.com/s/1kTW4aR9">下载破解包</a><br> 密码: tp7k</p>
-<h2 id="二，破解webStorm"><a href="#二，破解webStorm" class="headerlink" title="二，破解webStorm"></a>二，破解webStorm</h2><p>下载JetbrainsCrack_2016.1.jar,打开webStorm.app所在application,右键show Packages Contents,进入Contents/bin目录，copy JetbrainsCrack_2016.1.jar ,打开webstorm.vmoptions文件，在最后一行加上:</p>
-<pre><code>-javaagent:JetbrainsCrack_2016.1.jar
-</code></pre><p>保存关闭，重新打开webStorm，会发现已经破解成功</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/webStorm破解/">webStorm破解</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/06/13/2016.1_jetbrains注册与破解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/2016.1_jetbrains注册与破解/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/06/13/iptables与docker的作死碰撞/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/06/13/iptables与docker的作死碰撞/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1045,6 +1071,10 @@ GATEWAY192.168
 		  
 		
 		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
 		  
 		
@@ -1132,7 +1162,7 @@ GATEWAY192.168
 			
 		
 			
-				<li><a href="/tags/springboot-activiti/" title="springboot-activiti">springboot-activiti<sup>1</sup></a></li>
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
 			
 		
 			
