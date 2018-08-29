@@ -92,411 +92,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/SVN分支与合并/" title="SVN分支与合并" itemprop="url">SVN分支与合并</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="SVN分支与合并"><a href="#SVN分支与合并" class="headerlink" title="SVN分支与合并"></a>SVN分支与合并</h1><h1 id="SVN分支与合并-1"><a href="#SVN分支与合并-1" class="headerlink" title="SVN分支与合并"></a><a href="http://www.cnblogs.com/cnblogsfans/archive/2011/02/16/1955808.html" target="_blank" rel="noopener">SVN分支与合并</a></h1><div><br><br><strong>一些相关的概念和原理</strong><br><br>· 分支(branch)和标记(tag)对于 SVN<br>来说就只是副本(copy)，没有任何其它意义。分支和标记的意义是我们人为给予的。<br><br>· SVN 的副本是通过”cheap copies “来实现的，建立一个副本就类似 Unix<br>中创建一个硬链接(hard<br>link)，空间和时间的消耗都是固定并且很小的，因此不必太过担心副本太多而导致性能问题。<br><br>· SVN 的文件储存<br>是通过差异(diff)来实现的，底层储存方法有两种：1、Berkeley<br>DB，完整保存一个文件的最新版本(revision)，旧版本通过反向差异(reverse<br>diffs)来获取。2、FSFS，跟 BDB<br>相反，完整保存一个文件的初始版本，后续版本通过正向差异来获取。当然，为了避免版本太多而造成性能下降，SVN<br>还使用了”skip-deltas “来减少需要追溯的版本数。<br><br>· SVN 属性(property<br>)可以附带在文件、目录和版本(revision)上。文件和目录的属性类似文件内容，会被记录进版本库中的，例如每次提交时的注释，其实就是该版本的一<br>个属性<br>svn:log。以”svn:”开头的属性是系统预留的，用户不应该自定义这样的属性。<br><br><strong>进行分支开发的最佳实践</strong><br><br>·<br>做分支上做开发的时候，必须定期使分支与主干同步，避免开发完成后合并(merge)回主干时出现严重冲突(confict)。<br><br>·<br>进行合并前，处理掉工作副本上的所有本地修改，方便合并失败时进行回滚(revert)。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/SVN分支与合并/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/SVN分支与合并/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN分支与合并/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/" title="SVN客户端命令行设置忽略文件列表" itemprop="url">SVN客户端命令行设置忽略文件列表</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="SVN客户端命令行设置忽略文件列表"><a href="#SVN客户端命令行设置忽略文件列表" class="headerlink" title="SVN客户端命令行设置忽略文件列表"></a>SVN客户端命令行设置忽略文件列表</h1><p><span style="font: 20.0px Times">SVN设置忽略文件列表\<br></span><span style="font: 12.0px Arial; background-color: #eeeeee">\<br></span><span style="font: 12.0px Arial">\<br></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">在公司中项目的版本管控一般都是使用集中式的SVN，我也是从svn工具中熟悉基本的版本管理概念和操作。但是作为一个Linux系统及应用开发者，自然对Git分布式管理工具要有所熟悉。现在个人项目管理都是使用git进行版本控制，对git的一些操作也比较熟悉，而svn一般用的是Windows下的图像工具，而对svn的命令行稍显陌生。\</span></p>
-<p>在git工具中，设置忽略文件只需要修改版本库根目录下的.gitignore文件就可以了，没有的话创建一个，非常简单，一个示例的.gitignore文件如下：过滤文件模式以行进行分隔\<br>\<br><span style="font: 13.0px 'Courier New'; color: #afafaf">01\<br></span><span style="font: 13.0px 'Courier New'">*.o\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">02\<br></span><span style="font: 13.0px 'Courier New'">*.lo\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">03\<br></span><span style="font: 13.0px 'Courier New'">*.la\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">04\<br></span><span style="font: 13.0px 'Courier New'">*.gcda\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">05\<br></span><span style="font: 13.0px 'Courier New'">*.gcno\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">06\<br></span><span style="font: 13.0px 'Courier New'">aclocal.m4\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">07\<br></span><span style="font: 13.0px 'Courier New'">autom4te.cache\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">08\<br></span><span style="font: 13.0px 'Courier New'">build\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">09\<br></span><span style="font: 13.0px 'Courier New'">compile\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">10\<br></span><span style="font: 13.0px 'Courier New'">config.guess\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">11\<br></span><span style="font: 13.0px 'Courier New'">config.h\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">12\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span <!--more--=""><br>style=”font: 13.0px ‘Courier New’”&gt;\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">13\<br></span><span style="font: 13.0px 'Courier New'">config.h.</span><span style="font: 13.0px 'Courier New'; color: #006699"><strong>in</strong></span><span style="font: 13.0px 'Courier New'">~\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">14\<br></span><span style="font: 13.0px 'Courier New'">config.log\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">15\<br></span><span style="font: 13.0px 'Courier New'">config.status\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">16\<br></span><span style="font: 13.0px 'Courier New'">config.sub\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">17\<br></span><span style="font: 13.0px 'Courier New'">configure\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">18\<br></span><span style="font: 13.0px 'Courier New'">depcomp\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">19\<br></span><span style="font: 13.0px 'Courier New'">.deps\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">20\<br></span><span style="font: 13.0px 'Courier New'; color: #ff2f93">install</span><span style="font: 13.0px 'Courier New'">-sh\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">21\<br></span><span style="font: 13.0px 'Courier New'">.libs\<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">22\<br></span><span style="font: 13.0px 'Courier New'">libtool\<br></span><span style="font: 14.0px Arial">今天在使用svn时想设置忽略一些临时的项目开发文件，一下子不知道怎么弄，上网搜索和实践后，发现也不难，在此记录一下。配置的方法有以下几种：</span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br>\<br></span><span style="font: 24.0px Arial"><strong>Linux下svn命令行配置\
-</strong></span><span style="font: 13.0px Arial; letter-spacing: 0.5px">\<br></span><span style="font: 20.0px Arial"><strong>1. 修改版本库的相关属性\
-</strong></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ svn propedit<br>svn:ignore </span><span style="font: 13.0px 'Courier New'; color: #ff2f93">dir</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">其中 dir<br>就是你所想设置过滤文件列表的目录，执行命令之后，会出现编辑界面，按照空格将你想过滤文件（通常使用通配符的方式）以空格分开，保存退出即可。这个属性是针对版本库进行的修改，因此需要提交这个修改。svn:ignore是svn的一个参数。 \<br> 注意：这个设置无法递归，也就是如果 dir<br>目录下还有子目录的话，是单独设置的。 \<br></span><span style="font: 20.0px Arial"><strong>2. svn 客户端的配置\
-</strong></span><span style="font: 14.0px Arial">对 svn<br>命令的配置文件修改即可。进入个人用户目录 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">\$ vim<br>.subversion/config\<br></span><span style="font: 14.0px Arial">找到包含  [miscellany]<br>这一行，取消注释，然后编辑包含 global-ignores<br>的那一行，取消注释，并添加需要过滤文件的通配符即可。如下所示：注意开头不能有空格，否则svn会报错。 \<br></span><span style="font: 13.0px 'Courier New'; color: #afafaf">1\<br></span><span style="font: 13.0px 'Courier New'">global-ignores = *.so<br>*.a *.o *.lo *.la .*.rej *.rej .*~ *~ .</span><span style="font: 13.0px 'Courier New'; color: #008200">#*<br>.DS_Store</span><span style="font: 13.0px 'Courier New'">\<br></span><span style="font: 14.0px Arial">这个配置是对客户端的修改，对版本库没有任何影响。同时，这个配置也是全局的，适用于本机所有<br>svn 管理的项目。</span></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/SVN客户端命令行设置忽略文件列表/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/SVN客户端命令行设置忽略文件列表/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/" title="Session，Cookie，jsessionid，Url重写" itemprop="url">Session，Cookie，jsessionid，Url重写</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Session，Cookie，jsessionid，Url重写"><a href="#Session，Cookie，jsessionid，Url重写" class="headerlink" title="Session，Cookie，jsessionid，Url重写"></a>Session，Cookie，jsessionid，Url重写</h1><div><br><br>\<br><br></div>
-
-<div><br><br>在一些投票之类的场合，我们往往因为公平的原则要求每人只能投一票，在一些WEB开发中也有类似的情况，这时候我们通常会使用COOKIE来实现，例如如下的代码：<br><br></div>
-
-<p>&lt; % cookie[]cookies = request.getCookies();</p>
-<p>if (cookies.lenght == 0 || cookies == null){</p>
-<p>doStuffForNewbie();</p>
-<p>//没有访问过</p>
-<p>}else{</p>
-<p>doStuffForReturnVisitor(); //已经访问过了</p>
-<p>}</p>
-<p>% &gt;</p>
-<p>这是很浅显易懂的道理，检测COOKIE的存在，如果存在说明已经运行过写入COOKIE的代码了，然而运行以上的代码后，无论何时结果都是执行<br>doStuffForReturnVisitor()，通过控制面板-Internet选项-设置-察看文件却始终看不到生成的cookie文件，奇怪，<br>代码明明没有问题，不过既然有cookie，那就显示出来看看。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Session，Cookie，jsessionid，Url重写/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/字符，字节和编码/" title="字符，字节和编码" itemprop="url">字符，字节和编码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="字符，字节和编码"><a href="#字符，字节和编码" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h1><h2 id="字符，字节和编码-1"><a href="#字符，字节和编码-1" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h2><p>级别：中级</p>
-<blockquote>
-<p>摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。</p>
-<p>掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。</p>
-</blockquote>
-<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>“字符与编码”是一个被经常讨论的话题。即使这样，时常出现的乱码仍然困扰着大家。虽然我们有很多的办法可以用来消除乱<br>码，但我们并不一定理解这些办法的内在原理。而有的乱码产生的原因，实际上由于底层代码本身有问题所导致的。因此，不仅是初学者会对字符编码感到模糊，有<br>的底层开发人员同样对字符编码缺乏准确的理解。</p>
-<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
-| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
-<h4 id="1-编码问题的由来，相关概念的理解"><a href="#1-编码问题的由来，相关概念的理解" class="headerlink" title="1. 编码问题的由来，相关概念的理解"></a>1. 编码问题的由来，相关概念的理解</h4><h5 id="1-1-字符与编码的发展"><a href="#1-1-字符与编码的发展" class="headerlink" title="1.1 字符与编码的发展"></a>1.1 字符与编码的发展</h5><p>从计算机对多国语言的支持角度看，大致可以分为三个阶段：</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/字符，字节和编码/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/字符，字节和编码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/字符，字节和编码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/对javascript的理解/" title="对javascript的理解" itemprop="url">对javascript的理解</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="对javascript的理解"><a href="#对javascript的理解" class="headerlink" title="对javascript的理解"></a>对javascript的理解</h1><p><span style="font-size: 18px;">按照定义，每个javascript对象都有一个原型对象（简称原型），这个原型是由该对象的构造函数所定义（javascript自动创建的），并且对象继承原型的所有属性和方法（函数），比如<br>一个String对象 的原型为 String.prototype<br>，如果我们想要给String类添加方法，可以这样做（比如添加常用的trim()方法）：</span></p>
-<div><br><br><span style="font-size: 18px;">js 代码</span><br><br></div>
-
-<div><br><br><span style="font-size: 18px;">String.prototype.trim = function (){<br>  </span><br><br></div>
-
-<div><br><br><span style="font-size: 18px;">  return<br>this.replace(/(\^\s*)|(\s*\$)/g, “”);   </span><br><br></div>
-
-<div><br><br><span style="font-size: 18px;">}  </span><br><br></div>
-
-<div><br><br><span style="font-size: 18px;">\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/对javascript的理解/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/对javascript的理解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对javascript的理解/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/对象序列化框架/" title="对象序列化框架" itemprop="url">对象序列化框架</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="对象序列化框架"><a href="#对象序列化框架" class="headerlink" title="对象序列化框架"></a>对象序列化框架</h2><p><a href="http://code.google.com/p/kryo/" target="_blank" rel="noopener">kryo</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/对象序列化框架/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对象序列化框架/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/StoryBoard学习博客/" title="StoryBoard学习博客" itemprop="url">StoryBoard学习博客</a>
   </h1>
   <p class="article-author">By
@@ -567,7 +162,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/FileWriter注意事项/" title="FileWriter注意事项" itemprop="url">FileWriter注意事项</a>
+      <a href="/2016/03/30/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/" title="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA" itemprop="url">HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</a>
   </h1>
   <p class="article-author">By
        
@@ -580,9 +175,102 @@
 </header>
     <div class="article-content">
         
-        <h1 id="FileWriter注意事项"><a href="#FileWriter注意事项" class="headerlink" title="FileWriter注意事项"></a>FileWriter注意事项</h1><div><br><br>//true—-写文件时会叠加进去，false/默认—写文件时会覆盖原来的内容<br><br></div>
+        <h1 id="HOW-TO-INSTALL-MYSQL-5-6-ON-CENTOS-6-3-REDHAT-EL6-FEDORA"><a href="#HOW-TO-INSTALL-MYSQL-5-6-ON-CENTOS-6-3-REDHAT-EL6-FEDORA" class="headerlink" title="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA"></a>HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</h1><div style="box-sizing: border-box; padding: 0px; border: 0px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif; line-height: 16px; vertical-align: baseline; color: rgb(78, 78, 78);"><br><br><div style="box-sizing: border-box; padding: 0px 10px; border: 0px; font-family: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; clear: both; max-width: 960px;"><br><br><div style="box-sizing: border-box; padding: 20px 10px 15px; border: 0px; font-family: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; float: left;"><br><br><div style="box-sizing: border-box; padding: 0px; border: 0px; font-family: Oxygen, Georgia, serif; font-style: inherit; font-variant: inherit; line-height: 1; vertical-align: baseline;"><br><br><span style="color: rgb(82, 82, 82); font-style: inherit; font-variant: inherit; line-height: 1.1; text-transform: uppercase; font-size: 18px;"><span style="-evernote-last-insertion-point:true;"></span>How to Install MySQL<br>5.6 on CentOS 6.3/RedHat EL6/Fedora</span>\<br><br></div>
 
-<p>fileWriter = new FileWriter(file,true);</p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<div style="font-size: inherit; box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; clear: both; max-width: 960px;"><br><br><div style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline;"><br><br><div style="box-sizing: border-box; padding: 0px 10px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; min-height: 1px; float: left;"><br><br><div <!--more--=""><br>style=”box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline;”&gt;<br><br><div style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline;"><br><br><div style="box-sizing: border-box; padding: 0px; border: 0px none; font-family: inherit; font-size: 1px; font-style: inherit; font-variant: inherit; line-height: normal; vertical-align: baseline; float: none;"><br><br></div>
+
+<p></p></div><p></p>
+<p>First head <a href="http://www.mysql.com/downloads/mysql/5.6.html#downloads" target="_blank" rel="noopener">over<br>here</a> and<br>download MySQL 5.6.14 rpm’s under <strong>Oracle &amp; Redhat Linux 6</strong> section of<br>rpm’s.</p>
+<p><strong>You want to download these rpm’s to your CentOS 6 server [As we will<br>install 64bit version on MySQL 5.6] :</strong></p>
+<ol>
+<li>Red Hat/Oracle Enterprise Linux ver. 6 (x86, 64-bit), RPM Package –<br>MySQL Server : MySQL-server-5.6.14-1.el6.x86_64.rpm</li>
+<li>Red Hat/Oracle Enterprise Linux ver. 6 (x86, 64-bit), RPM Package –<br>Shared components : MySQL-shared-5.6.14-1.el6.x86_64.rpm</li>
+<li>Red Hat/Oracle Enterprise Linux ver. 6 (x86, 64-bit), RPM Package –<br>Client Utilities : MySQL-client-5.6.14-1.el6.x86_64.rpm</li>
+</ol>
+<p>To download on command line [Make sure that you have wget utility<br>installed, if not install it :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install wget</span><br></pre></td></tr></table></figure>
+<p>Now download the rpm’s with wget utility:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/</span><br><span class="line"></span><br><span class="line">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-client-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/</span><br><span class="line"></span><br><span class="line">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-001.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/BC128684-5931-41F9-BFE1-895765AF6680.png" alt=""></a></p>
+<p>Now start installing rpms onto your server:</p>
+<p>Make sure that Perl is installed on your server before you install<br>MySQL, if not MySQL server rpm will complain that it cannot be<br>installed. So its kind of pre-requisite.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-002.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/433C6E4B-183D-4296-AEA5-854621C0874C.png" alt=""></a></p>
+<p>To Install perl run :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install perl</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-003.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/A551A323-47EB-4EC8-9B4E-313A4A0CBBF5.png" alt=""></a></p>
+<p>Install MySQL 5.6 rpms now :</p>
+<p>Start with shared libraries first and then work towards installing<br>server and client utilities at the very end.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh MySQL-shared-5.6.14-1.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh MySQL-server-5.6.14-1.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh MySQL-client-5.6.14-1.el6.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>If you have conflicts with existing libs(install of<br>MySQL-server-5.6.10-1.el6.x86_64 conflicts with file from package<br>mysql-libs-5.1.66-2.el6_3.x86_64), please download shared-compact<br>package and do the following (Once complete, please re-install as stated<br>above) :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-compat-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/</span><br><span class="line">rpm -UvhMySQL-shared-compat-5.6.10-1.el6.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-004.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/C42AF6A2-001A-4AF7-A5A0-A2CB61B7EFE9.png" alt=""></a></p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-005.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/489AAA32-29FC-4F60-9D57-DCD281701469.png" alt=""></a></p>
+<p>On a successful install you should be seeing the log below:</p>
+<p><span style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; text-decoration: underline;"><strong>MySQL<br>Server Installation log:</strong></span></p>
+<p><em>Preparing…<br>###########################################<br>[100%]</em></p>
+<p><em>1:MySQL-server<br>###########################################<br>[100%]</em></p>
+<p><em>2013-02-08 14:59:19 0 [Warning] TIMESTAMP with implicit DEFAULT value<br>is deprecated. Please use –explicit_defaults_for_timestamp server<br>option (see documentation for more details).</em></p>
+<p><em>2013-02-08 14:59:19 2959 [Note] InnoDB: The InnoDB memory heap is<br>disabled</em></p>
+<p><em>2013-02-08 14:59:19 2959 [Note] InnoDB: Mutexes and rw_locks use GCC<br>atomic builtins</em></p>
+<p><em>2013-02-08 14:59:19 2959 [Note] InnoDB: ………</em></p>
+<p><em>2013-02-08 14:59:19 2959 [Note] InnoDB: ………</em></p>
+<p><em>A RANDOM PASSWORD HAS BEEN SET FOR THE MySQL root USER ! You will find<br>that password in ‘/root/.mysql_secret’.</em></p>
+<p><em>You must change that password on your first connect, no other statement<br>but ‘SET PASSWORD’ will be accepted. See the manual for the semantics of<br>the ‘password expired’ flag.</em></p>
+<p><em>Also, the account for the anonymous user has been removed.</em></p>
+<p><em>In addition, you can run:</em></p>
+<p><em>/usr/bin/mysql_secure_installation</em></p>
+<p><em>which will also give you the option of removing the test database. This<br>is strongly recommended for production servers.</em></p>
+<p><em>See the manual for more instructions.</em></p>
+<p><em>Please report any problems with the /usr/bin/mysqlbug script!</em></p>
+<p><em>The latest information about MySQL is available on the web at</em></p>
+<p><em><a href="http://www.mysql.com" target="_blank" rel="noopener">http://www.mysql.com</a></em></p>
+<p><em>Support MySQL by buying support/licenses at <a href="http://shop.mysql.com" target="_blank" rel="noopener">http://shop.mysql.com</a></em></p>
+<p><em>WARNING: Found existing config file /usr/my.cnf on the system. Because<br>this file might be in use, it was not replaced, but was used in<br>bootstrap (unless you used –defaults-file) and when you later start the<br>server. The new default config file was created as /usr/my-new.cnf,<br>please compare it with your file and take the changes you need.</em></p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-007.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/0251429D-A06A-4B5E-BA32-480C095C86A8.png" alt=""></a></p>
+<p> Its all done, lets set some passwords, create user and grant access to<br>outside clients for accessing the database:</p>
+<p> In MySQL 5.6 root has a default password assigned and its located<br>at <strong>/root/.mysql_secret</strong> file as mention in MySQL server Installation<br>log.</p>
+<p> <a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-008.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/45816615-FC51-4876-91E6-0A0EDA0A25B9.png" alt=""></a></p>
+<p> cat that file :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /root/.mysql_secret</span><br></pre></td></tr></table></figure>
+<p>to get the password that has been set for MySQL default root user</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-009.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/7033909A-E5C0-444A-8BD7-D5CD904AFAAE.png" alt=""></a></p>
+<p>Now lets login to the database server for the first time and set<br>password. That’s the only first SQL command that works before you can<br>proceed any further. To do that we need to start our newly installed<br>database server.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql start</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-010.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/D28BF1D0-E822-4636-92C2-B39B7183DE3B.png" alt=""></a></p>
+<p>Now login into database server using MySQL client utility and change<br>password. To login into database server simply run command below and<br>provide with the password that installation generated for you in<br>/root/.mysql_secret file.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-011.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/1B793CBA-29E0-4694-9689-6BFCD1BC8501.png" alt=""></a></p>
+<p>Once you logged in, you have to change your root users default password.<br>You cannot run any others commands.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-012.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/9F48EC8F-558D-413D-B80A-BF8B7D507A57.png" alt=""></a></p>
+<p>To change MySQL 5.6 database server root password simply run this<br>command :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET PASSWORD FOR &apos;root&apos; &apos;localhost&apos;= PASSWORD(&apos;opensourcedbms&apos;);</span><br></pre></td></tr></table></figure>
+<p>Also there are other root users in MySQL if you are familiar with its<br>users table [<em>root 127.0.0.1 ; root ::1, root hostname</em>], once you<br>login with superuser you can update all of them later. Also once all<br>this is done you can remove /root/.mysql_secret file.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-013.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/F16661B7-0A03-417A-B9E4-FD0C2939EEBB.png" alt=""></a></p>
+<p>Now that you have set root user password, create a super user to access<br>database server from outside server. Its generally not a good practice<br>to grant root user access to outside world.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &apos;superadmin&apos; &apos;%&apos; IDENTIFIED BY &apos;opensourcedbmsadmin&apos;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL ON *.* TO &apos;superadmin&apos; &apos;%&apos; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-014.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/B2855C09-D932-482F-A9BE-2D161DF347E4.png" alt=""></a></p>
+<p>Now you can exit out of mysql command line client<br>[Type <strong>\q</strong> or <strong>quit</strong> to exit] and we can use this newly created<br>user to access this database server from outside world. Before you can<br>do that, make sure that your server firewall rules are updated for<br>granting this server to respond at port 3306 for outside world. First<br>get out of the mysql command line client and to add a new firewall rule<br>to your CentOS database server firewall rules and to do that edit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure>
+<p>file and add the following line:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306-j ACCEPT</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-015.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AAC3956C-4E4F-4149-89EB-EF1022AD3544.png" alt=""></a></p>
+<p>Save and exit out of the file and restart iptables for the new rule to<br>take effect. To restart iptables, simply run the following command :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service iptables restart</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-017.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/897A1C95-59A7-4008-B6C8-3D692F36C6FF.png" alt=""></a></p>
+<p>Last but not least make sure that this new MySQL server is enabled to<br>auto start when server restarts.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig mysql --level 2345 on</span><br></pre></td></tr></table></figure>
+<p>Now you are ready to connect to this database server from any host in<br>your network. Simply open a database client [MySQL Workbench / Navicat<br>/ SQLYog are few clients that you can use to access it from GUI side of<br>things] that you installed and provide the new super user/password that<br>you created and the host-name of this server and there you will be in<br>your new database server.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2012/07/Image-014.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AE614895-ABCD-4A2F-8FB9-279C8C3A7879.png" alt=""></a><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2012/07/Image-015.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/E0DF7E72-6ABA-429B-8D7E-E7F5F022EC3B.png" alt=""></a></p>
+<p>If you are running this server in a virtual box environment, make sure<br>that you do port forwarding (NAT Only) to pass through 3306 database<br>port to guest VM which can be done by going to settings of your VM &gt;<br>Network &gt; Advanced &gt; Port forwarding. This is more specific to<br>Oracle Virtual Box.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-018.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/4687B363-995A-4695-896E-2F5F8ED345F3.png" alt=""></a></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
 
         
         
@@ -612,7 +300,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/FileWriter注意事项/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/FileWriter注意事项/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1025,6 +713,413 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/30/字符，字节和编码/" title="字符，字节和编码" itemprop="url">字符，字节和编码</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="字符，字节和编码"><a href="#字符，字节和编码" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h1><h2 id="字符，字节和编码-1"><a href="#字符，字节和编码-1" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h2><p>级别：中级</p>
+<blockquote>
+<p>摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。</p>
+<p>掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。</p>
+</blockquote>
+<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>“字符与编码”是一个被经常讨论的话题。即使这样，时常出现的乱码仍然困扰着大家。虽然我们有很多的办法可以用来消除乱<br>码，但我们并不一定理解这些办法的内在原理。而有的乱码产生的原因，实际上由于底层代码本身有问题所导致的。因此，不仅是初学者会对字符编码感到模糊，有<br>的底层开发人员同样对字符编码缺乏准确的理解。</p>
+<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
+<h4 id="1-编码问题的由来，相关概念的理解"><a href="#1-编码问题的由来，相关概念的理解" class="headerlink" title="1. 编码问题的由来，相关概念的理解"></a>1. 编码问题的由来，相关概念的理解</h4><h5 id="1-1-字符与编码的发展"><a href="#1-1-字符与编码的发展" class="headerlink" title="1.1 字符与编码的发展"></a>1.1 字符与编码的发展</h5><p>从计算机对多国语言的支持角度看，大致可以分为三个阶段：</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/字符，字节和编码/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/字符，字节和编码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/字符，字节和编码/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/对javascript的理解/" title="对javascript的理解" itemprop="url">对javascript的理解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="对javascript的理解"><a href="#对javascript的理解" class="headerlink" title="对javascript的理解"></a>对javascript的理解</h1><p><span style="font-size: 18px;">按照定义，每个javascript对象都有一个原型对象（简称原型），这个原型是由该对象的构造函数所定义（javascript自动创建的），并且对象继承原型的所有属性和方法（函数），比如<br>一个String对象 的原型为 String.prototype<br>，如果我们想要给String类添加方法，可以这样做（比如添加常用的trim()方法）：</span></p>
+<div><br><br><span style="font-size: 18px;">js 代码</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">String.prototype.trim = function (){<br>  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">  return<br>this.replace(/(\^\s*)|(\s*\$)/g, “”);   </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">}  </span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/对javascript的理解/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/对javascript的理解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对javascript的理解/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/对象序列化框架/" title="对象序列化框架" itemprop="url">对象序列化框架</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="对象序列化框架"><a href="#对象序列化框架" class="headerlink" title="对象序列化框架"></a>对象序列化框架</h2><p><a href="http://code.google.com/p/kryo/" target="_blank" rel="noopener">kryo</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/对象序列化框架/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/对象序列化框架/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/TCP_IP中的长链接与短链接/" title="TCP_IP中的长链接与短链接" itemprop="url">TCP_IP中的长链接与短链接</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="TCP-IP中的长链接与短链接"><a href="#TCP-IP中的长链接与短链接" class="headerlink" title="TCP_IP中的长链接与短链接"></a>TCP_IP中的长链接与短链接</h1><div><br><br>TCP/IP中的长链接与短链接<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br></div>
+
+<div><br><br><img src="TCP_IP%E4%B8%AD%E7%9A%84%E9%95%BF%E9%93%BE%E6%8E%A5%E4%B8%8E%E7%9F%AD%E9%93%BE%E6%8E%A5.resources/0AEA8989-709B-4266-A186-335A5EB7AA87.gif" alt=""><br><br></div>
+
+<div><br><br>(2013-04-16 12:02:16)<br><br></div>
+
+<div><br><br>\<br><br></div><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/TCP_IP中的长链接与短链接/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/TCP_IP中的长链接与短链接/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/TCP_IP中的长链接与短链接/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/UIScrollView/" title="UIScrollView" itemprop="url">UIScrollView</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="UIScrollView"><a href="#UIScrollView" class="headerlink" title="UIScrollView"></a>UIScrollView</h1><div><br><br><span style="font-size: 14px;">//scrollView中如果有多个子view，滚动时默认是整块滚动的，起作用的属性就是</span><span style="color: rgb(0, 143, 0); font-family: Menlo; font-size: 14px;">pagingEnabled<br>默认值为NO,设为YES时滚动时就不是一个整块滚动，而是分view滚动\<br></span><span style="font-size: 14px; font-family: Menlo; color: rgb(0, 143, 0);">self.topScrollView.pagingEnabled<br>= YES</span><br><br></div>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/UIScrollView/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIScrollView/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/UIBezierPath使用/" title="UIBezierPath使用" itemprop="url">UIBezierPath使用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="UIBezierPath使用"><a href="#UIBezierPath使用" class="headerlink" title="UIBezierPath使用"></a>UIBezierPath使用</h1><p>贝塞尔弧线介绍：</p>
+<div><br><br>\<br><div><br><br><div><br><br>1，UIBerzierPath类可以创建矢量路径，此类为Core<br>Grapice框架关于path的一个封装<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>2,UIBezierPath对象是CGPathRef数据类型封装，一个UIBezierPath对象定义一个完整的路径包括一个或者多个subpaths，包括直线和曲线。<br><br></div>
+
+<p></p></div><p></p>
+<div><br><br>\<br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/UIBezierPath使用/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/UIBezierPath使用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/UIBezierPath使用/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/30/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">开源中国 Maven 库</a>
   </h1>
   <p class="article-author">By
@@ -1177,7 +1272,7 @@
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
 		  
 		
 		  
@@ -1185,7 +1280,7 @@
 		  
 		
 		  
-			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>2</sup></a></li>
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
 		  
 		
 		  
@@ -1268,7 +1363,11 @@
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>4</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
 			
 		
 			
@@ -1296,10 +1395,6 @@
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
@@ -1320,7 +1415,7 @@
 			
 		
 			
-				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
 			
 		
 			

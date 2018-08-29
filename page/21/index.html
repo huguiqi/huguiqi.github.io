@@ -160,7 +160,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Nginx 性能优化/" title="Nginx 性能优化" itemprop="url">Nginx 性能优化</a>
+      <a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/" title="Obj-c与swift的语法比较和产生的新特性" itemprop="url">Obj-c与swift的语法比较和产生的新特性</a>
   </h1>
   <p class="article-author">By
        
@@ -173,26 +173,20 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Nginx-性能优化"><a href="#Nginx-性能优化" class="headerlink" title="Nginx 性能优化"></a>Nginx 性能优化</h1><p>Nginx作为一个非常流行和成熟的Web Server和Reserve Proxy<br>Server，网上有大量的性能优化教程，但是不同的业务场景千差万别，什么配置是最适合自己的，需要大量的测试和实践以及不断的优化改进。最近用户调用量突破百万大关之后，就遇到了一些问题，虽然不算太复杂，但也折腾了挺长时间才搞定，积累了不少经验。</p>
-<p>碰到的这个问题其实已经有一段时间了，有客户给我们反馈调用超时，但是我们自己从系统监控上看都是正常的，只有几十毫秒肯定不会超时，怀疑是不是网络的原因，但是出现几次后，就隐隐感觉这个问题可能不是偶发性的，应该还有深层次的原因。</p>
-<p>因为我们服务面向企业客户的，虽然每家客户的调用量可能会非常大，但每家企业客户就那么几个公网IP，即使以后有上千家客户，Nginx也可以轻松支撑这些并发连接。因此，首先先从网络上对Nginx长连接作了优化，将长连接从原来配置的5秒钟改成5分钟，将每次建立连接请求的数目从默认的100调整到1000。</p>
-<p>调整完毕后，通过netstat<br>-anp命令可以看到，新建连接请求会减少，说明长连接已起到作用。但过了一段时间，仍然发现有客户调用超时的情况发生，从Nginx日志中可以看到请求时间还是有超过1s的，甚至有长达20s左右的，如下所示：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-nginx-rt-too-long.jpg" alt=""></p>
-<p>并且从Zabbix上的监控发现一个现象，当connection<br>writing或active数突然增高时，请求时间就相应的出现较多超时：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-nginx-clients-status.jpeg" alt=""></p>
-<p>查看应用的日志，发现执行时间并不长：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-app-rt-normal.jpg" alt=""></p>
-<p>应用程序里统计的时间，只是从业务开始执行到执行结果的时间，这个还没有算Tomcat容器的执行时间，外部请求的执行路径如下：</p>
-<p>会不会是Tomcat容器本身执行有问题呢，把Tomcat请求的日志调用出来，发现这个时间点前后的执行也是正常的：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-tomcat-rt-normal.png" alt=""></p>
-<p>从请求路径上分析，肯定是Nginx到Tomcat这层存在一些问题。正在排查这个问题的时候，突然发现有大量30s左右的超时，从Zabbix上也观察到connection<br>writing非常高，如下所示：</p>
-<p><img src="http://yikebocai.com/myimg/20141025-nginx-clinets-status2.png" alt=""></p>
-<p>同时，发现TIME_WAIT的连接特别多，从现象及抓包分析结果来看，应该是有客户没有开启长连接，而我们在服务端又设置了keepalive_timeout为5分钟，导致大量使用过的连接等待超时，当时有接近2000个，编辑/etc/sysctl.conf文件，增加如下两个参数重用连接：<br>
+        <h1 id="Obj-c与swift的语法比较和产生的新特性"><a href="#Obj-c与swift的语法比较和产生的新特性" class="headerlink" title="Obj-c与swift的语法比较和产生的新特性"></a>Obj-c与swift的语法比较和产生的新特性</h1><div><br><br><span style="font-size: 18px;">swift<br>其实是obj-c的变体，还是使用了ARC进行简单内存管理</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br></span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">一,基本语法</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">1，变量</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br></span><br><br></div>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Nginx 性能优化/#more">Read More</a>
+            <a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/#more">Read More</a>
           
        </p>
     </div>
@@ -218,7 +212,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Nginx 性能优化/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Nginx 性能优化/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Obj-c与swift的语法比较和产生的新特性/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -311,7 +305,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Node.js 常见面试题/" title="Node.js 常见面试题" itemprop="url">Node.js 常见面试题</a>
+      <a href="/2016/03/30/Objective-C RegEx/" title="Objective-C RegEx" itemprop="url">Objective-C RegEx</a>
   </h1>
   <p class="article-author">By
        
@@ -324,21 +318,13 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Node-js-常见面试题"><a href="#Node-js-常见面试题" class="headerlink" title="Node.js 常见面试题"></a>Node.js 常见面试题</h1><p>如果你希望找一份有关Node.js的工作，但又不知道从哪里入手考察自己对Node.js的掌握程度。<br>本文就提供了这样的一份Node.js面试题列表，通过考察Node.js编程中的一些主要细节，<br>来帮助你评估你对于Node.js开发的掌握程度。</p>
-<p>在进入正文之前，需要提前声明两点：</p>
-<h2 id="Node-js面试题列表"><a href="#Node-js面试题列表" class="headerlink" title="Node.js面试题列表"></a>Node.js面试题列表</h2><p>现在，我们依次来解答这些问题吧。</p>
-<h3 id="什么是错误优先的回调函数？"><a href="#什么是错误优先的回调函数？" class="headerlink" title="什么是错误优先的回调函数？"></a>什么是错误优先的回调函数？</h3><p>错误优先的回调函数用于传递错误和数据。第一个参数始终应该是一个错误对象，<br>用于检查程序是否发生了错误。其余的参数用于传递数据。例如：</p>
-<p>这个题目的主要作用在于检查被面试者对于Node中异步操作的一些基本知识的掌握。</p>
-<h3 id="如何避免回调地狱"><a href="#如何避免回调地狱" class="headerlink" title="如何避免回调地狱"></a>如何避免回调地狱</h3><p>你可以有如下几个方法：</p>
-<p>这个问题有很多种答案，取决你使用的场景，例如ES6, ES7，或者一些控制流库。</p>
-<h3 id="在Node中你如何监听80端口"><a href="#在Node中你如何监听80端口" class="headerlink" title="在Node中你如何监听80端口"></a>在Node中你如何监听80端口</h3><p>这题有陷阱！在类Unix系统中你不应该尝试监听80端口，因为这需要超级用户权限，<br>因此不建议让你的应用监听这个端口。</p>
-<p>目前，如果你想让你的应用一定要监听80端口，可以这么做：让你的Node应用监听大于1024的端口，<br>然后在它前面在使用一层方向代理（例如<a href="http://nginx.org/" target="_blank" rel="noopener">nginx</a>）。</p>
-<p>这个问题用于检查被面试者是否有实际运行Node应用的经验。<br>
+        <h1 id="Objective-C-RegEx"><a href="#Objective-C-RegEx" class="headerlink" title="Objective-C RegEx"></a>Objective-C RegEx</h1><p><span style="font: 13.0px Verdana">Objective-C RegEx Categories\<br> <a href="https://github.com/bendytree/Objective-C-RegEx-Categories" target="_blank" rel="noopener"><span style="color: #1d58d1">https://github.com/bendytree/Objective-C-RegEx-Categories</span></a>\<br> 使用说明:将 RegExCategories.h RegExCategories.m<br>文件拖入工程中引入头文件即可.\<br>  \</span></p>
+<p>==========================================================================\<br>     //<span style="font: 13.0px Verdana; color: #0433ff">匹配电话号码</span><span style="font: 13.0px Verdana">(手机号以13， 15，18开头，八个 \d<br>数字字符)\<br>     BOOL isMatch = [ “15910514636” isMatch:RX( “</span><span style="font: 13.0px Verdana; color: #ff2500">\^((13[0-9])|(15[\^4,\\D])|(18[0,0-9]))\\d{8}\$</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">匹配邮箱</span><span style="font: 13.0px Verdana">\<br>     BOOL isMatch = [ “<705786230 qq.com="">“ isMatch:RX( “</705786230></span><span style="font: 13.0px Verdana; color: #ff2500">[A-Z0-9a-z._%+-]+ [A-Za-z0-9.-]+\\.[A-Za-z]{2,4}</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>    \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">匹配用户名</span><span style="font: 13.0px Verdana">(用户名长度为6-20位之间,大小写字母或者数字均可)\<br>     BOOL isMatch = [ “705786230” isMatch:RX( “</span><span style="font: 13.0px Verdana; color: #ff2500">\^[A-Za-z0-9]{6,20}+\$</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Node.js 常见面试题/#more">Read More</a>
+            <a href="/2016/03/30/Objective-C RegEx/#more">Read More</a>
           
        </p>
     </div>
@@ -364,7 +350,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Node.js 常见面试题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Node.js 常见面试题/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Objective-C RegEx/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-C RegEx/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -384,7 +370,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Object-C内存管理口诀/" title="Object-C内存管理口诀" itemprop="url">Object-C内存管理口诀</a>
+      <a href="/2016/03/30/ORACLE 字符集长度问题/" title="ORACLE 字符集长度问题" itemprop="url">ORACLE 字符集长度问题</a>
   </h1>
   <p class="article-author">By
        
@@ -397,20 +383,21 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Object-C内存管理口诀"><a href="#Object-C内存管理口诀" class="headerlink" title="Object-C内存管理口诀"></a>Object-C内存管理口诀</h1><div><br><br><span style="font-size: 14px;">\<br></span><br><br></div>
+        <h1 id="ORACLE-字符集长度问题"><a href="#ORACLE-字符集长度问题" class="headerlink" title="ORACLE 字符集长度问题"></a>ORACLE 字符集长度问题</h1><div><br><br><div><br><br>ORACLE 字符集长度问题<br><br></div>
 
-<div><br><br><span style="font-size: 14px;">Object-C内存管理口诀 (2011-11-02<br>21:04:00)转载▼</span><br><br></div>
+<div><br><br>\<br><br></div>
 
-<div><br><br><span style="font-size: 14px;">Object-C内存管理口诀</span><br><br></div>
+<div><br><br>很多新手在做建数据库时，会这样忽略一个问题：ORACLE中VARCHAR2类型的字段长度是按照byte来定义的。如果数据库使用的字<br>符集是GBK,GB2312或者其他定长字符集的话，这个问题似乎可以被忽略，因为只要把数据库的字段长度/2就可以得到你要限制插入该字段的中文长度<br>了。 但是，如果数据库的字符集是UTF-8呢，杯具了吧，人家是变长的。<br><br></div>
 
-<div><br><br><span style="font-size: 14px;">1           口诀。</span><br><br></div>
+<pre><code>有人说数据库字段长度/3，这是一定不可取的，因为UTF-8是变长表示的，平均为3byte表示一个字符，而并不是一定用3byte。
 
-<div><br><br><span style="font-size: 14px;">1.1<br>谁创建，谁释放（类似于“谁污染，谁治理”）。如果你通过alloc、new或copy来创建一个对象，那么你必须调用release或autorelease。换句话说，不是你创建的，就不用你去释放。</span><br><br></div>
+其实人家ORACLE没这么笨，本来就可以用字符为单位来定义varchar2的长度的，这个时候需要注意在建表时这样写：
+</code></pre><div><br><br><div><br><br>Sql代码<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Object-C内存管理口诀/#more">Read More</a>
+            <a href="/2016/03/30/ORACLE 字符集长度问题/#more">Read More</a>
           
        </p>
     </div>
@@ -436,7 +423,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Object-C内存管理口诀/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Object-C内存管理口诀/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/ORACLE 字符集长度问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/ORACLE 字符集长度问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -456,7 +443,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/" title="Obj-c与swift的语法比较和产生的新特性" itemprop="url">Obj-c与swift的语法比较和产生的新特性</a>
+      <a href="/2016/03/30/Objective-c之NSString(NSMutableString)/" title="Objective-c之NSString(NSMutableString)" itemprop="url">Objective-c之NSString(NSMutableString)</a>
   </h1>
   <p class="article-author">By
        
@@ -469,20 +456,22 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Obj-c与swift的语法比较和产生的新特性"><a href="#Obj-c与swift的语法比较和产生的新特性" class="headerlink" title="Obj-c与swift的语法比较和产生的新特性"></a>Obj-c与swift的语法比较和产生的新特性</h1><div><br><br><span style="font-size: 18px;">swift<br>其实是obj-c的变体，还是使用了ARC进行简单内存管理</span><br><br></div>
+        <h1 id="Objective-c之NSString-NSMutableString"><a href="#Objective-c之NSString-NSMutableString" class="headerlink" title="Objective-c之NSString(NSMutableString)"></a>Objective-c之NSString(NSMutableString)</h1><div><br><br>Objective-c之NSString(NSMutableString)  (2010-12-09 20:48:24)<br><br></div>
 
-<div><br><br><span style="font-size: 18px;">\<br></span><br><br></div>
+<div><br><br>\<br><br></div>
 
-<div><br><br><span style="font-size: 18px;">一,基本语法</span><br><br></div>
+<div><br><br><img src="Objective-c%E4%B9%8BNSString(NSMutableString" alt="">.resources/BFF1B981-67D7-48DA-88E7-E0522F4A1618.gif)<br><br></div>
 
-<div><br><br><span style="font-size: 18px;">1，变量</span><br><br></div>
+<div><br><br>\<br><br></div>
 
-<div><br><br><span style="font-size: 18px;">\<br></span><br><br></div>
+<div><br><br><strong>1、初始化字符串一</strong><br><br></div>
+
+<div><br><br>\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/#more">Read More</a>
+            <a href="/2016/03/30/Objective-c之NSString(NSMutableString)/#more">Read More</a>
           
        </p>
     </div>
@@ -508,7 +497,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Obj-c与swift的语法比较和产生的新特性/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Obj-c与swift的语法比较和产生的新特性/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Objective-c之NSString(NSMutableString)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Objective-c之NSString(NSMutableString)/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -890,7 +879,7 @@
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
 		  
 		
 		  
@@ -898,7 +887,7 @@
 		  
 		
 		  
-			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>2</sup></a></li>
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
 		  
 		
 		  
@@ -981,7 +970,11 @@
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>4</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
 			
 		
 			
@@ -1009,10 +1002,6 @@
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
@@ -1033,7 +1022,7 @@
 			
 		
 			
-				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
 			
 		
 			

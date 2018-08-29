@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1532267223066u7as2c1k.png?imageslim">
 <meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1532275393584iwc3n9yv.png?imageslim">
 <meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1532275823759kh2f47hu.png?imageslim">
-<meta property="og:updated_time" content="2018-07-22T16:19:00.253Z">
+<meta property="og:updated_time" content="2018-08-14T06:10:20.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker+docker-compose搭建高可用集群">
 <meta name="twitter:description" content="maven+docker+docker-compose搭建高可用集群首先搭建eurake+gateway+client eurake项目pom.xml: &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;">
@@ -284,6 +284,7 @@
 </code></pre><ul>
 <li>这里面我用了一个dockerfile的插件，可以自动构建服务镜像的</li>
 </ul>
+<a id="more"></a>
 <p>Dockerfile内容如下：</p>
 <pre><code>FROM ascdc/jdk8
 RUN mkdir -p /data /workspace
@@ -338,7 +339,7 @@ spring.cloud.vault:
 </li>
 <li><p>register-withEureka 必须为true</p>
 </li>
-<li>service-url.defaultZone 必须互相注册（A&lt;—&gt;B）</li>
+<li>service-url.defaultZone 必须互相注册（A\&lt;—>B）</li>
 </ol>
 <p>启动后的状态结果必须为可用才行：</p>
 <p><img src="http://ojnkdvkci.bkt.clouddn.com/1532264970231dwup0qt6.png?imageslim" alt="paste image"></p>
@@ -454,10 +455,9 @@ networks:
       - subnet: 190.100.0.0/24
 </code></pre><ul>
 <li><p>最后启动服务器容器：</p>
-<p>  docker-compose -f docker-compose.yml up -d</p>
+<p>  docker-compose -f docker-compose.yml up -d<br><img src="http://ojnkdvkci.bkt.clouddn.com/1532267017830fi8hvn68.png?imageslim" alt="paste image"></p>
 </li>
 </ul>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532267017830fi8hvn68.png?imageslim" alt="paste image"></p>
 <ul>
 <li><p>停止服务：</p>
 <p>  docker-compose down</p>
@@ -471,10 +471,9 @@ networks:
 </code></pre></li>
 <li><p>启动实例</p>
 <pre><code>docker run -itd --name xx-eurake1 --net xxNetwork --ip 172.100.0.1 -p 8888:8888 xx/eurake --eureka.instance.hostname=172.100.0.1 --eureka.client.serviceUrl.defaultZone=http://172.100.0.2:8888/eureka/
-</code></pre></li>
-</ul>
-<h2 id="部署集群服务"><a href="#部署集群服务" class="headerlink" title="部署集群服务"></a>部署集群服务</h2><ul>
-<li>建立一个管理虚机m1</li>
+</code></pre><h2 id="部署集群服务"><a href="#部署集群服务" class="headerlink" title="部署集群服务"></a>部署集群服务</h2></li>
+<li><p>建立一个管理虚机m1</p>
+</li>
 </ul>
 <p>docker-machine create –virtualbox-boot2docker-url=/Users/sam/boot2docker_iso/boot2docker.iso m1</p>
 <ul>
@@ -482,17 +481,16 @@ networks:
 </ul>
 <p>docker-machine create –virtualbox-boot2docker-url=/Users/sam/boot2docker_iso/boot2docker.iso w1 w2</p>
 <ul>
-<li>进入m1，初始化swarm</li>
+<li><p>进入m1，初始化swarm</p>
+<p>  docker-machine ssh m1</p>
+<p>  docker swarm init –advertise-addr [m1主机的IP]</p>
+</li>
 </ul>
-<pre><code>docker-machine ssh m1
-
-docker swarm init --advertise-addr [m1主机的IP]
-</code></pre><p><img src="http://ojnkdvkci.bkt.clouddn.com/1532275393584iwc3n9yv.png?imageslim" alt="paste image"></p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532275393584iwc3n9yv.png?imageslim" alt="paste image"></p>
 <ul>
 <li>将w1,w2加入m1管理，组成一个小型集群</li>
 </ul>
 <pre><code>docker-machine ssh w1
-
 docker swarm join --token SWMTKN-1-0pbw9ult7vdycem4db6436nyti716m33tak1rwg1iv6y2sfn1z-d92emox2ae1k1cqqjfc06o067 192.168.99.100:2377
 </code></pre><p>最后，把docker-compose.yml copy到m1里，然后部署：</p>
 <pre><code>docker stack deploy --compose-file=stack-compose.yml [集群名称]
@@ -657,7 +655,7 @@ docker service ls
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>3</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
 		  
 		
 		  
@@ -665,7 +663,7 @@ docker service ls
 		  
 		
 		  
-			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>2</sup></a></li>
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
 		  
 		
 		  
@@ -748,7 +746,11 @@ docker service ls
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>4</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
 			
 		
 			
@@ -776,10 +778,6 @@ docker service ls
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
@@ -800,7 +798,7 @@ docker service ls
 			
 		
 			
-				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
+				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
 			
 		
 			
