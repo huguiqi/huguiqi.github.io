@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/15355269814232267g3a8.png?imageslim">
 <meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1535527546826q9vgr8gi.png?imageslim">
-<meta property="og:updated_time" content="2018-08-29T07:36:03.086Z">
+<meta property="og:updated_time" content="2018-08-29T07:58:17.322Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ELK学习笔记">
 <meta name="twitter:description" content="什么是ELK首先上官网： https://www.elastic.co/cn/elk-stack 官网提供的这张图应该可以说明：  就是：Elastircsearch + Logstash + Kibana 的组合（这张图上有Beats,可以先忽略，后面再讲） 他们都是做什么的Elastircsearch官网说：    The open source, distributed, RESTful,">
@@ -110,7 +110,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是ELK"><span class="toc-number">1.</span> <span class="toc-text">什么是ELK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#他们都是做什么的"><span class="toc-number">2.</span> <span class="toc-text">他们都是做什么的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Elastircsearch"><span class="toc-number">2.1.</span> <span class="toc-text">Elastircsearch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logstash"><span class="toc-number">2.2.</span> <span class="toc-text">Logstash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kibana"><span class="toc-number">2.3.</span> <span class="toc-text">Kibana</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是ELK"><span class="toc-number">1.</span> <span class="toc-text">什么是ELK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#他们都是做什么的"><span class="toc-number">2.</span> <span class="toc-text">他们都是做什么的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Elastircsearch"><span class="toc-number">2.1.</span> <span class="toc-text">Elastircsearch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logstash"><span class="toc-number">2.2.</span> <span class="toc-text">Logstash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kibana"><span class="toc-number">2.3.</span> <span class="toc-text">Kibana</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日志收集并发给Elasticsearch的方式"><span class="toc-number">2.4.</span> <span class="toc-text">日志收集并发给Elasticsearch的方式</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -142,6 +142,18 @@
 <p>其实就是前端展示。</p>
 <p>他们的关系是这样的：</p>
 <p><img src="http://ojnkdvkci.bkt.clouddn.com/1535527546826q9vgr8gi.png?imageslim" alt="paste image"></p>
+<h3 id="日志收集并发给Elasticsearch的方式"><a href="#日志收集并发给Elasticsearch的方式" class="headerlink" title="日志收集并发给Elasticsearch的方式"></a>日志收集并发给Elasticsearch的方式</h3><p>好多解决方案：</p>
+<ol>
+<li><p>使用 Filebeat（就是前面官网提到的Beans）</p>
+</li>
+<li><p>使用日志驱动</p>
+</li>
+<li>使用 Logspout</li>
+<li>Logz.io 的日志采集器</li>
+<li>fluentd-pilot（阿里云开源日志收集工具，后面重点就这个）</li>
+</ol>
+<p>前面四种各有便利，但论强大，好用，还是阿里云提供的这个收集器好用。</p>
+<p><a href="https://segmentfault.com/a/1190000009102612" target="_blank" rel="noopener">参考文章</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -201,7 +213,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是ELK"><span class="toc-number">1.</span> <span class="toc-text">什么是ELK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#他们都是做什么的"><span class="toc-number">2.</span> <span class="toc-text">他们都是做什么的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Elastircsearch"><span class="toc-number">2.1.</span> <span class="toc-text">Elastircsearch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logstash"><span class="toc-number">2.2.</span> <span class="toc-text">Logstash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kibana"><span class="toc-number">2.3.</span> <span class="toc-text">Kibana</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是ELK"><span class="toc-number">1.</span> <span class="toc-text">什么是ELK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#他们都是做什么的"><span class="toc-number">2.</span> <span class="toc-text">他们都是做什么的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Elastircsearch"><span class="toc-number">2.1.</span> <span class="toc-text">Elastircsearch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logstash"><span class="toc-number">2.2.</span> <span class="toc-text">Logstash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kibana"><span class="toc-number">2.3.</span> <span class="toc-text">Kibana</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日志收集并发给Elasticsearch的方式"><span class="toc-number">2.4.</span> <span class="toc-text">日志收集并发给Elasticsearch的方式</span></a></li></ol></li></ol>
  
   </div>
 
