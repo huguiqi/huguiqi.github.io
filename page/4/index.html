@@ -92,6 +92,182 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/07/16/如何从spring-security3.x升级到4.2.3/" title="如何从spring-security3.x升级到4.2.3" itemprop="url">如何从spring-security3.x升级到4.2.3</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-15T17:10:00.000Z" itemprop="datePublished"> 发表于 2017-07-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="从spring-security3-x升级到4-2-3"><a href="#从spring-security3-x升级到4-2-3" class="headerlink" title="从spring-security3.x升级到4.2.3"></a>从spring-security3.x升级到4.2.3</h1><p>由于之前spring-security3.x用的是配置文件配置权限校验的，但升级到4.2.3以后，配置文件权限配置都失效了，尤其是UserDetailsService类，完全不走它的loadUserByUsername方法了。</p>
+<p>查了很多资料，在官网上也走了很久，发现spring-security4.x的文档比较详细的是java 代码配置。看来spring-security目前推荐使用java配置，xml的完整配置都没有了。</p>
+<p><a href="http://docs.spring.io/spring-security/site/docs/4.2.3.RELEASE/reference/htmlsingle/#samples" title="spring-security官网例子" target="_blank" rel="noopener"> spring-security官网例子 </a></p>
+<p>在官网的例子里试了半天，发现其实官网关于配置文件的例子都不全，虽然感觉是对的，但是配置的项目中，还是非常有问题的，权限并没有生效。</p>
+<p>官网一般给的都是这个配置：</p>
+<pre><code>&lt;b:beans xmlns=&quot;http://www.springframework.org/schema/security&quot;
+ xmlns:b=&quot;http://www.springframework.org/schema/beans&quot;
+ xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+ xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd&quot;&gt;
+&lt;http auto-config=&quot;true&quot; use-expressions=&quot;true&quot;&gt;
+&lt;intercept-url pattern=&quot;auth/login&quot; access=&quot;permitAll&quot;/&gt;
+&lt;intercept-url pattern=&quot;main/admin&quot; access=&quot;hasAnyRole(&apos;ADMIN&apos;)&quot;/&gt;
+&lt;intercept-url pattern=&quot;/main/common&quot; access=&quot;hasRole(&apos;USER&apos;)&quot;/&gt;
+&lt;form-login login-page=&quot;/auth/login&quot;
+login-processing-url=&quot;logIn.do&quot;
+authentication-failure-url=&quot;/auth/login?error=true&quot;
+default-target-url=&quot;/main/common&quot;/&gt;
+&lt;logout
+invalidate-session=&quot;true&quot;
+logout-success-url=&quot;/auth/login&quot;
+logout-url=&quot;/auth/logout&quot;/&gt;
+&lt;access-denied-handler
+error-page=&quot;/auth/denied&quot;
+/&gt;
+&lt;/http&gt;
+&lt;authentication-manager&gt;
+&lt;authentication-provider&gt;
+&lt;user-service&gt;
+&lt;user name=&quot;user&quot; password=&quot;123456&quot; authorities=&quot;USER&quot;/&gt;
+&lt;/user-service&gt;
+&lt;/authentication-provider&gt;
+&lt;/authentication-manager&gt;
+
+&lt;/b:beans&gt;
+</code></pre><p>但经测试，通过配置的用户名登陆，只要登陆，它可以访问拥有USER和ADMIN权限的controller。<br>正常应该user用户只能访问/main/common路径才对。</p>
+<p>由于弄了我半天，很头疼，就打算放弃配置文件了。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/07/16/如何从spring-security3.x升级到4.2.3/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/spring-security/">spring-security</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/16/如何从spring-security3.x升级到4.2.3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/16/如何从spring-security3.x升级到4.2.3/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/15/idea14部署tomcat7-tomcat8/" title="inteLij idea2017部署tomcat7-tomcat8" itemprop="url">inteLij idea2017部署tomcat7-tomcat8</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-15T15:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="inteLij-idea2017部署tomcat7-tomcat8"><a href="#inteLij-idea2017部署tomcat7-tomcat8" class="headerlink" title="inteLij idea2017部署tomcat7-tomcat8"></a>inteLij idea2017部署tomcat7-tomcat8</h1><p>参考简书上一篇文章：<br><a href="http://www.jianshu.com/p/0aca0d876319" title="Intellij IDEA 中如何部署项目到 Tomcat" target="_blank" rel="noopener"> Intellij IDEA 中如何部署项目到 Tomcat </a></p>
+<p>虽然已经图文并茂，感觉很清晰了，但是我的部署方法感觉比他更简单。</p>
+<p>第一步：打开项目设置<br><img src="http://ojnkdvkci.bkt.clouddn.com/1500133706147islmu24p.png?imageslim" alt="paste image"></p>
+<p>第二步：构建app构件(一般是war包)</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1500134262792wxdtrztt.png?imageslim" alt="paste image"></p>
+<p><strong>注意，项目的依赖文件和jar包，都必须放在一起打包，否则部署会报错。</strong></p>
+<p>第三步，配置tomcat并选择tomcat要部署的war包</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1500134520412f5vjj7nr.png?imageslim" alt="paste image"></p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/15001345544352uwl3wep.png?imageslim" alt="paste image"></p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1500134563051szprzx0h.png?imageslim" alt="paste image"></p>
+<p>点应用就行了。</p>
+<p>第四步：启动tomcat</p>
+<p><img src="http://ojnkdvkci.bkt.clouddn.com/1500134712611ml6kmlbj.png?imageslim" alt="paste image"></p>
+<p>是不是要简单太多。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/tomcat/">tomcat</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/15/idea14部署tomcat7-tomcat8/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/15/idea14部署tomcat7-tomcat8/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/07/14/maven无法更新jar的解决方案/" title="maven无法更新jar的解决方案" itemprop="url">maven无法更新jar的解决方案</a>
   </h1>
   <p class="article-author">By
@@ -1090,144 +1266,9 @@ self.requestOperationManager.securityPolicy.validatesDomainName = NO;
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/06/通过nodejs建立一个开源论坛/" title="通过nodejs建立一个开源论坛" itemprop="url">通过nodejs建立一个开源论坛</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-06T08:00:00.000Z" itemprop="datePublished"> 发表于 2017-04-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="通过nodejs建立一个开源论坛"><a href="#通过nodejs建立一个开源论坛" class="headerlink" title="通过nodejs建立一个开源论坛"></a>通过nodejs建立一个开源论坛</h1><blockquote>
-<p>最近太闲了，想自己建立一个地方性论坛，相当于给家乡人民作些贡献吧。</p>
-</blockquote>
-<p>使用的是开源代码：cnode源码</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/建立论坛/">建立论坛</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/04/06/通过nodejs建立一个开源论坛/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/06/通过nodejs建立一个开源论坛/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/05/如何汉化gitlab8.9.2版本/" title="如何汉化gitlab8.9.2版本" itemprop="url">如何汉化gitlab8.9.2版本</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-05T05:27:53.000Z" itemprop="datePublished"> 发表于 2017-04-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="如何汉化gitlab8-9-2版本"><a href="#如何汉化gitlab8-9-2版本" class="headerlink" title="如何汉化gitlab8.9.2版本"></a>如何汉化gitlab8.9.2版本</h1><p>我参考了这些文章作汉化：</p>
-<p><a href="https://xuanwo.org/2016/04/13/gitlab-install-intro/#" target="_blank" rel="noopener">Gitlab部署和汉化以及简单运维</a></p>
-<p><a href="http://www.jianshu.com/p/7a0d6917e009#" target="_blank" rel="noopener">快速安装 GitLab 并汉化</a></p>
-<p>但是。。。。感觉他们都有些错误，而且我的是最新版本8.9.2，现在中文补丁只打到8.8.5；</p>
-<p>所以，我有个神奇的想法，是不是可以用8.8.5的汉化补丁用到8.9.2上，可能它有些样式上和部分汉化没有汉化到，但是基本上能用，哪怕部分汉化，也很好。。。。</p>
-<p>嗯，所以就这样：<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/04/05/如何汉化gitlab8.9.2版本/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/gitlabe汉化/">gitlabe汉化</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/04/05/如何汉化gitlab8.9.2版本/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/05/如何汉化gitlab8.9.2版本/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
   </nav>
 
 
@@ -1376,8 +1417,6 @@ self.requestOperationManager.securityPolicy.validatesDomainName = NO;
 		  
 		
 		  
-		
-		  
 			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
 		  
 		
@@ -1415,19 +1454,7 @@ self.requestOperationManager.securityPolicy.validatesDomainName = NO;
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
@@ -1435,15 +1462,15 @@ self.requestOperationManager.securityPolicy.validatesDomainName = NO;
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -1455,7 +1482,27 @@ self.requestOperationManager.securityPolicy.validatesDomainName = NO;
 			
 		
 			
-				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -1464,14 +1511,6 @@ self.requestOperationManager.securityPolicy.validatesDomainName = NO;
 		
 			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 		</ul>

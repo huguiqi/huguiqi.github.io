@@ -92,7 +92,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/jsessionid释疑解惑/" title="jsessionid释疑解惑" itemprop="url">jsessionid释疑解惑</a>
+      <a href="/2016/03/30/Macbook常用快捷键/" title="Macbook常用快捷键" itemprop="url">Macbook常用快捷键</a>
   </h1>
   <p class="article-author">By
        
@@ -105,16 +105,16 @@
 </header>
     <div class="article-content">
         
-        <h1 id="jsessionid释疑解惑"><a href="#jsessionid释疑解惑" class="headerlink" title="jsessionid释疑解惑"></a>jsessionid释疑解惑</h1><p>在web应用的开发中我们会经常看到这样的url：<a href="http://www.xxx.com" target="_blank" rel="noopener">http://www.xxx.com</a><br>/xxx_app;jsessionid=xxxxxxxxxx?a=x&amp;b=x…。这跟一般的url基本一样，只有一个地方有区别，那就是<br>“;jessionid=xxxxxxxx”。这个参数有时候有，有时候又没有，说它是参数可又跟一般传递的参数不同，它是紧跟在url后面用分号来分隔<br>的，用一般的request.getParameter()方法还取不到。那这个参数到底是干嘛用的呢？要了解它还要先了解session的实现方式。</p>
-<p>session的实现方式</p>
-<p>做web开发的同学都知道，http是无状态的会话协议，也就是说无法保存用户的信息。那如果有一些信息需要在用户的浏览活动中一直保持，该怎么做<br>呢？我们可以把这些信息在每次请求的时候作为参数传递给服务器，但这样做既麻烦又耗费资源，这时候就体现出了session的重要性。session是<br>web开发中不可或缺的一个特性。它是对于一个特定的用户请求，在web服务器上保存的一个全局变量。有了它我们就可以把用户的一些信息保存在服务器上，<br>而不用在服务器和客户端之间来回传递。知道了session的作用，那session是怎么实现的呢？服务器上为每个用户都保存了一个session，那<br>当用户请求过来的时候是怎么知道某一个用户应该对应哪个session呢？这时jsessionid就派上用场了。每一个session都有一个id来作<br>为标识，这个id会传到客户端，每次客户端请求都会把这个id传到服务器，服务器根据id来匹配这次请求应该使用哪个session。<br>jsessionid就是客户端用来保存sessionid的变量，主要是针对j2ee实现的web容器，没有研究过其他语言是用什么变量来保存的。一般<br>对于web应用来说，客户端变量都会保存在cookie中，jsessionid也不例外。不过与一般的cookie变量不同，jsessionid是保<br>存在内存cookie中的，在一般的cookie文件中是看不到它的影子的。内存cookie在打开一个浏览器窗口的时候会创建，在关闭这个浏览器窗口的<br>时候也同时销毁。这也就解释了为什么session变量不能跨窗口使用，要跨窗口使用就需要手动把jsessionid保存到cookie里面。</p>
-<p>jsessionid的作用</p>
-<p>在以上的文字中我们了解了session的实现原理，同时也知道了session跟jsessionid紧密不可分割的联系。只有通过<br>jsessionid才能使session机制起作用，而jsessionid又是通过cookie来保存。看到这里，也许你会发现一个问题，如果用户禁<br>用了cookie，那jsessionid不是就不能保存了吗？session不是不起作用了吗？我们真的对此束手无策了吗？当然不是。在用户禁用了<br>cookie时候，我们可以通过url重写来实现jsessionid的传递。这就是我上面指出的那样的url:<a href="http://www.xxx.com" target="_blank" rel="noopener">http://www.xxx.com</a><br>/xxx_app;jsessionid=xxxxxxxxxx?a=x&amp;b=x..。jessionid通过这样的方式来从客户端传递到服务器<br>端，从而来标识session。注意一点，jsessionid跟一般的url参数传递方式是不同的，不是作为参数跟在？后面，而是紧跟在url后面用；<br>来分隔。这样在用户禁用cookie的时候我们也可以传递jsessionid来使用session了，只不过需要每次都把jseesionid作为参数<br>跟在url后面传递。那这样岂不是很麻烦，每次请求一个url都要判断cookie是否可用，如果禁用了cookie，还要从url里解析出<br>jsessionid，然后跟在处理完后转到的url后面，以保持jsessionid的传递。这些问题sun当然已经帮我们想到了，所以提供了2个方法<br>
+        <h1 id="Macbook常用快捷键"><a href="#Macbook常用快捷键" class="headerlink" title="Macbook常用快捷键"></a>Macbook常用快捷键</h1><div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>Mac OS X系统图形表示方法\<br> ⇧ = shift\<br> ⌃ = control\<br> ⌥ = option / alt \<br> Home=fn + ◄ \<br> End=fn + ► \<br> Page Up=fn + ▲\<br> Page Down=fn + ▼ \<br> 删除后一个字符（普通键盘的Delete)=fn + delete \<br> 截图保存整个屏幕到桌面=shift + command + 3 \<br> 保存整个屏幕到剪贴板=control + shift + command + 3 \<br> 截取指定屏幕区域到桌面=shift + command + 4 \<br> 保存指定屏幕区域到剪贴板=control + shift + command + 4 \<br> Dock=control + F3 \<br> 切换窗口=control + F4 \<br> 隐藏/显示dock=alt + command + d \<br> 显示桌面=F11\<br> 前一个输入法=command + 空格 \<br> 下一个输入法=alt  + command + 空格\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/jsessionid释疑解惑/#more">Read More</a>
+            <a href="/2016/03/30/Macbook常用快捷键/#more">Read More</a>
           
        </p>
     </div>
@@ -140,7 +140,227 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/jsessionid释疑解惑/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/jsessionid释疑解惑/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/03/30/Macbook常用快捷键/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Macbook常用快捷键/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/" title="java处理图片时找到不sun.awt.X11GraphicsEnvironment问题" itemprop="url">java处理图片时找到不sun.awt.X11GraphicsEnvironment问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="java处理图片时找到不sun-awt-X11GraphicsEnvironment问题"><a href="#java处理图片时找到不sun-awt-X11GraphicsEnvironment问题" class="headerlink" title="java处理图片时找到不sun.awt.X11GraphicsEnvironment问题"></a>java处理图片时找到不sun.awt.X11GraphicsEnvironment问题</h1><div><br><br>java处理图片时找到不sun.awt.X11GraphicsEnvironment问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>2012-01-06 17:34:46| 分类： Java |举报|字号 订阅<br><br></div>
+
+<div><br><br>使用java生成图片验证码，出现错误：<br><br></div>
+
+<div><br><br>java.lang.NoClassDefFoundError: sun.awt.X11GraphicsEnvironment<br><br></div>
+
+<div><br><br>搜索得到解决方法：<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/java处理图片时找到不sun.awt.X11GraphicsEnvironment问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/java相关理论技术收藏/" title="java相关理论技术收藏" itemprop="url">java相关理论技术收藏</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="java相关理论技术收藏"><a href="#java相关理论技术收藏" class="headerlink" title="java相关理论技术收藏"></a>java相关理论技术收藏</h1><p>1，什么是串行化</p>
+<div><br><br><br>对象的寿命通常随着生成该对象的程序的终止而终止。有时候，可能需要将对象的状态保存下来，在需要时再将对象恢复。我们把对象的这种能记录自己的状态以便将来再生的能力。叫作对象的持续性(persistence)。对象通过写出描述自己状态的数值来记录自己<br>，这个过程叫对象的串行化(Serialization－连续)<br>。串行化的主要任务是写出对象实例变量的数值。如果变量是另一对象的引用，则引用的对象也要串行化。这个过程是递归的，串行化可能要涉及一个复杂树结构的单行化，包括原有对象、对象的对象、对象的对象的对象等等。对象所有权的层次结构称为图表(graph)。<br><br></div>
+
+<div><br><br>2.串行化的目的<br><br></div>
+
+<div><br><br>Java对象的单行化的目标是为Java的运行环境提供一组特性，如下所示：<br><br></div>
+
+<div><br><br>1) 尽量保持对象串行化的简单扼要<br>，但要提供一种途径使其可根据开发者的要求进行扩展或定制。<br><br></div>
+
+<div><br><br>2) 串行化机制应严格遵守Java的对象模型<br>。对象的串行化状态中应该存有所有的关于种类的安全特性的信息。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/java相关理论技术收藏/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/java相关理论技术收藏/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/java相关理论技术收藏/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/AOP的实现机制/" title="AOP的实现机制" itemprop="url">AOP的实现机制</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="AOP的实现机制"><a href="#AOP的实现机制" class="headerlink" title="AOP的实现机制"></a>AOP的实现机制</h1><div><br><br><strong><span lang="EN-US" style="font-family:">AOP的实现机制</span></strong><br><br></div>
+
+<div><br><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><br><br></div>
+
+<div><br><br><strong><span lang="EN-US" style="font-family:">1 AOP</span><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">各种的实现</span></strong><br><br></div>
+
+<p><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">就是面向切面编程，我们可以从几个层面来实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。</span></p>
+<p><span lang="EN-US" style="font-family:"><img src="AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg" alt=""></span></p>
+<p><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。</span><span lang="EN-US" style="font-family:">  </span></p>
+<p><span lang="EN-US" style="font-family:">  </span><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/AOP的实现机制/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/AOP的实现机制/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/AOP的实现机制/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -217,6 +437,145 @@
 	
 	  	<span></span>
 		<a href="/2016/03/30/jenkins 重复执行job/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/jenkins 重复执行job/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/jsessionid释疑解惑/" title="jsessionid释疑解惑" itemprop="url">jsessionid释疑解惑</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="jsessionid释疑解惑"><a href="#jsessionid释疑解惑" class="headerlink" title="jsessionid释疑解惑"></a>jsessionid释疑解惑</h1><p>在web应用的开发中我们会经常看到这样的url：<a href="http://www.xxx.com" target="_blank" rel="noopener">http://www.xxx.com</a><br>/xxx_app;jsessionid=xxxxxxxxxx?a=x&amp;b=x…。这跟一般的url基本一样，只有一个地方有区别，那就是<br>“;jessionid=xxxxxxxx”。这个参数有时候有，有时候又没有，说它是参数可又跟一般传递的参数不同，它是紧跟在url后面用分号来分隔<br>的，用一般的request.getParameter()方法还取不到。那这个参数到底是干嘛用的呢？要了解它还要先了解session的实现方式。</p>
+<p>session的实现方式</p>
+<p>做web开发的同学都知道，http是无状态的会话协议，也就是说无法保存用户的信息。那如果有一些信息需要在用户的浏览活动中一直保持，该怎么做<br>呢？我们可以把这些信息在每次请求的时候作为参数传递给服务器，但这样做既麻烦又耗费资源，这时候就体现出了session的重要性。session是<br>web开发中不可或缺的一个特性。它是对于一个特定的用户请求，在web服务器上保存的一个全局变量。有了它我们就可以把用户的一些信息保存在服务器上，<br>而不用在服务器和客户端之间来回传递。知道了session的作用，那session是怎么实现的呢？服务器上为每个用户都保存了一个session，那<br>当用户请求过来的时候是怎么知道某一个用户应该对应哪个session呢？这时jsessionid就派上用场了。每一个session都有一个id来作<br>为标识，这个id会传到客户端，每次客户端请求都会把这个id传到服务器，服务器根据id来匹配这次请求应该使用哪个session。<br>jsessionid就是客户端用来保存sessionid的变量，主要是针对j2ee实现的web容器，没有研究过其他语言是用什么变量来保存的。一般<br>对于web应用来说，客户端变量都会保存在cookie中，jsessionid也不例外。不过与一般的cookie变量不同，jsessionid是保<br>存在内存cookie中的，在一般的cookie文件中是看不到它的影子的。内存cookie在打开一个浏览器窗口的时候会创建，在关闭这个浏览器窗口的<br>时候也同时销毁。这也就解释了为什么session变量不能跨窗口使用，要跨窗口使用就需要手动把jsessionid保存到cookie里面。</p>
+<p>jsessionid的作用</p>
+<p>在以上的文字中我们了解了session的实现原理，同时也知道了session跟jsessionid紧密不可分割的联系。只有通过<br>jsessionid才能使session机制起作用，而jsessionid又是通过cookie来保存。看到这里，也许你会发现一个问题，如果用户禁<br>用了cookie，那jsessionid不是就不能保存了吗？session不是不起作用了吗？我们真的对此束手无策了吗？当然不是。在用户禁用了<br>cookie时候，我们可以通过url重写来实现jsessionid的传递。这就是我上面指出的那样的url:<a href="http://www.xxx.com" target="_blank" rel="noopener">http://www.xxx.com</a><br>/xxx_app;jsessionid=xxxxxxxxxx?a=x&amp;b=x..。jessionid通过这样的方式来从客户端传递到服务器<br>端，从而来标识session。注意一点，jsessionid跟一般的url参数传递方式是不同的，不是作为参数跟在？后面，而是紧跟在url后面用；<br>来分隔。这样在用户禁用cookie的时候我们也可以传递jsessionid来使用session了，只不过需要每次都把jseesionid作为参数<br>跟在url后面传递。那这样岂不是很麻烦，每次请求一个url都要判断cookie是否可用，如果禁用了cookie，还要从url里解析出<br>jsessionid，然后跟在处理完后转到的url后面，以保持jsessionid的传递。这些问题sun当然已经帮我们想到了，所以提供了2个方法<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/jsessionid释疑解惑/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/jsessionid释疑解惑/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/jsessionid释疑解惑/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/30/linux ssh 上传与下载命令/" title="linux ssh 上传与下载命令" itemprop="url">linux ssh 上传与下载命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="linux-ssh-上传与下载命令"><a href="#linux-ssh-上传与下载命令" class="headerlink" title="linux ssh 上传与下载命令"></a>linux ssh 上传与下载命令</h1><p><span style="color: rgb(73, 73, 73); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 22px; background-color: rgb(244, 237, 227);">上传：</span></p>
+<div><br><br><span style="color: rgb(73, 73, 73); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 22px; background-color: rgb(244, 237, 227);">scp<br>/path/file（这部分为本地的路径）<br>user（远端目标用户名） host（远端目标IP）:/pathorfile（文件存储路径）</span><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><span style="color: rgb(73, 73, 73); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 22px; background-color: rgb(244, 237, 227);">下载：</span><br><br></div>
+
+<div><br><br><span style="color: rgb(73, 73, 73); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 22px; background-color: rgb(244, 237, 227);">scp<br>user（远端用户名） host（远端IP）:/path/file（下载文件在远端的路径）<br>localpathorfile（本地文件存放路径）</span><br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/30/linux ssh 上传与下载命令/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/30/linux ssh 上传与下载命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/linux ssh 上传与下载命令/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -374,74 +733,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/linux su和sudo命令的区别/" title="linux su和sudo命令的区别" itemprop="url">linux su和sudo命令的区别</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux-su和sudo命令的区别"><a href="#linux-su和sudo命令的区别" class="headerlink" title="linux su和sudo命令的区别"></a>linux su和sudo命令的区别</h1><p><span style="font: 15.0px Tahoma; font-kerning: none; color: #669900; background-color: #f7fcff; -webkit-text-stroke: 0px #669900"><strong>linux<br>su和sudo命令的区别</strong></span><span style="font: 15.0px Tahoma; font-kerning: none; color: #669900; -webkit-text-stroke: 0px #669900"><strong>\
-</strong></span><span style="font: 12.0px Tahoma; font-kerning: none; background-color: #f7fcff; -webkit-text-stroke: 0px #000000">相关信息</span><span style="font: 12.0px Tahoma; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Tahoma; font-kerning: none; color: #666666; background-color: #f7fcff; -webkit-text-stroke: 0px #666666">来源：互联网</span><br><span style="font: 12.0px Tahoma; font-kerning: none; color: #666666; background-color: #f7fcff; -webkit-text-stroke: 0px #666666">作者：佚名</span><br><span style="font: 12.0px Tahoma; font-kerning: none; color: #666666; background-color: #f7fcff; -webkit-text-stroke: 0px #666666">时间：04-13<br>11:02:50</span> <span style="font: 12.0px Tahoma; font-kerning: none; color: #666666; background-color: #f7fcff; -webkit-text-stroke: 0px #666666">【<span style="font-kerning: none">大</span> <span style="font-kerning: none">中</span> <span style="font-kerning: none">小</span>】</span><span style="font: 12.0px Tahoma; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 12.0px Tahoma; font-kerning: none; background-color: #f7fcff; -webkit-text-stroke: 0px #000000">资讯正文</span></p>
-<div><br><br><span style="font-family: Tahoma;"><span style="color: rgb(68, 68, 68);">一. 使用 su 命令临时切换用户身份 1、su<br>的适用条件和威力<br>　　su命令就是切换用户的工具，怎么理解呢？比如我们以普通用户beinan登录的，但要添加用户任务，执行useradd<br>，beinan用户没有这个权限，而这个权限恰恰由root所拥有。解决办法无法有两个，一是退出beinan用户</span></span><br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/linux su和sudo命令的区别/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/linux su和sudo命令的区别/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/linux su和sudo命令的区别/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2016/03/30/linux 查看系统信息命令(比较全)/" title="linux 查看系统信息命令(比较全)" itemprop="url">linux 查看系统信息命令(比较全)</a>
   </h1>
   <p class="article-author">By
@@ -506,362 +797,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/linux 安装软件/" title="linux 安装软件" itemprop="url">linux 安装软件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux-安装软件"><a href="#linux-安装软件" class="headerlink" title="linux 安装软件"></a>linux 安装软件</h1><div><br><br>1. 若系统有自带的mysql或libs，可选择先卸载再安装<br><br></div>
-
-<div><br><br># rpm -qa | grep mysql<br>  //查看该操作系统上是否已经安装了mysql数据库<br><br></div>
-
-<div><br><br># rpm -e mysql                     //普通删除模式<br><br></div>
-
-<div><br><br># rpm -e –nodeps mysql         // 强力删除模式<br><br></div>
-
-<div><br><br># yum -y remove mysql-libs-*   //删除所有包<br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/linux 安装软件/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/linux 安装软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/linux 安装软件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/linux 查看 和 修改系统编码/" title="linux 查看 和 修改系统编码" itemprop="url">linux 查看 和 修改系统编码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux-查看-和-修改系统编码"><a href="#linux-查看-和-修改系统编码" class="headerlink" title="linux 查看 和 修改系统编码"></a>linux 查看 和 修改系统编码</h1><p><span style="font: 26.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000"><strong>linux<br>查看 和 修改系统编码</strong></span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000"><strong>  </strong></span></p>
-<div><br><br>\<br><br></div>
-
-<p><span style="font: 12.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br>\<br></span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000">1、查看<br>echo \$LANG</span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br>\<br></span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000">2、修改</span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000">1）vi<br>/etc/sysconfig/i18n</span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br>\<br></span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000">#LANG=”en_US.UTF-8”</span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000">#SYSFONT=”latarcyrheb-sun16”</span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span <!--more--=""><br>style=”font: 16.0px ‘Hiragino Sans GB’; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000”&gt;LANG=”zh_CN.GB18030”</span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000">LANGUAGE=”zh_CN.GB18030:zh_CN.GB2312:zh_CN”</span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000">SUPPORTED=”zh_HK.UTF-8:zh_HK:zh:zh_CN.UTF-8:zh_CN:zh:zh_SG.UTF-8:zh_SG:zh:zh_TW.UTF-8:zh_TW:zh:en_US.UTF-8:en_US:en”</span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br></span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000">SYSFONT=”lat0-sun16”</span><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; -webkit-text-stroke: 0px #000000">\<br>\<br></span></p>
-<div><br><br><span style="font: 16.0px 'Hiragino Sans GB'; font-kerning: none; background-color: #d7f2f4; -webkit-text-stroke: 0px #000000">2）source<br>vi /etc/sysconfig/i18n</span><br><br></div>
-
-<div><br><br><span style="font-size: 16px;"><span style="font-family: 'Hiragino Sans GB';"><span style="background-color: rgb(215, 242, 244);">\<br></span></span></span><br><br></div>
-
-<div><br><br><span style="font-size: 16px;"><span style="font-family: 'Hiragino Sans GB';"><span style="background-color: rgb(215, 242, 244);">\<br></span></span></span><br><br></div>
-
-<div><br><br><span style="font-size: 16px;"><span style="font-family: 'Hiragino Sans GB';"><span style="background-color: rgb(215, 242, 244);">\<br></span></span></span><br><br></div>
-
-<div><br><br><span style="font-size: 16px;"><span style="font-family: 'Hiragino Sans GB';"><span style="background-color: rgb(215, 242, 244);">\<br></span></span></span><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div style="color: rgb(51, 51, 51); font-family: Arial; text-align: left;"><br><br><em>另：如何修改操作系统的编码格式，在.bash_profile中添加如下：</em><br><br></div>
-
-<div><br><br><div style="font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; background-color: rgb(231, 229, 220); overflow: auto; padding-top: 1px; text-align: left; color: rgb(51, 51, 51);"><br><br><div style="padding-left: 45px;"><br><br><div style="padding: 3px 8px 10px 10px; font-size: 9px; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; color: silver; background-color: rgb(248, 248, 248); border-left-width: 3px; border-left-style: solid; border-left-color: rgb(108, 226, 108);"><br><br><strong>[html]</strong> <a href="http://blog.csdn.net/jingling_zy/article/details/12976225#" title="view plain" target="_blank" rel="noopener">view<br>plain</a><a href="http://blog.csdn.net/jingling_zy/article/details/12976225#" title="copy" target="_blank" rel="noopener">copy</a><br><div style="left: 833px; top: 1047px; z-index: 99;"><br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<ol>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: black; background-color: inherit;">export </span><span style="border: none; color: red; background-color: inherit;">LC_ALL</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;">export <span style="border: none; color: red; background-color: inherit;">LANG</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-</ol>
-<p></p></div><p></p>
-<div><br><br><span style="color: rgb(51, 51, 51); font-family: Arial; text-align: left; background-color: rgb(255, 255, 255); float: none;">或者修改/etc/sysconfig/i18n文件，内容如下：</span><br><br></div>
-
-<div style="font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; background-color: rgb(231, 229, 220); overflow: auto; padding-top: 1px; text-align: left; color: rgb(51, 51, 51);"><br><br><div style="padding-left: 45px;"><br><br><div style="padding: 3px 8px 10px 10px; font-size: 9px; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; color: silver; background-color: rgb(248, 248, 248); border-left-width: 3px; border-left-style: solid; border-left-color: rgb(108, 226, 108);"><br><br><strong>[html]</strong> <a href="http://blog.csdn.net/jingling_zy/article/details/12976225#" title="view plain" target="_blank" rel="noopener">view<br>plain</a><a href="http://blog.csdn.net/jingling_zy/article/details/12976225#" title="copy" target="_blank" rel="noopener">copy</a><br><div style="left: 833px; top: 1204px; z-index: 99;"><br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<ol>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LANG</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">SUPPORTED</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8:zh_CN:zh”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">SYSFONT</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“latarcyrheb-sun16”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-</ol>
-<p></p></div><p></p>
-<div><br><br><span style="color: rgb(51, 51, 51); font-family: Arial; text-align: left; background-color: rgb(255, 255, 255); float: none;">这样使用locale查看到的信息如下：</span><br><br></div>
-
-<div style="font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; background-color: rgb(231, 229, 220); overflow: auto; padding-top: 1px; text-align: left; color: rgb(51, 51, 51);"><br><br><div style="padding-left: 45px;"><br><br><div style="padding: 3px 8px 10px 10px; font-size: 9px; font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; color: silver; background-color: rgb(248, 248, 248); border-left-width: 3px; border-left-style: solid; border-left-color: rgb(108, 226, 108);"><br><br><strong>[html]</strong> <a href="http://blog.csdn.net/jingling_zy/article/details/12976225#" title="view plain" target="_blank" rel="noopener">view<br>plain</a><a href="http://blog.csdn.net/jingling_zy/article/details/12976225#" title="copy" target="_blank" rel="noopener">copy</a><br><div style="left: 833px; top: 1379px; z-index: 99;"><br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<ol>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LANG</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">SUPPORTED</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8:zh_CN:zh”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">SYSFONT</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“latarcyrheb-sun16”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;">[root asiainfo1 ~]# locale  </span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LANG</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">zh_CN</span><span style="border: none; color: black; background-color: inherit;">.UTF-8  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_CTYPE</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_NUMERIC</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_TIME</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_COLLATE</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_MONETARY</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_MESSAGES</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_PAPER</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_NAME</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_ADDRESS</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_TELEPHONE</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_MEASUREMENT</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_IDENTIFICATION</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">“zh_CN.UTF-8”</span><span style="border: none; color: black; background-color: inherit;">  </span></span></li>
-<li><span style="border: none; color: black; background-color: inherit;"><span style="border: none; color: red; background-color: inherit;">LC_ALL</span><span style="border: none; color: black; background-color: inherit;">=</span><span style="border: none; color: blue; background-color: inherit;">zh_CN</span><span style="border: none; color: black; background-color: inherit;">.UTF-8  </span></span></li>
-</ol>
-<p></p></div><p></p>
-<div><br><br>\<br><br></div>
-
-<p></p></div><p></p>
-<div><br><br>\<br><br></div>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/linux 查看 和 修改系统编码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/linux 查看 和 修改系统编码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/linux下SVN仓库间数据转移或重命名/" title="linux下SVN仓库间数据转移或重命名" itemprop="url">linux下SVN仓库间数据转移或重命名</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux下SVN仓库间数据转移或重命名"><a href="#linux下SVN仓库间数据转移或重命名" class="headerlink" title="linux下SVN仓库间数据转移或重命名"></a>linux下SVN仓库间数据转移或重命名</h1><div><br><br>linux下SVN仓库间数据转移或重命名<br><br></div>
-
-<div><br><br>分类： Linux svn 2012-02-28 11:06 1425人阅读 评论(0) 收藏 举报<br><br></div>
-
-<div><br><br>linuxsvn<br><br></div>
-
-<div><br><br>假设将A仓库的数据转移到B仓库<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>A位置：/svndata/A<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/linux下SVN仓库间数据转移或重命名/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/linux下SVN仓库间数据转移或重命名/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/linux下SVN仓库间数据转移或重命名/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/linux下 scp命令不需要输入用户密码/" title="linux下 scp命令不需要输入用户密码" itemprop="url">linux下 scp命令不需要输入用户密码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux下-scp命令不需要输入用户密码"><a href="#linux下-scp命令不需要输入用户密码" class="headerlink" title="linux下 scp命令不需要输入用户密码"></a>linux下 scp命令不需要输入用户密码</h1><div><br><br>\<br><br></div>
-
-<div><br><br>linux下 scp命令不需要输入用户密码<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<p><span style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>在两台机器的两个用户之间建立安全的信任关系后，可实现执行scp命令时不需要输入用户密码。</strong></span><span style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\
-</strong></span><span style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>1.<br>在机器Client上root用户执行ssh-keygen命令，生成建立安全信任关系的证书。</strong></span><span style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\
-</strong></span><span style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>[root Client<br>root]# <em>ssh-keygen -b 1024 -t rsa</em></strong></span><span style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\
-</strong></span><span style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>Generating<br>public/private rsa key pair.</strong></span><span style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/linux下 scp命令不需要输入用户密码/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/linux下 scp命令不需要输入用户密码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/linux下 scp命令不需要输入用户密码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/14/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/16/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/14/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/16/">Next<span></span></a>
   </nav>
 
 
@@ -1010,8 +948,6 @@
 		  
 		
 		  
-		
-		  
 			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
 		  
 		
@@ -1049,19 +985,7 @@
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
@@ -1069,15 +993,15 @@
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -1089,7 +1013,27 @@
 			
 		
 			
-				<li><a href="/tags/三体/" title="三体">三体<sup>1</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -1098,14 +1042,6 @@
 		
 			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 		</ul>

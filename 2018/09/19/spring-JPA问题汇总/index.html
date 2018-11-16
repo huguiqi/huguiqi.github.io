@@ -7,23 +7,25 @@
   <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
   
   
-    <title>小黑的技术博客</title>
+    <title>spring JPA问题汇总 | 小黑的技术博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="sam">
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="胡小黑 大型网络架构">
+    <meta name="description" content="spring JPA问题汇总在做级联保存时报错错误信息类似： cannot be cast to java.io.Serializable 解决办法： 在 Entity中加入 implements Serializable @Data @Entity(name = &amp;quot;R_COUPON&amp;quot;) @DynamicUpdate @DynamicInsert public class Co">
+<meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
 <meta property="og:type" content="article">
-<meta property="og:title" content="小黑的技术博客">
-<meta property="og:url" content="http://www.huguiqi.com/2017/09/07/当新团队领导价值观与你不同时该怎么办？/index.html">
+<meta property="og:title" content="spring JPA问题汇总">
+<meta property="og:url" content="http://www.huguiqi.com/2018/09/19/spring-JPA问题汇总/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="胡小黑 大型网络架构">
-<meta property="og:updated_time" content="2017-09-06T23:21:13.000Z">
+<meta property="og:description" content="spring JPA问题汇总在做级联保存时报错错误信息类似： cannot be cast to java.io.Serializable 解决办法： 在 Entity中加入 implements Serializable @Data @Entity(name = &amp;quot;R_COUPON&amp;quot;) @DynamicUpdate @DynamicInsert public class Co">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-19T09:27:40.476Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小黑的技术博客">
-<meta name="twitter:description" content="胡小黑 大型网络架构">
+<meta name="twitter:title" content="spring JPA问题汇总">
+<meta name="twitter:description" content="spring JPA问题汇总在做级联保存时报错错误信息类似： cannot be cast to java.io.Serializable 解决办法： 在 Entity中加入 implements Serializable @Data @Entity(name = &amp;quot;R_COUPON&amp;quot;) @DynamicUpdate @DynamicInsert public class Co">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -89,14 +91,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/09/07/当新团队领导价值观与你不同时该怎么办？/" title="" itemprop="url"></a>
+      <a href="/2018/09/19/spring-JPA问题汇总/" title="spring JPA问题汇总" itemprop="url">spring JPA问题汇总</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2017-09-06T23:20:05.000Z" itemprop="datePublished"> 发表于 2017-09-07</time>
+    <time datetime="2018-09-19T07:12:40.000Z" itemprop="datePublished"> 发表于 2018-09-19</time>
     
   </p>
 </header>
@@ -105,11 +107,86 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-JPA问题汇总"><span class="toc-number">1.</span> <span class="toc-text">spring JPA问题汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在做级联保存时报错"><span class="toc-number">1.1.</span> <span class="toc-text">在做级联保存时报错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JPA所有级联默认都会添加一个关联表"><span class="toc-number">1.2.</span> <span class="toc-text">JPA所有级联默认都会添加一个关联表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JPA获取lazy方式加载对象时报错"><span class="toc-number">1.3.</span> <span class="toc-text">JPA获取lazy方式加载对象时报错</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		  
+		<h1 id="spring-JPA问题汇总"><a href="#spring-JPA问题汇总" class="headerlink" title="spring JPA问题汇总"></a>spring JPA问题汇总</h1><h2 id="在做级联保存时报错"><a href="#在做级联保存时报错" class="headerlink" title="在做级联保存时报错"></a>在做级联保存时报错</h2><p>错误信息类似：</p>
+<pre><code>cannot be cast to java.io.Serializable
+</code></pre><p><strong>解决办法：</strong></p>
+<p>在 Entity中加入 implements Serializable</p>
+<pre><code>@Data
+@Entity(name = &quot;R_COUPON&quot;)
+@DynamicUpdate
+@DynamicInsert
+public class Coupon implements Serializable{
+  ...
+}
+</code></pre><p><strong>原因：</strong></p>
+<p>Hibernate 有二级缓存， 缓存会将对象写进硬盘。就必须序列化。<br>为了兼容对象在网络钟的传输。如果不序列化，它就会认为不是同一个对象，就会报那个错。</p>
+<h2 id="JPA所有级联默认都会添加一个关联表"><a href="#JPA所有级联默认都会添加一个关联表" class="headerlink" title="JPA所有级联默认都会添加一个关联表"></a>JPA所有级联默认都会添加一个关联表</h2><p>如：</p>
+<pre><code>@Data
+@Entity(name = &quot;R_COUPON&quot;)
+@DynamicUpdate
+@DynamicInsert
+public class Coupon implements Serializable{
+...
+@ManyToMany(cascade = CascadeType.PERSIST)
+private List&lt;CouponMerchant&gt; merchantList = new ArrayList&lt;&gt;();
+}
+</code></pre><p>test:</p>
+<pre><code> @Test
+public void testSave(){
+
+    Coupon coupon = new Coupon();
+    coupon.setName(&quot;满50减10&quot;);
+    ...
+
+    List&lt;CouponMerchant&gt; couponMerchantList = new ArrayList&lt;&gt;();
+
+    CouponMerchant couponMerchant1 = new CouponMerchant();
+    ...
+
+    couponMerchantList.add(couponMerchant1);
+    coupon.setMerchantList(couponMerchantList);
+
+    couponRepository.saveAndFlush(coupon);
+}
+</code></pre><p>发出的sql语句为：</p>
+<pre><code>Hibernate: insert into r_coupon (amount, code, create_time, end_date, is_all_business, member_id, minimum_spending_amount, name, start_date, status, update_time, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
+Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
+Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
+Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
+Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
+Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
+Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
+Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
+Hibernate: insert into r_coupon (amount, code, create_time, end_date, is_all_business, member_id, minimum_spending_amount, name, start_date, status, update_time, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
+Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
+Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
+Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
+</code></pre><p>所以有个中间表，默认命名为<code>r_coupon_merchant_list</code>，是和owner对象中定义的merchantList属性名是有关系的，而且默认用两张表的ID作关联了。</p>
+<p>我现在不想用这个默认的中间表，想指定他的关系，不想用默认的ID作为表关联，我要用code作关联。</p>
+<p>解决方案：</p>
+<p>只要在owner对象中引入的列表属性中加上：</p>
+<pre><code>@ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = &quot;R_COUPON_COUPON_MERCHANT&quot;,joinColumns = @JoinColumn(name = &quot;COUPON_CODE&quot;,referencedColumnName = &quot;CODE&quot;),
+    inverseJoinColumns = @JoinColumn(name = &quot;MERCHANT_CODE&quot;,referencedColumnName = &quot;MERCHANT_CODE&quot;))
+    private List&lt;CouponMerchant&gt; merchantList = new ArrayList&lt;&gt;();
+</code></pre><p>运行一下打印出的sql:</p>
+<pre><code>Hibernate: insert into r_coupon (amount, code, create_time, end_date, is_all_business, member_id, minimum_spending_amount, name, start_date, status, update_time, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
+Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
+Hibernate: insert into r_coupon_coupon_merchant (coupon_code, merchant_code) values (?, ?)
+Hibernate: insert into r_coupon_coupon_merchant (coupon_code, merchant_code) values (?, ?)
+</code></pre><h2 id="JPA获取lazy方式加载对象时报错"><a href="#JPA获取lazy方式加载对象时报错" class="headerlink" title="JPA获取lazy方式加载对象时报错"></a>JPA获取lazy方式加载对象时报错</h2><p>错误信息：</p>
+<pre><code>spring jpa lazy  could not initialize proxy - no Session
+</code></pre><p>解决方案：</p>
+<p>需要将service端加事务注解（可以在类上，也可以在方法上）</p>
+<pre><code>@Transactional
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -121,7 +198,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.huguiqi.com/2017/09/07/当新团队领导价值观与你不同时该怎么办？/" data-title="小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  <div data-url="http://www.huguiqi.com/2018/09/19/spring-JPA问题汇总/" data-title="spring JPA问题汇总 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -134,19 +211,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/09/07/当新团队公司和领导价值观与你不同时该怎么办/" title="当新团队公司和领导价值观与你不同时该怎么办？">
-  <strong>上一篇：</strong><br/>
-  <span>
-  当新团队公司和领导价值观与你不同时该怎么办？</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/07/29/一天上手springboot/"  title="一天上手springboot">
+<a href="/2018/09/07/springboot-zuul上传图片问题汇总/"  title="springboot zuul上传图片问题汇总">
  <strong>下一篇：</strong><br/> 
- <span>一天上手springboot
+ <span>springboot zuul上传图片问题汇总
 </span>
 </a>
 </div>
@@ -155,7 +224,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/09/07/当新团队领导价值观与你不同时该怎么办？/" data-title="" data-url="http://www.huguiqi.com/2017/09/07/当新团队领导价值观与你不同时该怎么办？/"></div>
+	<div class="ds-thread" data-thread-key="2018/09/19/spring-JPA问题汇总/" data-title="spring JPA问题汇总" data-url="http://www.huguiqi.com/2018/09/19/spring-JPA问题汇总/"></div>
 </section>
 
 
@@ -171,7 +240,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-JPA问题汇总"><span class="toc-number">1.</span> <span class="toc-text">spring JPA问题汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在做级联保存时报错"><span class="toc-number">1.1.</span> <span class="toc-text">在做级联保存时报错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JPA所有级联默认都会添加一个关联表"><span class="toc-number">1.2.</span> <span class="toc-text">JPA所有级联默认都会添加一个关联表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JPA获取lazy方式加载对象时报错"><span class="toc-number">1.3.</span> <span class="toc-text">JPA获取lazy方式加载对象时报错</span></a></li></ol></li></ol>
  
   </div>
 
@@ -203,6 +272,10 @@
 		  
 		
 		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
 		  
 		
@@ -212,6 +285,10 @@
 		
 		  
 			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
 		  
 		
 		  
@@ -227,7 +304,7 @@
 		  
 		
 		  
-			<li><a href="/categories/java/" title="java">java<sup>10</sup></a></li>
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
 		  
 		
 		  
@@ -240,6 +317,18 @@
 		
 		  
 			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
 		  
 		
 		  
@@ -263,6 +352,10 @@
 		  
 		
 		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
 		  
 		
@@ -271,11 +364,15 @@
 		  
 		
 		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>12</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
 		  
 		
 		  
@@ -284,6 +381,10 @@
 		
 		  
 			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
 		  
 		
 		  
@@ -304,7 +405,19 @@
 			
 		
 			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>5</sup></a></li>
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -312,11 +425,31 @@
 			
 		
 			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -328,15 +461,7 @@
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>2</sup></a></li>
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 			
 		
 			
@@ -344,7 +469,7 @@
 			
 		
 			
-				<li><a href="/tags/3DTouch-sample/" title="3DTouch sample">3DTouch sample<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
@@ -352,31 +477,7 @@
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/安装svn/" title="安装svn">安装svn<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/gitlabe-ce/" title="gitlabe-ce">gitlabe-ce<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/tomcat/" title="tomcat">tomcat<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -472,7 +573,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2017 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2018 
 		
 		<a href="/about" target="_blank" title="sam">sam</a>
 		
