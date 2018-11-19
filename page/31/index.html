@@ -92,39 +92,937 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/给hexo博客添加站内搜索/" title="给hexo博客添加站内搜索(折腾死了)" itemprop="url">给hexo博客添加站内搜索(折腾死了)</a>
+      <a href="/2017/07/29/一天上手springboot/" title="一天上手springboot" itemprop="url">一天上手springboot</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2017-07-29T13:20:00.000Z" itemprop="datePublished"> 发表于 2017-07-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="给hexo博客添加站内搜索"><a href="#给hexo博客添加站内搜索" class="headerlink" title="给hexo博客添加站内搜索"></a>给hexo博客添加站内搜索</h1><p>本来想用swiftype来做站内搜索，但是，因为GWF的缘故，只好放弃，使用百度来做站内搜索<br>先放一下演示：<a href="http://huguiqi.com" target="_blank" rel="noopener">swiftype搜索演示</a></p>
-<h2 id="一，注册百度站长帐号"><a href="#一，注册百度站长帐号" class="headerlink" title="一，注册百度站长帐号"></a>一，注册百度站长帐号</h2><p><a href="http://zhanzhang.baidu.com/" target="_blank" rel="noopener">点击注册</a><br>如果你是新用户，你首先应该在我的网站/站点管理里先添加网站.<br><img src="http://gengbiao.me/img/baidu/baidu_add_site.png" alt="注册"></p>
-<h3 id="给你的hexo站点添加sitemap网站地图"><a href="#给你的hexo站点添加sitemap网站地图" class="headerlink" title="给你的hexo站点添加sitemap网站地图"></a>给你的hexo站点添加sitemap网站地图</h3><ol>
-<li>安装hexo的sitemap网站地图生成插件</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-sitemap --save</span><br><span class="line">npm install hexo-generator-baidu-sitemap --save</span><br></pre></td></tr></table></figure>
+        <h1 id="一天上手springboot"><a href="#一天上手springboot" class="headerlink" title="一天上手springboot"></a>一天上手springboot</h1><p>6月份在找java后端的工作，老是有很多公司问我，springboot有用过吗？我说没有，基本上就没戏了。</p>
+<p>什么玩意？很难吗？不就是一个框架吗？会不会有什么关系吗？</p>
+<p>好吧，既然它这么火，我就来学习一下。。。。。</p>
+<h2 id="springboot是什么"><a href="#springboot是什么" class="headerlink" title="springboot是什么?"></a>springboot是什么?</h2><p>首先我们在spring.io官网上找到关于springboot的单个文档。<br><a href="http://docs.spring.io/spring-boot/docs/1.5.6.RELEASE/reference/htmlsingle" target="_blank" rel="noopener">springboot文档</a><br>里面有说，springboot在github上的地址是：<br><a href="https://github.com/spring-projects/spring-boot" title="springboot-github" target="_blank" rel="noopener">springboot-github</a></p>
+<p>github官方wiki上说：</p>
+<p>Spring Boot makes it easy to create Spring-powered, production-grade applications and services with absolute minimum fuss. It takes an opinionated view of the Spring platform so that new and existing users can quickly get to the bits they need.</p>
+<p>这段英文有点绕，其实主要意思就是，能让以spring为基本框架的应用程序化繁为简，以绝对最小的代价提供最爽的服务。让开发者快速得到其想要的东西。</p>
+<h2 id="不需要安装maven编译打包"><a href="#不需要安装maven编译打包" class="headerlink" title="不需要安装maven编译打包"></a>不需要安装maven编译打包</h2><pre><code>$ ./mvnw clean install
+</code></pre><h2 id="丢弃xml配置文件，让开发专注开发"><a href="#丢弃xml配置文件，让开发专注开发" class="headerlink" title="丢弃xml配置文件，让开发专注开发"></a>丢弃xml配置文件，让开发专注开发</h2><p>springboot提供自动配置功能。</p>
+<p>只要使用 @SpringBootApplication annotation 这个注解就可以了，它当于：使用了 @Configuration, @EnableAutoConfiguration 和 @ComponentScan 这些注解的默认属性。</p>
+<h2 id="用YAML-代替-properties配置文件"><a href="#用YAML-代替-properties配置文件" class="headerlink" title="用YAML 代替 properties配置文件"></a>用YAML 代替 properties配置文件</h2><p>这个很简单，官网上已经讲得很清楚了：<br><a href="http://docs.spring.io/spring-boot/docs/1.5.6.RELEASE/reference/htmlsingle/#boot-features-external-config-yaml" target="_blank" rel="noopener"> 用YAML 代替 properties配置文件 </a></p>
+<h2 id="启动入口由spring提供的容器入口启动"><a href="#启动入口由spring提供的容器入口启动" class="headerlink" title="启动入口由spring提供的容器入口启动"></a>启动入口由spring提供的容器入口启动</h2><p>在写了@SpringBootApplication annotation注解的类里的main方法入口：</p>
+<pre><code>public static void main(String[] args) {
+SpringApplication.run(Demo1Application.class, args);
+}
+</code></pre><p>然后运行这个类，spring就会启动内置的tomcat容器启动服务器。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/07/29/一天上手springboot/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springboot/">springboot</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/29/一天上手springboot/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/29/一天上手springboot/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/29/springboot-JTA/" title="springboot-JTA" itemprop="url">springboot-JTA</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-29T03:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="springboot无配置多数据源分布式数据事务管理"><a href="#springboot无配置多数据源分布式数据事务管理" class="headerlink" title="springboot无配置多数据源分布式数据事务管理"></a>springboot无配置多数据源分布式数据事务管理</h1><h2 id="使用atomikos解决多数据源分布式事务问题"><a href="#使用atomikos解决多数据源分布式事务问题" class="headerlink" title="使用atomikos解决多数据源分布式事务问题"></a>使用atomikos解决多数据源分布式事务问题</h2><p>atomikos官网是这样描述atomikos的使用的：</p>
+<p>It is easy to setup by using its setter methods but can also be easily built from a Spring BeanFactory. Here is an example of code that creates an AtomikosDataSourceBean with 5 connections in pool on an Oracle database:</p>
+<p>AtomikosDataSourceBean ds = new AtomikosDataSourceBean();<br>ds.setUniqueResourceName(“oracle”);<br>ds.setXaDataSourceClassName(“oracle.jdbc.xa.client.OracleXADataSource”);<br>Properties p = new Properties();<br>p.setProperty ( “user” , “java” );<br>p.setProperty ( “password” , “java” );<br>p.setProperty ( “URL” , “jdbc:oracle:thin:@localhost-xe:1521:XE” );<br>ds.setXaDataSourceProperties ( p );<br>ds.setPoolSize ( 5 );</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/07/29/springboot-JTA/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springboot/">springboot</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/29/springboot-JTA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/29/springboot-JTA/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/23/docker 启动时报必须要用root/" title="docker 启动时报必须要用root" itemprop="url">docker 启动时报必须要用root</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-22T17:10:00.000Z" itemprop="datePublished"> 发表于 2017-07-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="docker-启动时报必须要用root"><a href="#docker-启动时报必须要用root" class="headerlink" title="docker 启动时报必须要用root"></a>docker 启动时报必须要用root</h1><p>启动keepalived容器时，一直报错：</p>
+<pre><code>ipvs: Permission denied (you must be root)
+Healthcheck child process(18973) died: Respawning
+Keepalived[15]: Healthcheck child process(18973) died: Respawning
+Starting Healthcheck child process, pid=18975
+Keepalived[15]: Starting Healthcheck child process, pid=18975
+Initializing ipvs 2.6
+Keepalived_healthcheckers[18975]: Initializing ipvs 2.6
+IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Keepalived_healthcheckers[18975]: IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Healthcheck child process(18975) died: Respawning
+Keepalived[15]: Healthcheck child process(18975) died: Respawning
+Starting Healthcheck child process, pid=18977
+Keepalived[15]: Starting Healthcheck child process, pid=18977
+Initializing ipvs 2.6
+Keepalived_healthcheckers[18977]: Initializing ipvs 2.6
+IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Keepalived_healthcheckers[18977]: IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Healthcheck child process(18977) died: Respawning
+Keepalived[15]: Healthcheck child process(18977) died: Respawning
+Starting Healthcheck child process, pid=18979
+Keepalived[15]: Starting Healthcheck child process, pid=18979
+Initializing ipvs 2.6
+Keepalived_healthcheckers[18979]: Initializing ipvs 2.6
+IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Keepalived_healthcheckers[18979]: IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Healthcheck child process(18979) died: Respawning
+Keepalived[15]: Healthcheck child process(18979) died: Respawning
+Starting Healthcheck child process, pid=18981
+Keepalived[15]: Starting Healthcheck child process, pid=18981
+Initializing ipvs 2.6
+Keepalived_healthcheckers[18981]: Initializing ipvs 2.6
+IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Keepalived_healthcheckers[18981]: IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Healthcheck child process(18981) died: Respawning
+Keepalived[15]: Healthcheck child process(18981) died: Respawning
+Starting Healthcheck child process, pid=18983
+Keepalived[15]: Starting Healthcheck child process, pid=18983
+Initializing ipvs 2.6
+Keepalived_healthcheckers[18983]: Initializing ipvs 2.6
+IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Keepalived_healthcheckers[18983]: IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Healthcheck child process(18983) died: Respawning
+Keepalived[15]: Healthcheck child process(18983) died: Respawning
+Starting Healthcheck child process, pid=18985
+Keepalived[15]: Starting Healthcheck child process, pid=18985
+Initializing ipvs 2.6
+Keepalived_healthcheckers[18985]: Initializing ipvs 2.6
+IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Keepalived_healthcheckers[18985]: IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+Healthcheck child process(18985) died: Respawning
+Keepalived[15]: Healthcheck child process(18985) died: Respawning
+Starting Healthcheck child process, pid=18987
+Keepalived[15]: Starting Healthcheck child process, pid=18987
+Initializing ipvs 2.6
+Keepalived_healthcheckers[18987]: Initializing ipvs 2.6
+IPVS: Can&apos;t initialize ipvs: Permission denied (you must be root)
+2017-07-15T23:31:24.663548
+</code></pre><p>解决方法是在启动container时加入参数–privileged=true, 来开启被禁用的能力</p>
+<p>如果是mac用户，直接在katnatic的设置中勾选Privileged模式就行了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/23/docker 启动时报必须要用root/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/23/docker 启动时报必须要用root/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/22/统计代码工具/" title="统计代码工具" itemprop="url">统计代码工具</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-21T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="统计代码工具"><a href="#统计代码工具" class="headerlink" title="统计代码工具"></a>统计代码工具</h1><p>最近公司要求申请软件著作权专利，需要对所申请软件进行代码量的统计；而我公司的软件从前端到后端都是分项目开发的，ios和安卓分别是一个项目模块，后台接口是一个模块；后台内容管理系统是一个模块，而这些模块所用的语言各有不同，统计的方式也各有不同；</p>
+<p>网上有很多统计代码的工具类的shell脚本，如java言语类的项目用：</p>
+<ul>
+<li>最粗略版：</li>
+</ul>
+<pre><code>find . -name &quot;*.java&quot;|xargs wc -l|grep &quot;total&quot;|awk &apos;{print $1}&apos;
+find . -name &quot;*.java&quot;|xargs cat|wc -l    #Output:37634
+</code></pre><p>上面的两句效果一样，只不过第二种是先利用cat将多个java文件的内容合并输出了。然后再统计。<br>不过两个都有共同的毛病——连文件里面的空行都给统计进去算作一行了。</p>
+<ul>
+<li><p>去除空行版</p>
+<pre><code>find . -name &quot;*.java&quot;|xargs cat|grep -v ^$|wc -l    #Output:36335
+</code></pre></li>
+</ul>
+<p>这个版本靠谱一些了，可以看到去掉空行之后的统计结果变为了：36335，比上个版本干掉了1299行的空行。。。 </p>
+<ul>
+<li><p>去除注释版       </p>
+<pre><code># exclude the lines begin with //
+find . -name &quot;*.java&quot;|xargs cat|grep -v -e ^$ -e ^\s*\/\/.*$|wc -l    #Output:36064
+</code></pre></li>
+</ul>
+<p>这个方法发现，以//开头的注释有36335-36064=271行。这里需要注意的是，注释行未必就以//作为开头，可能N个空格之后才开始的的//，所以匹配时需要加上上面的^\s*放在开头。</p>
+<p>以上的命令行只是针对当前目录的代码统计，那如果是真实的项目代码统计呢？</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/07/22/统计代码工具/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/代码统计/">代码统计</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/22/统计代码工具/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/22/统计代码工具/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/16/如何从spring-security3.x升级到4.2.3/" title="如何从spring-security3.x升级到4.2.3" itemprop="url">如何从spring-security3.x升级到4.2.3</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-15T17:10:00.000Z" itemprop="datePublished"> 发表于 2017-07-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="从spring-security3-x升级到4-2-3"><a href="#从spring-security3-x升级到4-2-3" class="headerlink" title="从spring-security3.x升级到4.2.3"></a>从spring-security3.x升级到4.2.3</h1><p>由于之前spring-security3.x用的是配置文件配置权限校验的，但升级到4.2.3以后，配置文件权限配置都失效了，尤其是UserDetailsService类，完全不走它的loadUserByUsername方法了。</p>
+<p>查了很多资料，在官网上也走了很久，发现spring-security4.x的文档比较详细的是java 代码配置。看来spring-security目前推荐使用java配置，xml的完整配置都没有了。</p>
+<p><a href="http://docs.spring.io/spring-security/site/docs/4.2.3.RELEASE/reference/htmlsingle/#samples" title="spring-security官网例子" target="_blank" rel="noopener"> spring-security官网例子 </a></p>
+<p>在官网的例子里试了半天，发现其实官网关于配置文件的例子都不全，虽然感觉是对的，但是配置的项目中，还是非常有问题的，权限并没有生效。</p>
+<p>官网一般给的都是这个配置：</p>
+<pre><code>&lt;b:beans xmlns=&quot;http://www.springframework.org/schema/security&quot;
+ xmlns:b=&quot;http://www.springframework.org/schema/beans&quot;
+ xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+ xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd&quot;&gt;
+&lt;http auto-config=&quot;true&quot; use-expressions=&quot;true&quot;&gt;
+&lt;intercept-url pattern=&quot;auth/login&quot; access=&quot;permitAll&quot;/&gt;
+&lt;intercept-url pattern=&quot;main/admin&quot; access=&quot;hasAnyRole(&apos;ADMIN&apos;)&quot;/&gt;
+&lt;intercept-url pattern=&quot;/main/common&quot; access=&quot;hasRole(&apos;USER&apos;)&quot;/&gt;
+&lt;form-login login-page=&quot;/auth/login&quot;
+login-processing-url=&quot;logIn.do&quot;
+authentication-failure-url=&quot;/auth/login?error=true&quot;
+default-target-url=&quot;/main/common&quot;/&gt;
+&lt;logout
+invalidate-session=&quot;true&quot;
+logout-success-url=&quot;/auth/login&quot;
+logout-url=&quot;/auth/logout&quot;/&gt;
+&lt;access-denied-handler
+error-page=&quot;/auth/denied&quot;
+/&gt;
+&lt;/http&gt;
+&lt;authentication-manager&gt;
+&lt;authentication-provider&gt;
+&lt;user-service&gt;
+&lt;user name=&quot;user&quot; password=&quot;123456&quot; authorities=&quot;USER&quot;/&gt;
+&lt;/user-service&gt;
+&lt;/authentication-provider&gt;
+&lt;/authentication-manager&gt;
+
+&lt;/b:beans&gt;
+</code></pre><p>但经测试，通过配置的用户名登陆，只要登陆，它可以访问拥有USER和ADMIN权限的controller。<br>正常应该user用户只能访问/main/common路径才对。</p>
+<p>由于弄了我半天，很头疼，就打算放弃配置文件了。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/07/16/如何从spring-security3.x升级到4.2.3/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/spring-security/">spring-security</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/16/如何从spring-security3.x升级到4.2.3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/16/如何从spring-security3.x升级到4.2.3/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/15/idea14部署tomcat7-tomcat8/" title="inteLij idea2017部署tomcat7-tomcat8" itemprop="url">inteLij idea2017部署tomcat7-tomcat8</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-15T15:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="inteLij-idea2017部署tomcat7-tomcat8"><a href="#inteLij-idea2017部署tomcat7-tomcat8" class="headerlink" title="inteLij idea2017部署tomcat7-tomcat8"></a>inteLij idea2017部署tomcat7-tomcat8</h1><p>参考简书上一篇文章：<br><a href="http://www.jianshu.com/p/0aca0d876319" title="Intellij IDEA 中如何部署项目到 Tomcat" target="_blank" rel="noopener"> Intellij IDEA 中如何部署项目到 Tomcat </a></p>
+<p>虽然已经图文并茂，感觉很清晰了，但是我的部署方法感觉比他更简单。</p>
+<p>第一步：打开项目设置<br><img src="http://blog.huguiqi.com/1500133706147islmu24p.png?imageslim" alt="paste image"></p>
+<p>第二步：构建app构件(一般是war包)</p>
+<p><img src="http://blog.huguiqi.com/1500134262792wxdtrztt.png?imageslim" alt="paste image"></p>
+<p><strong>注意，项目的依赖文件和jar包，都必须放在一起打包，否则部署会报错。</strong></p>
+<p>第三步，配置tomcat并选择tomcat要部署的war包</p>
+<p><img src="http://blog.huguiqi.com/1500134520412f5vjj7nr.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/15001345544352uwl3wep.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1500134563051szprzx0h.png?imageslim" alt="paste image"></p>
+<p>点应用就行了。</p>
+<p>第四步：启动tomcat</p>
+<p><img src="http://blog.huguiqi.com/1500134712611ml6kmlbj.png?imageslim" alt="paste image"></p>
+<p>是不是要简单太多。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/tomcat/">tomcat</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/15/idea14部署tomcat7-tomcat8/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/15/idea14部署tomcat7-tomcat8/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/14/maven无法更新jar的解决方案/" title="maven无法更新jar的解决方案" itemprop="url">maven无法更新jar的解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-13T23:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="maven无法更新jar的解决方案"><a href="#maven无法更新jar的解决方案" class="headerlink" title="maven无法更新jar的解决方案"></a>maven无法更新jar的解决方案</h1><p>原因：<br>是由于上次运行mvn install 时，jar下载完全，或者老的jar没有删除干净，导致下载新的jar时，有冲突。</p>
+<p>I had a related problem, but Raghuram’s answer helped. (I don’t have enough reputation yet to vote his answer up). I’m using Maven bundled with NetBeans, and was getting the same “…was cached in the local repository, resolution will not be reattempted until the update interval of nexus has elapsed or updates are forced -> <a href="">Help 1</a>“ error.<br>To fix this I added \<updatepolicy\>always\</updatepolicy\> to my settings file (C:\Program Files\NetBeans 7.0\java\maven\conf\settings.xml)</p>
+<pre><code>&lt;profile&gt;
+  &lt;id&gt;nexus&lt;/id&gt;
+  &lt;!--Enable snapshots for the built in central repo to direct --&gt;
+  &lt;!--all requests to nexus via the mirror --&gt;
+  &lt;repositories&gt;
+&lt;repository&gt;
+  &lt;id&gt;central&lt;/id&gt;
+  &lt;url&gt;http://central&lt;/url&gt;
+  &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/releases&gt;
+  &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/snapshots&gt;
+&lt;/repository&gt;
+  &lt;/repositories&gt;
+ &lt;pluginRepositories&gt;
+&lt;pluginRepository&gt;
+  &lt;id&gt;central&lt;/id&gt;
+  &lt;url&gt;http://central&lt;/url&gt;
+  &lt;releases&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/releases&gt;
+  &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;&lt;/snapshots&gt;
+&lt;/pluginRepository&gt;
+  &lt;/pluginRepositories&gt;
+&lt;/profile&gt;
+</code></pre><p>或者通过pom.xml配置<br>pom.xml:</p>
+<pre><code>&lt;repositories&gt;
+&lt;repository&gt;
+&lt;id&gt;alimaven&lt;/id&gt;
+&lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;false&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+&lt;/releases&gt;
+&lt;/repository&gt;
+&lt;repository&gt;
+&lt;id&gt;archiva.default&lt;/id&gt;
+&lt;url&gt;http://repository.sonatype.org/&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/releases&gt;
+&lt;snapshots&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/snapshots&gt;
+&lt;/repository&gt;
+
+&lt;repository&gt;
+&lt;id&gt;archiva.3&lt;/id&gt;
+&lt;url&gt;http://www.mvnrepository.com/&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/releases&gt;
+&lt;snapshots&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/snapshots&gt;
+&lt;/repository&gt;
+&lt;repository&gt;
+&lt;id&gt;archiva.5&lt;/id&gt;
+&lt;url&gt;http://repository.jboss.com/maven2/&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/releases&gt;
+&lt;snapshots&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/snapshots&gt;
+&lt;/repository&gt;
+&lt;repository&gt;
+&lt;id&gt;releases&lt;/id&gt;
+&lt;name&gt;Releases&lt;/name&gt;
+&lt;url&gt;https://oss.sonatype.org/content/repositories/releases&lt;/url&gt;
+&lt;releases&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/releases&gt;
+&lt;snapshots&gt;
+&lt;enabled&gt;true&lt;/enabled&gt;
+&lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+&lt;/snapshots&gt;
+&lt;/repository&gt;
+&lt;/repositories&gt;
+</code></pre><p>再次运行mvn clean install 解决。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/maven/">maven</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/14/maven无法更新jar的解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/14/maven无法更新jar的解决方案/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/13/分布式系统事务一致性解决方案与实践/" title="分布式系统事务一致性解决方案与实践" itemprop="url">分布式系统事务一致性解决方案与实践</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-12T17:20:00.000Z" itemprop="datePublished"> 发表于 2017-07-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/分布式/">分布式</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/13/分布式系统事务一致性解决方案与实践/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/13/分布式系统事务一致性解决方案与实践/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/09/线程并发与通信/" title="线程并发与通信" itemprop="url">线程并发与通信</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-09T07:00:00.000Z" itemprop="datePublished"> 发表于 2017-07-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="线程并发与通信"><a href="#线程并发与通信" class="headerlink" title="线程并发与通信"></a>线程并发与通信</h1><p><a href="http://wiki.jikexueyuan.com/project/java-concurrent/introduction.html" target="_blank" rel="noopener">参考文章</a></p>
+<ul>
+<li>多线程与cpu是单核还是多核无关，只是合理的利用cpu资源的一种方法</li>
+<li>多线程更多与分布式系统的并发性一起被提及</li>
+<li>线程间写入与访问共享资源问题，因共享资源存在不同步，产生线程安全问题</li>
+<li>分布式系统共享资源多线程问题</li>
+</ul>
+<h2 id="线程并发问题"><a href="#线程并发问题" class="headerlink" title="线程并发问题"></a>线程并发问题</h2><p>• 多线程：指的是这个程序（一个进程）运行时产生了不止一个线程<br>• 并行与并发：<br>◦ 并行：多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时。<br>◦ 并发：通过cpu调度算法，让用户看上去同时执行，实际上从cpu操作层面不是真正的同时。并发往往在场景中有公用的资源，那么针对这个公用的资源往往产生瓶颈，我们会用TPS或者QPS来反应这个系统的处理能力。</p>
+<p><a href="http://www.importnew.com/21089.html" target="_blank" rel="noopener">多线程参考文章</a></p>
+<h2 id="并发场景与解决问题"><a href="#并发场景与解决问题" class="headerlink" title="并发场景与解决问题"></a>并发场景与解决问题</h2><p>共享实例变量、共享连接资源时。<br>并发问题举例：<br>银行转账问题<br>投票问题<br>卖票问题<br>订单消库存问题<br>连接池问题</p>
+<h2 id="什么是IPC"><a href="#什么是IPC" class="headerlink" title="什么是IPC"></a>什么是IPC</h2><p>进程间通信（IPC，Inter-Process Communication），指至少两个进程或线程间传送数据或信号的一些技术或方法。<br>RPC、RMI、EJB、WebService都是IPC的一种方法。</p>
+<h2 id="线程通信"><a href="#线程通信" class="headerlink" title="线程通信"></a>线程通信</h2><p><a href="http://wiki.jikexueyuan.com/project/java-concurrent/thread-communication.html" target="_blank" rel="noopener">参考文章</a><br> 线程通信的目标是使线程间能够互相发送信号。另一方面，线程通信使线程能够等待其他线程的信号。<br>例如，线程 B 可以等待线程 A 的一个信号，这个信号会通知线程 B 数据已经准备好了。本文将讲解以下几个 JAVA 线程间通信的主题：</p>
 <ol>
-<li>在你的hexo站点的_config.yml添加下面的代码</li>
+<li>通过共享对象通信</li>
+<li>忙等待</li>
+<li>wait()，notify()和 notifyAll()</li>
+<li>丢失的信号</li>
+<li>假唤醒</li>
+<li>多线程等待相同信号</li>
+<li>不要对常量字符串或全局对象调用 wait()</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># hexo sitemap网站地图</span><br><span class="line">sitemap:</span><br><span class="line">path: sitemap.xml</span><br><span class="line">baidusitemap:</span><br><span class="line">path: baidusitemap.xml</span><br></pre></td></tr></table></figure>
-<p>虽然很多人说可以通过添加sitemap的方式向网站爬网站内容，但通过实践，我是没有成功的，去更新数据时，总是抓取失败，原因是服务器<strong>拒绝访问</strong>，根据百度的异常信息解释，可能是由于我的网站是托管在github上的，用gitpage的方式提供的空间，所以可能是拒绝百度这种方式爬的。</p>
-<p>我是参考其它人的一篇文章去做的<br><a href="http://gengbiao.me/hexo/hexo%E6%B7%BB%E5%8A%A0%E7%99%BE%E5%BA%A6%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2/" target="_blank" rel="noopener">给hexo添加百度站内搜索</a></p>
-<p>由于swiftype我一直没打开，所以就又转向了tinysou（这个是国内做的微搜索，速度什么的都还不错）,我参照了这篇文章进行添加：<br><a href="http://www.jianshu.com/p/85cd68408f81" target="_blank" rel="noopener">hexo添加tinysou站内搜索</a></p>
-<p>很可惜，这个tinysou我注册了，但就是无法添加engines,他们提交时的服务端返回一个503的错误，看来这家公司的维护团队很弱啊，这个问题都没有发现，后来又试了很久，engines建立了一个，但打不开控制台，没办法了，再试下swiftype看能否打开，这回开了vpn,终于打开了，就是好慢啊好慢。。。。。。  </p>
-<p>然后又参考了这个博客：<a href="http://www.jerryfu.net/post/search-engine-for-hexo-with-swiftype-v2.html" target="_blank" rel="noopener">利用swiftype为hexo添加站内搜索v2.0</a></p>
-<p>终于搞定了。。。。。。</p>
+<h3 id="通过案例一步步解决并发问题"><a href="#通过案例一步步解决并发问题" class="headerlink" title="通过案例一步步解决并发问题"></a>通过案例一步步解决并发问题</h3><p>卖票案例：<br>假如库存有100张票，在高并发的环境下售卖，会有什么问题，怎么解决？</p>
+<pre><code>package com.wolf.thread.model;
 
+import org.junit.Test;
+
+
+
+class Ticket {
+
+private int num;
+
+public Ticket(){
+    super();
+}
+
+public Ticket(int num) {
+    this.num = num;
+}
+
+public int getNum() {
+    return num;
+}
+
+public  void setNum(int num) {
+    this.num = num;
+}
+}
+
+
+public class TicketTest{
+
+@Test
+public void testSall(){
+    final Ticket ticket = new Ticket(10);
+        //分四个线程去卖票，直到票卖完
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+
+
+}
+
+}
+
+class TicketRunnable implements Runnable{
+
+private Ticket ticket;
+
+public TicketRunnable(Ticket ticket) {
+    this.ticket = ticket;
+}
+
+@Override
+public void run() {
+
+           while (true){
+                   if (ticket.getNum() &gt; 0) {
+                       ticket.setNum(ticket.getNum() - 1);
+                       System.out.println(Thread.currentThread().getName() + &quot;.....sale....&quot; + ticket.getNum());
+                   }
+           }
+        }
+    }
+</code></pre><p>运行了几次，发现总有重复卖票的情况：</p>
+<p><img src="http://blog.huguiqi.com/1499649740468a09sykrv.png?imageslim" alt="paste image"></p>
+<p>这很明显是并发操作共享资源导致的问题。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ol>
+<li>在操作共享源的代码块或方法加上synchronized关键字，虽然可以简单的解决，但是会很影响性能。</li>
+<li>设置对象共享锁</li>
+</ol>
+<h4 id="设置对象共享锁"><a href="#设置对象共享锁" class="headerlink" title="设置对象共享锁"></a>设置对象共享锁</h4><p>class Ticket {</p>
+<pre><code>private int num;
+
+public Ticket(){
+    super();
+}
+
+public Ticket(int num) {
+    this.num = num;
+}
+
+public int getNum() {
+    return num;
+}
+
+public  void setNum(int num) {
+    this.num = num;
+}
+}
+
+
+public class TicketTest{
+
+@Test
+public void testSall(){
+    final Ticket ticket = new Ticket(10);
+        //分四个线程去卖票，直到票卖完
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+        new Thread(new TicketRunnable(ticket)).start();
+
+
+}
+
+}
+
+class TicketRunnable implements Runnable{
+
+private Ticket ticket;
+//线程是否被通知
+private  boolean hasSall;
+
+public TicketRunnable(Ticket ticket) {
+    this.ticket = ticket;
+}
+
+@Override
+public void run() {
+
+           while (true){
+               synchronized (ticket){
+                   if (hasSall) {
+                       try {
+                           ticket.wait();
+                       } catch (InterruptedException e) {
+                           e.printStackTrace();
+                       }
+                       //等待完后才会执行这句，说明上个卖票线程已经执行完，hasSall要重置成已卖
+                       hasSall = false;
+                   }
+               }
+
+               if (ticket.getNum() &gt; 0) {
+                   ticket.setNum(ticket.getNum() - 1);
+                   System.out.println(Thread.currentThread().getName() + &quot;.....sale....&quot; + ticket.getNum());
+                   //notify,只要线程卖了，就设置共享状态为true已通知
+                   synchronized (ticket){
+                       //设置卖票状态为正在卖
+                       hasSall = true;
+                       ticket.notify();
+                   }
+               }
+
+           }
+        }
+    }
+</code></pre><p>这种方法也是加锁，但是经测试，这个场景无法达到和使用synchronized同步代码块时的效果。</p>
+<ol>
+<li>使用并发包提供的线程锁进行加锁</li>
+</ol>
         
         
         <p class="article-more-link">
+          
+            <a href="/2017/07/09/线程并发与通信/#more">Read More</a>
           
        </p>
     </div>
@@ -133,13 +1031,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/站内搜索-博客/">站内搜索 博客</a>
+  <a class="article-category-link" href="/categories/java/">java</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/swiftype-hexo-站内搜索/">swiftype hexo 站内搜索</a>
+  <span></span> <a href="/tags/线程/">线程</a>
   </div>
 
 </div>
@@ -150,7 +1048,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/给hexo博客添加站内搜索/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/给hexo博客添加站内搜索/" data-count-type="comments">&nbsp;</a>
+		<a href="/2017/07/09/线程并发与通信/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/09/线程并发与通信/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -170,32 +1068,136 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/精益创业/" title="精益创业" itemprop="url">精益创业</a>
+      <a href="/2017/06/30/TreeMap实现原理深究/" title="TreeMap实现原理深究" itemprop="url">TreeMap实现原理深究</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2017-06-30T13:22:00.000Z" itemprop="datePublished"> 发表于 2017-06-30</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="精益创业"><a href="#精益创业" class="headerlink" title="精益创业"></a>精益创业</h1><h3 id="【美】埃里克·里斯"><a href="#【美】埃里克·里斯" class="headerlink" title="【美】埃里克·里斯"></a>【美】埃里克·里斯</h3><p>2014-10-06 19:53:33<br>Facebook的所有业务都以本书为指导。<br><br>注： 精益创业</p>
-<h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p>2014-10-06 19:56:48</p>
-<p>知名科幻小说家科利·多克托罗（Cory Doctorow）曾说：“铁匠在啤酒中洒下眼泪，悲叹自己没有办法在铁路时代卖马掌，但是这并不会使他们的马掌更受欢迎。那些学习变成机械师的铁匠才会保住自己的饭碗。”我对这句名言的理解是：企业唯有快速顺应时代才能赢得未来，产品生产方式必须因时代而变。</p>
-<h5 id="2015-03-16-08-31-43"><a href="#2015-03-16-08-31-43" class="headerlink" title="2015-03-16 08:31:43"></a>2015-03-16 08:31:43</h5><p>我们身处的商业时代有两大主题：互联网化和全球化。</p>
-<h5 id="2015-03-16-08-32-08"><a href="#2015-03-16-08-32-08" class="headerlink" title="2015-03-16 08:32:08"></a>2015-03-16 08:32:08</h5><p>目标顾客—小范围实验—反馈修改—产品迭代—获得核心认知—高速增长</p>
-<h5 id="2015-03-16-08-35-01"><a href="#2015-03-16-08-35-01" class="headerlink" title="2015-03-16 08:35:01"></a>2015-03-16 08:35:01</h5><p>创业的第一阶段是把想法变成产品</p>
-<h5 id="2015-03-16-08-36-37"><a href="#2015-03-16-08-36-37" class="headerlink" title="2015-03-16 08:36:37"></a>2015-03-16 08:36:37</h5><p>创业的第二阶段，新创企业要对正确的产品形态进行重点投入，做好做细，做“最了解用户的人”，做到极致</p>
-<h5 id="2015-03-16-08-37-47"><a href="#2015-03-16-08-37-47" class="headerlink" title="2015-03-16 08:37:47"></a>2015-03-16 08:37:47</h5><p>创业的第三阶段，成功者往往伴随着爆发式的增长，全面的扩张。企业开始与传统的、陈旧的市场势力展开阵地战</p>
+        <blockquote>
+<p>Java TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering），也可以通过构造时传入的比较器（Comparator）。<br>TreeMap底层通过红黑树（Red-Black tree）实现，也就意味着containsKey(), get(), put(), remove()都有着log(n)的时间复杂度。</p>
+</blockquote>
+<p>这句话是我在网上摘抄的，对于这句话，有很多的不理解，所以通过查阅TreeMap的源码来解惑。(其实就是原文作者装逼，很多知识点就是不明说)</p>
+<h2 id="惑一：natural-ordering"><a href="#惑一：natural-ordering" class="headerlink" title="惑一：natural ordering"></a>惑一：natural ordering</h2><blockquote>
+<p>TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering）</p>
+</blockquote>
+<p>先来看看这段代码：</p>
+<pre><code>TreeMap map = new TreeMap();
+map.put(&quot;A&quot;,&quot;1&quot;);
+map.put(&quot;C&quot;,&quot;2&quot;);
+map.put(&quot;B&quot;,&quot;3&quot;);
+map.put(&quot;E&quot;,&quot;4&quot;);
+map.put(&quot;D&quot;,&quot;5&quot;);
+System.out.println(map);
+</code></pre><p>output:</p>
+<pre><code>{A=1, B=3, C=2, D=5, E=4}
+</code></pre><p>可以发现，默认按照升序自动排序了。</p>
+<p>通过查阅TreeMap源码，发现treeMap的put方法如下：</p>
+<pre><code>public V put(K key, V value) {
+Entry&lt;K,V&gt; t = root;
+if (t == null) {
+compare(key, key); // type (and possibly null) check
+
+root = new Entry&lt;&gt;(key, value, null);
+size = 1;
+modCount++;
+return null;
+}
+int cmp;
+Entry&lt;K,V&gt; parent;
+// split comparator and comparable paths
+Comparator&lt;? super K&gt; cpr = comparator;
+if (cpr != null) {
+do {
+parent = t;
+cmp = cpr.compare(key, t.key);
+if (cmp &lt; 0)
+t = t.left;
+else if (cmp &gt; 0)
+t = t.right;
+else
+return t.setValue(value);
+} while (t != null);
+}
+else {
+if (key == null)
+throw new NullPointerException();
+@SuppressWarnings(&quot;unchecked&quot;)
+Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+do {
+parent = t;
+cmp = k.compareTo(t.key);
+if (cmp &lt; 0)
+t = t.left;
+else if (cmp &gt; 0)
+t = t.right;
+else
+return t.setValue(value);
+} while (t != null);
+}
+Entry&lt;K,V&gt; e = new Entry&lt;&gt;(key, value, parent);
+if (cmp &lt; 0)
+parent.left = e;
+else
+parent.right = e;
+fixAfterInsertion(e);
+size++;
+modCount++;
+return null;
+}
+
+
+/**
+Compares two keys using the correct comparison method for this TreeMap.
+ */
+@SuppressWarnings(&quot;unchecked&quot;)
+final int compare(Object k1, Object k2) {
+return comparator==null ? ((Comparable&lt;? super K&gt;)k1).compareTo((K)k2)
+: comparator.compare((K)k1, (K)k2);
+}
+</code></pre><p>找出关键代码：</p>
+<pre><code>Comparator&lt;? super K&gt; cpr = comparator;
+if (cpr != null) {
+do {
+parent = t;
+cmp = cpr.compare(key, t.key);
+if (cmp &lt; 0)
+t = t.left;
+else if (cmp &gt; 0)
+t = t.right;
+else
+return t.setValue(value);
+} while (t != null);
+}
+else {
+if (key == null)
+throw new NullPointerException();
+@SuppressWarnings(&quot;unchecked&quot;)
+Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+do {
+parent = t;
+cmp = k.compareTo(t.key);
+if (cmp &lt; 0)
+t = t.left;
+else if (cmp &gt; 0)
+t = t.right;
+else
+return t.setValue(value);
+} while (t != null);
+}
+</code></pre>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/精益创业/#more">Read More</a>
+            <a href="/2017/06/30/TreeMap实现原理深究/#more">Read More</a>
           
        </p>
     </div>
@@ -204,13 +1206,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+  <a class="article-category-link" href="/categories/java/">java</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/精益创业/">精益创业</a>
+  <span></span> <a href="/tags/面试题/">面试题</a>
   </div>
 
 </div>
@@ -221,583 +1223,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/精益创业/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/精益创业/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/app加快审核的英文事例/" title="app加快审核的英文事例" itemprop="url">app加快审核的英文事例</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="app加快审核的英文事例"><a href="#app加快审核的英文事例" class="headerlink" title="app加快审核的英文事例"></a>app加快审核的英文事例</h1><div><br><br>\<br><br></div>
-
-<div><br><br>gidoor上线时加快审核的英文<br><br></div>
-
-<div><br><br>Because the app and line under the joint activities, time on December 1,<br>2015, “new users free to send” activity, so the application expedited<br>review on-line, very urgent, thank you!<br><br></div>
-
-<div><br><br>Time: December 1, 2015 activities to on-line<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/app加快审核的英文事例/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/app加快审核的英文事例/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/app加快审核的英文事例/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/美栈第一个迭代完成情况/" title="美栈第一个迭代完成情况" itemprop="url">美栈第一个迭代完成情况</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="美栈第一个迭代完成情况"><a href="#美栈第一个迭代完成情况" class="headerlink" title="美栈第一个迭代完成情况"></a>美栈第一个迭代完成情况</h1><div><br><br>\<br><br></div>
-
-<div><br><br>1，查询点评<br><br></div>
-
-<div><br><br>1），添加酒店名称查询<br><br></div>
-
-<div><br><br>2），修改改为审核<br><br></div>
-
-<div><br><br>3），详情添加图片展示(不只是一张，后期看情况做成文本与图片混编)<br><br></div>
-
-<div><br><br>4），添加按时间查询<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/美栈第一个迭代完成情况/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/美栈第一个迭代完成情况/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/美栈第一个迭代完成情况/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/网站收藏/" title="网站收藏" itemprop="url">网站收藏</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="网站收藏"><a href="#网站收藏" class="headerlink" title="网站收藏"></a>网站收藏</h1><div><br><br>–坏男人学院<br><br></div>
-
-<p><a href="http://puahome.com/bbs/" target="_blank" rel="noopener">http://puahome.com/bbs/</a></p>
-<div><br><br>\<br><br></div>
-
-<div><br><br>–google earth<br><br></div>
-
-<div><br><br><a href="http://www.google.com/intl/zh-CN/earth/index.html" target="_blank" rel="noopener">http://www.google.com/intl/zh-CN/earth/index.html</a><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/网站收藏/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/网站收藏/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/网站收藏/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/app上传流程/" title="申请企业证书需要的资料(二)" itemprop="url">申请企业证书需要的资料(二)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="一-申请企业证书需要的资料"><a href="#一-申请企业证书需要的资料" class="headerlink" title="一.申请企业证书需要的资料"></a>一.申请企业证书需要的资料</h2><ol>
-<li><p>有国际支付功能的银行卡，并且里面有99美元（公司类型的账号需要支付99$)</p>
-</li>
-<li><p>接收和激活信息的邮箱（申请新开一个技术部的专用邮箱）</p>
-</li>
-<li><p>公司法人代表的姓名、法人头衔</p>
-</li>
-<li><p>公司营业执照副本(电子版)</p>
-</li>
-<li><p>公司联系电话</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/app上传流程/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ios-developer-upload/">ios developer upload</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/app上传流程/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/app上传流程/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/节日记录/" title="节日记录" itemprop="url">节日记录</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="节日记录"><a href="#节日记录" class="headerlink" title="节日记录"></a>节日记录</h1><p>感恩节在每年11月份最后一周四</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/节日记录/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/节日记录/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/app上传至appStore的流程 /" title="app上传至appStore的流程" itemprop="url">app上传至appStore的流程</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="app上传至appStore的流程"><a href="#app上传至appStore的流程" class="headerlink" title="app上传至appStore的流程"></a>app上传至appStore的流程</h1><p>1.登录developer.apple.com</p>
-<p><img src="http://img.blog.csdn.net/20150301104134429?xx" alt="![技术分享]"></p>
-<p>2.点击member center后 进下图</p>
-<p><img src="http://img.blog.csdn.net/20150301104323153?xx" alt="技术分享"></p>
-<p>3.点击certificates Identifiers进下图<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/app上传至appStore的流程 /#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ios-developer-上传审核/">ios developer 上传审核</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/app上传至appStore的流程 /#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/app上传至appStore的流程 /" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/羊皮卷/" title="羊皮卷" itemprop="url">羊皮卷</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="羊皮卷（陕西师大版）"><a href="#羊皮卷（陕西师大版）" class="headerlink" title="羊皮卷（陕西师大版）"></a>羊皮卷（陕西师大版）</h1><h3 id="【美】弗洛伦丝·西恩等"><a href="#【美】弗洛伦丝·西恩等" class="headerlink" title="【美】弗洛伦丝·西恩等"></a>【美】弗洛伦丝·西恩等</h3><p>最伟大的商人</p>
-<h6 id="2014-11-04-07-43-42"><a href="#2014-11-04-07-43-42" class="headerlink" title="2014-11-04 07:43:42"></a>2014-11-04 07:43:42</h6><p>不了解犹太人，就不了解世界</p>
-<h6 id="2014-11-04-07-44-02"><a href="#2014-11-04-07-44-02" class="headerlink" title="2014-11-04 07:44:02"></a>2014-11-04 07:44:02</h6><p>世界的钱在美国人的口袋里，而美国人的钱却在犹太人的口袋里</p>
-<h6 id="2015-06-16-08-48-15"><a href="#2015-06-16-08-48-15" class="headerlink" title="2015-06-16 08:48:15"></a>2015-06-16 08:48:15</h6><p>自己学习并逐渐地领悟，才是真正的学习，而财富的追求也是一个人在自己所遇到的机遇和环境中，不断地调整和改变自己的策略才得到的。</p>
-<p>打开财富之门的钥匙</p>
-<h6 id="2015-06-16-08-48-31"><a href="#2015-06-16-08-48-31" class="headerlink" title="2015-06-16 08:48:31"></a>2015-06-16 08:48:31</h6><p>身体依靠心而生存，心则依靠钱包而生存。”<br>——《羊皮卷》</p>
-<p>可以传授的财富秘诀</p>
-<h6 id="2015-06-16-08-56-22"><a href="#2015-06-16-08-56-22" class="headerlink" title="2015-06-16 08:56:22"></a>2015-06-16 08:56:22</h6><p>“伤害人们的东西有三样：烦恼、争吵、空钱包，其中空钱包害人最甚。”<br>——《羊皮卷》</p>
-<h6 id="2015-06-16-08-58-07"><a href="#2015-06-16-08-58-07" class="headerlink" title="2015-06-16 08:58:07"></a>2015-06-16 08:58:07</h6><p>不要对别人做连你自己都厌恶的事，这就是《羊皮卷》的全部学问，其他的都是评注，去学习吧。”</p>
-<p>财富是现实的上帝</p>
-<h6 id="2015-06-16-09-02-04"><a href="#2015-06-16-09-02-04" class="headerlink" title="2015-06-16 09:02:04"></a>2015-06-16 09:02:04</h6><p>“金钱给人间以光明，金钱给众生以温暖。金钱让说坏话的人舌头发直，金钱让举起屠刀的人呆立发愣；金钱给神购买了礼物，敲开了神那紧闭的门。”<br>——《羊皮卷》</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/羊皮卷/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/犹太人/">犹太人</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/羊皮卷/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/羊皮卷/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/苹果mac网站论坛收藏/" title="苹果mac网站论坛收藏" itemprop="url">苹果mac网站论坛收藏</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="苹果mac网站论坛收藏"><a href="#苹果mac网站论坛收藏" class="headerlink" title="苹果mac网站论坛收藏"></a>苹果mac网站论坛收藏</h1><div><br><br>—麦芽地—第一苹果论坛<br><br></div>
-
-<p><a href="http://bbs.maiyadi.com" target="_blank" rel="noopener">http://bbs.maiyadi.com</a></p>
-<div><br><br>–iphone论坛<br><br></div>
-
-<div><br><br><a href="http://www.techolics.com/apple/" target="_blank" rel="noopener">http://www.techolics.com/apple/</a>\<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>–果迷网<br><br></div>
-
-<div><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/苹果mac网站论坛收藏/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/苹果mac网站论坛收藏/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/苹果mac网站论坛收藏/" data-count-type="comments">&nbsp;</a>
+		<a href="/2017/06/30/TreeMap实现原理深究/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/06/30/TreeMap实现原理深究/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1027,7 +1453,7 @@
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1035,7 +1461,7 @@
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -1043,19 +1469,19 @@
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>

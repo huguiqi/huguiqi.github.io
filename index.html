@@ -92,322 +92,31 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/09/19/spring-JPA问题汇总/" title="spring JPA问题汇总" itemprop="url">spring JPA问题汇总</a>
+      <a href="/2018/11/19/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/" title="日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？" itemprop="url">日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-09-19T07:12:40.000Z" itemprop="datePublished"> 发表于 2018-09-19</time>
+    <time datetime="2018-11-19T09:56:24.523Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="spring-JPA问题汇总"><a href="#spring-JPA问题汇总" class="headerlink" title="spring JPA问题汇总"></a>spring JPA问题汇总</h1><h2 id="在做级联保存时报错"><a href="#在做级联保存时报错" class="headerlink" title="在做级联保存时报错"></a>在做级联保存时报错</h2><p>错误信息类似：</p>
-<pre><code>cannot be cast to java.io.Serializable
-</code></pre><p><strong>解决办法：</strong></p>
-<p>在 Entity中加入 implements Serializable</p>
-<pre><code>@Data
-@Entity(name = &quot;R_COUPON&quot;)
-@DynamicUpdate
-@DynamicInsert
-public class Coupon implements Serializable{
-  ...
-}
-</code></pre><p><strong>原因：</strong></p>
-<p>Hibernate 有二级缓存， 缓存会将对象写进硬盘。就必须序列化。<br>为了兼容对象在网络钟的传输。如果不序列化，它就会认为不是同一个对象，就会报那个错。</p>
-<h2 id="JPA所有级联默认都会添加一个关联表"><a href="#JPA所有级联默认都会添加一个关联表" class="headerlink" title="JPA所有级联默认都会添加一个关联表"></a>JPA所有级联默认都会添加一个关联表</h2><p>如：</p>
-<pre><code>@Data
-@Entity(name = &quot;R_COUPON&quot;)
-@DynamicUpdate
-@DynamicInsert
-public class Coupon implements Serializable{
-...
-@ManyToMany(cascade = CascadeType.PERSIST)
-private List&lt;CouponMerchant&gt; merchantList = new ArrayList&lt;&gt;();
-}
-</code></pre><p>test:</p>
-<pre><code> @Test
-public void testSave(){
-
-    Coupon coupon = new Coupon();
-    coupon.setName(&quot;满50减10&quot;);
-    ...
-
-    List&lt;CouponMerchant&gt; couponMerchantList = new ArrayList&lt;&gt;();
-
-    CouponMerchant couponMerchant1 = new CouponMerchant();
-    ...
-
-    couponMerchantList.add(couponMerchant1);
-    coupon.setMerchantList(couponMerchantList);
-
-    couponRepository.saveAndFlush(coupon);
-}
-</code></pre><p>发出的sql语句为：</p>
-<pre><code>Hibernate: insert into r_coupon (amount, code, create_time, end_date, is_all_business, member_id, minimum_spending_amount, name, start_date, status, update_time, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null)
-Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
-Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
-Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
-Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
-Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
-Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
-Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
-Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
-Hibernate: insert into r_coupon (amount, code, create_time, end_date, is_all_business, member_id, minimum_spending_amount, name, start_date, status, update_time, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null)
-Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
-Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
-Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
-Hibernate: insert into r_coupon_merchant_list (r_coupon_id, merchant_list_id) values (?, ?)
-</code></pre><p>所以有个中间表，默认命名为<code>r_coupon_merchant_list</code>，是和owner对象中定义的merchantList属性名是有关系的，而且默认用两张表的ID作关联了。</p>
-<p>我现在不想用这个默认的中间表，想指定他的关系，不想用默认的ID作为表关联，我要用code作关联。</p>
-<p>解决方案：</p>
-<p>只要在owner对象中引入的列表属性中加上：</p>
-<pre><code>@ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(name = &quot;R_COUPON_COUPON_MERCHANT&quot;,joinColumns = @JoinColumn(name = &quot;COUPON_CODE&quot;,referencedColumnName = &quot;CODE&quot;),
-    inverseJoinColumns = @JoinColumn(name = &quot;MERCHANT_CODE&quot;,referencedColumnName = &quot;MERCHANT_CODE&quot;))
-    private List&lt;CouponMerchant&gt; merchantList = new ArrayList&lt;&gt;();
-</code></pre><p>运行一下打印出的sql:</p>
-<pre><code>Hibernate: insert into r_coupon (amount, code, create_time, end_date, is_all_business, member_id, minimum_spending_amount, name, start_date, status, update_time, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, null)
-Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
-Hibernate: insert into r_coupon_merchant (merchant_code, merchant_name, id) values (?, ?, null)
-Hibernate: insert into r_coupon_coupon_merchant (coupon_code, merchant_code) values (?, ?)
-Hibernate: insert into r_coupon_coupon_merchant (coupon_code, merchant_code) values (?, ?)
-</code></pre><h2 id="JPA获取lazy方式加载对象时报错"><a href="#JPA获取lazy方式加载对象时报错" class="headerlink" title="JPA获取lazy方式加载对象时报错"></a>JPA获取lazy方式加载对象时报错</h2><p>错误信息：</p>
-<pre><code>spring jpa lazy  could not initialize proxy - no Session
-</code></pre><p>解决方案：</p>
-<p>需要将service端加事务注解（可以在类上，也可以在方法上）</p>
-<pre><code>@Transactional
-</code></pre>
+        <h1 id="日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？"><a href="#日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？" class="headerlink" title="日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？"></a>日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</h1><p>多图慎入，从事设计（或感兴趣的朋友）可以参考借鉴。想要明白所谓“极简主义”的设计需要从多方面观察日本设计所坚持和追求的内涵。\<br>\<br>首先提到佐藤晃一的平面设计作品，他有着明显的民族风格。不但继承了日本文化，还将这种风格更近一步提炼了日本文化中追求的宁静、虚无、空灵的境界。\<br>\</p>
+<p><img src="http://pic4.zhimg.com/770364b79455183974af7355a816df57_b.jpg" alt=""></p>
+<p>\</p>
+<p><img src="http://pic3.zhimg.com/fbafd754151002abf882b7e66961a799_b.jpg" alt=""></p>
+<p>\<br>到底追求什么境界？又有什么内涵？\<br>\<br>我们一步步来了解。日本的工业设计极具现实主义精神，其理念是回归到了产品设计本身，从人的需求出发。\<br>\<br>细读日本设计界的大师著作，能很清晰的觉察到大师身上的「反思」精神，如原研哉提出的「ReDesign」观点，把每件产品已固化已形成的形态放到一边，从最初的起点去重新审视它，才能找到新的切入点，但同时他也强调设计不是「创造新产物」。不过，在现有基础之上重新定义改良往往比创造一件新事物还要难，因为当你面对牙刷时会想它「本该如此」或「全世界的牙刷都是如此」而放弃，当回归本质时才能看到新的一面。\<br>\<br>从几位日本工业设计师的作品，我们大致可以了解「回归本质」的意思：\<br>\<br>坪井浩尚\<br>是日本的新锐设计师，他最大的特点是常将缺点转化为优点，他总是用佛教的思维思考事物。\<br>\<br>坪井浩尚注意到由于杯内和杯外的温差缘故，水杯总会在桌面上留下难看的水痕，于是干脆设计一款樱花水痕杯，即使在桌面上留下水痕也是美美的。\</p>
+<p><img src="http://pic4.zhimg.com/ca79491248592f2d89136ef99b898dfc_b.jpg" alt=""></p>
+<p>\<br>深泽直人\<br>他的“无意识设计”包揽了几乎世界上所有著名的设计奖项，是日本现代最为知名的设计师，看重细节的他希望可以用细节感动用户。（用心在你看不出来的细节上，让你对物对生活的感动）\<br>\<br>这个很具有鲜明的例子，像一颗巨大的鹅卵石，有玻璃纤维制成，可以当做沙发，也可以当做咖啡桌。\</p>
         
         
         <p class="article-more-link">
           
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/09/19/spring-JPA问题汇总/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/09/19/spring-JPA问题汇总/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/09/07/springboot-zuul上传图片问题汇总/" title="springboot zuul上传图片问题汇总" itemprop="url">springboot zuul上传图片问题汇总</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-09-07T09:42:31.000Z" itemprop="datePublished"> 发表于 2018-09-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="上传文件超时时间问题"><a href="#上传文件超时时间问题" class="headerlink" title="上传文件超时时间问题"></a>上传文件超时时间问题</h2><p>因为使用了zull作为网关转发调用上传文件的服务，风关gateway到微服务之前的默认超时时间是30秒。</p>
-<p><a href="http://cloud.spring.io/spring-cloud-static/Edgware.RELEASE/single/spring-cloud.html#_uploading_files_through_zuul" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/Edgware.RELEASE/single/spring-cloud.html#_uploading_files_through_zuul</a></p>
-<p>解决办法：</p>
-<pre><code>hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
-ribbon:
-    ConnectTimeout: 3000
-</code></pre><p>  ReadTimeout: 60000</p>
-<h2 id="上传文件大小限制"><a href="#上传文件大小限制" class="headerlink" title="上传文件大小限制"></a>上传文件大小限制</h2><p>org.apache.tomcat.util.http.fileupload.FileUploadBase$FileSizeLimitExceededException: The field fileName exceeds its maximum permitted size of 1048576 bytes.<br>Spring Boot默认文件上传大小为2M。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/09/07/springboot-zuul上传图片问题汇总/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/09/07/springboot-zuul上传图片问题汇总/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/08/29/ELK笔记/" title="ELK学习笔记" itemprop="url">ELK学习笔记</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-08-29T07:10:00.000Z" itemprop="datePublished"> 发表于 2018-08-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="什么是ELK"><a href="#什么是ELK" class="headerlink" title="什么是ELK"></a>什么是ELK</h2><p>首先上官网：</p>
-<p><a href="https://www.elastic.co/cn/elk-stack" target="_blank" rel="noopener">https://www.elastic.co/cn/elk-stack</a></p>
-<p>官网提供的这张图应该可以说明：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/15355269814232267g3a8.png?imageslim" alt="paste image"></p>
-<p>就是：Elastircsearch + Logstash + Kibana 的组合（这张图上有Beats,可以先忽略，后面再讲）</p>
-<h2 id="他们都是做什么的"><a href="#他们都是做什么的" class="headerlink" title="他们都是做什么的"></a>他们都是做什么的</h2><h3 id="Elastircsearch"><a href="#Elastircsearch" class="headerlink" title="Elastircsearch"></a>Elastircsearch</h3><p>官网说：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>The open source, distributed, RESTful, JSON-based search engine. Easy to use, scalable and flexible, it earned hyper-popularity among users and a company formed around it, you know, for search.</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>是基于开源的，环境部署，RESTful软件协议，以json为标准的搜索引擎，后面的就吹牛逼的话了，顺便说一下，它是基于lurce的搜索引擎。</p>
-<h3 id="Logstash"><a href="#Logstash" class="headerlink" title="Logstash"></a>Logstash</h3><p>官方说：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>Logstash is a server‑side data processing pipeline that ingests data from multiple sources simultaneously, transforms it, and then sends it to a “stash” like Elasticsearch</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>就是一个日志分析与查询的一个服务，然后通过它将日志发送到一个仓库存储起来，像Elasticsearch(是搜索引擎，同时也以索引的形式的日志存储工具)</p>
-<h3 id="Kibana"><a href="#Kibana" class="headerlink" title="Kibana"></a>Kibana</h3><p>Kibana 让您能够可视化 Elasticsearch 中的数据并操作 Elastic Stack，因此您可以在这里解开任何疑问：例如，为何会在凌晨 2:00 被传呼，雨水会对季度数据造成怎样的影响。</p>
-<p>以上是中文网站的官方定义</p>
-<p>其实就是前端展示。</p>
-<p>他们的关系是这样的：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1535527546826q9vgr8gi.png?imageslim" alt="paste image"></p>
-<h3 id="日志收集并发给Elasticsearch的方式"><a href="#日志收集并发给Elasticsearch的方式" class="headerlink" title="日志收集并发给Elasticsearch的方式"></a>日志收集并发给Elasticsearch的方式</h3><p>好多解决方案：</p>
-<ol>
-<li><p>使用 Filebeat（就是前面官网提到的Beans）</p>
-</li>
-<li><p>使用日志驱动</p>
-</li>
-<li>使用 Logspout</li>
-<li>Logz.io 的日志采集器</li>
-<li>fluentd-pilot（阿里云开源日志收集工具）</li>
-</ol>
-<p>前面四种各有便利，但论强大，好用，还是阿里云提供的这个收集器好用，但只针对阿里云自家的slb服务，需要slb服务配合使用。</p>
-<p><strong><em>ps:<br>     fluentd-pilot已更名为log-pilot</em></strong></p>
-<p>本来计划要使用log-pilot做日志收集的，但使用中遇到很多问题，可能是没有使用slb服务的原因，不兼容导致的。</p>
-<p>目前我厂用的是logstash，直接将日志发送到logstash给它分析并转发给Elasticsearch存储。</p>
-<p><a href="https://segmentfault.com/a/1190000009102612" target="_blank" rel="noopener">参考文章</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/ELK/">ELK</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/08/29/ELK笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/29/ELK笔记/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/08/20/spring-cloud之gateway无法zuul转发问题@- 无标题 - 2/" title="spring-cloud之gateway无法zuul转发问题" itemprop="url">spring-cloud之gateway无法zuul转发问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-08-20T03:52:00.000Z" itemprop="datePublished"> 发表于 2018-08-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="spring-cloud之gateway无法zuul转发问题"><a href="#spring-cloud之gateway无法zuul转发问题" class="headerlink" title="# spring-cloud之gateway无法zuul转发问题"></a># spring-cloud之gateway无法zuul转发问题</h1><p>需要在配置文件中加一个nonSecurePort配置，最好将这个端口配置为当前服务端口</p>
-<p>eureka:<br>  instance:<br>hostname: ${HOST_NAME}<br>prefer-ip-address: false<br>instance-id: ${eureka.instance.hostname}:${server.port}<br>appname: ${HOST_NAME}<br>nonSecurePort: ${server.port}</p>
-<h2 id="eurake无法访问的资源文件问题"><a href="#eurake无法访问的资源文件问题" class="headerlink" title="eurake无法访问的资源文件问题"></a>eurake无法访问的资源文件问题</h2><p>通过intelij启动eurake项目，可以访问eureka地址，并可正常加载resource文件，但通过java -jar 的形式都无法正常加载资源文件（css,js等）。</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>解决方案：</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>在bootstrap.yml里添加：</p>
-<p>spring:<br>  resources:<br>  add-mappings: true</p>
-
-        
-        
-        <p class="article-more-link">
+            <a href="/2018/11/19/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/#more">Read More</a>
           
        </p>
     </div>
@@ -416,13 +125,13 @@ ribbon:
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/zuul/">zuul</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -433,7 +142,7 @@ ribbon:
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/08/20/spring-cloud之gateway无法zuul转发问题@- 无标题 - 2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/20/spring-cloud之gateway无法zuul转发问题@- 无标题 - 2/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -453,93 +162,33 @@ ribbon:
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/08/14/springmvc关于同源策略问题解决/" title="springmvc关于同源策略问题解决" itemprop="url">springmvc关于同源策略问题解决</a>
+      <a href="/2018/11/19/《西游记》里有哪些不易发现却很打动人的小细节？/" title="《西游记》里有哪些不易发现却很打动人的小细节？" itemprop="url">《西游记》里有哪些不易发现却很打动人的小细节？</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-14T05:52:00.000Z" itemprop="datePublished"> 发表于 2018-08-14</time>
+    <time datetime="2018-11-19T09:56:24.517Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="springmvc关于同源策略问题解决"><a href="#springmvc关于同源策略问题解决" class="headerlink" title="springmvc关于同源策略问题解决"></a>springmvc关于同源策略问题解决</h1><h3 id="1-CORS-简介"><a href="#1-CORS-简介" class="headerlink" title="1. CORS 简介"></a>1. CORS 简介</h3><p>同源策略（same origin policy）是浏览器安全的基石。在同源策略的限制下，非同源的网站之间不能发送 ajax 请求的。</p>
-<p>为了解决这个问题，w3c 提出了跨源资源共享，即 CORS(Cross-Origin Resource Sharing)。</p>
-<p>CORS 做到了两点：</p>
-<p>不破坏即有规则<br>服务器实现了 CORS 接口，就可以跨源通信<br>基于这两点，CORS 将请求分为两类：简单请求和非简单请求。</p>
-<p>1.1 简单请求<br>可以先看下 CORS 出现前的情况：跨源时能够通过 script 或者 image 标签触发 GET 请求或通过表单发送一条 POST 请求，但这两种请求 HTTP 头信息中都不能包含任何自定义字段。</p>
-<p>简单请求对应该规则，因此对简单请求的定义为：</p>
-<p>请求方法是 </p>
-<pre><code>HEAD
-、
-GET
- 或 
-POST
-</code></pre><p> 且 HTTP 头信息不超过以下几个字段：</p>
-<pre><code>Accept
-、
-Accept-Language
-、
-Content-Language
-、
-Last-Event-ID
-、
-Content-Type
-（只限于 
-application/x-www-form-urlencoded
-、
-multipart/form-data
-、
-text/plain
-）。
-</code></pre><p>比如有一个简单请求：</p>
-<pre><code>GET /test HTTP/1.1
-Accept: */*
-Accept-Encoding: gzip, deflate, sdch, br
-Origin: http://www.examples.com
-Host: www.examples.com
-</code></pre><p>对于这样的简单请求，CORS 的策略是请求时，<strong>在头信息中添加一个 Origin 字段</strong>，服务器收到请求后，根据该字段判断是否允许该请求。</p>
-<p>如果允许，则在 HTTP 头信息中添加 </p>
-<pre><code>Access-Control-Allow-Origin
-</code></pre><p> 字段，并返回正确的结果<br>如果不允许，则不在头信息中添加 </p>
-<pre><code>Access-Control-Allow-Origin
-</code></pre><p> 字段。<br>浏览器先于用户得到返回结果，根据有无<br>Access-Control-Allow-Origin<br> 字段来决定是否拦截该返回结果。</p>
-<p>对于 CORS 出现前的一些服务，CORS 对他们的影响分两种情况：</p>
-<p>script 或者 image 触发的 GET 请求不包含 Origin 头，所以不受到 CORS 的限制，依旧可用。<br>如果是 ajax 请求，HTTP 头信息中会包含 Origin 字段，由于服务器没有做任何配置，所以返回结果不会包含<br>Access-Control-Allow-Origin<br>，因此返回结果会被浏览器拦截，接口依旧不可以被 ajax 跨源访问。<br>可以看出，CORS 的出现，没有对”旧的“服务造成任何影响。</p>
-<p>另外，除了提到的<br>Access-Control-Allow-Origin<br> 还有几个字段用于描述 CORS 返回结果：</p>
-<pre><code>Access-Control-Allow-Credentials: 可选，用户是否可以发送、处理 cookie。
-Access-Control-Expose-Headers：可选，可以让用户拿到的字段。
-</code></pre><p>有几个字段无论设置与否都可以拿到的，包括：<br>Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma。</p>
-<h3 id="1-2-非简单请求"><a href="#1-2-非简单请求" class="headerlink" title="1.2 非简单请求"></a>1.2 非简单请求</h3><p>除了简单请求之外的请求，就是非简单请求。</p>
-<p>对于非简单请求的跨源请求，<strong>浏览器会在真实请求发出前</strong>，增加一次 OPTION 请求，称为预检请求（preflight request）。预检请求将真实请求的信息，包括请求方法、自定义头字段、源信息添加到 HTTP 头信息字段中，询问服务器是否允许这样的操作。</p>
-<p>比如对于<br>DELETE<br> 请求：</p>
-<pre><code>OPTIONS /test HTTP/1.1
-Origin: http://www.examples.com
-Access-Control-Request-Method: DELETE
-Access-Control-Request-Headers: X-Custom-Header
-Host: www.examples.com
-</code></pre><p>与 CORS 相关的字段有：</p>
-<p>Access-Control-Request-Method<br>: 真实请求使用的 HTTP 方法。<br>Access-Control-Request-Headers<br>: 真实请求中包含的自定义头字段。<br>服务器收到请求时，需要分别对 Origin、Access-Control-Request-Method、Access-Control-Request-Headers 进行验证，验证通过后，会在返回 Http 头信息中添加</p>
-<pre><code>Access-Control-Allow-Origin: http://www.examples.com
-Access-Control-Allow-Methods: GET, POST, PUT, DELETE
-Access-Control-Allow-Headers: X-Custom-Header
-Access-Control-Allow-Credentials: true
-Access-Control-Max-Age: 1728000
-</code></pre><p>他们的含义分别是：</p>
-<pre><code>Access-Control-Allow-Methods: 真实请求允许的方法
-Access-Control-Allow-Headers: 服务器允许使用的字段
-Access-Control-Allow-Credentials: 是否允许用户发送、处理 cookie
-Access-Control-Max-Age: 预检请求的有效期，单位为秒。有效期内，不会重复发送预检请求
-当预检请求通过后，浏览器会发送真实请求到服务器。这就实现了跨源请求。
-</code></pre><p>了解完 CORS，接下来我们来搭建简单的 Spring MVC 服务，并进一步了解 Spring MVC 如何配置 CORS。</p>
+        <h1 id="《西游记》里有哪些不易发现却很打动人的小细节？"><a href="#《西游记》里有哪些不易发现却很打动人的小细节？" class="headerlink" title="《西游记》里有哪些不易发现却很打动人的小细节？"></a>《西游记》里有哪些不易发现却很打动人的小细节？</h1><p>补充一个，因为徒弟们都是正儿八经的神仙，唐长老的理论水平比起他三个徒弟不知道差到哪里去了。\<br>\<br>比如长老出门尿尿顺便喊大家赏月吟个诗，结果接受徒弟们的理论基础再教育，还被狠狠吐槽了一番。徒弟们之间还顺便开展了理论探讨。\<br>\</p>
+<blockquote>
+<p>唐僧举步出门小解，只见明月当天，叫：“徒弟。”行者、八戒，沙僧都出来侍立。因感这月清光皎洁，玉宇深沉，真是一轮高照，大地分明，对月怀归，口占一首古风长篇。</p>
+</blockquote>
+<p>长老呀！要提高自己的姿势水平，晓得不晓得啊？我为你着急啊！<br>===========================================================\<br>\<br>白龙马的尿，有奇效。\<br>\</p>
+<blockquote>
+<p>行者道：“你不知就里，我那马不是凡马，他本是西海龙身。</p>
+</blockquote>
+<p>\<br>因此白龙马的尿的作用包括：\<br>包治百病；\<br>把鱼升级成龙；\<br>把草升级成灵芝；\<br>长寿。\</p>
         
         
         <p class="article-more-link">
           
-            <a href="/2018/08/14/springmvc关于同源策略问题解决/#more">Read More</a>
+            <a href="/2018/11/19/《西游记》里有哪些不易发现却很打动人的小细节？/#more">Read More</a>
           
        </p>
     </div>
@@ -548,13 +197,13 @@ Access-Control-Max-Age: 预检请求的有效期，单位为秒。有效期内�
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/springboot/">springboot</a><a href="/tags/浏览器同源问题/">浏览器同源问题</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -565,7 +214,7 @@ Access-Control-Max-Age: 预检请求的有效期，单位为秒。有效期内�
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/08/14/springmvc关于同源策略问题解决/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/14/springmvc关于同源策略问题解决/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/《西游记》里有哪些不易发现却很打动人的小细节？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/《西游记》里有哪些不易发现却很打动人的小细节？/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -585,187 +234,39 @@ Access-Control-Max-Age: 预检请求的有效期，单位为秒。有效期内�
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/08/05/docker-compose传参问题/" title="docker-compose传参问题" itemprop="url">docker-compose传参问题</a>
+      <a href="/2018/11/19/通过公司的路由器转发到内网测试服务器/" title="外网访问内网的解决方式" itemprop="url">外网访问内网的解决方式</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-08-05T14:34:00.000Z" itemprop="datePublished"> 发表于 2018-08-05</time>
+    <time datetime="2018-11-19T09:56:24.502Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="docker-compose传参问题"><a href="#docker-compose传参问题" class="headerlink" title="docker-compose传参问题"></a>docker-compose传参问题</h1><h2 id="Dockerfile中CMD和ENTRYPOINT命令详解"><a href="#Dockerfile中CMD和ENTRYPOINT命令详解" class="headerlink" title="Dockerfile中CMD和ENTRYPOINT命令详解"></a>Dockerfile中CMD和ENTRYPOINT命令详解</h2><p>CMD 和 ENTRYPOINT 指令都是用来指定容器启动时运行的命令。</p>
-<p>单从功能上来看，这两个命令几乎是重复的。单独使用其中的一个就可以实现绝大多数的用例。</p>
-<p>但是还是有些许区别，我们来一起看看。</p>
-<h3 id="exec-模式和-shell-模式"><a href="#exec-模式和-shell-模式" class="headerlink" title="exec 模式和 shell 模式"></a>exec 模式和 shell 模式</h3><h4 id="CMD-指令"><a href="#CMD-指令" class="headerlink" title="CMD 指令"></a>CMD 指令</h4><p>CMD 指令的目的是：为容器提供默认的执行命令。<br>CMD 指令有三种使用方式，其中的一种是为 ENTRYPOINT 提供默认的参数：</p>
-<pre><code>CMD [&quot;param1&quot;,&quot;param2&quot;]
-</code></pre><p>另外两种使用方式分别是 exec 模式和 shell 模式：</p>
-<h5 id="exec-模式"><a href="#exec-模式" class="headerlink" title="exec 模式"></a>exec 模式</h5><pre><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] // 这是 exec 模式的写法，注意需要使用双引号。
-</code></pre><p>exec 模式的特点是不会通过 shell 执行相关的命令，所以像 $HOME 这样的环境变量是取不到的：</p>
-<pre><code>FROM ubuntu
-CMD [ &quot;echo&quot;, &quot;$HOME&quot; ]
-</code></pre><p>把上面的代码保存到 test1 目录的 Dockerfile 中，然后进入 test1 目录构建镜像并启动一个容器：</p>
-<pre><code>$ docker build --no-cache -t test1 .
-$ docker run --rm test1
-</code></pre><p><img src="http://ojnkdvkci.bkt.clouddn.com/1533481840969knusv9p6.png?imageslim" alt="paste image"></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/08/05/docker-compose传参问题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/docker-compose/">docker-compose</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/08/05/docker-compose传参问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/05/docker-compose传参问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/08/04/jenkins如何集成nodejs前端做自动化/" title="jenkins如何集成nodejs前端做自动化" itemprop="url">jenkins如何集成nodejs前端做自动化</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-08-04T08:42:00.000Z" itemprop="datePublished"> 发表于 2018-08-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="jenkins如何集成nodejs前端项目做自动化"><a href="#jenkins如何集成nodejs前端项目做自动化" class="headerlink" title="jenkins如何集成nodejs前端项目做自动化"></a>jenkins如何集成nodejs前端项目做自动化</h1><p>本厂前端框架使用的是Vue CLI。</p>
-<p>Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统</p>
-<p>具体看介绍：</p>
-<p><a href="https://cli.vuejs.org/zh/guide/" title="cliVuejs官方中文翻译介绍" target="_blank" rel="noopener">https://cli.vuejs.org/zh/guide/</a></p>
-<p>目标是将前端项目的代码拉取—->打包——>部署操作自动化。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>1， jenkins 需要安装nodejs插件</p>
-<p>系统管理—>插件管理：</p>
-<p>在可选插件里，查找nodejs</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/15333736349580j9gd9j2.png?imageslim" alt="paste image"></p>
-<p>安装，重启。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/08/04/jenkins如何集成nodejs前端做自动化/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/jenkins/">jenkins</a><a href="/tags/nodejs/">nodejs</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/08/04/jenkins如何集成nodejs前端做自动化/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/04/jenkins如何集成nodejs前端做自动化/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/07/30/macos无法执行mvn命令/" title="macOS无法执行mvn命令" itemprop="url">macOS无法执行mvn命令</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-07-30T08:42:00.000Z" itemprop="datePublished"> 发表于 2018-07-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="macOS无法执行mvn命令"><a href="#macOS无法执行mvn命令" class="headerlink" title="macOS无法执行mvn命令"></a>macOS无法执行mvn命令</h1><p><img src="http://ojnkdvkci.bkt.clouddn.com/15329403237396yhxi7rw.png?imageslim" alt="paste image"></p>
-<p>google了一下，说苹果升级后建议用户将JAVA_HOME设置为：<code>/usr/libexe/java_home</code></p>
-<p>本人苹果系统是10.13.1 ，那么，根据网上很多人的解决方案，是在<code>~/.bashrc</code> 文件内容末尾加上：</p>
-<p><code>export JAVA_HOME=$(/usr/libexec/java_home)</code></p>
-<p>然后保存，然后生效：</p>
-<pre><code>source ~/.bashrc
-</code></pre><p>但是。。。。。。。</p>
-<p>生效后执行<code>mvn -v</code>确实是好了，但是我把当前终端关闭后，重新打开一个终端，再执行 <code>mvn -v</code>,还是报找不到java_home的bin目录。</p>
-<p>咋办？</p>
-<p>解决办法：</p>
-<ol>
-<li><p>找到mvn命令所在目录</p>
-<p> <code>which mvn</code></p>
-<p> <img src="http://ojnkdvkci.bkt.clouddn.com/1532941737128b142vpye.png?imageslim" alt="paste image"></p>
+        <h1 id="通过公司的路由器转发到内网测试服务器"><a href="#通过公司的路由器转发到内网测试服务器" class="headerlink" title="通过公司的路由器转发到内网测试服务器"></a>通过公司的路由器转发到内网测试服务器</h1><p>折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。</p>
+<h2 id="准备工具："><a href="#准备工具：" class="headerlink" title="准备工具："></a>准备工具：</h2><ol>
+<li>nginx</li>
+<li><p>公司路由器</p>
+<ul>
+<li>虚拟主机端口转发</li>
+<li><p>DMZ主机托管</p>
+<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png" alt="image"></p>
 </li>
-<li><p>将<code>mvn</code>这个文件打开，查看他的脚本</p>
-<p> <code>vi /usr/local/bin/mvn</code></p>
-</li>
-<li><p>将<code>export</code> 语句放到此文件脚本首行，并保存</p>
+</ul>
 </li>
 </ol>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532941985030oqrsdklw.png?imageslim" alt="paste image"></p>
-<p>然后所有问题解决了。。。。。。</p>
+<p><strong>本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。</strong></p>
+<h2 id="指出错误的想法"><a href="#指出错误的想法" class="headerlink" title="指出错误的想法:"></a>指出错误的想法:</h2><ol>
+<li>源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理</li>
+<li>公网的IP是绑定在路由器上的，我们内网上网都是通过路由上网，所以如果要反向代理，就要在路由器上作反身代理，否则完全行不通</li>
+</ol>
+<h2 id="不可思议的问题"><a href="#不可思议的问题" class="headerlink" title="不可思议的问题"></a>不可思议的问题</h2><ol>
+<li>可以通过域名 + 端口的方向可以访问通过跟帖器端口转发的方式访问内网，但不支持80端口</li>
+</ol>
 
         
         
@@ -778,13 +279,13 @@ $ docker run --rm test1
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/系统/">系统</a>
+  <a class="article-category-link" href="/categories/网络配置/">网络配置</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/mvn/">mvn</a><a href="/tags/macos/">macos</a>
+  <span></span> <a href="/tags/路由转发端口到内网服务器/">路由转发端口到内网服务器</a>
   </div>
 
 </div>
@@ -795,7 +296,7 @@ $ docker run --rm test1
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/07/30/macos无法执行mvn命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/30/macos无法执行mvn命令/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/通过公司的路由器转发到内网测试服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/通过公司的路由器转发到内网测试服务器/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -815,190 +316,33 @@ $ docker run --rm test1
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/07/22/docker-docker-compose搭建高可用集群/" title="docker+docker-compose搭建高可用集群" itemprop="url">docker+docker-compose搭建高可用集群</a>
+      <a href="/2018/11/19/传统行业公司涉足互联网软件开发之我见/" title="传统行业公司涉足互联网软件开发之我见" itemprop="url">传统行业公司涉足互联网软件开发之我见</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-07-22T12:49:00.000Z" itemprop="datePublished"> 发表于 2018-07-22</time>
+    <time datetime="2018-11-19T09:56:24.498Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="maven-docker-docker-compose搭建高可用集群"><a href="#maven-docker-docker-compose搭建高可用集群" class="headerlink" title="maven+docker+docker-compose搭建高可用集群"></a>maven+docker+docker-compose搭建高可用集群</h1><p>首先搭建eurake+gateway+client</p>
-<h2 id="eurake项目"><a href="#eurake项目" class="headerlink" title="eurake项目"></a>eurake项目</h2><p>pom.xml:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.xx&lt;/groupId&gt;
-    &lt;artifactId&gt;xx-eurake&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;jar&lt;/packaging&gt;
-
-    &lt;name&gt;${project.artifactId}&lt;/name&gt;
-    &lt;description&gt;注册中心服务&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
-        &lt;docker.image.prefix&gt;xx&lt;/docker.image.prefix&gt;
-    &lt;/properties&gt;
-
-    &lt;profiles&gt;
-        &lt;profile&gt;
-            &lt;id&gt;dev&lt;/id&gt;
-            &lt;properties&gt;
-                &lt;profiles.active&gt;dev&lt;/profiles.active&gt;
-            &lt;/properties&gt;
-            &lt;activation&gt;
-                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-            &lt;/activation&gt;
-        &lt;/profile&gt;
-        &lt;profile&gt;
-            &lt;id&gt;test&lt;/id&gt;
-            &lt;properties&gt;
-                &lt;profiles.active&gt;test&lt;/profiles.active&gt;
-            &lt;/properties&gt;
-        &lt;/profile&gt;
-        &lt;profile&gt;
-            &lt;id&gt;prod&lt;/id&gt;
-            &lt;properties&gt;
-                &lt;profiles.active&gt;prod&lt;/profiles.active&gt;
-            &lt;/properties&gt;
-        &lt;/profile&gt;
-    &lt;/profiles&gt;
-
-   &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;finalName&gt;${project.name}&lt;/finalName&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-
-            &lt;plugin&gt;
-                &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
-                &lt;version&gt;3.1.0&lt;/version&gt;
-                &lt;executions&gt;
-                    &lt;execution&gt;
-                        &lt;id&gt;copy-resources&lt;/id&gt;
-                        &lt;!-- here the phase you need --&gt;
-                        &lt;phase&gt;validate&lt;/phase&gt;
-                        &lt;goals&gt;
-                            &lt;goal&gt;copy-resources&lt;/goal&gt;
-                        &lt;/goals&gt;
-                        &lt;configuration&gt;
-                            &lt;outputDirectory&gt;${basedir}/target/classes&lt;/outputDirectory&gt;
-                            &lt;resources&gt;
-                                &lt;resource&gt;
-                                    &lt;directory&gt;src/main/resources/profiles&lt;/directory&gt;
-                                    &lt;filtering&gt;true&lt;/filtering&gt;
-                                    &lt;includes&gt;
-                                        &lt;include&gt;${profiles.active}-bootstrap.yml&lt;/include&gt;
-                                    &lt;/includes&gt;
-                                &lt;/resource&gt;
-                            &lt;/resources&gt;
-                        &lt;/configuration&gt;
-                    &lt;/execution&gt;
-                &lt;/executions&gt;
-            &lt;/plugin&gt;
-
-            &lt;plugin&gt;
-                &lt;groupId&gt;com.spotify&lt;/groupId&gt;
-                &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt;
-                &lt;version&gt;1.1.1&lt;/version&gt;
-                        &lt;configuration&gt;
-                            &lt;imageName&gt;${docker.image.prefix}/${project.artifactId}&lt;/imageName&gt;
-                            &lt;dockerDirectory&gt;${project.basedir}&lt;/dockerDirectory&gt;
-                            &lt;resources&gt;
-                                &lt;resource&gt;
-                                    &lt;targetPath&gt;/&lt;/targetPath&gt;
-                                    &lt;directory&gt;${project.build.directory}&lt;/directory&gt;
-                                    &lt;include&gt;${project.build.finalName}.jar&lt;/include&gt;
-                                &lt;/resource&gt;
-                            &lt;/resources&gt;
-                        &lt;/configuration&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-
-        &lt;resources&gt;
-            &lt;resource&gt;
-                &lt;directory&gt;src/main/resources&lt;/directory&gt;
-                &lt;!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 --&gt;
-                &lt;excludes&gt;
-                    &lt;exclude&gt;profiles/*.yml&lt;/exclude&gt;
-                &lt;/excludes&gt;
-            &lt;/resource&gt;
-            &lt;resource&gt;
-                &lt;directory&gt;src/main/resources&lt;/directory&gt;
-                &lt;filtering&gt;true&lt;/filtering&gt;
-                &lt;includes&gt;
-                    &lt;include&gt;bootstrap.yml&lt;/include&gt;
-                    &lt;include&gt;${profiles.active}-bootstrap.yml&lt;/include&gt;
-                &lt;/includes&gt;
-            &lt;/resource&gt;
-        &lt;/resources&gt;
-    &lt;/build&gt;
-
-
-
-&lt;/project&gt;
-</code></pre><ul>
-<li>这里面我用了一个dockerfile的插件，可以自动构建服务镜像的</li>
+        <h1 id="传统行业公司涉足互联网软件开发之我见"><a href="#传统行业公司涉足互联网软件开发之我见" class="headerlink" title="传统行业公司涉足互联网软件开发之我见"></a>传统行业公司涉足互联网软件开发之我见</h1><p>2016年过去了，还有三天就要回老家过年了；这一年走来，总结下来，有喜有悲，有聚有散；<br>生活上，终于找到了我的另一半，因为她，今年我再累，心也是甜的。今年我将会带她见我的父母，如果顺利的话，我们将在17年国庆举行婚礼。</p>
+<p>我的公司老板，有一颗做国产第一支智能电动牙刷的心，但是从第一天见他时，从他身上就透露着一身江湖草莽义气，当时觉得，讲义气的人，人品不会太差，老板的话更不会，再加上，我也觉得挻有意思，也想做做这个方面的东西，所以就答应建立团队，给他做出个像样的东西。。。。。<br>但一年过去了，双十一的app版本，说句心里话，我自己都非常不满意的；<br>首先，app的使用并不流畅，很多地方用起来非常容易搞错，比如说：二维码扫描的入口，智能非智能用户完全搞不清楚；经常出现很多用户联系投诉；<br>但是，从这一年与杭州的沟通交流中种种的不畅，让我彻底意识到，出现这些问题，并不能把原因简单的归咎于运营/产品、软件、硬件分属三地，导致沟通不畅；<br>我总结下来主要有这几点：</p>
+<ul>
+<li>运营与产品信息更新不及时；<em> </em> 产品对技术信息曝光不及时；</li>
+<li>硬件方面问题全部都体现在软件上，用户只能去怪软件，差评只会说软件的问题，因为入口就是软件</li>
+<li>不专业团队指挥技术团队；</li>
+<li>技术团队初期招人不慎，导致代码超难维护；</li>
+<li>产品原型的缺失与需求不清晰导致设计漏洞太多;</li>
 </ul>
         
         
         <p class="article-more-link">
           
-            <a href="/2018/07/22/docker-docker-compose搭建高可用集群/#more">Read More</a>
+            <a href="/2018/11/19/传统行业公司涉足互联网软件开发之我见/#more">Read More</a>
           
        </p>
     </div>
@@ -1007,13 +351,13 @@ $ docker run --rm test1
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/docker-compose/">docker-compose</a>
+  <span></span> <a href="/tags/随笔/">随笔</a>
   </div>
 
 </div>
@@ -1024,7 +368,7 @@ $ docker run --rm test1
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/07/22/docker-docker-compose搭建高可用集群/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/22/docker-docker-compose搭建高可用集群/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/传统行业公司涉足互联网软件开发之我见/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/传统行业公司涉足互联网软件开发之我见/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1044,30 +388,266 @@ $ docker run --rm test1
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/07/14/nginx搭建高可用服务器/" title="nginx搭建高可用服务器" itemprop="url">nginx搭建高可用服务器</a>
+      <a href="/2018/11/19/（模板方法的运用）持久层操作的java代码/" title="（模板方法的运用）持久层操作的java代码" itemprop="url">（模板方法的运用）持久层操作的java代码</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-07-14T15:40:00.000Z" itemprop="datePublished"> 发表于 2018-07-14</time>
+    <time datetime="2018-11-19T09:56:24.481Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="nginx搭建高可用服务器"><a href="#nginx搭建高可用服务器" class="headerlink" title="nginx搭建高可用服务器"></a>nginx搭建高可用服务器</h1><p>之间搭建了一个nginx+keepalived的高可用负载均衡服务器，keepalive的配置真的很复杂，而且容易出错，之前用docker做的，过了几个月，今天发现启动不了，不可用了。</p>
-<p>ok，那我们来换一种方式搭建吧，我们来列一下，目前流行的高可用服务器的服务器软件吧：</p>
-<p>架设服务器均衡负载方式有多种，Nginx、LVS、HAProxy+Keepalived是目前使用最广泛的三种方案。<br>关于三者的区别与优缺点可参考此文章：</p>
-<p><a href="http://www.rootop.org/pages/2773.html" title="nginx+LVS+HAProxy区别" target="_blank" rel="noopener">http://www.rootop.org/pages/2773.html</a></p>
-<p>而搭建高可用的服务器，nginx原生是不支持，只能够做简单的负载均衡而已，那之前我就用nginx+keepalived来解决高可用的服务器。</p>
-<p>今天我就用nginx+checkheath插件来完成高可用服务器的搭建。</p>
-<p>遇到点困难，后面有时间再弄吧。。。。。。</p>
+        <h1 id="（模板方法的运用）持久层操作的java代码"><a href="#（模板方法的运用）持久层操作的java代码" class="headerlink" title="（模板方法的运用）持久层操作的java代码"></a>（模板方法的运用）持久层操作的java代码</h1><div><br><br><span style="font-size: large"><span style="color: red">\<br></span></span><br><br></div>
+
+<div><br><br><span style="font-size: large"><span style="color: red">第一个是操作数据库方法的抽象接口，<br> 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。<br><br>为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。<br></span></span><br><br><div><br><br><div><br><br>Java代码<br><br><br>1.  <span>package</span><span>  com.yd.idao;    </span><br>2.  <span>    </span><br>3.  <span>import</span><span>  java.util.List;    </span><br>4.  <span>import</span><span>  java.sql.Connection;    </span><br>5.  <span>import</span><span>  java.sql.ResultSet;    </span><br>6.  <span>import</span><span>  java.sql.SQLException;    </span><br>7.  <span>    </span><br>8.  <span>import</span><span>  com.yd.support.JDataSet;    </span><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/（模板方法的运用）持久层操作的java代码/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/（模板方法的运用）持久层操作的java代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/（模板方法的运用）持久层操作的java代码/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/" title="从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)" itemprop="url">从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.471Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="从用户友好性看中文长度的校验-页面与数据库对字符长度的不同表示"><a href="#从用户友好性看中文长度的校验-页面与数据库对字符长度的不同表示" class="headerlink" title="从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)"></a>从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</h1><div><br><br>### 从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<p>字符的长度校验是程序中必不可少的。\<br>\</p>
+<p>如一个业务需求是名称不能大于10个字，在数据库设计时该字段设为最大长度10。\<br>\<br> 计算机在用gbk编码存储中文字符时需要2个字节，而ascii字符需要1个字节。\<br>\</p>
+<p>不幸的是，不管JavaScript还是Java在求字符长度的方法对中英文是一视同仁的，即”中”.length()<br>和”e”.length()的返回值都是1，象Struts这样的验证拦截器也是这样。这样好了，用户输入6个中文字符，傻了，数据库插入数据失败：违反<br>最大长度约束。\<br>\</p>
+<p>最快的解决办法是将可以输入中文的字段的最大长度放大到2倍或者在页面上控制长度为数据库字符/2的大小。\<br>\</p>
+<p>用户满意了，但有些人会狗尾续貂，想现在名称字段明明可以存储20个英文字符，你却硬生生地砍掉一半，不是浪费了数据库潜力嘛。于是乎费老鼻子劲<br>在JavaScript中，在Java中将中文字符算做2个，用了长度验证拦截器的还得专门写个中文长度校验的拦截器配置到应用中，貌是很好很强大，然后<br>在长度提示中出现如下字符：名称长度不能超过20（一个中文算2个字符）\<br>\</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/新浪微薄分享功能实现方式/" title="新浪微薄分享功能实现方式" itemprop="url">新浪微薄分享功能实现方式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.465Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="新浪微薄分享功能实现方式"><a href="#新浪微薄分享功能实现方式" class="headerlink" title="新浪微薄分享功能实现方式"></a>新浪微薄分享功能实现方式</h1><div><br><br>－，加入以下代码，可实现简单的分享<br><br></div>
+
+<p>  \</p>
+<p><a href="http://shareto.com.cn/share.html" target="_blank" rel="noopener"><img src="http://s.shareto.com.cn/btn/lg-share-cn.gif" alt="分享道"></a>\</p>
+<p>\</p>
+<div><br><br>\<br><br></div>
 
         
         
         <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/新浪微薄分享功能实现方式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/新浪微薄分享功能实现方式/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/公司阿里云服务器环境配置/" title="阿里云服务器环境配置" itemprop="url">阿里云服务器环境配置</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.453Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="阿里云服务器环境配置"><a href="#阿里云服务器环境配置" class="headerlink" title="阿里云服务器环境配置"></a>阿里云服务器环境配置</h1><h2 id="数据盘初始化"><a href="#数据盘初始化" class="headerlink" title="数据盘初始化"></a>数据盘初始化</h2><p>如果在购买ecs服务器时，选择购买了数据盘，则在linux系统登陆进去，执行命令：</p>
+<pre><code>fdisk -l 
+</code></pre><p>查看挂载的所有数据盘，注意：</p>
+<pre><code>df -hT    //无效，只能看到已经初始化的挂载盘
+</code></pre><p>运行 fdisk -l 命令查看数据盘。<br>注意：在没有分区和格式化数据盘之前，使用 df -h 命令是无法看到数据盘的。<br>在下面的示例中，有一个 5 GB 的数据盘需要挂载。<br>如果执行了 fdisk -l 命令后，没有发现 /dev/xvdb    ,则不需要格式化。</p>
+<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846465113/1.jpg" alt="image"></p>
+<ul>
+<li>运行 fdisk /dev/xvdb，对数据盘进行分区。</li>
+</ul>
+<p>根据提示，依次输入 n，p，1，两次回车，wq，分区就开始了。</p>
+<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846584705/2.jpg" alt="image"></p>
+<ul>
+<li>运行 fdisk -l 命令，查看新的分区。</li>
+</ul>
+<p>新分区 xvdb1 已经创建好。如下面示例中的/dev/xvdb1。</p>
+<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846693542/3.jpg" alt="image"></p>
+<ul>
+<li>运行 mkfs.ext3 /dev/xvdb1，对新分区进行格式化。</li>
+</ul>
+<p>格式化所需时间取决于数据盘大小。您也可自主决定选用其他文件格式，如 ext14 等。</p>
+<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846760502/4.jpg" alt="image"></p>
+<ul>
+<li>运行 echo /dev/xvdb1 /mnt ext3 defaults 0 0 &gt;&gt; /etc/fstab 写入新分区信息。</li>
+</ul>
+<p>完成后，可以使用 cat /etc/fstab 命令查看。</p>
+<ul>
+<li>运行 mount /dev/xvdb1 /mnt 挂载新分区，然后执行 df -h 查看分区。</li>
+</ul>
+<p>如果出现数据盘信息，说明挂载成功，可以使用新分区了。</p>
+<pre><code> mount /dev/xvdb1 /mnt
+df -h
+ Filesystem      Size  Used Avail Use% Mounted on
+ /dev/xvda1       40G  1.5G   36G   4% /
+ tmpfs           498M     0  498M   0% /dev/shm
+ /dev/xvdb1      5.0G  139M  4.6G   3% /mnt
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/公司阿里云服务器环境配置/#more">Read More</a>
           
        </p>
     </div>
@@ -1082,7 +662,7 @@ $ docker run --rm test1
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/nginx/">nginx</a>
+  <span></span> <a href="/tags/阿里云/">阿里云</a>
   </div>
 
 </div>
@@ -1093,7 +673,151 @@ $ docker run --rm test1
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/07/14/nginx搭建高可用服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/14/nginx搭建高可用服务器/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/公司阿里云服务器环境配置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/公司阿里云服务器环境配置/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/" title="创建系统无法删除的文件夹 加密文件" itemprop="url">创建系统无法删除的文件夹 加密文件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.437Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="创建系统无法删除的文件夹-加密文件"><a href="#创建系统无法删除的文件夹-加密文件" class="headerlink" title="创建系统无法删除的文件夹 加密文件"></a>创建系统无法删除的文件夹 加密文件</h1><p><span style="color: rgb(68, 68, 68); font-size: 14px; line-height: 24px; text-align: left;">大家都知道在Windows中“\”符号是路径的分隔符号，比如“C:\Windows\”的意思就是C分区中的Windows文件夹，“C:\Windows\System.exe”的意思就是C分区中的Windows文件夹中的System.exe文件，好继续我们假设一下：\</span></p>
+<p>如果文件名中有“\”符号会怎么样呢？假如“S\”是一个文件夹的名字，这个文件夹位于：“F:\”，他的路径就是“F:\S\”，当我们试图访问的时候Windows会错误的认为我们要打开的文件是C分区的S文件夹，这样Windows就无法打开并且会返回一个错误，因为以上的路径并不存在。\</p>
+<p>也许你现在正在尝试创建“S\”文件，但是Windows会提示你：“\”符号是不能作为文件、文件夹的名字的。看来Windows还是早已想到这一点了的。OK我们继续进行，就不信不能建立包含“\”符号的文件。爱踢博客社区kW.L<br>UEi5z\<br> 现在打开你的电脑，我们要做一些很有趣的尝试。进入Windows后<br>点击：开始&gt;运行<br>然后输入“cmd”并会车（如果是Win98请输入“COMMAND”），这时你会看到Windows的命令控制台，我们就是要利用它完成我们剩下的测试，以下包含了很多命令其中{}中的字符是我的注释：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;mkdir s\<br>{我们的第一次尝试,结果Windows只创建了S文件夹”\“被忽略掉了}\<br> (H0F:\Test&gt;mkdir s\s1\<br>{还是失败,Windows先创建了S文件夹，然后在S内创建s1文件夹}\<br> F:\Test&gt;mkdir s.\ {“s.\“被解析成S”.\“又被忽略了}\<br> 子目录或文件 s.\ 已经存在。\<br> F:\Test&gt;mkdir s..\<br>{终于成功了,现在你可以在资源管理器看到”s.”但却无法打开/删除}\<br> F:\Test&gt;mkdir s…\<br>{又成功了,在资源浏览器能看到”s..”可以打开但是无法删除}\<br> ———————————————-\</p>
+<p>为什么会这样？我们先说你看到的这个“S.”文件夹，他即不能打开也不能删除，不能打开是因为他的实际路径是“F:\Test\s..\”（我们自己创建的所以可以确定他的实际路径）但是在Windows资源管理器中名字变成了“S.”也就是说当你试图打开它的时候Windows实际上尝试打开“F:\Test\s.\”当然是不能打开的，文件并不存在，所以Windows会报错。不能删除也是因为这个，Windows把一个实际存在的文件路径错误的解析为一个不存在的路径，并进行操作当然是无法完成的。\</p>
+<p>该说“S..”这个文件了，这个文件可以打开，但是却无法删除。等等……打开？你以为Windows真的是打开了我们创建的“s…\”文件了吗？我们做下面的试验你就明白了。还是老规矩{}是我的注释方便大家理解：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;echo 1 &gt; Txt1.txt {创建“F:\Test\Txt1.txt”文件}\<br> F:\Test&gt;copy Txt1.txt s..\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/创建系统无法删除的文件夹 加密文件/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/" title="每位开发人员都应铭记的10句编程谚语" itemprop="url">每位开发人员都应铭记的10句编程谚语</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.432Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="每位开发人员都应铭记的10句编程谚语"><a href="#每位开发人员都应铭记的10句编程谚语" class="headerlink" title="每位开发人员都应铭记的10句编程谚语"></a>每位开发人员都应铭记的10句编程谚语</h1><p>所谓谚语，就是用言简意赅、通俗易懂的方式传达人生箴言和普遍真理的话，它们能很好地帮助你处理生活和工作上的事情。也正因如此，我才整理了10句编程谚语，每位开发人员都应该铭记他们，武装自己。\<br>\<br> 　　<strong>1. 无风不起浪</strong></p>
+<div style="text-align: center;"><br><br>\<br>\<br><br><em>别紧张，这也许只是一场消防演习\
+</em><br><br></div>
+
+<p>\<br> 　　代码设计是否糟糕，从某些地方就可以看出来。比如：</p>
+<ul>
+<li>a. 超大类或超大函数</li>
+<li>b. 大片被注释的代码</li>
+<li>c. 逻辑重复</li>
+<li>d. If/else嵌套过深</li>
+</ul>
+<p>\<br> 　　程序员们通常称它们作代码异味(Code<br>Smell)，但是就我个人认为“代码警报”这个名字更为合适一些，因为它有更高的紧迫感的含义。根本问题处理不当，终将引火烧身。\<br>\<br> 　　译注：Code<br>Smell中文译名一般为“代码异味”，或“代码味道”，它是提示代码中某个地方存在错误的一个暗示，开发人员可以通过这种smell（异味）在代码中追捕到问题。\<br>\<br>\<br> 　　<strong>2. 预防为主，治疗为辅</strong></p>
+<div style="text-align: center;"><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/每位开发人员都应铭记的10句编程谚语/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1323,7 +1047,7 @@ $ docker run --rm test1
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1331,7 +1055,7 @@ $ docker run --rm test1
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -1339,19 +1063,19 @@ $ docker run --rm test1
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>

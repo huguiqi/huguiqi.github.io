@@ -92,36 +92,1388 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/" title="改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error" itemprop="url">改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error</a>
+      <a href="/2018/08/05/docker-compose传参问题/" title="docker-compose传参问题" itemprop="url">docker-compose传参问题</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-08-05T14:34:00.000Z" itemprop="datePublished"> 发表于 2018-08-05</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="改了svn地址后的Subversion-“checksum-mismatch”-error-by-editing-svn-entries-file-error"><a href="#改了svn地址后的Subversion-“checksum-mismatch”-error-by-editing-svn-entries-file-error" class="headerlink" title="改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error"></a>改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error</h1><div><br><br><div><br><br>### <span><a href="http://blog.csdn.net/kenera/article/details/5099838" title="Fix Subversion “checksum mismatch” error by editing .svn/entries file" target="_blank" rel="noopener">Fix Subversion “checksum mismatch” error by editing .svn/entries file</a></span><br><br></div>
+        <h1 id="docker-compose传参问题"><a href="#docker-compose传参问题" class="headerlink" title="docker-compose传参问题"></a>docker-compose传参问题</h1><h2 id="Dockerfile中CMD和ENTRYPOINT命令详解"><a href="#Dockerfile中CMD和ENTRYPOINT命令详解" class="headerlink" title="Dockerfile中CMD和ENTRYPOINT命令详解"></a>Dockerfile中CMD和ENTRYPOINT命令详解</h2><p>CMD 和 ENTRYPOINT 指令都是用来指定容器启动时运行的命令。</p>
+<p>单从功能上来看，这两个命令几乎是重复的。单独使用其中的一个就可以实现绝大多数的用例。</p>
+<p>但是还是有些许区别，我们来一起看看。</p>
+<h3 id="exec-模式和-shell-模式"><a href="#exec-模式和-shell-模式" class="headerlink" title="exec 模式和 shell 模式"></a>exec 模式和 shell 模式</h3><h4 id="CMD-指令"><a href="#CMD-指令" class="headerlink" title="CMD 指令"></a>CMD 指令</h4><p>CMD 指令的目的是：为容器提供默认的执行命令。<br>CMD 指令有三种使用方式，其中的一种是为 ENTRYPOINT 提供默认的参数：</p>
+<pre><code>CMD [&quot;param1&quot;,&quot;param2&quot;]
+</code></pre><p>另外两种使用方式分别是 exec 模式和 shell 模式：</p>
+<h5 id="exec-模式"><a href="#exec-模式" class="headerlink" title="exec 模式"></a>exec 模式</h5><pre><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] // 这是 exec 模式的写法，注意需要使用双引号。
+</code></pre><p>exec 模式的特点是不会通过 shell 执行相关的命令，所以像 $HOME 这样的环境变量是取不到的：</p>
+<pre><code>FROM ubuntu
+CMD [ &quot;echo&quot;, &quot;$HOME&quot; ]
+</code></pre><p>把上面的代码保存到 test1 目录的 Dockerfile 中，然后进入 test1 目录构建镜像并启动一个容器：</p>
+<pre><code>$ docker build --no-cache -t test1 .
+$ docker run --rm test1
+</code></pre><p><img src="http://blog.huguiqi.com/1533481840969knusv9p6.png?imageslim" alt="paste image"></p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/08/05/docker-compose传参问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
 
-<div><br><br>\<br><br></div>
 
-<div><br><br>I can’<span>t</span> explain why this happened because in my<br>several-year-long history with Subversion, I’ve never experienced this<br>issue once. However, today, I fell into the (arguably) unfortunate<br>circumstance of running into a most disturbing error from SVN. When<br>trying to commit my changes, SVN barfed at me and complained of a<br>“checksum mismatch”. It looked something like this:<br><br></div>
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/docker-compose/">docker-compose</a>
+  </div>
 
-<div><br><br>\<br><br></div>
+</div>
 
-<pre><code>Transmitting file data ..svn: Commit failed (details follow):
-svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/copy/.svn/text-base/working-file.php.svn-base&apos;; expected &apos;cde4d8fbd5c623da3a8b1a343aa7b3f4&apos;, actual: &apos;270b2f20804a5fcdbd15eec5910f6e3f&apos;
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/08/05/docker-compose传参问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/05/docker-compose传参问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/04/jenkins如何集成nodejs前端做自动化/" title="jenkins如何集成nodejs前端做自动化" itemprop="url">jenkins如何集成nodejs前端做自动化</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-08-04T08:42:00.000Z" itemprop="datePublished"> 发表于 2018-08-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="jenkins如何集成nodejs前端项目做自动化"><a href="#jenkins如何集成nodejs前端项目做自动化" class="headerlink" title="jenkins如何集成nodejs前端项目做自动化"></a>jenkins如何集成nodejs前端项目做自动化</h1><p>本厂前端框架使用的是Vue CLI。</p>
+<p>Vue CLI 是一个基于 Vue.js 进行快速开发的完整系统</p>
+<p>具体看介绍：</p>
+<p><a href="https://cli.vuejs.org/zh/guide/" title="cliVuejs官方中文翻译介绍" target="_blank" rel="noopener">https://cli.vuejs.org/zh/guide/</a></p>
+<p>目标是将前端项目的代码拉取—->打包——>部署操作自动化。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>1， jenkins 需要安装nodejs插件</p>
+<p>系统管理—>插件管理：</p>
+<p>在可选插件里，查找nodejs</p>
+<p><img src="http://blog.huguiqi.com/15333736349580j9gd9j2.png?imageslim" alt="paste image"></p>
+<p>安装，重启。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/08/04/jenkins如何集成nodejs前端做自动化/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/jenkins/">jenkins</a><a href="/tags/nodejs/">nodejs</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/08/04/jenkins如何集成nodejs前端做自动化/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/04/jenkins如何集成nodejs前端做自动化/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/07/30/macos无法执行mvn命令/" title="macOS无法执行mvn命令" itemprop="url">macOS无法执行mvn命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-30T08:42:00.000Z" itemprop="datePublished"> 发表于 2018-07-30</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="macOS无法执行mvn命令"><a href="#macOS无法执行mvn命令" class="headerlink" title="macOS无法执行mvn命令"></a>macOS无法执行mvn命令</h1><p><img src="http://blog.huguiqi.com/15329403237396yhxi7rw.png?imageslim" alt="paste image"></p>
+<p>google了一下，说苹果升级后建议用户将JAVA_HOME设置为：<code>/usr/libexe/java_home</code></p>
+<p>本人苹果系统是10.13.1 ，那么，根据网上很多人的解决方案，是在<code>~/.bashrc</code> 文件内容末尾加上：</p>
+<p><code>export JAVA_HOME=$(/usr/libexec/java_home)</code></p>
+<p>然后保存，然后生效：</p>
+<pre><code>source ~/.bashrc
+</code></pre><p>但是。。。。。。。</p>
+<p>生效后执行<code>mvn -v</code>确实是好了，但是我把当前终端关闭后，重新打开一个终端，再执行 <code>mvn -v</code>,还是报找不到java_home的bin目录。</p>
+<p>咋办？</p>
+<p>解决办法：</p>
+<ol>
+<li><p>找到mvn命令所在目录</p>
+<p> <code>which mvn</code></p>
+<p> <img src="http://blog.huguiqi.com/1532941737128b142vpye.png?imageslim" alt="paste image"></p>
+</li>
+<li><p>将<code>mvn</code>这个文件打开，查看他的脚本</p>
+<p> <code>vi /usr/local/bin/mvn</code></p>
+</li>
+<li><p>将<code>export</code> 语句放到此文件脚本首行，并保存</p>
+</li>
+</ol>
+<p><img src="http://blog.huguiqi.com/1532941985030oqrsdklw.png?imageslim" alt="paste image"></p>
+<p>然后所有问题解决了。。。。。。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统/">系统</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mvn/">mvn</a><a href="/tags/macos/">macos</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/30/macos无法执行mvn命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/30/macos无法执行mvn命令/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/07/22/docker-docker-compose搭建高可用集群/" title="docker+docker-compose搭建高可用集群" itemprop="url">docker+docker-compose搭建高可用集群</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-22T12:49:00.000Z" itemprop="datePublished"> 发表于 2018-07-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="maven-docker-docker-compose搭建高可用集群"><a href="#maven-docker-docker-compose搭建高可用集群" class="headerlink" title="maven+docker+docker-compose搭建高可用集群"></a>maven+docker+docker-compose搭建高可用集群</h1><p>首先搭建eurake+gateway+client</p>
+<h2 id="eurake项目"><a href="#eurake项目" class="headerlink" title="eurake项目"></a>eurake项目</h2><p>pom.xml:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.xx&lt;/groupId&gt;
+    &lt;artifactId&gt;xx-eurake&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;name&gt;${project.artifactId}&lt;/name&gt;
+    &lt;description&gt;注册中心服务&lt;/description&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
+        &lt;docker.image.prefix&gt;xx&lt;/docker.image.prefix&gt;
+    &lt;/properties&gt;
+
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;dev&lt;/id&gt;
+            &lt;properties&gt;
+                &lt;profiles.active&gt;dev&lt;/profiles.active&gt;
+            &lt;/properties&gt;
+            &lt;activation&gt;
+                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+            &lt;/activation&gt;
+        &lt;/profile&gt;
+        &lt;profile&gt;
+            &lt;id&gt;test&lt;/id&gt;
+            &lt;properties&gt;
+                &lt;profiles.active&gt;test&lt;/profiles.active&gt;
+            &lt;/properties&gt;
+        &lt;/profile&gt;
+        &lt;profile&gt;
+            &lt;id&gt;prod&lt;/id&gt;
+            &lt;properties&gt;
+                &lt;profiles.active&gt;prod&lt;/profiles.active&gt;
+            &lt;/properties&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+
+   &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+
+    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
+                &lt;type&gt;pom&lt;/type&gt;
+                &lt;scope&gt;import&lt;/scope&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+
+    &lt;build&gt;
+        &lt;finalName&gt;${project.name}&lt;/finalName&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.1.0&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;id&gt;copy-resources&lt;/id&gt;
+                        &lt;!-- here the phase you need --&gt;
+                        &lt;phase&gt;validate&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;copy-resources&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;outputDirectory&gt;${basedir}/target/classes&lt;/outputDirectory&gt;
+                            &lt;resources&gt;
+                                &lt;resource&gt;
+                                    &lt;directory&gt;src/main/resources/profiles&lt;/directory&gt;
+                                    &lt;filtering&gt;true&lt;/filtering&gt;
+                                    &lt;includes&gt;
+                                        &lt;include&gt;${profiles.active}-bootstrap.yml&lt;/include&gt;
+                                    &lt;/includes&gt;
+                                &lt;/resource&gt;
+                            &lt;/resources&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+
+            &lt;plugin&gt;
+                &lt;groupId&gt;com.spotify&lt;/groupId&gt;
+                &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.1.1&lt;/version&gt;
+                        &lt;configuration&gt;
+                            &lt;imageName&gt;${docker.image.prefix}/${project.artifactId}&lt;/imageName&gt;
+                            &lt;dockerDirectory&gt;${project.basedir}&lt;/dockerDirectory&gt;
+                            &lt;resources&gt;
+                                &lt;resource&gt;
+                                    &lt;targetPath&gt;/&lt;/targetPath&gt;
+                                    &lt;directory&gt;${project.build.directory}&lt;/directory&gt;
+                                    &lt;include&gt;${project.build.finalName}.jar&lt;/include&gt;
+                                &lt;/resource&gt;
+                            &lt;/resources&gt;
+                        &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/resources&lt;/directory&gt;
+                &lt;!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 --&gt;
+                &lt;excludes&gt;
+                    &lt;exclude&gt;profiles/*.yml&lt;/exclude&gt;
+                &lt;/excludes&gt;
+            &lt;/resource&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/resources&lt;/directory&gt;
+                &lt;filtering&gt;true&lt;/filtering&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;bootstrap.yml&lt;/include&gt;
+                    &lt;include&gt;${profiles.active}-bootstrap.yml&lt;/include&gt;
+                &lt;/includes&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+    &lt;/build&gt;
+
+
+
+&lt;/project&gt;
+</code></pre><ul>
+<li>这里面我用了一个dockerfile的插件，可以自动构建服务镜像的</li>
+</ul>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/07/22/docker-docker-compose搭建高可用集群/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/docker-compose/">docker-compose</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/22/docker-docker-compose搭建高可用集群/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/22/docker-docker-compose搭建高可用集群/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/07/14/nginx搭建高可用服务器/" title="nginx搭建高可用服务器" itemprop="url">nginx搭建高可用服务器</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-14T15:40:00.000Z" itemprop="datePublished"> 发表于 2018-07-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="nginx搭建高可用服务器"><a href="#nginx搭建高可用服务器" class="headerlink" title="nginx搭建高可用服务器"></a>nginx搭建高可用服务器</h1><p>之间搭建了一个nginx+keepalived的高可用负载均衡服务器，keepalive的配置真的很复杂，而且容易出错，之前用docker做的，过了几个月，今天发现启动不了，不可用了。</p>
+<p>ok，那我们来换一种方式搭建吧，我们来列一下，目前流行的高可用服务器的服务器软件吧：</p>
+<p>架设服务器均衡负载方式有多种，Nginx、LVS、HAProxy+Keepalived是目前使用最广泛的三种方案。<br>关于三者的区别与优缺点可参考此文章：</p>
+<p><a href="http://www.rootop.org/pages/2773.html" title="nginx+LVS+HAProxy区别" target="_blank" rel="noopener">http://www.rootop.org/pages/2773.html</a></p>
+<p>而搭建高可用的服务器，nginx原生是不支持，只能够做简单的负载均衡而已，那之前我就用nginx+keepalived来解决高可用的服务器。</p>
+<p>今天我就用nginx+checkheath插件来完成高可用服务器的搭建。</p>
+<p>遇到点困难，后面有时间再弄吧。。。。。。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nginx/">nginx</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/14/nginx搭建高可用服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/14/nginx搭建高可用服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/07/13/centos修改docker镜象存储与容器目录/" title="centos修改docker镜象存储与容器目录" itemprop="url">centos修改docker镜象存储与容器目录</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-13T08:00:00.000Z" itemprop="datePublished"> 发表于 2018-07-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="centos修改docker镜象存储与容器目录"><a href="#centos修改docker镜象存储与容器目录" class="headerlink" title="centos修改docker镜象存储与容器目录"></a>centos修改docker镜象存储与容器目录</h1><h2 id="修改docker容器存储目录"><a href="#修改docker容器存储目录" class="headerlink" title="修改docker容器存储目录"></a>修改docker容器存储目录</h2><p>vim  /usr/lib/systemd/system/docker.service</p>
+<p>修改如下：</p>
+<pre><code>[Unit]
+Description=Docker Application Container Engine
+Documentation=http://docs.docker.com
+After=network.target rhel-push-plugin.socket registries.service
+Wants=docker-storage-setup.service
+Requires=docker-cleanup.timer
+
+[Service]
+Type=notify
+NotifyAccess=all
+EnvironmentFile=-/run/containers/registries.conf
+EnvironmentFile=-/etc/sysconfig/docker
+EnvironmentFile=-/etc/sysconfig/docker-storage
+EnvironmentFile=-/etc/sysconfig/docker-network
+Environment=GOTRACEBACK=crash
+Environment=DOCKER_HTTP_HOST_COMPAT=1
+Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin
+ExecStart=/usr/bin/dockerd-current \
+   -g /mnt/docker \
+  --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current \
+  --default-runtime=docker-runc \
+  --exec-opt native.cgroupdriver=systemd \
+  --userland-proxy-path=/usr/libexec/docker/docker-proxy-current \
+  --init-path=/usr/libexec/docker/docker-init-current \
+  --seccomp-profile=/etc/docker/seccomp.json \
+  $OPTIONS \
+  $DOCKER_STORAGE_OPTIONS \
+  $DOCKER_NETWORK_OPTIONS \
+  $ADD_REGISTRY \
+  $BLOCK_REGISTRY \
+  $INSECURE_REGISTRY \
+  $REGISTRIES
+ExecReload=/bin/kill -s HUP $MAINPID
+LimitNOFILE=1048576
+LimitNPROC=1048576
+LimitCORE=infinity
+TimeoutStartSec=0
+Restart=on-abnormal
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+</code></pre><p>保存后，重启docker</p>
+<pre><code>service docker restart
+</code></pre><p>重启时提示需要更新systemctl</p>
+<pre><code>systemctl daemon-reload
+</code></pre><h2 id="添加docker国内镜像地址"><a href="#添加docker国内镜像地址" class="headerlink" title="添加docker国内镜像地址"></a>添加docker国内镜像地址</h2><pre><code>vi /etc/docker/daemon.json
+</code></pre><p>然后添加：</p>
+<pre><code>{
+  &quot;registry-mirrors&quot; : [
+    &quot;http://xxx.m.daocloud.io&quot;,
+    &quot;https://xxx.mirror.aliyuncs.com&quot;
+  ]
+}
+</code></pre><p>执行：</p>
+<pre><code>systemctl daemon-reload
+
+service  docker restart
+</code></pre><p>ok….</p>
+<p>将docker加入开机启动：</p>
+<pre><code>systemctl enable docker.service
+</code></pre><h2 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h2><ol>
+<li>安装</li>
+</ol>
+<pre><code>sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+</code></pre><ol>
+<li>授权</li>
+</ol>
+<pre><code>sudo chmod +x /usr/local/bin/docker-compose
+</code></pre><ol>
+<li>可用</li>
+</ol>
+<p>本来在很多操作系统里，/usr/local/bin目录下本来已经是全局环境变量里了，按理说应该在任何地方执行docker-compose命令都是可以的，可现实是：</p>
+<p><img src="http://blog.huguiqi.com/1532262432906x88x9ej6.png?imageslim" alt="paste image"></p>
+<p>看看系统变量有哪些目录是支持全局的：</p>
+<pre><code>echo $PATH
+</code></pre><p>出来这个：</p>
+<p><img src="http://blog.huguiqi.com/1532262596373ggfk14ba.png?imageslim" alt="paste image"></p>
+<p>这个目录在全局变量里啊，不管了，那我把这个可执行文件软链到/usr/bin这个目录里吧，这个目录肯定可以的。</p>
+<pre><code>ln -s /usr/local/bin/docker-compose /usr/bin/
+</code></pre><p>再执行：</p>
+<p><img src="http://blog.huguiqi.com/1532262801723b0xqlhvt.png?imageslim" alt="paste image"></p>
+<p>ok了。。。。。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/13/centos修改docker镜象存储与容器目录/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/13/centos修改docker镜象存储与容器目录/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/07/07/义字当头，毅然落草/" title="义字当头，毅然落草" itemprop="url">义字当头，毅然落草</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-07T15:16:00.000Z" itemprop="datePublished"> 发表于 2018-07-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="义字当头，毅然落草"><a href="#义字当头，毅然落草" class="headerlink" title="义字当头，毅然落草"></a>义字当头，毅然落草</h1><p>回到锦江4个月，对于此锦江已经不是那时电商时代，环境氛围完全变了，感觉自己来到了一家新的公司，只是这个团队还有我熟悉的人而已，而周围的工作环境却是那么的糟糕。</p>
+<p>但是，如果作为一个想要在国企养老的态度的话，我觉得在这里呆下去完全没有问题，况且这边也非常需要我。加上团队的老大也算是我多年的朋友，已经决定要离开，并且明确希望我能过去帮他，而此次回电商，我也有80%的原因因为他而回来，因为他我自降薪水来到已经复杂到非常的一家整合型公司，那如果他离开了，我觉得如果我不是为了混，那留在这里养老似乎不是我的追求，所以，那就走吧，开干吧。。。。。。</p>
+<p>对于很多理性的人觉得，职场不应该有朋友义气，但是很多时候我觉得人都是孤独的，每个人熟悉新环境的成本也是很大的，如果有一个志同道合的朋友一起去做那件事，对相互也是种高效。<br>这次创业我不是CTO，而是作为架构师的角色去follow，技术不是以我为核心，我也没有股权，股权这个事，我觉得，拉到投资了，上市了，才有用，没有上市，其实就是空头支票，虽然我们都很看好这次的创业，但我认为，他们成功的机会并不会太高，因为大家的出发点就不纯，而且并没有太多的创业激情。。。。。。</p>
+<p>此次，完全义气帮忙，当然，给我的报酬也还过得去，虽然没有我单独出去拿得高，但是这里毕竟都是自己人，工作环境都OK，待我将架构师这个职位坐实，做到心里有数时，我觉得就可以出去了，阿里什么的都可以试试。。。。。。。</p>
+<p>再次goodBye，锦江电商。。。。。。。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/随笔/">随笔</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/07/义字当头，毅然落草/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/07/义字当头，毅然落草/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/27/7天学会使用springcloud-五/" title="7天学会使用springcloud(五)" itemprop="url">7天学会使用springcloud(五)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-05-26T16:16:00.000Z" itemprop="datePublished"> 发表于 2018-05-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="7天学会使用springcloud-五"><a href="#7天学会使用springcloud-五" class="headerlink" title="7天学会使用springcloud(五)"></a>7天学会使用springcloud(五)</h1><h2 id="hystrix集成springcloud使用"><a href="#hystrix集成springcloud使用" class="headerlink" title="hystrix集成springcloud使用"></a>hystrix集成springcloud使用</h2><p>app-service项目中，pom.xml:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.service&lt;/groupId&gt;
+    &lt;artifactId&gt;app-service&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;name&gt;app-service&lt;/name&gt;
+    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+        &lt;spring-cloud.version&gt;Finchley.M9&lt;/spring-cloud.version&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix-dashboard&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;!--    增加feign服务代理依赖 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
+            &lt;version&gt;2.0.0.M2&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
+                &lt;type&gt;pom&lt;/type&gt;
+                &lt;scope&gt;import&lt;/scope&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;spring-milestones&lt;/id&gt;
+            &lt;name&gt;Spring Milestones&lt;/name&gt;
+            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
+            &lt;snapshots&gt;
+                &lt;enabled&gt;false&lt;/enabled&gt;
+            &lt;/snapshots&gt;
+        &lt;/repository&gt;
+        &lt;repository&gt;
+            &lt;id&gt;alimaven&lt;/id&gt;
+            &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;
+        &lt;/repository&gt;
+        &lt;repository&gt;
+            &lt;id&gt;spring-snapshots&lt;/id&gt;
+            &lt;url&gt;http://repo.spring.io/snapshot&lt;/url&gt;
+            &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+
+&lt;/project&gt;
+</code></pre><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ul>
+<li>启用hystrix</li>
+</ul>
+<p>在启动类上添加 @EnableCircuitBreaker与@EnableHystrixDashboard注解</p>
+<p><img src="http://blog.huguiqi.com/15273523469114tx4hfou.png?imageslim" alt="paste image"></p>
+<ul>
+<li>使用</li>
+</ul>
+<p>添加@HystrixCommand注解:</p>
+<pre><code>@RequestMapping(value = &quot;/hello/{name}&quot;)
+   @HystrixCommand(fallbackMethod = &quot;error&quot;, commandProperties = {
+           @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)
+           , @HystrixProperty(name = &quot;circuitBreaker.requestVolumeThreshold&quot;, value = &quot;2&quot;)})
+   public String hello(@PathVariable(value = &quot;name&quot;) String name){
+       return clientRemoteProxy.hello(name);
+   }
+
+   public String error(String name){
+       return name+&quot;：您所调用的接口服务不可用，请重试&quot;;
+   }
+</code></pre><p>注意其中有两个关键属性分别为:</p>
+<p>　　 execution.isolation.thread.timeoutInMilliseconds 这个是请求最大的响应时间</p>
+<p>　　 circuitBreaker.requestVolumeThreshold 如果执行失败的次数等于或者超过这个值就开启保护</p>
+<p>ClientRemoteProxy:</p>
+<pre><code>@Component
+public class ClientRemoteProxy {
+
+    @Autowired
+    RestTemplate restTemplate;
+
+    public String hello(String name) {
+        return restTemplate.getForObject(&quot;http://APPCLIENT/hello?name=&quot;+name,String.class);
+    }
+}
+</code></pre><p>我启动了两个client,一个client有hello接口，另一个则没有，因为robbin会有自动负载均衡策略，我们来看看什么效果？</p>
+<p>我来回刷新请求了5-6次，会随机返回断路器信息和正确信息，但和zuul断路信息不同：</p>
+<p><img src="http://blog.huguiqi.com/15273530615360wfrs5b0.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1527353090768tm00flye.png?imageslim" alt="paste image"></p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p><img src="http://blog.huguiqi.com/1527352180459kqll74wa.png?imageslim" alt="paste image"></p>
+<h2 id="检测状态"><a href="#检测状态" class="headerlink" title="检测状态"></a>检测状态</h2><p>如果springboot安装了actuator组件，我们可以访问请求地址：</p>
+<pre><code>http://localhost:9000/actuator/health 
+</code></pre><p>来检测状态，当然也可以直接请求：    </p>
+<pre><code>http://localhost:9000/actuator
+</code></pre><p>来查看actuator有哪些接口可以访问。</p>
+<h2 id="查看断路器信息状态"><a href="#查看断路器信息状态" class="headerlink" title="查看断路器信息状态"></a>查看断路器信息状态</h2><p>Hystrix有个监控的控制台，因为启用了：</p>
+<pre><code>@EnableHystrixDashboard
+</code></pre><p>这个引用了包：</p>
+<pre><code>spring-cloud-starter-netflix-hystrix-dashboard
+</code></pre><p>可以看到有多少接口调用失败了，被熔断的次数，接口请求次数等数据：</p>
+<p><img src="http://blog.huguiqi.com/1527353605119ja1qnq8z.png?imageslim" alt="paste image"></p>
+<p>参考springcloud的官方文档：</p>
+<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
+<p>访问dashboard的地址：</p>
+<p><a href="http://localhost:9000/hystrix" target="_blank" rel="noopener">http://localhost:9000/hystrix</a></p>
+<h2 id="Turbine"><a href="#Turbine" class="headerlink" title="Turbine"></a>Turbine</h2><blockquote>
+<blockquote>
+<p>Looking at an individual instance’s Hystrix data is not very useful in terms of the overall health of the system. Turbine is an application that aggregates all of the relevant /hystrix.stream endpoints into a combined /turbine.stream for use in the Hystrix Dashboard. Individual instances are located through Eureka. Running Turbine requires annotating your main class with the @EnableTurbine annotation (for example, by using spring-cloud-starter-netflix-turbine to set up the classpath). All of the documented configuration properties from the Turbine 1 wiki apply. The only difference is that the turbine.instanceUrlSuffix does not need the port prepended, as this is handled automatically unless turbine.instanceInsertPort=false.</p>
+</blockquote>
+</blockquote>
+<p>这个turbine和dashboard配合使用的：</p>
+<p><img src="http://blog.huguiqi.com/1527354179380hlt0wlxs.png?imageslim" alt="paste image"></p>
+<p>瞬定是会珍惜整个目录的。</p>
+<p>关于trubine的使用我没有可分享的，需要去实践。</p>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>springcloud-service<br>好困要睡觉了，晚安各位。。。。。。。</p>
+<p>以下是官方文档：</p>
+<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
+<p><a href="https://github.com/huguiqi/springcloud-sample" target="_blank" rel="noopener">github代码</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/hy/">hy</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/05/27/7天学会使用springcloud-五/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/27/7天学会使用springcloud-五/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/12/7天学会使用springcloud-四/" title="7天学会使用springcloud(四)" itemprop="url">7天学会使用springcloud(四)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-05-12T14:20:00.000Z" itemprop="datePublished"> 发表于 2018-05-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="7天学会使用springcloud-四"><a href="#7天学会使用springcloud-四" class="headerlink" title="7天学会使用springcloud(四)"></a>7天学会使用springcloud(四)</h1><h2 id="什么是熔断机制"><a href="#什么是熔断机制" class="headerlink" title="什么是熔断机制"></a>什么是熔断机制</h2><p>最近电脑翻墙出了点问题，无法到wiki上去看它的定义，只能上百度百科上去找这个定义了，这个名词其实引自股票行业：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>熔断机制（Circuit Breaker），也叫自动停盘机制，是指当股指波幅达到规定的熔断点时，交易所为控制风险采取的暂停交易措施。 [1]  具体来说是对某一合约在达到涨跌停板之前，设置一个熔断价格，使合约买卖报价在一段时间内只能在这一价格范围内交易的机制。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>引入到软件架构中，就是当某个应用服务达到一个风险值的时候(内存，cpu等)，使此应用暂停服务，以免影响整个服务的正常运行。</p>
+<h2 id="springcloud的熔断机制"><a href="#springcloud的熔断机制" class="headerlink" title="springcloud的熔断机制"></a>springcloud的熔断机制</h2><p>在微服务架构中，根据业务来拆分成一个个的服务，服务与服务之间可以相互调用（RPC），在Spring Cloud可以用RestTemplate+Ribbon和Feign来调用。为了保证其高可用，单个服务通常会集群部署。由于网络原因或者自身的原因，服务并不能保证100%可用，如果单个服务出现问题，调用这个服务就会出现线程阻塞，此时若有大量的请求涌入，Servlet容器的线程资源会被消耗完毕，导致服务瘫痪。服务与服务之间的依赖性，故障会传播，会对整个微服务系统造成灾难性的严重后果，这就是服务故障的“雪崩”效应。</p>
+<p>为了解决这个问题，业界提出了断路器模型。</p>
+<h2 id="springcloud熔断机制有几种方式"><a href="#springcloud熔断机制有几种方式" class="headerlink" title="springcloud熔断机制有几种方式"></a>springcloud熔断机制有几种方式</h2><h3 id="路由熔断"><a href="#路由熔断" class="headerlink" title="路由熔断"></a>路由熔断</h3><p>zull除了做网关，还可以做路由熔断。</p>
+<p>当我们的后端服务出现异常的时候，我们不希望将异常抛出给最外层，期望服务可以自动进行一降级。Zuul给我们提供了这样的支持。当某个服务出现异常时，直接返回我们预设的信息。</p>
+<p>目前最新的zuul是通过filter的方式进行熔断的</p>
+<p>如果zuul引用的版本是：</p>
+<pre><code>&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+&lt;artifactId&gt;spring-cloud-netflix&lt;/artifactId&gt;
+&lt;version&gt;1.3.1.RELEASE&lt;/version&gt;
+</code></pre><p>我们通过自定义的fallback方法，并且将其指定给某个route来实现该route访问出问题的熔断处理。主要继承ZuulFallbackProvider接口来实现，ZuulFallbackProvider默认有两个方法，一个用来指明熔断拦截哪个服务，一个定制返回内容</p>
+<pre><code>public interface ZuulFallbackProvider {
+   /**
+     * The route this fallback will be used for.
+     * @return The route the fallback will be used for.
+     */
+    public String getRoute();
+
+    /**
+     * Provides a fallback response.
+     * @return The fallback response.
+     */
+    public ClientHttpResponse fallbackResponse();
+}
+</code></pre><p>实现类通过实现getRoute方法，告诉Zuul它是负责哪个route定义的熔断。而fallbackResponse方法则是告诉 Zuul 断路出现时，它会提供一个什么返回值来处理请求。</p>
+<p>后来Spring又扩展了此类，丰富了返回方式，在返回的内容中添加了异常信息，因此最新版本建议直接继承类FallbackProvider 。</p>
+<p>我们以上面的eruake-service服务为例，定制它的熔断返回内容。</p>
+<pre><code>@Component
+public class ProducerFallback implements FallbackProvider {
+    private final Logger logger = LoggerFactory.getLogger(FallbackProvider.class);
+
+    //指定要处理的 service。
+    @Override
+    public String getRoute() {
+        return &quot;appclient&quot;;
+    }
+
+    public ClientHttpResponse fallbackResponse() {
+        return new ClientHttpResponse() {
+            @Override
+            public HttpStatus getStatusCode() throws IOException {
+                return HttpStatus.OK;
+            }
+
+            @Override
+            public int getRawStatusCode() throws IOException {
+                return 200;
+            }
+
+            @Override
+            public String getStatusText() throws IOException {
+                return &quot;OK&quot;;
+            }
+
+            @Override
+            public void close() {
+
+            }
+
+            @Override
+            public InputStream getBody() throws IOException {
+                return new ByteArrayInputStream(&quot;The service is unavailable.&quot;.getBytes());
+            }
+
+            @Override
+            public HttpHeaders getHeaders() {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                return headers;
+            }
+        };
+    }
+
+    @Override
+    public ClientHttpResponse fallbackResponse(Throwable cause) {
+        if (cause != null &amp;&amp; cause.getCause() != null) {
+            String reason = cause.getCause().getMessage();
+            logger.info(&quot;Excption {}&quot;,reason);
+        }
+        return fallbackResponse();
+    }
+}
+</code></pre><p>当服务出现异常时，打印相关异常信息，并返回</p>
+<p>“The service is unavailable.”。</p>
+<p>手动关闭client1项目，多次访问地址：<a href="http://localhost:8888/applicent/hello?name=neo&amp;token=xx，会交替返回：" target="_blank" rel="noopener">http://localhost:8888/applicent/hello?name=neo&amp;token=xx，会交替返回：</a></p>
+<pre><code>hello neo，this is first messge
+The service is unavailable.
+...
+</code></pre><p>根据返回结果可以看出：eurake-client-2项目已经启用了熔断，返回:The service is unavailable.</p>
+<p>如果zuul引用的版本是：</p>
+<pre><code>&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+&lt;artifactId&gt;spring-cloud-starter-netflix&lt;/artifactId&gt;
+&lt;version&gt;2.0.0.M8&lt;/version&gt;
+</code></pre><p>那就用FallbackProvider代替ZuulFallbackProvider来实现。</p>
+<p>ps:<br>Zuul 目前只支持服务级别的熔断，不支持具体到某个URL进行熔断。</p>
+<h3 id="熔断器（CircuitBreaker）"><a href="#熔断器（CircuitBreaker）" class="headerlink" title="熔断器（CircuitBreaker）"></a>熔断器（CircuitBreaker）</h3><ul>
+<li>断路器原理</li>
+</ul>
+<p>断路器的原理很简单，如同电力过载保护器。它可以实现快速失败，如果它在一段时间内侦测到许多类似的错误，会强迫其以后的多个调用快速失败，不再访问远程服务器，从而防止应用程序不断地尝试执行可能会失败的操作，使得应用程序继续执行而不用等待修正错误，或者浪费CPU时间去等到长时间的超时产生。熔断器也可以使应用程序能够诊断错误是否已经修正，如果已经修正，应用程序会再次尝试调用操作。</p>
+<p>熔断器模式就像是那些容易导致错误的操作的一种代理。这种代理能够记录最近调用发生错误的次数，然后决定使用允许操作继续，或者立即返回错误。</p>
+<p>引入官方的调用图：</p>
+<p><img src="http://blog.huguiqi.com/1527348164587o75pzs9y.png?imageslim" alt="paste image"></p>
+<p>Martin Fowler官方对断路器的定义都在这里：</p>
+<p><a href="https://martinfowler.com/bliki/CircuitBreaker.html" target="_blank" rel="noopener">https://martinfowler.com/bliki/CircuitBreaker.html</a></p>
+<ul>
+<li>Hystrix</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>Netflix has created a library called Hystrix that implements the circuit breaker pattern. In a microservice architecture, it is common to have multiple layers of service calls</p>
+</blockquote>
+</blockquote>
+<p>hystrix是实现了martin fowler的断路器的一个框架，目前也是使用最广的。<br>Hystrix原理很好理解, 当Hystrix Command请求后端服务失败数量超过一定比例(默认50%), 断路器会切换到开路状态(Open). 这时所有请求会直接失败而不会发送到后端服务. 断路器保持在开路状态一段时间后(默认5秒), 自动切换到半开路状态(HALF-OPEN). 这时会判断下一次请求的返回情况, 如果请求成功, 断路器切回闭路状态(CLOSED), 否则重新切换到开路状态(OPEN). Hystrix的断路器就像我们家庭电路中的保险丝, 一旦后端服务不可用, 断路器会直接切断请求链, 避免发送大量无效请求影响系统吞吐量, 并且断路器有自我检测并恢复的能力.</p>
+<p>以上摘自springcloud文档中关于断路器中的原文：</p>
+<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
+<ol>
+<li>Fallback</li>
+</ol>
+<p>Fallback相当于是降级操作. 对于查询操作, 我们可以实现一个fallback方法, 当请求后端服务出现异常的时候, 可以使用fallback方法返回的值. fallback方法的返回值一般是设置的默认值或者来自缓存.</p>
+<ol>
+<li>资源隔离</li>
+</ol>
+<p>在Hystrix中, 主要通过线程池来实现资源隔离. 通常在使用的时候我们会根据调用的远程服务划分出多个线程池. 例如调用产品服务的Command放入A线程池, 调用账户服务的Command放入B线程池. 这样做的主要优点是运行环境被隔离开了. 这样就算调用服务的代码存在bug或者由于其他原因导致自己所在线程池被耗尽时, 不会对系统的其他服务造成影响. 但是带来的代价就是维护多个线程池会对系统带来额外的性能开销. 如果是对性能有严格要求而且确信自己调用服务的客户端代码不会出问题的话, 可以使用Hystrix的信号模式(Semaphores)来隔离资源.</p>
+<h2 id="熔断机制的应用场景"><a href="#熔断机制的应用场景" class="headerlink" title="熔断机制的应用场景"></a>熔断机制的应用场景</h2><p>依赖服务调用，依赖服务如果访问失败或者服务挂了，但又不想拖垮整个应用网络，则使用它。</p>
+<h2 id="熔断机制有什么优缺点"><a href="#熔断机制有什么优缺点" class="headerlink" title="熔断机制有什么优缺点"></a>熔断机制有什么优缺点</h2><ol>
+<li><p>解决大并发数据量情况下，某些调用链环节失败导致拖垮整个网络的情况发生</p>
+</li>
+<li><p>适合大型分布式应用场景，对外部依赖严重项目</p>
+</li>
+<li>提高了复杂系统之间排查线上问题的效率</li>
+<li>使用网关路由熔断只支持具体服务,并且只适合微服务。</li>
+<li>在Hystrix中可以支持到url，无服务限制，可以是任何服务地址。</li>
+</ol>
+<h2 id="springboot集成熔断"><a href="#springboot集成熔断" class="headerlink" title="springboot集成熔断"></a>springboot集成熔断</h2><ol>
+<li>zuul + zuulFilter</li>
+</ol>
+<p>上面已经实现</p>
+<ol>
+<li>fegin+Hystrix</li>
+</ol>
+<p>这个放到下篇文章里写吧。</p>
+<p>参考文章：</p>
+<p><a href="http://www.cnblogs.com/niechen/p/8513597.html" target="_blank" rel="noopener">http://www.cnblogs.com/niechen/p/8513597.html</a></p>
+<p><a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html" target="_blank" rel="noopener">feign官网地址</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/熔断机制/">熔断机制</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/05/12/7天学会使用springcloud-四/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/12/7天学会使用springcloud-四/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/02/7天学会使用springcloud-三/" title="7天学会使用springcloud(三)" itemprop="url">7天学会使用springcloud(三)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-05-02T06:02:00.000Z" itemprop="datePublished"> 发表于 2018-05-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="7天学会使用springcloud-三"><a href="#7天学会使用springcloud-三" class="headerlink" title="7天学会使用springcloud(三)"></a>7天学会使用springcloud(三)</h1><h2 id="组建通过zuul转发的方式来调用各app"><a href="#组建通过zuul转发的方式来调用各app" class="headerlink" title="组建通过zuul转发的方式来调用各app"></a>组建通过zuul转发的方式来调用各app</h2><p>上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！</p>
+<p>放心 ，这个坑spring cloud已经给你踩好了，就等你入了。</p>
+<p>用zuul这个组件就可以解决这个问题。<br>你只需要通过：</p>
+<pre><code>http://serviceip:port/appname/interfaceName
+</code></pre><p>这样访问就可以了。</p>
+<h2 id="zuul简介"><a href="#zuul简介" class="headerlink" title="zuul简介"></a>zuul简介</h2><p>在微服务架构中，需要几个基础的服务治理组件，包括服务注册与发现、服务消费、负载均衡、断路器、智能路由、配置管理等，由这几个基础组件相互协作，共同组建了一个简单的微服务系统。一个简单的微服务系统如下图：</p>
+<p><img src="http://blog.huguiqi.com/1525242853550g5f8bk6v.png?imageslim" alt="t1"></p>
+<p>ps：先抄着吧，这张图有些地方画得不对，后面有时间去画一个</p>
+<p>Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能。</p>
+<p>官方地址：<a href="https://docs.openstack.org/infra/zuul/" target="_blank" rel="noopener">https://docs.openstack.org/infra/zuul/</a></p>
+<p>项目地址：<a href="https://github.com/Netflix/zuul" target="_blank" rel="noopener">https://github.com/Netflix/zuul</a></p>
+<p>zuul有以下功能：</p>
+<ul>
+<li>Authentication 鉴权</li>
+<li>Insights</li>
+<li>Stress Testing 压力测试</li>
+<li>Canary Testing 金丝雀测试（首测）</li>
+<li>Dynamic Routing 动态路由</li>
+<li>Service Migration 服务迁移</li>
+<li>Load Shedding 分级卸载</li>
+<li>Security 密码安全</li>
+<li>Static Response handling</li>
+<li>Active/Active traffic management</li>
+</ul>
+<h2 id="集成zuul"><a href="#集成zuul" class="headerlink" title="集成zuul"></a>集成zuul</h2><p>在Spring Cloud微服务系统中，一种常见的负载均衡方式是，客户端的请求首先经过负载均衡（zuul、Ngnix），再到达服务网关（zuul集群），然后再到具体的服务。服务统一注册到高可用的服务注册中心集群，服务的所有的配置文件由配置服务管理（下一篇文章讲述），配置服务的配置文件放在git仓库，方便开发人员随时改配置。</p>
+<p>在service的pom.xml里新增：</p>
+<pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+&lt;/dependency&gt;
+</code></pre><h1 id="启用zuul"><a href="#启用zuul" class="headerlink" title="启用zuul"></a>启用zuul</h1><p>在入口类中加上’EnableZuulProxy’注解：</p>
+<pre><code>@SpringBootApplication
+@EnableZuulProxy
+@RestController
+public class AppServiceApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(AppServiceApplication.class, args);
+    }
+
+
+    @Bean
+    @LoadBalanced
+    RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @Autowired
+    HelloService helloService;
+
+
+    @RequestMapping(value = &quot;/hi&quot;)
+    public String hi(@RequestParam String name){
+        return helloService.hiService(name);
+    }
+}
+</code></pre><p>然后重启app-service,地址栏输入地址：</p>
+<pre><code>http://localhost:9000/appclient/hi?name=11111
+</code></pre><p>访问成功：</p>
+<p><img src="http://blog.huguiqi.com/1525242343091d5w2o8dj.png?imageslim" alt="paste image"></p>
+<p>多刷几次发现它的负载均衡也是有效的：</p>
+<p><img src="http://blog.huguiqi.com/152524240009109md1gy5.png?imageslim" alt="paste image"></p>
+<p>我们的robbin+zull的集成完成了。</p>
+<p>通过这种方式，我们可以无限的给各个app-client注册新的群组实例。</p>
+<p>如果有些外部调用的服务不是一个微服务，但是我也想通过service去转发调用他们，那怎么办？</p>
+<p>spring集成zuul的官方使用文档：</p>
+<pre><code>https://spring.io/guides/gs/routing-and-filtering/
+</code></pre><h2 id="zuul指定地址转发"><a href="#zuul指定地址转发" class="headerlink" title="zuul指定地址转发"></a>zuul指定地址转发</h2><p>在配置文件中加入：</p>
+<p>application.yml：</p>
+<pre><code>zuul:
+  sensitiveHeaders:
+  addHostHeader: true
+  ignored-services: &apos;protected-*&apos;
+  routes:
+    otaapp:
+      stripPrefix: true
+      path: /thirdService/**
+      url: http://192.168.1.200:8080
+  host:
+    maxTotalConnections: 5000
+    maxPerRouteConnections: 500
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+  semaphore:
+    maxSemaphores: 2000
+</code></pre><p>那如果要经过网关层访问thirdService时，则只要输入：</p>
+<pre><code>http://{app-service的ip}:port/thirdService/接口名
+</code></pre><p>就可以完成转发    </p>
+<h2 id="安全验证"><a href="#安全验证" class="headerlink" title="安全验证"></a>安全验证</h2><p>zuul不仅只是路由，并且还能过滤，做一些安全验证。继续改造工程；</p>
+<pre><code>@Component
+public class MyFilter extends ZuulFilter{
+
+    private static Logger log = LoggerFactory.getLogger(MyFilter.class);
+    @Override
+    public String filterType() {
+        return &quot;pre&quot;;
+    }
+
+    @Override
+    public int filterOrder() {
+        return 0;
+    }
+
+    @Override
+    public boolean shouldFilter() {
+        return true;
+    }
+
+    @Override
+    public Object run() {
+        RequestContext ctx = RequestContext.getCurrentContext();
+        HttpServletRequest request = ctx.getRequest();
+        log.info(String.format(&quot;%s &gt;&gt;&gt; %s&quot;, request.getMethod(), request.getRequestURL().toString()));
+        Object accessToken = request.getParameter(&quot;token&quot;);
+        if(accessToken == null) {
+            log.warn(&quot;token is empty&quot;);
+            ctx.setSendZuulResponse(false);
+            ctx.setResponseStatusCode(401);
+            try {
+                ctx.getResponse().getWriter().write(&quot;token is empty&quot;);
+            }catch (Exception e){}
+
+            return null;
+        }
+        log.info(&quot;ok&quot;);
+        return null;
+    }
+}
+</code></pre><p>filterType：返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下： </p>
+<ul>
+<li>pre：路由之前</li>
+<li>routing：路由之时</li>
+<li>post： 路由之后</li>
+<li>error：发送错误调用</li>
+<li>filterOrder：过滤的顺序</li>
+<li>shouldFilter：这里可以写逻辑判断，是否要过滤，本文true,永远过滤。</li>
+<li>run：过滤器的具体逻辑。可用很复杂，包括查sql，nosql去判断该请求到底有没有权限访问。</li>
+</ul>
+<h2 id="Static-Response-handling"><a href="#Static-Response-handling" class="headerlink" title="Static Response handling"></a>Static Response handling</h2><p>实现ZuulFallbackProvider这个接口，可以处理返回的值。</p>
+<p>ps: 这个ZuulFallbackProvider是’org.springframework.cloud.netflix.zuul’的1.3.1版本有的，目前在最新版本里已经没有这个filter了，看最新的官方例子，应该是用HttpOutboundSyncFilter替代了。</p>
+<h2 id="zuul-filter"><a href="#zuul-filter" class="headerlink" title="zuul filter"></a>zuul filter</h2><p>参考官方文档：<a href="https://github.com/Netflix/zuul/wiki/Filters" target="_blank" rel="noopener">https://github.com/Netflix/zuul/wiki/Filters</a></p>
+<h3 id="Sample-Filters"><a href="#Sample-Filters" class="headerlink" title="Sample Filters"></a>Sample Filters</h3><ul>
+<li><p>DebugRequest - look for a query param to add extra debug logging for a request</p>
+</li>
+<li><p>Healthcheck - simple static endpoint filter that returns 200, if everything is bootstrapped correctly</p>
+</li>
+<li><p>ZuulResponseFilter - add informational headers to provide extra details on routing, request execution, status and error cause</p>
+</li>
+<li><p>Core Filters<br>GZipResponseFilter - can be enabled to gzip outbound responses<br>SurgicalDebugFilter - can be enabled to route specific requests to different hosts for debugging</p>
+</li>
+</ul>
+<p>这些作用的filters在github上都有例子：</p>
+<pre><code>https://github.com/Netflix/zuul/tree/2.1/zuul-sample
 </code></pre>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/#more">Read More</a>
-          
        </p>
     </div>
     <footer class="article-footer clearfix">
@@ -129,13 +1481,13 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+  <a class="article-category-link" href="/categories/springboot/">springboot</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  <span></span> <a href="/tags/spring-cloud/">spring cloud</a>
   </div>
 
 </div>
@@ -146,650 +1498,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/改了svn地址后的Subversion “checksum mismatch” error by editing .svn_entries file error/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/新浪微薄分享功能实现方式/" title="新浪微薄分享功能实现方式" itemprop="url">新浪微薄分享功能实现方式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="新浪微薄分享功能实现方式"><a href="#新浪微薄分享功能实现方式" class="headerlink" title="新浪微薄分享功能实现方式"></a>新浪微薄分享功能实现方式</h1><div><br><br>－，加入以下代码，可实现简单的分享<br><br></div>
-
-<p>  \</p>
-<p><a href="http://shareto.com.cn/share.html" target="_blank" rel="noopener"><img src="http://s.shareto.com.cn/btn/lg-share-cn.gif" alt="分享道"></a>\</p>
-<p>\</p>
-<div><br><br>\<br><br></div>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/新浪微薄分享功能实现方式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/新浪微薄分享功能实现方式/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/数据类型和Json格式/" title="数据类型和Json格式" itemprop="url">数据类型和Json格式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="数据类型和Json格式"><a href="#数据类型和Json格式" class="headerlink" title="数据类型和Json格式"></a>数据类型和Json格式</h1><div style="HEIGHT: auto !important"><br><br>+————————————————————————–+<br>| <div style="POSITION: relative; HEIGHT: 100%; OVERFLOW: hidden">         |<br>|                                                                          |<br>| <div style="FONT-SIZE: 14px">                                            |<br>|                                                                          |<br>| <div>                                                                    |<br>|                                                                          |<br>| 数据类型和Json格式                                                       |<br>| ==================                                                       |<br>|                                                                          |<br>| <div>                                                                    |<br>|                                                                          |<br>| 1.                                                                       |<br>|                                                                          |<br>| </div>                                                                   |<br>|                                                                          |<br>| </div>                                                                   |<br>|                                                                          |<br>| <div>                                                                    |<br>|                                                                          |<br>| 前几天，我才知道有一种简化的数据交换格式，叫做<a href="http://www.yaml.org/" target="_blank" rel="noopener">yaml</a>。 |<br>|                                                                          |<br>|                                                                          |<br>| </div>                                                                   |<br>|                                                                          |<br>| </div>                                                                   |<br>|                                                                          |<br>| <div>                                                                    |<br>|                                                                          |<br>| 我翻了一遍它的<a href="http://www.yaml.org/spec/" target="_blank" rel="noopener">文档</a>，看懂的地方不多，但是有一句话令我茅塞顿开。 |<br>|                                                                          |<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/数据类型和Json格式/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/数据类型和Json格式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/数据类型和Json格式/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/VI命令行/" title="VI命令行" itemprop="url">VI命令行</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="VI命令行"><a href="#VI命令行" class="headerlink" title="VI命令行"></a>VI命令行</h1><div><br><br><span style="color: rgb(51, 51, 51);"><span style="font-family: arial;">shift +:</span></span><br><br></div>
-
-<div><br><br><span style="font-family: arial;"><span style="color: rgb(51, 51, 51);">g是到最后一行</span></span><br><br></div>
-
-<div><br><br><span style="font-family: arial, 'courier new', courier, 宋体, monospace;"><span style="color: rgb(51, 51, 51);">0是行首，\$是行尾</span></span><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/VI命令行/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/VI命令行/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/无标题笔记/" title="无标题笔记" itemprop="url">无标题笔记</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="无标题笔记"><a href="#无标题笔记" class="headerlink" title="无标题笔记"></a>无标题笔记</h1><p><a href="http://gatewayqa.jje.com:5555/gateway/hotels/room/queryRealDpa?hotelId=454&amp;dateCheckIn=2012-12-11&amp;dateCheckOut=2012-12-12&amp;roomCount=1&amp;hotelCode=1072&amp;planId=15381&amp;rateCode=JJWBAR&amp;cardType=&amp;numAdult=1&amp;arrivalLatestTime=18:00&amp;clientVersion=1.2.7&amp;clientAgent=iPhone&amp;market=test&amp;userId=7020620209742f6dd317e00b7f3a3789&amp;sign=3CD17BE9431E0A65F6A4368100659E14" target="_blank" rel="noopener">http://gatewayqa.jje.com:5555/gateway/hotels/room/queryRealDpa?hotelId=454&amp;dateCheckIn=2012-12-11&amp;dateCheckOut=2012-12-12&amp;roomCount=1&amp;hotelCode=1072&amp;planId=15381&amp;rateCode=JJWBAR&amp;cardType=&amp;numAdult=1&amp;arrivalLatestTime=18:00&amp;clientVersion=1.2.7&amp;clientAgent=iPhone&amp;market=test&amp;userId=7020620209742f6dd317e00b7f3a3789&amp;sign=3CD17BE9431E0A65F6A4368100659E14</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/无标题笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/无标题笔记/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/" title="日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？" itemprop="url">日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？"><a href="#日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？" class="headerlink" title="日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？"></a>日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</h1><p>多图慎入，从事设计（或感兴趣的朋友）可以参考借鉴。想要明白所谓“极简主义”的设计需要从多方面观察日本设计所坚持和追求的内涵。\<br>\<br>首先提到佐藤晃一的平面设计作品，他有着明显的民族风格。不但继承了日本文化，还将这种风格更近一步提炼了日本文化中追求的宁静、虚无、空灵的境界。\<br>\</p>
-<p><img src="http://pic4.zhimg.com/770364b79455183974af7355a816df57_b.jpg" alt=""></p>
-<p>\</p>
-<p><img src="http://pic3.zhimg.com/fbafd754151002abf882b7e66961a799_b.jpg" alt=""></p>
-<p>\<br>到底追求什么境界？又有什么内涵？\<br>\<br>我们一步步来了解。日本的工业设计极具现实主义精神，其理念是回归到了产品设计本身，从人的需求出发。\<br>\<br>细读日本设计界的大师著作，能很清晰的觉察到大师身上的「反思」精神，如原研哉提出的「ReDesign」观点，把每件产品已固化已形成的形态放到一边，从最初的起点去重新审视它，才能找到新的切入点，但同时他也强调设计不是「创造新产物」。不过，在现有基础之上重新定义改良往往比创造一件新事物还要难，因为当你面对牙刷时会想它「本该如此」或「全世界的牙刷都是如此」而放弃，当回归本质时才能看到新的一面。\<br>\<br>从几位日本工业设计师的作品，我们大致可以了解「回归本质」的意思：\<br>\<br>坪井浩尚\<br>是日本的新锐设计师，他最大的特点是常将缺点转化为优点，他总是用佛教的思维思考事物。\<br>\<br>坪井浩尚注意到由于杯内和杯外的温差缘故，水杯总会在桌面上留下难看的水痕，于是干脆设计一款樱花水痕杯，即使在桌面上留下水痕也是美美的。\</p>
-<p><img src="http://pic4.zhimg.com/ca79491248592f2d89136ef99b898dfc_b.jpg" alt=""></p>
-<p>\<br>深泽直人\<br>他的“无意识设计”包揽了几乎世界上所有著名的设计奖项，是日本现代最为知名的设计师，看重细节的他希望可以用细节感动用户。（用心在你看不出来的细节上，让你对物对生活的感动）\<br>\<br>这个很具有鲜明的例子，像一颗巨大的鹅卵石，有玻璃纤维制成，可以当做沙发，也可以当做咖啡桌。\</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/Export devices added in Apple's iOS Provision portal/" title="Export devices added in Apple&#39;s iOS Provision portal" itemprop="url">Export devices added in Apple&#39;s iOS Provision portal</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Export-devices-added-in-Apple’s-iOS-Provision-portal"><a href="#Export-devices-added-in-Apple’s-iOS-Provision-portal" class="headerlink" title="Export devices added in Apple’s iOS Provision portal"></a>Export devices added in Apple’s iOS Provision portal</h1><p>\</p>
-<div style="font-size: 16px"><br><br><div style="font-size:100%;"><br><br><div style="font-size:13px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;line-height:1.3em;color:rgb(34, 36, 38);background:rgb(255, 255, 255);"><br><br><div style="font-size:100%;text-align:left;"><br><br><div style="font-size:100%;box-sizing:content-box;background-color:rgb(255, 255, 255);"><br><br><div style="font-size:100%;"><br><br><div style="font-size:100%;"><br><br><div style="font-size:100%;"><br><br><div style="font-size:100%;"><br><br>+————————————————————————–+<br>| <div style="font-size:15px;word-wrap:break-word;line-height:1.3;">       |<br>|                                                                          |<br>| If you’re looking for an option that doesn’t require additional          |<br>| software, recordings, or fiddling with regular expressions, here’s a     |<br>| JavaScript snippet you can run in Chrome’s (or I’d assume, any other     |<br>| browser’s) JavaScript console to get a properly-formatted device list:   |<br>|                                                                          |<br>| <code>{style=&quot;max-height:600px;margin:0px;border:0px;font-size:13px;overfl |
-| ow:auto;width:auto;padding:5px;margin-bottom:1em;font-family:Consolas, M |
-| enlo, Monaco, &#39;Lucida Console&#39;, &#39;Liberation Mono&#39;, &#39;DejaVu Sans Mono&#39;, &#39; |
-| Bitstream Vera Sans Mono&#39;, &#39;Courier New&#39;, monospace, sans-serif;backgrou |
-&lt;!--more--&gt;
-| nd-color:rgb(238, 238, 238);display:block;color:rgb(57, 51, 24);word-wra |
-| p:normal;&quot;}                                                              |
-| var ids =[&quot;Device ID&quot;];var names =[&quot;Device Name&quot;];                       |
-| $(&quot;td[aria-describedby=grid-table_name]&quot;).each(function(){               |
-|     names.push($(this).html());});                                       |
-| $(&quot;td[aria-describedby=grid-table_deviceNumber]&quot;).each(function(){       |
-|     ids.push($(this).html());});var output =&quot;&quot;;for(var index =0; index &lt; |
-|  ids.length; index++){                                                   |
-|     output += ids[index]+&quot;\t&quot;+ names[index]+&quot;\n&quot;;}                       |
-| console.log(output);                                                     |
-|</code>                                                                      |<br>|                                                                          |<br>| The complete export will be logged to the console, at which point you    |<br>| can simply copy/paste it into an empty text document, which can then be  |<br>| re-imported back to Apple at any time.                                   |<br>|                                                                          |<br>| This works with Apple’s current developer site layout, as of April 2015. |<br>| Obviously it may break if they change stuff.                             |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+<br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p>\</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/Export devices added in Apple's iOS Provision portal/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Export devices added in Apple's iOS Provision portal/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/旧工程适配iOS6和iPhone5续之第三方静态库/" title="旧工程适配iOS6和iPhone5续之第三方静态库" itemprop="url">旧工程适配iOS6和iPhone5续之第三方静态库</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="旧工程适配iOS6和iPhone5续之第三方静态库"><a href="#旧工程适配iOS6和iPhone5续之第三方静态库" class="headerlink" title="旧工程适配iOS6和iPhone5续之第三方静态库"></a>旧工程适配iOS6和iPhone5续之第三方静态库</h1><div><br><br>旧工程适配iOS6和iPhone5续之第三方静态库<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>如果你的工程没有使用第三方的静态库或者framework，那么看完<a href="http://blog.cnrainbird.com/?p=1208" target="_blank" rel="noopener">旧工程适配iOS6和iPhone5的一些故事</a>基本上适配也就结束了，可是像笔者这样有的工程里用到第三方库了，打包的时候还会提示下面的问题:<br><br></div>
-
-<div><br><br>ld: file is universal (3 slices) but does not contain a(n) armv7s slice:<br>/Users/rainbird/Desktop/myapp/iFileManager/iFileManager/ZBarSDK/libzbar.a<br>for architecture armv7s<br><br></div>
-
-<div><br><br>clang: error: linker command failed with exit code 1 (use -v to see<br>invocation)<br><br></div>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/旧工程适配iOS6和iPhone5续之第三方静态库/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/旧工程适配iOS6和iPhone5续之第三方静态库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/旧工程适配iOS6和iPhone5续之第三方静态库/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/XCode下的iOS单元测试/" title="XCode下的iOS单元测试" itemprop="url">XCode下的iOS单元测试</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="XCode下的iOS单元测试"><a href="#XCode下的iOS单元测试" class="headerlink" title="XCode下的iOS单元测试"></a>XCode下的iOS单元测试</h1><div><br><br>如何在 XCode 4.2 下使用 OCUnit， GHUnit 和 OCMock 进行单元测试。<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br><strong>OCUnit</strong><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>在 XCode 下新建一个 OCUnitProject 工程，选中 Include Unit Tests 选择框，<br><br></div>
-
-<div><br><br>\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/XCode下的iOS单元测试/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/XCode下的iOS单元测试/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/XCode下的iOS单元测试/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/查找项目中是否有用IDFA/" title="查找项目中是否有用IDFA" itemprop="url">查找项目中是否有用IDFA</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="查找项目中是否有用IDFA"><a href="#查找项目中是否有用IDFA" class="headerlink" title="查找项目中是否有用IDFA"></a>查找项目中是否有用IDFA</h1><div><br><br>好难过，上传app时友盟又坑我。。。。。<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>—使用此命令可以查找项目中是否有用IDFA<br><br></div>
-
-<div><br><br>find . | grep -v .svn<br>| grep “\.a” | grep -v “\.app” | xargs grep advertisingIdentifier<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/查找项目中是否有用IDFA/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/查找项目中是否有用IDFA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/查找项目中是否有用IDFA/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/05/02/7天学会使用springcloud-三/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/02/7天学会使用springcloud-三/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1019,7 +1728,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1027,7 +1736,7 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -1035,19 +1744,19 @@ svn: Checksum mismatch for &apos;/Users/maymay/Sites/path/to/subversion/working/
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>

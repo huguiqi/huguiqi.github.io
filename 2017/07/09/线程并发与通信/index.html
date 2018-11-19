@@ -22,15 +22,15 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="线程并发与通信参考文章  多线程与cpu是单核还是多核无关，只是合理的利用cpu资源的一种方法 多线程更多与分布式系统的并发性一起被提及 线程间写入与访问共享资源问题，因共享资源存在不同步，产生线程安全问题 分布式系统共享资源多线程问题  线程并发问题• 多线程：指的是这个程序（一个进程）运行时产生了不止一个线程• 并行与并发：◦ 并行：多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1499649740468a09sykrv.png?imageslim">
-<meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1499741801797yxf28x97.png?imageslim">
-<meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1499741801797yxf28x97.png?imageslim">
-<meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1499915269361g7o97cu5.png?imageslim">
-<meta property="og:updated_time" content="2017-07-15T17:14:53.000Z">
+<meta property="og:image" content="http://blog.huguiqi.com/1499649740468a09sykrv.png?imageslim">
+<meta property="og:image" content="http://blog.huguiqi.com/1499741801797yxf28x97.png?imageslim">
+<meta property="og:image" content="http://blog.huguiqi.com/1499741801797yxf28x97.png?imageslim">
+<meta property="og:image" content="http://blog.huguiqi.com/1499915269361g7o97cu5.png?imageslim">
+<meta property="og:updated_time" content="2018-11-19T09:56:24.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程并发与通信">
 <meta name="twitter:description" content="线程并发与通信参考文章  多线程与cpu是单核还是多核无关，只是合理的利用cpu资源的一种方法 多线程更多与分布式系统的并发性一起被提及 线程间写入与访问共享资源问题，因共享资源存在不同步，产生线程安全问题 分布式系统共享资源多线程问题  线程并发问题• 多线程：指的是这个程序（一个进程）运行时产生了不止一个线程• 并行与并发：◦ 并行：多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时">
-<meta name="twitter:image" content="http://ojnkdvkci.bkt.clouddn.com/1499649740468a09sykrv.png?imageslim">
+<meta name="twitter:image" content="http://blog.huguiqi.com/1499649740468a09sykrv.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -203,7 +203,7 @@ public void run() {
         }
     }
 </code></pre><p>运行了几次，发现总有重复卖票的情况：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1499649740468a09sykrv.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1499649740468a09sykrv.png?imageslim" alt="paste image"></p>
 <p>这很明显是并发操作共享资源导致的问题。</p>
 <h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ol>
 <li>在操作共享源的代码块或方法加上synchronized关键字，虽然可以简单的解决，但是会很影响性能。</li>
@@ -458,7 +458,7 @@ public void testObjThread(){
 
 }
 </code></pre><p>结果如下：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1499741801797yxf28x97.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1499741801797yxf28x97.png?imageslim" alt="paste image"></p>
 <p>这个结果正是我要的执行顺序。</p>
 <h4 id="lock-condition组合"><a href="#lock-condition组合" class="headerlink" title="lock+condition组合"></a>lock+condition组合</h4><pre><code>class RunableObjLock1 implements Runnable{
 
@@ -530,7 +530,7 @@ public void testObjThreadForLock(){
 
 }
 </code></pre><p>结果如下：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1499741801797yxf28x97.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1499741801797yxf28x97.png?imageslim" alt="paste image"></p>
 <p>由于锁和condition都是用在FileStream对象上的，所以我把代码重构下：</p>
 <pre><code>class RunableObjLock1 implements Runnable{
 
@@ -616,7 +616,7 @@ public void writeFile(){
 <h3 id="volatile的作用"><a href="#volatile的作用" class="headerlink" title="volatile的作用"></a>volatile的作用</h3><p>使线程中成员变量对其它线程的值可见。<br>对于这句话的理解，需要介绍下java对象的存储模型原理。</p>
 <h3 id="java对象存储模型"><a href="#java对象存储模型" class="headerlink" title="java对象存储模型"></a>java对象存储模型</h3><p>java给每个线程运行时都提供了工作存储空间，且每个线程的工作空间都相互独立，对共享数据读写都是在本线程的工作空间进行的，所有的线程内的变量和对象都是对其它线程不可见的，包括外面传入的long和double类型的共享对象。<br>(在深入jvm虚拟机中提到，int等不大于32位的基本类型的操作都是原子操作，但对long和double不一定是原子操作，是因为它们有些数的位数已经大于32位了，所以不具原子性)</p>
 <p>如果给一个成员变量设置了volatile关键字，则线程在操作完成之后会将工作空间的修改对象（数据值）同步写回java主线程的存储器，也称主存储器。使其在其它线程中可见，其它线程在读取共享数据时，会先从主存储器更新数据，然后再进行操作，实现了数据的同步。</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1499915269361g7o97cu5.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1499915269361g7o97cu5.png?imageslim" alt="paste image"></p>
 <p>每个线程的对象都有一套这样的存储模型。</p>
 <p>主存储器与每个线程之间传送数据的方式(术语叫协调)，引申出来三个特性：</p>
 <ul>
@@ -938,7 +938,7 @@ public void writeFile(){
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -946,7 +946,7 @@ public void writeFile(){
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -954,19 +954,19 @@ public void writeFile(){
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>

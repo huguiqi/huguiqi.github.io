@@ -1,0 +1,1022 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>字符，字节和编码 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="字符，字节和编码字符，字节和编码级别：中级  摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。 掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。">
+<meta name="keywords" content="从印象笔记导入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符，字节和编码">
+<meta property="og:url" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="字符，字节和编码字符，字节和编码级别：中级  摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。 掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%A%20%7C%20[回页首](http://www.regexlab.com%20%7C%0A%7C%20/z%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%7C%20h/enc%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%20%20%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%7C%20%7C%20D%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A%20%7C%20oding.htm#main">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%E%20%7C%20![](%E5%AD%97%E7%AC%A6%E%20%7C%20![](%E5%AD%97%E7%AC%A6%E%20%7C%0A%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%0A%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/F98E6756-%20%7C%200%81.resources/5F634D19-%20%7C%200%81.resources/9680DB3A-%20%7C%0A%7C%20C9D1-438A-95FC-03E5227F8%20%7C%20ED84-4ED0-AB05-81360851D%20%7C%20A680-43E1-A2AE-B79651A6F%20%7C%0A%7C%20121.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%E%20%7C%20/%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20![](%E5%AD%97%E7%AC%A6%E%20%7C%0A%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%0A%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/5F634D19-%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%200%81.resources/5F634D19-%20%7C%0A%7C%20ED84-4ED0-AB05-81360851D%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20ED84-4ED0-AB05-81360851D%20%7C%0A%7C%20D36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%E%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20![](%E5%AD%97%E7%AC%A6%E%20%7C%0A%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%0A%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/5F634D19-%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%200%81.resources/5F634D19-%20%7C%0A%7C%20ED84-4ED0-AB05-81360851D%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20ED84-4ED0-AB05-81360851D%20%7C%0A%7C%20D36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%E%20%7C%20![](%E5%AD%97%E7%AC%A6%E%20%7C%20![](%E5%AD%97%E7%AC%A6%E%20%7C%0A%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%20F%BC%8C%E5%AD%97%E8%8A%8%20%7C%0A%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%202%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/1F9AE75D-%20%7C%200%81.resources/5F634D19-%20%7C%200%81.resources/560D07BC-%20%7C%0A%7C%201686-4B1D-85D1-C1EFC372A%20%7C%20ED84-4ED0-AB05-81360851D%20%7C%200E3B-4EE6-84D5-6697F6078%20%7C%0A%7C%20541.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%A%20%7C%20[回页首](http://www.regexlab.com%20%7C%0A%7C%20/z%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%7C%20h/enc%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%20%20%20%7C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%7C%20%7C%20D%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A%20%7C%20oding.htm#main">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta property="og:updated_time" content="2018-11-19T09:56:24.370Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="字符，字节和编码">
+<meta name="twitter:description" content="字符，字节和编码字符，字节和编码级别：中级  摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。 掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。">
+<meta name="twitter:image" content="http://www.huguiqi.com/2018/11/19/字符，字节和编码/%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A%20%7C%0A%7C%200%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/字符，字节和编码/" title="字符，字节和编码" itemprop="url">字符，字节和编码</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.369Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字符，字节和编码"><span class="toc-number">1.</span> <span class="toc-text">字符，字节和编码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#字符，字节和编码-1"><span class="toc-number">1.1.</span> <span class="toc-text">字符，字节和编码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#引言"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-编码问题的由来，相关概念的理解"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">1. 编码问题的由来，相关概念的理解</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-字符与编码的发展"><span class="toc-number">1.1.0.2.1.</span> <span class="toc-text">1.1 字符与编码的发展</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-字符，字节，字符串"><span class="toc-number">1.1.0.2.2.</span> <span class="toc-text">1.2 字符，字节，字符串</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3-字符集与编码"><span class="toc-number">1.1.0.2.3.</span> <span class="toc-text">1.3 字符集与编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-常用的编码简介"><span class="toc-number">1.1.0.2.4.</span> <span class="toc-text">1.4 常用的编码简介</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-number">1.2.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-字符与编码在程序中的实现"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">2. 字符与编码在程序中的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-程序中的字符与字节"><span class="toc-number">1.2.0.1.1.</span> <span class="toc-text">2.1 程序中的字符与字节</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-C-中相关实现方法"><span class="toc-number">1.2.0.1.2.</span> <span class="toc-text">2.2 C++ 中相关实现方法</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wchar-t-wsz-20-L“-x4E2D-x6587-x0031-x0032-x0033”"><span class="toc-number">1.3.</span> <span class="toc-text">   wchar_t wsz[20] = L“\x4E2D\x6587\x0031\x0032\x0033”;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mbstowcs-wsz-sz-20"><span class="toc-number">1.4.</span> <span class="toc-text">   mbstowcs(wsz, sz, 20);</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wchar-t-wsz-20-L“中文123”"><span class="toc-number">1.5.</span> <span class="toc-text">   wchar_t wsz[20] = L“中文123”;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-1"><span class="toc-number">1.6.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-3-Java-中相关实现方法"><span class="toc-number">1.6.0.0.1.</span> <span class="toc-text">2.3 Java 中相关实现方法</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System-out-println-string-length"><span class="toc-number">1.7.</span> <span class="toc-text">  System.out.println(string.length());</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后得到的-1-txt-和-2-txt-都是-7-个字节"><span class="toc-number">1.8.</span> <span class="toc-text">  /* 最后得到的 1.txt 和 2.txt 都是 7 个字节 */</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E-gt-javac-encoding-BIG5-Hello-java"><span class="toc-number">1.9.</span> <span class="toc-text">  E:\&gt;javac -encoding BIG5 Hello.java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-2"><span class="toc-number">1.10.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-几种误解，以及乱码产生的原因和解决办法"><span class="toc-number">1.10.0.1.</span> <span class="toc-text">3. 几种误解，以及乱码产生的原因和解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-容易产生的误解"><span class="toc-number">1.10.0.1.1.</span> <span class="toc-text">3.1 容易产生的误解</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-3"><span class="toc-number">1.11.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-非-UNICODE-程序在不同语言环境间移植时的乱码"><span class="toc-number">1.11.0.0.1.</span> <span class="toc-text">3.2 非 UNICODE 程序在不同语言环境间移植时的乱码</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-4"><span class="toc-number">1.12.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-网页提交字符串"><span class="toc-number">1.12.0.0.1.</span> <span class="toc-text">3.3 网页提交字符串</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-5"><span class="toc-number">1.13.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-4-从数据库读取字符串"><span class="toc-number">1.13.0.0.1.</span> <span class="toc-text">3.4 从数据库读取字符串</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-6"><span class="toc-number">1.14.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-5-电子邮件中的字符串"><span class="toc-number">1.14.0.0.1.</span> <span class="toc-text">3.5 电子邮件中的字符串</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sbG-qcrQuqO17cf4yee74bGjz9W7-b3wudzA7dbQ0MQNCg0KvPKzxqO6uqO17cnnsaPW0NDEDQoNCg"><span class="toc-number">1.15.</span> <span class="toc-text">   sbG+qcrQuqO17cf4yee74bGjz9W7+b3wudzA7dbQ0MQNCg0KvPKzxqO6uqO17cnnsaPW0NDEDQoNCg==</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Subject-GB2312-B-1tA"><span class="toc-number">1.16.</span> <span class="toc-text">   Subject: =?GB2312?B?1tA=?=</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Subject-GB2312-Q-D6-D0"><span class="toc-number">1.17.</span> <span class="toc-text">   Subject: =?GB2312?Q?=D6=D0?=</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Subject-ISO-8859-1-Q-D6-D0"><span class="toc-number">1.18.</span> <span class="toc-text">   Subject: =?ISO-8859-1?Q?=D6=D0?=</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-7"><span class="toc-number">1.19.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-几种错误理解的纠正"><span class="toc-number">1.19.0.1.</span> <span class="toc-text">4. 几种错误理解的纠正</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#误解：“ISO-8859-1-是国际编码？”"><span class="toc-number">1.19.0.1.1.</span> <span class="toc-text">误解：“ISO-8859-1 是国际编码？”</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#误解：“Java-中，怎样知道某个字符串的内码？”"><span class="toc-number">1.19.0.1.2.</span> <span class="toc-text">误解：“Java 中，怎样知道某个字符串的内码？”</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="字符，字节和编码"><a href="#字符，字节和编码" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h1><h2 id="字符，字节和编码-1"><a href="#字符，字节和编码-1" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h2><p>级别：中级</p>
+<blockquote>
+<p>摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。</p>
+<p>掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。</p>
+</blockquote>
+<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>“字符与编码”是一个被经常讨论的话题。即使这样，时常出现的乱码仍然困扰着大家。虽然我们有很多的办法可以用来消除乱<br>码，但我们并不一定理解这些办法的内在原理。而有的乱码产生的原因，实际上由于底层代码本身有问题所导致的。因此，不仅是初学者会对字符编码感到模糊，有<br>的底层开发人员同样对字符编码缺乏准确的理解。</p>
+<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
+<h4 id="1-编码问题的由来，相关概念的理解"><a href="#1-编码问题的由来，相关概念的理解" class="headerlink" title="1. 编码问题的由来，相关概念的理解"></a>1. 编码问题的由来，相关概念的理解</h4><h5 id="1-1-字符与编码的发展"><a href="#1-1-字符与编码的发展" class="headerlink" title="1.1 字符与编码的发展"></a>1.1 字符与编码的发展</h5><p>从计算机对多国语言的支持角度看，大致可以分为三个阶段：</p>
+<a id="more"></a>
+<hr>
+<p>  　       <strong>系统内码</strong>   <strong>说明</strong>                                                                                                                                                                                                                                                <strong>系统</strong></p>
+<p>  阶段一   ASCII          计算机刚开始只支持英语，其它语言不能够在计算机上存储和显示。                                                                                                                                                                                            英文 DOS</p>
+<p>  阶段二   ANSI编码\      为使计算机支持更多语言，通常使用 0x80~0xFF 范围的 2 个字节来表示 1 个字符。比如：汉字 ‘中’ 在中文操作系统中，使用 [0xD6,0xD0] 这两个字节存储。\                                                                                                      中文 DOS，中文 Windows 95/98，日文 Windows 95/98<br>            （本地化）    \<br>                           不同的国家和地区制定了不同的标准，由此产生了 GB2312, BIG5, JIS 等各自的编码标准。这些使用 2 个字节来代表一个字符的各种汉字延伸编码方式，称为 <strong>ANSI 编码</strong>。在简体中文系统下，ANSI 编码代表 GB2312 编码，在日文操作系统下，ANSI 编码代表 JIS 编码。\<br>                          \<br>                           不同 ANSI 编码之间互不兼容，当信息在国际间交流时，无法将属于两种语言的文字，存储在同一段 <strong>ANSI 编码</strong>的文本中。                                                                                                                                       </p>
+<p>  阶段三   UNICODE\       为了使国际间信息交流更加方便，国际组织制定了 <strong>UNICODE 字符集</strong>，为各种语言中的每一个字符设定了统一并且唯一的数字编号，以满足跨语言、跨平台进行文本转换、处理的要求。                                                                                   Windows NT/2000/XP，Linux，Java<br>            （国际化）                                                                                                                                                                                                                                                            </p>
+<hr>
+<p>字符串在内存中的存放方法：</p>
+<p>在 ASCII<br>阶段，<strong>单字节字符串</strong>使用一个字节存放一个字符（SBCS）。比如，”Bob123”<br>在内存中为：</p>
+<hr>
+<p>  42                                                                                                                                 6F                                                                                                                                 62                                                                                                                                 31                                                                                                                                 32                                                                                                                                 33                                                                                                                                 00<br>  <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt="">   <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt="">   <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt="">   <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt="">   <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt="">   <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt="">   <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""><br>  B                                                                                                                                  o                                                                                                                                  b                                                                                                                                  1                                                                                                                                  2                                                                                                                                  3                                                                                                                                  \0</p>
+<hr>
+<p>在使用 ANSI<br>编码支持多种语言阶段，每个字符使用一个字节或多个字节来表示（MBCS），因此，这种方式存放的字符也被称作<strong>多字节字符</strong>。比如，”中文123”<br>在中文 Windows 95<br>内存中为7个字节，每个汉字占2个字节，每个英文和数字字符占1个字节：</p>
+<p>D6</p>
+<p>D0</p>
+<p>CE</p>
+<p>C4</p>
+<p>31</p>
+<p>32</p>
+<p>33</p>
+<p>00</p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p>中</p>
+<p>文</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>\0</p>
+<p>在 UNICODE 被采用之后，计算机存放字符串时，改为存放每个字符在 UNICODE<br>字符集中的序号。目前计算机一般使用 2 个字节（16<br>位）来存放一个序号（DBCS），因此，这种方式存放的字符也被称作<strong>宽字节字符</strong>。比如，字符串<br>“中文123” 在 Windows 2000 下，内存中实际存放的是 5 个序号：</p>
+<p>2D</p>
+<p>4E</p>
+<p>87</p>
+<p>65</p>
+<p>31</p>
+<p>00</p>
+<p>32</p>
+<p>00</p>
+<p>33</p>
+<p>00</p>
+<p>00</p>
+<p>00</p>
+<pre><code>← 在 x86 CPU 中，低字节在前
+</code></pre><p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p><img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/5F634D19-ED84-4ED0-AB05-81360851DD36.gif" alt=""></p>
+<p>中</p>
+<p>文</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>\0</p>
+<p>　</p>
+<p>一共占 10 个字节。</p>
+<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| +———————————————————————– |<br>| —+                                                                     |<br>| | +————————————–+—————————— |<br>| – |                                                                     |<br>| | ——+                                                                |<br>|    |                                                                     |<br>| | | <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%A | [回页首](http://www.regexlab.com |
+| /z |                                                                     |
+| | h/enc |                                                                |
+|    |                                                                     |
+| | | D%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A | oding.htm#main" alt="">               |<br>|    |                                                                     |<br>| |       |                                                                |<br>|    |                                                                     |<br>| | | 0%81.resources/5EE0B8F3-BFC7-4D18-B6 |                               |<br>|    |                                                                     |<br>| |       |                                                                |<br>|    |                                                                     |<br>| | | A6-21AE03E6B733.gif)                 |                               |<br>|    |                                                                     |<br>| |       |                                                                |<br>|    |                                                                     |<br>| | +————————————–+—————————— |<br>| – |                                                                     |<br>| | ——+                                                                |<br>|    |                                                                     |<br>| +———————————————————————– |<br>| —+                                                                     |<br>+————————————————————————–+</p>
+<h5 id="1-2-字符，字节，字符串"><a href="#1-2-字符，字节，字符串" class="headerlink" title="1.2 字符，字节，字符串"></a>1.2 字符，字节，字符串</h5><p>理解编码的关键，是要把字符的概念和字节的概念理解准确。这两个概念容易混淆，我们在此做一下区分：</p>
+<hr>
+<p>  　         <strong>概念描述</strong>                                                                                                                                               <strong>举例</strong></p>
+<p>  字符       人们使用的记号，抽象意义上的一个符号。                                                                                                                     ‘1’, ‘中’, ‘a’, ‘\$’, ‘￥’, ……</p>
+<p>  字节       计算机中存储数据的单元，一个8位的二进制数，是一个很具体的存储空间。                                                                                        0x01, 0x45, 0xFA, ……</p>
+<p>  ANSI\      在内存中，如果“字符”是以 <strong>ANSI 编码</strong>形式存在的，一个字符可能使用一个字节或多个字节来表示，那么我们称这种字符串为 <strong>ANSI 字符串</strong>或者<strong>多字节字符串</strong>。   “中文123”\<br>   字符串                                                                                                                                                               <span>（占7字节）</span></p>
+<p>  UNICODE\   在内存中，如果“字符”是以在 UNICODE 中的序号存在的，那么我们称这种字符串为 <strong>UNICODE 字符串</strong>或者<strong>宽字节字符串</strong>。                                         L”中文123”\<br>   字符串                                                                                                                                                               <span>（占10字节）</span></p>
+<hr>
+<p>由于不同 ANSI<br>编码所规定的标准是不相同的，因此，对于一个给定的<strong>多字节字符串</strong>，我们必须知道它采用的是哪一种编码规则，才能够知道它包含了哪些“字符”。而对于<br><strong>UNICODE<br>字符串</strong>来说，不管在什么环境下，它所代表的“字符”内容总是不变的。</p>
+<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
+<h5 id="1-3-字符集与编码"><a href="#1-3-字符集与编码" class="headerlink" title="1.3 字符集与编码"></a>1.3 字符集与编码</h5><p>+————————–+————————–+————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%E | ![](%E5%AD%97%E7%AC%A6%E | ![](%E5%AD%97%E7%AC%A6%E |
+| F%BC%8C%E5%AD%97%E8%8A%8 | F%BC%8C%E5%AD%97%E8%8A%8 | F%BC%8C%E5%AD%97%E8%8A%8 |
+| 2%E5%92%8C%E7%BC%96%E7%A | 2%E5%92%8C%E7%BC%96%E7%A | 2%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/F98E6756- | 0%81.resources/5F634D19- | 0%81.resources/9680DB3A- |
+| C9D1-438A-95FC-03E5227F8 | ED84-4ED0-AB05-81360851D | A680-43E1-A2AE-B79651A6F |
+| 121.gif" alt="">                 | D36.gif)                 | C2D.gif)                 |<br>+————————–+————————–+————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%E | \                        | ![](%E5%AD%97%E7%AC%A6%E |
+| F%BC%8C%E5%AD%97%E8%8A%8 |                          | F%BC%8C%E5%AD%97%E8%8A%8 |
+| 2%E5%92%8C%E7%BC%96%E7%A |                          | 2%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/5F634D19- |                          | 0%81.resources/5F634D19- |
+| ED84-4ED0-AB05-81360851D |                          | ED84-4ED0-AB05-81360851D |
+| D36.gif" alt="">                 |                          | D36.gif)                 |<br>+————————–+————————–+————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%E |                          | ![](%E5%AD%97%E7%AC%A6%E |
+| F%BC%8C%E5%AD%97%E8%8A%8 |                          | F%BC%8C%E5%AD%97%E8%8A%8 |
+| 2%E5%92%8C%E7%BC%96%E7%A |                          | 2%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/5F634D19- |                          | 0%81.resources/5F634D19- |
+| ED84-4ED0-AB05-81360851D |                          | ED84-4ED0-AB05-81360851D |
+| D36.gif" alt="">                 |                          | D36.gif)                 |<br>+————————–+————————–+————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%E | ![](%E5%AD%97%E7%AC%A6%E | ![](%E5%AD%97%E7%AC%A6%E |
+| F%BC%8C%E5%AD%97%E8%8A%8 | F%BC%8C%E5%AD%97%E8%8A%8 | F%BC%8C%E5%AD%97%E8%8A%8 |
+| 2%E5%92%8C%E7%BC%96%E7%A | 2%E5%92%8C%E7%BC%96%E7%A | 2%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/1F9AE75D- | 0%81.resources/5F634D19- | 0%81.resources/560D07BC- |
+| 1686-4B1D-85D1-C1EFC372A | ED84-4ED0-AB05-81360851D | 0E3B-4EE6-84D5-6697F6078 |
+| 541.gif" alt="">                 | D36.gif)                 | AA6.gif)                 |<br>+————————–+————————–+————————–+</p>
+<p>各个国家和地区所制定的不同 ANSI<br>编码标准中，都只规定了各自语言所需的“字符”。比如：汉字标准（GB2312）中没有规定韩国语字符怎样存储。这些<br>ANSI 编码标准所规定的内容包含两层含义：</p>
+<ol>
+<li>使用哪些字符。也就是说哪些汉字，字母和符号会被收入标准中。所包含“字符”的集合就叫做“<strong>字符集</strong>”。</li>
+<li>规定每个“字符”分别用一个字节还是多个字节存储，用哪些字节来存储，这个规定就叫做“<strong>编码</strong>”。</li>
+</ol>
+<p>各个国家和地区在制定编码标准的时候，“字符的集合”和“编码”一般都是同时制定的。因此，平常我们所说的“字符集”，比如：GB2312,<br>GBK, JIS 等，除了有“字符的集合”这层含义外，同时也包含了“编码”的含义。</p>
+<p>“<strong>UNICODE 字符集</strong>”包含了各种语言中使用到的所有“字符”。用来给 UNICODE<br>字符集编码的标准有很多种，比如：UTF-8, UTF-7, UTF-16, UnicodeLittle,<br>UnicodeBig 等。</p>
+<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
+<h5 id="1-4-常用的编码简介"><a href="#1-4-常用的编码简介" class="headerlink" title="1.4 常用的编码简介"></a>1.4 常用的编码简介</h5><p>简单介绍一下常用的编码规则，为后边的章节做一个准备。在这里，我们根据编码规则的特点，把所有的编码分成三类：</p>
+<hr>
+<p>  <strong>分类</strong>         <strong>编码标准</strong>             <strong>说明</strong></p>
+<p>  单字节字符编码   ISO-8859-1               最简单的编码规则，每一个字节直接作为一个 UNICODE 字符。比如，[0xD6, 0xD0] 这两个字节，通过 iso-8859-1 转化为字符串时，将直接得到 [0x00D6, 0x00D0] 两个 UNICODE 字符，即 “ÖÐ”。\<br>                                            \<br>                                             反之，将 UNICODE 字符串通过 iso-8859-1 转化为字节串时，只能正常转化 0~255 范围的字符。</p>
+<p>  ANSI 编码        GB2312,\                 把 UNICODE 字符串通过 ANSI 编码转化为“字节串”时，根据各自编码的规定，一个 UNICODE 字符可能转化成一个字节或多个字节。\<br>                    BIG5,\                  \<br>                    Shift_JIS,\             反之，将字节串转化成字符串时，也可能多个字节转化成一个字符。比如，[0xD6, 0xD0] 这两个字节，通过 GB2312 转化为字符串时，将得到 [0x4E2D] 一个字符，即 ‘中’ 字。\<br>                    ISO-8859-2 ……           \<br>                                             “ANSI 编码”的特点：\</p>
+<pre><code>1. 这些“ANSI 编码标准”都只能处理各自语言范围之内的 UNICODE 字符。\
+2. “UNICODE 字符”与“转换出来的字节”之间的关系是人为规定的。
+</code></pre><p>  UNICODE 编码     UTF-8,\                  与“ANSI 编码”类似的，把字符串通过 UNICODE 编码转化成“字节串”时，一个 UNICODE 字符可能转化成一个字节或多个字节。\<br>                    UTF-16, UnicodeBig ……   \<br>                                             与“ANSI 编码”不同的是：\</p>
+<pre><code>1. 这些“UNICODE 编码”能够处理所有的 UNICODE 字符。\
+2. “UNICODE 字符”与“转换出来的字节”之间是可以通过计算得到的。
+</code></pre><hr>
+<p>我们实际上没有必要去深究每一种编码具体把某一个字符编码成了哪几个字节，我们只需要知道“编码”的概念就是把“字符”转<br>化成“字节”就可以了。对于“UNICODE<br>编码”，由于它们是可以通过计算得到的，因此，在特殊的场合，我们可以去了解某一种“UNICODE<br>编码”是怎样的规则。</p>
+<hr>
+<p>  <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt=""></p>
+<h2 id=""><a href="#" class="headerlink" title="  \"></a>  \</h2><h4 id="2-字符与编码在程序中的实现"><a href="#2-字符与编码在程序中的实现" class="headerlink" title="2. 字符与编码在程序中的实现"></a>2. 字符与编码在程序中的实现</h4><h5 id="2-1-程序中的字符与字节"><a href="#2-1-程序中的字符与字节" class="headerlink" title="2.1 程序中的字符与字节"></a>2.1 程序中的字符与字节</h5><p>在 C++ 和 Java<br>中，用来代表“字符”和“字节”的数据类型，以及进行编码的方法：</p>
+<hr>
+<p>  <strong>类型或操作</strong>   <strong>C++</strong>                             <strong>Java</strong><br>  字符             wchar_t                            char<br>  字节             char                                byte<br>  ANSI 字符串      char[]                            byte[]<br>  UNICODE 字符串   wchar_t[]                        String<br>  字节串→字符串    mbstowcs(), MultiByteToWideChar()   string = new String(bytes, “encoding”)<br>  字符串→字节串    wcstombs(), WideCharToMultiByte()   bytes = string.getBytes(“encoding”)</p>
+<hr>
+<p>以上需要注意几点：</p>
+<ol>
+<li>Java 中的 char 代表一个“UNICODE 字符（宽字节字符）”，而 C++ 中的<br>char 代表一个字节。</li>
+<li>MultiByteToWideChar() 和 WideCharToMultiByte() 是 Windows API 函数。</li>
+</ol>
+<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
+| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| +———————————————————————– |<br>| —+                                                                     |<br>| | +————————————–+—————————— |<br>| – |                                                                     |<br>| | ——+                                                                |<br>|    |                                                                     |<br>| | | <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%A | [回页首](http://www.regexlab.com |
+| /z |                                                                     |
+| | h/enc |                                                                |
+|    |                                                                     |
+| | | D%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A | oding.htm#main" alt="">               |<br>|    |                                                                     |<br>| |       |                                                                |<br>|    |                                                                     |<br>| | | 0%81.resources/5EE0B8F3-BFC7-4D18-B6 |                               |<br>|    |                                                                     |<br>| |       |                                                                |<br>|    |                                                                     |<br>| | | A6-21AE03E6B733.gif)                 |                               |<br>|    |                                                                     |<br>| |       |                                                                |<br>|    |                                                                     |<br>| | +————————————–+—————————— |<br>| – |                                                                     |<br>| | ——+                                                                |<br>|    |                                                                     |<br>| +———————————————————————– |<br>| —+                                                                     |<br>+————————————————————————–+</p>
+<h5 id="2-2-C-中相关实现方法"><a href="#2-2-C-中相关实现方法" class="headerlink" title="2.2 C++ 中相关实现方法"></a>2.2 C++ 中相关实现方法</h5><p>声明一段字符串常量：</p>
+<hr>
+<p>  <span>// ANSI 字符串，内容长度 7 字节</span><span>\<br>   char</span>         sz[<span>20</span>] = <span>“中文123”</span>;\<br>  \<br>  <span>// UNICODE 字符串，内容长度 5 个 wchar_t（10 字节）</span>\</p>
+<h2 id="wchar-t-wsz-20-L“-x4E2D-x6587-x0031-x0032-x0033”"><a href="#wchar-t-wsz-20-L“-x4E2D-x6587-x0031-x0032-x0033”" class="headerlink" title="   wchar_t wsz[20] = L“\x4E2D\x6587\x0031\x0032\x0033”;"></a>   wchar_t wsz[<span>20</span>] = L<span>“\x4E2D\x6587\x0031\x0032\x0033”</span>;</h2><p>UNICODE 字符串的 I/O 操作，字符与字节的转换操作：</p>
+<hr>
+<p>  <span>// 运行时设定当前 ANSI 编码，VC 格式\<br>  </span> setlocale(LC_ALL, <span>“.936”</span>);\<br>  \<br>  <span>// GCC 中格式</span>\<br>   setlocale(LC_ALL, <span>“zh_CN.GBK”</span>);\<br>  \<br>  <span>// Visual C++ 中使用小写 %s，按照 setlocale 指定编码输出到文件\<br>   // GCC 中使用大写 %S</span>\<br>   fwprintf(fp, L<span>“%s\n”</span>, wsz);\<br>  \<br>  <span>// 把 UNICODE 字符串按照 setlocale 指定的编码转换成字节</span>\<br>   wcstombs(sz, wsz, <span>20</span>);<span>\<br>   // 把字节串按照 setlocale 指定的编码转换成 UNICODE 字符串\</span></p>
+<h2 id="mbstowcs-wsz-sz-20"><a href="#mbstowcs-wsz-sz-20" class="headerlink" title="   mbstowcs(wsz, sz, 20);"></a>   mbstowcs(wsz, sz, <span>20</span>);</h2><p>在 Visual C++ 中，UNICODE<br>字符串常量有更简单的表示方法。如果源程序的编码与当前默认 ANSI<br>编码不符，则需要使用 #pragma setlocale，告诉编译器源程序使用的编码：</p>
+<hr>
+<p>  <span>// 如果源程序的编码与当前默认 ANSI 编码不一致，\<br>   // 则需要此行，编译时用来指明当前源程序使用的编码</span><span>\<br>   #pragma setlocale</span>(<span>“.936”</span>)\<br>  \<br>  <span>// UNICODE 字符串常量，内容长度 10 字节</span>\</p>
+<h2 id="wchar-t-wsz-20-L“中文123”"><a href="#wchar-t-wsz-20-L“中文123”" class="headerlink" title="   wchar_t wsz[20] = L“中文123”;"></a>   wchar_t wsz[<span>20</span>] = L<span>“中文123”</span>;</h2><p>以上需要注意 #pragma setlocale 与 setlocale(LC_ALL, “”)<br>的作用是不同的，#pragma setlocale 在编译时起作用，setlocale()<br>在运行时起作用。</p>
+<hr>
+<p>  <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt=""></p>
+<h2 id="-1"><a href="#-1" class="headerlink" title="  \"></a>  \</h2><h5 id="2-3-Java-中相关实现方法"><a href="#2-3-Java-中相关实现方法" class="headerlink" title="2.3 Java 中相关实现方法"></a>2.3 Java 中相关实现方法</h5><p>字符串类 String 中的内容是 UNICODE 字符串：</p>
+<hr>
+<p>  <span>// Java 代码，直接写中文</span><span>\<br>   String</span> string = <span>“中文123”</span>;\<br>  \<br>  <span>// 得到长度为 5，因为是 5 个字符</span>\</p>
+<h2 id="System-out-println-string-length"><a href="#System-out-println-string-length" class="headerlink" title="  System.out.println(string.length());"></a>  <span>System</span>.out.println(string.length());</h2><p>字符串 I/O 操作，字符与字节转换操作。在 Java 包 java.io.*<br>中，以“Stream”结尾的类一般是用来操作“字节串”的类，以“Reader”，“Writer”结尾的类一般是用来操作“字符串”的类。</p>
+<hr>
+<p>  <span>// 字符串与字节串间相互转化\<br>  \<br>   // 按照 GB2312 得到字节（得到多字节字符串）</span><span>\<br>   byte</span> [] bytes = string.getBytes(<span>“GB2312”</span>);\<br>  \<br>  <span>// 从字节按照 GB2312 得到 UNICODE 字符串</span>\<br>   string = <span>new</span> <span>String</span>(bytes, <span>“GB2312”</span>);\<br>  \<br>  <span>// 要将 String 按照某种编码写入文本文件，有两种方法：\<br>  \<br>   // 第一种办法：用 Stream 类写入已经按照指定编码转化好的字节串</span>\<br>   OutputStream os = <span>new</span> FileOutputStream(<span>“1.txt”</span>);\<br>   os.write(bytes);\<br>   os.close();\<br>  \<br>  <span>// 第二种办法：构造指定编码的 Writer 来写入字符串</span>\<br>   Writer ow = <span>new</span> OutputStreamWriter(<span>new</span> FileOutputStream(<span>“2.txt”</span>), <span>“GB2312”</span>);\<br>   ow.write(string);\<br>   ow.close();\<br>  \</p>
+<h2 id="最后得到的-1-txt-和-2-txt-都是-7-个字节"><a href="#最后得到的-1-txt-和-2-txt-都是-7-个字节" class="headerlink" title="  /* 最后得到的 1.txt 和 2.txt 都是 7 个字节 */"></a>  <span>/* 最后得到的 1.txt 和 2.txt 都是 7 个字节 */</span></h2><p>如果 java 的源程序编码与当前默认 ANSI<br>编码不符，则在编译的时候，需要指明一下源程序的编码。比如：</p>
+<hr>
+<h2 id="E-gt-javac-encoding-BIG5-Hello-java"><a href="#E-gt-javac-encoding-BIG5-Hello-java" class="headerlink" title="  E:\&gt;javac -encoding BIG5 Hello.java"></a>  E:\&gt;javac -encoding BIG5 Hello.java</h2><p>以上需要注意区分源程序的编码与 I/O<br>操作的编码，前者是在编译时起作用，后者是在运行时起作用。</p>
+<hr>
+<p>  <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt=""></p>
+<h2 id="-2"><a href="#-2" class="headerlink" title="  \"></a>  \</h2><h4 id="3-几种误解，以及乱码产生的原因和解决办法"><a href="#3-几种误解，以及乱码产生的原因和解决办法" class="headerlink" title="3. 几种误解，以及乱码产生的原因和解决办法"></a>3. 几种误解，以及乱码产生的原因和解决办法</h4><h5 id="3-1-容易产生的误解"><a href="#3-1-容易产生的误解" class="headerlink" title="3.1 容易产生的误解"></a>3.1 容易产生的误解</h5><hr>
+<p>  　       <strong>对编码的误解</strong></p>
+<p>  误解一   在将“字节串”转化成“UNICODE 字符串”时，比如在读取文本文件时，或者通过网络传输文本时，容易将“字节串”简单地作为<strong>单字节字符串</strong>，采用每“一个字节”就是“一个字符”的方法进行转化。\<br>           \<br>            而实际上，在非英文的环境中，应该将“字节串”作为 ANSI 字符串，采用适当的编码来得到 UNICODE 字符串，有可能“多个字节”才能得到“一个字符”。\<br>           \<br>            通常，一直在英文环境下做开发的程序员们，容易有这种误解。</p>
+<p>  误解二   在 DOS，Windows 98 等非 UNICODE 环境下，字符串都是以 ANSI 编码的字节形式存在的。这种以字节形式存在的字符串，必须知道是哪种编码才能被正确地使用。这使我们形成了一个惯性思维：“字符串的编码”。\<br>           \<br>            当 UNICODE 被支持后，Java 中的 String 是以字符的“序号”来存储的，不是以“某种编码的字节”来存储的，因此已经不存在“字符串的编码”这个概念了。只有在“字符串”与“字节串”转化时，或 者，将一个“字节串”当成一个 ANSI 字符串时，才有编码的概念。\<br>           \<br>            不少的人都有这个误解。</p>
+<hr>
+<p>第一种误解，往往是导致乱码产生的原因。第二种误解，往往导致本来容易纠正的乱码问题变得更复杂。</p>
+<p>在这里，我们可以看到，其中所讲的“误解一”，即采用每“一个字节”就是“一个字符”的转化方法，实际上也就等同于采用<br>iso-8859-1 进行转化。因此，我们常常使用 bytes =<br>string.getBytes(“iso-8859-1”)<br>来进行逆向操作，得到原始的“字节串”。然后再使用正确的 ANSI 编码，比如<br>string = new String(bytes, “GB2312”)，来得到正确的“UNICODE 字符串”。</p>
+<hr>
+<p>  <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt=""></p>
+<h2 id="-3"><a href="#-3" class="headerlink" title="  \"></a>  \</h2><h5 id="3-2-非-UNICODE-程序在不同语言环境间移植时的乱码"><a href="#3-2-非-UNICODE-程序在不同语言环境间移植时的乱码" class="headerlink" title="3.2 非 UNICODE 程序在不同语言环境间移植时的乱码"></a>3.2 非 UNICODE 程序在不同语言环境间移植时的乱码</h5><p>非 UNICODE 程序中的字符串，都是以某种 ANSI<br>编码形式存在的。如果程序运行时的语言环境与开发时的语言环境不同，将会导致<br>ANSI 字符串的显示失败。</p>
+<p>比如，在日文环境下开发的非 UNICODE<br>的日文程序界面，拿到中文环境下运行时，界面上将显示乱码。如果这个日文程序界面改为采用<br>UNICODE<br>来记录字符串，那么当在中文环境下运行时，界面上将可以显示正常的日文。</p>
+<p>由于客观原因，有时候我们必须在中文操作系统下运行非 UNICODE<br>的日文软件，这时我们可以采用一些工具，比如，南极星，AppLocale<br>等，暂时的模拟不同的语言环境。</p>
+<hr>
+<p>  <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt=""></p>
+<h2 id="-4"><a href="#-4" class="headerlink" title="  \"></a>  \</h2><h5 id="3-3-网页提交字符串"><a href="#3-3-网页提交字符串" class="headerlink" title="3.3 网页提交字符串"></a>3.3 网页提交字符串</h5><p>当页面中的表单提交字符串时，首先把字符串按照当前页面的编码，转化成字节串。然后再将每个字节转化成<br>“%XX” 的格式提交到 Web 服务器。比如，一个编码为 GB2312 的页面，提交 “中”<br>这个字符串时，提交给服务器的内容为 “%D6%D0”。</p>
+<p>在服务器端，Web 服务器把收到的 “%D6%D0” 转化成 [0xD6, 0xD0]<br>两个字节，然后再根据 GB2312 编码规则得到 “中” 字。</p>
+<p>在 Tomcat 服务器中，request.getParameter()<br>得到乱码时，常常是因为前面提到的“误解一”造成的。默认情况下，当提交<br>“%D6%D0” 给 Tomcat 服务器时，request.getParameter() 将返回 [0x00D6,<br>0x00D0] 两个 UNICODE 字符，而不是返回一个 “中” 字符。因此，我们需要使用<br>bytes = string.getBytes(“iso-8859-1”) 得到原始的字节串，再用 string =<br>new String(bytes, “GB2312”) 重新得到正确的字符串 “中”。</p>
+<hr>
+<p>  <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt=""></p>
+<h2 id="-5"><a href="#-5" class="headerlink" title="  \"></a>  \</h2><h5 id="3-4-从数据库读取字符串"><a href="#3-4-从数据库读取字符串" class="headerlink" title="3.4 从数据库读取字符串"></a>3.4 从数据库读取字符串</h5><p>通过数据库客户端（比如 ODBC 或<br>JDBC）从数据库服务器中读取字符串时，客户端需要从服务器获知所使用的 ANSI<br>编码。当数据库服务器发送字节流给客户端时，客户端负责将字节流按照正确的编码转化成<br>UNICODE 字符串。</p>
+<p>如果从数据库读取字符串时得到乱码，而数据库中存放的数据又是正确的，那么往往还是因为前面提到的“误解一”造成的。解决<br>的办法还是通过 string = new String( string.getBytes(“iso-8859-1”),<br>“GB2312”)<br>的方法，重新得到原始的字节串，再重新使用正确的编码转化成字符串。</p>
+<hr>
+<p>  <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt=""></p>
+<h2 id="-6"><a href="#-6" class="headerlink" title="  \"></a>  \</h2><h5 id="3-5-电子邮件中的字符串"><a href="#3-5-电子邮件中的字符串" class="headerlink" title="3.5 电子邮件中的字符串"></a>3.5 电子邮件中的字符串</h5><p>当一段 Text 或者 HTML<br>通过电子邮件传送时，发送的内容首先通过一种指定的<strong>字符编码</strong>转化成“字节串”，然后再把“字节串”通过一种指定的<strong>传输编码</strong>（Content-Transfer-Encoding）进行转化得到另一串“字节串”。比如，打开一封电子邮件源代码，可以看到类似的内容：</p>
+<hr>
+<p>  Content-Type: text/plain;\<br>                 charset=”gb2312”\<br>  Content-Transfer-Encoding: base64\<br>  \</p>
+<h2 id="sbG-qcrQuqO17cf4yee74bGjz9W7-b3wudzA7dbQ0MQNCg0KvPKzxqO6uqO17cnnsaPW0NDEDQoNCg"><a href="#sbG-qcrQuqO17cf4yee74bGjz9W7-b3wudzA7dbQ0MQNCg0KvPKzxqO6uqO17cnnsaPW0NDEDQoNCg" class="headerlink" title="   sbG+qcrQuqO17cf4yee74bGjz9W7+b3wudzA7dbQ0MQNCg0KvPKzxqO6uqO17cnnsaPW0NDEDQoNCg=="></a>   sbG+qcrQuqO17cf4yee74bGjz9W7+b3wudzA7dbQ0MQNCg0KvPKzxqO6uqO17cnnsaPW0NDEDQoNCg==</h2><p>最常用的 Content-Transfer-Encoding 有 Base64 和 Quoted-Printable<br>两种。在对二进制文件或者中文文本进行转化时，Base64 得到的“字节串”比<br>Quoted-Printable 更短。在对英文文本进行转化时，Quoted-Printable<br>得到的“字节串”比 Base64 更短。</p>
+<p>邮件的标题，用了一种更简短的格式来标注“字符编码”和“传输编码”。比如，标题内容为<br>“中”，则在邮件源代码中表示为：</p>
+<hr>
+<p>  <span>// 正确的标题格式</span>\</p>
+<h2 id="Subject-GB2312-B-1tA"><a href="#Subject-GB2312-B-1tA" class="headerlink" title="   Subject: =?GB2312?B?1tA=?="></a>   Subject: <span style="background-color: #FFFF00">=?</span>GB2312<span style="background-color: #FFFF00">?B?</span>1tA=<span style="background-color: #FFFF00">?=</span></h2><p>其中，</p>
+<ul>
+<li>第一个“=?”与“?”中间的部分指定了字符编码，在这个例子中指定的是<br>GB2312。</li>
+<li>“?”与“?”中间的“B”代表 Base64。如果是“Q”则代表 Quoted-Printable。</li>
+<li>最后“?”与“?=”之间的部分，就是经过 GB2312 转化成字节串，再经过 Base64<br>转化后的标题内容。</li>
+</ul>
+<p>如果“传输编码”改为 Quoted-Printable，同样，如果标题内容为 “中”：</p>
+<hr>
+<p>  <span>// 正确的标题格式</span>\</p>
+<h2 id="Subject-GB2312-Q-D6-D0"><a href="#Subject-GB2312-Q-D6-D0" class="headerlink" title="   Subject: =?GB2312?Q?=D6=D0?="></a>   Subject: <span style="background-color: #FFFF00">=?</span>GB2312<span style="background-color: #FFFF00">?Q?</span>=D6=D0<span style="background-color: #FFFF00">?=</span></h2><p>如果阅读邮件时出现乱码，一般是因为“字符编码”或“传输编码”指定有误，或者是没有指定。比如，有的发邮件组件在发送邮件时，标题<br>“中”：</p>
+<hr>
+<p>  <span>// 错误的标题格式</span>\</p>
+<h2 id="Subject-ISO-8859-1-Q-D6-D0"><a href="#Subject-ISO-8859-1-Q-D6-D0" class="headerlink" title="   Subject: =?ISO-8859-1?Q?=D6=D0?="></a>   Subject: <span style="background-color: #FFFF00">=?</span>ISO-8859-1<span style="background-color: #FFFF00">?Q?</span>=D6=D0<span style="background-color: #FFFF00">?=</span></h2><p>这样的表示，实际上是明确指明了标题为 [0x00D6, 0x00D0]，即 “ÖÐ”，而不是<br>“中”。</p>
+<hr>
+<p>  <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt=""></p>
+<h2 id="-7"><a href="#-7" class="headerlink" title="  \"></a>  \</h2><h4 id="4-几种错误理解的纠正"><a href="#4-几种错误理解的纠正" class="headerlink" title="4. 几种错误理解的纠正"></a>4. 几种错误理解的纠正</h4><h5 id="误解：“ISO-8859-1-是国际编码？”"><a href="#误解：“ISO-8859-1-是国际编码？”" class="headerlink" title="误解：“ISO-8859-1 是国际编码？”"></a>误解：“ISO-8859-1 是国际编码？”</h5><p>非也。iso-8859-1<br>只是单字节字符集中最简单的一种，也就是“字节编号”与“UNICODE<br>字符编号”一致的那种编码规则。当我们要把一个“字节串”转化成“字符串”，而又不知道它是哪一种<br>ANSI<br>编码时，先暂时地把“每一个字节”作为“一个字符”进行转化，不会造成信息丢失。然后再使用<br>bytes = string.getBytes(“iso-8859-1”) 的方法可恢复到原始的字节串。</p>
+<h5 id="误解：“Java-中，怎样知道某个字符串的内码？”"><a href="#误解：“Java-中，怎样知道某个字符串的内码？”" class="headerlink" title="误解：“Java 中，怎样知道某个字符串的内码？”"></a>误解：“Java 中，怎样知道某个字符串的内码？”</h5><p>Java 中，字符串类 java.lang.String 处理的是 UNICODE 字符串，不是 ANSI<br>字符串。我们只需要把字符串作为“抽象的符号的串”来看待。因此不存在字符串的内码的问题。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.huguiqi.com/2018/11/19/字符，字节和编码/" data-title="字符，字节和编码 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/11/19/阿里云遇到的问题/" title="阿里云遇到的问题">
+  <strong>上一篇：</strong><br/>
+  <span>
+  阿里云遇到的问题</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/11/19/删除文件夹后点commit提交，但是报错/"  title="删除文件夹后点commit提交，但是报错">
+ <strong>下一篇：</strong><br/> 
+ <span>删除文件夹后点commit提交，但是报错
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/11/19/字符，字节和编码/" data-title="字符，字节和编码" data-url="http://www.huguiqi.com/2018/11/19/字符，字节和编码/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字符，字节和编码"><span class="toc-number">1.</span> <span class="toc-text">字符，字节和编码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#字符，字节和编码-1"><span class="toc-number">1.1.</span> <span class="toc-text">字符，字节和编码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#引言"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-编码问题的由来，相关概念的理解"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">1. 编码问题的由来，相关概念的理解</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-字符与编码的发展"><span class="toc-number">1.1.0.2.1.</span> <span class="toc-text">1.1 字符与编码的发展</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-字符，字节，字符串"><span class="toc-number">1.1.0.2.2.</span> <span class="toc-text">1.2 字符，字节，字符串</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3-字符集与编码"><span class="toc-number">1.1.0.2.3.</span> <span class="toc-text">1.3 字符集与编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-4-常用的编码简介"><span class="toc-number">1.1.0.2.4.</span> <span class="toc-text">1.4 常用的编码简介</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-number">1.2.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-字符与编码在程序中的实现"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">2. 字符与编码在程序中的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-程序中的字符与字节"><span class="toc-number">1.2.0.1.1.</span> <span class="toc-text">2.1 程序中的字符与字节</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-C-中相关实现方法"><span class="toc-number">1.2.0.1.2.</span> <span class="toc-text">2.2 C++ 中相关实现方法</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wchar-t-wsz-20-L“-x4E2D-x6587-x0031-x0032-x0033”"><span class="toc-number">1.3.</span> <span class="toc-text">   wchar_t wsz[20] = L“\x4E2D\x6587\x0031\x0032\x0033”;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mbstowcs-wsz-sz-20"><span class="toc-number">1.4.</span> <span class="toc-text">   mbstowcs(wsz, sz, 20);</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wchar-t-wsz-20-L“中文123”"><span class="toc-number">1.5.</span> <span class="toc-text">   wchar_t wsz[20] = L“中文123”;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-1"><span class="toc-number">1.6.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-3-Java-中相关实现方法"><span class="toc-number">1.6.0.0.1.</span> <span class="toc-text">2.3 Java 中相关实现方法</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System-out-println-string-length"><span class="toc-number">1.7.</span> <span class="toc-text">  System.out.println(string.length());</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后得到的-1-txt-和-2-txt-都是-7-个字节"><span class="toc-number">1.8.</span> <span class="toc-text">  /* 最后得到的 1.txt 和 2.txt 都是 7 个字节 */</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E-gt-javac-encoding-BIG5-Hello-java"><span class="toc-number">1.9.</span> <span class="toc-text">  E:\&gt;javac -encoding BIG5 Hello.java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-2"><span class="toc-number">1.10.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-几种误解，以及乱码产生的原因和解决办法"><span class="toc-number">1.10.0.1.</span> <span class="toc-text">3. 几种误解，以及乱码产生的原因和解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-容易产生的误解"><span class="toc-number">1.10.0.1.1.</span> <span class="toc-text">3.1 容易产生的误解</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-3"><span class="toc-number">1.11.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-非-UNICODE-程序在不同语言环境间移植时的乱码"><span class="toc-number">1.11.0.0.1.</span> <span class="toc-text">3.2 非 UNICODE 程序在不同语言环境间移植时的乱码</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-4"><span class="toc-number">1.12.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-网页提交字符串"><span class="toc-number">1.12.0.0.1.</span> <span class="toc-text">3.3 网页提交字符串</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-5"><span class="toc-number">1.13.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-4-从数据库读取字符串"><span class="toc-number">1.13.0.0.1.</span> <span class="toc-text">3.4 从数据库读取字符串</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-6"><span class="toc-number">1.14.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-5-电子邮件中的字符串"><span class="toc-number">1.14.0.0.1.</span> <span class="toc-text">3.5 电子邮件中的字符串</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sbG-qcrQuqO17cf4yee74bGjz9W7-b3wudzA7dbQ0MQNCg0KvPKzxqO6uqO17cnnsaPW0NDEDQoNCg"><span class="toc-number">1.15.</span> <span class="toc-text">   sbG+qcrQuqO17cf4yee74bGjz9W7+b3wudzA7dbQ0MQNCg0KvPKzxqO6uqO17cnnsaPW0NDEDQoNCg==</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Subject-GB2312-B-1tA"><span class="toc-number">1.16.</span> <span class="toc-text">   Subject: =?GB2312?B?1tA=?=</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Subject-GB2312-Q-D6-D0"><span class="toc-number">1.17.</span> <span class="toc-text">   Subject: =?GB2312?Q?=D6=D0?=</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Subject-ISO-8859-1-Q-D6-D0"><span class="toc-number">1.18.</span> <span class="toc-text">   Subject: =?ISO-8859-1?Q?=D6=D0?=</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-7"><span class="toc-number">1.19.</span> <span class="toc-text">  \</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-几种错误理解的纠正"><span class="toc-number">1.19.0.1.</span> <span class="toc-text">4. 几种错误理解的纠正</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#误解：“ISO-8859-1-是国际编码？”"><span class="toc-number">1.19.0.1.1.</span> <span class="toc-text">误解：“ISO-8859-1 是国际编码？”</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#误解：“Java-中，怎样知道某个字符串的内码？”"><span class="toc-number">1.19.0.1.2.</span> <span class="toc-text">误解：“Java 中，怎样知道某个字符串的内码？”</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2018 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

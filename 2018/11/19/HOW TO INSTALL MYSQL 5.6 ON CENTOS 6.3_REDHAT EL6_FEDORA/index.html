@@ -1,0 +1,880 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORAHow to Install MySQL5.6 on CentOS 6.3/RedHat EL6/Fedora\">
+<meta name="keywords" content="从印象笔记导入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA">
+<meta property="og:url" content="http://www.huguiqi.com/2018/11/19/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORAHow to Install MySQL5.6 on CentOS 6.3/RedHat EL6/Fedora\">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/BC128684-5931-41F9-BFE1-895765AF6680.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/433C6E4B-183D-4296-AEA5-854621C0874C.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/A551A323-47EB-4EC8-9B4E-313A4A0CBBF5.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/C42AF6A2-001A-4AF7-A5A0-A2CB61B7EFE9.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/489AAA32-29FC-4F60-9D57-DCD281701469.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/0251429D-A06A-4B5E-BA32-480C095C86A8.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/45816615-FC51-4876-91E6-0A0EDA0A25B9.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/7033909A-E5C0-444A-8BD7-D5CD904AFAAE.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/D28BF1D0-E822-4636-92C2-B39B7183DE3B.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/1B793CBA-29E0-4694-9689-6BFCD1BC8501.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/9F48EC8F-558D-413D-B80A-BF8B7D507A57.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/F16661B7-0A03-417A-B9E4-FD0C2939EEBB.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/B2855C09-D932-482F-A9BE-2D161DF347E4.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AAC3956C-4E4F-4149-89EB-EF1022AD3544.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/897A1C95-59A7-4008-B6C8-3D692F36C6FF.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AE614895-ABCD-4A2F-8FB9-279C8C3A7879.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/E0DF7E72-6ABA-429B-8D7E-E7F5F022EC3B.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/4687B363-995A-4695-896E-2F5F8ED345F3.png">
+<meta property="og:updated_time" content="2018-11-19T09:56:22.805Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA">
+<meta name="twitter:description" content="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORAHow to Install MySQL5.6 on CentOS 6.3/RedHat EL6/Fedora\">
+<meta name="twitter:image" content="http://www.huguiqi.com/2018/11/19/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/BC128684-5931-41F9-BFE1-895765AF6680.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/" title="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA" itemprop="url">HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:22.805Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HOW-TO-INSTALL-MYSQL-5-6-ON-CENTOS-6-3-REDHAT-EL6-FEDORA"><span class="toc-number">1.</span> <span class="toc-text">HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="HOW-TO-INSTALL-MYSQL-5-6-ON-CENTOS-6-3-REDHAT-EL6-FEDORA"><a href="#HOW-TO-INSTALL-MYSQL-5-6-ON-CENTOS-6-3-REDHAT-EL6-FEDORA" class="headerlink" title="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA"></a>HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</h1><div style="box-sizing: border-box; padding: 0px; border: 0px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif; line-height: 16px; vertical-align: baseline; color: rgb(78, 78, 78);"><br><br><div style="box-sizing: border-box; padding: 0px 10px; border: 0px; font-family: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; clear: both; max-width: 960px;"><br><br><div style="box-sizing: border-box; padding: 20px 10px 15px; border: 0px; font-family: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; float: left;"><br><br><div style="box-sizing: border-box; padding: 0px; border: 0px; font-family: Oxygen, Georgia, serif; font-style: inherit; font-variant: inherit; line-height: 1; vertical-align: baseline;"><br><br><span style="color: rgb(82, 82, 82); font-style: inherit; font-variant: inherit; line-height: 1.1; text-transform: uppercase; font-size: 18px;"><span style="-evernote-last-insertion-point:true;"></span>How to Install MySQL<br>5.6 on CentOS 6.3/RedHat EL6/Fedora</span>\<br><br></div>
+
+<p></p></div><p></p>
+<p></p></div><p></p>
+<div style="font-size: inherit; box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; clear: both; max-width: 960px;"><br><br><div style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline;"><br><br><div style="box-sizing: border-box; padding: 0px 10px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; min-height: 1px; float: left;"><br><br><div <!--more--=""><br>style=”box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline;”&gt;<br><br><div style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline;"><br><br><div style="box-sizing: border-box; padding: 0px; border: 0px none; font-family: inherit; font-size: 1px; font-style: inherit; font-variant: inherit; line-height: normal; vertical-align: baseline; float: none;"><br><br></div>
+
+<p></p></div><p></p>
+<p>First head <a href="http://www.mysql.com/downloads/mysql/5.6.html#downloads" target="_blank" rel="noopener">over<br>here</a> and<br>download MySQL 5.6.14 rpm’s under <strong>Oracle &amp; Redhat Linux 6</strong> section of<br>rpm’s.</p>
+<p><strong>You want to download these rpm’s to your CentOS 6 server [As we will<br>install 64bit version on MySQL 5.6] :</strong></p>
+<ol>
+<li>Red Hat/Oracle Enterprise Linux ver. 6 (x86, 64-bit), RPM Package –<br>MySQL Server : MySQL-server-5.6.14-1.el6.x86_64.rpm</li>
+<li>Red Hat/Oracle Enterprise Linux ver. 6 (x86, 64-bit), RPM Package –<br>Shared components : MySQL-shared-5.6.14-1.el6.x86_64.rpm</li>
+<li>Red Hat/Oracle Enterprise Linux ver. 6 (x86, 64-bit), RPM Package –<br>Client Utilities : MySQL-client-5.6.14-1.el6.x86_64.rpm</li>
+</ol>
+<p>To download on command line [Make sure that you have wget utility<br>installed, if not install it :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install wget</span><br></pre></td></tr></table></figure>
+<p>Now download the rpm’s with wget utility:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/</span><br><span class="line"></span><br><span class="line">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-client-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/</span><br><span class="line"></span><br><span class="line">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-001.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/BC128684-5931-41F9-BFE1-895765AF6680.png" alt=""></a></p>
+<p>Now start installing rpms onto your server:</p>
+<p>Make sure that Perl is installed on your server before you install<br>MySQL, if not MySQL server rpm will complain that it cannot be<br>installed. So its kind of pre-requisite.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-002.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/433C6E4B-183D-4296-AEA5-854621C0874C.png" alt=""></a></p>
+<p>To Install perl run :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install perl</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-003.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/A551A323-47EB-4EC8-9B4E-313A4A0CBBF5.png" alt=""></a></p>
+<p>Install MySQL 5.6 rpms now :</p>
+<p>Start with shared libraries first and then work towards installing<br>server and client utilities at the very end.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh MySQL-shared-5.6.14-1.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh MySQL-server-5.6.14-1.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line">rpm -ivh MySQL-client-5.6.14-1.el6.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>If you have conflicts with existing libs(install of<br>MySQL-server-5.6.10-1.el6.x86_64 conflicts with file from package<br>mysql-libs-5.1.66-2.el6_3.x86_64), please download shared-compact<br>package and do the following (Once complete, please re-install as stated<br>above) :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-compat-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/</span><br><span class="line">rpm -UvhMySQL-shared-compat-5.6.10-1.el6.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-004.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/C42AF6A2-001A-4AF7-A5A0-A2CB61B7EFE9.png" alt=""></a></p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-005.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/489AAA32-29FC-4F60-9D57-DCD281701469.png" alt=""></a></p>
+<p>On a successful install you should be seeing the log below:</p>
+<p><span style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; font-size: inherit; font-style: inherit; font-variant: inherit; line-height: inherit; vertical-align: baseline; text-decoration: underline;"><strong>MySQL<br>Server Installation log:</strong></span></p>
+<p><em>Preparing…<br>###########################################<br>[100%]</em></p>
+<p><em>1:MySQL-server<br>###########################################<br>[100%]</em></p>
+<p><em>2013-02-08 14:59:19 0 [Warning] TIMESTAMP with implicit DEFAULT value<br>is deprecated. Please use –explicit_defaults_for_timestamp server<br>option (see documentation for more details).</em></p>
+<p><em>2013-02-08 14:59:19 2959 [Note] InnoDB: The InnoDB memory heap is<br>disabled</em></p>
+<p><em>2013-02-08 14:59:19 2959 [Note] InnoDB: Mutexes and rw_locks use GCC<br>atomic builtins</em></p>
+<p><em>2013-02-08 14:59:19 2959 [Note] InnoDB: ………</em></p>
+<p><em>2013-02-08 14:59:19 2959 [Note] InnoDB: ………</em></p>
+<p><em>A RANDOM PASSWORD HAS BEEN SET FOR THE MySQL root USER ! You will find<br>that password in ‘/root/.mysql_secret’.</em></p>
+<p><em>You must change that password on your first connect, no other statement<br>but ‘SET PASSWORD’ will be accepted. See the manual for the semantics of<br>the ‘password expired’ flag.</em></p>
+<p><em>Also, the account for the anonymous user has been removed.</em></p>
+<p><em>In addition, you can run:</em></p>
+<p><em>/usr/bin/mysql_secure_installation</em></p>
+<p><em>which will also give you the option of removing the test database. This<br>is strongly recommended for production servers.</em></p>
+<p><em>See the manual for more instructions.</em></p>
+<p><em>Please report any problems with the /usr/bin/mysqlbug script!</em></p>
+<p><em>The latest information about MySQL is available on the web at</em></p>
+<p><em><a href="http://www.mysql.com" target="_blank" rel="noopener">http://www.mysql.com</a></em></p>
+<p><em>Support MySQL by buying support/licenses at <a href="http://shop.mysql.com" target="_blank" rel="noopener">http://shop.mysql.com</a></em></p>
+<p><em>WARNING: Found existing config file /usr/my.cnf on the system. Because<br>this file might be in use, it was not replaced, but was used in<br>bootstrap (unless you used –defaults-file) and when you later start the<br>server. The new default config file was created as /usr/my-new.cnf,<br>please compare it with your file and take the changes you need.</em></p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-007.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/0251429D-A06A-4B5E-BA32-480C095C86A8.png" alt=""></a></p>
+<p> Its all done, lets set some passwords, create user and grant access to<br>outside clients for accessing the database:</p>
+<p> In MySQL 5.6 root has a default password assigned and its located<br>at <strong>/root/.mysql_secret</strong> file as mention in MySQL server Installation<br>log.</p>
+<p> <a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-008.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/45816615-FC51-4876-91E6-0A0EDA0A25B9.png" alt=""></a></p>
+<p> cat that file :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /root/.mysql_secret</span><br></pre></td></tr></table></figure>
+<p>to get the password that has been set for MySQL default root user</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-009.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/7033909A-E5C0-444A-8BD7-D5CD904AFAAE.png" alt=""></a></p>
+<p>Now lets login to the database server for the first time and set<br>password. That’s the only first SQL command that works before you can<br>proceed any further. To do that we need to start our newly installed<br>database server.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql start</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-010.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/D28BF1D0-E822-4636-92C2-B39B7183DE3B.png" alt=""></a></p>
+<p>Now login into database server using MySQL client utility and change<br>password. To login into database server simply run command below and<br>provide with the password that installation generated for you in<br>/root/.mysql_secret file.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-011.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/1B793CBA-29E0-4694-9689-6BFCD1BC8501.png" alt=""></a></p>
+<p>Once you logged in, you have to change your root users default password.<br>You cannot run any others commands.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-012.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/9F48EC8F-558D-413D-B80A-BF8B7D507A57.png" alt=""></a></p>
+<p>To change MySQL 5.6 database server root password simply run this<br>command :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET PASSWORD FOR &apos;root&apos; &apos;localhost&apos;= PASSWORD(&apos;opensourcedbms&apos;);</span><br></pre></td></tr></table></figure>
+<p>Also there are other root users in MySQL if you are familiar with its<br>users table [<em>root 127.0.0.1 ; root ::1, root hostname</em>], once you<br>login with superuser you can update all of them later. Also once all<br>this is done you can remove /root/.mysql_secret file.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-013.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/F16661B7-0A03-417A-B9E4-FD0C2939EEBB.png" alt=""></a></p>
+<p>Now that you have set root user password, create a super user to access<br>database server from outside server. Its generally not a good practice<br>to grant root user access to outside world.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &apos;superadmin&apos; &apos;%&apos; IDENTIFIED BY &apos;opensourcedbmsadmin&apos;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT ALL ON *.* TO &apos;superadmin&apos; &apos;%&apos; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-014.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/B2855C09-D932-482F-A9BE-2D161DF347E4.png" alt=""></a></p>
+<p>Now you can exit out of mysql command line client<br>[Type <strong>\q</strong> or <strong>quit</strong> to exit] and we can use this newly created<br>user to access this database server from outside world. Before you can<br>do that, make sure that your server firewall rules are updated for<br>granting this server to respond at port 3306 for outside world. First<br>get out of the mysql command line client and to add a new firewall rule<br>to your CentOS database server firewall rules and to do that edit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysconfig/iptables</span><br></pre></td></tr></table></figure>
+<p>file and add the following line:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306-j ACCEPT</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-015.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AAC3956C-4E4F-4149-89EB-EF1022AD3544.png" alt=""></a></p>
+<p>Save and exit out of the file and restart iptables for the new rule to<br>take effect. To restart iptables, simply run the following command :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service iptables restart</span><br></pre></td></tr></table></figure>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-017.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/897A1C95-59A7-4008-B6C8-3D692F36C6FF.png" alt=""></a></p>
+<p>Last but not least make sure that this new MySQL server is enabled to<br>auto start when server restarts.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig mysql --level 2345 on</span><br></pre></td></tr></table></figure>
+<p>Now you are ready to connect to this database server from any host in<br>your network. Simply open a database client [MySQL Workbench / Navicat<br>/ SQLYog are few clients that you can use to access it from GUI side of<br>things] that you installed and provide the new super user/password that<br>you created and the host-name of this server and there you will be in<br>your new database server.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2012/07/Image-014.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AE614895-ABCD-4A2F-8FB9-279C8C3A7879.png" alt=""></a><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2012/07/Image-015.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/E0DF7E72-6ABA-429B-8D7E-E7F5F022EC3B.png" alt=""></a></p>
+<p>If you are running this server in a virtual box environment, make sure<br>that you do port forwarding (NAT Only) to pass through 3306 database<br>port to guest VM which can be done by going to settings of your VM &gt;<br>Network &gt; Advanced &gt; Port forwarding. This is more specific to<br>Oracle Virtual Box.</p>
+<p><a href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-018.png" title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener"><img src="HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/4687B363-995A-4695-896E-2F5F8ED345F3.png" alt=""></a></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.huguiqi.com/2018/11/19/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/" data-title="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/11/19/HTTP 304 错误的详细解释/" title="HTTP 304 错误的详细解释">
+  <strong>上一篇：</strong><br/>
+  <span>
+  HTTP 304 错误的详细解释</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/11/19/GCD（Grand Central Dispatch）和Block 使用-浅析/"  title="GCD（Grand Central Dispatch）和Block 使用-浅析">
+ <strong>下一篇：</strong><br/> 
+ <span>GCD（Grand Central Dispatch）和Block 使用-浅析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/11/19/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/" data-title="HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA" data-url="http://www.huguiqi.com/2018/11/19/HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HOW-TO-INSTALL-MYSQL-5-6-ON-CENTOS-6-3-REDHAT-EL6-FEDORA"><span class="toc-number">1.</span> <span class="toc-text">HOW TO INSTALL MYSQL 5.6 ON CENTOS 6.3_REDHAT EL6_FEDORA</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2018 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

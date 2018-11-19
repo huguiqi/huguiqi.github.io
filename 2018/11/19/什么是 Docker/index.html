@@ -1,0 +1,831 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>Docker —— 从入门到实践 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="Docker —— 从入门到实践一.什么是 DockerDocker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。 Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后">
+<meta name="keywords" content="docker实践 docker教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker —— 从入门到实践">
+<meta property="og:url" content="http://www.huguiqi.com/2018/11/19/什么是 Docker/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="Docker —— 从入门到实践一.什么是 DockerDocker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。 Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://dockerpool.com/static/books/docker_practice/_images/virtualization.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/AB9680CF-AF2D-42FF-BB71-948C9C26B032.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/247FB92A-0994-4E84-A23F-9EB4AD586F77.png">
+<meta property="og:updated_time" content="2018-11-19T09:56:24.105Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker —— 从入门到实践">
+<meta name="twitter:description" content="Docker —— 从入门到实践一.什么是 DockerDocker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。 Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后">
+<meta name="twitter:image" content="http://dockerpool.com/static/books/docker_practice/_images/virtualization.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/什么是 Docker/" title="Docker —— 从入门到实践" itemprop="url">Docker —— 从入门到实践</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.105Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-——-从入门到实践"><span class="toc-number">1.</span> <span class="toc-text">Docker —— 从入门到实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-什么是-Docker"><span class="toc-number">1.1.</span> <span class="toc-text">一.什么是 Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-什么是boot2docker"><span class="toc-number">1.2.</span> <span class="toc-text">二.什么是boot2docker?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-怎么用？"><span class="toc-number">1.3.</span> <span class="toc-text">三.怎么用？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-启动docker"><span class="toc-number">1.4.</span> <span class="toc-text">1. 启动docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-下载centos并制作os镜像"><span class="toc-number">1.5.</span> <span class="toc-text">2. 下载centos并制作os镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四-什么是镜像？"><span class="toc-number">1.6.</span> <span class="toc-text">四.什么是镜像？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何将hexo博客作为镜像部署到daocloud上"><span class="toc-number">1.7.</span> <span class="toc-text">如何将hexo博客作为镜像部署到daocloud上</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#构建代码生成镜像"><span class="toc-number">1.7.1.</span> <span class="toc-text">构建代码生成镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#部署博客"><span class="toc-number">1.7.2.</span> <span class="toc-text">部署博客</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="Docker-——-从入门到实践"><a href="#Docker-——-从入门到实践" class="headerlink" title="Docker —— 从入门到实践"></a>Docker —— 从入门到实践</h2><h3 id="一-什么是-Docker"><a href="#一-什么是-Docker" class="headerlink" title="一.什么是 Docker"></a>一.什么是 Docker</h3><p>Docker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。</p>
+<p>Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后来都改名为 Docker Inc。Redhat 已经在其 RHEL6.5 中集中支持 Docker；Google 也在其 PaaS 产品中广泛应用。</p>
+<p>Docker 项目的目标是实现轻量级的操作系统虚拟化解决方案。 Docker 的基础是 Linux 容器（LXC）等技术。<br><a id="more"></a><br>在 LXC 的基础上 Docker 进行了进一步的封装，让用户不需要去关心容器的管理，使得操作更为简便。用户操作 Docker 的容器就像操作一个快速轻量级的虚拟机一样简单。</p>
+<p>下面的图片比较了 Docker 和传统虚拟化方式的不同之处，可见容器是在操作系统层面上实现虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现。</p>
+<p><img src="http://dockerpool.com/static/books/docker_practice/_images/virtualization.png" alt="对比"></p>
+<h3 id="二-什么是boot2docker"><a href="#二-什么是boot2docker" class="headerlink" title="二.什么是boot2docker?"></a>二.什么是boot2docker?</h3><p>因为docker是运行在linux操作系统上的容器软件，不支持windows、unix（macos）,所以要想在windows电脑上或者mac电脑上安装doker,就要有linux环境，那么这需要一个基于linux的docker运行环境  </p>
+<ul>
+<li><p><em>boot2docker就是一个基于linux内核的docker容器环境</em></p>
+</li>
+<li><p><em>这个环境只有安装在一个虚似机上：virtualBox</em></p>
+</li>
+</ul>
+<p>boot2docker代码托管在github上，地址为：<br><a href="https://github.com/boot2docker/boot2docker" target="_blank" rel="noopener">https://github.com/boot2docker/boot2docker</a></p>
+<p><code>安装请参考github上介绍</code></p>
+<h3 id="三-怎么用？"><a href="#三-怎么用？" class="headerlink" title="三.怎么用？"></a>三.怎么用？</h3><h3 id="1-启动docker"><a href="#1-启动docker" class="headerlink" title="1. 启动docker"></a>1. 启动docker</h3><ol>
+<li>打开命令行，输入：boot2docker start</li>
+<li>检查容器是否启动：boot2docker status</li>
+<li>登陆连接docker容器：boot2docker ssh</li>
+<li>成功进入后会有出现如下画面：<br><img src="" alt="docker"></li>
+</ol>
+<h3 id="2-下载centos并制作os镜像"><a href="#2-下载centos并制作os镜像" class="headerlink" title="2. 下载centos并制作os镜像"></a>2. 下载centos并制作os镜像</h3><ol>
+<li>docker pull centos:6.7</li>
+<li>下载完成后看看他的imageId,输入:docker images</li>
+<li>然后启动并进入centos容器，打开命令行工具：docker run -t -i 7e8f /bin/bash</li>
+<li>安装一个wget:yun install -y wget</li>
+<li>安装一个mysql,先检查：yum list | grep mysql</li>
+<li>安装(需要安装server版，这样才能设置开机启动)：yun install -y mysql-server.x86_64 </li>
+<li>安装nginx:<a href="http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm" target="_blank" rel="noopener">http://www.myhack58.com/Article/sort099/sort0102/2014/44894.htm</a></li>
+<li>安装node:&lt;&gt;</li>
+<li>安装ifconfig</li>
+</ol>
+<p><strong>从打开的容器出来后，怎么进去之前的容器呢？</strong>  </p>
+<ol>
+<li>docker ps -a //查看打开的所有的容器</li>
+<li>如果发现之前容器的状态是Exited，那么要先将容器重新up：<code>docker start [containId]</code>  </li>
+<li><p>重新打开容器：</p>
+<pre><code>docker exec -it [containId] bash
+</code></pre></li>
+</ol>
+<h3 id="四-什么是镜像？"><a href="#四-什么是镜像？" class="headerlink" title="四.什么是镜像？"></a>四.什么是镜像？</h3><p>镜像相当于打包好的容器，这个容器里有你的应用程序所需要的环境，docker中如果有需要用哪个服务，直接docker pull 镜像名就可以拿来用了</p>
+<h3 id="如何将hexo博客作为镜像部署到daocloud上"><a href="#如何将hexo博客作为镜像部署到daocloud上" class="headerlink" title="如何将hexo博客作为镜像部署到daocloud上"></a>如何将hexo博客作为镜像部署到daocloud上</h3><p>因为国内的GWT的原因，<a href="https://hub.docker.com" target="_blank" rel="noopener">https://hub.docker.com</a>访问实在太慢，我选择了使用国内的daocloud来部署我的镜像。</p>
+<p>准备好dockerfile:</p>
+<pre><code>touch dockerfile 或者 vi dockerfile都可以
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># The FROM instruction sets the Base Image for subsequent instructions.</span><br><span class="line"># Using Nginx as Base Image</span><br><span class="line">FROM node:4.2.2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">RUN \</span><br><span class="line">  mkdir -p /usr/src/app/blog &amp;&amp; cd /usr/src/app/blog &amp;&amp; \</span><br><span class="line">  # install hexo</span><br><span class="line">  npm install hexo-cli -g &amp;&amp; \</span><br><span class="line">  hexo init &amp;&amp; npm install &amp;&amp; \</span><br><span class="line">  # install plugins for hexo</span><br><span class="line">  npm install hexo-generator-sitemap --save &amp;&amp; \</span><br><span class="line">  npm install hexo-generator-baidu-sitemap --save</span><br><span class="line"> </span><br><span class="line">COPY . /usr/src/app/blog</span><br><span class="line"></span><br><span class="line">VOLUME [&quot;/usr/src/app/blog/source&quot;]</span><br><span class="line">VOLUME [&quot;/usr/src/app/blog/themes&quot;]</span><br><span class="line"></span><br><span class="line">WORKDIR /usr/src/app/blog/</span><br><span class="line"></span><br><span class="line"># The EXPOSE instruction informs Docker that the container listens on the specified network ports at runtime</span><br><span class="line">EXPOSE 80</span><br></pre></td></tr></table></figure>
+<p>具体语法请看这里：<a href="https://docs.docker.com/engine/examples/nodejs_web_app/" target="_blank" rel="noopener">dockerfile语法</a></p>
+<h4 id="构建代码生成镜像"><a href="#构建代码生成镜像" class="headerlink" title="构建代码生成镜像"></a>构建代码生成镜像</h4><p>由于我是用github帐号登陆的，所以daocloud可以直接获取我的代码：</p>
+<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/AB9680CF-AF2D-42FF-BB71-948C9C26B032.png" alt="image"></p>
+<h4 id="部署博客"><a href="#部署博客" class="headerlink" title="部署博客"></a>部署博客</h4><p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/247FB92A-0994-4E84-A23F-9EB4AD586F77.png" alt="image"></p>
+<p>点击部署，部署完了以后可以设置自有域名，如果你没有域名，就直接域名daocloud提供的默认域名</p>
+<p><strong>参考学习:</strong><br><br></p>
+<ol>
+<li><a href="http://www.linuxidc.com/Linux/2015-02/113623.htm" target="_blank" rel="noopener">制作nginx+tomcat镜像</a><br><br></li>
+<li><a href="https://cnodejs.org/topic/53f494d9bbdaa79d519c9a4a" target="_blank" rel="noopener">docker快递部署nodejs</a><br><br></li>
+<li><a href="http://www.infoq.com/cn/articles/docker-core-technology-preview?utm_source=infoq&amp;utm_medium=related_content_link&amp;utm_campaign=relatedContent_articles_clk" target="_blank" rel="noopener">docker核心技术预览</a><br><br><ol>
+<li><a href="https://docs.docker.com/engine/reference" target="_blank" rel="noopener">docker官方api文档</a><br><br></li>
+<li><a href="http://www.infoq.com/cn/articles/docker-source-code-analysis-part1/" target="_blank" rel="noopener">docker源码分析</a><br><br></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/1506_cgroup/index.html" target="_blank" rel="noopener">CGroup 介绍、应用实例及原理描述</a><br><br></li>
+<li><a href="http://www.csdn.net/article/2015-08-21/2825511" target="_blank" rel="noopener">深入分析Docker镜像原理</a><br><br></li>
+<li><a href="http://www.cnblogs.com/ishell/p/4194280.html" target="_blank" rel="noopener">Node.js连接MySQL数据库及构造JSON的正确姿势</a></li>
+</ol>
+</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/docker/">docker</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker实践-docker教程/">docker实践 docker教程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.huguiqi.com/2018/11/19/什么是 Docker/" data-title="Docker —— 从入门到实践 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/11/19/手机端(iOS,android)自动化测试框架(淘宝用的)/" title="手机端(iOS,android)自动化测试框架(淘宝用的)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  手机端(iOS,android)自动化测试框架(淘宝用的)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/11/19/什么是 Docker | Docker —— 从入门到实践/"  title="什么是 Docker | Docker —— 从入门到实践">
+ <strong>下一篇：</strong><br/> 
+ <span>什么是 Docker | Docker —— 从入门到实践
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/11/19/什么是 Docker/" data-title="Docker —— 从入门到实践" data-url="http://www.huguiqi.com/2018/11/19/什么是 Docker/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-——-从入门到实践"><span class="toc-number">1.</span> <span class="toc-text">Docker —— 从入门到实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-什么是-Docker"><span class="toc-number">1.1.</span> <span class="toc-text">一.什么是 Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-什么是boot2docker"><span class="toc-number">1.2.</span> <span class="toc-text">二.什么是boot2docker?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-怎么用？"><span class="toc-number">1.3.</span> <span class="toc-text">三.怎么用？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-启动docker"><span class="toc-number">1.4.</span> <span class="toc-text">1. 启动docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-下载centos并制作os镜像"><span class="toc-number">1.5.</span> <span class="toc-text">2. 下载centos并制作os镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四-什么是镜像？"><span class="toc-number">1.6.</span> <span class="toc-text">四.什么是镜像？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何将hexo博客作为镜像部署到daocloud上"><span class="toc-number">1.7.</span> <span class="toc-text">如何将hexo博客作为镜像部署到daocloud上</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#构建代码生成镜像"><span class="toc-number">1.7.1.</span> <span class="toc-text">构建代码生成镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#部署博客"><span class="toc-number">1.7.2.</span> <span class="toc-text">部署博客</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2018 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

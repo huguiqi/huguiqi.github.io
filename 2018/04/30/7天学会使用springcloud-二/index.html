@@ -22,15 +22,15 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="7天学会使用springcloud(二)app-service由于app-client端是调用服务消费者的门面，那就是说它只是个做转发的一个代理，那真正提供服务的是service,那client的调用怎么调用消费者的接口呢？ Spring cloud两种服务调用方式在微服务架构中，业务都会被拆分成一个独立的服务，服务与服务的通讯是基于http restful的。 Spring cloud有两种服务">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1525008858602af38ugzk.png?imageslim">
-<meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1525188682163i0gi2l31.png?imageslim">
-<meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1525215655578qjdv4f0e.png?imageslim">
-<meta property="og:image" content="http://ojnkdvkci.bkt.clouddn.com/1525217029154zqet1ll8.png?imageslim">
-<meta property="og:updated_time" content="2018-05-02T06:01:51.040Z">
+<meta property="og:image" content="http://blog.huguiqi.com/1525008858602af38ugzk.png?imageslim">
+<meta property="og:image" content="http://blog.huguiqi.com/1525188682163i0gi2l31.png?imageslim">
+<meta property="og:image" content="http://blog.huguiqi.com/1525215655578qjdv4f0e.png?imageslim">
+<meta property="og:image" content="http://blog.huguiqi.com/1525217029154zqet1ll8.png?imageslim">
+<meta property="og:updated_time" content="2018-11-19T09:56:22.678Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7天学会使用springcloud(二)">
 <meta name="twitter:description" content="7天学会使用springcloud(二)app-service由于app-client端是调用服务消费者的门面，那就是说它只是个做转发的一个代理，那真正提供服务的是service,那client的调用怎么调用消费者的接口呢？ Spring cloud两种服务调用方式在微服务架构中，业务都会被拆分成一个独立的服务，服务与服务的通讯是基于http restful的。 Spring cloud有两种服务">
-<meta name="twitter:image" content="http://ojnkdvkci.bkt.clouddn.com/1525008858602af38ugzk.png?imageslim">
+<meta name="twitter:image" content="http://blog.huguiqi.com/1525008858602af38ugzk.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -127,7 +127,7 @@
 <p>以上是来自官方的摘录介绍，我们来大致翻译一下：</p>
 <p>ribboin是网络进程间通讯调用的库，它内置软件负载平衡器。主使用Rest模型调用，包括使用各种序列化方案支持的REST调用。</p>
 <p>官网也罗列了以下几大功能：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525008858602af38ugzk.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1525008858602af38ugzk.png?imageslim" alt="paste image"></p>
 <ol>
 <li>负载均衡</li>
 <li>容错</li>
@@ -276,7 +276,7 @@ RestTemplate restTemplate() {
 </code></pre><p>在配置robbion的负载均衡的时候，发现一个很诡异的事情，通过service就是无法通过service id 去访问client端：</p>
 <pre><code>restTemplate.getForObject(&quot;http://APP-CLIENT/hi?name=&quot;+name,String.class);
 </code></pre><p>调用的时候一直报连接拒绝：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525188682163i0gi2l31.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1525188682163i0gi2l31.png?imageslim" alt="paste image"></p>
 <p>经过我反复实验，发现是因为app-client端没有设置访问根目录，则需要在配置文件里server后面加上子项servlet.contextPath = /</p>
 <p>bootstrap.xml:</p>
 <pre><code>server:
@@ -286,7 +286,7 @@ RestTemplate restTemplate() {
 </code></pre><p>加上后重启app-client，然后通过server id 访问，就通了。。。。</p>
 <p>注：有时候app-client重启了还不行，可能还需要重启sever注册中心</p>
 <p>再访问就可以了：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525215655578qjdv4f0e.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1525215655578qjdv4f0e.png?imageslim" alt="paste image"></p>
 <p>我们来看看他的负载均衡，再新增一台client实例</p>
 <p>application.yml:</p>
 <pre><code>server:
@@ -325,7 +325,7 @@ spring.cloud.vault:
     config.lifecycle.enabled: true
     fail-fast: true
 </code></pre><p>将service的端口号改成9000</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525217029154zqet1ll8.png?imageslim" alt="paste image"></p>
+<p><img src="http://blog.huguiqi.com/1525217029154zqet1ll8.png?imageslim" alt="paste image"></p>
 <p>发现负载均衡起效了。。。。。</p>
 <p>下一章节讲下robbin和zull的结合使用。</p>
   
@@ -609,7 +609,7 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -617,7 +617,7 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -625,19 +625,19 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>

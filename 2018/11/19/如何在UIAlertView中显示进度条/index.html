@@ -1,0 +1,1291 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>如何在UIAlertView中显示进度条 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="如何在UIAlertView中显示进度条如何在UIAlertView中显示进度条  2011-12-23  \  10:58  \  \">
+<meta name="keywords" content="从印象笔记导入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在UIAlertView中显示进度条">
+<meta property="og:url" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="如何在UIAlertView中显示进度条如何在UIAlertView中显示进度条  2011-12-23  \  10:58  \  \">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/24B4C9EA-F243-4879-9B36-F0E23F3783C6.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/176BDA35-D367-4FDD-A17E-A24714EE4E97.png">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/BC18A742-B61F-44A7-A603-D61EB75F2C36.gif">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/D4DB0305-1181-4292-BD29-6B60FF6FB6DA.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/CDB56C27-B4B9-4E1A-8B7A-2695077EFC26.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/22AA9659-0DC7-4E2B-8679-DAE5A3716FAE.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/CAE2E37A-37A8-4B69-BDA7-810CBA56A04D.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/53BA7BB8-0DAE-4536-AA7D-43E81074EDBC.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/76F7C9FE-D26B-433A-A9F0-1290FE9E56AB.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/DB5A0165-1211-402A-B120-7E5BF8794023.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/F231713E-98E1-4B17-B1F7-E0838BC40061.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/4CF17C9B-893B-409F-8251-D5E9C67CA7A3.jpg">
+<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/5FAFB64E-6CC7-4060-A902-10F1BD383506.jpg">
+<meta property="og:updated_time" content="2018-11-19T09:56:24.137Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何在UIAlertView中显示进度条">
+<meta name="twitter:description" content="如何在UIAlertView中显示进度条如何在UIAlertView中显示进度条  2011-12-23  \  10:58  \  \">
+<meta name="twitter:image" content="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/24B4C9EA-F243-4879-9B36-F0E23F3783C6.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/如何在UIAlertView中显示进度条/" title="如何在UIAlertView中显示进度条" itemprop="url">如何在UIAlertView中显示进度条</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.135Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何在UIAlertView中显示进度条"><span class="toc-number">1.</span> <span class="toc-text">如何在UIAlertView中显示进度条</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="如何在UIAlertView中显示进度条"><a href="#如何在UIAlertView中显示进度条" class="headerlink" title="如何在UIAlertView中显示进度条"></a>如何在UIAlertView中显示进度条</h1><div><br><br>如何在UIAlertView中显示进度条<br><br></div>
+
+<div><br><br>2011-12-23<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>10:58<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><a id="more"></a><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>今天这个问题是，在一个iPhone程序中，我要在后台做大量的数据处理，希望在界面上显示一个进度条（Progress<br>Bar）使得用户了解处理进度。这个进度条应该是在一个模态的窗口中，使界<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>今天这个问题是，在一个iPhone程序中，我要在后台做大量的数据处理，希望在界面上显示一个进度条（Progress<br>Bar）使得用户了解处理进度。这个进度条应该是在一个模态的窗口中，使界面上其他控件无法被操作。怎么用最简单的方法来实现这个功能？UIAlertView是一个现成的模态窗口，如果能把进度条嵌入到它里面就好了。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br></div>
+
+<div><br><br>以下内容适用于iOS 2.0+。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>我们知道，如果要显示一个alert窗口（比如用来显示错误或警告信息、询问用户是否确认某操作等等），只要简单地创建一个UIAlertView对象，再调用其show方法即可。示意代码如下：<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>1<br><br></div>
+
+<div><br><br>2<br><br></div>
+
+<div><br><br>3<br><br></div>
+
+<div><br><br>4<br><br></div>
+
+<div><br><br>5<br><br></div>
+
+<div><br><br>6<br><br></div>
+
+<div><br><br>7<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>UIAlertView* alertView = [[[UIAlertView<br>alloc] initWithTitle: “Title”<br><br></div>
+
+<div><br><br>                                                     message: “Message”<br><br></div>
+
+<div><br><br>                                                    delegate:nil<br><br></div>
+
+<div><br><br>                                           cancelButtonTitle: “OK”<br><br></div>
+
+<div><br><br>                                           otherButtonTitles:nil]<br><br></div>
+
+<div><br><br>                          autorelease];<br><br></div>
+
+<div><br><br>[alertView show];<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>如果要添加一个进度条，只要先创建并设置好一个UIProgressView的实例，再利用addSubbiew方法添加到alertView中即可。\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>在实际应用中，我可能需要在类中保存进度条的对象实例，以便更新其状态，因此先在自己的ViewController类中添加成员变量：\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>1<br><br></div>
+
+<div><br><br>2<br><br></div>
+
+<div><br><br>3<br><br></div>
+
+<div><br><br>4<br><br></div>
+
+<div><br><br>5<br><br></div>
+
+<div><br><br>6<br><br></div>
+
+<div><br><br>7<br><br></div>
+
+<div><br><br>8<br><br></div>
+
+<div><br><br>9<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><em>//  MySampleViewController.h</em><br><br></div>
+
+<div><br><br>#import &lt;UIKit/UIKit.h&gt;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> interface MySampleViewController : UIViewController {<br><br></div>
+
+<div><br><br> private<br><br></div>
+
+<div><br><br>    UIProgressView* progressView_;<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> end<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>接下来写一个叫做showProgressAlert的方法来创建并显示带有进度条的alert窗口，其中高亮的部分就是把进度条添加到alertView中：\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>1<br><br></div>
+
+<div><br><br>2<br><br></div>
+
+<div><br><br>3<br><br></div>
+
+<div><br><br>4<br><br></div>
+
+<div><br><br>5<br><br></div>
+
+<div><br><br>6<br><br></div>
+
+<div><br><br>7<br><br></div>
+
+<div><br><br>8<br><br></div>
+
+<div><br><br>9<br><br></div>
+
+<div><br><br>10<br><br></div>
+
+<div><br><br>11<br><br></div>
+
+<div><br><br>12<br><br></div>
+
+<div><br><br>13<br><br></div>
+
+<div><br><br>14<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (void)showProgressAlert:(NSString*)title<br>withMessage:(NSString*)message {<br><br></div>
+
+<div><br><br>    UIAlertView* alertView = [[[UIAlertView<br>alloc] initWithTitle:title<br><br></div>
+
+<div><br><br>                                                         message:message<br><br></div>
+
+<div><br><br>                                                        delegate:nil<br><br></div>
+
+<div><br><br>                                               cancelButtonTitle:nil<br><br></div>
+
+<div><br><br>                                               otherButtonTitles:nil]<br><br></div>
+
+<div><br><br>                              autorelease];<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    progressView_ = [[UIProgressView<br>alloc] initWithProgressViewStyle:UIProgressViewStyleBar];<br><br></div>
+
+<div><br><br>    progressView_.frame = CGRectMake(30, 80, 225, 30);<br><br></div>
+
+<div><br><br>    [alertView addSubview:progressView_];<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    [alertView show];<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>为了让数据处理的子进程能够方便地修改进度条的值，再添加一个简单的方法：\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>1<br><br></div>
+
+<div><br><br>2<br><br></div>
+
+<div><br><br>3<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (void)updateProgress:(NSNumber*)progress {<br><br></div>
+
+<div><br><br>    progressView_.progress = [progress floatValue];<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>另外，数据处理完毕后，我们还需要让进度条以及alertView消失，由于之前并没有保存alertView的实例，可以通过进度条的superview访问之：\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>1<br><br></div>
+
+<div><br><br>2<br><br></div>
+
+<div><br><br>3<br><br></div>
+
+<div><br><br>4<br><br></div>
+
+<div><br><br>5<br><br></div>
+
+<div><br><br>6<br><br></div>
+
+<div><br><br>7<br><br></div>
+
+<div><br><br>8<br><br></div>
+
+<div><br><br>9<br><br></div>
+
+<div><br><br>10<br><br></div>
+
+<div><br><br>11<br><br></div>
+
+<div><br><br>12<br><br></div>
+
+<div><br><br>13<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (void)dismissProgressAlert {<br><br></div>
+
+<div><br><br>    if (progressView_ == nil) {<br><br></div>
+
+<div><br><br>        return;<br><br></div>
+
+<div><br><br>    }<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    if ([progressView_.superview isKindOfClass:[UIAlertView<br>class]]) {<br><br></div>
+
+<div><br><br><br>UIAlertView* alertView = (UIAlertView*)progressView_.superview;<br><br></div>
+
+<div><br><br>        [alertView dismissWithClickedButtonIndex:0 animated:NO];<br><br></div>
+
+<div><br><br>    }<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    [progressView_ release];<br><br></div>
+
+<div><br><br>    progressView_ = nil;<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>假设处理数据的方法叫processData，当然它会在一个单独的线程中运行，下面的片段示意了如何更新进度条状态，以及最后如何让它消失。\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>1<br><br></div>
+
+<div><br><br>2<br><br></div>
+
+<div><br><br>3<br><br></div>
+
+<div><br><br>4<br><br></div>
+
+<div><br><br>5<br><br></div>
+
+<div><br><br>6<br><br></div>
+
+<div><br><br>7<br><br></div>
+
+<div><br><br>8<br><br></div>
+
+<div><br><br>9<br><br></div>
+
+<div><br><br>10<br><br></div>
+
+<div><br><br>11<br><br></div>
+
+<div><br><br>12<br><br></div>
+
+<div><br><br>13<br><br></div>
+
+<div><br><br>14<br><br></div>
+
+<div><br><br>15<br><br></div>
+
+<div><br><br>16<br><br></div>
+
+<div><br><br>17<br><br></div>
+
+<div><br><br>18<br><br></div>
+
+<div><br><br>19<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (void)processData:(int)total {<br><br></div>
+
+<div><br><br>    for (int i = 0; i &lt; total; ++i) {<br><br></div>
+
+<div><br><br>        <em>// Update UI to show progess.</em><br><br></div>
+
+<div><br><br>        float progress = (float)i / total;<br><br></div>
+
+<div><br><br>        NSNumber* progressNumber = [NSNumber numberWithFloat:progress];<br><br></div>
+
+<div><br><br>        [self performSelectorOnMainThread: selector(updateProgress:)<br><br></div>
+
+<div><br><br>                               withObject:progressNumber<br><br></div>
+
+<div><br><br>                            waitUntilDone:NO];<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>        <em>// Process.</em><br><br></div>
+
+<div><br><br>        <em>// do it.</em><br><br></div>
+
+<div><br><br>    }<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    <em>// Finished.</em><br><br></div>
+
+<div><br><br>    [self performSelectorOnMainThread: selector(dismissProgressAlert)<br><br></div>
+
+<div><br><br>                           withObject:nil<br><br></div>
+
+<div><br><br>                        waitUntilDone:YES];<br><br></div>
+
+<div><br><br>    <em>// Other finalizations.</em><br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>在实际使用中，带进度条的alert view大概长得是这样的：\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/24B4C9EA-F243-4879-9B36-F0E23F3783C6.png" alt=""><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>原文：<a href="http://www.[gocalf.com/blog/iphone-dev-progressview-in-alertview.html](http://gocalf.com/blog/iphone-dev-progressview-in-alertview.html)\" target="_blank" rel="noopener">http://www.[gocalf.com/blog/iphone-dev-progressview-in-alertview.html](http://gocalf.com/blog/iphone-dev-progressview-in-alertview.html)\</a><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>顶一下(73)</strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>踩一下(4)</strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>相关新闻</strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><a href="http://www.cocoachina.com/iphonedev/toolthain/2009/0611/224.html" target="_blank" rel="noopener"><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/176BDA35-D367-4FDD-A17E-A24714EE4E97.png" alt=""></a><br><br></div>
+
+<div><br><br><a href="http://www.cocoachina.com/iphonedev/toolthain/2009/0611/224.html" target="_blank" rel="noopener">创建iPhone锁定划动条的方法</a><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><a href="http://www.cocoachina.com/iphonedev/toolthain/2009/0611/173.html" target="_blank" rel="noopener"><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/BC18A742-B61F-44A7-A603-D61EB75F2C36.gif" alt=""></a><br><br></div>
+
+<div><br><br><a href="http://www.cocoachina.com/iphonedev/toolthain/2009/0611/173.html" target="_blank" rel="noopener">如何在iPhone程序读取数据时显示进</a><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>标签</strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>发表评论</strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>添加评论文字<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><a href="http://www.cocoachina.com/cms/plus/feedback.php?aid=3778" target="_blank" rel="noopener">5</a><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong><a href="http://www.cocoachina.com/cms/plus/feedback.php?aid=3778" target="_blank" rel="noopener">评论</a></strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>游客</strong><br><br></div>
+
+<div><br><br>2012-01-09<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>好啊<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>游客</strong><br><br></div>
+
+<div><br><br>2012-01-05<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>mark 一下字了哈哈<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>游客</strong><br><br></div>
+
+<div><br><br>2012-01-04<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>MARK<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>最近更新</strong><br><br></div>
+
+<ul>
+<li><p>[01-05]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2012/0105/3834.html" target="_blank" rel="noopener">iOS股票k线组件源码，支持</a></p>
+</li>
+<li><p>[01-04]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2012/0104/3822.html" target="_blank" rel="noopener">webview和js的交互封装源码</a></p>
+</li>
+<li><p>[12-27]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1227/3791.html" target="_blank" rel="noopener">一些iOS高效开源类库</a></p>
+</li>
+<li><p>[12-23]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1223/3778.html" target="_blank" rel="noopener">如何在UIAlertView中显示进度</a></p>
+</li>
+<li>[12-22]\<br> <a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1222/3768.html" target="_blank" rel="noopener">Path 2.0<br>大部分效果分享</a></li>
+<li><p>[12-19]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1219/3740.html" target="_blank" rel="noopener">一种自动的将自定义类序</a></p>
+</li>
+<li><p>[12-12]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1212/3702.html" target="_blank" rel="noopener">cocos2d播放视频方法相关</a></p>
+</li>
+<li>[12-07]\<br> <a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1207/3680.html" target="_blank" rel="noopener">cocos2d<br>粒子设计器</a></li>
+<li><p>[12-05]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1205/3663.html" target="_blank" rel="noopener">自定义的iOS的滚轮选择器</a></p>
+</li>
+<li><p>[12-05]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1205/3662.html" target="_blank" rel="noopener">ASIHttpRequest没更新，MKNet</a></p>
+</li>
+<li><p>[12-02]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1202/3651.html" target="_blank" rel="noopener">新版Path的漂亮菜单按钮动</a></p>
+</li>
+<li><p>[12-01]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1201/3646.html" target="_blank" rel="noopener">开源的Objective-C/Cocoa的库</a></p>
+</li>
+<li><p>[11-29]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1129/3622.html" target="_blank" rel="noopener">开源的电子书阅读器项目</a></p>
+</li>
+<li><p>[11-21]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1121/3550.html" target="_blank" rel="noopener">源码推荐：BASequenceContro</a></p>
+</li>
+<li><p>[11-18]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1118/3538.html" target="_blank" rel="noopener">读取iOS代理设置的代码</a></p>
+</li>
+<li><p>[11-17]\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1117/3528.html" target="_blank" rel="noopener">用cocos2d实现液体流动效果</a></p>
+</li>
+</ul>
+<div><br><br><strong>推荐内容</strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>热点内容</strong><br><br></div>
+
+<ul>
+<li><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/D4DB0305-1181-4292-BD29-6B60FF6FB6DA.jpg" alt="">\<br> <a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1207/3680.html" target="_blank" rel="noopener">cocos2d<br>粒子设计器</a></li>
+<li><p><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/CDB56C27-B4B9-4E1A-8B7A-2695077EFC26.jpg" alt="">\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1129/3622.html" target="_blank" rel="noopener">开源的电子书阅读器项目</a></p>
+</li>
+<li><p><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/22AA9659-0DC7-4E2B-8679-DAE5A3716FAE.jpg" alt="">\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1121/3550.html" target="_blank" rel="noopener">源码推荐：BASequenceControl</a></p>
+</li>
+<li><p><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/CAE2E37A-37A8-4B69-BDA7-810CBA56A04D.jpg" alt="">\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1109/3480.html" target="_blank" rel="noopener">iPhone开源项目汇总（更新版）</a></p>
+</li>
+<li><p><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/53BA7BB8-0DAE-4536-AA7D-43E81074EDBC.jpg" alt="">\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1020/3395.html" target="_blank" rel="noopener">模拟器与真机下ffmpeg的编译方法（</a></p>
+</li>
+<li><p><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/76F7C9FE-D26B-433A-A9F0-1290FE9E56AB.jpg" alt="">\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1019/3387.html" target="_blank" rel="noopener">iPhone开发资源汇总</a></p>
+</li>
+<li><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/DB5A0165-1211-402A-B120-7E5BF8794023.jpg" alt="">\<br> <a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1013/3365.html" target="_blank" rel="noopener">Leaves –<br>iOS上一种图书翻页效果的</a></li>
+<li><p><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/F231713E-98E1-4B17-B1F7-E0838BC40061.jpg" alt="">\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1011/3349.html" target="_blank" rel="noopener">新浪微博iOS版SDK“宝玉XP”框架学</a></p>
+</li>
+<li><p><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/4CF17C9B-893B-409F-8251-D5E9C67CA7A3.jpg" alt="">\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1010/3342.html" target="_blank" rel="noopener">录制屏幕以及音效的混合实现源码</a></p>
+</li>
+<li><p><img src="%E5%A6%82%E4%BD%95%E5%9C%A8UIAlertView%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1.resources/5FAFB64E-6CC7-4060-A902-10F1BD383506.jpg" alt="">\</p>
+<p><a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1003/3316.html" target="_blank" rel="noopener">共享代码，实现类似iPhone的主界面</a></p>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/" data-title="如何在UIAlertView中显示进度条 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/11/19/直接将google进行本地映射，不进行域名解析，加速访问/" title="直接将google进行本地映射，不进行域名解析，加速访问">
+  <strong>上一篇：</strong><br/>
+  <span>
+  直接将google进行本地映射，不进行域名解析，加速访问</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/11/19/什么是SQL注入式攻击？/"  title="什么是SQL注入式攻击？">
+ <strong>下一篇：</strong><br/> 
+ <span>什么是SQL注入式攻击？
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/11/19/如何在UIAlertView中显示进度条/" data-title="如何在UIAlertView中显示进度条" data-url="http://www.huguiqi.com/2018/11/19/如何在UIAlertView中显示进度条/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#如何在UIAlertView中显示进度条"><span class="toc-number">1.</span> <span class="toc-text">如何在UIAlertView中显示进度条</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2018 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

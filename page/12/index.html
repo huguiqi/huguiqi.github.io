@@ -92,38 +92,62 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2018/11/19/oh_my_zsh安装出现的问题/" title="oh my zsh安装出现的问题" itemprop="url">oh my zsh安装出现的问题</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:23.733Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h1 id="oh-my-zsh安装出现的问题"><a href="#oh-my-zsh安装出现的问题" class="headerlink" title="oh my zsh安装出现的问题"></a>oh my zsh安装出现的问题</h1><h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1,安装"></a>1,安装</h2><pre><code>wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+</code></pre><p>参考强哥的博客，<a href="http://macshuo.com/?p=676" target="_blank" rel="noopener">安装oh my zsh出现的问题</a></p>
+<ol>
+<li>安装完成后，终端背景显示没变，使用的是默认主题</li>
+<li>需要将终端背景显示设置一下才会变成黑色背景</li>
+<li>vi ~/.zshrc 设置了值改了配置后不会立即生效，需要source一下</li>
+<li>安装autojump插件home目录下没有.autojump目录，可能是由于autojump升级了，不需要这个目录了</li>
+</ol>
+<p>我用home brew 安装的，第一次安装没仔细看，后来重新安装了下，发现安装成功后给我了提示，如下：</p>
+<pre><code>==&gt; Pouring autojump-22.3.0.el_capitan.bottle.tar.gz
+==&gt; Caveats
+Add the following line to your ~/.bash_profile or ~/.zshrc file (and remember
+to source the file to update your current session):
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] &amp;&amp; . $(brew --prefix)/etc/profile.d/autojump.sh
 
+If you use the Fish shell then add the following line to your ~/.config/fish/config.fish:
+[ -f /usr/local/share/autojump/autojump.fish ]; and . /usr/local/share/autojump/autojump.fish
+</code></pre><ol>
+<li>我用的是oh my zsh,是zsh的封装，也就是说适用第一个提示，要把这段代码加到.zshrc配置里</li>
+<li>.zshrc的插件配置里需要把autojump支持加上</li>
+<li><code>source .zshrc</code> 使配置生效</li>
+</ol>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/11/19/oh_my_zsh安装出现的问题/#more">Read More</a>
           
        </p>
     </div>
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/oh-my-zsh-vim-macos/">oh-my-zsh vim macos</a>
+  </div>
 
 </div>
 
@@ -133,7 +157,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/hello-world/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/hello-world/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/oh_my_zsh安装出现的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/oh_my_zsh安装出现的问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -153,35 +177,29 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/" title="git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog" itemprop="url">git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog</a>
+      <a href="/2018/11/19/objecttive-c与swift混编/" title="objecttive-c与swift混编" itemprop="url">objecttive-c与swift混编</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:23.729Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="git生成ssh-key及本地解决多个ssh-key的问题-Bubblings-Blog"><a href="#git生成ssh-key及本地解决多个ssh-key的问题-Bubblings-Blog" class="headerlink" title="git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog"></a>git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>git生成ssh key及本地解决多个ssh key的问题<br>=========================================<br><br><div><br><br><div><br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p>ssh是一种网络协议，用于计算机之间的加密登录。ssh原理及应用可参考：</p>
-<blockquote>
-<p><a href="http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">SSH原理与运用（一）：远程登录</a></p>
-</blockquote>
-<h2 id="生成ssh-key步骤"><a href="#生成ssh-key步骤" class="headerlink" title="生成ssh key步骤"></a>生成ssh key步骤</h2><p>这里以配置github的ssh key为例：</p>
-<h3 id="1-配置git用户名和邮箱"><a href="#1-配置git用户名和邮箱" class="headerlink" title="1. 配置git用户名和邮箱"></a>1. 配置git用户名和邮箱</h3>
+        <h1 id="objecttive-c与swift混编"><a href="#objecttive-c与swift混编" class="headerlink" title="objecttive-c与swift混编"></a>objecttive-c与swift混编</h1><hr>
+<p>title:  objecttive-c与swift混编<br>date: 1542621383729<br>categories: swift object-c</p>
+<h2 id="tags-混编"><a href="#tags-混编" class="headerlink" title="tags: 混编"></a>tags: 混编</h2><h3 id="objecttive-c与swift混编-1"><a href="#objecttive-c与swift混编-1" class="headerlink" title="objecttive-c与swift混编"></a>objecttive-c与swift混编</h3><h4 id="一-如何在objective-c的工程中使用swift"><a href="#一-如何在objective-c的工程中使用swift" class="headerlink" title="一. 如何在objective-c的工程中使用swift"></a>一. 如何在objective-c的工程中使用swift</h4><p>如果已经有了一个老的iOS应用，它是使用Objective-C编写的，而它的一些新功能需要采用Swift来编写，这时就可以从Objective-C调用Swift。</p>
+<p>Objective-C调用Swift时不需要桥接头文件，而是需要Xcode生成的头文件。这种文件由Xcode生成，不需要我们维护，对于开发人员也是不可见的。如图18-11所示，它能够将Swift中的类暴露给Objective-C，它的命名是：&lt;工程名&gt;-swift.h。我们需要将该头文件引入到Objective-C文件中，而且Swift中的类需要声明为 objc(凡是继承至NSObject的类不需要声明)。</p>
+<p>18-11:<br><img src="http://7xqayq.com1.z0.glb.clouddn.com/image19.d18z.012.png" alt="18-11"></p>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/#more">Read More</a>
+            <a href="/2018/11/19/objecttive-c与swift混编/#more">Read More</a>
           
        </p>
     </div>
@@ -207,7 +225,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/objecttive-c与swift混编/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/objecttive-c与swift混编/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -227,176 +245,102 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/iOS 9 变化笔记/" title="iOS 9 变化笔记" itemprop="url">iOS 9 变化笔记</a>
+      <a href="/2018/11/19/objective-c属性特性/" title="objective-c属性特性" itemprop="url">objective-c属性特性</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:23.725Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="iOS-9-变化笔记"><a href="#iOS-9-变化笔记" class="headerlink" title="iOS 9 变化笔记"></a>iOS 9 变化笔记</h1><p>这里将介绍下我们日常开发一些从iOS8过度到iOS9给我们带来的一些变化，及解决方法。</p>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>language：zh-Hans(iOS8) ——&gt; zh-Hans-CN(iOS9)\<br> 所有的进程列表都获取不到了</p>
+        <h1 id="objective-c属性特性"><a href="#objective-c属性特性" class="headerlink" title="objective-c属性特性"></a>objective-c属性特性</h1><p><span style="font: 20.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"><strong>Objective-C<br>属性特性（assign , retain , copy , readonly , readwrite , atomic ,<br>nonatomic）</strong></span></p>
+<div><br><br>\<br><br></div>
+
+<p><span style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"> </span><span style="font: 14.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">assign：指定setter方法用简单的赋值，这是默认操作。你可以对标量类型（如int）使用这个属性。你可以想象一个float，它不是一个对象，所以它不能retain、copy。</span><span style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">\<br>  \<br></span><span style="font: 14.0px 'Lucida Grande'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">assign:</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">简单赋值，不更改索引计数(Reference<br>Counting).使用</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">assign:</span><br><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">对基础数据类型</span><br><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">（</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">NSInteger</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">）和</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">C</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">数据类型（</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">int, float, double, char,</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">等）\<br></span><span style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"> \<br></span><span <!--more--=""><br>style=”font: 14.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333”&gt;retain：指定retain应该在后面的对象上调用，前一个值发送一条release消息。你可以想象一个NSString实例，它是一个对象，而且你可能想要retain它。\<br>  \<br></span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"> \<br></span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">retain</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">：释放旧的对象，将旧对象的值赋予输入对象，再提高输入对象的索引计数为</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">1<br>，</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">使用</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">retain</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">：</span><br><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">对其他</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">NSObject</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">和其子类</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"> ，retain</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">，是说明该属性在赋值的时候，先</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">release</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">之前的值，然后再赋新值给属性，引用再加</span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">1</span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">。\<br></span><span style="font: 14.0px 'Arial Narrow'; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555"> \<br>  \<br></span><span style="font: 14.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">copy：指定应该使用对象的副本（深度复制），前一个值发送一条release消息。基本上像retain，但是没有增加引用计数，是分配一块新的内存来放置它。</span><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">copy</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">是创建一个新对象，</span><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">retain</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">是创建一个指针，引用对象计数加</span><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">1</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">。</span><span style="font: 14.0px 'Lucida Grande'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">copy</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">：</span><br><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">建立一个索引计数为</span><span style="font: 14.0px 'Lucida Grande'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">1</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">的对象，然后释放旧对象，</span><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">copy</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">是创建一个新对象，</span><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">retain</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">是创建一个指针，引用对象计数加</span><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">1</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">。</span><span style="font: 14.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\</span></p>
+<p>readonly：将只生成getter方法而不生成setter方法（getter方法没有get前缀）。\</p>
+<p>readwrite：默认属性，将生成不带额外参数的getter和setter方法（setter方法只有一个参数）。\</p>
+<p>atomic：对于对象的默认属性，就是setter/getter生成的方法是一个原子操作。如果有多个线程同时调用setter的话，不会出现某一个线程执行setter全部语句之前，另一个线程开始执行setter的情况，相关于方法头尾加了锁一样。\</p>
+<p>nonatomic：不保证setter/getter的原子性，多线程情况下数据可能会有问题。<span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">nonatomic</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">，非原子性访问，不加同步，多线程并发访问会提高性能。先释放原先变量，再将新变量    </span><br><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">retain</span><span style="font: 14.0px Times; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000">然后赋值；</span><span style="font: 14.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br></span><span style="font: 14.0px Verdana; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">      </span><span style="font: 14.0px Times; font-kerning: none; color: #555555; -webkit-text-stroke: 0px #555555">注意，如果不加此属性，则默认是两个访问方法都为原子型事务访问。</span></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/objective-c属性特性/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/objective-c属性特性/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/objc非主流代码技巧/" title="objc非主流代码技巧" itemprop="url">objc非主流代码技巧</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.722Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="objc非主流代码技巧"><a href="#objc非主流代码技巧" class="headerlink" title="objc非主流代码技巧"></a>objc非主流代码技巧</h1><p>obj-c非主流写法</p>
+<hr>
 <p>\</p>
-<h2 id="App-Transport-Security"><a href="#App-Transport-Security" class="headerlink" title="App Transport Security"></a>App Transport Security</h2><p>iOS9和OS X El Capitan的一个新特性，App Transport Security<br>的目地是提高Apple<br>操作系统的安全性以及在此操作系统上运行的任何应用的安全性。ATS是苹果针对与<br>NSURL这一层做的封装，iOS9后ATS默认是开启的，即网络传输需要使用HTTPS。如果想在iOS9后继续使用HTTP的话，有两条路可以走：</p>
-<p>在Info.plist中添加 NSAppTransportSecurity类型Dictionary，在NSAppTransportSecurity下添加NSAllowsArbitraryLoads，Boolean<br>为 YES。</p>
-<p>直接使用CFNetwork做网络请求，ASIHTTPRequest就是基于CFNetwotk做的封装，如果有需求的同学可以看看ASI里面的源码，如果某个时间段你又想要使用HTTPS的话，ASI对SSL/TSL的证书验证有点问题，证书验证还得自己封装一下才行。刚才我说道，ATS是苹果针对与NSURL这一层做的封装，所以我们使用CFNetwork或者更底层做网络请求的话是不受ATS限制的。</p>
-<h3 id="移除了discoveryd-DNS解析服务"><a href="#移除了discoveryd-DNS解析服务" class="headerlink" title="移除了discoveryd DNS解析服务"></a>移除了discoveryd DNS解析服务</h3><p>iPhone升级到iOS8后WiFi有时候会有问题，特别是Mac升级到OS X<br>Yosemite后，时而电脑休眠唤醒唬就连不上WiFi，有时候还突然掉线，经常要手动去关闭WiFi在重新连接，这是因为苹果到了OS<br>X Yosemite系统后，把之前的mDNSResponder换成了discoveryd DNS。iOS9和OS X<br>Yosemite10.4后mDNSResponder又回来了。</p>
-<p>mDNSResponder： 苹果以前一直使用控制DNS和Bonjour服务的一种进程。\<br> discoveryd：OS X Yosemite后苹果新出的一种进程。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/iOS 9 变化笔记/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/iOS 9 变化笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS 9 变化笔记/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/" title="CocoaPods 的一些略为高级一丁点的使用" itemprop="url">CocoaPods 的一些略为高级一丁点的使用</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="CocoaPods-的一些略为高级一丁点的使用"><a href="#CocoaPods-的一些略为高级一丁点的使用" class="headerlink" title="CocoaPods 的一些略为高级一丁点的使用"></a>CocoaPods 的一些略为高级一丁点的使用</h1><p>记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当中早已经出现，甚至成为了开发的标配，尽管如此，CocoaPods依然是对iOS/Mac开发做出了巨大的贡献，在此为CocoaPods做出贡献的人表示感谢。</p>
-<p>CocoaPods功能不算太强大，但大部分时候足够好用，仅仅是最基本的样例配置，就可以满足你项目的大部分需求，但了解更多的一一些的特性，会让你更得心应手。</p>
-<h4 id="指定源"><a href="#指定源" class="headerlink" title="指定源"></a>指定源</h4><p>CocoaPods支持私有 Spec<br>仓库的，我们可以建立自己的源，也可以使用非官方的源，只要是符合规定的都可以指定。</p>
-<h4 id="抑制警告"><a href="#抑制警告" class="headerlink" title="抑制警告"></a>抑制警告</h4><p>inhibit_warnings参数能够有效的抑制CocoaPods引入的第三方代码库产生的warning。</p>
-<p>可以全部指定。</p>
-<p>也可以针对指定。</p>
-<h4 id="使用git的HEAD指向的分支"><a href="#使用git的HEAD指向的分支" class="headerlink" title="使用git的HEAD指向的分支"></a>使用git的HEAD指向的分支</h4><h4 id="使用-master-分支"><a href="#使用-master-分支" class="headerlink" title="使用 master 分支"></a>使用 master 分支</h4><h3 id="指定branch"><a href="#指定branch" class="headerlink" title="指定branch"></a>指定branch</h3><h4 id="指定tag"><a href="#指定tag" class="headerlink" title="指定tag"></a>指定tag</h4><h3 id="指定commit"><a href="#指定commit" class="headerlink" title="指定commit"></a>指定commit</h3><h4 id="使用子库"><a href="#使用子库" class="headerlink" title="使用子库"></a>使用子库</h4><p>可以这样</p>
-<p>也可以这样指定多个子库</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/CocoaPods 的一些略为高级一丁点的使用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/CocoaPods 的一些略为高级一丁点的使用/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/iOS App打包上传快速教程/" title="iOS App打包上传快速教程" itemprop="url">iOS App打包上传快速教程</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="iOS-App打包上传快速教程"><a href="#iOS-App打包上传快速教程" class="headerlink" title="iOS App打包上传快速教程"></a>iOS App打包上传快速教程</h1><div><br><br>1.打开 <a href="https://itunesconnect.apple.com" target="_blank" rel="noopener">https://itunesconnect.apple.com</a><br><div><br><br>2. <marketing jinjiang.com=""> : 12345abcde<br><br></marketing></div>
-
-<div><br><br>3. 进入后选择,Manage Your Applications<br><br></div>
+<div><br><br><div><br><br><div><br><br><div><br><br>objc非主流代码技巧<br>==================<br><br><div><br><br><div><br><br></div>
 
 <p></p></div><p></p>
-<div><br><br>\<br><br></div>
-
-<div><br><br><img src="iOS%20App%E6%89%93%E5%8C%85%E4%B8%8A%E4%BC%A0%E5%BF%AB%E9%80%9F%E6%95%99%E7%A8%8B.resources/7F790AC7-AB47-49A7-B06D-7E43309B600A.jpg" alt="">\<br><br></div>
-
-<div><br><br>\<br><br>
+<p></p></div><p></p>
+<div><br><br>看开源代码时，总会看到一些大神级别的代码，给人眼前一亮的感觉，多数都是被淡忘的C语言语法，总结下objc写码中遇到的各类<code>非主流</code>代码技巧和一些妙用：<br><br>-   [娱乐向]objc最短的方法声明<br>-   [C]结构体的初始化<br>-   [C]三元条件表达式的两元使用<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/iOS App打包上传快速教程/#more">Read More</a>
+            <a href="/2018/11/19/objc非主流代码技巧/#more">Read More</a>
           
        </p>
     </div>
@@ -422,7 +366,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/iOS App打包上传快速教程/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS App打包上传快速教程/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/objc非主流代码技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/objc非主流代码技巧/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -442,35 +386,25 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/iOS Framework 制作教程/" title="iOS Framework 制作教程" itemprop="url">iOS Framework 制作教程</a>
+      <a href="/2018/11/19/obj-c排序算法/" title="obj-c排序算法" itemprop="url">obj-c排序算法</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:23.716Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="iOS-Framework-制作教程"><a href="#iOS-Framework-制作教程" class="headerlink" title="iOS Framework 制作教程"></a>iOS Framework 制作教程</h1><div><br><br>iOS Framework 制作教程<br><br></div>
-
-<div><br><br>2011-10-09<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>11:56<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>阅读数：4201<br>
+        <h1 id="obj-c排序算法"><a href="#obj-c排序算法" class="headerlink" title="obj-c排序算法"></a>obj-c排序算法</h1><p><span style="font: 16.0px Georgia; color: #323333">本文采用objective-c实现常见的排序算法：选择排序，插入排序，快速排序。\<br> 悼念乔帮主，期待apple在后乔帮主时代创造出更出色的产品。\<br></span><span style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 1</span><br><span style="font: 12.0px 'Courier New'; color: #018000; background-color: #f5f5f5">//\<br></span><span style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 2</span><br><span style="font: 12.0px 'Courier New'; color: #018000; background-color: #f5f5f5">//<br>Sort.h\<br></span><span style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 3</span><br><span style="font: 12.0px 'Courier New'; color: #018000; background-color: #f5f5f5">//<br>Algorithm\<br></span><span style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 4</span><br><span style="font: 12.0px 'Courier New'; color: #018000; background-color: #f5f5f5">//\<br></span><span style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 5</span><br><span style="font: 12.0px 'Courier New'; color: #018000; background-color: #f5f5f5">//<br>Created by 张 汉国 on 11-9-30.\<br></span><span style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 6</span><br><span style="font: 12.0px 'Courier New'; color: #018000; background-color: #f5f5f5">//<br>Copyright 2011年 __MyCompanyName__. All rights reserved.\<br></span><span style="font: 12.0px 'Courier New'; color: #008080; background-color: #f5f5f5"> 7</span><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/iOS Framework 制作教程/#more">Read More</a>
+            <a href="/2018/11/19/obj-c排序算法/#more">Read More</a>
           
        </p>
     </div>
@@ -496,7 +430,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/iOS Framework 制作教程/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS Framework 制作教程/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/obj-c排序算法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/obj-c排序算法/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -516,35 +450,25 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/iOS image button setCornerRadius/" title="iOS image button setCornerRadius" itemprop="url">iOS image button setCornerRadius</a>
+      <a href="/2018/11/19/obj-c 常用字符串处理方法/" title="obj-c 常用字符串处理方法" itemprop="url">obj-c 常用字符串处理方法</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:23.711Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="iOS-image-button-setCornerRadius"><a href="#iOS-image-button-setCornerRadius" class="headerlink" title="iOS image button setCornerRadius"></a>iOS image button setCornerRadius</h1><div><br><br>当我们在button上添加背景图片和背景颜色的时候就会发现，<span style="color: rgb(0, 0, 0); font-family: Consolas, 'Courier New', Courier, mono, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(255, 255, 255);">setCornerRadius</span>这个属性并不适用，因为现在的button已经不是圆角的了，它显示的是图片的形状，当设置背景颜色设置为UIButtonTypeCustom属性才可以显示出来。所以我们需要用UIButton控件的其它属性来满足我们的需求<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>[self.headerBtn setImage:[UIImage imageNamed: “mine_000”] forState:UIControlStateNormal];<br><br></div>
-
-<div><br><br>    [self.headerBtn.layer setMasksToBounds:YES];<br><br></div>
-
-<div><br><br>[self.headerBtn.layer setCornerRadius:40.0f];//圆角<br><br></div>
-
-<div><br><br>
+        <h1 id="obj-c-常用字符串处理方法"><a href="#obj-c-常用字符串处理方法" class="headerlink" title="obj-c 常用字符串处理方法"></a>obj-c 常用字符串处理方法</h1><div><br><br>1<span style="word-wrap: normal; word-break: normal;">、创建常量字符串。</span><span style="word-wrap: normal; word-break: normal;">\<br></span> NSString *astring =  “This is a String!”;<br><br>\<br><br><span style="word-wrap: normal; word-break: normal;"> 2</span>、创建空字符串，给予赋值。<br><br> NSString *astring = [[NSString alloc] init];<span style="word-wrap: normal; word-break: normal;">\<br></span> astring =  “This is a String!”;<span style="word-wrap: normal; word-break: normal;">\<br></span> NSLog( “astring:% “,astring);<span style="word-wrap: normal; word-break: normal;">\<br></span> [astring release];<br><br>\<br><br>3<span style="word-wrap: normal; word-break: normal;">、在以上方法中，提升速度</span>:initWithString<span style="word-wrap: normal; word-break: normal;">方法</span><br><br> NSString *astring = [[NSString alloc] initWithString: “This is a<br>String!”];<span style="word-wrap: normal; word-break: normal;">\<br></span> NSLog( “astring:% “,astring);<span style="word-wrap: normal; word-break: normal;">\<br></span> [astring release];<br><br>\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/iOS image button setCornerRadius/#more">Read More</a>
+            <a href="/2018/11/19/obj-c 常用字符串处理方法/#more">Read More</a>
           
        </p>
     </div>
@@ -570,7 +494,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/iOS image button setCornerRadius/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS image button setCornerRadius/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/obj-c 常用字符串处理方法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/obj-c 常用字符串处理方法/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -590,28 +514,61 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/iOS View中不能直接代码add tableView/" title="iOS View中不能直接代码add tableView" itemprop="url">iOS View中不能直接代码add tableView</a>
+      <a href="/2018/11/19/nodejs_异步异常处理/" title="nodejs异步异常处理" itemprop="url">nodejs异步异常处理</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:23.703Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="iOS-View中不能直接代码add-tableView"><a href="#iOS-View中不能直接代码add-tableView" class="headerlink" title="iOS View中不能直接代码add tableView"></a>iOS View中不能直接代码add tableView</h1><div><br><br>\<br><br></div>
+        <h1 id="nodejs-异步异常处理"><a href="#nodejs-异步异常处理" class="headerlink" title="nodejs 异步异常处理"></a>nodejs 异步异常处理</h1><p> 环境：</p>
+<blockquote>
+<p>nodejs : 4.4.4<br>express :4.1.13</p>
+<p>pm2 :1.1.3</p>
+</blockquote>
+<p>nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。</p>
+<p>那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处理的异常抛出给统一的ExceptionHandler去处理呢？</p>
+<p><strong>注意，这里要处理的都是异步的业务异常，同步的异常处理不在这里讨论</strong></p>
+<p>同步异常处理：</p>
+<pre><code>//处理所有同步异常
+app.use(function (err, req, res, next) {
+// 带有四个参数的 middleware 专门用来处理异常
+res.json(&quot;{&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;}&quot;);
+});
+</code></pre><h2 id="怎么解决"><a href="#怎么解决" class="headerlink" title="怎么解决"></a>怎么解决</h2><p>目前其实还没有完美的方法去解决这个问题，但总是有替代的或者相似的解决方案：</p>
+<ul>
+<li>uncaughtException事件监听</li>
+<li>使用domain模块捕捉异常</li>
+</ul>
+<h3 id="uncaughtException事件监听"><a href="#uncaughtException事件监听" class="headerlink" title="uncaughtException事件监听"></a>uncaughtException事件监听</h3><p>uncaughtException 是一个非常古老的事件。当 Node 发现一个未捕获的异常时，会触发这个事件。并且如果这个事件存在回调函数，Node 就不会强制结束进程。</p>
+<p>一般情况下，我们会将有可能出错的代码放到try/catch块里。但是到了Node.js，由于try/catch无法捕捉异步回调里的异常，Node.js原生提供uncaughtException事件挂到process对象上，用于捕获所有未处理的异常，以下是一个模似一个异步异常：</p>
+<pre><code>process.on(&apos;uncaughtException&apos;, function(err) {
+console.error(&apos;Error caught in uncaughtException event:&apos;, err);
+});
 
-<div><br><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #93c86a">searchTableView</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">=<br>[[</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">UITableView</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">alloc</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">]</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">initWithFrame</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">:</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">CGRectMake</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">(</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">0</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">,</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">0</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">,</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">320</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">,</span><br><span <!--more--=""><br>style=”font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf”&gt;350</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">)];\<br>        </span> <span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #93c86a">searchTableView</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">hidden</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">=</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">YES</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">;\<br>        </span> <span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">UINib</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">*cellNib=[</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">UINib</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">nibWithNibName</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">:</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #e44448"> “SearchPoiCell”</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">bundle</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">:</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">nil</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">];\<br>         [</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #93c86a">searchTableView</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">registerNib</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">:cellNib</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">forCellReuseIdentifier</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">:</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #e44448"> “SearchPoiCell”</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">];\<br>        </span> <span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #93c86a">searchTableView</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">delegate</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">=</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">;\<br>        </span> <span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #93c86a">searchTableView</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">dataSource</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">=</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">;\<br>        </span> <span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #93c86a">listData</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">=<br>[[</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">NSMutableArray</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">alloc</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">]</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">init</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">];\<br>        </span> <span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">UIView</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">*view<br>= [[</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">UIView</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">alloc</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">]</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">initWithFrame</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">:</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">CGRectMake</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">(</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">0</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">,</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">74</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">,</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">320</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">,</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #8b84cf">350</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">)];\<br>         view.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">backgroundColor</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">=<br>[</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">UIColor</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">redColor</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">];\<br>         [view</span> <span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">addSubview</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">:</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #c2349b">self</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #93c86a">searchTableView</span><span style="font-style: normal; font-variant: normal; font-weight: normal; line-height: normal;"><span style="font-family: Menlo;"><span style="color: rgb(255, 255, 255);">];</span></span></span><br><br></div>
-
-<div><br><br><span style="font-family: Menlo;"><span style="color: rgb(255, 255, 255);">        [viewController.</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">view</span><br><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #00afca">addSubview</span><span style="font: 14.0px Menlo; font-variant-ligatures: no-common-ligatures; color: #ffffff">:view];</span></span><br><br></div>
-
+try {
+process.nextTick(function() {
+    fs.readFile(&apos;non_existent.js&apos;, function(err, str) {
+        if(err) throw err;
+        else console.log(str);
+    });
+});
+} catch(e) {
+console.error(&apos;Error caught by catch block:&apos;, e);
+}
+</code></pre><p>执行的结果是代码进到了uncaughtException的回调里而不是catch块。 uncaughtException虽然能够捕获异常，但是此时错误的上下文已经丢失，即使看到错误也不知道哪儿报的错，定位问题非常的不利。而且一旦uncaughtException事件触发，而且我们没有自定义重写process的uncaughtException挂载的话，整个node进程将crash掉。</p>
+<p>NodeJS对于未捕获异常的默认处理是： - 触发 uncaughtException 事件 - 如果 uncaughtException 没有被监听，那么 - 打印异常的堆栈信息 - 触发进程的 exit 事件;<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/11/19/nodejs_异步异常处理/#more">Read More</a>
           
        </p>
     </div>
@@ -620,13 +577,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  <span></span> <a href="/tags/express-异常处理/">express 异常处理</a>
   </div>
 
 </div>
@@ -637,7 +594,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/iOS View中不能直接代码add tableView/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS View中不能直接代码add tableView/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/nodejs_异步异常处理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/nodejs_异步异常处理/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -657,35 +614,32 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/iOS 开发证书与xcode、profile、appId的关系/" title="iOS 开发证书与xcode、profile、appId的关系" itemprop="url">iOS 开发证书与xcode、profile、appId的关系</a>
+      <a href="/2018/11/19/nodejs_学习笔记/" title="nodejs_学习笔记" itemprop="url">nodejs_学习笔记</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:23.698Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="iOS-开发证书与xcode、profile、appId的关系"><a href="#iOS-开发证书与xcode、profile、appId的关系" class="headerlink" title="iOS 开发证书与xcode、profile、appId的关系"></a>iOS 开发证书与xcode、profile、appId的关系</h1><div><br><br>1，开发证书是基础的东西<br><br></div>
+        <h1 id="nodejs-学习笔记"><a href="#nodejs-学习笔记" class="headerlink" title="nodejs_学习笔记"></a>nodejs_学习笔记</h1><h4 id="Nodejs-学习笔记"><a href="#Nodejs-学习笔记" class="headerlink" title="Nodejs 学习笔记"></a>Nodejs 学习笔记</h4><h4 id="一，快速认识"><a href="#一，快速认识" class="headerlink" title="一，快速认识"></a>一，快速认识<br></h4><h5 id="1）属性："><a href="#1）属性：" class="headerlink" title="1）属性："></a>1）属性：</h5><ol>
+<li>javascript 语法<br></li>
+<li>javascript的服务端技术<br></li>
+<li>使用了Google的V8虚拟机（Google的Chrome浏览器使用的JavaScript执行环境），来解释和执行JavaScript代码，生成机器指令<br></li>
+<li>行为驱动事件<br><br>5，javascript的进阶写法，原型编程</li>
+</ol>
+<h5 id="2-nodejs-相关目录"><a href="#2-nodejs-相关目录" class="headerlink" title="2) nodejs 相关目录"></a>2) nodejs 相关目录</h5><p>node js home path<br>Node was installed at</p>
+<p>  <code>/usr/local/bin/node</code></p>
+<p>npm was installed at <code>/usr/local/bin/npm</code></p>
 
-<div><br><br>在开发者中心进入到证书管理页面:<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br><img src="iOS%20%E5%BC%80%E5%8F%91%E8%AF%81%E4%B9%A6%E4%B8%8Excode%E3%80%81profile%E3%80%81appId%E7%9A%84%E5%85%B3%E7%B3%BB.resources/56DB7CE4-B121-4971-83C1-0E897A9C1CD1.png" alt=""><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>\<br>
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/03/30/iOS 开发证书与xcode、profile、appId的关系/#more">Read More</a>
           
        </p>
     </div>
@@ -711,7 +665,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/iOS 开发证书与xcode、profile、appId的关系/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS 开发证书与xcode、profile、appId的关系/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/nodejs_学习笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/nodejs_学习笔记/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -731,32 +685,30 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/iOS有用的代码/" title="iOS有用的代码" itemprop="url">iOS有用的代码</a>
+      <a href="/2018/11/19/node.js学习(上)/" title="node.js学习(上)" itemprop="url">node.js学习(上)</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:23.694Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="iOS有用的代码"><a href="#iOS有用的代码" class="headerlink" title="iOS有用的代码"></a>iOS有用的代码</h1><div><br><br><span style="font-size: 14px;">//iOS设置navigation是否可用</span><br><br></div>
+        <h1 id="node-js学习-上"><a href="#node-js学习-上" class="headerlink" title="node.js学习(上)"></a>node.js学习(上)</h1><hr>
+<p>title:  node.js学习(上)<br>date: 1542621383694<br>categories: nodejs developer</p>
+<h2 id="tags-npm镜像"><a href="#tags-npm镜像" class="headerlink" title="tags: npm镜像"></a>tags: npm镜像</h2><p>#node.js学习(上)<br>npm 将镜像设置为淘宝的npm镜像地址</p>
+<p>npm config set registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org/</a></p>
+<p>淘宝npm首页<br><a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a></p>
+<p>mac上的ruby下载源改成taobao的镜像,cocoapods用的到</p>
+<p><code>$ gem sources –remove <a href="https://rubygems.org/" target="_blank" rel="noopener">https://rubygems.org/</a><br>$ gem sources -a <a href="https://ruby.taobao.org/" target="_blank" rel="noopener">https://ruby.taobao.org/</a></code>  </p>
 
-<p><span style="font-family: Menlo; font-size: 14px; color: rgb(187, 44, 162);">self</span><span style="font-family: Menlo; font-size: 14px;">.</span><span style="color: rgb(112, 61, 170); font-family: Menlo; font-size: 14px;">navigationController</span><span style="font-family: Menlo; font-size: 14px;">.</span><span style="color: rgb(112, 61, 170); font-family: Menlo; font-size: 14px;">navigationBar</span><span style="font-family: Menlo; font-size: 14px;">.</span><span style="color: rgb(112, 61, 170); font-family: Menlo; font-size: 14px;">userInteractionEnabled</span><br><span style="font-family: Menlo; font-size: 14px;">=</span> <span style="font-family: Menlo; font-size: 14px; color: rgb(187, 44, 162);">YES</span><span style="font-family: Menlo; font-size: 14px;">;</span></p>
-<div><br><br><span style="font-family: Menlo; font-size: 14px;">\<br></span><br><br></div>
-
-<div><br><br><span style="font-family: Menlo; font-size: 14px;">\<br></span><br><br></div>
-
-<div><br>
         
         
         <p class="article-more-link">
-          
-            <a href="/2016/03/30/iOS有用的代码/#more">Read More</a>
           
        </p>
     </div>
@@ -782,7 +734,75 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/iOS有用的代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/iOS有用的代码/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/node.js学习(上)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/node.js学习(上)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/nginx反向代理做cache配置/" title="nginx反向代理做cache配置" itemprop="url">nginx反向代理做cache配置</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.674Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="nginx反向代理做cache配置"><a href="#nginx反向代理做cache配置" class="headerlink" title="nginx反向代理做cache配置"></a>nginx反向代理做cache配置</h1><p><span style="font: 18.0px Times; font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">nginx反向代理做cache配置</span><br><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><img src="nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif" alt=""></span><br><span style="font: 10.0px Arial; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">(2010-02-01<br>17:26:24)</span><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br> <span style="font-kerning: none"><img src="nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif" alt=""></span></span></p>
+<div><br><br>\<br><br></div>
+
+<p><span style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">正文开始</span><span style="font: 14.0px SimSun; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\</span></p>
+<p>前序：请耐性子看完，前面的这个配置可以达到按后缀名进行缓存，但无法被purge。后面的配置可以被purge。\<br> 具体实施方案按个人情况而定。\<br>\<br> 需要第三方的ngx_cache_purge模块：\<br> wget <a href="http://labs.frickle.com/files/ngx_cache_purge-1.0.tar.gz" target="_blank" rel="noopener"><span style="font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">http://labs.frickle.com/files/ngx_cache_purge-1.0.tar.gz</span></a>\<br> tar zxvf ngx_cache_purge-1.0.tar.gz\<br>  \<br> nginx机器IP地址：192.168.2.187\<br>\<br> 编译参数： configure arguments: –add-module=../ngx_cache_purge-1.0<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/nginx反向代理做cache配置/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/nginx反向代理做cache配置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/nginx反向代理做cache配置/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1012,7 +1032,7 @@
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1020,7 +1040,7 @@
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -1028,19 +1048,19 @@
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>

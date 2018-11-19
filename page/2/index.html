@@ -92,108 +92,35 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/07/13/centos修改docker镜象存储与容器目录/" title="centos修改docker镜象存储与容器目录" itemprop="url">centos修改docker镜象存储与容器目录</a>
+      <a href="/2018/11/19/美栈第一个迭代完成情况/" title="美栈第一个迭代完成情况" itemprop="url">美栈第一个迭代完成情况</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-07-13T08:00:00.000Z" itemprop="datePublished"> 发表于 2018-07-13</time>
+    <time datetime="2018-11-19T09:56:24.427Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="centos修改docker镜象存储与容器目录"><a href="#centos修改docker镜象存储与容器目录" class="headerlink" title="centos修改docker镜象存储与容器目录"></a>centos修改docker镜象存储与容器目录</h1><h2 id="修改docker容器存储目录"><a href="#修改docker容器存储目录" class="headerlink" title="修改docker容器存储目录"></a>修改docker容器存储目录</h2><p>vim  /usr/lib/systemd/system/docker.service</p>
-<p>修改如下：</p>
-<pre><code>[Unit]
-Description=Docker Application Container Engine
-Documentation=http://docs.docker.com
-After=network.target rhel-push-plugin.socket registries.service
-Wants=docker-storage-setup.service
-Requires=docker-cleanup.timer
+        <h1 id="美栈第一个迭代完成情况"><a href="#美栈第一个迭代完成情况" class="headerlink" title="美栈第一个迭代完成情况"></a>美栈第一个迭代完成情况</h1><div><br><br>\<br><br></div>
 
-[Service]
-Type=notify
-NotifyAccess=all
-EnvironmentFile=-/run/containers/registries.conf
-EnvironmentFile=-/etc/sysconfig/docker
-EnvironmentFile=-/etc/sysconfig/docker-storage
-EnvironmentFile=-/etc/sysconfig/docker-network
-Environment=GOTRACEBACK=crash
-Environment=DOCKER_HTTP_HOST_COMPAT=1
-Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin
-ExecStart=/usr/bin/dockerd-current \
-   -g /mnt/docker \
-  --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current \
-  --default-runtime=docker-runc \
-  --exec-opt native.cgroupdriver=systemd \
-  --userland-proxy-path=/usr/libexec/docker/docker-proxy-current \
-  --init-path=/usr/libexec/docker/docker-init-current \
-  --seccomp-profile=/etc/docker/seccomp.json \
-  $OPTIONS \
-  $DOCKER_STORAGE_OPTIONS \
-  $DOCKER_NETWORK_OPTIONS \
-  $ADD_REGISTRY \
-  $BLOCK_REGISTRY \
-  $INSECURE_REGISTRY \
-  $REGISTRIES
-ExecReload=/bin/kill -s HUP $MAINPID
-LimitNOFILE=1048576
-LimitNPROC=1048576
-LimitCORE=infinity
-TimeoutStartSec=0
-Restart=on-abnormal
-KillMode=process
+<div><br><br>1，查询点评<br><br></div>
 
-[Install]
-WantedBy=multi-user.target
-</code></pre><p>保存后，重启docker</p>
-<pre><code>service docker restart
-</code></pre><p>重启时提示需要更新systemctl</p>
-<pre><code>systemctl daemon-reload
-</code></pre><h2 id="添加docker国内镜像地址"><a href="#添加docker国内镜像地址" class="headerlink" title="添加docker国内镜像地址"></a>添加docker国内镜像地址</h2><pre><code>vi /etc/docker/daemon.json
-</code></pre><p>然后添加：</p>
-<pre><code>{
-  &quot;registry-mirrors&quot; : [
-    &quot;http://xxx.m.daocloud.io&quot;,
-    &quot;https://xxx.mirror.aliyuncs.com&quot;
-  ]
-}
-</code></pre><p>执行：</p>
-<pre><code>systemctl daemon-reload
+<div><br><br>1），添加酒店名称查询<br><br></div>
 
-service  docker restart
-</code></pre><p>ok….</p>
-<p>将docker加入开机启动：</p>
-<pre><code>systemctl enable docker.service
-</code></pre><h2 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h2><ol>
-<li>安装</li>
-</ol>
-<pre><code>sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-</code></pre><ol>
-<li>授权</li>
-</ol>
-<pre><code>sudo chmod +x /usr/local/bin/docker-compose
-</code></pre><ol>
-<li>可用</li>
-</ol>
-<p>本来在很多操作系统里，/usr/local/bin目录下本来已经是全局环境变量里了，按理说应该在任何地方执行docker-compose命令都是可以的，可现实是：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532262432906x88x9ej6.png?imageslim" alt="paste image"></p>
-<p>看看系统变量有哪些目录是支持全局的：</p>
-<pre><code>echo $PATH
-</code></pre><p>出来这个：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532262596373ggfk14ba.png?imageslim" alt="paste image"></p>
-<p>这个目录在全局变量里啊，不管了，那我把这个可执行文件软链到/usr/bin这个目录里吧，这个目录肯定可以的。</p>
-<pre><code>ln -s /usr/local/bin/docker-compose /usr/bin/
-</code></pre><p>再执行：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1532262801723b0xqlhvt.png?imageslim" alt="paste image"></p>
-<p>ok了。。。。。</p>
+<div><br><br>2），修改改为审核<br><br></div>
 
+<div><br><br>3），详情添加图片展示(不只是一张，后期看情况做成文本与图片混编)<br><br></div>
+
+<div><br><br>4），添加按时间查询<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/11/19/美栈第一个迭代完成情况/#more">Read More</a>
           
        </p>
     </div>
@@ -202,13 +129,13 @@ service  docker restart
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/docker/">docker</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -219,7 +146,7 @@ service  docker restart
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/07/13/centos修改docker镜象存储与容器目录/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/13/centos修改docker镜象存储与容器目录/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/美栈第一个迭代完成情况/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/美栈第一个迭代完成情况/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -239,487 +166,405 @@ service  docker restart
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/07/07/义字当头，毅然落草/" title="义字当头，毅然落草" itemprop="url">义字当头，毅然落草</a>
+      <a href="/2018/11/19/申请企业证书需要的资料/" title="申请企业证书需要的资料" itemprop="url">申请企业证书需要的资料</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-07-07T15:16:00.000Z" itemprop="datePublished"> 发表于 2018-07-07</time>
+    <time datetime="2018-11-19T09:56:24.421Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="义字当头，毅然落草"><a href="#义字当头，毅然落草" class="headerlink" title="义字当头，毅然落草"></a>义字当头，毅然落草</h1><p>回到锦江4个月，对于此锦江已经不是那时电商时代，环境氛围完全变了，感觉自己来到了一家新的公司，只是这个团队还有我熟悉的人而已，而周围的工作环境却是那么的糟糕。</p>
-<p>但是，如果作为一个想要在国企养老的态度的话，我觉得在这里呆下去完全没有问题，况且这边也非常需要我。加上团队的老大也算是我多年的朋友，已经决定要离开，并且明确希望我能过去帮他，而此次回电商，我也有80%的原因因为他而回来，因为他我自降薪水来到已经复杂到非常的一家整合型公司，那如果他离开了，我觉得如果我不是为了混，那留在这里养老似乎不是我的追求，所以，那就走吧，开干吧。。。。。。</p>
-<p>对于很多理性的人觉得，职场不应该有朋友义气，但是很多时候我觉得人都是孤独的，每个人熟悉新环境的成本也是很大的，如果有一个志同道合的朋友一起去做那件事，对相互也是种高效。<br>这次创业我不是CTO，而是作为架构师的角色去follow，技术不是以我为核心，我也没有股权，股权这个事，我觉得，拉到投资了，上市了，才有用，没有上市，其实就是空头支票，虽然我们都很看好这次的创业，但我认为，他们成功的机会并不会太高，因为大家的出发点就不纯，而且并没有太多的创业激情。。。。。。</p>
-<p>此次，完全义气帮忙，当然，给我的报酬也还过得去，虽然没有我单独出去拿得高，但是这里毕竟都是自己人，工作环境都OK，待我将架构师这个职位坐实，做到心里有数时，我觉得就可以出去了，阿里什么的都可以试试。。。。。。。</p>
-<p>再次goodBye，锦江电商。。。。。。。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/随笔/">随笔</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/随笔/">随笔</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/07/07/义字当头，毅然落草/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/07/义字当头，毅然落草/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/27/7天学会使用springcloud-五/" title="7天学会使用springcloud(五)" itemprop="url">7天学会使用springcloud(五)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-05-26T16:16:00.000Z" itemprop="datePublished"> 发表于 2018-05-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="7天学会使用springcloud-五"><a href="#7天学会使用springcloud-五" class="headerlink" title="7天学会使用springcloud(五)"></a>7天学会使用springcloud(五)</h1><h2 id="hystrix集成springcloud使用"><a href="#hystrix集成springcloud使用" class="headerlink" title="hystrix集成springcloud使用"></a>hystrix集成springcloud使用</h2><p>app-service项目中，pom.xml:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.service&lt;/groupId&gt;
-    &lt;artifactId&gt;app-service&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;jar&lt;/packaging&gt;
-
-    &lt;name&gt;app-service&lt;/name&gt;
-    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.M9&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix-dashboard&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;!--    增加feign服务代理依赖 --&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
-            &lt;version&gt;2.0.0.M2&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
-            &lt;exclusions&gt;
-                &lt;exclusion&gt;
-                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
-                &lt;/exclusion&gt;
-            &lt;/exclusions&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-        &lt;repository&gt;
-            &lt;id&gt;alimaven&lt;/id&gt;
-            &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;
-        &lt;/repository&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-snapshots&lt;/id&gt;
-            &lt;url&gt;http://repo.spring.io/snapshot&lt;/url&gt;
-            &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-&lt;/project&gt;
-</code></pre><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ul>
-<li>启用hystrix</li>
-</ul>
-<p>在启动类上添加 @EnableCircuitBreaker与@EnableHystrixDashboard注解</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/15273523469114tx4hfou.png?imageslim" alt="paste image"></p>
-<ul>
-<li>使用</li>
-</ul>
-<p>添加@HystrixCommand注解:</p>
-<pre><code>@RequestMapping(value = &quot;/hello/{name}&quot;)
-   @HystrixCommand(fallbackMethod = &quot;error&quot;, commandProperties = {
-           @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)
-           , @HystrixProperty(name = &quot;circuitBreaker.requestVolumeThreshold&quot;, value = &quot;2&quot;)})
-   public String hello(@PathVariable(value = &quot;name&quot;) String name){
-       return clientRemoteProxy.hello(name);
-   }
-
-   public String error(String name){
-       return name+&quot;：您所调用的接口服务不可用，请重试&quot;;
-   }
-</code></pre><p>注意其中有两个关键属性分别为:</p>
-<p>　　 execution.isolation.thread.timeoutInMilliseconds 这个是请求最大的响应时间</p>
-<p>　　 circuitBreaker.requestVolumeThreshold 如果执行失败的次数等于或者超过这个值就开启保护</p>
-<p>ClientRemoteProxy:</p>
-<pre><code>@Component
-public class ClientRemoteProxy {
-
-    @Autowired
-    RestTemplate restTemplate;
-
-    public String hello(String name) {
-        return restTemplate.getForObject(&quot;http://APPCLIENT/hello?name=&quot;+name,String.class);
-    }
-}
-</code></pre><p>我启动了两个client,一个client有hello接口，另一个则没有，因为robbin会有自动负载均衡策略，我们来看看什么效果？</p>
-<p>我来回刷新请求了5-6次，会随机返回断路器信息和正确信息，但和zuul断路信息不同：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/15273530615360wfrs5b0.png?imageslim" alt="paste image"></p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1527353090768tm00flye.png?imageslim" alt="paste image"></p>
-<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p><img src="http://ojnkdvkci.bkt.clouddn.com/1527352180459kqll74wa.png?imageslim" alt="paste image"></p>
-<h2 id="检测状态"><a href="#检测状态" class="headerlink" title="检测状态"></a>检测状态</h2><p>如果springboot安装了actuator组件，我们可以访问请求地址：</p>
-<pre><code>http://localhost:9000/actuator/health 
-</code></pre><p>来检测状态，当然也可以直接请求：    </p>
-<pre><code>http://localhost:9000/actuator
-</code></pre><p>来查看actuator有哪些接口可以访问。</p>
-<h2 id="查看断路器信息状态"><a href="#查看断路器信息状态" class="headerlink" title="查看断路器信息状态"></a>查看断路器信息状态</h2><p>Hystrix有个监控的控制台，因为启用了：</p>
-<pre><code>@EnableHystrixDashboard
-</code></pre><p>这个引用了包：</p>
-<pre><code>spring-cloud-starter-netflix-hystrix-dashboard
-</code></pre><p>可以看到有多少接口调用失败了，被熔断的次数，接口请求次数等数据：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1527353605119ja1qnq8z.png?imageslim" alt="paste image"></p>
-<p>参考springcloud的官方文档：</p>
-<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
-<p>访问dashboard的地址：</p>
-<p><a href="http://localhost:9000/hystrix" target="_blank" rel="noopener">http://localhost:9000/hystrix</a></p>
-<h2 id="Turbine"><a href="#Turbine" class="headerlink" title="Turbine"></a>Turbine</h2><blockquote>
-<blockquote>
-<p>Looking at an individual instance’s Hystrix data is not very useful in terms of the overall health of the system. Turbine is an application that aggregates all of the relevant /hystrix.stream endpoints into a combined /turbine.stream for use in the Hystrix Dashboard. Individual instances are located through Eureka. Running Turbine requires annotating your main class with the @EnableTurbine annotation (for example, by using spring-cloud-starter-netflix-turbine to set up the classpath). All of the documented configuration properties from the Turbine 1 wiki apply. The only difference is that the turbine.instanceUrlSuffix does not need the port prepended, as this is handled automatically unless turbine.instanceInsertPort=false.</p>
-</blockquote>
-</blockquote>
-<p>这个turbine和dashboard配合使用的：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1527354179380hlt0wlxs.png?imageslim" alt="paste image"></p>
-<p>瞬定是会珍惜整个目录的。</p>
-<p>关于trubine的使用我没有可分享的，需要去实践。</p>
-<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>springcloud-service<br>好困要睡觉了，晚安各位。。。。。。。</p>
-<p>以下是官方文档：</p>
-<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
-<p><a href="https://github.com/huguiqi/springcloud-sample" target="_blank" rel="noopener">github代码</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/hy/">hy</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/05/27/7天学会使用springcloud-五/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/27/7天学会使用springcloud-五/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/12/7天学会使用springcloud-四/" title="7天学会使用springcloud(四)" itemprop="url">7天学会使用springcloud(四)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-05-12T14:20:00.000Z" itemprop="datePublished"> 发表于 2018-05-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="7天学会使用springcloud-四"><a href="#7天学会使用springcloud-四" class="headerlink" title="7天学会使用springcloud(四)"></a>7天学会使用springcloud(四)</h1><h2 id="什么是熔断机制"><a href="#什么是熔断机制" class="headerlink" title="什么是熔断机制"></a>什么是熔断机制</h2><p>最近电脑翻墙出了点问题，无法到wiki上去看它的定义，只能上百度百科上去找这个定义了，这个名词其实引自股票行业：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>熔断机制（Circuit Breaker），也叫自动停盘机制，是指当股指波幅达到规定的熔断点时，交易所为控制风险采取的暂停交易措施。 [1]  具体来说是对某一合约在达到涨跌停板之前，设置一个熔断价格，使合约买卖报价在一段时间内只能在这一价格范围内交易的机制。</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>引入到软件架构中，就是当某个应用服务达到一个风险值的时候(内存，cpu等)，使此应用暂停服务，以免影响整个服务的正常运行。</p>
-<h2 id="springcloud的熔断机制"><a href="#springcloud的熔断机制" class="headerlink" title="springcloud的熔断机制"></a>springcloud的熔断机制</h2><p>在微服务架构中，根据业务来拆分成一个个的服务，服务与服务之间可以相互调用（RPC），在Spring Cloud可以用RestTemplate+Ribbon和Feign来调用。为了保证其高可用，单个服务通常会集群部署。由于网络原因或者自身的原因，服务并不能保证100%可用，如果单个服务出现问题，调用这个服务就会出现线程阻塞，此时若有大量的请求涌入，Servlet容器的线程资源会被消耗完毕，导致服务瘫痪。服务与服务之间的依赖性，故障会传播，会对整个微服务系统造成灾难性的严重后果，这就是服务故障的“雪崩”效应。</p>
-<p>为了解决这个问题，业界提出了断路器模型。</p>
-<h2 id="springcloud熔断机制有几种方式"><a href="#springcloud熔断机制有几种方式" class="headerlink" title="springcloud熔断机制有几种方式"></a>springcloud熔断机制有几种方式</h2><h3 id="路由熔断"><a href="#路由熔断" class="headerlink" title="路由熔断"></a>路由熔断</h3><p>zull除了做网关，还可以做路由熔断。</p>
-<p>当我们的后端服务出现异常的时候，我们不希望将异常抛出给最外层，期望服务可以自动进行一降级。Zuul给我们提供了这样的支持。当某个服务出现异常时，直接返回我们预设的信息。</p>
-<p>目前最新的zuul是通过filter的方式进行熔断的</p>
-<p>如果zuul引用的版本是：</p>
-<pre><code>&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-&lt;artifactId&gt;spring-cloud-netflix&lt;/artifactId&gt;
-&lt;version&gt;1.3.1.RELEASE&lt;/version&gt;
-</code></pre><p>我们通过自定义的fallback方法，并且将其指定给某个route来实现该route访问出问题的熔断处理。主要继承ZuulFallbackProvider接口来实现，ZuulFallbackProvider默认有两个方法，一个用来指明熔断拦截哪个服务，一个定制返回内容</p>
-<pre><code>public interface ZuulFallbackProvider {
-   /**
-     * The route this fallback will be used for.
-     * @return The route the fallback will be used for.
-     */
-    public String getRoute();
-
-    /**
-     * Provides a fallback response.
-     * @return The fallback response.
-     */
-    public ClientHttpResponse fallbackResponse();
-}
-</code></pre><p>实现类通过实现getRoute方法，告诉Zuul它是负责哪个route定义的熔断。而fallbackResponse方法则是告诉 Zuul 断路出现时，它会提供一个什么返回值来处理请求。</p>
-<p>后来Spring又扩展了此类，丰富了返回方式，在返回的内容中添加了异常信息，因此最新版本建议直接继承类FallbackProvider 。</p>
-<p>我们以上面的eruake-service服务为例，定制它的熔断返回内容。</p>
-<pre><code>@Component
-public class ProducerFallback implements FallbackProvider {
-    private final Logger logger = LoggerFactory.getLogger(FallbackProvider.class);
-
-    //指定要处理的 service。
-    @Override
-    public String getRoute() {
-        return &quot;appclient&quot;;
-    }
-
-    public ClientHttpResponse fallbackResponse() {
-        return new ClientHttpResponse() {
-            @Override
-            public HttpStatus getStatusCode() throws IOException {
-                return HttpStatus.OK;
-            }
-
-            @Override
-            public int getRawStatusCode() throws IOException {
-                return 200;
-            }
-
-            @Override
-            public String getStatusText() throws IOException {
-                return &quot;OK&quot;;
-            }
-
-            @Override
-            public void close() {
-
-            }
-
-            @Override
-            public InputStream getBody() throws IOException {
-                return new ByteArrayInputStream(&quot;The service is unavailable.&quot;.getBytes());
-            }
-
-            @Override
-            public HttpHeaders getHeaders() {
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                return headers;
-            }
-        };
-    }
-
-    @Override
-    public ClientHttpResponse fallbackResponse(Throwable cause) {
-        if (cause != null &amp;&amp; cause.getCause() != null) {
-            String reason = cause.getCause().getMessage();
-            logger.info(&quot;Excption {}&quot;,reason);
-        }
-        return fallbackResponse();
-    }
-}
-</code></pre><p>当服务出现异常时，打印相关异常信息，并返回</p>
-<p>“The service is unavailable.”。</p>
-<p>手动关闭client1项目，多次访问地址：<a href="http://localhost:8888/applicent/hello?name=neo&amp;token=xx，会交替返回：" target="_blank" rel="noopener">http://localhost:8888/applicent/hello?name=neo&amp;token=xx，会交替返回：</a></p>
-<pre><code>hello neo，this is first messge
-The service is unavailable.
-...
-</code></pre><p>根据返回结果可以看出：eurake-client-2项目已经启用了熔断，返回:The service is unavailable.</p>
-<p>如果zuul引用的版本是：</p>
-<pre><code>&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-&lt;artifactId&gt;spring-cloud-starter-netflix&lt;/artifactId&gt;
-&lt;version&gt;2.0.0.M8&lt;/version&gt;
-</code></pre><p>那就用FallbackProvider代替ZuulFallbackProvider来实现。</p>
-<p>ps:<br>Zuul 目前只支持服务级别的熔断，不支持具体到某个URL进行熔断。</p>
-<h3 id="熔断器（CircuitBreaker）"><a href="#熔断器（CircuitBreaker）" class="headerlink" title="熔断器（CircuitBreaker）"></a>熔断器（CircuitBreaker）</h3><ul>
-<li>断路器原理</li>
-</ul>
-<p>断路器的原理很简单，如同电力过载保护器。它可以实现快速失败，如果它在一段时间内侦测到许多类似的错误，会强迫其以后的多个调用快速失败，不再访问远程服务器，从而防止应用程序不断地尝试执行可能会失败的操作，使得应用程序继续执行而不用等待修正错误，或者浪费CPU时间去等到长时间的超时产生。熔断器也可以使应用程序能够诊断错误是否已经修正，如果已经修正，应用程序会再次尝试调用操作。</p>
-<p>熔断器模式就像是那些容易导致错误的操作的一种代理。这种代理能够记录最近调用发生错误的次数，然后决定使用允许操作继续，或者立即返回错误。</p>
-<p>引入官方的调用图：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1527348164587o75pzs9y.png?imageslim" alt="paste image"></p>
-<p>Martin Fowler官方对断路器的定义都在这里：</p>
-<p><a href="https://martinfowler.com/bliki/CircuitBreaker.html" target="_blank" rel="noopener">https://martinfowler.com/bliki/CircuitBreaker.html</a></p>
-<ul>
-<li>Hystrix</li>
-</ul>
-<blockquote>
-<blockquote>
-<p>Netflix has created a library called Hystrix that implements the circuit breaker pattern. In a microservice architecture, it is common to have multiple layers of service calls</p>
-</blockquote>
-</blockquote>
-<p>hystrix是实现了martin fowler的断路器的一个框架，目前也是使用最广的。<br>Hystrix原理很好理解, 当Hystrix Command请求后端服务失败数量超过一定比例(默认50%), 断路器会切换到开路状态(Open). 这时所有请求会直接失败而不会发送到后端服务. 断路器保持在开路状态一段时间后(默认5秒), 自动切换到半开路状态(HALF-OPEN). 这时会判断下一次请求的返回情况, 如果请求成功, 断路器切回闭路状态(CLOSED), 否则重新切换到开路状态(OPEN). Hystrix的断路器就像我们家庭电路中的保险丝, 一旦后端服务不可用, 断路器会直接切断请求链, 避免发送大量无效请求影响系统吞吐量, 并且断路器有自我检测并恢复的能力.</p>
-<p>以上摘自springcloud文档中关于断路器中的原文：</p>
-<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
+        <h1 id="申请企业证书需要的资料"><a href="#申请企业证书需要的资料" class="headerlink" title="申请企业证书需要的资料"></a>申请企业证书需要的资料</h1><p> 苹果技术电话支持：4006701855</p>
 <ol>
-<li>Fallback</li>
+<li><p>有国际支付功能的银行卡，并且里面有99美元（公司类型的账号需要支付99$)  </p>
+</li>
+<li><p>接收和激活信息的邮箱（申请新开一个技术部的专用邮箱:IT@shfugu.com）</p>
+</li>
+<li>公司法人代表的姓名、法人头衔</li>
+<li>公司营业执照副本(电子版)</li>
+<li>公司联系电话  </li>
 </ol>
-<p>Fallback相当于是降级操作. 对于查询操作, 我们可以实现一个fallback方法, 当请求后端服务出现异常的时候, 可以使用fallback方法返回的值. fallback方法的返回值一般是设置的默认值或者来自缓存.</p>
+<p>这些是苹果公司在注册公司的开发者帐号时需要用到与核实的信息</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ios-developer-upload/">ios developer upload</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/申请企业证书需要的资料/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/申请企业证书需要的资料/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/下载花生壳，注册域名。/" title="下载花生壳，注册域名。" itemprop="url">下载花生壳，注册域名。</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.414Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="下载花生壳，注册域名。"><a href="#下载花生壳，注册域名。" class="headerlink" title="下载花生壳，注册域名。"></a>下载花生壳，注册域名。</h1><p><strong><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: 宋体;">下载花生壳，注册域名。</span></strong><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  \<br> 1</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">）到</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><a href="http://www.oray.net/" target="_blank" rel="noopener"><span style="font-family: 宋体;">http://www.oray.net</span></a></span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">下载安装花生壳的客户端。然后运行花生壳软件，点击</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">“</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">注册</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Oray</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">护照</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">”</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">，根据弹出注册护照窗口提示进行注册。注册</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Oray</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">护照完成后，使用所注册的护照名称和密码填入花生壳软件中进行登陆。</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  \<br><a href="http://photo.it.com.cn/photo.htm?http://www.oray.net/Help/Samples/images/4_02/Help_Samples_4_02_clip_image007.jpg" target="_blank" rel="noopener"></a></span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">2)</span><span <!--more--=""><br>lang=”ZH”<br>style=”font-size: 10.5pt; color: rgb(51, 51, 51);”&gt;右击</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">“</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">免费域名</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">”</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">，来注册一个免费域名。这样以后不管上网后的</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">IP</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">地址怎么变化，只要记住该域名就可以连接相对应的</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">IP</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">地址了，方便极了。</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  \<br> 3)  </span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">根据提示激活上一步所申请的免费域名花生壳动态</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">DNS</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">服务。当激活了域名以后时候，花生壳软件已经在线了。我们所申请的免费域名已经绑定到当前的公网</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">IP</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">地址，互联网可通过所申请的域名直接访问到当前的公网</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">IP</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">了。</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">（现在是申请后就自动激活了）</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  </span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Tomcat</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">的相关配置：</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">安装好</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Tomcat</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">，在环境变量设</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">TOMCAT_HOME</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">为</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">jdk</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">的路径，在</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Tomcat</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">的主目录下，</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">conf</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">目录下找到</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">server.xml,</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">找到</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">&lt;Connector<br>port=”8080” maxHttpHeaderSize=”8192”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>                            <span>  </span></span>maxThreads=”150”<br>minSpareThreads=”25” maxSpareThreads=”75”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>                            <span>  </span></span>enableLookups=”false”<br>redirectPort=”8443” acceptCount=”100”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>                            <span>  </span></span>connectionTimeout=”20000”<br>disableUploadTimeout=”true” /&gt;,</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">把</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">port=”8080”</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改为</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">port=”80”</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">，也可修改为其它端口，注意要和端口映射设相同。</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">&lt;Engine<br>name=”Catalina” defaultHost=”localhost”&gt;</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改为</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">把在</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">defaultHost</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">的“</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">localhost”</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改为自己申请的域名</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">&lt;Host<br>name=”localhost” appBase=”webapps”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>            <span>  </span></span>unpackWARs=”true”<br>autoDeploy=”true”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>            <span>  </span></span>xmlValidation=”false”<br>xmlNamespaceAware=”false”&gt;</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">把</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">&lt;Host<br>name=”localhost” appBase=”webapps”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>            <span>  </span></span>unpackWARs=”true”<br>autoDeploy=”true”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>            <span>  </span></span>xmlValidation=”false”<br>xmlNamespaceAware=”false”&gt;</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">把</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Host<br>name</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改为自己申请的域名。</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">设置好要重启</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Tomcat.</span></p>
+<p><span style="font-family: 宋体;">端口映射（只限于内网使用，</span><span lang="ZH" style="color: rgb(51, 51, 51); font-family: 宋体;">如果本机是直接</span><span lang="EN-US" style="color: rgb(51, 51, 51); font-family: Arial;">ADSL</span><span lang="ZH" style="color: rgb(51, 51, 51); font-family: 宋体;">拨号上网，则无需端口映射。</span><span style="font-family: 宋体;">）</span></p>
+<p><span style="font-family: 宋体;">登录到</span><span lang="EN-US"><a href="http://192.168.1.1/" target="_blank" rel="noopener">http://192.168.1.1</a></span><span style="font-family: 宋体;">，输入帐号密码，在左边“转发规则</span><span lang="EN-US">–&gt;</span><span style="font-family: 宋体;">虚拟服务器，中间</span><span lang="EN-US">IP</span><span style="font-family: 宋体;">地址输入自己电脑的内部网址，输入一个服务端口，这要和</span><span lang="EN-US">Tomcat</span><span style="font-family: 宋体;">的</span><span lang="EN-US">Port</span><span style="font-family: 宋体;">端口一致，最方便是输入</span><span lang="EN-US">80</span><span style="font-family: 宋体;">，这样输入网址时不用输入端口号。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span style="font-family: 宋体;">保存，有的要重启路由器。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span style="font-family: 宋体;">注意防火墙，如果不行，可先关了防火墙，最后把相关端口设为例外。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span style="font-family: 宋体;">输入</span><span lang="EN-US">http://+</span><span style="font-family: 宋体;">域名</span><span lang="EN-US">+</span><span style="font-family: 宋体;">端口</span><span lang="EN-US">+jsp</span><span style="font-family: 宋体;">文件</span></p>
+<p><span style="font-family: 宋体;">如</span><span lang="EN-US"><a href="http://jisou.eicp.net:80/index.jsp" target="_blank" rel="noopener">http://jisou.eicp.net:80/index.jsp</a></span></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/下载花生壳，注册域名。/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/下载花生壳，注册域名。/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/建立你自己的本地仓库(Maven仓库管理-Nexus)/" title="建立你自己的本地仓库(Maven仓库管理-Nexus)" itemprop="url">建立你自己的本地仓库(Maven仓库管理-Nexus)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.405Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="建立你自己的本地仓库-Maven仓库管理-Nexus"><a href="#建立你自己的本地仓库-Maven仓库管理-Nexus" class="headerlink" title="建立你自己的本地仓库(Maven仓库管理-Nexus)"></a>建立你自己的本地仓库(Maven仓库管理-Nexus)</h1><p>建立你自己的本地仓库(Maven仓库管理-Nexus)\<br>前面我讲到为什么要使用Maven,<br>Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个Hello<br>World，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\<br>\<br>这一个章节，我分两部分来介绍，首先介绍一下Maven的仓库，然后在说一下如何通过Nexus来建立我们自己的仓库，以及如何使用。\<br>\<br>Maven仓库\<br>在以前使用Ant的时候，我们会建立一个lib目录在存放我们的jar包，比如项目所依赖的第三方包，每建立一个项目都要建立一个lib，不停的做copy工作，不仅是对于磁盘的浪费，而且也造成了版本管理上的麻烦。而且我们还需要通过提交到svn上来对lib进行管理，但是svn对于这种二进制文件的管理并不出色。\<br>\<br>Maven仓库的初中就是为了解决这个问题，是所有常用的第三方包的集中营。这样所有的Maven项目就可以从这个仓库中获取所需要的资源，Maven仓库中对jar通过Group<br>Id, Atifact Id, version<br>来管理，所以Maven项目可以很方便的进行依赖管理。你不需要自己来管理这个庞大的资源仓库，当然你可以创建一个公司层面的仓库管理器，这个我在这个章节的后面会介绍。\<br>\<br>Maven仓库的两个概念：本地仓库和远程仓库\<br>\<br>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。\<br>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：\<br>Xml代码\</p>
 <ol>
-<li>资源隔离</li>
-</ol>
-<p>在Hystrix中, 主要通过线程池来实现资源隔离. 通常在使用的时候我们会根据调用的远程服务划分出多个线程池. 例如调用产品服务的Command放入A线程池, 调用账户服务的Command放入B线程池. 这样做的主要优点是运行环境被隔离开了. 这样就算调用服务的代码存在bug或者由于其他原因导致自己所在线程池被耗尽时, 不会对系统的其他服务造成影响. 但是带来的代价就是维护多个线程池会对系统带来额外的性能开销. 如果是对性能有严格要求而且确信自己调用服务的客户端代码不会出问题的话, 可以使用Hystrix的信号模式(Semaphores)来隔离资源.</p>
-<h2 id="熔断机制的应用场景"><a href="#熔断机制的应用场景" class="headerlink" title="熔断机制的应用场景"></a>熔断机制的应用场景</h2><p>依赖服务调用，依赖服务如果访问失败或者服务挂了，但又不想拖垮整个应用网络，则使用它。</p>
-<h2 id="熔断机制有什么优缺点"><a href="#熔断机制有什么优缺点" class="headerlink" title="熔断机制有什么优缺点"></a>熔断机制有什么优缺点</h2><ol>
-<li><p>解决大并发数据量情况下，某些调用链环节失败导致拖垮整个网络的情况发生</p>
-</li>
-<li><p>适合大型分布式应用场景，对外部依赖严重项目</p>
-</li>
-<li>提高了复杂系统之间排查线上问题的效率</li>
-<li>使用网关路由熔断只支持具体服务,并且只适合微服务。</li>
-<li>在Hystrix中可以支持到url，无服务限制，可以是任何服务地址。</li>
-</ol>
-<h2 id="springboot集成熔断"><a href="#springboot集成熔断" class="headerlink" title="springboot集成熔断"></a>springboot集成熔断</h2><ol>
-<li>zuul + zuulFilter</li>
-</ol>
-<p>上面已经实现</p>
+<li>&lt;settings&gt;\</li>
+<li>…\</li>
+<li>&lt;localRepository&gt;D:/java/repository&lt;/localRepository&gt;\</li>
+<li>…\</li>
+<li>&lt;/settings&gt;\<br>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:\<br>\${M2_HOME}/conf/setting.xml\<br>\<br>还可以通过在运行时指定目录，但是并不推荐这么做：\<br>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/\<br>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到/org/apache/maven/project/pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：\
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/建立你自己的本地仓库(Maven仓库管理-Nexus)/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/建立你自己的本地仓库(Maven仓库管理-Nexus)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/建立你自己的本地仓库(Maven仓库管理-Nexus)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/如何将印象笔记导为markdown/" title="如何将印象笔记导为markdown" itemprop="url">如何将印象笔记导为markdown</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.401Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="如何将印象笔记导为markdown"><a href="#如何将印象笔记导为markdown" class="headerlink" title="如何将印象笔记导为markdown"></a>如何将印象笔记导为markdown</h1><p>由于想把自己多年的印象笔记里的技术笔记都转成markdown导出，但目前印象笔记不支持直接导出evernote,怎么办？google了一下，发现还没有直接导出的，只发现<a href="https://maxiang.io/" target="_blank" rel="noopener">马克飞象</a><strong>可以直接绑定印象笔记和evernote国际版，绑定了以后可以直接在马克飞象上面写文章，然后同步到evernote上去</strong>，但是我需要的是把原来evernote上的笔记全部导出为markdown格式，目前evernote只支持导出为html和enex格式,看来只能从这里入手了。</p>
+<h2 id="一，将印象笔记中技术分类的笔记全部导出"><a href="#一，将印象笔记中技术分类的笔记全部导出" class="headerlink" title="一，将印象笔记中技术分类的笔记全部导出"></a>一，将印象笔记中技术分类的笔记全部导出</h2><p>我是mac电脑，安装的是印象笔记客户端，直接在文件–&gt;导出笔记（格式选html），但是问题来了，导出的是批量的html,目前我们也没有看到有可以批量将html转成markdown的工具，所以就只能自己用脚本摸索一个了。</p>
+<hr>
+<p>目前我知道的比较流行的将html转为markdown的工具有：<br>    1.<a href="http://markdownrules.com/" target="_blank" rel="noopener">MarkdownRules.</a><br>    <br>    <em>这款工具将html转markdown是在线上的，美中不足的是，它不支持 &lt; pre&gt; 这类的标记</em></p>
+<p>2.<a href="http://johnmacfarlane.net/pandoc/" target="_blank" rel="noopener">Pandoc. </a><br><br><br><em>这款工具是就非常强大了，它不公可以转html到markdown，还可以对markdown, reStructuredText, textile, HTML, DocBook, LaTeX, MediaWiki markup, TWiki markup, OPML, Emacs Org-Mode, Txt2Tags, Microsoft Word docx, LibreOffice ODT, EPUB, or Haddock markup 等十几种格式文档相互转换。但是，同样的，对&lt; pre &gt;标记的支持不足,mac用户可以通过home brew 进行安装</em></p>
+<p>3.<a href="https://github.com/aaronsw/html2text" target="_blank" rel="noopener">html2text.</a> </p>
+<p><em>这是一款python写的工具，它相比前两款对&lt; pre &gt;标记解析有着更出色的表现，但也有些情况解析不了</em></p>
+<p>我选择了pandoc对我的东西进行转换</p>
+<h2 id="二，Pandoc批量将html转为markdown"><a href="#二，Pandoc批量将html转为markdown" class="headerlink" title="二，Pandoc批量将html转为markdown"></a>二，Pandoc批量将html转为markdown</h2>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/如何将印象笔记导为markdown/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/如何将印象笔记导为markdown/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/如何将印象笔记导为markdown/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/查找项目中是否有用IDFA/" title="查找项目中是否有用IDFA" itemprop="url">查找项目中是否有用IDFA</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.398Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="查找项目中是否有用IDFA"><a href="#查找项目中是否有用IDFA" class="headerlink" title="查找项目中是否有用IDFA"></a>查找项目中是否有用IDFA</h1><div><br><br>好难过，上传app时友盟又坑我。。。。。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>—使用此命令可以查找项目中是否有用IDFA<br><br></div>
+
+<div><br><br>find . | grep -v .svn<br>| grep “\.a” | grep -v “\.app” | xargs grep advertisingIdentifier<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/查找项目中是否有用IDFA/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/查找项目中是否有用IDFA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/查找项目中是否有用IDFA/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/启动画面自定义动画/" title="启动画面自定义动画" itemprop="url">启动画面自定义动画</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.394Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="启动画面自定义动画"><a href="#启动画面自定义动画" class="headerlink" title="启动画面自定义动画"></a>启动画面自定义动画</h1><p><span style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">添加一个ViewController，在这个ViewController的view中添加一个ImageView，全屏显示，横竖屏你自己设定，这个imageView的初始图片可以跟你的启动页面一样，然后在应用程序启动后将这个ViewController<br>设置为rootViewController，在启动时就去获取网络图片的url，然后异步加载图片，将这个图片设置为ImageView的图片。显示出图片后再更换rootViewController，在切换rootViewController时为了自然过渡可以增加一些动画效果，如翻转、淡入淡出等。\<br>\<br> 思路如下：\<br>\</span></p>
 <ol>
-<li>fegin+Hystrix</li>
+<li>self.window.rootViewController =<br>self.welcomeViewController（显示网络图片的Controller）\<br>\</li>
+<li>EGOImageView *imageView = [[EGOImageView alloc]<br>initWithPlaceholderImage:[UIImage imageNamed: “xxxx”]];\<br>\<br>[ imageView setImageUrl: “xxx”];<br>//这样就可以异步加载图片了，也可以用其他第三方库加载\<br>\</li>
+<li>动画切换rootViewController, 可以用UIView beginAnimation 或者UIView<br>transitionWithView等来实现</li>
 </ol>
-<p>这个放到下篇文章里写吧。</p>
-<p>参考文章：</p>
-<p><a href="http://www.cnblogs.com/niechen/p/8513597.html" target="_blank" rel="noopener">http://www.cnblogs.com/niechen/p/8513597.html</a></p>
-<p><a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html" target="_blank" rel="noopener">feign官网地址</a></p>
 
         
         
@@ -732,13 +577,13 @@ The service is unavailable.
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/熔断机制/">熔断机制</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -749,7 +594,7 @@ The service is unavailable.
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/05/12/7天学会使用springcloud-四/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/12/7天学会使用springcloud-四/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/启动画面自定义动画/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/启动画面自定义动画/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -769,182 +614,35 @@ The service is unavailable.
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/05/02/7天学会使用springcloud-三/" title="7天学会使用springcloud(三)" itemprop="url">7天学会使用springcloud(三)</a>
+      <a href="/2018/11/19/把你的程序布署在TOMCAT/" title="把你的程序布署在TOMCAT" itemprop="url">把你的程序布署在TOMCAT</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-05-02T06:02:00.000Z" itemprop="datePublished"> 发表于 2018-05-02</time>
+    <time datetime="2018-11-19T09:56:24.381Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="7天学会使用springcloud-三"><a href="#7天学会使用springcloud-三" class="headerlink" title="7天学会使用springcloud(三)"></a>7天学会使用springcloud(三)</h1><h2 id="组建通过zuul转发的方式来调用各app"><a href="#组建通过zuul转发的方式来调用各app" class="headerlink" title="组建通过zuul转发的方式来调用各app"></a>组建通过zuul转发的方式来调用各app</h2><p>上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！</p>
-<p>放心 ，这个坑spring cloud已经给你踩好了，就等你入了。</p>
-<p>用zuul这个组件就可以解决这个问题。<br>你只需要通过：</p>
-<pre><code>http://serviceip:port/appname/interfaceName
-</code></pre><p>这样访问就可以了。</p>
-<h2 id="zuul简介"><a href="#zuul简介" class="headerlink" title="zuul简介"></a>zuul简介</h2><p>在微服务架构中，需要几个基础的服务治理组件，包括服务注册与发现、服务消费、负载均衡、断路器、智能路由、配置管理等，由这几个基础组件相互协作，共同组建了一个简单的微服务系统。一个简单的微服务系统如下图：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525242853550g5f8bk6v.png?imageslim" alt="t1"></p>
-<p>ps：先抄着吧，这张图有些地方画得不对，后面有时间去画一个</p>
-<p>Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能。</p>
-<p>官方地址：<a href="https://docs.openstack.org/infra/zuul/" target="_blank" rel="noopener">https://docs.openstack.org/infra/zuul/</a></p>
-<p>项目地址：<a href="https://github.com/Netflix/zuul" target="_blank" rel="noopener">https://github.com/Netflix/zuul</a></p>
-<p>zuul有以下功能：</p>
-<ul>
-<li>Authentication 鉴权</li>
-<li>Insights</li>
-<li>Stress Testing 压力测试</li>
-<li>Canary Testing 金丝雀测试（首测）</li>
-<li>Dynamic Routing 动态路由</li>
-<li>Service Migration 服务迁移</li>
-<li>Load Shedding 分级卸载</li>
-<li>Security 密码安全</li>
-<li>Static Response handling</li>
-<li>Active/Active traffic management</li>
-</ul>
-<h2 id="集成zuul"><a href="#集成zuul" class="headerlink" title="集成zuul"></a>集成zuul</h2><p>在Spring Cloud微服务系统中，一种常见的负载均衡方式是，客户端的请求首先经过负载均衡（zuul、Ngnix），再到达服务网关（zuul集群），然后再到具体的服务。服务统一注册到高可用的服务注册中心集群，服务的所有的配置文件由配置服务管理（下一篇文章讲述），配置服务的配置文件放在git仓库，方便开发人员随时改配置。</p>
-<p>在service的pom.xml里新增：</p>
-<pre><code>&lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
-            &lt;exclusions&gt;
-                &lt;exclusion&gt;
-                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
-                &lt;/exclusion&gt;
-            &lt;/exclusions&gt;
-&lt;/dependency&gt;
-</code></pre><h1 id="启用zuul"><a href="#启用zuul" class="headerlink" title="启用zuul"></a>启用zuul</h1><p>在入口类中加上’EnableZuulProxy’注解：</p>
-<pre><code>@SpringBootApplication
-@EnableZuulProxy
-@RestController
-public class AppServiceApplication {
+        <h1 id="把你的程序布署在TOMCAT"><a href="#把你的程序布署在TOMCAT" class="headerlink" title="把你的程序布署在TOMCAT"></a>把你的程序布署在TOMCAT</h1><div><br><br>把你的程序布署在TOMCAT上！！  (2011-04-11 09:08:40)<br><br></div>
 
-    public static void main(String[] args) {
-        SpringApplication.run(AppServiceApplication.class, args);
-    }
+<div><br><br>\<br><br></div>
 
+<div><br><br><img src="%E6%8A%8A%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%B8%83%E7%BD%B2%E5%9C%A8TOMCAT.resources/31FCB674-06D6-4F00-8356-8F42DEF64A98.gif" alt=""><br><br></div>
 
-    @Bean
-    @LoadBalanced
-    RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+<div><br><br>\<br><br></div>
 
-    @Autowired
-    HelloService helloService;
+<div><br><br>\<br><br></div>
 
-
-    @RequestMapping(value = &quot;/hi&quot;)
-    public String hi(@RequestParam String name){
-        return helloService.hiService(name);
-    }
-}
-</code></pre><p>然后重启app-service,地址栏输入地址：</p>
-<pre><code>http://localhost:9000/appclient/hi?name=11111
-</code></pre><p>访问成功：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525242343091d5w2o8dj.png?imageslim" alt="paste image"></p>
-<p>多刷几次发现它的负载均衡也是有效的：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/152524240009109md1gy5.png?imageslim" alt="paste image"></p>
-<p>我们的robbin+zull的集成完成了。</p>
-<p>通过这种方式，我们可以无限的给各个app-client注册新的群组实例。</p>
-<p>如果有些外部调用的服务不是一个微服务，但是我也想通过service去转发调用他们，那怎么办？</p>
-<p>spring集成zuul的官方使用文档：</p>
-<pre><code>https://spring.io/guides/gs/routing-and-filtering/
-</code></pre><h2 id="zuul指定地址转发"><a href="#zuul指定地址转发" class="headerlink" title="zuul指定地址转发"></a>zuul指定地址转发</h2><p>在配置文件中加入：</p>
-<p>application.yml：</p>
-<pre><code>zuul:
-  sensitiveHeaders:
-  addHostHeader: true
-  ignored-services: &apos;protected-*&apos;
-  routes:
-    otaapp:
-      stripPrefix: true
-      path: /thirdService/**
-      url: http://192.168.1.200:8080
-  host:
-    maxTotalConnections: 5000
-    maxPerRouteConnections: 500
-    socket-timeout-millis: 60000
-    connect-timeout-millis: 60000
-  semaphore:
-    maxSemaphores: 2000
-</code></pre><p>那如果要经过网关层访问thirdService时，则只要输入：</p>
-<pre><code>http://{app-service的ip}:port/thirdService/接口名
-</code></pre><p>就可以完成转发    </p>
-<h2 id="安全验证"><a href="#安全验证" class="headerlink" title="安全验证"></a>安全验证</h2><p>zuul不仅只是路由，并且还能过滤，做一些安全验证。继续改造工程；</p>
-<pre><code>@Component
-public class MyFilter extends ZuulFilter{
-
-    private static Logger log = LoggerFactory.getLogger(MyFilter.class);
-    @Override
-    public String filterType() {
-        return &quot;pre&quot;;
-    }
-
-    @Override
-    public int filterOrder() {
-        return 0;
-    }
-
-    @Override
-    public boolean shouldFilter() {
-        return true;
-    }
-
-    @Override
-    public Object run() {
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest request = ctx.getRequest();
-        log.info(String.format(&quot;%s &gt;&gt;&gt; %s&quot;, request.getMethod(), request.getRequestURL().toString()));
-        Object accessToken = request.getParameter(&quot;token&quot;);
-        if(accessToken == null) {
-            log.warn(&quot;token is empty&quot;);
-            ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
-            try {
-                ctx.getResponse().getWriter().write(&quot;token is empty&quot;);
-            }catch (Exception e){}
-
-            return null;
-        }
-        log.info(&quot;ok&quot;);
-        return null;
-    }
-}
-</code></pre><p>filterType：返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下： </p>
-<ul>
-<li>pre：路由之前</li>
-<li>routing：路由之时</li>
-<li>post： 路由之后</li>
-<li>error：发送错误调用</li>
-<li>filterOrder：过滤的顺序</li>
-<li>shouldFilter：这里可以写逻辑判断，是否要过滤，本文true,永远过滤。</li>
-<li>run：过滤器的具体逻辑。可用很复杂，包括查sql，nosql去判断该请求到底有没有权限访问。</li>
-</ul>
-<h2 id="Static-Response-handling"><a href="#Static-Response-handling" class="headerlink" title="Static Response handling"></a>Static Response handling</h2><p>实现ZuulFallbackProvider这个接口，可以处理返回的值。</p>
-<p>ps: 这个ZuulFallbackProvider是’org.springframework.cloud.netflix.zuul’的1.3.1版本有的，目前在最新版本里已经没有这个filter了，看最新的官方例子，应该是用HttpOutboundSyncFilter替代了。</p>
-<h2 id="zuul-filter"><a href="#zuul-filter" class="headerlink" title="zuul filter"></a>zuul filter</h2><p>参考官方文档：<a href="https://github.com/Netflix/zuul/wiki/Filters" target="_blank" rel="noopener">https://github.com/Netflix/zuul/wiki/Filters</a></p>
-<h3 id="Sample-Filters"><a href="#Sample-Filters" class="headerlink" title="Sample Filters"></a>Sample Filters</h3><ul>
-<li><p>DebugRequest - look for a query param to add extra debug logging for a request</p>
-</li>
-<li><p>Healthcheck - simple static endpoint filter that returns 200, if everything is bootstrapped correctly</p>
-</li>
-<li><p>ZuulResponseFilter - add informational headers to provide extra details on routing, request execution, status and error cause</p>
-</li>
-<li><p>Core Filters<br>GZipResponseFilter - can be enabled to gzip outbound responses<br>SurgicalDebugFilter - can be enabled to route specific requests to different hosts for debugging</p>
-</li>
-</ul>
-<p>这些作用的filters在github上都有例子：</p>
-<pre><code>https://github.com/Netflix/zuul/tree/2.1/zuul-sample
-</code></pre>
+<div><br><br>网站开发完成了最终<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/11/19/把你的程序布署在TOMCAT/#more">Read More</a>
           
        </p>
     </div>
@@ -953,13 +651,13 @@ public class MyFilter extends ZuulFilter{
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/spring-cloud/">spring cloud</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -970,7 +668,7 @@ public class MyFilter extends ZuulFilter{
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/05/02/7天学会使用springcloud-三/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/02/7天学会使用springcloud-三/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/把你的程序布署在TOMCAT/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/把你的程序布署在TOMCAT/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -990,231 +688,20 @@ public class MyFilter extends ZuulFilter{
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/04/30/7天学会使用springcloud-二/" title="7天学会使用springcloud(二)" itemprop="url">7天学会使用springcloud(二)</a>
+      <a href="/2018/11/19/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/" title="【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条" itemprop="url">【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-30T02:50:00.000Z" itemprop="datePublished"> 发表于 2018-04-30</time>
+    <time datetime="2018-11-19T09:56:24.378Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="7天学会使用springcloud-二"><a href="#7天学会使用springcloud-二" class="headerlink" title="7天学会使用springcloud(二)"></a>7天学会使用springcloud(二)</h1><h2 id="app-service"><a href="#app-service" class="headerlink" title="app-service"></a>app-service</h2><p>由于app-client端是调用服务消费者的门面，那就是说它只是个做转发的一个代理，那真正提供服务的是service,那client的调用怎么调用消费者的接口呢？</p>
-<h2 id="Spring-cloud两种服务调用方式"><a href="#Spring-cloud两种服务调用方式" class="headerlink" title="Spring cloud两种服务调用方式"></a>Spring cloud两种服务调用方式</h2><p>在微服务架构中，业务都会被拆分成一个独立的服务，服务与服务的通讯是基于http restful的。</p>
-<p>Spring cloud有两种服务调用方式，一种是ribbon+restTemplate，另一种是feign。在这一篇文章首先讲解下基于ribbon+rest。</p>
-<h3 id="ribbon简介"><a href="#ribbon简介" class="headerlink" title="ribbon简介"></a>ribbon简介</h3><blockquote>
-<blockquote>
-<p>Ribbon is a Inter Process Communication (remote procedure calls) library with built in software load balancers. The primary usage model involves REST calls with various serialization scheme support.</p>
-</blockquote>
-</blockquote>
-<p>以上是来自官方的摘录介绍，我们来大致翻译一下：</p>
-<p>ribboin是网络进程间通讯调用的库，它内置软件负载平衡器。主使用Rest模型调用，包括使用各种序列化方案支持的REST调用。</p>
-<p>官网也罗列了以下几大功能：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525008858602af38ugzk.png?imageslim" alt="paste image"></p>
-<ol>
-<li>负载均衡</li>
-<li>容错</li>
-<li>支持多协议异步和模型传输</li>
-<li>缓存和批量执行（不知道这样翻译准不准确）</li>
-</ol>
-<p>ribbon是一个负载均衡客户端，可以很好的控制http和tcp的一些行为。Feign默认集成了ribbon。</p>
-<p>ribbon 已经默认实现了这些配置bean：</p>
-<ul>
-<li>IClientConfig ribbonClientConfig: DefaultClientConfigImpl</li>
-</ul>
-<p>IRule ribbonRule: ZoneAvoidanceRule</p>
-<ul>
-<li><p>IPing ribbonPing: NoOpPing</p>
-</li>
-<li><p>ServerList ribbonServerList: ConfigurationBasedServerList</p>
-</li>
-<li><p>ServerListFilter ribbonServerListFilter: ZonePreferenceServerListFilter</p>
-</li>
-<li><p>ILoadBalancer ribbonLoadBalancer: ZoneAwareLoadBalancer</p>
-</li>
-</ul>
-<h2 id="建立服务消费者"><a href="#建立服务消费者" class="headerlink" title="建立服务消费者"></a>建立服务消费者</h2><p>重新新建一个spring-boot工程，取名为：app-service;<br>在它的pom.xml文件分别引入起步依赖spring-cloud-starter-eureka、spring-cloud-starter-ribbon、spring-boot-starter-web</p>
-<p>pom.xml：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.service&lt;/groupId&gt;
-    &lt;artifactId&gt;app-service&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;jar&lt;/packaging&gt;
-
-    &lt;name&gt;app-service&lt;/name&gt;
-    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.RC1&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-
-&lt;/project&gt;
-</code></pre><p>application.yml:</p>
-<pre><code>server:
-    port: 8883
-
-spring:
-    application:
-        name: app-service
-    cloud:
-        config:
-        uri: http://localhost:8761/
-        label: master
-
-
-eureka:
-    instance:
-        hostname: localhost
-        prefer-ip-address: true
-        instance-id: ${eureka.instance.hostname}:${server.port}
-        nonSecurePort: 80
-    client:
-        service-url:
-            defaultZone: http://localhost:8761/eureka
-
-
-logging:
-    level:
-        org:
-            springframework:
-                security: DEBUG
-
-spring.cloud.vault:
-config.lifecycle.enabled: true
-fail-fast: true
-</code></pre><h2 id="支持loadBalance"><a href="#支持loadBalance" class="headerlink" title="支持loadBalance"></a>支持loadBalance</h2><p>在service端的Application启动类上加上restTemplate注入：</p>
-<pre><code>@Bean
-@LoadBalanced
-RestTemplate restTemplate() {
-    return new RestTemplate();
-}
-</code></pre><p>在配置robbion的负载均衡的时候，发现一个很诡异的事情，通过service就是无法通过service id 去访问client端：</p>
-<pre><code>restTemplate.getForObject(&quot;http://APP-CLIENT/hi?name=&quot;+name,String.class);
-</code></pre><p>调用的时候一直报连接拒绝：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525188682163i0gi2l31.png?imageslim" alt="paste image"></p>
-<p>经过我反复实验，发现是因为app-client端没有设置访问根目录，则需要在配置文件里server后面加上子项servlet.contextPath = /</p>
-<p>bootstrap.xml:</p>
-<pre><code>server:
-  port: 8882
-  servlet:
-    context-path: /
-</code></pre><p>加上后重启app-client，然后通过server id 访问，就通了。。。。</p>
-<p>注：有时候app-client重启了还不行，可能还需要重启sever注册中心</p>
-<p>再访问就可以了：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525215655578qjdv4f0e.png?imageslim" alt="paste image"></p>
-<p>我们来看看他的负载均衡，再新增一台client实例</p>
-<p>application.yml:</p>
-<pre><code>server:
-  port: 8883
-  servlet:
-    context-path: /
-
-spring:
-  application:
-    name: appclient
-  cloud:
-    config:
-      uri: http://localhost:8761/
-      label: master
-
-
-eureka:
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${eureka.instance.hostname}:${server.port}
-    nonSecurePort: ${server.port}
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
-
-
-spring.cloud.vault:
-    config.lifecycle.enabled: true
-    fail-fast: true
-</code></pre><p>将service的端口号改成9000</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525217029154zqet1ll8.png?imageslim" alt="paste image"></p>
-<p>发现负载均衡起效了。。。。。</p>
-<p>下一章节讲下robbin和zull的结合使用。</p>
+        <h1 id="【译】我已经写了48年代码了，我感觉我还能写下去-分享自-开发者头条"><a href="#【译】我已经写了48年代码了，我感觉我还能写下去-分享自-开发者头条" class="headerlink" title="【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条"></a>【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</h1><p>【译】我已经写了48年代码了，我感觉我还能写下去<br><a href="http://toutiao.io/shares/115757/url主题" target="_blank" rel="noopener">http://toutiao.io/shares/115757/url主题</a> （想看更多？下载@开发者头条<br>App：<a href="http://toutiao.io/app/download" target="_blank" rel="noopener">http://toutiao.io/app/download</a> ）\<br><img src="%E3%80%90%E8%AF%91%E3%80%91%E6%88%91%E5%B7%B2%E7%BB%8F%E5%86%99%E4%BA%8648%E5%B9%B4%E4%BB%A3%E7%A0%81%E4%BA%86%EF%BC%8C%E6%88%91%E6%84%9F%E8%A7%89%E6%88%91%E8%BF%98%E8%83%BD%E5%86%99%E4%B8%8B%E5%8E%BB%20-%20%E5%88%86%E4%BA%AB%E8%87%AA@%E5%BC%80%E5%8F%91%E8%80%85%E5%A4%B4%E6%9D%A1.resources/A2D2310B-3639-4AAE-A04C-4FA0D9A7FC6B.jpg" alt=""></p>
 
         
         
@@ -1227,13 +714,13 @@ spring.cloud.vault:
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/spring-cloud/">spring cloud</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -1244,7 +731,7 @@ spring.cloud.vault:
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/04/30/7天学会使用springcloud-二/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/30/7天学会使用springcloud-二/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1264,62 +751,35 @@ spring.cloud.vault:
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/04/25/nginx配置静态资源404问题/" title="nginx配置静态资源404问题" itemprop="url">nginx配置静态资源404问题</a>
+      <a href="/2018/11/19/阿里云遇到的问题/" title="阿里云遇到的问题" itemprop="url">阿里云遇到的问题</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-04-25T01:00:00.000Z" itemprop="datePublished"> 发表于 2018-04-25</time>
+    <time datetime="2018-11-19T09:56:24.374Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="Nginx-配置静态文件404问题"><a href="#Nginx-配置静态文件404问题" class="headerlink" title="Nginx 配置静态文件404问题"></a>Nginx 配置静态文件404问题</h1><p>使用Nginx做图片服务器时候，配置之后图片访问一直是  404.<br>我的配置是</p>
-<pre><code>location /api/v1/upload {  
-     root /opt/edu/upload;  
-}  
-</code></pre><p>文件放在<br>/opt/edu/upload  目录下。</p>
-<p>访问</p>
-<p><a href="http://localhost/api/v1/upload/api/v1/upload/course/logo/44242acc58f2465c8daf53a2a8b1ec70_add.png" target="_blank" rel="noopener">http://localhost/api/v1/upload/api/v1/upload/course/logo/44242acc58f2465c8daf53a2a8b1ec70_add.png</a></p>
-<p>一直是404<br>日志也是接收到了。但是就是404</p>
-<pre><code>10.20.5.247 - - [09/May/2017:13:35:57 +0800] &quot;GET /api/v1/upload/course/logo/44242acc58f2465c8daf53a2a8b1ec70_add.png HTTP/1.1&quot; 404 571 &quot;-&quot; &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36&quot; &quot;-&quot;  
-</code></pre><p>查了防火墙，查了网络连接，查了路径，查了配置文件感觉都没有错。</p>
-<p>最后发现配置的问题。</p>
-<p>nginx的配置文件被运维的某位同学配置成：</p>
-<pre><code>location /i/ {
-    alias /data/w3/images/;
-}
-</code></pre><p>根据多年的实战经验，总感觉这个alias有问题（好吧，其实就是没见过alias的写法，之前都用的root）</p>
-<p>最后问候了一遍谷姐。</p>
-<p>其实配置静态路径是有两种方式。</p>
-<p>之前静态的都是直接在URL里写根目录，<br>所以一直没发现。今天写了一个有前缀的URL，就出现了。</p>
-<p>RootCause:</p>
-<p>root 配置的意思是，会在root配置的目录后跟上URL，组成对应的文件路径。<br>即我的访问<br><a href="http://localhost/api/v1/upload/api/v1/upload/course/logo/44242acc58f2465c8daf53a2a8b1ec70_add.png" target="_blank" rel="noopener">http://localhost/api/v1/upload/api/v1/upload/course/logo/44242acc58f2465c8daf53a2a8b1ec70_add.png</a><br>最终去寻找的文件路径是<br>/opt/edu/upload/api/v1/upload/course/logo/44242acc58f2465c8daf53a2a8b1ec70_add.png<br>而我想要的是<br>/opt/edu/upload/course/logo/44242acc58f2465c8daf53a2a8b1ec70_add.png</p>
-<p>而Nginx提供了另外一个静态路径配置  ： alias</p>
-<p>alias与root区别：</p>
-<h2 id="官方root"><a href="#官方root" class="headerlink" title="官方root"></a>官方root</h2><pre><code>Sets the root directory for requests. For example, with the following configuration
-location /i/ {
-    root /data/w3;
-}
-The /data/w3/i/top.gif file will be sent in response to the “/i/top.gif” request
-</code></pre><h2 id="官方alias"><a href="#官方alias" class="headerlink" title="官方alias"></a>官方alias</h2><pre><code>Defines a replacement for the specified location. For example, with the following configuration
-location /i/ {
-    alias /data/w3/images/;
-}
-on request of “/i/top.gif”, the file /data/w3/images/top.gif will be sent.
-</code></pre><p>当访问/i/top.gif时，root是去/data/w3/i/top.gif请求文件，alias是去/data/w3/images/top.gif请求,也就是说<br>root响应的路径：配置的路径+完整访问路径(完整的location配置路径+静态文件)<br>alias响应的路径：配置路径+静态文件(去除location中配置的路径)</p>
-<p>最终解决访问：<br>修改配置为</p>
-<pre><code>location /api/v1/upload {  
-     alias /opt/edu/upload/;  
-}  
-</code></pre><p>注意<br>使用alias时目录名后面一定要加“/”<br>一般情况下，在location /中配置root，在location /other中配置alias</p>
+        <h1 id="阿里云遇到的问题"><a href="#阿里云遇到的问题" class="headerlink" title="阿里云遇到的问题"></a>阿里云遇到的问题</h1><div><br><br>1,阿里云ECS服务器不支持直接升级磁盘空间，因之前买的配的系统磁盘空间太小，故重新买了一块独立的ssd云盘挂载在ECS服务器上，但后面如果要做负载均衡，ssd云盘就无法读定共用了<br><br></div>
 
+<div><br><br>RS:<br><br></div>
+
+<div><br><br>NFS解决文件共享问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>2，做负载均衡使用SLB还是用原始的nginx做？<br><br></div>
+
+<div><br><br>nginx做负载均衡<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/11/19/阿里云遇到的问题/#more">Read More</a>
           
        </p>
     </div>
@@ -1328,13 +788,13 @@ on request of “/i/top.gif”, the file /data/w3/images/top.gif will be sent.
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/nginx/">nginx</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -1345,526 +805,7 @@ on request of “/i/top.gif”, the file /data/w3/images/top.gif will be sent.
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/04/25/nginx配置静态资源404问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/25/nginx配置静态资源404问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/19/hexo很久没用，报错问题解决/" title="hexo很久没用，报错问题解决" itemprop="url">hexo很久没用，报错问题解决</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-18T17:51:00.000Z" itemprop="datePublished"> 发表于 2018-04-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<h1 id="hexo很久没用，报错问题解决"><a href="#hexo很久没用，报错问题解决" class="headerlink" title="hexo很久没用，报错问题解决"></a>hexo很久没用，报错问题解决</h1><p><img src="http://ojnkdvkci.bkt.clouddn.com/1524074524585sudsgrz9.png?imageslim" alt="paste image"></p>
-<p>其实这个错是不会影响hexo的使用的，但作为一名精细的技术狗，对这个报错非常不爽，决定解决它。。。。</p>
-<p>参考出处：<a href="https://github.com/hexojs/hexo/issues/1922" target="_blank" rel="noopener">https://github.com/hexojs/hexo/issues/1922</a></p>
-<p>执行：</p>
-<pre><code>$ sudo npm uninstall hexo-cli -g
-$ sudo npm uninstall dtrace-provider -g
-$ sudo npm install hexo-cli -g --no-optional
-</code></pre><p>完美解决。。。。</p>
-<p>再次执行: </p>
-<pre><code>hexo server -d
-</code></pre><p><img src="http://ojnkdvkci.bkt.clouddn.com/15240747200885cztgtk3.png?imageslim" alt="paste image">    </p>
-<p>完美。。。。。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/hexo/">hexo</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/hexo/">hexo</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/19/hexo很久没用，报错问题解决/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/19/hexo很久没用，报错问题解决/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/19/XX-net翻墙神器/" title="介绍一款科学上网神器" itemprop="url">介绍一款科学上网神器</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-18T17:05:00.000Z" itemprop="datePublished"> 发表于 2018-04-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>xx-net，目前已经更新到3.11.9了。<br>作为一名技术狗，基本上不限流量，快乐科学安全上网。。。。</p>
-<p>github地址：<a href="https://github.com/XX-net/XX-Net" title="xx-net科学上网" target="_blank" rel="noopener">https://github.com/XX-net/XX-Net</a></p>
-<p>配置好gae后，将appid的通过访问：<a href="https://%E4%BD%A0%E7%9A%84appid.appspot.com/" target="_blank" rel="noopener">https://appid.appspot.com/</a></p>
-<p>显示：</p>
-<pre><code>GoAgent 服务端已经在 2018-04-19 00:17:27 升级到 3.3.1 版本, 请更新您的客户端。
-</code></pre><p>具体用法github上介绍非常详细。。。。。。。。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/科学上网/">科学上网</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/科学上网/">科学上网</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/19/XX-net翻墙神器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/19/XX-net翻墙神器/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/06/7天学会使用springcloud/" title="7天学会使用springcloud(一)" itemprop="url">7天学会使用springcloud(一)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-06T09:27:00.000Z" itemprop="datePublished"> 发表于 2018-04-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<h1 id="7天学会使用springcloud（一）"><a href="#7天学会使用springcloud（一）" class="headerlink" title="7天学会使用springcloud（一）"></a>7天学会使用springcloud（一）</h1><h2 id="什么是spring-cloud"><a href="#什么是spring-cloud" class="headerlink" title="什么是spring cloud?"></a>什么是spring cloud?</h2><p>官方解释：</p>
-<blockquote>
-<blockquote>
-<p> Spring Cloud</p>
-</blockquote>
-<p>Spring Cloud provides tools for developers to quickly build some of the common patterns in distributed systems (e.g. configuration management, service discovery, circuit breakers, intelligent routing, micro-proxy, control bus, one-time tokens, global locks, leadership election, distributed sessions, cluster state). Coordination of distributed systems leads to boiler plate patterns, and using Spring Cloud developers can quickly stand up services and applications that implement those patterns. They will work well in any distributed environment, including the developer’s own laptop, bare metal data centres, and managed platforms such as Cloud Foundry.</p>
-</blockquote>
-<p>意思是spring Cloud  是为快速开发生产系统提供的一系列公用组件或者工具。实现快速启动应用服务，让开发到生产更简单。</p>
-<p>嗯，官方点进去还有一段：</p>
-<blockquote>
-<p>Spring Cloud builds on Spring Boot by providing a bunch of libraries that enhance the behaviour of an application when added to the classpath. You can take advantage of the basic default behaviour to get started really quickly, and then when you need to, you can configure or extend to create a custom solution.</p>
-</blockquote>
-<p>spring cloud是作为组件库的形式运行在spring boot上的。你可以下载官方基础版本来快速在其基础上开发或者你额外创建一个自定义项目。</p>
-<h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><ol>
-<li>从官方网站下载带有springcloud基本组件的eureka Server(等下再介绍它的作用)</li>
-</ol>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523008669657fh46tqfu.png?imageslim" alt="paste image"></p>
-<ol>
-<li>直接用idea新建springboot项目，添加上eureka Server组件</li>
-</ol>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/152300877569093stlsyw.png?imageslim" alt="paste image"></p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523008812084dn7tifyo.png?imageslim" alt="paste image"></p>
-<p>以下睁大眼看看，eureka server组件是cloud config里的</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523008886524lwpx5d9m.png?imageslim" alt="paste image"></p>
-<h2 id="什么是eureka"><a href="#什么是eureka" class="headerlink" title="什么是eureka"></a>什么是eureka</h2><p>先来介绍一下netflix</p>
-<blockquote>
-<p>Spring Cloud Netflix<br>Spring Cloud Netflix provides Netflix OSS integrations for Spring Boot apps through autoconfiguration and binding to the Spring Environment and other Spring programming model idioms. With a few simple annotations you can quickly enable and configure the common patterns inside your application and build large distributed systems with battle-tested Netflix components. The patterns provided include Service Discovery (Eureka), Circuit Breaker (Hystrix), Intelligent Routing (Zuul) and Client Side Load Balancing (Ribbon)..</p>
-</blockquote>
-<p>netflix 通过用一些简单的注解快速启动和配置组件自动配置和绑定环境变量为spring boot 应用提供OSS 集成。</p>
-<p>eureka它是Spring Cloud Netflix的Eureka ,eureka是一个服务注册和发现模块。</p>
-<p>官网的介绍：</p>
-<blockquote>
-<p>Eureka is a REST (Representational State Transfer) based service that is primarily used in the AWS cloud for locating services for the purpose of load balancing and failover of middle-tier servers. We call this service, the Eureka Server. Eureka also comes with a Java-based client component,the Eureka Client, which makes interactions with the service much easier. The client also has a built-in load balancer that does basic round-robin load balancing. At Netflix, a much more sophisticated load balancer wraps Eureka to provide weighted load balancing based on several factors like traffic, resource usage, error conditions etc to provide superior resiliency.</p>
-</blockquote>
-<p>eureka是一种 REST (代表状态转移) 的服务, 主要用于 AWS（即自动报警系统） 云中, 用于定位服务, 以便于中间层服务器的负载均衡和故障切换。我们称之为服务, eureka服务器。eureka还附带了一个基于 Java 的客户端组件, eureka client, 这使得与服务的交互变得容易得多。客户端还具有内置的负载均衡器, 可进行基本的循环负载均衡。在 Netflix, 一个更复杂的负载均衡器包装eureka提供权重负载均衡的基础上的几个因素, 如流量, 资源使用, 错误条件等, 以提供优越的弹性。</p>
-<h2 id="eureka-干嘛用的"><a href="#eureka-干嘛用的" class="headerlink" title="eureka 干嘛用的"></a>eureka 干嘛用的</h2><p>官方：</p>
-<blockquote>
-<p>In AWS cloud, because of its inherent nature, servers come and go. Unlike the traditional load balancers which work with servers with well known IP addresses and host names, in AWS, load balancing requires much more sophistication in registering and de-registering servers with load balancer on the fly. Since AWS does not yet provide a middle tier load balancer, Eureka fills a big gap in the area of mid-tier load balancing.</p>
-</blockquote>
-<p>由于AWS云它固有的特性, 服务器来了又走。<br>与使用已知 IP 地址和主机名的服务器的传统负载均衡器不同, 在 AWS 中, 负载均衡在使用负载平衡器进行注册和取消注册服务器时更加复杂。由于 AWS 还没有提供中间层负载平衡器, eureka填补了中端（应用层）负载平衡领域的巨大缺口。</p>
-<p>也就是说用eureka可以实现负载均衡快速切换，而且可以不需要知道ip地址。</p>
-<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><p>eureka分client和server端</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523074238953hsymscux.png?imageslim" alt="paste image"></p>
-<p>client端又分为service和client</p>
-<p>从图可以看出在这个体系中，有2个角色，即Eureka Server和Eureka Client。而Eureka Client又分为Applicaton Service和Application Client，即服务提供者和服务消费者。 每个区域有一个Eureka集群，并且每个区域至少有一个eureka服务器可以处理区域故障，以防服务器瘫痪。</p>
-<p>Eureka Client向Eureka Server注册，并将自己的一些客户端信息发送Eureka Server。然后，Eureka Client通过向Eureka Server发送心跳（每30秒）来续约服务的。 如果客户端持续不能续约，那么，它将在大约90秒内从服务器注册表中删除。 注册信息和续订被复制到集群中的Eureka Server所有节点。 来自任何区域的Eureka Client都可以查找注册表信息（每30秒发生一次）。根据这些注册表信息，Application Client可以远程调用Applicaton Service来消费服务。</p>
-<p>springboot集成eureka.</p>
-<p>在springboot的application启动里上添加一个启动eureka注解：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523073798777qh7i8cb1.png?imageslim" alt="paste image"></p>
-<p>如果是从官网下载的springboot初始项目运行，可能会报错：</p>
-<pre><code>java.lang.IllegalStateException: Error processing condition on org.springframework.cloud.netflix.eureka.server.EurekaServerAutoConfiguration.peerEurekaNodes
-at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:64) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.context.annotation.ConditionEvaluator.shouldSkip(ConditionEvaluator.java:109) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForBeanMethod(ConfigurationClassBeanDefinitionReader.java:179) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitionsForConfigurationClass(ConfigurationClassBeanDefinitionReader.java:141) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassBeanDefinitionReader.loadBeanDefinitions(ConfigurationClassBeanDefinitionReader.java:117) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:328) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:233) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:273) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:93) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:693) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:531) ~[spring-context-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:388) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.SpringApplication.run(SpringApplication.java:327) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.SpringApplication.run(SpringApplication.java:1246) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.SpringApplication.run(SpringApplication.java:1234) [spring-boot-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at com.example.cloud.EurekaServerApplication.main(EurekaServerApplication.java:12) [classes/:na]
-Caused by: java.lang.IllegalStateException: Failed to introspect Class [org.springframework.cloud.netflix.eureka.server.EurekaServerAutoConfiguration] from ClassLoader [sun.misc.Launcher$AppClassLoader@18b4aac2]
-at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:659) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:556) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:541) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.util.ReflectionUtils.getUniqueDeclaredMethods(ReflectionUtils.java:599) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryMethod(AbstractAutowireCapableBeanFactory.java:728) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineTargetType(AbstractAutowireCapableBeanFactory.java:669) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.predictBeanType(AbstractAutowireCapableBeanFactory.java:637) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractBeanFactory.isFactoryBean(AbstractBeanFactory.java:1489) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.beans.factory.support.AbstractBeanFactory.isFactoryBean(AbstractBeanFactory.java:1007) ~[spring-beans-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-at org.springframework.boot.autoconfigure.condition.BeanTypeRegistry.addBeanTypeForNonAliasDefinition(BeanTypeRegistry.java:168) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.BeanTypeRegistry.addBeanType(BeanTypeRegistry.java:157) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.BeanTypeRegistry.updateTypesIfNecessary(BeanTypeRegistry.java:207) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.BeanTypeRegistry.getNamesForType(BeanTypeRegistry.java:114) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.OnBeanCondition.collectBeanNamesForType(OnBeanCondition.java:266) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getBeanNamesForType(OnBeanCondition.java:255) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getMatchingBeans(OnBeanCondition.java:197) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.OnBeanCondition.getMatchOutcome(OnBeanCondition.java:116) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-at org.springframework.boot.autoconfigure.condition.SpringBootCondition.matches(SpringBootCondition.java:47) ~[spring-boot-autoconfigure-2.0.0.RELEASE.jar:2.0.0.RELEASE]
-... 16 common frames omitted
-Caused by: java.lang.NoClassDefFoundError: javax/ws/rs/core/Application
-at java.lang.Class.getDeclaredMethods0(Native Method) ~[na:1.8.0_74]
-at java.lang.Class.privateGetDeclaredMethods(Class.java:2701) ~[na:1.8.0_74]
-at java.lang.Class.getDeclaredMethods(Class.java:1975) ~[na:1.8.0_74]
-at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:641) ~[spring-core-5.0.4.RELEASE.jar:5.0.4.RELEASE]
-... 33 common frames omitted
-Caused by: java.lang.ClassNotFoundException: javax.ws.rs.core.Application
-at java.net.URLClassLoader.findClass(URLClassLoader.java:381) ~[na:1.8.0_74]
-at java.lang.ClassLoader.loadClass(ClassLoader.java:424) ~[na:1.8.0_74]
-at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331) ~[na:1.8.0_74]
-at java.lang.ClassLoader.loadClass(ClassLoader.java:357) ~[na:1.8.0_74]
-... 37 common frames omitted
-</code></pre><p>我们找到报错原因：</p>
-<pre><code>Caused by: java.lang.NoClassDefFoundError: javax/ws/rs/core/Application
-</code></pre><p>就是说Application类没找到，这是javax的ws.rs包默认是没有的，一般如果我们直接通过application启动，则会报这个错，但是如果用tomcat容器呢？这个还没试，后面有时间试下。</p>
-<p>我把这个包加到pom.xml:</p>
-<pre><code>&lt;dependency&gt;
-&lt;groupId&gt;javax.ws.rs&lt;/groupId&gt;
-&lt;artifactId&gt;javax.ws.rs-api&lt;/artifactId&gt;
-&lt;version&gt;2.0.1&lt;/version&gt;
-&lt;scope&gt;jar&lt;/scope&gt;
-&lt;/dependency&gt;
-</code></pre><p>再运行，成功。</p>
-<p>访问：<a href="http://localhost:8888" target="_blank" rel="noopener">http://localhost:8888</a></p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1523075571296i1lje386.png?imageslim" alt="paste image"></p>
-<p>看看我的配置文件：</p>
-<p>application.yml:</p>
-<pre><code>server:
-  port: 8888
-
-
-logging:
-  level:
-    com.netflix.discovery: &apos;OFF&apos;
-    org.springframework.cloud: &apos;DEBUG&apos;
-
-eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /admin/info
-    healthCheckUrlPath: /admin/health
-
-eureka:
-  instance:
-    hostname: localhost
-    nonSecurePort: 80
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-    registerWithEureka: false
-    fetchRegistry: false
-</code></pre><p>registerWithEureka: 值为false意味着自身仅作为服务器，不作为客户端</p>
-<p>fetchRegistry: 值为false意味着无需注册自身</p>
-<p>serviceUrl.defaultZone: 指明了应用的URL</p>
-<p>关于配置，<a href="https://github.com/Netflix/eureka/wiki/Configuring-Eureka" target="_blank" rel="noopener">参考官方文档</a></p>
-<h2 id="建立app-client"><a href="#建立app-client" class="headerlink" title="建立app-client"></a>建立app-client</h2><p>client其实是调用服务提供者来消费的一个client,我们来建立一个app-client</p>
-<p>pom.xml:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.example&lt;/groupId&gt;
-    &lt;artifactId&gt;eureka-client1&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;war&lt;/packaging&gt;
-
-    &lt;name&gt;eureka-client1&lt;/name&gt;
-    &lt;description&gt;Demo project for Spring Boot(spring cloud)&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.0.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.M9&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;!--&lt;dependency&gt;--&gt;
-            &lt;!--&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;--&gt;
-            &lt;!--&lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;--&gt;
-            &lt;!--&lt;scope&gt;provided&lt;/scope&gt;--&gt;
-        &lt;!--&lt;/dependency&gt;--&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-
-&lt;/project&gt;
-</code></pre><p>入口类EurekaClientApplication：</p>
-<pre><code>package com.example.cloud;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@SpringBootApplication
-public class EurekaClientApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(EurekaClientApplication.class, args);
-    }
-
-
-    @Value(&quot;${server.port}&quot;)
-    String port;
-    @RequestMapping(&quot;/hi&quot;)
-    public String home(@RequestParam String name) {
-            return
-                &quot;hi &quot;+name+&quot;,i am from port:&quot; +port;
-    }
-
-}
-</code></pre><p>配置文件：</p>
-<pre><code>spring:
-  application:
-    name: client-service
-  cloud:
-    config:
-      uri: http://localhost:8761/
-      label: master
-      profile: dev
-  security:
-    user:
-      name: sam
-      password: 123456
-
-
-eureka:
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${eureka.instance.hostname}:${server.port}
-    nonSecurePort: 80
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
-server:
-  port: 8882
-
-spring.cloud.vault:
-    config.lifecycle.enabled: true
-    fail-fast: true
-</code></pre><p>写一个restController测试接口，启动后刷新eurake页面，发现已经注册进去了：</p>
-<p><img src="http://ojnkdvkci.bkt.clouddn.com/1525008085202ufhuf38m.png?imageslim" alt="paste image"></p>
-<p>那我们访问那个接口试下client是否正常运行：</p>
-<pre><code>http://localhost:8882/hi?name=test
-</code></pre><p>发现访问正常。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/spring-cloud/">spring cloud</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/06/7天学会使用springcloud/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/06/7天学会使用springcloud/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/阿里云遇到的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/阿里云遇到的问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -2094,7 +1035,7 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -2102,7 +1043,7 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -2110,19 +1051,19 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>

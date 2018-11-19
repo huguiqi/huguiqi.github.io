@@ -92,29 +92,36 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/创建系统无法删除的文件夹 加密文件/" title="创建系统无法删除的文件夹 加密文件" itemprop="url">创建系统无法删除的文件夹 加密文件</a>
+      <a href="/2018/11/19/MacOS安装Cocoapods步骤/" title="MacOS安装Cocoapods步骤" itemprop="url">MacOS安装Cocoapods步骤</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:22.899Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="创建系统无法删除的文件夹-加密文件"><a href="#创建系统无法删除的文件夹-加密文件" class="headerlink" title="创建系统无法删除的文件夹 加密文件"></a>创建系统无法删除的文件夹 加密文件</h1><p><span style="color: rgb(68, 68, 68); font-size: 14px; line-height: 24px; text-align: left;">大家都知道在Windows中“\”符号是路径的分隔符号，比如“C:\Windows\”的意思就是C分区中的Windows文件夹，“C:\Windows\System.exe”的意思就是C分区中的Windows文件夹中的System.exe文件，好继续我们假设一下：\</span></p>
-<p>如果文件名中有“\”符号会怎么样呢？假如“S\”是一个文件夹的名字，这个文件夹位于：“F:\”，他的路径就是“F:\S\”，当我们试图访问的时候Windows会错误的认为我们要打开的文件是C分区的S文件夹，这样Windows就无法打开并且会返回一个错误，因为以上的路径并不存在。\</p>
-<p>也许你现在正在尝试创建“S\”文件，但是Windows会提示你：“\”符号是不能作为文件、文件夹的名字的。看来Windows还是早已想到这一点了的。OK我们继续进行，就不信不能建立包含“\”符号的文件。爱踢博客社区kW.L<br>UEi5z\<br> 现在打开你的电脑，我们要做一些很有趣的尝试。进入Windows后<br>点击：开始&gt;运行<br>然后输入“cmd”并会车（如果是Win98请输入“COMMAND”），这时你会看到Windows的命令控制台，我们就是要利用它完成我们剩下的测试，以下包含了很多命令其中{}中的字符是我的注释：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;mkdir s\<br>{我们的第一次尝试,结果Windows只创建了S文件夹”\“被忽略掉了}\<br> (H0F:\Test&gt;mkdir s\s1\<br>{还是失败,Windows先创建了S文件夹，然后在S内创建s1文件夹}\<br> F:\Test&gt;mkdir s.\ {“s.\“被解析成S”.\“又被忽略了}\<br> 子目录或文件 s.\ 已经存在。\<br> F:\Test&gt;mkdir s..\<br>{终于成功了,现在你可以在资源管理器看到”s.”但却无法打开/删除}\<br> F:\Test&gt;mkdir s…\<br>{又成功了,在资源浏览器能看到”s..”可以打开但是无法删除}\<br> ———————————————-\</p>
-<p>为什么会这样？我们先说你看到的这个“S.”文件夹，他即不能打开也不能删除，不能打开是因为他的实际路径是“F:\Test\s..\”（我们自己创建的所以可以确定他的实际路径）但是在Windows资源管理器中名字变成了“S.”也就是说当你试图打开它的时候Windows实际上尝试打开“F:\Test\s.\”当然是不能打开的，文件并不存在，所以Windows会报错。不能删除也是因为这个，Windows把一个实际存在的文件路径错误的解析为一个不存在的路径，并进行操作当然是无法完成的。\</p>
-<p>该说“S..”这个文件了，这个文件可以打开，但是却无法删除。等等……打开？你以为Windows真的是打开了我们创建的“s…\”文件了吗？我们做下面的试验你就明白了。还是老规矩{}是我的注释方便大家理解：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;echo 1 &gt; Txt1.txt {创建“F:\Test\Txt1.txt”文件}\<br> F:\Test&gt;copy Txt1.txt s..\<br>
+        <h1 id="MacOS安装Cocoapods步骤"><a href="#MacOS安装Cocoapods步骤" class="headerlink" title="MacOS安装Cocoapods步骤"></a>MacOS安装Cocoapods步骤</h1><p><strong>MacOS安装Cocoapods步骤</strong></p>
+<div><br><br><strong>MAY 27TH, 2013 | COMMENTS</strong><br><br></div>
+
+<div><br><br><strong>Cocoapods本身就是ruby的一个gem，所以没啥特殊的安装方式，但是很多iOS或者OSX开发人员都对ruby不熟悉，所以简单的总结一下。</strong><br><br></div>
+
+<div><br><br><strong>分为一下几步骤：</strong><br><br></div>
+
+<div><br><br><strong> 1. 安装Command Line Tool (CLT)</strong><br><br></div>
+
+<div><br><br><strong>2. 安装Homebrew</strong><br><br></div>
+
+<div><br><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/创建系统无法删除的文件夹 加密文件/#more">Read More</a>
+            <a href="/2018/11/19/MacOS安装Cocoapods步骤/#more">Read More</a>
           
        </p>
     </div>
@@ -140,7 +147,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/创建系统无法删除的文件夹 加密文件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/创建系统无法删除的文件夹 加密文件/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/MacOS安装Cocoapods步骤/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/MacOS安装Cocoapods步骤/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -160,35 +167,34 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/创建JSP自定义标签/" title="创建JSP自定义标签" itemprop="url">创建JSP自定义标签</a>
+      <a href="/2018/11/19/Mac 安装软件新方法：Homebrew-cask/" title="Mac 安装软件新方法：Homebrew-cask" itemprop="url">Mac 安装软件新方法：Homebrew-cask</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:22.894Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="创建JSP自定义标签"><a href="#创建JSP自定义标签" class="headerlink" title="创建JSP自定义标签"></a>创建JSP自定义标签</h1><div><br><br>### 创建JSP自定义标签<br><br></div>
+        <h1 id="Mac-安装软件新方法：Homebrew-cask"><a href="#Mac-安装软件新方法：Homebrew-cask" class="headerlink" title="Mac 安装软件新方法：Homebrew-cask"></a>Mac 安装软件新方法：Homebrew-cask</h1><p>Mac 安装软件新方法：Homebrew-cask</p>
+<div><br><br>工具控 · ouyang · 于 1 年前发布 · 最后由 lucky215 于 1 年前回复 · 5773<br>次阅读<br><br></div>
+
+<div><br><br>￼<br><br></div>
+
+<div><br><br>Homebrew是Ruby社区极富想象力的一个作品，使得Mac下安装Mysql等常用包不再困难。那么，是否也可以通过brew<br>install mysql这样简单的方式来安装chrome浏览器？<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>\<br><br></div>
-
-<pre><code>在JSP编程中，Struts一般用来处理form和业务逻辑，Struts中使用了很多自定义标签，如html、bean等，但很多时候我们还是需要使用
-</code></pre><p>“&lt;% java code %&gt;”<br>这样的语句来操作一些输出。为了减少这种代码，可以创建自定义标签。</p>
-<div><br><br>\<br><br></div>
-
-<div><br><br>      一个tag就是一个普通的java类，它唯一特别之处是它必须继承TagSupport或者BodyTagSupport类。这两个类提供了一些方法，负责jsp页面和你编写的类之间的交互，例如输入，输出。而这两个类是由jsp容器提供的，无须开发人员自己实现。换句话说，你只需把实现了业务逻辑的类继承TagSupport或者BodyTagSupport，再做一些特别的工作，你的类就是一个Tag。并且它自己负责和jsp页面的交互，不用你多操心。<br><br></div>
+<div><br><br>近期，phinze的作品homebrew-cask解决了这一问题。<br><br></div>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/创建JSP自定义标签/#more">Read More</a>
+            <a href="/2018/11/19/Mac 安装软件新方法：Homebrew-cask/#more">Read More</a>
           
        </p>
     </div>
@@ -214,7 +220,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/创建JSP自定义标签/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/创建JSP自定义标签/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/Mac 安装软件新方法：Homebrew-cask/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Mac 安装软件新方法：Homebrew-cask/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -234,31 +240,314 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/StoryBoard学习博客/" title="StoryBoard学习博客" itemprop="url">StoryBoard学习博客</a>
+      <a href="/2018/11/19/MAC OS X 关闭 SPOTLIGHT MAC降温大法/" title="MAC OS X 关闭 SPOTLIGHT MAC降温大法" itemprop="url">MAC OS X 关闭 SPOTLIGHT MAC降温大法</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:22.890Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="StoryBoard学习博客"><a href="#StoryBoard学习博客" class="headerlink" title="StoryBoard学习博客"></a>StoryBoard学习博客</h1><div><br><br>StoryBoard学习博客<br><br></div>
+        <h1 id="MAC-OS-X-关闭-SPOTLIGHT-MAC降温大法"><a href="#MAC-OS-X-关闭-SPOTLIGHT-MAC降温大法" class="headerlink" title="MAC OS X 关闭 SPOTLIGHT MAC降温大法"></a>MAC OS X 关闭 SPOTLIGHT MAC降温大法</h1><p><span style="font: 20.0px 'PT Sans Narrow'; color: #323333; background-color: #efefef"><a href="http://hunsefee.diandian.com/post/2011-11-27/7318003" target="_blank" rel="noopener"><strong>MAC OS X 关闭 SPOTLIGHT MAC降温大法</strong></a></span><span style="font: 15.0px 'PT Sans'; color: #666666">\</span></p>
+<p>禁用分两部分，第一部分禁用服务，第二部分移除菜单栏图标，以下动作需在终端中进行\<br> 禁用方法 1，禁用spotlight服务\<br> sudo mdutil -a -i off\<br> 2，删除菜单栏spotlight图标：\<br> cd /System/Library/CoreServices/ sudo mv Search.bundle/<br>Search2.bundle/\<br> 然后在活动监视器退出 SystemUIServer 进程，或者注销再登陆。\<br> 恢复方法 1，启用spotlight服务，\<br> sudo mdutil -a -i off\<br> 2，恢复菜单栏图标\<br> cd /System/Library/CoreServices/ sudo mv Search2.bundle/<br>Search.bundle/\<br> 然后在活动监视器退出 SystemUIServer 进程，或者注销再登陆。\<br> spotlight的替代品：<br>一般我们用spotlight主要是干两件事，第一是快速启动程序，第二是快速查找文件，对于前者，lion中的lauchpad已经很好用了，建议自己好<br>好整理一下，将常用的程序放在前面，不常用的按照种类文件夹管理，这是个一劳永逸的方法，速度不会比spotlight慢，如果愿意研究，可以试试<br>QuickSilver或者alfred之类的启动器软件，稍微复杂些；对于后者，我选择了一个叫easyfind的软件，它是实时搜索的，不用建立索<br>引，由于air硬盘小，所以文件也不少，加上SSD也不慢，所以即用即搜也ok了。</p>
 
-<p><a href="http://beer998.blog.51cto.com" target="_blank" rel="noopener">http://beer998.blog.51cto.com</a></p>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/MAC OS X 关闭 SPOTLIGHT MAC降温大法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/MAC OS X 关闭 SPOTLIGHT MAC降温大法/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/Linux下的压缩解压缩命令详解/" title="Linux下的压缩解压缩命令详解" itemprop="url">Linux下的压缩解压缩命令详解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:22.885Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Linux下的压缩解压缩命令详解"><a href="#Linux下的压缩解压缩命令详解" class="headerlink" title="Linux下的压缩解压缩命令详解"></a>Linux下的压缩解压缩命令详解</h1><div><br><br>Linux下的压缩解压缩命令详解<br><br></div>
+
+<div><br><br>发布时间：2009-12-13 16:05:33   来源：PHP100中文网<br> 评论：0 点击： 次 【字号：大 中 小】<br><br></div>
+
+<div><br><br>QQ空间 新浪微博 腾讯微博 人人网 豆瓣网 百度空间 百度搜藏 开心网 复制 更多 149 linux zip命令 zip -r myfile.zip ./* 将当前目录下的所有文件和文件夹全部压缩成myfile.zip文件,－r表示递归压缩子目录下所有文件. 2.unzip unzip -o -d /home/sunny myfile.zip 把myfile.zip文件解压到 /home/sunny/ -o:不提示的情况下覆盖文件； -d:-d /h<br><br><br></div>
+
+<div><br><br>linux zip命令<br><br></div>
+
 <div><br><br>\<br><br></div>
 
-<div><br><br><a href="http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html" target="_blank" rel="noopener">http://www.cnblogs.com/hedgehog-ZDH/archive/2012/08/01/2618076.html</a>\<br><div><br><br>\<br><br></div>
+<div><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/Linux下的压缩解压缩命令详解/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/Linux下的压缩解压缩命令详解/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Linux下的压缩解压缩命令详解/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/Linux下必须知道的11个网络命令/" title="Linux下必须知道的11个网络命令" itemprop="url">Linux下必须知道的11个网络命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:22.880Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Linux下必须知道的11个网络命令"><a href="#Linux下必须知道的11个网络命令" class="headerlink" title="Linux下必须知道的11个网络命令"></a>Linux下必须知道的11个网络命令</h1><div><br><br><strong>1.curl &amp; wget</strong><br><br>使用curl或wget命令，不用离开终端就可以下载文件。如你用curl，键入curl<br>-O后面跟一个文件路径。wget则不需要任何选项。下载的文件在当前目录。<br><br></div>
+
+<div><br><br><span style="font-family: Tahoma, Helvetica, Arial, 宋体, sans-serif;"><span style="color: rgb(68, 68, 68);">\<br></span></span><br><br></div>
+
+<div><br><br><span style="font-family: Tahoma, Helvetica, Arial, 宋体, sans-serif;"><span style="color: rgb(68, 68, 68);">\<br></span></span><br><br></div>
+
+<div><br><br><div style="clear: both; border: 1px solid rgb(0, 153, 204); padding: 0px 3px; font-size: 12px; background-color: rgb(246, 251, 255); overflow: hidden; color: rgb(68, 68, 68); font-family: Tahoma, Helvetica, Arial, 宋体, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-position: initial initial; background-repeat: initial initial;"><br><br><div style="float: right;"><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/Linux下必须知道的11个网络命令/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/Linux下必须知道的11个网络命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Linux下必须知道的11个网络命令/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/Linux下批量删除.git文件夹的命令/" title="Linux下批量删除.git文件夹的命令" itemprop="url">Linux下批量删除.git文件夹的命令</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:22.875Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Linux下批量删除-git文件夹的命令"><a href="#Linux下批量删除-git文件夹的命令" class="headerlink" title="Linux下批量删除.git文件夹的命令"></a>Linux下批量删除.git文件夹的命令</h1><p>Linux下批量删除.git文件夹的命令</p>
+<div><br><br>2013-09-25 22:33 1142人阅读 评论(1) 收藏 举报<br><br></div>
+
+<div><br><br>find . -name .git -type d -exec rm -fr {} \;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>(注意：最后的分号就必须添加的)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/Linux下批量删除.git文件夹的命令/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/Linux下批量删除.git文件夹的命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Linux下批量删除.git文件夹的命令/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/Linux下的Vsftpd配置篇/" title="Linux下的Vsftpd配置篇" itemprop="url">Linux下的Vsftpd配置篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:22.868Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Linux下的Vsftpd配置篇"><a href="#Linux下的Vsftpd配置篇" class="headerlink" title="Linux下的Vsftpd配置篇"></a>Linux下的Vsftpd配置篇</h1><div><br><br><div style="padding: 0px; border-bottom-width: 1px; border-bottom-style: dashed; border-bottom-color: rgb(204, 204, 204); color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow', arial, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><br><div style="padding: 20px 0px 0px; overflow: hidden; text-align: center;"><br><br><div style="padding: 0px; font-weight: bold; font-style: normal; font-variant: normal; font-stretch: normal; font-size: 20px; font-family: SimSun;"><br><br>Linux下的Vsftpd配置篇<br><br></div>
 
 <p></p></div><p></p>
-
+<p><span style="padding: 0px 25px 0px 0px; color: rgb(102, 102, 102); float: right;">2010-10-12<br>22:59:02</span></p>
+<p></p></div><p></p>
+<p></p></div><p></p>
+<div style="padding: 0px; color: rgb(44, 44, 44); font-family: 宋体, 'Arial Narrow', arial, serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br><br><div><br><br>\<br><br></div><br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/11/19/Linux下的Vsftpd配置篇/#more">Read More</a>
           
        </p>
     </div>
@@ -284,7 +573,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/StoryBoard学习博客/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/StoryBoard学习博客/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/Linux下的Vsftpd配置篇/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Linux下的Vsftpd配置篇/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -304,33 +593,25 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/判断ios系统版本号的代码/" title="判断ios系统版本号的代码" itemprop="url">判断ios系统版本号的代码</a>
+      <a href="/2018/11/19/Linux 中如何卸载已安装的软件/" title="Linux 中如何卸载已安装的软件" itemprop="url">Linux 中如何卸载已安装的软件</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:22.864Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="判断ios系统版本号的代码"><a href="#判断ios系统版本号的代码" class="headerlink" title="判断ios系统版本号的代码"></a>判断ios系统版本号的代码</h1><div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>double version = [[UIDevice currentDevice].systemVersion<br>doubleValue];//判定系统版本。<br><br></div>
-
-<div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>\<br><br></div>
-
-<div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>    if(version&gt;=5.0f){<br><br></div>
-
-<div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>        [[UINavigationBar appearance] setBackgroundImage:[UIImage<br>imageNamed:  “navigationBar.jpg”] forBarMetrics:UIBarMetricsDefault];<br><br></div>
-
-<div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>
+        <h1 id="Linux-中如何卸载已安装的软件"><a href="#Linux-中如何卸载已安装的软件" class="headerlink" title="Linux 中如何卸载已安装的软件"></a>Linux 中如何卸载已安装的软件</h1><p><span style="-evernote-last-insertion-point:true;"></span><br>+————————————————————————–+<br>| <strong>Linux 中如何卸载已安装的软件.</strong>                                        |<br>+————————————————————————–+<br>| 　　Linux软件的安装和卸载一直是困扰许多新用户的难题。在Windows中，我们可以使用软件自带的安装卸载程序或在控制面板中的“添加/删除程序 |<br>| ”来实现。与其相类似，在Linux下有一个功能强大的软件安装卸载工具，名为RPM。它可以用来建立、安装、查询、更新、卸载软件。该工具是在命令行下 |<br>| 使用的。在Shell的提示符后输入rpm，就可获得该命令的帮助信息。\            |<br>| 　　<strong>软件的安装</strong>                                                       |<br>|                                                                          |<br>| 　　Linux下软件的安装主要有两种不同的形式。第一种安装文件名为xxx.tar.gz；另一种安装文件名为xxx.i386.rpm。以第一种方式 |<br>| 发行的软件多为以源码形式发送的；第二种方式则是直接以二进制形式发送的。   |<br>|                                                                          |<br>| 　　对于第一种，安装方法如下：                                           |<br>|                                                                          |<br>| 　　1                                                                    |<br>| .首先，将安装文件拷贝至你的目录中。例如，如果你是以root身份登录上的，就将软件拷贝至/root中。 |<br>|                                                                          |<br>|                                                                          |<br>| 　　#cp xxx.tar.gz /root                                                |<br>|                                                                          |<br>| 　　2 .由于该文件是被压缩并打包的,应对其解压缩。命令为：                 |<br>|                                                                          |<br>| 　　#tar xvzf filename.tar.gz 如果是filename.tar.bz2格式的，应该是tar   |<br>| jxvf filename.tar.bz2来解压                                              |<br>|                                                                          |<br>| 　　3.                                                                   |<br>| 执行该命令后，安装文件按路径，解压缩在当前目录下。用ls命令可以看到解压缩后的文件。通常在解压缩后产生的文件中，有“Install”的文件。该文 |<br>| 件为纯文本文件，详细讲述了该软件包的安装方法。                           |<br>|                                                                          |<br>| 　　4.执行解压缩后产生的一个名为configure的可执行脚本程序。它是用于检查系统是否有编译时所需的库，以及库的版本是否满足编译的需要等安装 |<br>| 所需要的系统信息。为随后的编译工作做准备。命令为：                       |<br>| #./configure                                                            |<br>|                                                                          |<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/判断ios系统版本号的代码/#more">Read More</a>
+            <a href="/2018/11/19/Linux 中如何卸载已安装的软件/#more">Read More</a>
           
        </p>
     </div>
@@ -356,7 +637,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/判断ios系统版本号的代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/判断ios系统版本号的代码/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/Linux 中如何卸载已安装的软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Linux 中如何卸载已安装的软件/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -376,37 +657,25 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/" title="Session，Cookie，jsessionid，Url重写" itemprop="url">Session，Cookie，jsessionid，Url重写</a>
+      <a href="/2018/11/19/KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自@开发者头条/" title="KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自 开发者头条" itemprop="url">KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自 开发者头条</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:22.860Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="Session，Cookie，jsessionid，Url重写"><a href="#Session，Cookie，jsessionid，Url重写" class="headerlink" title="Session，Cookie，jsessionid，Url重写"></a>Session，Cookie，jsessionid，Url重写</h1><div><br><br>\<br><br></div>
-
-<div><br><br>在一些投票之类的场合，我们往往因为公平的原则要求每人只能投一票，在一些WEB开发中也有类似的情况，这时候我们通常会使用COOKIE来实现，例如如下的代码：<br><br></div>
-
-<p>&lt; % cookie[]cookies = request.getCookies();</p>
-<p>if (cookies.lenght == 0 || cookies == null){</p>
-<p>doStuffForNewbie();</p>
-<p>//没有访问过</p>
-<p>}else{</p>
-<p>doStuffForReturnVisitor(); //已经访问过了</p>
-<p>}</p>
-<p>% &gt;</p>
-<p>这是很浅显易懂的道理，检测COOKIE的存在，如果存在说明已经运行过写入COOKIE的代码了，然而运行以上的代码后，无论何时结果都是执行<br>doStuffForReturnVisitor()，通过控制面板-Internet选项-设置-察看文件却始终看不到生成的cookie文件，奇怪，<br>代码明明没有问题，不过既然有cookie，那就显示出来看看。<br>
+        <h1 id="KeyboardToolBar：从此不再担心键盘遮住输入框（OC）-分享自-开发者头条"><a href="#KeyboardToolBar：从此不再担心键盘遮住输入框（OC）-分享自-开发者头条" class="headerlink" title="KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自 开发者头条"></a>KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自 开发者头条</h1><h5 id="想必大家在iOS开发中都有遇到过这种问题。点击输入框后，弹出的键盘遮挡了输入框，然后你就无法看见你输入了什么。为了解决这个问题，我也在Github、CocoaChina以及Code4App上花了不少时间去找相关的代码以及实现。"><a href="#想必大家在iOS开发中都有遇到过这种问题。点击输入框后，弹出的键盘遮挡了输入框，然后你就无法看见你输入了什么。为了解决这个问题，我也在Github、CocoaChina以及Code4App上花了不少时间去找相关的代码以及实现。" class="headerlink" title="想必大家在iOS开发中都有遇到过这种问题。点击输入框后，弹出的键盘遮挡了输入框，然后你就无法看见你输入了什么。为了解决这个问题，我也在Github、CocoaChina以及Code4App上花了不少时间去找相关的代码以及实现。"></a>想必大家在iOS开发中都有遇到过这种问题。点击输入框后，弹出的键盘遮挡了输入框，然后你就无法看见你输入了什么。为了解决这个问题，我也在<a href="https://github.com/" target="_blank" rel="noopener">Github</a>、<a href="http://www.cocoachina.com/" target="_blank" rel="noopener">CocoaChina</a>以及<a href="http://code4app.com/" target="_blank" rel="noopener">Code4App</a>上花了不少时间去找相关的代码以及实现。</h5><h5 id="找到的相关内容很多，但是都有一个共同点，是通过将底部的View上滑至键盘之上，从而可以看见输入框内的内容。在这方面做得好的有IQKeyboardManager。但是我认为IQKeyboardManager的侵入性比较强，而且必须继承使用，所以放弃了采用，于是便自己写了一个键盘组件KeyboardToolBar，优点是小巧易使用，支持CocoaPods，侵入性小，作者爱交友"><a href="#找到的相关内容很多，但是都有一个共同点，是通过将底部的View上滑至键盘之上，从而可以看见输入框内的内容。在这方面做得好的有IQKeyboardManager。但是我认为IQKeyboardManager的侵入性比较强，而且必须继承使用，所以放弃了采用，于是便自己写了一个键盘组件KeyboardToolBar，优点是小巧易使用，支持CocoaPods，侵入性小，作者爱交友" class="headerlink" title="找到的相关内容很多，但是都有一个共同点，是通过将底部的View上滑至键盘之上，从而可以看见输入框内的内容。在这方面做得好的有IQKeyboardManager。但是我认为IQKeyboardManager的侵入性比较强，而且必须继承使用，所以放弃了采用，于是便自己写了一个键盘组件KeyboardToolBar，优点是小巧易使用，支持CocoaPods，侵入性小，作者爱交友~"></a>找到的相关内容很多，但是都有一个共同点，是通过将底部的View上滑至键盘之上，从而可以看见输入框内的内容。在这方面做得好的有<a href="https://github.com/hackiftekhar/IQKeyboardManager" target="_blank" rel="noopener">IQKeyboardManager</a>。但是我认为IQKeyboardManager的侵入性比较强，而且必须继承使用，所以放弃了采用，于是便自己写了一个键盘组件<a href="https://github.com/Jiar/KeyboardToolBar/" target="_blank" rel="noopener">KeyboardToolBar</a>，优点是小巧易使用，支持<a href="https://cocoapods.org/" target="_blank" rel="noopener">CocoaPods</a>，侵入性小，作者爱交友~</h5><h5 id="下面我通过如何使用和源码分析两个方面来介绍。"><a href="#下面我通过如何使用和源码分析两个方面来介绍。" class="headerlink" title="下面我通过如何使用和源码分析两个方面来介绍。"></a>下面我通过如何使用和源码分析两个方面来介绍。</h5><h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><h3 id="就是不想用-去下载zip。将Classes文件夹下的代码复制到你的项目中去。"><a href="#就是不想用-去下载zip。将Classes文件夹下的代码复制到你的项目中去。" class="headerlink" title="就是不想用- 去下载zip。将Classes文件夹下的代码复制到你的项目中去。"></a>就是不想用- 去下载zip。将Classes文件夹下的代码复制到你的项目中去。</h3><h3 id="如果你也用"><a href="#如果你也用" class="headerlink" title="如果你也用"></a>如果你也用</h3><h4 id="Podfile"><a href="#Podfile" class="headerlink" title="Podfile"></a>Podfile</h4><h4 id="import"><a href="#import" class="headerlink" title="import"></a>import</h4><h4 id="注册使用KeyboardToolBar"><a href="#注册使用KeyboardToolBar" class="headerlink" title="注册使用KeyboardToolBar"></a>注册使用KeyboardToolBar</h4><h4 id="反注册-移除-eyboardToolBar"><a href="#反注册-移除-eyboardToolBar" class="headerlink" title="反注册(移除)eyboardToolBar"></a>反注册(移除)eyboardToolBar</h4><h4 id="unregisterAllKeyboardToolBar"><a href="#unregisterAllKeyboardToolBar" class="headerlink" title="unregisterAllKeyboardToolBar"></a>unregisterAllKeyboardToolBar</h4><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h4 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h4><h5 id="我的设想是在键盘上方的工具栏处做文章，哪怕是键盘挡住了输入框，但是如果将输入框上的placeholder以及输入的内容时刻在工具栏上显示，那么哪怕键盘挡住了输入框，依旧可以清楚知道我现在要输入哪方面的内容以及我现在输入的内容是什么。"><a href="#我的设想是在键盘上方的工具栏处做文章，哪怕是键盘挡住了输入框，但是如果将输入框上的placeholder以及输入的内容时刻在工具栏上显示，那么哪怕键盘挡住了输入框，依旧可以清楚知道我现在要输入哪方面的内容以及我现在输入的内容是什么。" class="headerlink" title="我的设想是在键盘上方的工具栏处做文章，哪怕是键盘挡住了输入框，但是如果将输入框上的placeholder以及输入的内容时刻在工具栏上显示，那么哪怕键盘挡住了输入框，依旧可以清楚知道我现在要输入哪方面的内容以及我现在输入的内容是什么。"></a>我的设想是在键盘上方的工具栏处做文章，哪怕是键盘挡住了输入框，但是如果将输入框上的placeholder以及输入的内容时刻在工具栏上显示，那么哪怕键盘挡住了输入框，依旧可以清楚知道我现在要输入哪方面的内容以及我现在输入的内容是什么。</h5><h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><h5 id="为了看起来清楚些，以下代码中我使用KTB代表KeyboardToolBar单例对象。"><a href="#为了看起来清楚些，以下代码中我使用KTB代表KeyboardToolBar单例对象。" class="headerlink" title="为了看起来清楚些，以下代码中我使用KTB代表KeyboardToolBar单例对象。"></a>为了看起来清楚些，以下代码中我使用KTB代表KeyboardToolBar单例对象。</h5>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#more">Read More</a>
+            <a href="/2018/11/19/KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自@开发者头条/#more">Read More</a>
           
        </p>
     </div>
@@ -432,7 +701,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/Session，Cookie，jsessionid，Url重写/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/Session，Cookie，jsessionid，Url重写/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自@开发者头条/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/KeyboardToolBar：从此不再担心键盘遮住输入框（OC） - 分享自@开发者头条/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -452,25 +721,33 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/30/发展感想/" title="发展感想" itemprop="url">发展感想</a>
+      <a href="/2018/11/19/Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园/" title="Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园" itemprop="url">Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
+    <time datetime="2018-11-19T09:56:22.854Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="发展感想"><a href="#发展感想" class="headerlink" title="发展感想"></a>发展感想</h1><p>今年的PDP主要是新技术的学习与团队项目的协调上，对于新语言swift的学习已经开始着手，并将基础语法进行的练习。在与obj-c的对应特征上，做了一些比较，写了一个swift的demo。</p>
-<div><br><br>在接下来的swift学习当中，会在下个月会出来一张swift与obj-c特征对照表，并相互学习与分享讨论。<br><br></div>
+        <h1 id="Jenkins入门系列之——02第二章-Jenkins安装与配置-爱自己-博客园"><a href="#Jenkins入门系列之——02第二章-Jenkins安装与配置-爱自己-博客园" class="headerlink" title="Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园"></a>Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园</h1><p>install</p>
+<hr>
+<p>\</p>
+<div><br><br><div><br><br><div><br><br><div><br><br>第二章 Jenkins安装与配置<br>========================<br><br><div><br><br><div><br><br></div>
 
+<p></p></div><p></p>
+<p></p></div><p></p>
+<h1 id="2-Jenkins安装"><a href="#2-Jenkins安装" class="headerlink" title="2 Jenkins安装"></a>2 Jenkins安装</h1><p>在最简单的情况下，Jenkins 只需要两个步骤：</p>
+<p>1.下载最新的版本（一个 Jenkins <a href="http://jenkins-ci.org/" target="_blank" rel="noopener">http://Jenkins-ci.org/</a></p>
         
         
         <p class="article-more-link">
+          
+            <a href="/2018/11/19/Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园/#more">Read More</a>
           
        </p>
     </div>
@@ -496,277 +773,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/03/30/发展感想/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/发展感想/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/加菲猫生活歪理/" title="加菲猫生活歪理" itemprop="url">加菲猫生活歪理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="加菲猫生活歪理"><a href="#加菲猫生活歪理" class="headerlink" title="加菲猫生活歪理"></a>加菲猫生活歪理</h1><p>￼\<br>\<br>\<br>\<br>\<br>加菲猫生活歪理\<br>\<br>\<br>\<br>1、 今天吃得下的千万别搁到明天。\<br>\<br>\<br>2、爱情来得快去得也快，只有猪肉卷是永恒的。\<br>\<br>\<br>3、欧迪，我们去吃冰淇淋吧，不过你得看着我吃。\<br>\<br>\<br>4、肚子大不可怕，可怕的是肚子里没有好东西。\<br>\<br>\<br>5、「欧迪在窗外冻得瑟瑟发抖，真可怜。我真有点不忍心看他这样。\<br>\<br>\<br>不，难道我能坐视不管吗？我必须做点什么。」加菲拉上了窗帘。\<br>\<br>\<br>6、 失败的人特点是会不断地失败。\<br>如果你想看看他的失败的话，他是不会让你失望的。\<br>\<br>\<br>\<br>\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/加菲猫生活歪理/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/加菲猫生活歪理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/加菲猫生活歪理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/听德鲁克讲管理_大师的9堂管理课/" title="听德鲁克讲管理：大师的9堂管理课" itemprop="url">听德鲁克讲管理：大师的9堂管理课</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="听德鲁克讲管理：大师的9堂管理课"><a href="#听德鲁克讲管理：大师的9堂管理课" class="headerlink" title="听德鲁克讲管理：大师的9堂管理课"></a>听德鲁克讲管理：大师的9堂管理课</h1><h3 id="姚大球"><a href="#姚大球" class="headerlink" title="姚大球"></a>姚大球</h3><p>2014-06-26 19:04:59<br>最有价值的人，不是最会说或者最会做的人，而是最善于倾听，善于最大限度获得资讯，为自己发展助力的人</p>
-<p>2014-06-26 19:10:16<br>作为管理者，把事情做正确和做正确的事情都是需要用毕生时间来实践的。<br><br>◆ 影响决策执行效果的因素有很多，比如实施时间和地点、政策、经济形势、竞争者状况等，要顺应形势对原本的决策加以修正，拥有恰当时机的决策才能获得最大效益。<br><br>◆ 做决策之前，要善于分析各种现实条件。<br><br>◆ 做决策之时，要善于把握、利用时机。<br><br>◆ 做决策之后，要善于及时根据实际执行情况调整方案。</p>
-<p>2014-06-26 19:11:46<br>决策必须先行，哪怕是仅仅只需要花一分钟的思考。</p>
-<p>2014-06-26 19:09:39<br>管理者的身份就是正确地做事和做正确的事</p>
-<p>2014-06-26 19:19:40</p>
-<p>优秀管理者必须擅长自我约束<br><br>注： 正人先正己<br>2014-06-26 19:21:36</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/听德鲁克讲管理_大师的9堂管理课/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/管理/">管理</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/德鲁克讲管理/">德鲁克讲管理</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/听德鲁克讲管理_大师的9堂管理课/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/听德鲁克讲管理_大师的9堂管理课/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/启动画面自定义动画/" title="启动画面自定义动画" itemprop="url">启动画面自定义动画</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="启动画面自定义动画"><a href="#启动画面自定义动画" class="headerlink" title="启动画面自定义动画"></a>启动画面自定义动画</h1><p><span style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">添加一个ViewController，在这个ViewController的view中添加一个ImageView，全屏显示，横竖屏你自己设定，这个imageView的初始图片可以跟你的启动页面一样，然后在应用程序启动后将这个ViewController<br>设置为rootViewController，在启动时就去获取网络图片的url，然后异步加载图片，将这个图片设置为ImageView的图片。显示出图片后再更换rootViewController，在切换rootViewController时为了自然过渡可以增加一些动画效果，如翻转、淡入淡出等。\<br>\<br> 思路如下：\<br>\</span></p>
-<ol>
-<li>self.window.rootViewController =<br>self.welcomeViewController（显示网络图片的Controller）\<br>\</li>
-<li>EGOImageView *imageView = [[EGOImageView alloc]<br>initWithPlaceholderImage:[UIImage imageNamed: “xxxx”]];\<br>\<br>[ imageView setImageUrl: “xxx”];<br>//这样就可以异步加载图片了，也可以用其他第三方库加载\<br>\</li>
-<li>动画切换rootViewController, 可以用UIView beginAnimation 或者UIView<br>transitionWithView等来实现</li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/启动画面自定义动画/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/启动画面自定义动画/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/30/在IDEA下远程调试JavaScript/" title="在IDEA下远程调试JavaScript" itemprop="url">在IDEA下远程调试JavaScript</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-30T09:08:53.000Z" itemprop="datePublished"> 发表于 2016-03-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="在IDEA下远程调试JavaScript"><a href="#在IDEA下远程调试JavaScript" class="headerlink" title="在IDEA下远程调试JavaScript"></a>在IDEA下远程调试JavaScript</h1><hr>
-<h2 id="在IDEA下远程调试JavaScript-1"><a href="#在IDEA下远程调试JavaScript-1" class="headerlink" title="  在IDEA下远程调试JavaScript"></a>  在IDEA下远程调试JavaScript</h2><p>+————————————————————————–+<br>|                                                                          |<br>| 谈起JavaScript调试，大家可能想到的就是FireFox下的FireBug，这毫无疑问，FireBug基本已经成为JavaScript开发 |<br>| 人员的必备工具。在本文中，将向大家介绍如何在IDEA下远程调试JavaScript，毕竟能在IDE工具中直接设置断点，进行调试，这还是非常诱人的 |<br>| 。\                                                                      |<br>|              首先我们要给FireFox安装一个插件，该插件由IntelliJ           |<br>| IDEA的开发工程师开发，安装目录为%IDEA_HOME%\plugins\JavaScriptDebugger\firefox目录下， |<br>| 你只需拖动JBExtension.xpi文件到FireFox窗口即可完成安装。IDEA还会在调试JavaScript时自动安装，所以你不安装也不 |<br>| 会有问题，如下图：\                                                      |<br>| <img src="%E5%9C%A8IDEA%E4%B8%8B%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95JavaScript |
-| .resources/D3EC86BC-955C-4A2C-8823-8A943D676098.png" alt="">\                    |<br>|            接下来我们需要在IDEA中创建一个调试JavaScript的运行配置(run    |<br>| configuration)，这样我们就可以启动JavaScript的调试器。这里要说明的是，你需要给相关的js设置网络URL，这样就可以在远程 |<br>| JS和本地JS文件做好映射。这里要说明的一下：IDEA                           |<br>| 9.0M1有一个bug，你不要选中’Make‘选项，这个bug很快就会修复。如下图：\     |<br>| <img src="%E5%9C%A8IDEA%E4%B8%8B%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95JavaScript |
-| .resources/86FF2D83-0190-494F-94CA-6D3DD9127539.png" alt="">\                    |<br>|           你点击Debug按钮后，IDEA就会打开一个FireFox，然后定位到你之前设定的URL地址，接下你在IDE工具中设定断点， |<br>| 当JS文件运行到断点时，就会被IDEA捕获，你就可以看到调试信息，当前IDEA仅仅支持纯js文件的调试，还不支持inline方式的js，这个要注 |<br>| 意一下。\                                                                |<br>|                                                                          |<br>| <img src="%E5%9C%A8IDEA%E4%B8%8B%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95JavaScript |
-| .resources/DB63668A-64F0-4389-9971-560074EDCF47.png" alt="">        \            |<br>|          如果你不想为该URL进行远程调试，只需点击”Tools“菜单下的”JS       |<br>| Debugger”下的disconnect即可，这个时候，调试的断点就不再有效，可以正常运行程序啦。\ |<br>|                                                                          |<br>| <img src="%E5%9C%A8IDEA%E4%B8%8B%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95JavaScript |
-| .resources/2C64668F-8775-473B-8005-AE399A01875B.png" alt="">\                    |<br>|         总结：总的来说，在IDE中调试JavaScript是非常诱人的，尽管FireBug已经非常优秀啦。IDE提供了众多的特性，如导航 |<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/30/在IDEA下远程调试JavaScript/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/30/在IDEA下远程调试JavaScript/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/30/在IDEA下远程调试JavaScript/" data-count-type="comments">&nbsp;</a>
+		<a href="/2018/11/19/Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Jenkins入门系列之——02第二章 Jenkins安装与配置 - 爱自己 - 博客园/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -996,7 +1003,7 @@
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1004,7 +1011,7 @@
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -1012,19 +1019,19 @@
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 		</ul>

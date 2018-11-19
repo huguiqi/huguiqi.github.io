@@ -1,0 +1,1011 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>用docker安装应用服务器 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="用docker安装应用服务器参考官方文档：安装docker curl -fsSL https://get.docker.com/ | sh  如果已经下载过，重装docker的话： yum -y -q install docker-engine  卸载docker： （1）yum list installed | grep docker  （2）sudo yum -y remove docker-">
+<meta name="keywords" content="安装docker&amp;gitlabe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用docker安装应用服务器">
+<meta property="og:url" content="http://www.huguiqi.com/2018/11/19/用docker安装应用服务器/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="用docker安装应用服务器参考官方文档：安装docker curl -fsSL https://get.docker.com/ | sh  如果已经下载过，重装docker的话： yum -y -q install docker-engine  卸载docker： （1）yum list installed | grep docker  （2）sudo yum -y remove docker-">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/A3DA3AD1-4442-47F2-9164-B126A1009EF1.png">
+<meta property="og:image" content="http://17173ops.com/wp-content/uploads/2014/11/docker_gitlab_arch.png">
+<meta property="og:updated_time" content="2018-11-19T09:56:23.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用docker安装应用服务器">
+<meta name="twitter:description" content="用docker安装应用服务器参考官方文档：安装docker curl -fsSL https://get.docker.com/ | sh  如果已经下载过，重装docker的话： yum -y -q install docker-engine  卸载docker： （1）yum list installed | grep docker  （2）sudo yum -y remove docker-">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/A3DA3AD1-4442-47F2-9164-B126A1009EF1.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/用docker安装应用服务器/" title="用docker安装应用服务器" itemprop="url">用docker安装应用服务器</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.917Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#用docker安装应用服务器"><span class="toc-number">1.</span> <span class="toc-text">用docker安装应用服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建公司内网docker服务器"><span class="toc-number">1.1.</span> <span class="toc-text">搭建公司内网docker服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装需要的应用软件"><span class="toc-number">1.2.</span> <span class="toc-text">安装需要的应用软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装配置nginx"><span class="toc-number">1.2.1.</span> <span class="toc-text">安装配置nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-安装gitlab"><span class="toc-number">1.3.</span> <span class="toc-text">docker 安装gitlab</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pull-gitlab"><span class="toc-number">1.3.1.</span> <span class="toc-text">pull gitlab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gitlab官网终于容器化-了"><span class="toc-number">1.3.2.</span> <span class="toc-text">gitlab官网终于容器化    了</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="用docker安装应用服务器"><a href="#用docker安装应用服务器" class="headerlink" title="用docker安装应用服务器"></a>用docker安装应用服务器</h1><p>参考官方文档：<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="noopener">安装docker</a></p>
+<pre><code>curl -fsSL https://get.docker.com/ | sh
+</code></pre><ul>
+<li><p>如果已经下载过，重装docker的话：</p>
+<pre><code>yum -y -q install docker-engine
+</code></pre></li>
+<li><p>卸载docker：</p>
+<pre><code>（1）yum list installed | grep docker
+
+（2）sudo yum -y remove docker-engine.x86_64
+
+（3）rm -rf /var/lib/docker
+</code></pre></li>
+</ul>
+<p>用这个安装后，发现一个错误：</p>
+<pre><code>[root@localhost ~]# docker pull nginx
+Using default tag: latest
+Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: dial unix /var/run/docker.sock: no such file or directory.
+* Are you trying to connect to a TLS-enabled daemon without TLS?
+* Is your docker daemon up and running?
+</code></pre><p>是因为linux系统默认没有启动docker服务，执行：    </p>
+<pre><code>systemctl start docker    
+</code></pre><p>就好了。。。。<br><a id="more"></a></p>
+<p>因为我用的是fedora版本的linux系统，故要设置自动重启:</p>
+<pre><code>sudo chkconfig docker on
+</code></pre><p>由于国内访问doucloud hub 奇慢无比，故我把主机接入到国内的daocloud.<br><a href="https://dashboard.daocloud.io/cluster" target="_blank" rel="noopener">接入自有主机集群</a></p>
+<pre><code>curl -sSL https://get.daocloud.io/daomonit/install.sh | sh -s faf72fe49e97a****************************
+</code></pre><p>注意，-s 参数后面的的字符串是你的daocloud里的字符串，这个字符串是唯一的.</p>
+<h2 id="搭建公司内网docker服务器"><a href="#搭建公司内网docker服务器" class="headerlink" title="搭建公司内网docker服务器"></a>搭建公司内网docker服务器</h2><p>两种方式：</p>
+<ol>
+<li>直接命令行安装并启动</li>
+</ol>
+<p><a href="https://docs.docker.com/registry/deploying" target="_blank" rel="noopener">参考官网</a></p>
+<pre><code>docker run -d -e SETTINGS_FLAVOR=dev -p 5000:5000 --restart=always --name local-registry -v `pwd`/config.yml:/opt/data/registry/config.yml registry
+</code></pre><ul>
+<li>因为我把config.yml已经放在了/opt/data/registry下面了，所以指定它的配置路径<ul>
+<li>指定docker的运用环境为dev模式:<code>SETTINGS_FLAVOR＝dev</code></li>
+</ul>
+</li>
+</ul>
+<pre><code>1. 先从github上把registry clone到宿主机，然后再进入registry目录，执行：docker build -t registryName
+
+2. 把项目https://github.com/docker/docker-registry.git克隆到本地，然后使用Dockerfile来build镜像
+
+        # clone https://github.com/docker/docker-registry.git
+        # cd docker-registry &amp;&amp; mkdir -p /opt/data/registry
+        # docker build -t &quot;local-registry&quot; .
+</code></pre><p>build完成后，就可以运行这个docker-registry<br>我们先配置自己的config.yml文件,我暂时用默认的，以后用的时候可以改。</p>
+<ul>
+<li><p>运行刚刚build的本地registry镜像</p>
+<p>  docker run local-registry -p 5000:5000</p>
+</li>
+</ul>
+<!--more-->
+<h2 id="安装需要的应用软件"><a href="#安装需要的应用软件" class="headerlink" title="安装需要的应用软件"></a>安装需要的应用软件</h2><h3 id="安装配置nginx"><a href="#安装配置nginx" class="headerlink" title="安装配置nginx"></a>安装配置nginx</h3><p>刚搭建好的docker registry服务器是没有任何软件的，需要你自己将镜像添加到registry里</p>
+<pre><code>docker pull nginx &amp;&amp; docker tag locahost:5000/nginx
+docker push localhost:5000/nginx
+</code></pre><p>从私服里拉取nginx:</p>
+<pre><code>docker pull localhost:5000/nginx    
+</code></pre><p>查看下我们的镜像列表：</p>
+<pre><code>[root@localhost ~]# docker images
+REPOSITORY                              TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+localhost:5000/nginx                    latest              c0e6aba9c87a        34 hours ago        182.6 MB
+nginx                                   latest              c0e6aba9c87a        34 hours ago        182.6 MB
+&lt;none&gt;                                  &lt;none&gt;              9abcb5b363d4        34 hours ago        182.6 MB
+ubuntu                                  14.04               ffbf13a52255        2 days ago          187.9 MB
+daocloud.io/daocloud/daocloud-toolset   latest              8d9e14f4e185        3 days ago          150.3 MB
+registry                                latest              061610023430        10 weeks ago        422.8 MB
+</code></pre><p>启动nginx的两种方法：</p>
+<ul>
+<li><p>官方安装启动方式</p>
+<p>  docker run –name mynginx -v /some/content:/usr/share/nginx/html:ro -d daocloud.io/nginx</p>
+</li>
+</ul>
+<p>ps:用的源是daocloud的    nginx,如果你是翻墙用户，网速很好，可以直接写软件名称，设置了共享静态网页目录</p>
+<ul>
+<li>使用dockerfile启动并build容器</li>
+</ul>
+<p>如要通过dockerfile创建并初始化nginx镜像，设置一个共享静态文件目录：</p>
+<pre><code>mkdir myNginx &amp;&amp; cd myNginx &amp;&amp; touch Dockerfile
+
+FROM daocloud.io/nginx
+COPY static-html-directory /usr/share/nginx/html
+</code></pre><p>每次有发布，就进入myNginx目录，build一次，就会把宿主机上的静态资源文件copy到nginx的目录里</p>
+<p>然后再执行：</p>
+<pre><code>docker run --name mynginx -v /some/content:/usr/share/nginx/html:ro -d daocloud.io/nginx
+</code></pre><p>最后进入：</p>
+<pre><code>docker exec -it [containId] bash
+</code></pre><p>默认nginx的主程序都安装在：</p>
+<pre><code>/etc/nginx
+</code></pre><p>进入到/etc/nginx可以查看它的nginx.conf文件：</p>
+<pre><code>user  nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+
+events {
+worker_connections  1024;
+}
+
+
+http {
+include       /etc/nginx/mime.types;
+default_type  application/octet-stream;
+
+log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
+                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
+                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
+
+access_log  /var/log/nginx/access.log  main;
+
+sendfile        on;
+#tcp_nopush     on;
+
+keepalive_timeout  65;
+
+#gzip  on;
+
+include /etc/nginx/conf.d/*.conf;
+}
+</code></pre><p>由于我之前启动时没有给nginx映射与宿主机的端口，所以我要先退出再重新映射端口，好像没有给运行中的容器添加端口映射的方法，所以只能分三步：</p>
+<ol>
+<li><p>stop running container</p>
+<pre><code>docker stop test01
+</code></pre></li>
+<li><p>commit the container</p>
+<pre><code>docker commit test01 test02
+</code></pre></li>
+<li><p>re-run from the commited image</p>
+<pre><code>docker run -p 80:80 -td test02
+</code></pre></li>
+</ol>
+<p>删除镜像：</p>
+<pre><code>docker rmi immageName/imgID
+</code></pre><p>删除容器：</p>
+<pre><code>docker rm containId/name
+</code></pre><p>网上很多文章说这种方式是可以的设置共享html和conf，</p>
+<pre><code>docker run --name mynginx2 -v /var/www:/usr/share/nginx/html:ro -v /var/nginx/conf:/etc/nginx:ro -P -d nginx
+</code></pre><p>但是经过我一个下午的测试与试验，<code>-v /var/nginx/conf:/etc/nginx/conf.d:ro</code>这句是不能加的，一加上就无法启动。</p>
+<p>option参数 ro的意思是设置这个共享目录在容器里是只读</p>
+<p>最后在网上折腾了很久，在官网找到正解：</p>
+<pre><code>docker run --name nginx -p 80:80 -v `pwd`/var/nginx/config:/etc/nginx/sites-enabled  -v `pwd`/logs/nginx:/var/log/nginx  -d nginx
+</code></pre><p><strong>还有个问题，就是Dockfile文件里的VOLUME定义的目录到底有毛用啊？为什么我设置了和没有设置是一样的呢？唯一的就是在我宿主机上多了我设置的目录，但是里面的内容全是空的，也没有和容器的那个相对应的目录里的文件同步</strong></p>
+<p>这个问题找到答案了：</p>
+<p>1。VOLUME本质上设计的是和-v是一样的，但是因为build的images是不支持设置host的mount目录的</p>
+<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/A3DA3AD1-4442-47F2-9164-B126A1009EF1.png" alt="图片"></p>
+<p>但什么情况下使用这个呢？</p>
+<ol>
+<li><a href="https://docs.docker.com/engine/userguide/containers/dockervolumes/#mount-a-host-directory-as-a-data-volume" target="_blank" rel="noopener">Volume labels</a></li>
+<li>data volume container</li>
+</ol>
+<p><a href="https://docs.docker.com/engine/userguide/containers/dockervolumes/#mount-a-host-directory-as-a-data-volume" target="_blank" rel="noopener">data volume container的用法</a></p>
+<p><a href="https://docs.docker.com/engine/reference/builder/#volume" target="_blank" rel="noopener">Dockerfil使用方法</a></p>
+<p>以下是我的Dockerfile文件内容：</p>
+<pre><code>FROM nginx
+#COPY /some/content/html /usr/share/nginx/html
+
+VOLUME /usr/share/nginx/html
+VOLUME /etc/nginx
+#VOLUME [&quot;/some/content/html&quot;]
+#VOLUME [&quot;/some/share/nginx/logs&quot;, &quot;/var/log/nginx&quot;]
+
+EXPOSE 80
+</code></pre><p><strong>如果要将nginx 的config进行管理的话，可以通过在Dockerfile里从host 机器上copy conf 替换掉containne的default.conf
+</strong><br>重启nginx:</p>
+<pre><code>docker restart [CONTAINER ID]
+</code></pre><h2 id="docker-安装gitlab"><a href="#docker-安装gitlab" class="headerlink" title="docker 安装gitlab"></a>docker 安装gitlab</h2><h3 id="pull-gitlab"><a href="#pull-gitlab" class="headerlink" title="pull gitlab"></a>pull gitlab</h3><pre><code>docker build -t sameersbn/gitlab github.com/sameersbn/docker-gitlab    
+</code></pre><p>先来看看gitlab在docker中的架构图：</p>
+<p><img src="http://17173ops.com/wp-content/uploads/2014/11/docker_gitlab_arch.png" alt="图片">        </p>
+<p>所以接下来要做的就分三步了：</p>
+<ol>
+<li>Launch a postgresql container</li>
+</ol>
+<pre><code>docker run --name gitlab-postgresql -d \
+--env &apos;DB_NAME=gitlabhq_production&apos; \
+--env &apos;DB_USER=gitlab&apos; --env &apos;DB_PASS=password&apos; \
+--env &apos;DB_EXTENSION=pg_trgm&apos; \
+--volume /srv/docker/gitlab/postgresql:/var/lib/postgresql \
+sameersbn/postgresql:9.4-18
+</code></pre><ol>
+<li><p>Launch a redis container</p>
+<pre><code>docker run --name gitlab-redis -d \
+--volume /srv/docker/gitlab/redis:/var/lib/redis \
+sameersbn/redis:latest
+</code></pre></li>
+</ol>
+<ol>
+<li><p>Launch the gitlab containe</p>
+<pre><code>docker run --name gitlab -d \
+--restart=always \
+--link gitlab-postgresql:postgresql --link gitlab-redis:redisio \
+--publish 10022:22 --publish 10080:80 \
+--env &apos;GITLAB_PORT=10080&apos; --env &apos;GITLAB_SSH_PORT=10022&apos; \
+--env &apos;GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alpha-numeric-string&apos; \
+-e &apos;GITLAB_HOST=101.81.74.171&apos; \
+-e &apos;GITLAB_PORT=8000&apos; \
+-e &apos;SMTP_ENABLED=true&apos; \
+  -e &apos;SMTP_DOMAIN=www.mail.163.com/&apos; \
+  -e &apos;SMTP_HOST=smtp.163.com&apos; \
+  -e &apos;SMTP_PORT=25&apos; \
+  -e &apos;SMTP_USER=LebondAPP@163.com&apos; \
+  -e &apos;SMTP_PASS=lebond1234&apos; \
+  -e &apos;SMTP_AUTHENTICATION=login&apos; \
+  -e &apos;GITLAB_MAX_OBJECT_SIZE=104857600&apos; \
+--volume /srv/docker/gitlab/gitlab:/home/git/data \
+sameersbn/gitlab:8.6.4
+</code></pre></li>
+</ol>
+<ul>
+<li><p>备份和恢复gitlab</p>
+<ul>
+<li><p>备份</p>
+<pre><code>docker stop gitlab &amp;&amp; docker rm gitlab
+docker run --name=gitlab -it --rm [OPTIONS] \ sameersbn/gitlab:latest app:rake gitlab:backup:create
+</code></pre></li>
+<li><p>恢复</p>
+<pre><code>docker stop gitlab &amp;&amp; docker rm gitlab
+docker run --name=gitlab -it --rm [OPTIONS] \ sameersbn/gitlab:latest app:rake gitlab:backup:restore
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>升级gitlab</p>
+<ul>
+<li>重新pull gitlab镜像</li>
+</ul>
+</li>
+</ul>
+<p>docker pull sameersbn/gitlab:7.11.4</p>
+<ul>
+<li><p>重启容器    </p>
+<pre><code>docker restart [containid]    
+</code></pre></li>
+<li><p>从宿主机上cp文件到容器：</p>
+<pre><code>docker cp test.conf [containId]:/etc/nginx/conf.d   
+</code></pre></li>
+</ul>
+<p><strong>配置163邮箱时，需要开启pop授权，授权码会发到手机，用授权码配置为邮箱密码</strong>  </p>
+<h3 id="gitlab官网终于容器化-了"><a href="#gitlab官网终于容器化-了" class="headerlink" title="gitlab官网终于容器化    了"></a>gitlab官网终于容器化    了</h3><p>2016年6月份，gitlab终于把gitlab的安装作到极简了，容器化安装。。。。。</p>
+<p><a href="http://docs.gitlab.com/omnibus/docker/" target="_blank" rel="noopener">使用docker安装容器化的gitlab</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/安装docker-gitlabe/">安装docker&gitlabe</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.huguiqi.com/2018/11/19/用docker安装应用服务器/" data-title="用docker安装应用服务器 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/11/19/给hexo博客添加站内搜索/" title="给hexo博客添加站内搜索(折腾死了)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  给hexo博客添加站内搜索(折腾死了)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/11/19/将_mac_中的文件夹共享到虚拟机/"  title="将 Mac 中的文件夹共享到虚拟机">
+ <strong>下一篇：</strong><br/> 
+ <span>将 Mac 中的文件夹共享到虚拟机
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/11/19/用docker安装应用服务器/" data-title="用docker安装应用服务器" data-url="http://www.huguiqi.com/2018/11/19/用docker安装应用服务器/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#用docker安装应用服务器"><span class="toc-number">1.</span> <span class="toc-text">用docker安装应用服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建公司内网docker服务器"><span class="toc-number">1.1.</span> <span class="toc-text">搭建公司内网docker服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装需要的应用软件"><span class="toc-number">1.2.</span> <span class="toc-text">安装需要的应用软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装配置nginx"><span class="toc-number">1.2.1.</span> <span class="toc-text">安装配置nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-安装gitlab"><span class="toc-number">1.3.</span> <span class="toc-text">docker 安装gitlab</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pull-gitlab"><span class="toc-number">1.3.1.</span> <span class="toc-text">pull gitlab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gitlab官网终于容器化-了"><span class="toc-number">1.3.2.</span> <span class="toc-text">gitlab官网终于容器化    了</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2018 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
