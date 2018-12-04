@@ -92,6 +92,143 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/node.js学习(上)/" title="node.js学习(上)" itemprop="url">node.js学习(上)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.694Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="node-js学习-上"><a href="#node-js学习-上" class="headerlink" title="node.js学习(上)"></a>node.js学习(上)</h1><hr>
+<p>title:  node.js学习(上)<br>date: 1542621383694<br>categories: nodejs developer</p>
+<h2 id="tags-npm镜像"><a href="#tags-npm镜像" class="headerlink" title="tags: npm镜像"></a>tags: npm镜像</h2><p>#node.js学习(上)<br>npm 将镜像设置为淘宝的npm镜像地址</p>
+<p>npm config set registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org/</a></p>
+<p>淘宝npm首页<br><a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a></p>
+<p>mac上的ruby下载源改成taobao的镜像,cocoapods用的到</p>
+<p><code>$ gem sources –remove <a href="https://rubygems.org/" target="_blank" rel="noopener">https://rubygems.org/</a><br>$ gem sources -a <a href="https://ruby.taobao.org/" target="_blank" rel="noopener">https://ruby.taobao.org/</a></code>  </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/node.js学习(上)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/node.js学习(上)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/nginx反向代理做cache配置/" title="nginx反向代理做cache配置" itemprop="url">nginx反向代理做cache配置</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.674Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="nginx反向代理做cache配置"><a href="#nginx反向代理做cache配置" class="headerlink" title="nginx反向代理做cache配置"></a>nginx反向代理做cache配置</h1><p><span style="font: 18.0px Times; font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">nginx反向代理做cache配置</span><br><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><img src="nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif" alt=""></span><br><span style="font: 10.0px Arial; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">(2010-02-01<br>17:26:24)</span><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br> <span style="font-kerning: none"><img src="nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif" alt=""></span></span></p>
+<div><br><br>\<br><br></div>
+
+<p><span style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">正文开始</span><span style="font: 14.0px SimSun; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\</span></p>
+<p>前序：请耐性子看完，前面的这个配置可以达到按后缀名进行缓存，但无法被purge。后面的配置可以被purge。\<br> 具体实施方案按个人情况而定。\<br>\<br> 需要第三方的ngx_cache_purge模块：\<br> wget <a href="http://labs.frickle.com/files/ngx_cache_purge-1.0.tar.gz" target="_blank" rel="noopener"><span style="font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">http://labs.frickle.com/files/ngx_cache_purge-1.0.tar.gz</span></a>\<br> tar zxvf ngx_cache_purge-1.0.tar.gz\<br>  \<br> nginx机器IP地址：192.168.2.187\<br>\<br> 编译参数： configure arguments: –add-module=../ngx_cache_purge-1.0<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/nginx反向代理做cache配置/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/nginx反向代理做cache配置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/nginx反向代理做cache配置/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/mysql相关命令行/" title="mysql相关命令行" itemprop="url">mysql相关命令行</a>
   </h1>
   <p class="article-author">By
@@ -661,130 +798,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/mac安装nginx/" title="mac安装nginx" itemprop="url">mac安装nginx</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.613Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="mac安装nginx"><a href="#mac安装nginx" class="headerlink" title="mac安装nginx"></a>mac安装nginx</h1><pre><code>bwi nginx
-</code></pre><p>默认安装在<code>/usr/local/etc/nginx</code>目录下。</p>
-<p>端口号默认为：<code>8080</code></p>
-<p>后台启动、重启、停止：<code>brew services start/restart/stop nginx</code></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/nginx/">nginx</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/mac安装nginx/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/mac安装nginx/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/mac新装mysql设置root密码/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.609Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>title: mac系统新装mysql设置root密码<br>date: 1542621383609<br>categories: mysql</p>
-<h2 id="tags-mac与mysql"><a href="#tags-mac与mysql" class="headerlink" title="tags: mac与mysql"></a>tags: mac与mysql</h2><h1 id="mac新装mysql设置root密码"><a href="#mac新装mysql设置root密码" class="headerlink" title="mac新装mysql设置root密码"></a>mac新装mysql设置root密码</h1><p>默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># mysqladmin -uroot -p password &apos;newpassword&apos;</span><br><span class="line">Enter password:</span><br><span class="line">mysqladmin: connect to server at &apos;localhost&apos; failed</span><br><span class="line">error: &apos;Access denied for user &apos;root&apos;@&apos;localhost&apos; (using password: YES)&apos;</span><br></pre></td></tr></table></figure>
-<p><strong>ps:<br>mysql默认在安装后mysqladmin命令不是全局的，如果要设置为全部的，需要设置自启动(mysql的命令行默认在/usr/local/mysql/bin/下)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># /etc/init.d/mysql stop</span><br><span class="line"># mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;</span><br><span class="line"># mysql -u root mysql</span><br><span class="line">mysql&gt; UPDATE user SET Password=PASSWORD(&apos;newpassword&apos;) where USER=&apos;root&apos;;</span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line">mysql&gt; quit</span><br><span class="line"># /etc/init.d/mysql restart</span><br><span class="line"># mysql -uroot -p</span><br><span class="line">Enter password: &lt;输入新设的密码newpassword&gt;</span><br></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/mac新装mysql设置root密码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/mac新装mysql设置root密码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/12/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/14/">Next<span></span></a>
@@ -880,7 +893,7 @@
 		  
 		
 		  
-			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
 		  
 		
 		  
@@ -969,7 +982,19 @@
 			
 		
 			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -981,15 +1006,15 @@
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1001,23 +1026,7 @@
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
 			
 		
 			
@@ -1025,11 +1034,15 @@
 			
 		
 			
-				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
 			
 		
 		</ul>

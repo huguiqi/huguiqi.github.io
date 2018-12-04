@@ -92,6 +92,150 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/" title="创建系统无法删除的文件夹 加密文件" itemprop="url">创建系统无法删除的文件夹 加密文件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.437Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="创建系统无法删除的文件夹-加密文件"><a href="#创建系统无法删除的文件夹-加密文件" class="headerlink" title="创建系统无法删除的文件夹 加密文件"></a>创建系统无法删除的文件夹 加密文件</h1><p><span style="color: rgb(68, 68, 68); font-size: 14px; line-height: 24px; text-align: left;">大家都知道在Windows中“\”符号是路径的分隔符号，比如“C:\Windows\”的意思就是C分区中的Windows文件夹，“C:\Windows\System.exe”的意思就是C分区中的Windows文件夹中的System.exe文件，好继续我们假设一下：\</span></p>
+<p>如果文件名中有“\”符号会怎么样呢？假如“S\”是一个文件夹的名字，这个文件夹位于：“F:\”，他的路径就是“F:\S\”，当我们试图访问的时候Windows会错误的认为我们要打开的文件是C分区的S文件夹，这样Windows就无法打开并且会返回一个错误，因为以上的路径并不存在。\</p>
+<p>也许你现在正在尝试创建“S\”文件，但是Windows会提示你：“\”符号是不能作为文件、文件夹的名字的。看来Windows还是早已想到这一点了的。OK我们继续进行，就不信不能建立包含“\”符号的文件。爱踢博客社区kW.L<br>UEi5z\<br> 现在打开你的电脑，我们要做一些很有趣的尝试。进入Windows后<br>点击：开始&gt;运行<br>然后输入“cmd”并会车（如果是Win98请输入“COMMAND”），这时你会看到Windows的命令控制台，我们就是要利用它完成我们剩下的测试，以下包含了很多命令其中{}中的字符是我的注释：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;mkdir s\<br>{我们的第一次尝试,结果Windows只创建了S文件夹”\“被忽略掉了}\<br> (H0F:\Test&gt;mkdir s\s1\<br>{还是失败,Windows先创建了S文件夹，然后在S内创建s1文件夹}\<br> F:\Test&gt;mkdir s.\ {“s.\“被解析成S”.\“又被忽略了}\<br> 子目录或文件 s.\ 已经存在。\<br> F:\Test&gt;mkdir s..\<br>{终于成功了,现在你可以在资源管理器看到”s.”但却无法打开/删除}\<br> F:\Test&gt;mkdir s…\<br>{又成功了,在资源浏览器能看到”s..”可以打开但是无法删除}\<br> ———————————————-\</p>
+<p>为什么会这样？我们先说你看到的这个“S.”文件夹，他即不能打开也不能删除，不能打开是因为他的实际路径是“F:\Test\s..\”（我们自己创建的所以可以确定他的实际路径）但是在Windows资源管理器中名字变成了“S.”也就是说当你试图打开它的时候Windows实际上尝试打开“F:\Test\s.\”当然是不能打开的，文件并不存在，所以Windows会报错。不能删除也是因为这个，Windows把一个实际存在的文件路径错误的解析为一个不存在的路径，并进行操作当然是无法完成的。\</p>
+<p>该说“S..”这个文件了，这个文件可以打开，但是却无法删除。等等……打开？你以为Windows真的是打开了我们创建的“s…\”文件了吗？我们做下面的试验你就明白了。还是老规矩{}是我的注释方便大家理解：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;echo 1 &gt; Txt1.txt {创建“F:\Test\Txt1.txt”文件}\<br> F:\Test&gt;copy Txt1.txt s..\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/创建系统无法删除的文件夹 加密文件/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/" title="每位开发人员都应铭记的10句编程谚语" itemprop="url">每位开发人员都应铭记的10句编程谚语</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.432Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="每位开发人员都应铭记的10句编程谚语"><a href="#每位开发人员都应铭记的10句编程谚语" class="headerlink" title="每位开发人员都应铭记的10句编程谚语"></a>每位开发人员都应铭记的10句编程谚语</h1><p>所谓谚语，就是用言简意赅、通俗易懂的方式传达人生箴言和普遍真理的话，它们能很好地帮助你处理生活和工作上的事情。也正因如此，我才整理了10句编程谚语，每位开发人员都应该铭记他们，武装自己。\<br>\<br> 　　<strong>1. 无风不起浪</strong></p>
+<div style="text-align: center;"><br><br>\<br>\<br><br><em>别紧张，这也许只是一场消防演习\
+</em><br><br></div>
+
+<p>\<br> 　　代码设计是否糟糕，从某些地方就可以看出来。比如：</p>
+<ul>
+<li>a. 超大类或超大函数</li>
+<li>b. 大片被注释的代码</li>
+<li>c. 逻辑重复</li>
+<li>d. If/else嵌套过深</li>
+</ul>
+<p>\<br> 　　程序员们通常称它们作代码异味(Code<br>Smell)，但是就我个人认为“代码警报”这个名字更为合适一些，因为它有更高的紧迫感的含义。根本问题处理不当，终将引火烧身。\<br>\<br> 　　译注：Code<br>Smell中文译名一般为“代码异味”，或“代码味道”，它是提示代码中某个地方存在错误的一个暗示，开发人员可以通过这种smell（异味）在代码中追捕到问题。\<br>\<br>\<br> 　　<strong>2. 预防为主，治疗为辅</strong></p>
+<div style="text-align: center;"><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/每位开发人员都应铭记的10句编程谚语/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/美栈第一个迭代完成情况/" title="美栈第一个迭代完成情况" itemprop="url">美栈第一个迭代完成情况</a>
   </h1>
   <p class="article-author">By
@@ -682,143 +826,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/" title="【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条" itemprop="url">【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.378Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="【译】我已经写了48年代码了，我感觉我还能写下去-分享自-开发者头条"><a href="#【译】我已经写了48年代码了，我感觉我还能写下去-分享自-开发者头条" class="headerlink" title="【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条"></a>【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</h1><p>【译】我已经写了48年代码了，我感觉我还能写下去<br><a href="http://toutiao.io/shares/115757/url主题" target="_blank" rel="noopener">http://toutiao.io/shares/115757/url主题</a> （想看更多？下载@开发者头条<br>App：<a href="http://toutiao.io/app/download" target="_blank" rel="noopener">http://toutiao.io/app/download</a> ）\<br><img src="%E3%80%90%E8%AF%91%E3%80%91%E6%88%91%E5%B7%B2%E7%BB%8F%E5%86%99%E4%BA%8648%E5%B9%B4%E4%BB%A3%E7%A0%81%E4%BA%86%EF%BC%8C%E6%88%91%E6%84%9F%E8%A7%89%E6%88%91%E8%BF%98%E8%83%BD%E5%86%99%E4%B8%8B%E5%8E%BB%20-%20%E5%88%86%E4%BA%AB%E8%87%AA@%E5%BC%80%E5%8F%91%E8%80%85%E5%A4%B4%E6%9D%A1.resources/A2D2310B-3639-4AAE-A04C-4FA0D9A7FC6B.jpg" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/阿里云遇到的问题/" title="阿里云遇到的问题" itemprop="url">阿里云遇到的问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.374Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="阿里云遇到的问题"><a href="#阿里云遇到的问题" class="headerlink" title="阿里云遇到的问题"></a>阿里云遇到的问题</h1><div><br><br>1,阿里云ECS服务器不支持直接升级磁盘空间，因之前买的配的系统磁盘空间太小，故重新买了一块独立的ssd云盘挂载在ECS服务器上，但后面如果要做负载均衡，ssd云盘就无法读定共用了<br><br></div>
-
-<div><br><br>RS:<br><br></div>
-
-<div><br><br>NFS解决文件共享问题<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>2，做负载均衡使用SLB还是用原始的nginx做？<br><br></div>
-
-<div><br><br>nginx做负载均衡<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/阿里云遇到的问题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/阿里云遇到的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/阿里云遇到的问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -914,7 +921,7 @@
 		  
 		
 		  
-			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
 		  
 		
 		  
@@ -1003,7 +1010,19 @@
 			
 		
 			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -1015,15 +1034,15 @@
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1035,23 +1054,7 @@
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
 			
 		
 			
@@ -1059,11 +1062,15 @@
 			
 		
 			
-				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
 			
 		
 		</ul>

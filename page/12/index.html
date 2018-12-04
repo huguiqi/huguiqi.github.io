@@ -92,6 +92,150 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/pm2_deployment/" title="PM2 deployment" itemprop="url">PM2 deployment</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.743Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="PM2-deployment"><a href="#PM2-deployment" class="headerlink" title="PM2 deployment"></a>PM2 deployment</h1><ol>
+<li><p>生成 ecosystem.json</p>
+<pre><code>pm2 ecosystem
+</code></pre></li>
+</ol>
+<ol>
+<li>查看ecosystem.json</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  /**</span><br><span class="line">   * Application configuration section</span><br><span class="line">   * http://pm2.keymetrics.io/docs/usage/application-declaration/</span><br><span class="line">   */</span><br><span class="line">  apps : [</span><br><span class="line"></span><br><span class="line">    // First application</span><br><span class="line">    &#123;</span><br><span class="line">      name      : &quot;API&quot;,</span><br><span class="line">      script    : &quot;app.js&quot;,</span><br><span class="line">      env: &#123;</span><br><span class="line">        COMMON_VARIABLE: &quot;true&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      env_production : &#123;</span><br><span class="line">        NODE_ENV: &quot;production&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  	],</span><br><span class="line"></span><br><span class="line">  	/**</span><br><span class="line">   	* Deployment section</span><br><span class="line">   	* http://pm2.keymetrics.io/docs/usage/deployment/</span><br><span class="line">   	*/</span><br><span class="line">  	deploy : &#123;</span><br><span class="line">    production : &#123;</span><br><span class="line">      user : &quot;node&quot;,</span><br><span class="line">      host : &quot;212.83.163.1&quot;,</span><br><span class="line">      ref  : &quot;origin/master&quot;,</span><br><span class="line">      repo : &quot;git@github.com:repo.git&quot;,</span><br><span class="line">      path : &quot;/var/www/production&quot;,</span><br><span class="line">      &quot;post-deploy&quot; : &quot;npm install &amp;&amp; pm2 startOrRestart ecosystem.json --env production&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    dev : &#123;</span><br><span class="line">      user : &quot;root&quot;,</span><br><span class="line">      host : &quot;192.168.0.121&quot;,</span><br><span class="line">      ref  : &quot;origin/master&quot;,</span><br><span class="line">      repo : &quot;http://192.168.0.121:10080/lebond_server/lebond_server.git&quot;,</span><br><span class="line">      path : &quot;/var/www/development&quot;,</span><br><span class="line">      &quot;post-deploy&quot; : &quot;npm install &amp;&amp; pm2 startOrRestart ecosystem.json --env dev&quot;,</span><br><span class="line">      env  : &#123;</span><br><span class="line">        NODE_ENV: &quot;dev&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   	&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/pm2_deployment/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/PM2/">PM2</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/pm2_deployment/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/pm2_deployment/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/oracle10g 添加监听数手动配置方式/" title="oracle10g 添加监听数手动配置方式" itemprop="url">oracle10g 添加监听数手动配置方式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.736Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="oracle10g-添加监听数手动配置方式"><a href="#oracle10g-添加监听数手动配置方式" class="headerlink" title="oracle10g 添加监听数手动配置方式"></a>oracle10g 添加监听数手动配置方式</h1><div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>找到oracle安装目录C:\Oracle\product\10.1.0\Client_1\NETWORK\ADMIN\tnsnames.ora文件，像如下便是你要添加的连接远程数据库监听<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>DEMODB2_192.168.1.214 =\<br>   (DESCRIPTION =\<br>       (ADDRESS_LIST =\<br>           (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.214)(PORT =<br>1521))\<br>       )\<br>       (CONNECT_DATA =\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/oracle10g 添加监听数手动配置方式/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/oracle10g 添加监听数手动配置方式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/oracle10g 添加监听数手动配置方式/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/oh_my_zsh安装出现的问题/" title="oh my zsh安装出现的问题" itemprop="url">oh my zsh安装出现的问题</a>
   </h1>
   <p class="article-author">By
@@ -679,143 +823,6 @@ console.error(&apos;Error caught by catch block:&apos;, e);
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/node.js学习(上)/" title="node.js学习(上)" itemprop="url">node.js学习(上)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.694Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="node-js学习-上"><a href="#node-js学习-上" class="headerlink" title="node.js学习(上)"></a>node.js学习(上)</h1><hr>
-<p>title:  node.js学习(上)<br>date: 1542621383694<br>categories: nodejs developer</p>
-<h2 id="tags-npm镜像"><a href="#tags-npm镜像" class="headerlink" title="tags: npm镜像"></a>tags: npm镜像</h2><p>#node.js学习(上)<br>npm 将镜像设置为淘宝的npm镜像地址</p>
-<p>npm config set registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org/</a></p>
-<p>淘宝npm首页<br><a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a></p>
-<p>mac上的ruby下载源改成taobao的镜像,cocoapods用的到</p>
-<p><code>$ gem sources –remove <a href="https://rubygems.org/" target="_blank" rel="noopener">https://rubygems.org/</a><br>$ gem sources -a <a href="https://ruby.taobao.org/" target="_blank" rel="noopener">https://ruby.taobao.org/</a></code>  </p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/node.js学习(上)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/node.js学习(上)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/nginx反向代理做cache配置/" title="nginx反向代理做cache配置" itemprop="url">nginx反向代理做cache配置</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.674Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="nginx反向代理做cache配置"><a href="#nginx反向代理做cache配置" class="headerlink" title="nginx反向代理做cache配置"></a>nginx反向代理做cache配置</h1><p><span style="font: 18.0px Times; font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">nginx反向代理做cache配置</span><br><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><img src="nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif" alt=""></span><br><span style="font: 10.0px Arial; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">(2010-02-01<br>17:26:24)</span><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br> <span style="font-kerning: none"><img src="nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif" alt=""></span></span></p>
-<div><br><br>\<br><br></div>
-
-<p><span style="font: 12.0px Times; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\<br></span><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">正文开始</span><span style="font: 14.0px SimSun; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">\</span></p>
-<p>前序：请耐性子看完，前面的这个配置可以达到按后缀名进行缓存，但无法被purge。后面的配置可以被purge。\<br> 具体实施方案按个人情况而定。\<br>\<br> 需要第三方的ngx_cache_purge模块：\<br> wget <a href="http://labs.frickle.com/files/ngx_cache_purge-1.0.tar.gz" target="_blank" rel="noopener"><span style="font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">http://labs.frickle.com/files/ngx_cache_purge-1.0.tar.gz</span></a>\<br> tar zxvf ngx_cache_purge-1.0.tar.gz\<br>  \<br> nginx机器IP地址：192.168.2.187\<br>\<br> 编译参数： configure arguments: –add-module=../ngx_cache_purge-1.0<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/nginx反向代理做cache配置/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/nginx反向代理做cache配置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/nginx反向代理做cache配置/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/11/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/13/">Next<span></span></a>
@@ -911,7 +918,7 @@ console.error(&apos;Error caught by catch block:&apos;, e);
 		  
 		
 		  
-			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>3</sup></a></li>
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
 		  
 		
 		  
@@ -1000,7 +1007,19 @@ console.error(&apos;Error caught by catch block:&apos;, e);
 			
 		
 			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -1012,15 +1031,15 @@ console.error(&apos;Error caught by catch block:&apos;, e);
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1032,23 +1051,7 @@ console.error(&apos;Error caught by catch block:&apos;, e);
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
+				<li><a href="/tags/svn与git/" title="svn与git">svn与git<sup>1</sup></a></li>
 			
 		
 			
@@ -1056,11 +1059,15 @@ console.error(&apos;Error caught by catch block:&apos;, e);
 			
 		
 			
-				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-上传审核/" title="ios developer 上传审核">ios developer 上传审核<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
+				<li><a href="/tags/证书/" title="证书">证书<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
 			
 		
 		</ul>
