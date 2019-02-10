@@ -92,6 +92,153 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/07/13/centos修改docker镜象存储与容器目录/" title="centos修改docker镜象存储与容器目录" itemprop="url">centos修改docker镜象存储与容器目录</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-13T08:00:00.000Z" itemprop="datePublished"> 发表于 2018-07-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="centos修改docker镜象存储与容器目录"><a href="#centos修改docker镜象存储与容器目录" class="headerlink" title="centos修改docker镜象存储与容器目录"></a>centos修改docker镜象存储与容器目录</h1><h2 id="修改docker容器存储目录"><a href="#修改docker容器存储目录" class="headerlink" title="修改docker容器存储目录"></a>修改docker容器存储目录</h2><p>vim  /usr/lib/systemd/system/docker.service</p>
+<p>修改如下：</p>
+<pre><code>[Unit]
+Description=Docker Application Container Engine
+Documentation=http://docs.docker.com
+After=network.target rhel-push-plugin.socket registries.service
+Wants=docker-storage-setup.service
+Requires=docker-cleanup.timer
+
+[Service]
+Type=notify
+NotifyAccess=all
+EnvironmentFile=-/run/containers/registries.conf
+EnvironmentFile=-/etc/sysconfig/docker
+EnvironmentFile=-/etc/sysconfig/docker-storage
+EnvironmentFile=-/etc/sysconfig/docker-network
+Environment=GOTRACEBACK=crash
+Environment=DOCKER_HTTP_HOST_COMPAT=1
+Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin
+ExecStart=/usr/bin/dockerd-current \
+   -g /mnt/docker \
+  --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current \
+  --default-runtime=docker-runc \
+  --exec-opt native.cgroupdriver=systemd \
+  --userland-proxy-path=/usr/libexec/docker/docker-proxy-current \
+  --init-path=/usr/libexec/docker/docker-init-current \
+  --seccomp-profile=/etc/docker/seccomp.json \
+  $OPTIONS \
+  $DOCKER_STORAGE_OPTIONS \
+  $DOCKER_NETWORK_OPTIONS \
+  $ADD_REGISTRY \
+  $BLOCK_REGISTRY \
+  $INSECURE_REGISTRY \
+  $REGISTRIES
+ExecReload=/bin/kill -s HUP $MAINPID
+LimitNOFILE=1048576
+LimitNPROC=1048576
+LimitCORE=infinity
+TimeoutStartSec=0
+Restart=on-abnormal
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+</code></pre><p>保存后，重启docker</p>
+<pre><code>service docker restart
+</code></pre><p>重启时提示需要更新systemctl</p>
+<pre><code>systemctl daemon-reload
+</code></pre><h2 id="添加docker国内镜像地址"><a href="#添加docker国内镜像地址" class="headerlink" title="添加docker国内镜像地址"></a>添加docker国内镜像地址</h2><pre><code>vi /etc/docker/daemon.json
+</code></pre><p>然后添加：</p>
+<pre><code>{
+  &quot;registry-mirrors&quot; : [
+    &quot;http://xxx.m.daocloud.io&quot;,
+    &quot;https://xxx.mirror.aliyuncs.com&quot;
+  ]
+}
+</code></pre><p>执行：</p>
+<pre><code>systemctl daemon-reload
+
+service  docker restart
+</code></pre><p>ok….</p>
+<p>将docker加入开机启动：</p>
+<pre><code>systemctl enable docker.service
+</code></pre><h2 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker-compose"></a>安装docker-compose</h2><ol>
+<li>安装</li>
+</ol>
+<pre><code>sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+</code></pre><ol>
+<li>授权</li>
+</ol>
+<pre><code>sudo chmod +x /usr/local/bin/docker-compose
+</code></pre><ol>
+<li>可用</li>
+</ol>
+<p>本来在很多操作系统里，/usr/local/bin目录下本来已经是全局环境变量里了，按理说应该在任何地方执行docker-compose命令都是可以的，可现实是：</p>
+<p><img src="http://blog.huguiqi.com/1532262432906x88x9ej6.png?imageslim" alt="paste image"></p>
+<p>看看系统变量有哪些目录是支持全局的：</p>
+<pre><code>echo $PATH
+</code></pre><p>出来这个：</p>
+<p><img src="http://blog.huguiqi.com/1532262596373ggfk14ba.png?imageslim" alt="paste image"></p>
+<p>这个目录在全局变量里啊，不管了，那我把这个可执行文件软链到/usr/bin这个目录里吧，这个目录肯定可以的。</p>
+<pre><code>ln -s /usr/local/bin/docker-compose /usr/bin/
+</code></pre><p>再执行：</p>
+<p><img src="http://blog.huguiqi.com/1532262801723b0xqlhvt.png?imageslim" alt="paste image"></p>
+<p>ok了。。。。。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/13/centos修改docker镜象存储与容器目录/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/13/centos修改docker镜象存储与容器目录/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/07/07/义字当头，毅然落草/" title="义字当头，毅然落草" itemprop="url">义字当头，毅然落草</a>
   </h1>
   <p class="article-author">By
@@ -1718,80 +1865,6 @@ spring.cloud.vault:
 	
 	  	<span></span>
 		<a href="/2018/04/06/7天学会使用springcloud/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/06/7天学会使用springcloud/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/02/回到那个熟悉的工作环境吧/" title="回到那个熟悉的工作环境吧" itemprop="url">回到那个熟悉的工作环境吧</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-02T09:27:00.000Z" itemprop="datePublished"> 发表于 2018-04-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>和原领导联系了很久，原领导希望我回去帮他解决一些问题，考虑了一段时间，欣然答应了。。。。。</p>
-<p>回去的目标：</p>
-<ol>
-<li>将服务端技术提升上一个台阶</li>
-<li>帮助老朋友解决掉目前的困难</li>
-<li>让漂泊的心暂时稳定下来</li>
-<li>考驾照</li>
-<li>往架构师方向发展</li>
-</ol>
-<p>很感谢原来的老朋友如此信任我，我必将不负所托，出色完成任务。<br>回到锦江，心情还是挻愉悦的。。。。。。。</p>
-<p>记录一下，今天是我重新入职的第一天，happy day。。。。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/随笔/">随笔</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/随笔/">随笔</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/02/回到那个熟悉的工作环境吧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/02/回到那个熟悉的工作环境吧/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
