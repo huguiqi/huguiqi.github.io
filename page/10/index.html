@@ -92,6 +92,111 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/将linux系统的ip地址设置为静态/" title="将linux系统的ip地址设置为静态" itemprop="url">将linux系统的ip地址设置为静态</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.963Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="将linux系统的ip地址设置为静态"><a href="#将linux系统的ip地址设置为静态" class="headerlink" title="将linux系统的ip地址设置为静态"></a>将linux系统的ip地址设置为静态</h1><p><a href="http://danielgibbs.co.uk/2014/01/fedora-20-set-static-ip-address/" target="_blank" rel="noopener">参考这里</a></p>
+<h2 id="Disable-Network-Manager"><a href="#Disable-Network-Manager" class="headerlink" title="Disable Network Manager"></a>Disable Network Manager</h2><ol>
+<li><p>First stop and disable the gnome network manager from running on boot.</p>
+<pre><code>systemctl stop NetworkManagerservice
+
+systemctl disable NetworkManagerservice
+</code></pre></li>
+<li><p>Now start and enable the network service to run on boot.</p>
+<pre><code>systemctl restart networkservice
+
+systemctl enable networkservice
+</code></pre></li>
+</ol>
+<h2 id="Set-the-Static-Address"><a href="#Set-the-Static-Address" class="headerlink" title="Set the Static Address"></a>Set the Static Address</h2><ol>
+<li>Check which interface(s) you want to set as static.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">root@server  ifconfig</span><br><span class="line">em1 flags192.1681.148 netmask 255.255255.0 broadcast 192.1681.255</span><br><span class="line">inet6 fe80dd4c prefixlen  scopeid  ether d8 txqueuelen Ethernet</span><br><span class="line">RX packets  bytes 90374</span><br><span class="line">RX errors  dropped  overruns  frame</span><br><span class="line">TX packets  bytes 130252127.1</span><br><span class="line">TX errors  dropped  overruns  carrier  collisions</span><br><span class="line">device interrupt  flags73mtu16436127.0 netmask 255.0</span><br><span class="line">inet6  prefixlen  scopeid</span><br><span class="line">loop txqueuelen LocalLoopback</span><br><span class="line">RX packets  bytes</span><br><span class="line">RX errors  dropped  overruns  frame</span><br><span class="line">TX packets  bytes</span><br><span class="line">TX errors  dropped  overruns  carrier  collisions</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Next edit the config file for the required interface.</li>
+</ol>
+<p>sysconfignetworkscriptsifcfg</p>
+<ol>
+<li>Edit the config file to look similar to the following.</li>
+</ol>
+<p>Change the BOOTPROTO from “dhcp” to “static”. Also adding IPADDR, NETMASK, BROADCAST and NETWORK variables and make sure ONBOOT is set to yes.</p>
+<pre><code>&quot;e88f1292-1f87-4576-97aa-bb8b2be34bd3&quot;
+NM_CONTROLLED&quot;yes&quot;
+HWADDR&quot;D8:D3:85:AE:DD:4C&quot;
+BOOTPROTO&quot;static&quot;
+DEVICE&quot;em1&quot;
+ONBOOT&quot;yes&quot;
+IPADDR192.168
+NETMASK255.255255.0
+BROADCAST192.1681.255
+NETWORK192.168
+GATEWAY192.168
+</code></pre><p>Apply the Settings</p>
+<p>Restart the network service to apply the settings.</p>
+<p>systemctl restart networkservice</p>
+<h2 id="Configure-DNS"><a href="#Configure-DNS" class="headerlink" title="Configure DNS"></a>Configure DNS</h2><p>Make sure the correct DNS servers are configured to allow Fedora to resolve domains.</p>
+<p>resolv</p>
+<p>nameserver 192.168<br>nameserver</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/将linux系统的ip地址设置为静态/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/设置系统IP地址为静态地址/">设置系统IP地址为静态地址</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/将linux系统的ip地址设置为静态/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/将linux系统的ip地址设置为静态/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/对javascript的理解/" title="对javascript的理解" itemprop="url">对javascript的理解</a>
   </h1>
   <p class="article-author">By
@@ -728,70 +833,6 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/vi全局替换方法/" title="vi全局替换方法" itemprop="url">vi全局替换方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.871Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="vi全局替换方法"><a href="#vi全局替换方法" class="headerlink" title="vi全局替换方法"></a>vi全局替换方法</h1><p><span style="font: 18.0px Times; font-kerning: none; color: #3e73a0; -webkit-text-stroke: 0px #3e73a0">vi全局替换方法：</span><br><span style="font: 10.0px Arial; font-kerning: none; color: #747474; -webkit-text-stroke: 0px #747474">(2012-02-07<br>17:30:03)</span><span style="font: 12.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">\<br> <span style="font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><img src="vi%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%E6%96%B9%E6%B3%95.resources/2A0F9F62-9721-45A0-8463-CBDBC2DF2DBA.gif" alt="">\<br> 转载</span><span style="font: 7.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br> ▼\<br></span></span><span style="font: 12.0px Times; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">标签：<br><span style="font-kerning: none; color: #3e73a0; -webkit-text-stroke: 0px #3e73a0">杂谈</span>\<br>\<br></span><span style="font: 12.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">正文开始</span><span style="font: 14.0px Times; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">\<br></span><span style="font: 18.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d"><strong>1.<br>基本的替换</strong></span><span style="font: 12.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d">\<br></span><span style="font: 18.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d"><strong>:s/vivian/sky/<br>替换当前行第一个 vivian 为 sky</strong></span><span style="font: 12.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d">\<br></span><span style="font: 18.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d"><strong>:s/vivian/sky/g<br>替换当前行所有 vivian 为 sky</strong></span><span style="font: 12.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d">\<br></span><span style="font: 18.0px Arial; font-kerning: none; color: #6d6d6d; -webkit-text-stroke: 0px #6d6d6d"><strong>:n,\$s/vivian/sky/<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/vi全局替换方法/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/vi全局替换方法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/vi全局替换方法/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/9/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/11/">Next<span></span></a>
@@ -883,11 +924,11 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -904,6 +945,10 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 		
 		  
 			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
 		  
 		
 		  
@@ -984,11 +1029,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
@@ -996,15 +1037,15 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -1016,7 +1057,7 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1024,7 +1065,11 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/浏览器同源问题/" title="浏览器同源问题">浏览器同源问题<sup>1</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 			
 		
 			
@@ -1036,11 +1081,11 @@ Post http:///var/run/docker.sock/v1.20/images/create?fromImage=nginx%3Alatest: d
 			
 		
 			
-				<li><a href="/tags/hy/" title="hy">hy<sup>1</sup></a></li>
+				<li><a href="/tags/面试题-全栈/" title="面试题 全栈">面试题 全栈<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/熔断机制/" title="熔断机制">熔断机制<sup>1</sup></a></li>
+				<li><a href="/tags/hy/" title="hy">hy<sup>1</sup></a></li>
 			
 		
 		</ul>
