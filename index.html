@@ -92,6 +92,181 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/02/16/docker日志问题导致磁盘空间被占用/" title="docker日志问题导致磁盘空间被占用" itemprop="url">docker日志问题导致磁盘空间被占用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-16T12:15:00.000Z" itemprop="datePublished"> 发表于 2019-02-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="docker日志问题导致磁盘空间不足"><a href="#docker日志问题导致磁盘空间不足" class="headerlink" title="docker日志问题导致磁盘空间不足"></a>docker日志问题导致磁盘空间不足</h1><p>昨天突然发现本厂开发环境各个docker实例都处于非健康状态，在宿主机上执行命令：</p>
+<pre><code>df -h
+</code></pre><p>发现docker相关的文件占用空间是100%：</p>
+<p><img src="http://blog.huguiqi.com/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
+<p>有点不正常，我看看docker相关的文件占用情况，是镜像占用的还是容器占用的，或者是Volumes占用的，执行：</p>
+<pre><code>docker system df
+</code></pre><p>这里面显示一切正常，也并没有超过挂载盘的大小256G。</p>
+<p>首先把多余的镜像和不用的docker都清理掉。</p>
+<p>执行命令：</p>
+<pre><code>docker system prune -a
+</code></pre><p>可以将没有容器使用Docker镜像和未开启的容器都删掉。</p>
+<p>我看到占用超过226G空间的都来自 <code>/mnt/docker/overlay2/*</code> 这个目录,<br>进入到这个目录，并执行：</p>
+<pre><code>du -lbhs ./*
+</code></pre><p>发现这里面也没有超过2个G的目录文件大小。</p>
+<p>我潜意识里就觉得八成是日志导致的，所以我首先看看是不是我所有的docker输出的日志文件是否需要清理了，我到挂载目录里去看看，果然发现了很多docker容器的日志目录就占了1-2个G，我du -lbhs 了一下，发现所有容器挂载的日志目录加起来的容量才8G多点，不足以占用256个G的空间。<br>算了，先把这8个G的占用清了吧。</p>
+<pre><code>rm -rf ./*/logs/*
+</code></pre><p>然后我再看看docker容器本身还有多少占用的空间情况：</p>
+<pre><code>docker ps --size
+</code></pre><p>发现还有两个docker占用了3个多占的空间，但是又不知道具体是什么导致的，那我只能看看docker本身的硬盘占用情况了：</p>
+<pre><code>docker diff &lt;container&gt;
+</code></pre><p>发现<code>/tmp</code> 目录下有好多文件：</p>
+<p><img src="http://blog.huguiqi.com/15503217004152bmdcd14.png?imageslim" alt="paste image"></p>
+<p>还有指向<code>/tmp/tomcat.*/*</code> 相关的目录：</p>
+<p><img src="http://blog.huguiqi.com/1550321770403ggnsq3dy.png?imageslim" alt="paste image"></p>
+<p>我觉得八成就是这些东西占用的，/tmp 临时文件按道理讲系统会自动删除的，不知道为什么没有删除，这个后面再找原因。<br>我就把所有docker容器里的<code>/tmp</code>目录下的文件全部删除，反正是临时文件。</p>
+<pre><code>docker exec &lt;container&gt; rm -rf /tmp/*
+</code></pre><p>好，都删除了，再看一下硬盘空间，发现还是已使用100%。</p>
+<p>怎么办，有点慌了，我看这个指向的还是overlay2目录，我尝试着在目录里找找问题。</p>
+<p>我想，这个overlay2目录可能有挂载或者链接，它自身并不大，是挂载的目录占用大。</p>
+<p>我们往上一级再看看哪个文件占用空间大：</p>
+<pre><code>cd ..
+du -lbhs ./*
+</code></pre><p>发现有几个contarins目录下的目录文件占用挻大的：</p>
+<p><img src="http://blog.huguiqi.com/1550320388470wopcicty.png?imageslim" alt="paste image"></p>
+<p>我就从最大的目录下手，占用空间7.4G的，是8972f…..这个目录，我进去看一眼：</p>
+<p><img src="http://blog.huguiqi.com/1550320522538gmcr7qay.png?imageslim" alt="paste image"></p>
+<p>我发现里面有个后缀为<code>xxxx-json.log</code>的这个文件占了198G，这个就是问题了，很兴奋，赶紧删除了：</p>
+<pre><code>rm -rf ./*/*.log
+</code></pre><p>这个就把所有的contarner的控制台日志文件删除了。</p>
+<p>我们再看看docker的空间占用情况：</p>
+<p><img src="http://blog.huguiqi.com/1550322418176dwe2uam6.png?imageslim" alt="paste image"></p>
+<p>这里已经很好了，只有镜像占用了1个多G。</p>
+<p>我们再来看看宿主机的空间情况：</p>
+<pre><code>df -h
+</code></pre><p>发现还是100%，见鬼了：</p>
+<p><img src="http://blog.huguiqi.com/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
+<p>一般觉得见鬼了的时候，只有两种情况，一种是你操作错了别的东西，一种是缓存，我觉得是后者。</p>
+<p>我觉得肯定是docker还没有读到真实的容器占用硬盘空间的数据，那我只能重启docker了：</p>
+<pre><code>systemctl daemon-reload 
+
+systemctl restart docker
+</code></pre><p>为了确认一切顺利，运行:</p>
+<pre><code>docker info
+</code></pre><p>ok，没有问题了，再执行 <code>df -h</code><br>很好：</p>
+<p><img src="http://blog.huguiqi.com/1550322879853rhx6bckp.png?imageslim" alt="paste image"></p>
+<p>已经只占用挂载磁盘 <code>/dev/vdbd1</code>总大小的2%。</p>
+<p>看来后面还是要写一个自动删除日志的脚本，来维持硬盘空间的大小。</p>
+<p><a href="https://github.com/moby/moby/issues/33775" target="_blank" rel="noopener">参考文章1</a></p>
+<p><a href="https://meta.discourse.org/t/var-lib-docker-overlay2-took-all-the-disk-space/84624" target="_blank" rel="noopener">参考文章2</a></p>
+<p><a href="https://stackoverflow.com/questions/46672001/is-it-safe-to-clean-docker-overlay2" target="_blank" rel="noopener">参考文章3</a></p>
+<p><a href="https://blog.csdn.net/weixin_32820767/article/details/81196250" target="_blank" rel="noopener">参考文件章4</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/IT-运维/">IT&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/16/docker日志问题导致磁盘空间被占用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/16/docker日志问题导致磁盘空间被占用/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/16/无标题 - 2/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-16T11:01:56.902Z" itemprop="datePublished"> 发表于 2019-02-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/16/无标题 - 2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/16/无标题 - 2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/02/14/大数据之数据仓库/" title="大数据之数据仓库" itemprop="url">大数据之数据仓库</a>
   </h1>
   <p class="article-author">By
@@ -999,160 +1174,6 @@ zone.name: zone-1
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/通过公司的路由器转发到内网测试服务器/" title="外网访问内网的解决方式" itemprop="url">外网访问内网的解决方式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.502Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="通过公司的路由器转发到内网测试服务器"><a href="#通过公司的路由器转发到内网测试服务器" class="headerlink" title="通过公司的路由器转发到内网测试服务器"></a>通过公司的路由器转发到内网测试服务器</h1><p>折腾了两天，本来当天一个下午就已经搞定了，但是由于想把公司的二级域名直接指向内网的IP+端口。</p>
-<h2 id="准备工具："><a href="#准备工具：" class="headerlink" title="准备工具："></a>准备工具：</h2><ol>
-<li>nginx</li>
-<li><p>公司路由器</p>
-<ul>
-<li>虚拟主机端口转发</li>
-<li><p>DMZ主机托管</p>
-<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0001.png" alt="image"></p>
-</li>
-</ul>
-</li>
-</ol>
-<p><strong>本来想通过nginx服务器监听二级域名的host和端口号，实现反向代理到内网服务器。</strong></p>
-<h2 id="指出错误的想法"><a href="#指出错误的想法" class="headerlink" title="指出错误的想法:"></a>指出错误的想法:</h2><ol>
-<li>源头上的想法就不对，因为nginx的作用是在服务器上进去监听并分发到内网服务器代理</li>
-<li>公网的IP是绑定在路由器上的，我们内网上网都是通过路由上网，所以如果要反向代理，就要在路由器上作反身代理，否则完全行不通</li>
-</ol>
-<h2 id="不可思议的问题"><a href="#不可思议的问题" class="headerlink" title="不可思议的问题"></a>不可思议的问题</h2><ol>
-<li>可以通过域名 + 端口的方向可以访问通过跟帖器端口转发的方式访问内网，但不支持80端口</li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/网络配置/">网络配置</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/路由转发端口到内网服务器/">路由转发端口到内网服务器</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/通过公司的路由器转发到内网测试服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/通过公司的路由器转发到内网测试服务器/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/传统行业公司涉足互联网软件开发之我见/" title="传统行业公司涉足互联网软件开发之我见" itemprop="url">传统行业公司涉足互联网软件开发之我见</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.498Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="传统行业公司涉足互联网软件开发之我见"><a href="#传统行业公司涉足互联网软件开发之我见" class="headerlink" title="传统行业公司涉足互联网软件开发之我见"></a>传统行业公司涉足互联网软件开发之我见</h1><p>2016年过去了，还有三天就要回老家过年了；这一年走来，总结下来，有喜有悲，有聚有散；<br>生活上，终于找到了我的另一半，因为她，今年我再累，心也是甜的。今年我将会带她见我的父母，如果顺利的话，我们将在17年国庆举行婚礼。</p>
-<p>我的公司老板，有一颗做国产第一支智能电动牙刷的心，但是从第一天见他时，从他身上就透露着一身江湖草莽义气，当时觉得，讲义气的人，人品不会太差，老板的话更不会，再加上，我也觉得挻有意思，也想做做这个方面的东西，所以就答应建立团队，给他做出个像样的东西。。。。。<br>但一年过去了，双十一的app版本，说句心里话，我自己都非常不满意的；<br>首先，app的使用并不流畅，很多地方用起来非常容易搞错，比如说：二维码扫描的入口，智能非智能用户完全搞不清楚；经常出现很多用户联系投诉；<br>但是，从这一年与杭州的沟通交流中种种的不畅，让我彻底意识到，出现这些问题，并不能把原因简单的归咎于运营/产品、软件、硬件分属三地，导致沟通不畅；<br>我总结下来主要有这几点：</p>
-<ul>
-<li>运营与产品信息更新不及时；<em> </em> 产品对技术信息曝光不及时；</li>
-<li>硬件方面问题全部都体现在软件上，用户只能去怪软件，差评只会说软件的问题，因为入口就是软件</li>
-<li>不专业团队指挥技术团队；</li>
-<li>技术团队初期招人不慎，导致代码超难维护；</li>
-<li>产品原型的缺失与需求不清晰导致设计漏洞太多;</li>
-</ul>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/传统行业公司涉足互联网软件开发之我见/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/随笔/">随笔</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/传统行业公司涉足互联网软件开发之我见/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/传统行业公司涉足互联网软件开发之我见/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1189,6 +1210,10 @@ zone.name: zone-1
 		
 		  
 			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1337,7 +1362,7 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>5</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>6</sup></a></li>
 			
 		
 			
