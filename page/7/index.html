@@ -92,6 +92,518 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/接口文档/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.156Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="接口文档"><a href="#接口文档" class="headerlink" title="接口文档"></a>接口文档</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h3 id="接入前提"><a href="#接入前提" class="headerlink" title="接入前提"></a>接入前提</h3><blockquote>
+<p>服务端的公司内网服务器地址为：192.168.0.121:3000<br>外网服务器地址是：101.81.230.69:9000<br>接入服务器时需要token参数，android端与ios端各不一样</p>
+</blockquote>
+<h2 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h2><h3 id="1-1-1-符号定义"><a href="#1-1-1-符号定义" class="headerlink" title="1.1.1 符号定义"></a>1.1.1 符号定义</h3><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>符号缩写</th>
+<th>符号性质</th>
+<th>符号说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>M</td>
+<td>强制域(Mandatory)</td>
+<td>此域必选，否则将被认为格式出错</td>
+</tr>
+<tr>
+<td>2</td>
+<td>C</td>
+<td>条件域(Conditional)</td>
+<td>此域在一定条件下必选</td>
+</tr>
+<tr>
+<td>3</td>
+<td>O</td>
+<td>选用域(Optional)</td>
+<td>此域由发送方自选</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-1-2-全局变量定义"><a href="#1-1-2-全局变量定义" class="headerlink" title="1.1.2 全局变量定义"></a>1.1.2 全局变量定义</h3><h2 id="1-2-协议"><a href="#1-2-协议" class="headerlink" title="1.2. 协议"></a>1.2. 协议</h2><blockquote>
+<ul>
+<li>目前仅提供HTTP通信协议采用RESTful风格；<ul>
+<li>请求提供GET,POST两种方式；</li>
+<li>接受的请求参数JSON或者表单形式</li>
+<li>返回结果均采用JSON；</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><strong>注意</strong></p>
+<ol>
+<li>请求参数为JSON模式，请求头需设置Content-Type: application/json;</li>
+<li>请求参数表单模式须设置请求头为Content-Type:application/x-www-form-urlencoded;</li>
+<li>请求头需要增加一个KEY名为 G-Agent 值组成为：<code>app名称简写;app版本号;设备类型;设备系统版本</code>  设备类型iphone为1，安卓为2</li>
+<li>判断是否登录的标识符 如果登录成功后 须在请求头（或者放在queryString参数上）设上 userId 值</li>
+<li>签名算法为 G-Agent + 接入KEY(token) + userId(userId 未登录传空字符串) 组合字符串的MD5值， 并在请求头设（或者放在queryString参数）上sign值</li>
+</ol>
+<p><code>签名验证</code></p>
+<pre><code>G-Agent=&quot;lbd;1.0;1;ios-9.3&quot;
+ticket=&quot;&quot;
+token=&quot;3E8802D881C51$%DE36FE0C#CA6C4F4D,233E8802D881C519DE36FE0CCA6C4F4D23&quot;
+sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&quot;
+</code></pre><p>例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">* G-Agent 放在请求头</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">request.setHeader(&quot;G-Agent&quot;,&quot;lbd;1.0;1;ios-9.3&quot;)</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* 登录成功后</span><br><span class="line">*/</span><br><span class="line">request.setHeader(&quot;userId&quot;,&quot;$&#123;userId&#125;&quot;)</span><br></pre></td></tr></table></figure>
+<p>放在请求参数上:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">*签名</span><br><span class="line">*/</span><br><span class="line">http://&#123;domian&#125;:&#123;port&#125;/url/request?sign=MD5(G-Agent + KEY + ticket )</span><br></pre></td></tr></table></figure>
+<h2 id="1-3-编码"><a href="#1-3-编码" class="headerlink" title="1.3 编码"></a>1.3 编码</h2><p>所有接口采用 UTF-8</p>
+<h2 id="1-4-公共参数"><a href="#1-4-公共参数" class="headerlink" title="1.4 公共参数"></a>1.4 公共参数</h2><p>所有的请求都有以下参数，以便识别请求来源是否合法</p>
+<ul>
+<li>request:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>描述</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sign</td>
+<td>是</td>
+<td>签名</td>
+<td>md5(uid + token)</td>
+</tr>
+<tr>
+<td>token</td>
+<td>是</td>
+<td>令牌key</td>
+<td>分发给访问渠道的令牌</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>是</td>
+<td>用户ID，默认是0</td>
+<td>唯一标识用户</td>
+</tr>
+<tr>
+<td>p</td>
+<td>否</td>
+<td>页码</td>
+<td>分页查询使用</td>
+</tr>
+<tr>
+<td>r</td>
+<td>否</td>
+<td>每页显示条数</td>
+<td>分页查询使用</td>
+</tr>
+<tr>
+<td>channel</td>
+<td>是</td>
+<td>客户端访问渠道:ios,android,wechat,mobileWeb</td>
+<td>区分访问来源</td>
+</tr>
+<tr>
+<td>version</td>
+<td>否</td>
+<td>版本号</td>
+<td>只有app有值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-4-1-报文说明"><a href="#1-4-1-报文说明" class="headerlink" title="1.4.1 报文说明"></a>1.4.1 报文说明</h3><p>报文格式采用JSON 根域下面有三个域分别为</p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>必填</th>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>是</td>
+<td>N</td>
+<td>响应码代表服务器处理状态</td>
+</tr>
+<tr>
+<td>data</td>
+<td>可选</td>
+<td>JSON</td>
+<td>响应数据可能为空</td>
+</tr>
+<tr>
+<td>msg</td>
+<td>可选</td>
+<td>ANS</td>
+<td>响应的消息</td>
+</tr>
+</tbody>
+</table>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &#123;  </span><br><span class="line"> &quot;msg&quot;:&quot;success&quot;, </span><br><span class="line"> &quot;data&quot;:&#123;</span><br><span class="line">  &quot;name&quot;:&quot;tom&quot;,</span><br><span class="line">  &quot;age&quot;:12</span><br><span class="line">  &#125;</span><br><span class="line">  &quot;code&quot;:200 // 见1.4.1 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-2-响应码定义"><a href="#1-4-2-响应码定义" class="headerlink" title="1.4.2 响应码定义"></a>1.4.2 响应码定义</h3><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>code值</th>
+<th>符号说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>200</td>
+<td>处理成功</td>
+</tr>
+<tr>
+<td>2</td>
+<td>400</td>
+<td>参数输入不正确</td>
+</tr>
+<tr>
+<td>3</td>
+<td>401</td>
+<td>session失效需要重新登录</td>
+</tr>
+<tr>
+<td>4</td>
+<td>404</td>
+<td>资源链接不存在，或者请求的数据资源不存在</td>
+</tr>
+<tr>
+<td>5</td>
+<td>406</td>
+<td>签名不正确</td>
+</tr>
+<tr>
+<td>6</td>
+<td>500</td>
+<td>业务处理失败</td>
+</tr>
+<tr>
+<td>7</td>
+<td>10000</td>
+<td>10000以上表示自定义错误,如验证手机号码</td>
+</tr>
+</tbody>
+</table>
+<h1 id="用户接口"><a href="#用户接口" class="headerlink" title="用户接口"></a>用户接口</h1><p><del>## 2.1 验证手机号码是否被注册</del></p>
+<p>请求：</p>
+<p><code>GET  http://${domain}:${port}/user/mobile</code></p>
+<p>输入</p>
+<pre><code>{
+ &quot;mobile&quot;: &quot;13524101981&quot; 11位手机号
+}
+</code></pre><p>输出</p>
+<pre><code>{
+&quot;code&quot;: 10001,
+&quot;msg&quot;: &quot;手机号码已存在&quot;
+}
+</code></pre><p><strong>注意：只有code为200的情况下，手机号可用</strong></p>
+<h2 id="2-2-用户注册"><a href="#2-2-用户注册" class="headerlink" title="2.2 用户注册"></a>2.2 用户注册</h2><p>请求：</p>
+<p><code>POST  http://${domain}:${port}/user/register</code></p>
+<p>输入</p>
+<pre><code>{
+ &quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号
+ &quot;password&quot;:&quot;123456&quot;, String、用户密码
+ &quot;repassword&quot;:&quot;123456&quot;, String、确认密码
+    &quot;verificationCode&quot;:&quot;4532&quot;,String 验证码
+}
+</code></pre><p>输出</p>
+<pre><code>{
+&quot;code&quot;: 200,
+&quot;msg&quot;: &quot;success&quot;,
+&quot;data&quot;:{
+&quot;uid&quot;:&quot;8686ae2da1c217df4815b90a8a6c2abf&quot;,
+&quot;mobile&quot;:&quot;13524101981&quot;
+}    
+}
+</code></pre><table>
+<thead>
+<tr>
+<th>code</th>
+<th>msg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10008</td>
+<td>验证码失效了</td>
+</tr>
+<tr>
+<td>10007</td>
+<td>验证码不正确</td>
+</tr>
+<tr>
+<td>10003</td>
+<td>手机号已经存在</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意：只有code为200的情况下，注册成功并返回uid、手机号码</strong></p>
+<h2 id="2-3-用户登录"><a href="#2-3-用户登录" class="headerlink" title="2.3 用户登录"></a>2.3 用户登录</h2><p>请求：</p>
+<p><code>POST  http://${domain}:${port}/user/login</code></p>
+<p>输入</p>
+<pre><code>{
+ &quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号
+ &quot;password&quot;:&quot;123456&quot; String、用户密码
+}
+</code></pre><p>输出</p>
+<pre><code>{
+&quot;code&quot;: 200,
+&quot;msg&quot;: &quot;success&quot;,
+&quot;data&quot;:{
+    &quot;uid&quot;: &quot;asdasdasdsadasdasdas&quot;, String、用户唯一标识
+    &quot;mobile&quot;: &quot;13127538810&quot;, String、手机号码
+    &quot;headPath&quot;:&quot;头像服务器路径&quot;,String、头像服务器路径
+    &quot;userName&quot;:&quot;昵称&quot;,String、昵称
+    &quot;gender&quot;:&quot;性别&quot;,String、性别
+    &quot;age&quot;:18, Int、年龄
+    &quot;professional&quot;:&quot;职业&quot;,String、职业
+    &quot;regChannel&quot;:&quot;暂无&quot;,String
+    &quot;level&quot;:1 Int、会员等级
+}    
+}
+</code></pre><p><strong>注意：只有code为200的情况下，注册成功并返回</strong></p>
+<h2 id="2-4-忘记密码"><a href="#2-4-忘记密码" class="headerlink" title="2.4 忘记密码"></a>2.4 忘记密码</h2><p>请求：</p>
+<p><code>POST  http://${domain}:${port}/user/pwdUpdate</code></p>
+<p>输入</p>
+<pre><code>{
+ &quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号
+ &quot;password&quot;:&quot;123456&quot;, String、用户密码
+ &quot;repassword&quot;:&quot;123456&quot; String、重复密码    
+ }
+</code></pre><p>输出</p>
+<pre><code>{
+&quot;code&quot;: 200,
+&quot;msg&quot;: &quot;success&quot;
+}
+</code></pre><p><strong>注意：只有code为200的情况下，用户密码修改成功</strong></p>
+<h2 id="2-5-个人资料修改"><a href="#2-5-个人资料修改" class="headerlink" title="2.5 个人资料修改"></a>2.5 个人资料修改</h2><p>请求：</p>
+<p><code>POST  http://${domain}:${port}/user/dataUpdate</code></p>
+<p>输入</p>
+<pre><code>{
+&quot;uid&quot;:&quot;&quot; ,String、用户唯一标识(必填)     
+&quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号（必填）
+ &quot;headPath&quot;:&quot;头像服务器路径&quot;,String、头像服务器路径
+&quot;userName&quot;:&quot;昵称&quot;,String、昵称
+&quot;gender&quot;:&quot;性别&quot;,String、性别
+&quot;age&quot;:18, Int、年龄
+&quot;professional&quot;:&quot;职业&quot;,String、职业
+&quot;regChannel&quot;:&quot;暂无&quot;,String
+&quot;level&quot;:1 Int、会员等级    
+ }
+</code></pre><p>输出</p>
+<pre><code>{
+&quot;code&quot;: 200,
+&quot;msg&quot;: &quot;success&quot;
+}
+</code></pre><p><strong>注意：只有code为200的情况下，用户密码修改成功</strong></p>
+<h1 id="七牛token接口"><a href="#七牛token接口" class="headerlink" title="七牛token接口"></a>七牛token接口</h1><h2 id="3-1-生成tonken-只作七牛生成token测试用，上线前会删除"><a href="#3-1-生成tonken-只作七牛生成token测试用，上线前会删除" class="headerlink" title="3.1 生成tonken(只作七牛生成token测试用，上线前会删除)"></a>3.1 生成tonken(只作七牛生成token测试用，上线前会删除)</h2><p>请求：</p>
+<p><code>GET  http://${domain}:${port}/util/:accessKey/:secretKey/:bucket</code></p>
+<p>输入</p>
+<pre><code> `accessKey`:`mvjj9lnueTe85lpJhSKqLosI0nUUWNIrBF38-XLj`, 账户AK地址
+ `secretKey`:`t2-NhHB_GQbqN_RSjC_d_EGmCPYYayoESkd2FwV3`, 账户SK地址
+`bucket`:七牛空间名字
+</code></pre><p>输出</p>
+<pre><code>token:mvjj9lnueTe85lpJhSKqLosI0nUUWNIrBF38-XLj:2rSiSh1Y3R9h2KAyoQIpyttKuy4=:eyJkZWFkbGluZSI6MTQ5NTA4MTI3NH0=
+</code></pre><p><strong>注意：只有token: 为授权码</strong></p>
+<h2 id="3-2-发送手机验证码"><a href="#3-2-发送手机验证码" class="headerlink" title="3.2 发送手机验证码"></a>3.2 发送手机验证码</h2><p>请求：</p>
+<p><code>GET http://${domain}:${port}/user/sms/sendValidCode</code></p>
+<p>输入：</p>
+<pre><code>{
+&quot;mobile&quot;: &quot;13524101981&quot;, 11位手机号
+}
+</code></pre><p>输出：</p>
+<pre><code>{
+&quot;code&quot;: 200
+&quot;msg&quot;: &quot;success&quot;
+}
+</code></pre><table>
+<thead>
+<tr>
+<th>code</th>
+<th>msg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10009</td>
+<td>验证码已经发送了,验证码有效时间为15分钟,如未收到,请耐心等待</td>
+</tr>
+<tr>
+<td>10010</td>
+<td>验证码发送失败,请稍候再试</td>
+</tr>
+<tr>
+<td>10011</td>
+<td>验证码发送失败,请稍候再试</td>
+</tr>
+</tbody>
+</table>
+<h1 id="设备信息"><a href="#设备信息" class="headerlink" title="设备信息"></a>设备信息</h1><h2 id="4-1-设备信息列表API"><a href="#4-1-设备信息列表API" class="headerlink" title="4.1 设备信息列表API"></a>4.1 设备信息列表API</h2><p>请求：</p>
+<p><code>GET  http://${domain}:${port}/device/findById</code></p>
+<p>输入：</p>
+<pre><code>&quot;uid&quot;: &quot;1&quot; String、用户ID
+</code></pre><p>输出：</p>
+<pre><code>{
+    &quot;code&quot;:200,
+    &quot;msg&quot;:&quot;success&quot;,
+    &quot;data&quot;:[
+                {
+                    &quot;name&quot;:&quot;anne&quot;,
+                    &quot;did&quot;:&quot;1&quot;
+                }
+            ]
+}
+</code></pre><p><strong>注意：当result为空数组时，该用户下没有设备</strong></p>
+<h2 id="4-2-设备信息添加API"><a href="#4-2-设备信息添加API" class="headerlink" title="4.2 设备信息添加API"></a>4.2 设备信息添加API</h2><p>请求：</p>
+<p><code>POST  http://${domain}:${port}/device/save</code></p>
+<p>输入：</p>
+<pre><code>{
+    &quot;did&quot;:&quot;1&quot;,   String、唯一ID
+    &quot;name&quot;:&quot;anne&quot;,   String、设备名称
+    &quot;type&quot;: 1,      Int、设备类型  1.消毒底座  2.牙刷  3.手环)
+    &quot;uid&quot;: &quot;1&quot;,  String、用户ID
+    &quot;bluetoothName&quot;: &quot;lbd&quot; String、蓝牙名称
+}
+</code></pre><p>输出：</p>
+<pre><code>{
+    &quot;code&quot;:200,
+    &quot;msg&quot;:&quot;success&quot;
+}
+</code></pre><p><strong>注意：当code为200的情况下，设备信息添加成功</strong></p>
+<p><br></p>
+<h1 id="广告列表接口"><a href="#广告列表接口" class="headerlink" title="广告列表接口"></a>广告列表接口</h1><p>请求：</p>
+<p><code>POST  http://${domain}:${port}/ad/list</code></p>
+<p>参数:</p>
+<pre><code>默认参数
+</code></pre><p>输出：</p>
+<pre><code>{
+    &quot;code&quot;:200,
+    &quot;msg&quot;:&quot;success&quot;,
+    &quot;data&quot;:[
+                {
+                    &quot;adId&quot;:1,
+                    &quot;adType&quot;:1,
+                    &quot;imgUrl&quot;:&quot;http://xxxx/xxx.png&quot;,
+                    &quot;title&quot;:&quot;广告一&quot;,
+                    &quot;flag&quot;:0
+                },
+                {
+                    &quot;adId&quot;:2,
+                    &quot;adType&quot;:2,
+                    &quot;imgUrl&quot;:&quot;http://xxxx/xxx.png&quot;,
+                    &quot;title&quot;:&quot;广告一&quot;,
+                    &quot;flag&quot;:2
+                },
+                {
+                    &quot;adId&quot;:3,
+                    &quot;adType&quot;:3,
+                    &quot;imgUrl&quot;:&quot;http://xxxx/xxx.png&quot;,
+                    &quot;title&quot;:&quot;广告一&quot;,
+                    &quot;flag&quot;:3,
+                    &quot;appPage&quot;:1001
+                }
+            ]
+}
+</code></pre><p>返回参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>描述</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>adId</td>
+<td>广告ID</td>
+<td>广告唯一标识</td>
+</tr>
+<tr>
+<td>adType</td>
+<td>广告内容类型：1、2、3，分别代表:url、content、appPage</td>
+<td>app跳转,如果是url则跳转到app内部网页，content则跳到原生固定详情页面，appPage则跳转到app指定页面</td>
+</tr>
+<tr>
+<td>appPage</td>
+<td>跳转到某个页面的名称</td>
+<td>adType为3的情况下才会有值，用来跳转到app指定页面，内容为app页面码</td>
+</tr>
+<tr>
+<td>imgUrl</td>
+<td>广告图片地址</td>
+<td>显示在手机banner页面上</td>
+</tr>
+<tr>
+<td>title</td>
+<td>广告标题</td>
+<td>广告标题</td>
+</tr>
+<tr>
+<td>flag</td>
+<td>0（普通）、1(特价促销)、2(火爆) 、3(秒杀)</td>
+<td>在手机上banner上显示特殊标记</td>
+</tr>
+</tbody>
+</table>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/接口文档/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/接口文档/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/发展感想/" title="发展感想" itemprop="url">发展感想</a>
   </h1>
   <p class="article-author">By
@@ -697,72 +1209,6 @@
 	
 	  	<span></span>
 		<a href="/2018/11/19/手机端(iOS,android)自动化测试框架(淘宝用的)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/手机端(iOS,android)自动化测试框架(淘宝用的)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/什么是 Docker/" title="Docker —— 从入门到实践" itemprop="url">Docker —— 从入门到实践</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.105Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="Docker-——-从入门到实践"><a href="#Docker-——-从入门到实践" class="headerlink" title="Docker —— 从入门到实践"></a>Docker —— 从入门到实践</h2><h3 id="一-什么是-Docker"><a href="#一-什么是-Docker" class="headerlink" title="一.什么是 Docker"></a>一.什么是 Docker</h3><p>Docker 是一个开源项目，诞生于 2013 年初，最初是 dotCloud 公司内部的一个业余项目。它基于 Google 公司推出的 Go 语言实现。 项目后来加入了 Linux 基金会，遵从了 Apache 2.0 协议，项目代码在 GitHub 上进行维护。</p>
-<p>Docker 自开源后受到广泛的关注和讨论，以至于 dotCloud 公司后来都改名为 Docker Inc。Redhat 已经在其 RHEL6.5 中集中支持 Docker；Google 也在其 PaaS 产品中广泛应用。</p>
-<p>Docker 项目的目标是实现轻量级的操作系统虚拟化解决方案。 Docker 的基础是 Linux 容器（LXC）等技术。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/什么是 Docker/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/docker/">docker</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/docker实践-docker教程/">docker实践 docker教程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/什么是 Docker/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/什么是 Docker/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
