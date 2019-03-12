@@ -92,6 +92,312 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/08/29/ELK笔记/" title="ELK学习笔记" itemprop="url">ELK学习笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-08-29T07:10:00.000Z" itemprop="datePublished"> 发表于 2018-08-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="什么是ELK"><a href="#什么是ELK" class="headerlink" title="什么是ELK"></a>什么是ELK</h2><p>首先上官网：</p>
+<p><a href="https://www.elastic.co/cn/elk-stack" target="_blank" rel="noopener">https://www.elastic.co/cn/elk-stack</a></p>
+<p>官网提供的这张图应该可以说明：</p>
+<p><img src="http://blog.huguiqi.com/15355269814232267g3a8.png?imageslim" alt="paste image"></p>
+<p>就是：Elastircsearch + Logstash + Kibana 的组合（这张图上有Beats,可以先忽略，后面再讲）</p>
+<h2 id="他们都是做什么的"><a href="#他们都是做什么的" class="headerlink" title="他们都是做什么的"></a>他们都是做什么的</h2><h3 id="Elastircsearch"><a href="#Elastircsearch" class="headerlink" title="Elastircsearch"></a>Elastircsearch</h3><p>官网说：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>The open source, distributed, RESTful, JSON-based search engine. Easy to use, scalable and flexible, it earned hyper-popularity among users and a company formed around it, you know, for search.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>是基于开源的，环境部署，RESTful软件协议，以json为标准的搜索引擎，后面的就吹牛逼的话了，顺便说一下，它是基于lurce的搜索引擎。</p>
+<h3 id="Logstash"><a href="#Logstash" class="headerlink" title="Logstash"></a>Logstash</h3><p>官方说：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>Logstash is a server‑side data processing pipeline that ingests data from multiple sources simultaneously, transforms it, and then sends it to a “stash” like Elasticsearch</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>就是一个日志分析与查询的一个服务，然后通过它将日志发送到一个仓库存储起来，像Elasticsearch(是搜索引擎，同时也以索引的形式的日志存储工具)</p>
+<h3 id="Kibana"><a href="#Kibana" class="headerlink" title="Kibana"></a>Kibana</h3><p>Kibana 让您能够可视化 Elasticsearch 中的数据并操作 Elastic Stack，因此您可以在这里解开任何疑问：例如，为何会在凌晨 2:00 被传呼，雨水会对季度数据造成怎样的影响。</p>
+<p>以上是中文网站的官方定义</p>
+<p>其实就是前端展示。</p>
+<p>他们的关系是这样的：</p>
+<p><img src="http://blog.huguiqi.com/1535527546826q9vgr8gi.png?imageslim" alt="paste image"></p>
+<h3 id="日志收集并发给Elasticsearch的方式"><a href="#日志收集并发给Elasticsearch的方式" class="headerlink" title="日志收集并发给Elasticsearch的方式"></a>日志收集并发给Elasticsearch的方式</h3><p>好多解决方案：</p>
+<ol>
+<li><p>使用 Filebeat（就是前面官网提到的Beans）</p>
+</li>
+<li><p>使用日志驱动</p>
+</li>
+<li>使用 Logspout</li>
+<li>Logz.io 的日志采集器</li>
+<li>fluentd-pilot（阿里云开源日志收集工具）</li>
+</ol>
+<p>前面四种各有便利，但论强大，好用，还是阿里云提供的这个收集器好用，但只针对阿里云自家的slb服务，需要slb服务配合使用。</p>
+<p><strong><em>ps:<br>     fluentd-pilot已更名为log-pilot</em></strong></p>
+<p>本来计划要使用log-pilot做日志收集的，但使用中遇到很多问题，可能是没有使用slb服务的原因，不兼容导致的。</p>
+<p>目前我厂用的是logstash，直接将日志发送到logstash给它分析并转发给Elasticsearch存储。</p>
+<p><a href="https://segmentfault.com/a/1190000009102612" target="_blank" rel="noopener">参考文章</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/ELK/">ELK</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/08/29/ELK笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/29/ELK笔记/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/20/spring-cloud之gateway无法zuul转发问题@- 无标题 - 2/" title="spring-cloud之gateway无法zuul转发问题" itemprop="url">spring-cloud之gateway无法zuul转发问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-08-20T03:52:00.000Z" itemprop="datePublished"> 发表于 2018-08-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="spring-cloud之gateway无法zuul转发问题"><a href="#spring-cloud之gateway无法zuul转发问题" class="headerlink" title="# spring-cloud之gateway无法zuul转发问题"></a># spring-cloud之gateway无法zuul转发问题</h1><p>需要在配置文件中加一个nonSecurePort配置，最好将这个端口配置为当前服务端口</p>
+<p>eureka:<br>  instance:<br>hostname: ${HOST_NAME}<br>prefer-ip-address: false<br>instance-id: ${eureka.instance.hostname}:${server.port}<br>appname: ${HOST_NAME}<br>nonSecurePort: ${server.port}</p>
+<h2 id="eurake无法访问的资源文件问题"><a href="#eurake无法访问的资源文件问题" class="headerlink" title="eurake无法访问的资源文件问题"></a>eurake无法访问的资源文件问题</h2><p>通过intelij启动eurake项目，可以访问eureka地址，并可正常加载resource文件，但通过java -jar 的形式都无法正常加载资源文件（css,js等）。</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>解决方案：</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>在bootstrap.yml里添加：</p>
+<p>spring:<br>  resources:<br>  add-mappings: true</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/zuul/">zuul</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/08/20/spring-cloud之gateway无法zuul转发问题@- 无标题 - 2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/20/spring-cloud之gateway无法zuul转发问题@- 无标题 - 2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/08/14/springmvc关于同源策略问题解决/" title="springmvc关于同源策略问题解决" itemprop="url">springmvc关于同源策略问题解决</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-08-14T05:52:00.000Z" itemprop="datePublished"> 发表于 2018-08-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="springmvc关于同源策略问题解决"><a href="#springmvc关于同源策略问题解决" class="headerlink" title="springmvc关于同源策略问题解决"></a>springmvc关于同源策略问题解决</h1><h3 id="1-CORS-简介"><a href="#1-CORS-简介" class="headerlink" title="1. CORS 简介"></a>1. CORS 简介</h3><p>同源策略（same origin policy）是浏览器安全的基石。在同源策略的限制下，非同源的网站之间不能发送 ajax 请求的。</p>
+<p>为了解决这个问题，w3c 提出了跨源资源共享，即 CORS(Cross-Origin Resource Sharing)。</p>
+<p>CORS 做到了两点：</p>
+<p>不破坏即有规则<br>服务器实现了 CORS 接口，就可以跨源通信<br>基于这两点，CORS 将请求分为两类：简单请求和非简单请求。</p>
+<p>1.1 简单请求<br>可以先看下 CORS 出现前的情况：跨源时能够通过 script 或者 image 标签触发 GET 请求或通过表单发送一条 POST 请求，但这两种请求 HTTP 头信息中都不能包含任何自定义字段。</p>
+<p>简单请求对应该规则，因此对简单请求的定义为：</p>
+<p>请求方法是 </p>
+<pre><code>HEAD
+、
+GET
+ 或 
+POST
+</code></pre><p> 且 HTTP 头信息不超过以下几个字段：</p>
+<pre><code>Accept
+、
+Accept-Language
+、
+Content-Language
+、
+Last-Event-ID
+、
+Content-Type
+（只限于 
+application/x-www-form-urlencoded
+、
+multipart/form-data
+、
+text/plain
+）。
+</code></pre><p>比如有一个简单请求：</p>
+<pre><code>GET /test HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, sdch, br
+Origin: http://www.examples.com
+Host: www.examples.com
+</code></pre><p>对于这样的简单请求，CORS 的策略是请求时，<strong>在头信息中添加一个 Origin 字段</strong>，服务器收到请求后，根据该字段判断是否允许该请求。</p>
+<p>如果允许，则在 HTTP 头信息中添加 </p>
+<pre><code>Access-Control-Allow-Origin
+</code></pre><p> 字段，并返回正确的结果<br>如果不允许，则不在头信息中添加 </p>
+<pre><code>Access-Control-Allow-Origin
+</code></pre><p> 字段。<br>浏览器先于用户得到返回结果，根据有无<br>Access-Control-Allow-Origin<br> 字段来决定是否拦截该返回结果。</p>
+<p>对于 CORS 出现前的一些服务，CORS 对他们的影响分两种情况：</p>
+<p>script 或者 image 触发的 GET 请求不包含 Origin 头，所以不受到 CORS 的限制，依旧可用。<br>如果是 ajax 请求，HTTP 头信息中会包含 Origin 字段，由于服务器没有做任何配置，所以返回结果不会包含<br>Access-Control-Allow-Origin<br>，因此返回结果会被浏览器拦截，接口依旧不可以被 ajax 跨源访问。<br>可以看出，CORS 的出现，没有对”旧的“服务造成任何影响。</p>
+<p>另外，除了提到的<br>Access-Control-Allow-Origin<br> 还有几个字段用于描述 CORS 返回结果：</p>
+<pre><code>Access-Control-Allow-Credentials: 可选，用户是否可以发送、处理 cookie。
+Access-Control-Expose-Headers：可选，可以让用户拿到的字段。
+</code></pre><p>有几个字段无论设置与否都可以拿到的，包括：<br>Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma。</p>
+<h3 id="1-2-非简单请求"><a href="#1-2-非简单请求" class="headerlink" title="1.2 非简单请求"></a>1.2 非简单请求</h3><p>除了简单请求之外的请求，就是非简单请求。</p>
+<p>对于非简单请求的跨源请求，<strong>浏览器会在真实请求发出前</strong>，增加一次 OPTION 请求，称为预检请求（preflight request）。预检请求将真实请求的信息，包括请求方法、自定义头字段、源信息添加到 HTTP 头信息字段中，询问服务器是否允许这样的操作。</p>
+<p>比如对于<br>DELETE<br> 请求：</p>
+<pre><code>OPTIONS /test HTTP/1.1
+Origin: http://www.examples.com
+Access-Control-Request-Method: DELETE
+Access-Control-Request-Headers: X-Custom-Header
+Host: www.examples.com
+</code></pre><p>与 CORS 相关的字段有：</p>
+<p>Access-Control-Request-Method<br>: 真实请求使用的 HTTP 方法。<br>Access-Control-Request-Headers<br>: 真实请求中包含的自定义头字段。<br>服务器收到请求时，需要分别对 Origin、Access-Control-Request-Method、Access-Control-Request-Headers 进行验证，验证通过后，会在返回 Http 头信息中添加</p>
+<pre><code>Access-Control-Allow-Origin: http://www.examples.com
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE
+Access-Control-Allow-Headers: X-Custom-Header
+Access-Control-Allow-Credentials: true
+Access-Control-Max-Age: 1728000
+</code></pre><p>他们的含义分别是：</p>
+<pre><code>Access-Control-Allow-Methods: 真实请求允许的方法
+Access-Control-Allow-Headers: 服务器允许使用的字段
+Access-Control-Allow-Credentials: 是否允许用户发送、处理 cookie
+Access-Control-Max-Age: 预检请求的有效期，单位为秒。有效期内，不会重复发送预检请求
+当预检请求通过后，浏览器会发送真实请求到服务器。这就实现了跨源请求。
+</code></pre><p>了解完 CORS，接下来我们来搭建简单的 Spring MVC 服务，并进一步了解 Spring MVC 如何配置 CORS。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/08/14/springmvc关于同源策略问题解决/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springboot/">springboot</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springboot/">springboot</a><a href="/tags/浏览器同源问题/">浏览器同源问题</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/08/14/springmvc关于同源策略问题解决/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/14/springmvc关于同源策略问题解决/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/08/05/docker-compose传参问题/" title="docker-compose传参问题" itemprop="url">docker-compose传参问题</a>
   </h1>
   <p class="article-author">By
@@ -828,690 +1134,6 @@ service  docker restart
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/27/7天学会使用springcloud-五/" title="7天学会使用springcloud(五)" itemprop="url">7天学会使用springcloud(五)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-05-26T16:16:00.000Z" itemprop="datePublished"> 发表于 2018-05-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="7天学会使用springcloud-五"><a href="#7天学会使用springcloud-五" class="headerlink" title="7天学会使用springcloud(五)"></a>7天学会使用springcloud(五)</h1><h2 id="hystrix集成springcloud使用"><a href="#hystrix集成springcloud使用" class="headerlink" title="hystrix集成springcloud使用"></a>hystrix集成springcloud使用</h2><p>app-service项目中，pom.xml:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.service&lt;/groupId&gt;
-    &lt;artifactId&gt;app-service&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;jar&lt;/packaging&gt;
-
-    &lt;name&gt;app-service&lt;/name&gt;
-    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.M9&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix-dashboard&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;!--    增加feign服务代理依赖 --&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
-            &lt;version&gt;2.0.0.M2&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
-            &lt;exclusions&gt;
-                &lt;exclusion&gt;
-                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
-                &lt;/exclusion&gt;
-            &lt;/exclusions&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-        &lt;repository&gt;
-            &lt;id&gt;alimaven&lt;/id&gt;
-            &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;
-        &lt;/repository&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-snapshots&lt;/id&gt;
-            &lt;url&gt;http://repo.spring.io/snapshot&lt;/url&gt;
-            &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-&lt;/project&gt;
-</code></pre><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ul>
-<li>启用hystrix</li>
-</ul>
-<p>在启动类上添加 @EnableCircuitBreaker与@EnableHystrixDashboard注解</p>
-<p><img src="http://blog.huguiqi.com/15273523469114tx4hfou.png?imageslim" alt="paste image"></p>
-<ul>
-<li>使用</li>
-</ul>
-<p>添加@HystrixCommand注解:</p>
-<pre><code>@RequestMapping(value = &quot;/hello/{name}&quot;)
-   @HystrixCommand(fallbackMethod = &quot;error&quot;, commandProperties = {
-           @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)
-           , @HystrixProperty(name = &quot;circuitBreaker.requestVolumeThreshold&quot;, value = &quot;2&quot;)})
-   public String hello(@PathVariable(value = &quot;name&quot;) String name){
-       return clientRemoteProxy.hello(name);
-   }
-
-   public String error(String name){
-       return name+&quot;：您所调用的接口服务不可用，请重试&quot;;
-   }
-</code></pre><p>注意其中有两个关键属性分别为:</p>
-<p>　　 execution.isolation.thread.timeoutInMilliseconds 这个是请求最大的响应时间</p>
-<p>　　 circuitBreaker.requestVolumeThreshold 如果执行失败的次数等于或者超过这个值就开启保护</p>
-<p>ClientRemoteProxy:</p>
-<pre><code>@Component
-public class ClientRemoteProxy {
-
-    @Autowired
-    RestTemplate restTemplate;
-
-    public String hello(String name) {
-        return restTemplate.getForObject(&quot;http://APPCLIENT/hello?name=&quot;+name,String.class);
-    }
-}
-</code></pre><p>我启动了两个client,一个client有hello接口，另一个则没有，因为robbin会有自动负载均衡策略，我们来看看什么效果？</p>
-<p>我来回刷新请求了5-6次，会随机返回断路器信息和正确信息，但和zuul断路信息不同：</p>
-<p><img src="http://blog.huguiqi.com/15273530615360wfrs5b0.png?imageslim" alt="paste image"></p>
-<p><img src="http://blog.huguiqi.com/1527353090768tm00flye.png?imageslim" alt="paste image"></p>
-<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p><img src="http://blog.huguiqi.com/1527352180459kqll74wa.png?imageslim" alt="paste image"></p>
-<h2 id="检测状态"><a href="#检测状态" class="headerlink" title="检测状态"></a>检测状态</h2><p>如果springboot安装了actuator组件，我们可以访问请求地址：</p>
-<pre><code>http://localhost:9000/actuator/health 
-</code></pre><p>来检测状态，当然也可以直接请求：    </p>
-<pre><code>http://localhost:9000/actuator
-</code></pre><p>来查看actuator有哪些接口可以访问。</p>
-<h2 id="查看断路器信息状态"><a href="#查看断路器信息状态" class="headerlink" title="查看断路器信息状态"></a>查看断路器信息状态</h2><p>Hystrix有个监控的控制台，因为启用了：</p>
-<pre><code>@EnableHystrixDashboard
-</code></pre><p>这个引用了包：</p>
-<pre><code>spring-cloud-starter-netflix-hystrix-dashboard
-</code></pre><p>可以看到有多少接口调用失败了，被熔断的次数，接口请求次数等数据：</p>
-<p><img src="http://blog.huguiqi.com/1527353605119ja1qnq8z.png?imageslim" alt="paste image"></p>
-<p>参考springcloud的官方文档：</p>
-<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
-<p>访问dashboard的地址：</p>
-<p><a href="http://localhost:9000/hystrix" target="_blank" rel="noopener">http://localhost:9000/hystrix</a></p>
-<h2 id="Turbine"><a href="#Turbine" class="headerlink" title="Turbine"></a>Turbine</h2><blockquote>
-<blockquote>
-<p>Looking at an individual instance’s Hystrix data is not very useful in terms of the overall health of the system. Turbine is an application that aggregates all of the relevant /hystrix.stream endpoints into a combined /turbine.stream for use in the Hystrix Dashboard. Individual instances are located through Eureka. Running Turbine requires annotating your main class with the @EnableTurbine annotation (for example, by using spring-cloud-starter-netflix-turbine to set up the classpath). All of the documented configuration properties from the Turbine 1 wiki apply. The only difference is that the turbine.instanceUrlSuffix does not need the port prepended, as this is handled automatically unless turbine.instanceInsertPort=false.</p>
-</blockquote>
-</blockquote>
-<p>这个turbine和dashboard配合使用的：</p>
-<p><img src="http://blog.huguiqi.com/1527354179380hlt0wlxs.png?imageslim" alt="paste image"></p>
-<p>瞬定是会珍惜整个目录的。</p>
-<p>关于trubine的使用我没有可分享的，需要去实践。</p>
-<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>springcloud-service<br>好困要睡觉了，晚安各位。。。。。。。</p>
-<p>以下是官方文档：</p>
-<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
-<p><a href="https://github.com/huguiqi/springcloud-sample" target="_blank" rel="noopener">github代码</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/hy/">hy</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/05/27/7天学会使用springcloud-五/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/27/7天学会使用springcloud-五/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/12/7天学会使用springcloud-四/" title="7天学会使用springcloud(四)" itemprop="url">7天学会使用springcloud(四)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-05-12T14:20:00.000Z" itemprop="datePublished"> 发表于 2018-05-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="7天学会使用springcloud-四"><a href="#7天学会使用springcloud-四" class="headerlink" title="7天学会使用springcloud(四)"></a>7天学会使用springcloud(四)</h1><h2 id="什么是熔断机制"><a href="#什么是熔断机制" class="headerlink" title="什么是熔断机制"></a>什么是熔断机制</h2><p>最近电脑翻墙出了点问题，无法到wiki上去看它的定义，只能上百度百科上去找这个定义了，这个名词其实引自股票行业：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>熔断机制（Circuit Breaker），也叫自动停盘机制，是指当股指波幅达到规定的熔断点时，交易所为控制风险采取的暂停交易措施。 [1]  具体来说是对某一合约在达到涨跌停板之前，设置一个熔断价格，使合约买卖报价在一段时间内只能在这一价格范围内交易的机制。</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>引入到软件架构中，就是当某个应用服务达到一个风险值的时候(内存，cpu等)，使此应用暂停服务，以免影响整个服务的正常运行。</p>
-<h2 id="springcloud的熔断机制"><a href="#springcloud的熔断机制" class="headerlink" title="springcloud的熔断机制"></a>springcloud的熔断机制</h2><p>在微服务架构中，根据业务来拆分成一个个的服务，服务与服务之间可以相互调用（RPC），在Spring Cloud可以用RestTemplate+Ribbon和Feign来调用。为了保证其高可用，单个服务通常会集群部署。由于网络原因或者自身的原因，服务并不能保证100%可用，如果单个服务出现问题，调用这个服务就会出现线程阻塞，此时若有大量的请求涌入，Servlet容器的线程资源会被消耗完毕，导致服务瘫痪。服务与服务之间的依赖性，故障会传播，会对整个微服务系统造成灾难性的严重后果，这就是服务故障的“雪崩”效应。</p>
-<p>为了解决这个问题，业界提出了断路器模型。</p>
-<h2 id="springcloud熔断机制有几种方式"><a href="#springcloud熔断机制有几种方式" class="headerlink" title="springcloud熔断机制有几种方式"></a>springcloud熔断机制有几种方式</h2><h3 id="路由熔断"><a href="#路由熔断" class="headerlink" title="路由熔断"></a>路由熔断</h3><p>zull除了做网关，还可以做路由熔断。</p>
-<p>当我们的后端服务出现异常的时候，我们不希望将异常抛出给最外层，期望服务可以自动进行一降级。Zuul给我们提供了这样的支持。当某个服务出现异常时，直接返回我们预设的信息。</p>
-<p>目前最新的zuul是通过filter的方式进行熔断的</p>
-<p>如果zuul引用的版本是：</p>
-<pre><code>&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-&lt;artifactId&gt;spring-cloud-netflix&lt;/artifactId&gt;
-&lt;version&gt;1.3.1.RELEASE&lt;/version&gt;
-</code></pre><p>我们通过自定义的fallback方法，并且将其指定给某个route来实现该route访问出问题的熔断处理。主要继承ZuulFallbackProvider接口来实现，ZuulFallbackProvider默认有两个方法，一个用来指明熔断拦截哪个服务，一个定制返回内容</p>
-<pre><code>public interface ZuulFallbackProvider {
-   /**
-     * The route this fallback will be used for.
-     * @return The route the fallback will be used for.
-     */
-    public String getRoute();
-
-    /**
-     * Provides a fallback response.
-     * @return The fallback response.
-     */
-    public ClientHttpResponse fallbackResponse();
-}
-</code></pre><p>实现类通过实现getRoute方法，告诉Zuul它是负责哪个route定义的熔断。而fallbackResponse方法则是告诉 Zuul 断路出现时，它会提供一个什么返回值来处理请求。</p>
-<p>后来Spring又扩展了此类，丰富了返回方式，在返回的内容中添加了异常信息，因此最新版本建议直接继承类FallbackProvider 。</p>
-<p>我们以上面的eruake-service服务为例，定制它的熔断返回内容。</p>
-<pre><code>@Component
-public class ProducerFallback implements FallbackProvider {
-    private final Logger logger = LoggerFactory.getLogger(FallbackProvider.class);
-
-    //指定要处理的 service。
-    @Override
-    public String getRoute() {
-        return &quot;appclient&quot;;
-    }
-
-    public ClientHttpResponse fallbackResponse() {
-        return new ClientHttpResponse() {
-            @Override
-            public HttpStatus getStatusCode() throws IOException {
-                return HttpStatus.OK;
-            }
-
-            @Override
-            public int getRawStatusCode() throws IOException {
-                return 200;
-            }
-
-            @Override
-            public String getStatusText() throws IOException {
-                return &quot;OK&quot;;
-            }
-
-            @Override
-            public void close() {
-
-            }
-
-            @Override
-            public InputStream getBody() throws IOException {
-                return new ByteArrayInputStream(&quot;The service is unavailable.&quot;.getBytes());
-            }
-
-            @Override
-            public HttpHeaders getHeaders() {
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                return headers;
-            }
-        };
-    }
-
-    @Override
-    public ClientHttpResponse fallbackResponse(Throwable cause) {
-        if (cause != null &amp;&amp; cause.getCause() != null) {
-            String reason = cause.getCause().getMessage();
-            logger.info(&quot;Excption {}&quot;,reason);
-        }
-        return fallbackResponse();
-    }
-}
-</code></pre><p>当服务出现异常时，打印相关异常信息，并返回</p>
-<p>“The service is unavailable.”。</p>
-<p>手动关闭client1项目，多次访问地址：<a href="http://localhost:8888/applicent/hello?name=neo&amp;token=xx，会交替返回：" target="_blank" rel="noopener">http://localhost:8888/applicent/hello?name=neo&amp;token=xx，会交替返回：</a></p>
-<pre><code>hello neo，this is first messge
-The service is unavailable.
-...
-</code></pre><p>根据返回结果可以看出：eurake-client-2项目已经启用了熔断，返回:The service is unavailable.</p>
-<p>如果zuul引用的版本是：</p>
-<pre><code>&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-&lt;artifactId&gt;spring-cloud-starter-netflix&lt;/artifactId&gt;
-&lt;version&gt;2.0.0.M8&lt;/version&gt;
-</code></pre><p>那就用FallbackProvider代替ZuulFallbackProvider来实现。</p>
-<p>ps:<br>Zuul 目前只支持服务级别的熔断，不支持具体到某个URL进行熔断。</p>
-<h3 id="熔断器（CircuitBreaker）"><a href="#熔断器（CircuitBreaker）" class="headerlink" title="熔断器（CircuitBreaker）"></a>熔断器（CircuitBreaker）</h3><ul>
-<li>断路器原理</li>
-</ul>
-<p>断路器的原理很简单，如同电力过载保护器。它可以实现快速失败，如果它在一段时间内侦测到许多类似的错误，会强迫其以后的多个调用快速失败，不再访问远程服务器，从而防止应用程序不断地尝试执行可能会失败的操作，使得应用程序继续执行而不用等待修正错误，或者浪费CPU时间去等到长时间的超时产生。熔断器也可以使应用程序能够诊断错误是否已经修正，如果已经修正，应用程序会再次尝试调用操作。</p>
-<p>熔断器模式就像是那些容易导致错误的操作的一种代理。这种代理能够记录最近调用发生错误的次数，然后决定使用允许操作继续，或者立即返回错误。</p>
-<p>引入官方的调用图：</p>
-<p><img src="http://blog.huguiqi.com/1527348164587o75pzs9y.png?imageslim" alt="paste image"></p>
-<p>Martin Fowler官方对断路器的定义都在这里：</p>
-<p><a href="https://martinfowler.com/bliki/CircuitBreaker.html" target="_blank" rel="noopener">https://martinfowler.com/bliki/CircuitBreaker.html</a></p>
-<ul>
-<li>Hystrix</li>
-</ul>
-<blockquote>
-<blockquote>
-<p>Netflix has created a library called Hystrix that implements the circuit breaker pattern. In a microservice architecture, it is common to have multiple layers of service calls</p>
-</blockquote>
-</blockquote>
-<p>hystrix是实现了martin fowler的断路器的一个框架，目前也是使用最广的。<br>Hystrix原理很好理解, 当Hystrix Command请求后端服务失败数量超过一定比例(默认50%), 断路器会切换到开路状态(Open). 这时所有请求会直接失败而不会发送到后端服务. 断路器保持在开路状态一段时间后(默认5秒), 自动切换到半开路状态(HALF-OPEN). 这时会判断下一次请求的返回情况, 如果请求成功, 断路器切回闭路状态(CLOSED), 否则重新切换到开路状态(OPEN). Hystrix的断路器就像我们家庭电路中的保险丝, 一旦后端服务不可用, 断路器会直接切断请求链, 避免发送大量无效请求影响系统吞吐量, 并且断路器有自我检测并恢复的能力.</p>
-<p>以上摘自springcloud文档中关于断路器中的原文：</p>
-<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
-<ol>
-<li>Fallback</li>
-</ol>
-<p>Fallback相当于是降级操作. 对于查询操作, 我们可以实现一个fallback方法, 当请求后端服务出现异常的时候, 可以使用fallback方法返回的值. fallback方法的返回值一般是设置的默认值或者来自缓存.</p>
-<ol>
-<li>资源隔离</li>
-</ol>
-<p>在Hystrix中, 主要通过线程池来实现资源隔离. 通常在使用的时候我们会根据调用的远程服务划分出多个线程池. 例如调用产品服务的Command放入A线程池, 调用账户服务的Command放入B线程池. 这样做的主要优点是运行环境被隔离开了. 这样就算调用服务的代码存在bug或者由于其他原因导致自己所在线程池被耗尽时, 不会对系统的其他服务造成影响. 但是带来的代价就是维护多个线程池会对系统带来额外的性能开销. 如果是对性能有严格要求而且确信自己调用服务的客户端代码不会出问题的话, 可以使用Hystrix的信号模式(Semaphores)来隔离资源.</p>
-<h2 id="熔断机制的应用场景"><a href="#熔断机制的应用场景" class="headerlink" title="熔断机制的应用场景"></a>熔断机制的应用场景</h2><p>依赖服务调用，依赖服务如果访问失败或者服务挂了，但又不想拖垮整个应用网络，则使用它。</p>
-<h2 id="熔断机制有什么优缺点"><a href="#熔断机制有什么优缺点" class="headerlink" title="熔断机制有什么优缺点"></a>熔断机制有什么优缺点</h2><ol>
-<li><p>解决大并发数据量情况下，某些调用链环节失败导致拖垮整个网络的情况发生</p>
-</li>
-<li><p>适合大型分布式应用场景，对外部依赖严重项目</p>
-</li>
-<li>提高了复杂系统之间排查线上问题的效率</li>
-<li>使用网关路由熔断只支持具体服务,并且只适合微服务。</li>
-<li>在Hystrix中可以支持到url，无服务限制，可以是任何服务地址。</li>
-</ol>
-<h2 id="springboot集成熔断"><a href="#springboot集成熔断" class="headerlink" title="springboot集成熔断"></a>springboot集成熔断</h2><ol>
-<li>zuul + zuulFilter</li>
-</ol>
-<p>上面已经实现</p>
-<ol>
-<li>fegin+Hystrix</li>
-</ol>
-<p>这个放到下篇文章里写吧。</p>
-<p>参考文章：</p>
-<p><a href="http://www.cnblogs.com/niechen/p/8513597.html" target="_blank" rel="noopener">http://www.cnblogs.com/niechen/p/8513597.html</a></p>
-<p><a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html" target="_blank" rel="noopener">feign官网地址</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/熔断机制/">熔断机制</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/05/12/7天学会使用springcloud-四/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/12/7天学会使用springcloud-四/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/02/7天学会使用springcloud-三/" title="7天学会使用springcloud(三)" itemprop="url">7天学会使用springcloud(三)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-05-02T06:02:00.000Z" itemprop="datePublished"> 发表于 2018-05-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="7天学会使用springcloud-三"><a href="#7天学会使用springcloud-三" class="headerlink" title="7天学会使用springcloud(三)"></a>7天学会使用springcloud(三)</h1><h2 id="组建通过zuul转发的方式来调用各app"><a href="#组建通过zuul转发的方式来调用各app" class="headerlink" title="组建通过zuul转发的方式来调用各app"></a>组建通过zuul转发的方式来调用各app</h2><p>上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！</p>
-<p>放心 ，这个坑spring cloud已经给你踩好了，就等你入了。</p>
-<p>用zuul这个组件就可以解决这个问题。<br>你只需要通过：</p>
-<pre><code>http://serviceip:port/appname/interfaceName
-</code></pre><p>这样访问就可以了。</p>
-<h2 id="zuul简介"><a href="#zuul简介" class="headerlink" title="zuul简介"></a>zuul简介</h2><p>在微服务架构中，需要几个基础的服务治理组件，包括服务注册与发现、服务消费、负载均衡、断路器、智能路由、配置管理等，由这几个基础组件相互协作，共同组建了一个简单的微服务系统。一个简单的微服务系统如下图：</p>
-<p><img src="http://blog.huguiqi.com/1525242853550g5f8bk6v.png?imageslim" alt="t1"></p>
-<p>ps：先抄着吧，这张图有些地方画得不对，后面有时间去画一个</p>
-<p>Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能。</p>
-<p>官方地址：<a href="https://docs.openstack.org/infra/zuul/" target="_blank" rel="noopener">https://docs.openstack.org/infra/zuul/</a></p>
-<p>项目地址：<a href="https://github.com/Netflix/zuul" target="_blank" rel="noopener">https://github.com/Netflix/zuul</a></p>
-<p>zuul有以下功能：</p>
-<ul>
-<li>Authentication 鉴权</li>
-<li>Insights</li>
-<li>Stress Testing 压力测试</li>
-<li>Canary Testing 金丝雀测试（首测）</li>
-<li>Dynamic Routing 动态路由</li>
-<li>Service Migration 服务迁移</li>
-<li>Load Shedding 分级卸载</li>
-<li>Security 密码安全</li>
-<li>Static Response handling</li>
-<li>Active/Active traffic management</li>
-</ul>
-<h2 id="集成zuul"><a href="#集成zuul" class="headerlink" title="集成zuul"></a>集成zuul</h2><p>在Spring Cloud微服务系统中，一种常见的负载均衡方式是，客户端的请求首先经过负载均衡（zuul、Ngnix），再到达服务网关（zuul集群），然后再到具体的服务。服务统一注册到高可用的服务注册中心集群，服务的所有的配置文件由配置服务管理（下一篇文章讲述），配置服务的配置文件放在git仓库，方便开发人员随时改配置。</p>
-<p>在service的pom.xml里新增：</p>
-<pre><code>&lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
-            &lt;exclusions&gt;
-                &lt;exclusion&gt;
-                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
-                &lt;/exclusion&gt;
-            &lt;/exclusions&gt;
-&lt;/dependency&gt;
-</code></pre><h1 id="启用zuul"><a href="#启用zuul" class="headerlink" title="启用zuul"></a>启用zuul</h1><p>在入口类中加上’EnableZuulProxy’注解：</p>
-<pre><code>@SpringBootApplication
-@EnableZuulProxy
-@RestController
-public class AppServiceApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(AppServiceApplication.class, args);
-    }
-
-
-    @Bean
-    @LoadBalanced
-    RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-    @Autowired
-    HelloService helloService;
-
-
-    @RequestMapping(value = &quot;/hi&quot;)
-    public String hi(@RequestParam String name){
-        return helloService.hiService(name);
-    }
-}
-</code></pre><p>然后重启app-service,地址栏输入地址：</p>
-<pre><code>http://localhost:9000/appclient/hi?name=11111
-</code></pre><p>访问成功：</p>
-<p><img src="http://blog.huguiqi.com/1525242343091d5w2o8dj.png?imageslim" alt="paste image"></p>
-<p>多刷几次发现它的负载均衡也是有效的：</p>
-<p><img src="http://blog.huguiqi.com/152524240009109md1gy5.png?imageslim" alt="paste image"></p>
-<p>我们的robbin+zull的集成完成了。</p>
-<p>通过这种方式，我们可以无限的给各个app-client注册新的群组实例。</p>
-<p>如果有些外部调用的服务不是一个微服务，但是我也想通过service去转发调用他们，那怎么办？</p>
-<p>spring集成zuul的官方使用文档：</p>
-<pre><code>https://spring.io/guides/gs/routing-and-filtering/
-</code></pre><h2 id="zuul指定地址转发"><a href="#zuul指定地址转发" class="headerlink" title="zuul指定地址转发"></a>zuul指定地址转发</h2><p>在配置文件中加入：</p>
-<p>application.yml：</p>
-<pre><code>zuul:
-  sensitiveHeaders:
-  addHostHeader: true
-  ignored-services: &apos;protected-*&apos;
-  routes:
-    otaapp:
-      stripPrefix: true
-      path: /thirdService/**
-      url: http://192.168.1.200:8080
-  host:
-    maxTotalConnections: 5000
-    maxPerRouteConnections: 500
-    socket-timeout-millis: 60000
-    connect-timeout-millis: 60000
-  semaphore:
-    maxSemaphores: 2000
-</code></pre><p>那如果要经过网关层访问thirdService时，则只要输入：</p>
-<pre><code>http://{app-service的ip}:port/thirdService/接口名
-</code></pre><p>就可以完成转发    </p>
-<h2 id="安全验证"><a href="#安全验证" class="headerlink" title="安全验证"></a>安全验证</h2><p>zuul不仅只是路由，并且还能过滤，做一些安全验证。继续改造工程；</p>
-<pre><code>@Component
-public class MyFilter extends ZuulFilter{
-
-    private static Logger log = LoggerFactory.getLogger(MyFilter.class);
-    @Override
-    public String filterType() {
-        return &quot;pre&quot;;
-    }
-
-    @Override
-    public int filterOrder() {
-        return 0;
-    }
-
-    @Override
-    public boolean shouldFilter() {
-        return true;
-    }
-
-    @Override
-    public Object run() {
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest request = ctx.getRequest();
-        log.info(String.format(&quot;%s &gt;&gt;&gt; %s&quot;, request.getMethod(), request.getRequestURL().toString()));
-        Object accessToken = request.getParameter(&quot;token&quot;);
-        if(accessToken == null) {
-            log.warn(&quot;token is empty&quot;);
-            ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
-            try {
-                ctx.getResponse().getWriter().write(&quot;token is empty&quot;);
-            }catch (Exception e){}
-
-            return null;
-        }
-        log.info(&quot;ok&quot;);
-        return null;
-    }
-}
-</code></pre><p>filterType：返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下： </p>
-<ul>
-<li>pre：路由之前</li>
-<li>routing：路由之时</li>
-<li>post： 路由之后</li>
-<li>error：发送错误调用</li>
-<li>filterOrder：过滤的顺序</li>
-<li>shouldFilter：这里可以写逻辑判断，是否要过滤，本文true,永远过滤。</li>
-<li>run：过滤器的具体逻辑。可用很复杂，包括查sql，nosql去判断该请求到底有没有权限访问。</li>
-</ul>
-<h2 id="Static-Response-handling"><a href="#Static-Response-handling" class="headerlink" title="Static Response handling"></a>Static Response handling</h2><p>实现ZuulFallbackProvider这个接口，可以处理返回的值。</p>
-<p>ps: 这个ZuulFallbackProvider是’org.springframework.cloud.netflix.zuul’的1.3.1版本有的，目前在最新版本里已经没有这个filter了，看最新的官方例子，应该是用HttpOutboundSyncFilter替代了。</p>
-<h2 id="zuul-filter"><a href="#zuul-filter" class="headerlink" title="zuul filter"></a>zuul filter</h2><p>参考官方文档：<a href="https://github.com/Netflix/zuul/wiki/Filters" target="_blank" rel="noopener">https://github.com/Netflix/zuul/wiki/Filters</a></p>
-<h3 id="Sample-Filters"><a href="#Sample-Filters" class="headerlink" title="Sample Filters"></a>Sample Filters</h3><ul>
-<li><p>DebugRequest - look for a query param to add extra debug logging for a request</p>
-</li>
-<li><p>Healthcheck - simple static endpoint filter that returns 200, if everything is bootstrapped correctly</p>
-</li>
-<li><p>ZuulResponseFilter - add informational headers to provide extra details on routing, request execution, status and error cause</p>
-</li>
-<li><p>Core Filters<br>GZipResponseFilter - can be enabled to gzip outbound responses<br>SurgicalDebugFilter - can be enabled to route specific requests to different hosts for debugging</p>
-</li>
-</ul>
-<p>这些作用的filters在github上都有例子：</p>
-<pre><code>https://github.com/Netflix/zuul/tree/2.1/zuul-sample
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/spring-cloud/">spring cloud</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/05/02/7天学会使用springcloud-三/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/02/7天学会使用springcloud-三/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/29/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/31/">Next<span></span></a>
@@ -1708,15 +1330,7 @@ public class MyFilter extends ZuulFilter{
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1724,7 +1338,7 @@ public class MyFilter extends ZuulFilter{
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1732,7 +1346,19 @@ public class MyFilter extends ZuulFilter{
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
@@ -1748,11 +1374,7 @@ public class MyFilter extends ZuulFilter{
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			

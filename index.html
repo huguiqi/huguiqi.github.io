@@ -92,6 +92,435 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/12/jenkins重置jop的buildNum/" title="jenkins重置jop的buildNum" itemprop="url">jenkins重置jop的buildNum</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-03-12T10:31:00.000Z" itemprop="datePublished"> 发表于 2019-03-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <ol>
+<li>Jenkins -&gt; Manage Jenkins</li>
+<li>脚本命令行</li>
+</ol>
+<p>执行：</p>
+<pre><code>resetNumberTarget = 1
+item = Jenkins.instance.getItemByFullName(&quot;run-bzy-hotel&quot;)
+//println(item)
+item.builds.each() { build -&gt;
+  //println(build)
+  //println(build.number)
+  if(build.number &gt;= resetNumberTarget)
+  {
+    println(&quot;About to Delete &apos;&quot; + build + &quot;&apos;&quot;)    
+    build.delete()  
+  }
+}
+item.updateNextBuildNumber(resetNumberTarget)
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/jenkins/">jenkins</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/03/12/jenkins重置jop的buildNum/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/12/jenkins重置jop的buildNum/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/12/spring-security oauth2 集成 swagger 2.9.2/" title="spring-security oauth2 集成 swagger 2.9.2" itemprop="url">spring-security oauth2 集成 swagger 2.9.2</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-03-12T03:56:00.000Z" itemprop="datePublished"> 发表于 2019-03-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="pring-security-oauth2-集成-swagger-2-9-2"><a href="#pring-security-oauth2-集成-swagger-2-9-2" class="headerlink" title="pring-security oauth2 集成 swagger 2.9.2"></a>pring-security oauth2 集成 swagger 2.9.2</h1><p>pom.xml:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?\&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;\&gt;
+&lt;modelVersion\&gt;4.0.0\&lt;/modelVersion\&gt;
+
+&lt;groupId\&gt;com.xxx.xxx\&lt;/groupId\&gt;
+&lt;artifactId\&gt;bzy-auth\&lt;/artifactId\&gt;
+&lt;version\&gt;1.0\&lt;/version\&gt;
+&lt;packaging\&gt;jar\&lt;/packaging\&gt;
+
+&lt;name\&gt;xxx-auth\&lt;/name\&gt;
+&lt;description\&gt;xxx-auth project for sign,auth\&lt;/description\&gt;
+
+&lt;parent\&gt;
+&lt;groupId\&gt;com.xxxl.xxx\&lt;/groupId\&gt;
+&lt;artifactId\&gt;xxx-parent\&lt;/artifactId\&gt;
+&lt;version\&gt;1.0.0-SNAPSHOT\&lt;/version\&gt;
+&lt;/parent\&gt;
+
+&lt;dependencies\&gt;
+
+&lt;dependency\&gt;
+&lt;groupId\&gt;com.hhotel.bzy\&lt;/groupId\&gt;
+&lt;artifactId\&gt;bzy-common-swagger\&lt;/artifactId\&gt;
+&lt;version\&gt;${common.swagger.version}\&lt;/version\&gt;
+&lt;type\&gt;jar\&lt;/type\&gt;
+&lt;/dependency\&gt;
+
+&lt;dependency\&gt;
+&lt;groupId\&gt;org.springframework.cloud\&lt;/groupId\&gt;
+&lt;artifactId\&gt;spring-cloud-starter-netflix-eureka-client\&lt;/artifactId\&gt;
+&lt;/dependency\&gt;
+
+
+&lt;dependency\&gt;
+&lt;groupId\&gt;org.springframework.cloud\&lt;/groupId\&gt;
+&lt;artifactId\&gt;spring-cloud-starter-security\&lt;/artifactId\&gt;
+&lt;/dependency\&gt;
+&lt;dependency\&gt;
+&lt;groupId\&gt;org.springframework.security.oauth.boot\&lt;/groupId\&gt;
+&lt;artifactId\&gt;spring-security-oauth2-autoconfigure\&lt;/artifactId\&gt;
+&lt;version\&gt;2.1.1.RELEASE\&lt;/version\&gt;
+&lt;/dependency\&gt;
+
+&lt;/dependencies\&gt;
+
+
+
+
+&lt;/project\&gt;
+</code></pre><p>SwaggerConfig:</p>
+<pre><code>package com.xxx.xxx.auth.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.AuthorizationCodeGrantBuilder;
+import springfox.documentation.builders.OAuthBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.\*;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.SecurityConfiguration;
+import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.Arrays;
+
+/\*\*  \* Created by sam on 2019/3/11.
+     */
+    @Configuration
+    @EnableSwagger2
+    public class SwaggerAuthConfig {
+
+    @Value(&quot;${bzy.swagger-enable}&quot;)
+    private Boolean swaggerEnable;
+
+    @Value(&quot;${bzy.swagger-auth-url}&quot;)
+    private String authServerUrl;
+
+    @Value(&quot;${bzy.security-auth2.clientId}&quot;)
+    private String clientId;
+
+    @Value(&quot;${bzy.security-auth2.clientId}&quot;)
+    private String secretKey;
+
+    public SwaggerAuthConfig() {
+
+    }
+    @Bean
+    public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+    .enable(this.swaggerEnable.booleanValue())
+    .select()
+    .apis(RequestHandlerSelectors.any())
+    .paths(PathSelectors.any())
+    .build()
+    .securitySchemes(Arrays.asList(securityScheme()))
+    .securityContexts(Arrays.asList(securityContext()));
+    }
+
+    @Bean
+    public SecurityConfiguration security() {
+    return SecurityConfigurationBuilder.builder()
+    .clientId(clientId)
+    .clientSecret(secretKey)
+    .scopeSeparator(&quot; &quot;)
+    .useBasicAuthenticationWithAccessCodeGrant(true)
+    .build();
+    }
+
+
+    private SecurityScheme securityScheme() {
+    GrantType grantType = new AuthorizationCodeGrantBuilder()
+    .tokenEndpoint(new TokenEndpoint(authServerUrl + &quot;/token&quot;, &quot;oauthtoken&quot;))
+    .tokenRequestEndpoint(
+    new TokenRequestEndpoint(authServerUrl + &quot;/authorize&quot;, clientId, secretKey))
+    .build();
+
+    SecurityScheme oauth = new OAuthBuilder().name(&quot;spring_oauth&quot;)
+    .grantTypes(Arrays.asList(grantType))
+    .scopes(Arrays.asList(scopes()))
+    .build();
+    return oauth;
+    }
+
+    private AuthorizationScope[]() scopes() {
+    AuthorizationScope[]() scopes = {
+    new AuthorizationScope(&quot;read&quot;, &quot;for read operations&quot;),
+    new AuthorizationScope(&quot;write&quot;, &quot;for write operations&quot;),
+    new AuthorizationScope(&quot;all&quot;, &quot;for all operation API&quot;) };
+    return scopes;
+    }
+
+    private SecurityContext securityContext() {
+    return SecurityContext.builder()
+    .securityReferences(
+    Arrays.asList(new SecurityReference(&quot;spring_oauth&quot;, scopes())))
+    .forPaths(PathSelectors.any())
+    .build();
+    }
+    }
+</code></pre><p><a href="https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api" target="_blank" rel="noopener">参考文章</a></p>
+<p><a href="https://www.xncoding.com/2017/07/08/spring/sb-swagger2.html" target="_blank" rel="noopener">优秀博客</a></p>
+<p><a href="https://www.cnblogs.com/bndong/p/10037197.html" target="_blank" rel="noopener">优秀博客</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/spring-security-oauth2-swagger2-9-2/">spring-security oauth2 swagger2.9.2</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/03/12/spring-security oauth2 集成 swagger 2.9.2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/12/spring-security oauth2 集成 swagger 2.9.2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/01/微服务与SOA/" title="微服务与传统垂直架构和SOA比较" itemprop="url">微服务与传统垂直架构和SOA比较</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-03-01T07:25:05.000Z" itemprop="datePublished"> 发表于 2019-03-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="传统垂直架构"><a href="#传统垂直架构" class="headerlink" title="传统垂直架构"></a>传统垂直架构</h2><p>传统垂直架构一般是在业务量非常小，业务系统非常简单的系统架构中使用，<br>在这个阶段一般采用SSH，SSM或者spring+mybatis）框架作为项目的关键技术，Struts负责web层逻辑控制、Spring负责业务层管理Bean、Hibernate/mybatis负责数据库操作进行封装，持久化数据。</p>
+<p><img src="http://blog.huguiqi.com/1551425267404h53ty19h.png?imageslim" alt="paste image"></p>
+<p>如果公司进一步的做大，垂直子系统会变的越来越多，系统和系统之间的调用关系呈指数上升的趋势。</p>
+<p>在这样的背景下，很多公司都会考虑服务的SOA化。</p>
+<h2 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h2><p>软件即服务，将单个业务软件系统作为接口提供服务。</p>
+<p>SOA代表面向服务的架构，将应用程序根据不同的职责划分为不同的模块，不同的模块直接通过特定的协议和接口进行交互。这样使整个系统切分成很多单个组件服务来完成请求，当流量过大时通过水平扩展相应的组件来支撑，所有的组件通过交互来满足整体的业务需求。</p>
+<p><img src="http://blog.huguiqi.com/1551425561530q5t2toln.png?imageslim" alt="paste image"></p>
+<p>SOA缺点；</p>
+<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><p>微服务架构是 SOA 架构思想的一种扩展，更加强调服务个体的独立性、拆分粒度更小。<br>与SOA相比，有以下区别：</p>
+<ul>
+<li>微服务架构强调业务系统需要彻底的组件化和服务化，一个组件就是一个产品，可以独立对外提供服务微服务。</li>
+<li>不再强调传统SOA架构里面比较重的ESB企业服务总线</li>
+<li>微服务强调每个微服务都有自己独立的运行空间，包括数据库资源。</li>
+<li>微服务架构本身来源于互联网的思路，因此组件对外发布的服务强调了采用HTTP Rest API的方式来进行微服务的切分粒度会更小。</li>
+</ul>
+<p>微服务优点：</p>
+<ol>
+<li>通过分解巨大单体应用为多个服务方法解决了复杂性问题。</li>
+<li>微服务架构模式使得每个微服务独立部署，开发者不再需要协调其它服务部署对本服务的影响。</li>
+<li>微服务架构模式使得每个服务可独立扩展。</li>
+<li>微服务可有效的拆分应用，实现敏捷开发和部署。</li>
+</ol>
+<p>不足：</p>
+<h2 id="为什么选择spring-cloud"><a href="#为什么选择spring-cloud" class="headerlink" title="为什么选择spring cloud"></a>为什么选择spring cloud</h2><ol>
+<li>Spring Cloud来源于Spring，质量、稳定性、持续性都可以得到保证。</li>
+<li>Spirng Cloud天然支持Spring Boot，更加便于业务落地。</li>
+<li>Spring Cloud发展非常的快，从16年开始接触的时候相关组件版本为1.x，到现在已经发布了2.1.3系列</li>
+<li>Spring Cloud是Java领域最适合做微服务的框架。相比于其它框架,Spring Cloud对微服务周边环境的支持力度最大。对于中小企业来讲，使用门槛较低。Spring Cloud　是微服务架构的最佳落地方案</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/03/01/微服务与SOA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/01/微服务与SOA/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/22/跟黑哥一起学kafka-一/" title="跟黑哥一起学kafka(一)" itemprop="url">跟黑哥一起学kafka(一)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-22T02:58:12.000Z" itemprop="datePublished"> 发表于 2019-02-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="跟黑哥一起学kafka-一"><a href="#跟黑哥一起学kafka-一" class="headerlink" title="跟黑哥一起学kafka(一)"></a>跟黑哥一起学kafka(一)</h1><h2 id="什么是kafka"><a href="#什么是kafka" class="headerlink" title="什么是kafka"></a>什么是kafka</h2><p>官方原文是这样的：</p>
+<blockquote>
+<blockquote>
+<p>Kafka® is used for building real-time data pipelines and streaming apps. It is horizontally scalable, fault-tolerant, wicked fast, and runs in production in thousands of companies.</p>
+</blockquote>
+</blockquote>
+<p>kafka是用作构建处理实时数据管道和流式数据的应用。<br>它是可以水平扩展的，容错的，快速反应的，被成千上万家公司应用于生产的应用。</p>
+<p>这个解析好生硬啊，官方还给了一张图：</p>
+<p><img src="http://blog.huguiqi.com/1550805309682duugdu6c.png?imageslim" alt="paste image"></p>
+<p>这句话不太好理解，可能语文不太好。<br>不管了，</p>
+<h2 id="用来解决什么问题"><a href="#用来解决什么问题" class="headerlink" title="用来解决什么问题"></a>用来解决什么问题</h2><h2 id="kafka主要功能有哪些"><a href="#kafka主要功能有哪些" class="headerlink" title="kafka主要功能有哪些"></a>kafka主要功能有哪些</h2><h2 id="安装-amp-使用"><a href="#安装-amp-使用" class="headerlink" title="安装&amp;使用"></a>安装&amp;使用</h2><ol>
+<li>源码安装</li>
+<li>docker</li>
+<li>安装包</li>
+</ol>
+<p>我推荐使用docker安装，省时，省力。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/22/跟黑哥一起学kafka-一/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/22/跟黑哥一起学kafka-一/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/02/20/在google上开通开发者时填入的招商银行双币卡疑似被盗刷/" title="在google上开通开发者时填入的招商银行双币卡疑似被盗刷" itemprop="url">在google上开通开发者时填入的招商银行双币卡疑似被盗刷</a>
   </h1>
   <p class="article-author">By
@@ -426,58 +855,6 @@ systemctl restart docker
 	
 	  	<span></span>
 		<a href="/2019/02/16/docker日志问题导致磁盘空间被占用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/16/docker日志问题导致磁盘空间被占用/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/16/无标题 - 2/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-02-16T11:01:56.902Z" itemprop="datePublished"> 发表于 2019-02-16</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/02/16/无标题 - 2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/16/无标题 - 2/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -882,386 +1259,6 @@ public class BackGatewayApplication {
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/12/05/spring-cloud-security-auth2集成问题/" title="spring-cloud security+auth2集成问题" itemprop="url">spring-cloud security+auth2集成问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-12-05T09:55:00.000Z" itemprop="datePublished"> 发表于 2018-12-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="spring-cloud-security-auth2集成问题"><a href="#spring-cloud-security-auth2集成问题" class="headerlink" title="spring-cloud security+auth2集成问题"></a>spring-cloud security+auth2集成问题</h1><p>网络上和官网的例子都是老版本的，集成到spring cloud的2.0之后的版本有很<br>多问题，在本人集成时遇到的问题都整理起来。</p>
-<h2 id="security4升级到5的问题"><a href="#security4升级到5的问题" class="headerlink" title="security4升级到5的问题"></a>security4升级到5的问题</h2><p>报错信息：</p>
-<pre><code>Spring Security 5 : There is no PasswordEncoder mapped for the id “null”
-</code></pre><ul>
-<li>原因：</li>
-</ul>
-<p>security5之后不默认不允许不加密的密码和secret</p>
-<ul>
-<li>参考文章</li>
-</ul>
-<p><a href="https://stackoverflow.com/questions/49654143/spring-security-5-there-is-no-passwordencoder-mapped-for-the-id-null" target="_blank" rel="noopener">https://stackoverflow.com/questions/49654143/spring-security-5-there-is-no-passwordencoder-mapped-for-the-id-null</a></p>
-<ul>
-<li>解决办法：</li>
-</ul>
-<p>1, 添加password encoder</p>
-<p>2, 设置密码时通过jsonFormat规则：{noop}secret</p>
-<p>参考文章：</p>
-<p><a href="https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-format" target="_blank" rel="noopener">https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-format</a></p>
-<h2 id="Encoded-password-does-not-look-like-BCrypt"><a href="#Encoded-password-does-not-look-like-BCrypt" class="headerlink" title="Encoded password does not look like BCrypt"></a>Encoded password does not look like BCrypt</h2><p>也是升级问题导致，输入参数不是一个加密的格式</p>
-<p>参考文章</p>
-<p><a href="https://stackoverflow.com/questions/49582971/encoded-password-does-not-look-like-bcrypt" target="_blank" rel="noopener">https://stackoverflow.com/questions/49582971/encoded-password-does-not-look-like-bcrypt</a></p>
-<p><a href="https://www.cnkirito.moe/spring-security-6/" target="_blank" rel="noopener">https://www.cnkirito.moe/spring-security-6/</a></p>
-<h2 id="Redis存储问题"><a href="#Redis存储问题" class="headerlink" title="Redis存储问题"></a>Redis存储问题</h2><p>报错信息：</p>
-<pre><code>NoSuchMethodError.RedisConnection.set([B[B)V issue
-</code></pre><p>原因：<br>因为我是auth2.0的2.0.1的版本，2.x版本有一直有这个bug，直到Update spring-security-oauth2 to 2.3.3.RELEASE这个版本才fix掉</p>
-<p>参考文章：<br><a href="https://github.com/spring-projects/spring-security-oauth2-boot/issues/27" target="_blank" rel="noopener">https://github.com/spring-projects/spring-security-oauth2-boot/issues/27</a></p>
-<p>由于我是spring-cloud的方式集成的，我的maven pom.xml:</p>
-<pre><code>&lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;redis.clients&lt;/groupId&gt;
-            &lt;artifactId&gt;jedis&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
-            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
-            &lt;optional&gt;true&lt;/optional&gt;
-            &lt;version&gt;1.16.18&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-security&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-oauth2&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-</code></pre><p>解决办法：</p>
-<ol>
-<li>将springboot的版本升级到：2.1.1.RELEASE</li>
-<li>将spring-cloud版本升级到：Finchley.SR2</li>
-</ol>
-<p>好了，再运行一遍，ok了。。。。。。</p>
-<p><img src="http://blog.huguiqi.com/1544004879882pt6voptb.png?imageslim" alt="paste image"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springCloud/">springCloud</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/spring-cloud/">spring-cloud</a><a href="/tags/security/">security</a><a href="/tags/auth2/">auth2</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/12/05/spring-cloud-security-auth2集成问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/12/05/spring-cloud-security-auth2集成问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/12/04/JPA学习相关/" title="JPA学习相关" itemprop="url">JPA学习相关</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-12-04T01:59:53.000Z" itemprop="datePublished"> 发表于 2018-12-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <ul>
-<li>官方文档：</li>
-</ul>
-<p><a href="https://docs.spring.io/spring-data/jpa/docs/2.1.3.RELEASE/reference/html/#jpa.query-methods.named-queries" target="_blank" rel="noopener">https://docs.spring.io/spring-data/jpa/docs/2.1.3.RELEASE/reference/html/#jpa.query-methods.named-queries</a></p>
-<ul>
-<li>JPA结合mysql：</li>
-</ul>
-<p><a href="https://hellokoding.com/jpa-one-to-one-foreignkey-relationship-example-with-spring-boot-maven-and-mysql/" target="_blank" rel="noopener">https://hellokoding.com/jpa-one-to-one-foreignkey-relationship-example-with-spring-boot-maven-and-mysql/</a></p>
-<ul>
-<li>JPA关联关系示例</li>
-</ul>
-<p><a href="https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-one-mapping-example/" target="_blank" rel="noopener">https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-one-mapping-example/</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/12/04/JPA学习相关/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/12/04/JPA学习相关/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/26/7天学会使用springcloud-六/" title="7天学会使用springcloud(六)" itemprop="url">7天学会使用springcloud(六)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-26T05:38:00.000Z" itemprop="datePublished"> 发表于 2018-11-26</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="7天学会使用springcloud-六"><a href="#7天学会使用springcloud-六" class="headerlink" title="7天学会使用springcloud(六)"></a>7天学会使用springcloud(六)</h1><h2 id="eureka集群配置"><a href="#eureka集群配置" class="headerlink" title="eureka集群配置"></a>eureka集群配置</h2><p>eureka的集群配置需要几个必要条件</p>
-<p>支持注册中心集群</p>
-<p>application.yml  available-replicas条件为： </p>
-<ol>
-<li>eureka.instance.appname 必须等于 spring.application.name 并且不可缺省,所以直接占位符 appname: ${spring.application.name}</li>
-<li>prefer-ip-address: 必须为false 或者缺省</li>
-<li>fetch-registry 必须为false 或者缺省</li>
-<li>register-with-eureka: 必须为true</li>
-<li>instance-id: 必须为当前可访问的服务地址，否则eureka就会被视作down的状态</li>
-</ol>
-<p>配置文件满足以上几个条件了，那么就可以eureka集群了：</p>
-<p><img src="http://blog.huguiqi.com/1543211372162gpnp4b7g.png?imageslim" alt="paste image"></p>
-<p>看到general info下的environment的值是product,这个值如果在配置文件里配置：</p>
-<pre><code>eureka:
-      environment: product
-</code></pre><p>我的服务上就会看到如下：</p>
-<p><img src="http://blog.huguiqi.com/1543211547827xiof9rm5.png?imageslim" alt="paste image"></p>
-<h2 id="分地域分区"><a href="#分地域分区" class="headerlink" title="分地域分区"></a>分地域分区</h2><p>eureka提供了region和zone两个概念来进行分区，这两个概念均来自于亚马逊的AWS：</p>
-<ul>
-<li>region：可以简单理解为地理上的分区，比如亚洲地区，或者华北地区，再或者北京等等，没有具体大小的限制。根据项目具体的情况，可以自行合理划分region。</li>
-<li>zone：可以简单理解为region内的具体机房，比如说region划分为北京，然后北京有两个机房，就可以在此region之下划分出zone1,zone2两个zone。</li>
-</ul>
-<h2 id="分区服务架构图"><a href="#分区服务架构图" class="headerlink" title="分区服务架构图"></a>分区服务架构图</h2><p><img src="http://blog.huguiqi.com/1543211822262b16nl0yi.png?imageslim" alt="paste image"></p>
-<p>如图所示，有一个region:beijing，下面有zone-1和zone-2两个分区，每个分区内有一个注册中心Eureka Server和一个服务提供者Service。<br>我们在zone-1内创建一个Consumer-1服务消费者的话，其会优先调用同一个zone内的Service-1，当Service-1不可用时，才会去调用zone-2内的Service-2</p>
-<ol>
-<li>Eureka Server-1：</li>
-</ol>
-<pre><code>spring:
-  application:
-    name: Server-1
-server:
-  port: 30000
-eureka:
-  instance:
-    prefer-ip-address: true
-    status-page-url-path: /actuator/info
-    health-check-url-path: /actuator/health
-    hostname: localhost
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    prefer-same-zone-eureka: true
-    #地区
-    region: beijing
-    availability-zones:
-      beijing: zone-1,zone-2
-    service-url:
-      zone-1: http://localhost:30000/eureka/
-      zone-2: http://localhost:30001/eureka/
-</code></pre><ol>
-<li>Eureka Server-2   </li>
-</ol>
-<pre><code>spring:
-  application:
-    name: Server-2
-server:
-  port: 30001
-eureka:
-  instance:
-    prefer-ip-address: true
-    status-page-url-path: /actuator/info
-    health-check-url-path: /actuator/health
-    hostname: localhost
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    prefer-same-zone-eureka: true
-    #地区
-    region: beijing
-    availability-zones:
-      beijing: zone-2,zone-1
-    service-url:
-      zone-1: http://localhost:30000/eureka/
-      zone-2: http://localhost:30001/eureka/
-</code></pre><ol>
-<li>Service-1</li>
-</ol>
-<pre><code>@RestController
-public class HiController {
-    @Value(&quot;${zone.name}&quot;)
-    private String zoneName;
-
-    @RequestMapping(value = &quot;/hi&quot;, method = RequestMethod.GET)
-    public String hi() {
-        return zoneName;
-    }
-}
-</code></pre><p>配置文件：</p>
-<pre><code>spring:
-  application:
-    name: service
-server:
-  port: 30010
-eureka:
-  instance:
-    prefer-ip-address: true
-    status-page-url-path: /actuator/info
-    health-check-url-path: /actuator/health
-    metadata-map:
-      zone: zone-1
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    prefer-same-zone-eureka: true
-    #地区
-    region: beijing
-    availability-zones:
-      beijing: zone-1,zone-2
-    service-url:
-      zone-1: http://localhost:30000/eureka/
-      zone-2: http://localhost:30001/eureka/
-
-zone.name: zone-1
-</code></pre><p><strong> ps 参考博客: </strong></p>
-<p><a href="https://segmentfault.com/a/1190000014107639" target="_blank" rel="noopener">https://segmentfault.com/a/1190000014107639</a></p>
-<p><a href="https://www.jianshu.com/p/2ca32773b3e5" target="_blank" rel="noopener">https://www.jianshu.com/p/2ca32773b3e5</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/springcloud/">springcloud</a><a href="/tags/集群/">集群</a><a href="/tags/eureka/">eureka</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/26/7天学会使用springcloud-六/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/26/7天学会使用springcloud-六/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1458,15 +1455,7 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1474,7 +1463,7 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1482,7 +1471,19 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
@@ -1498,11 +1499,7 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			

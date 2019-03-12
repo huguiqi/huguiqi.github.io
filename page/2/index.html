@@ -92,6 +92,386 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/12/05/spring-cloud-security-auth2集成问题/" title="spring-cloud security+auth2集成问题" itemprop="url">spring-cloud security+auth2集成问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-12-05T09:55:00.000Z" itemprop="datePublished"> 发表于 2018-12-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="spring-cloud-security-auth2集成问题"><a href="#spring-cloud-security-auth2集成问题" class="headerlink" title="spring-cloud security+auth2集成问题"></a>spring-cloud security+auth2集成问题</h1><p>网络上和官网的例子都是老版本的，集成到spring cloud的2.0之后的版本有很<br>多问题，在本人集成时遇到的问题都整理起来。</p>
+<h2 id="security4升级到5的问题"><a href="#security4升级到5的问题" class="headerlink" title="security4升级到5的问题"></a>security4升级到5的问题</h2><p>报错信息：</p>
+<pre><code>Spring Security 5 : There is no PasswordEncoder mapped for the id “null”
+</code></pre><ul>
+<li>原因：</li>
+</ul>
+<p>security5之后不默认不允许不加密的密码和secret</p>
+<ul>
+<li>参考文章</li>
+</ul>
+<p><a href="https://stackoverflow.com/questions/49654143/spring-security-5-there-is-no-passwordencoder-mapped-for-the-id-null" target="_blank" rel="noopener">https://stackoverflow.com/questions/49654143/spring-security-5-there-is-no-passwordencoder-mapped-for-the-id-null</a></p>
+<ul>
+<li>解决办法：</li>
+</ul>
+<p>1, 添加password encoder</p>
+<p>2, 设置密码时通过jsonFormat规则：{noop}secret</p>
+<p>参考文章：</p>
+<p><a href="https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-format" target="_blank" rel="noopener">https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-format</a></p>
+<h2 id="Encoded-password-does-not-look-like-BCrypt"><a href="#Encoded-password-does-not-look-like-BCrypt" class="headerlink" title="Encoded password does not look like BCrypt"></a>Encoded password does not look like BCrypt</h2><p>也是升级问题导致，输入参数不是一个加密的格式</p>
+<p>参考文章</p>
+<p><a href="https://stackoverflow.com/questions/49582971/encoded-password-does-not-look-like-bcrypt" target="_blank" rel="noopener">https://stackoverflow.com/questions/49582971/encoded-password-does-not-look-like-bcrypt</a></p>
+<p><a href="https://www.cnkirito.moe/spring-security-6/" target="_blank" rel="noopener">https://www.cnkirito.moe/spring-security-6/</a></p>
+<h2 id="Redis存储问题"><a href="#Redis存储问题" class="headerlink" title="Redis存储问题"></a>Redis存储问题</h2><p>报错信息：</p>
+<pre><code>NoSuchMethodError.RedisConnection.set([B[B)V issue
+</code></pre><p>原因：<br>因为我是auth2.0的2.0.1的版本，2.x版本有一直有这个bug，直到Update spring-security-oauth2 to 2.3.3.RELEASE这个版本才fix掉</p>
+<p>参考文章：<br><a href="https://github.com/spring-projects/spring-security-oauth2-boot/issues/27" target="_blank" rel="noopener">https://github.com/spring-projects/spring-security-oauth2-boot/issues/27</a></p>
+<p>由于我是spring-cloud的方式集成的，我的maven pom.xml:</p>
+<pre><code>&lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+            &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+            &lt;optional&gt;true&lt;/optional&gt;
+            &lt;version&gt;1.16.18&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-security&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-oauth2&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+</code></pre><p>解决办法：</p>
+<ol>
+<li>将springboot的版本升级到：2.1.1.RELEASE</li>
+<li>将spring-cloud版本升级到：Finchley.SR2</li>
+</ol>
+<p>好了，再运行一遍，ok了。。。。。。</p>
+<p><img src="http://blog.huguiqi.com/1544004879882pt6voptb.png?imageslim" alt="paste image"></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springCloud/">springCloud</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/spring-cloud/">spring-cloud</a><a href="/tags/security/">security</a><a href="/tags/auth2/">auth2</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/12/05/spring-cloud-security-auth2集成问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/12/05/spring-cloud-security-auth2集成问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/12/04/JPA学习相关/" title="JPA学习相关" itemprop="url">JPA学习相关</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-12-04T01:59:53.000Z" itemprop="datePublished"> 发表于 2018-12-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <ul>
+<li>官方文档：</li>
+</ul>
+<p><a href="https://docs.spring.io/spring-data/jpa/docs/2.1.3.RELEASE/reference/html/#jpa.query-methods.named-queries" target="_blank" rel="noopener">https://docs.spring.io/spring-data/jpa/docs/2.1.3.RELEASE/reference/html/#jpa.query-methods.named-queries</a></p>
+<ul>
+<li>JPA结合mysql：</li>
+</ul>
+<p><a href="https://hellokoding.com/jpa-one-to-one-foreignkey-relationship-example-with-spring-boot-maven-and-mysql/" target="_blank" rel="noopener">https://hellokoding.com/jpa-one-to-one-foreignkey-relationship-example-with-spring-boot-maven-and-mysql/</a></p>
+<ul>
+<li>JPA关联关系示例</li>
+</ul>
+<p><a href="https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-one-mapping-example/" target="_blank" rel="noopener">https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-one-mapping-example/</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/12/04/JPA学习相关/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/12/04/JPA学习相关/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/26/7天学会使用springcloud-六/" title="7天学会使用springcloud(六)" itemprop="url">7天学会使用springcloud(六)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-26T05:38:00.000Z" itemprop="datePublished"> 发表于 2018-11-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="7天学会使用springcloud-六"><a href="#7天学会使用springcloud-六" class="headerlink" title="7天学会使用springcloud(六)"></a>7天学会使用springcloud(六)</h1><h2 id="eureka集群配置"><a href="#eureka集群配置" class="headerlink" title="eureka集群配置"></a>eureka集群配置</h2><p>eureka的集群配置需要几个必要条件</p>
+<p>支持注册中心集群</p>
+<p>application.yml  available-replicas条件为： </p>
+<ol>
+<li>eureka.instance.appname 必须等于 spring.application.name 并且不可缺省,所以直接占位符 appname: ${spring.application.name}</li>
+<li>prefer-ip-address: 必须为false 或者缺省</li>
+<li>fetch-registry 必须为false 或者缺省</li>
+<li>register-with-eureka: 必须为true</li>
+<li>instance-id: 必须为当前可访问的服务地址，否则eureka就会被视作down的状态</li>
+</ol>
+<p>配置文件满足以上几个条件了，那么就可以eureka集群了：</p>
+<p><img src="http://blog.huguiqi.com/1543211372162gpnp4b7g.png?imageslim" alt="paste image"></p>
+<p>看到general info下的environment的值是product,这个值如果在配置文件里配置：</p>
+<pre><code>eureka:
+      environment: product
+</code></pre><p>我的服务上就会看到如下：</p>
+<p><img src="http://blog.huguiqi.com/1543211547827xiof9rm5.png?imageslim" alt="paste image"></p>
+<h2 id="分地域分区"><a href="#分地域分区" class="headerlink" title="分地域分区"></a>分地域分区</h2><p>eureka提供了region和zone两个概念来进行分区，这两个概念均来自于亚马逊的AWS：</p>
+<ul>
+<li>region：可以简单理解为地理上的分区，比如亚洲地区，或者华北地区，再或者北京等等，没有具体大小的限制。根据项目具体的情况，可以自行合理划分region。</li>
+<li>zone：可以简单理解为region内的具体机房，比如说region划分为北京，然后北京有两个机房，就可以在此region之下划分出zone1,zone2两个zone。</li>
+</ul>
+<h2 id="分区服务架构图"><a href="#分区服务架构图" class="headerlink" title="分区服务架构图"></a>分区服务架构图</h2><p><img src="http://blog.huguiqi.com/1543211822262b16nl0yi.png?imageslim" alt="paste image"></p>
+<p>如图所示，有一个region:beijing，下面有zone-1和zone-2两个分区，每个分区内有一个注册中心Eureka Server和一个服务提供者Service。<br>我们在zone-1内创建一个Consumer-1服务消费者的话，其会优先调用同一个zone内的Service-1，当Service-1不可用时，才会去调用zone-2内的Service-2</p>
+<ol>
+<li>Eureka Server-1：</li>
+</ol>
+<pre><code>spring:
+  application:
+    name: Server-1
+server:
+  port: 30000
+eureka:
+  instance:
+    prefer-ip-address: true
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    #地区
+    region: beijing
+    availability-zones:
+      beijing: zone-1,zone-2
+    service-url:
+      zone-1: http://localhost:30000/eureka/
+      zone-2: http://localhost:30001/eureka/
+</code></pre><ol>
+<li>Eureka Server-2   </li>
+</ol>
+<pre><code>spring:
+  application:
+    name: Server-2
+server:
+  port: 30001
+eureka:
+  instance:
+    prefer-ip-address: true
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    #地区
+    region: beijing
+    availability-zones:
+      beijing: zone-2,zone-1
+    service-url:
+      zone-1: http://localhost:30000/eureka/
+      zone-2: http://localhost:30001/eureka/
+</code></pre><ol>
+<li>Service-1</li>
+</ol>
+<pre><code>@RestController
+public class HiController {
+    @Value(&quot;${zone.name}&quot;)
+    private String zoneName;
+
+    @RequestMapping(value = &quot;/hi&quot;, method = RequestMethod.GET)
+    public String hi() {
+        return zoneName;
+    }
+}
+</code></pre><p>配置文件：</p>
+<pre><code>spring:
+  application:
+    name: service
+server:
+  port: 30010
+eureka:
+  instance:
+    prefer-ip-address: true
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+    metadata-map:
+      zone: zone-1
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    #地区
+    region: beijing
+    availability-zones:
+      beijing: zone-1,zone-2
+    service-url:
+      zone-1: http://localhost:30000/eureka/
+      zone-2: http://localhost:30001/eureka/
+
+zone.name: zone-1
+</code></pre><p><strong> ps 参考博客: </strong></p>
+<p><a href="https://segmentfault.com/a/1190000014107639" target="_blank" rel="noopener">https://segmentfault.com/a/1190000014107639</a></p>
+<p><a href="https://www.jianshu.com/p/2ca32773b3e5" target="_blank" rel="noopener">https://www.jianshu.com/p/2ca32773b3e5</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springcloud/">springcloud</a><a href="/tags/集群/">集群</a><a href="/tags/eureka/">eureka</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/26/7天学会使用springcloud-六/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/26/7天学会使用springcloud-六/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/" title="日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？" itemprop="url">日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</a>
   </h1>
   <p class="article-author">By
@@ -588,249 +968,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/公司阿里云服务器环境配置/" title="阿里云服务器环境配置" itemprop="url">阿里云服务器环境配置</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.453Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="阿里云服务器环境配置"><a href="#阿里云服务器环境配置" class="headerlink" title="阿里云服务器环境配置"></a>阿里云服务器环境配置</h1><h2 id="数据盘初始化"><a href="#数据盘初始化" class="headerlink" title="数据盘初始化"></a>数据盘初始化</h2><p>如果在购买ecs服务器时，选择购买了数据盘，则在linux系统登陆进去，执行命令：</p>
-<pre><code>fdisk -l 
-</code></pre><p>查看挂载的所有数据盘，注意：</p>
-<pre><code>df -hT    //无效，只能看到已经初始化的挂载盘
-</code></pre><p>运行 fdisk -l 命令查看数据盘。<br>注意：在没有分区和格式化数据盘之前，使用 df -h 命令是无法看到数据盘的。<br>在下面的示例中，有一个 5 GB 的数据盘需要挂载。<br>如果执行了 fdisk -l 命令后，没有发现 /dev/xvdb    ,则不需要格式化。</p>
-<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846465113/1.jpg" alt="image"></p>
-<ul>
-<li>运行 fdisk /dev/xvdb，对数据盘进行分区。</li>
-</ul>
-<p>根据提示，依次输入 n，p，1，两次回车，wq，分区就开始了。</p>
-<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846584705/2.jpg" alt="image"></p>
-<ul>
-<li>运行 fdisk -l 命令，查看新的分区。</li>
-</ul>
-<p>新分区 xvdb1 已经创建好。如下面示例中的/dev/xvdb1。</p>
-<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846693542/3.jpg" alt="image"></p>
-<ul>
-<li>运行 mkfs.ext3 /dev/xvdb1，对新分区进行格式化。</li>
-</ul>
-<p>格式化所需时间取决于数据盘大小。您也可自主决定选用其他文件格式，如 ext14 等。</p>
-<p><img src="http://docs-aliyun.cn-hangzhou.oss.aliyun-inc.com/assets/attach/25426/cn_zh/1462846760502/4.jpg" alt="image"></p>
-<ul>
-<li>运行 echo /dev/xvdb1 /mnt ext3 defaults 0 0 &gt;&gt; /etc/fstab 写入新分区信息。</li>
-</ul>
-<p>完成后，可以使用 cat /etc/fstab 命令查看。</p>
-<ul>
-<li>运行 mount /dev/xvdb1 /mnt 挂载新分区，然后执行 df -h 查看分区。</li>
-</ul>
-<p>如果出现数据盘信息，说明挂载成功，可以使用新分区了。</p>
-<pre><code> mount /dev/xvdb1 /mnt
-df -h
- Filesystem      Size  Used Avail Use% Mounted on
- /dev/xvda1       40G  1.5G   36G   4% /
- tmpfs           498M     0  498M   0% /dev/shm
- /dev/xvdb1      5.0G  139M  4.6G   3% /mnt
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/公司阿里云服务器环境配置/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/阿里云/">阿里云</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/公司阿里云服务器环境配置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/公司阿里云服务器环境配置/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/" title="创建系统无法删除的文件夹 加密文件" itemprop="url">创建系统无法删除的文件夹 加密文件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.437Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="创建系统无法删除的文件夹-加密文件"><a href="#创建系统无法删除的文件夹-加密文件" class="headerlink" title="创建系统无法删除的文件夹 加密文件"></a>创建系统无法删除的文件夹 加密文件</h1><p><span style="color: rgb(68, 68, 68); font-size: 14px; line-height: 24px; text-align: left;">大家都知道在Windows中“\”符号是路径的分隔符号，比如“C:\Windows\”的意思就是C分区中的Windows文件夹，“C:\Windows\System.exe”的意思就是C分区中的Windows文件夹中的System.exe文件，好继续我们假设一下：\</span></p>
-<p>如果文件名中有“\”符号会怎么样呢？假如“S\”是一个文件夹的名字，这个文件夹位于：“F:\”，他的路径就是“F:\S\”，当我们试图访问的时候Windows会错误的认为我们要打开的文件是C分区的S文件夹，这样Windows就无法打开并且会返回一个错误，因为以上的路径并不存在。\</p>
-<p>也许你现在正在尝试创建“S\”文件，但是Windows会提示你：“\”符号是不能作为文件、文件夹的名字的。看来Windows还是早已想到这一点了的。OK我们继续进行，就不信不能建立包含“\”符号的文件。爱踢博客社区kW.L<br>UEi5z\<br> 现在打开你的电脑，我们要做一些很有趣的尝试。进入Windows后<br>点击：开始&gt;运行<br>然后输入“cmd”并会车（如果是Win98请输入“COMMAND”），这时你会看到Windows的命令控制台，我们就是要利用它完成我们剩下的测试，以下包含了很多命令其中{}中的字符是我的注释：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;mkdir s\<br>{我们的第一次尝试,结果Windows只创建了S文件夹”\“被忽略掉了}\<br> (H0F:\Test&gt;mkdir s\s1\<br>{还是失败,Windows先创建了S文件夹，然后在S内创建s1文件夹}\<br> F:\Test&gt;mkdir s.\ {“s.\“被解析成S”.\“又被忽略了}\<br> 子目录或文件 s.\ 已经存在。\<br> F:\Test&gt;mkdir s..\<br>{终于成功了,现在你可以在资源管理器看到”s.”但却无法打开/删除}\<br> F:\Test&gt;mkdir s…\<br>{又成功了,在资源浏览器能看到”s..”可以打开但是无法删除}\<br> ———————————————-\</p>
-<p>为什么会这样？我们先说你看到的这个“S.”文件夹，他即不能打开也不能删除，不能打开是因为他的实际路径是“F:\Test\s..\”（我们自己创建的所以可以确定他的实际路径）但是在Windows资源管理器中名字变成了“S.”也就是说当你试图打开它的时候Windows实际上尝试打开“F:\Test\s.\”当然是不能打开的，文件并不存在，所以Windows会报错。不能删除也是因为这个，Windows把一个实际存在的文件路径错误的解析为一个不存在的路径，并进行操作当然是无法完成的。\</p>
-<p>该说“S..”这个文件了，这个文件可以打开，但是却无法删除。等等……打开？你以为Windows真的是打开了我们创建的“s…\”文件了吗？我们做下面的试验你就明白了。还是老规矩{}是我的注释方便大家理解：\<br> ———————————————-\<br> Microsoft Windows XP [版本 5.1.2600]\<br> (C) 版权所有 1985-2001 Microsoft Corp.\<br> F:\Test&gt;echo 1 &gt; Txt1.txt {创建“F:\Test\Txt1.txt”文件}\<br> F:\Test&gt;copy Txt1.txt s..\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/创建系统无法删除的文件夹 加密文件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/" title="每位开发人员都应铭记的10句编程谚语" itemprop="url">每位开发人员都应铭记的10句编程谚语</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.432Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="每位开发人员都应铭记的10句编程谚语"><a href="#每位开发人员都应铭记的10句编程谚语" class="headerlink" title="每位开发人员都应铭记的10句编程谚语"></a>每位开发人员都应铭记的10句编程谚语</h1><p>所谓谚语，就是用言简意赅、通俗易懂的方式传达人生箴言和普遍真理的话，它们能很好地帮助你处理生活和工作上的事情。也正因如此，我才整理了10句编程谚语，每位开发人员都应该铭记他们，武装自己。\<br>\<br> 　　<strong>1. 无风不起浪</strong></p>
-<div style="text-align: center;"><br><br>\<br>\<br><br><em>别紧张，这也许只是一场消防演习\
-</em><br><br></div>
-
-<p>\<br> 　　代码设计是否糟糕，从某些地方就可以看出来。比如：</p>
-<ul>
-<li>a. 超大类或超大函数</li>
-<li>b. 大片被注释的代码</li>
-<li>c. 逻辑重复</li>
-<li>d. If/else嵌套过深</li>
-</ul>
-<p>\<br> 　　程序员们通常称它们作代码异味(Code<br>Smell)，但是就我个人认为“代码警报”这个名字更为合适一些，因为它有更高的紧迫感的含义。根本问题处理不当，终将引火烧身。\<br>\<br> 　　译注：Code<br>Smell中文译名一般为“代码异味”，或“代码味道”，它是提示代码中某个地方存在错误的一个暗示，开发人员可以通过这种smell（异味）在代码中追捕到问题。\<br>\<br>\<br> 　　<strong>2. 预防为主，治疗为辅</strong></p>
-<div style="text-align: center;"><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/每位开发人员都应铭记的10句编程谚语/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -1027,15 +1164,7 @@ df -h
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1043,7 +1172,7 @@ df -h
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1051,7 +1180,19 @@ df -h
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
@@ -1067,11 +1208,7 @@ df -h
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
