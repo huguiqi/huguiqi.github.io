@@ -92,6 +92,109 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/fedora20系统上安装svn_server/" title="fedora20系统上安装svn" itemprop="url">fedora20系统上安装svn</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.233Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="fedora20系统上安装svn-server"><a href="#fedora20系统上安装svn-server" class="headerlink" title="fedora20系统上安装svn server"></a>fedora20系统上安装svn server</h1><pre><code>yum install svnserver    
+</code></pre><h3 id="权限-amp-用户配置"><a href="#权限-amp-用户配置" class="headerlink" title="权限&amp;用户配置"></a>权限&amp;用户配置</h3><p>创建一个svn库目录：</p>
+<pre><code>mkdir /opt/svnRepos
+</code></pre><p>创建一个svn库：</p>
+<pre><code>svnadmin create svntest
+</code></pre><p>配置用户名/密码与权限:</p>
+<pre><code>vi svntest/config/svnserve.conf
+</code></pre><p>svnserver.conf的主要配置：</p>
+<pre><code>[general]
+anon-access = none
+auth-access = write
+password-db = ../../userConf/passwd
+authz-db = ../../userConf/authz
+realm = lebond-ios
+</code></pre><p>fedora 20 系统上设置svnserve自启动：<br>先查看下svnserve.service的启动命令：</p>
+<pre><code>vi /usr/lib/systemd/system/svnserve.service 
+</code></pre><p>发现里面加载了<code>/etc/sysconfig/svnserve</code></p>
+<p>则修改/etc/sysconfig/svnserve配置文件如下：</p>
+<pre><code>[root@localhost ~]# vi /etc/sysconfig/svnserve 
+
+OPTIONS=&quot;-r /opt/lebondSvnRepo&quot;
+</code></pre><p>然后执行:</p>
+<pre><code>systemctl enable svnserve.service
+chkconfig --level 2345 svnserve on
+</code></pre><p>然后重启服务器测试一下。。。。</p>
+<p>另一种方式：<br>Fedora 20 这个版本系统是没有 rc.local 这个开机脚本文件了，当然，也不是说官方打算取消这个功能，而且如果有需要，需要自己新建，并且手动配置。</p>
+<p>现在我需要开机自启动这个服务，利用 rc.local 这个文件，位于 /etc/rc.d/ 目录下，如果没有就自己创建一个。</p>
+<pre><code>su
+cd /etc/rc.d
+touch rc.local
+</code></pre><p>然后赋予其运行权限：</p>
+<pre><code>chmod +x rc.local
+</code></pre><p>接下来就可以在里面写入你需要开机执行的命令了！我除了运行 DNSCrypt 服务，还需要打开 Goagent ，那么我在 rc.local 写入的内容就是：</p>
+<pre><code>#!/bin/bash
+svnserve -d -r /opt/lebondSvnRepo
+</code></pre><p>然后重启一下 rc.local 服务，一样要用到 systemctl 命令。</p>
+<pre><code>systemctl restart rc-local.service
+</code></pre><h3 id="开机启动svnserve遇到的问题："><a href="#开机启动svnserve遇到的问题：" class="headerlink" title="开机启动svnserve遇到的问题："></a>开机启动svnserve遇到的问题：</h3><ol>
+<li>虽然两种方法都可以实现开机启动svnserve，但是在客户端访问时，却是报错的，原因还不明确</li>
+<li>检查了端口和目录设置，全部都没有问题，只能每次打开服务器以后执行一遍开启svnserve的sh</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/安装svn/">安装svn</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/fedora20系统上安装svn_server/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/fedora20系统上安装svn_server/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/elnet 命令使用详解/" title="elnet 命令使用详解" itemprop="url">elnet 命令使用详解</a>
   </h1>
   <p class="article-author">By
@@ -692,74 +795,6 @@
 	
 	  	<span></span>
 		<a href="/2018/11/19/app上传流程/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/app上传流程/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/app上传至appStore的流程 /" title="app上传至appStore的流程" itemprop="url">app上传至appStore的流程</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.157Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="app上传至appStore的流程"><a href="#app上传至appStore的流程" class="headerlink" title="app上传至appStore的流程"></a>app上传至appStore的流程</h1><p>1.登录developer.apple.com</p>
-<p><img src="http://img.blog.csdn.net/20150301104134429?xx" alt="![技术分享]"></p>
-<p>2.点击member center后 进下图</p>
-<p><img src="http://img.blog.csdn.net/20150301104323153?xx" alt="技术分享"></p>
-<p>3.点击certificates Identifiers进下图<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/app上传至appStore的流程 /#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ios-developer-上传审核/">ios developer 上传审核</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/app上传至appStore的流程 /#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/app上传至appStore的流程 /" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
