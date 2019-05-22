@@ -92,6 +92,106 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/07/16/如何从spring-security3.x升级到4.2.3/" title="如何从spring-security3.x升级到4.2.3" itemprop="url">如何从spring-security3.x升级到4.2.3</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-15T17:10:00.000Z" itemprop="datePublished"> 发表于 2017-07-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="从spring-security3-x升级到4-2-3"><a href="#从spring-security3-x升级到4-2-3" class="headerlink" title="从spring-security3.x升级到4.2.3"></a>从spring-security3.x升级到4.2.3</h1><p>由于之前spring-security3.x用的是配置文件配置权限校验的，但升级到4.2.3以后，配置文件权限配置都失效了，尤其是UserDetailsService类，完全不走它的loadUserByUsername方法了。</p>
+<p>查了很多资料，在官网上也走了很久，发现spring-security4.x的文档比较详细的是java 代码配置。看来spring-security目前推荐使用java配置，xml的完整配置都没有了。</p>
+<p><a href="http://docs.spring.io/spring-security/site/docs/4.2.3.RELEASE/reference/htmlsingle/#samples" title="spring-security官网例子" target="_blank" rel="noopener"> spring-security官网例子 </a></p>
+<p>在官网的例子里试了半天，发现其实官网关于配置文件的例子都不全，虽然感觉是对的，但是配置的项目中，还是非常有问题的，权限并没有生效。</p>
+<p>官网一般给的都是这个配置：</p>
+<pre><code>&lt;b:beans xmlns=&quot;http://www.springframework.org/schema/security&quot;
+ xmlns:b=&quot;http://www.springframework.org/schema/beans&quot;
+ xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+ xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd&quot;&gt;
+&lt;http auto-config=&quot;true&quot; use-expressions=&quot;true&quot;&gt;
+&lt;intercept-url pattern=&quot;auth/login&quot; access=&quot;permitAll&quot;/&gt;
+&lt;intercept-url pattern=&quot;main/admin&quot; access=&quot;hasAnyRole(&apos;ADMIN&apos;)&quot;/&gt;
+&lt;intercept-url pattern=&quot;/main/common&quot; access=&quot;hasRole(&apos;USER&apos;)&quot;/&gt;
+&lt;form-login login-page=&quot;/auth/login&quot;
+login-processing-url=&quot;logIn.do&quot;
+authentication-failure-url=&quot;/auth/login?error=true&quot;
+default-target-url=&quot;/main/common&quot;/&gt;
+&lt;logout
+invalidate-session=&quot;true&quot;
+logout-success-url=&quot;/auth/login&quot;
+logout-url=&quot;/auth/logout&quot;/&gt;
+&lt;access-denied-handler
+error-page=&quot;/auth/denied&quot;
+/&gt;
+&lt;/http&gt;
+&lt;authentication-manager&gt;
+&lt;authentication-provider&gt;
+&lt;user-service&gt;
+&lt;user name=&quot;user&quot; password=&quot;123456&quot; authorities=&quot;USER&quot;/&gt;
+&lt;/user-service&gt;
+&lt;/authentication-provider&gt;
+&lt;/authentication-manager&gt;
+
+&lt;/b:beans&gt;
+</code></pre><p>但经测试，通过配置的用户名登陆，只要登陆，它可以访问拥有USER和ADMIN权限的controller。<br>正常应该user用户只能访问/main/common路径才对。</p>
+<p>由于弄了我半天，很头疼，就打算放弃配置文件了。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/07/16/如何从spring-security3.x升级到4.2.3/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/java/">java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/spring-security/">spring-security</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/07/16/如何从spring-security3.x升级到4.2.3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/07/16/如何从spring-security3.x升级到4.2.3/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/07/15/idea14部署tomcat7-tomcat8/" title="inteLij idea2017部署tomcat7-tomcat8" itemprop="url">inteLij idea2017部署tomcat7-tomcat8</a>
   </h1>
   <p class="article-author">By
@@ -1153,72 +1253,6 @@ self.requestOperationManager.securityPolicy.validatesDomainName = NO;
 	
 	  	<span></span>
 		<a href="/2017/05/05/xcode8中Alcatraz安装插件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/05/05/xcode8中Alcatraz安装插件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/06/通过nodejs建立一个开源论坛/" title="通过nodejs建立一个开源论坛" itemprop="url">通过nodejs建立一个开源论坛</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-06T08:00:00.000Z" itemprop="datePublished"> 发表于 2017-04-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="通过nodejs建立一个开源论坛"><a href="#通过nodejs建立一个开源论坛" class="headerlink" title="通过nodejs建立一个开源论坛"></a>通过nodejs建立一个开源论坛</h1><blockquote>
-<p>最近太闲了，想自己建立一个地方性论坛，相当于给家乡人民作些贡献吧。</p>
-</blockquote>
-<p>使用的是开源代码：cnode源码</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/建立论坛/">建立论坛</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/04/06/通过nodejs建立一个开源论坛/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/06/通过nodejs建立一个开源论坛/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
