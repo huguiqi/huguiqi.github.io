@@ -92,6 +92,235 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/07/22/docker-docker-compose搭建高可用集群/" title="docker+docker-compose搭建高可用集群" itemprop="url">docker+docker-compose搭建高可用集群</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-07-22T12:49:00.000Z" itemprop="datePublished"> 发表于 2018-07-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="maven-docker-docker-compose搭建高可用集群"><a href="#maven-docker-docker-compose搭建高可用集群" class="headerlink" title="maven+docker+docker-compose搭建高可用集群"></a>maven+docker+docker-compose搭建高可用集群</h1><p>首先搭建eurake+gateway+client</p>
+<h2 id="eurake项目"><a href="#eurake项目" class="headerlink" title="eurake项目"></a>eurake项目</h2><p>pom.xml:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.xx&lt;/groupId&gt;
+    &lt;artifactId&gt;xx-eurake&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;name&gt;${project.artifactId}&lt;/name&gt;
+    &lt;description&gt;注册中心服务&lt;/description&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
+        &lt;docker.image.prefix&gt;xx&lt;/docker.image.prefix&gt;
+    &lt;/properties&gt;
+
+    &lt;profiles&gt;
+        &lt;profile&gt;
+            &lt;id&gt;dev&lt;/id&gt;
+            &lt;properties&gt;
+                &lt;profiles.active&gt;dev&lt;/profiles.active&gt;
+            &lt;/properties&gt;
+            &lt;activation&gt;
+                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+            &lt;/activation&gt;
+        &lt;/profile&gt;
+        &lt;profile&gt;
+            &lt;id&gt;test&lt;/id&gt;
+            &lt;properties&gt;
+                &lt;profiles.active&gt;test&lt;/profiles.active&gt;
+            &lt;/properties&gt;
+        &lt;/profile&gt;
+        &lt;profile&gt;
+            &lt;id&gt;prod&lt;/id&gt;
+            &lt;properties&gt;
+                &lt;profiles.active&gt;prod&lt;/profiles.active&gt;
+            &lt;/properties&gt;
+        &lt;/profile&gt;
+    &lt;/profiles&gt;
+
+   &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+
+    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
+                &lt;type&gt;pom&lt;/type&gt;
+                &lt;scope&gt;import&lt;/scope&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+
+    &lt;build&gt;
+        &lt;finalName&gt;${project.name}&lt;/finalName&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.1.0&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;id&gt;copy-resources&lt;/id&gt;
+                        &lt;!-- here the phase you need --&gt;
+                        &lt;phase&gt;validate&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;copy-resources&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;outputDirectory&gt;${basedir}/target/classes&lt;/outputDirectory&gt;
+                            &lt;resources&gt;
+                                &lt;resource&gt;
+                                    &lt;directory&gt;src/main/resources/profiles&lt;/directory&gt;
+                                    &lt;filtering&gt;true&lt;/filtering&gt;
+                                    &lt;includes&gt;
+                                        &lt;include&gt;${profiles.active}-bootstrap.yml&lt;/include&gt;
+                                    &lt;/includes&gt;
+                                &lt;/resource&gt;
+                            &lt;/resources&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+
+            &lt;plugin&gt;
+                &lt;groupId&gt;com.spotify&lt;/groupId&gt;
+                &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.1.1&lt;/version&gt;
+                        &lt;configuration&gt;
+                            &lt;imageName&gt;${docker.image.prefix}/${project.artifactId}&lt;/imageName&gt;
+                            &lt;dockerDirectory&gt;${project.basedir}&lt;/dockerDirectory&gt;
+                            &lt;resources&gt;
+                                &lt;resource&gt;
+                                    &lt;targetPath&gt;/&lt;/targetPath&gt;
+                                    &lt;directory&gt;${project.build.directory}&lt;/directory&gt;
+                                    &lt;include&gt;${project.build.finalName}.jar&lt;/include&gt;
+                                &lt;/resource&gt;
+                            &lt;/resources&gt;
+                        &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+
+        &lt;resources&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/resources&lt;/directory&gt;
+                &lt;!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 --&gt;
+                &lt;excludes&gt;
+                    &lt;exclude&gt;profiles/*.yml&lt;/exclude&gt;
+                &lt;/excludes&gt;
+            &lt;/resource&gt;
+            &lt;resource&gt;
+                &lt;directory&gt;src/main/resources&lt;/directory&gt;
+                &lt;filtering&gt;true&lt;/filtering&gt;
+                &lt;includes&gt;
+                    &lt;include&gt;bootstrap.yml&lt;/include&gt;
+                    &lt;include&gt;${profiles.active}-bootstrap.yml&lt;/include&gt;
+                &lt;/includes&gt;
+            &lt;/resource&gt;
+        &lt;/resources&gt;
+    &lt;/build&gt;
+
+
+
+&lt;/project&gt;
+</code></pre><ul>
+<li>这里面我用了一个dockerfile的插件，可以自动构建服务镜像的</li>
+</ul>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/07/22/docker-docker-compose搭建高可用集群/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/docker-compose/">docker-compose</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/07/22/docker-docker-compose搭建高可用集群/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/07/22/docker-docker-compose搭建高可用集群/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/07/14/nginx搭建高可用服务器/" title="nginx搭建高可用服务器" itemprop="url">nginx搭建高可用服务器</a>
   </h1>
   <p class="article-author">By
@@ -1503,75 +1732,6 @@ $ sudo npm install hexo-cli -g --no-optional
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/19/XX-net翻墙神器/" title="介绍一款科学上网神器" itemprop="url">介绍一款科学上网神器</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-18T17:05:00.000Z" itemprop="datePublished"> 发表于 2018-04-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>xx-net，目前已经更新到3.11.9了。<br>作为一名技术狗，基本上不限流量，快乐科学安全上网。。。。</p>
-<p>github地址：<a href="https://github.com/XX-net/XX-Net" title="xx-net科学上网" target="_blank" rel="noopener">https://github.com/XX-net/XX-Net</a></p>
-<p>配置好gae后，将appid的通过访问：<a href="https://%E4%BD%A0%E7%9A%84appid.appspot.com/" target="_blank" rel="noopener">https://appid.appspot.com/</a></p>
-<p>显示：</p>
-<pre><code>GoAgent 服务端已经在 2018-04-19 00:17:27 升级到 3.3.1 版本, 请更新您的客户端。
-</code></pre><p>具体用法github上介绍非常详细。。。。。。。。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/科学上网/">科学上网</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/科学上网/">科学上网</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/19/XX-net翻墙神器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/19/XX-net翻墙神器/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/30/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/page/32/">32</a><a class="page-number" href="/page/33/">33</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/32/">Next<span></span></a>
@@ -1671,7 +1831,7 @@ $ sudo npm install hexo-cli -g --no-optional
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
@@ -1768,7 +1928,7 @@ $ sudo npm install hexo-cli -g --no-optional
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 			
 		
 			

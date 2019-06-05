@@ -92,6 +92,121 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/06/04/springboot-kafka/" title="springboot_kafka" itemprop="url">springboot_kafka</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-06-04T08:55:00.000Z" itemprop="datePublished"> 发表于 2019-06-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="springboot-kafka集成"><a href="#springboot-kafka集成" class="headerlink" title="springboot_kafka集成"></a>springboot_kafka集成</h1><h1 id="kafka-client"><a href="#kafka-client" class="headerlink" title="kafka_client"></a>kafka_client</h1><h2 id="maven-依赖"><a href="#maven-依赖" class="headerlink" title="maven 依赖"></a>maven 依赖</h2><p>pom.xml:</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;
+    &lt;artifactId&gt;kafka-clients&lt;/artifactId&gt;
+    &lt;version&gt;2.1.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h2 id="安装kafka"><a href="#安装kafka" class="headerlink" title="安装kafka"></a>安装kafka</h2><p><a href="http://kafka.apache.org/" target="_blank" rel="noopener">kafka官网</a></p>
+<h3 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h3><ol>
+<li>下载kafka</li>
+</ol>
+<p>目前最新版本是2.2.0</p>
+<p><a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.2.0/kafka_2.12-2.2.0.tgz" target="_blank" rel="noopener">下载地址</a></p>
+<pre><code>&gt; tar -xzf kafka_2.12-2.2.0.tgz
+&gt; cd kafka_2.12-2.2.0
+</code></pre><ol>
+<li>启动zooKeeper服务器</li>
+</ol>
+<p>因为kafka的运行需要zookeeper 作节点调度，所以kafka包里有zookeeper服务器的启动脚本,启动单节点的zookeeper实例:</p>
+<pre><code>kafka_2.11-2.2.1&gt; sh ./bin/zookeeper-server-start.sh config/zookeeper.properties
+    /Users/sam/Public/bigData/kafka_2.11-2.2.1/bin/kafka-run-class.sh: line 306: /usr/libexec/java_home/bin/java: Not a directory
+    /Users/sam/Public/bigData/kafka_2.11-2.2.1/bin/kafka-run-class.sh: line 306: exec: /usr/libexec/java_home/bin/java: cannot execute: Not a directory
+</code></pre><p>启动zookeeper服务器报错，说<code>kafka-run-class.sh</code>里的java_home找不到，那么vi这个文件进去定位到306行，在226行前一行插入<code>JAVA_HOME</code>：</p>
+<pre><code># Which java to use
+225 JAVA_HOME=&apos;/Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home&apos;
+226
+227 if [ -z &quot;$JAVA_HOME&quot; ]; then
+228   JAVA=&quot;java&quot;
+229 else
+230   JAVA=&quot;$JAVA_HOME/bin/java&quot;
+231 fi
+</code></pre><p>保存，再次启动zookeeper:</p>
+<pre><code>sh ./bin/zookeeper-server-start.sh config/zookeeper.properties
+</code></pre><p>控制台中打印出：</p>
+<pre><code>[2019-06-04 15:02:29,345] INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
+</code></pre><p>表示启动成功。</p>
+<ol>
+<li>启动kafka服务器</li>
+</ol>
+<p>执行：</p>
+<pre><code>sh bin/kafka-server-start.sh config/server.properties
+</code></pre><p>控制台打出：</p>
+<pre><code>[2019-06-04 15:07:19,041] INFO Awaiting socket connections on s0.0.0.0:9092. (kafka.network.Acceptor)
+[2019-06-04 15:07:19,068] INFO [SocketServer brokerId=0] Created data-plane acceptor and processors for endpoint : EndPoint(null,9092,ListenerName(PLAINTEXT),PLAINTEXT) (kafka.network.SocketServer)
+</code></pre><p>代表启动成功!!</p>
+<ol>
+<li>写一个生产者test，往kafka服务里写数据</li>
+</ol>
+<p>看代码。。。。</p>
+<ol>
+<li>写一个消费者服务，从kafka服务里获取生产都的数据，并对数据进行消费</li>
+</ol>
+<p>看代码</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/06/04/springboot-kafka/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springboot/">springboot</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springboot/">springboot</a><a href="/tags/kafka/">kafka</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/06/04/springboot-kafka/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/06/04/springboot-kafka/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/05/22/工作，生活心情整理/" title="工作，生活心情整理" itemprop="url">工作，生活心情整理</a>
   </h1>
   <p class="article-author">By
@@ -1045,87 +1160,6 @@ systemctl restart docker
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/14/大数据之数据仓库/" title="大数据之数据仓库" itemprop="url">大数据之数据仓库</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-02-14T05:18:00.000Z" itemprop="datePublished"> 发表于 2019-02-14</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="大数据之数据仓库"><a href="#大数据之数据仓库" class="headerlink" title="大数据之数据仓库"></a>大数据之数据仓库</h1><h2 id="什么是数据仓库"><a href="#什么是数据仓库" class="headerlink" title="什么是数据仓库"></a>什么是数据仓库</h2><p>数据仓库，英文名称Data Warehouse，简写为DW。数据仓库顾名思义，是一个很大的数据存储集合。数据仓库必须满足主题性、集成性、稳定性、时变性这些特征。</p>
-<p>数据仓库的输入方是各种各样的数据源，最终的输出用于企业的数据分析、数据挖掘、数据报表等方向。</p>
-<p><img src="http://blog.huguiqi.com/1550125093251lvxgy9x9.png?imageslim" alt="paste image"></p>
-<h3 id="数据仓库的特征"><a href="#数据仓库的特征" class="headerlink" title="数据仓库的特征"></a>数据仓库的特征</h3><blockquote>
-<blockquote>
-<p>什么样的数据表现形式才能叫数据仓库？</p>
-</blockquote>
-</blockquote>
-<p>1.主题性</p>
-<p>不同于传统数据库对应于某一个或多个项目，数据仓库根据使用者实际需求，将不同数据源的数据在一个较高的抽象层次上做整合，所有数据都围绕某一主题来组织。</p>
-<p>这里的主题怎么来理解呢？比如对于滴滴出行，“司机行为分析”就是一个主题，对于链家网，“成交分析”就是一个主题。</p>
-<p>2.集成性</p>
-<p>数据仓库中存储的数据是来源于多个数据源的集成，原始数据来自不同的数据源，存储方式各不相同。要整合成为最终的数据集合，需要从数据源经过一系列抽取、清洗、转换的过程。</p>
-<p>3.稳定性</p>
-<p>数据仓库中保存的数据是一系列历史快照，不允许被修改。用户只能通过分析工具进行查询和分析。</p>
-<p>4.时变性</p>
-<p>数据仓库会定期接收新的集成数据，反应出最新的数据变化。这和特点并不矛盾。</p>
-<p>~~
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2019/02/14/大数据之数据仓库/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/大数据/">大数据</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/数据仓库/">数据仓库</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/02/14/大数据之数据仓库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/14/大数据之数据仓库/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1225,7 +1259,7 @@ systemctl restart docker
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
@@ -1322,7 +1356,7 @@ systemctl restart docker
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>4</sup></a></li>
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 			
 		
 			
