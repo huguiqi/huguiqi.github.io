@@ -92,6 +92,205 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/07/10/flume初探/" title="flume初探" itemprop="url">flume初探</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-07-10T15:14:00.000Z" itemprop="datePublished"> 发表于 2019-07-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="什么是flume"><a href="#什么是flume" class="headerlink" title="什么是flume"></a>什么是flume</h2><blockquote>
+<blockquote>
+<p>Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统，Flume支持在日志系统中定制各类数据发送方，用于收集数据；同时，Flume提供对数据进行简单处理，并写到各种数据接受方（可定制）的能力。</p>
+</blockquote>
+</blockquote>
+<p>这个定义来自百度百科。</p>
+<p>当然，由于百度的公信力与可靠性越来越差，我周边大部分的技术人员都不相信百度了，那我们就看看flume官网是怎么定义它的。</p>
+<p>官方:</p>
+<blockquote>
+<blockquote>
+<p>Flume is a distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data. It has a simple and flexible architecture based on streaming data flows. It is robust and fault tolerant with tunable reliability mechanisms and many failover and recovery mechanisms. It uses a simple extensible data model that allows for online analytic application.</p>
+</blockquote>
+</blockquote>
+<p>由于我英文与不是特别好，但是感觉和百度百科的定义应该大致相致。<br>通过google翻译为中文如下:</p>
+<blockquote>
+<blockquote>
+<p>Flume是一种分布式，可靠且可用的服务，用于有效地收集，聚合和移动大量日志数据。 它具有基于流数据流的简单灵活的架构。 它具有可靠的可靠性机制和许多故障转移和恢复机制，具有强大的容错性。 它使用简单的可扩展数据模型，允许在线分析应用程序。</p>
+</blockquote>
+</blockquote>
+<p>以下是flume官方给出的flume架构图：</p>
+<p><img src="http://blog.huguiqi.com/1562772504860hkflis2v.png?imageslim" alt="paste image"></p>
+<p>根据这个图，我猜的大概意思应该是，入口从web服务来。一个agen由source,sink,channel组成。</p>
+<p>source对应的是入口地址定义。<br>将从source获取的数据丢到channel管道中，然后输出到sink，sink定义与配置了具体是什么存储介质来接受数据。</p>
+<p>使用flume的基本系统要求：</p>
+<ul>
+<li>Java Runtime Environment - Java 1.8 or later</li>
+<li>Memory - Sufficient memory for configurations used by sources, channels or sinks</li>
+<li>Disk Space - Sufficient disk space for configurations used by channels or sinks</li>
+<li>Directory Permissions - Read/Write permissions for directories used by agent</li>
+</ul>
+<p>内存和磁盘空间都可以通过配置文件进行配置，对agent的使用的目录必须有读写权限。</p>
+<p>ps: 最近这家叫Cloudera的公司好像传出资金链断裂的消息.</p>
+<p>不过，好在它早就是Apache基金会下的一个开源项目。</p>
+<h2 id="有什么优缺点"><a href="#有什么优缺点" class="headerlink" title="有什么优缺点"></a>有什么优缺点</h2><h4 id="优点"><a href="#优点" class="headerlink" title="优点:"></a>优点:</h4><ul>
+<li>高吞吐，高可用，高可靠的数据收集工具</li>
+</ul>
+<p>Apache Flume具有高度可扩展性，可靠性，可用性，可水平扩展以及可针对不同源数据和Sink进行定制,有助于收集，汇总和移动大量的数据集。 例如Facebook，Twitter和电子商务网站产生的数据等</p>
+<ul>
+<li>使用配置简单</li>
+</ul>
+<ul>
+<li><p>开源: Apache Flume是开源的，即易于获得。</p>
+</li>
+<li><p>文档丰富</p>
+<p>  提供丰富的文档，有很多很好的例子和模式，可以在其文档中找到。</p>
+</li>
+<li><p>低延迟</p>
+<p>Apache Flume提供较高的吞吐量和较低的延迟。</p>
+</li>
+</ul>
+<ul>
+<li><p>数据流</p>
+<p>在Hadoop环境中，Flume可以连续生成流式数据源。 比如日志文件等</p>
+</li>
+<li><p>Routing</p>
+<p>  Flume会查看流数据或Event等有效负载,构建合适的Routing (Routing Context)。</p>
+</li>
+<li><p>节省成本</p>
+<p>Flume为开源软件，安装，操作和维护成本低。</p>
+</li>
+</ul>
+<ul>
+<li>可靠的消息传递</li>
+</ul>
+<pre><code>提供可靠的消息传递。 在Flume中，transaction (事物)是基于channel的，其中为每条消息维护两个transaction（一个source之间的，一个和sink之间的）。
+</code></pre><ul>
+<li>基于稳定的数据流</li>
+</ul>
+<p> 提供了一种可靠和分布式的解决方案，并从HDFS中的各种来源如网络流量，社交媒体，电子邮件消息，日志文件等接收实时流数据。而且，在读取和写入操作之间，Flume能够提供稳定的数据流</p>
+<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><h5 id="Weak-Ordering-Guarantee"><a href="#Weak-Ordering-Guarantee" class="headerlink" title="Weak Ordering Guarantee"></a>Weak Ordering Guarantee</h5><p>Apache Flume 对于 消息排序的支持不强；</p>
+<h5 id="Duplicacy"><a href="#Duplicacy" class="headerlink" title="Duplicacy"></a>Duplicacy</h5><p>Flume不保证信息到达是唯一的。 重复的消息时间可能会被接受到,所以有时候会接收到一些重复的消息。</p>
+<h5 id="低可扩展性"><a href="#低可扩展性" class="headerlink" title="低可扩展性"></a>低可扩展性</h5><p>影响Flume硬件的高低的因素很多，在大多数情况下，是一个反复试验的过程。 因此，从这点上考虑，其可扩展性很低。</p>
+<h5 id="可靠性问题"><a href="#可靠性问题" class="headerlink" title="可靠性问题"></a>可靠性问题</h5><p>如果考虑到所有因素，如果没有明智地选择存储的选择，则其可扩展性和可靠性受到质疑。</p>
+<h2 id="flume适合做什么"><a href="#flume适合做什么" class="headerlink" title="flume适合做什么"></a>flume适合做什么</h2><p>下面列出所有可能的Apache Flume用例：</p>
+<p>•    从各种来源获取数据事件和日志并存储到Hadoop系统中，可以使用Apache Flume；</p>
+<p>•    如果需要以高速率和高容量的数据在Hadoop系统中处理，可以使用Apache Flume；</p>
+<p>•    可以将数据可靠地传送到目的地。</p>
+<p>•     当数据的速度和数量增加时，通过Flume可扩展的解决方案，只需增加更多的机器就可以扩展；</p>
+<p>•    不会产生任何停机时间，并且Flume可动态配置Flume Architecture的各个组件。</p>
+<p>•    实时数据流，可以使用Apache Flume；</p>
+<p>•     从多台服务器高效收集日志数据并将其提取到分布式存储系统中（HDFS，HBase）可以使用Flume；</p>
+<p>•    可以实时的，以批处理模式从多个服务器收集数据；</p>
+<p>•    可导入社交媒体网站（如Facebook和Twitter）和各种电子商务网站实时生成的大量事件数据并分析；</p>
+<p>•    可以从许多数据来源收集数据，然后使用Flume将数据事件移动到多个目的地。</p>
+<p>•    Flume支持Multi-hop 流, fan-in 和fan-out 数据流, 以及 contextual routing。</p>
+<p>•    如果有多个Web应用程序服务正在运行，生成大量的日志信息，必须以非常快的速度将日志移动到HDFS，可以使用Apache Flume；</p>
+<p>•    使用抓取工具下载twitter中的各种数据，Flume可以将这些数据移至HDFS;</p>
+<p>•    通过使用interceptors，可以在Flume中处理正在传输的数据。</p>
+<p>•    Flume可以 对数据进行屏蔽或过滤； </p>
+<p>•    可以水平扩展容量；</p>
+<h2 id="有什么竞品"><a href="#有什么竞品" class="headerlink" title="有什么竞品"></a>有什么竞品</h2><ol>
+<li><p>logstash</p>
+<ul>
+<li>工作原理与结构</li>
+</ul>
+<p>logstash简单来看，内部节构是这样的：</p>
+</li>
+</ol>
+<p><img src="http://blog.huguiqi.com/1563706062866z5jxwyg4.png?imageslim" alt="paste image"></p>
+<p>这样看的话，其实和flume的结构很像：</p>
+<p><img src="http://blog.huguiqi.com/15637061807761bucub3o.png?imageslim" alt="paste image"></p>
+<p>都是入口—&gt;中间件—-&gt;出口，看来设计思想是一样的。</p>
+<ul>
+<li>配置复杂度</li>
+</ul>
+<p>flume的配置相对于logstash来说，作为程序员来说，略显复杂，而logstash相对简单。</p>
+<ul>
+<li>使用复杂度</li>
+</ul>
+<p>Logstash可以和ELK其他组件配合使用，开发、应用都会简单很多，技术成熟，使用场景广泛。</p>
+<p>相反Flume组件就需要和其他很多工具配合使用，场景的针对性会比较强,技术栈将会越铺越多。</p>
+<ul>
+<li>设计初衷</li>
+</ul>
+<p>flume本身最初设计的目的是为了把数据传入HDFS中,并不是为了采集日志而设计，这和Logstash有根本的区别</p>
+<h2 id="Flume-Event"><a href="#Flume-Event" class="headerlink" title="Flume Event"></a>Flume Event</h2><p>在Flume内部传输的数据的基本单位就是Event。 它包含字节数组的PayLoad。可以通过Header将信息从输出源传输到目的地。 请参考下图的Flume Event结构。</p>
+<p><img src="http://blog.huguiqi.com/1563707939113kxlz92z6.png?imageslim" alt="paste image"></p>
+<p>所以如果你的source是http类型，则client发送数据时，输入：</p>
+<pre><code>curl -X POST http://ip:8000 -d &apos;[{&quot;headers&quot;:{&quot;h1&quot;:&quot;v1&quot;,&quot;h2&quot;:&quot;v2&quot;},&quot;body&quot;:&quot;hello body&quot;}]&apos;
+</code></pre><h2 id="Flume-Agent"><a href="#Flume-Agent" class="headerlink" title="Flume Agent"></a>Flume Agent</h2><p> 在Apache Flume中，Agent是一个独立的JVM守护进程。 它接收来自Client或其他Agent的Event。 之后，将它转发到下一个目标地点，如Sink或Agent。 注意，Flume可以有多个Agent。 参考下面的图片来了解Flume Agent。</p>
+<p> <img src="http://blog.huguiqi.com/15637081939873jfw6s5l.png?imageslim" alt="paste image"></p>
+<p>Agent包含三个主要组件: Source，Channel和 Sink。</p>
+<h3 id="Flume-Source"><a href="#Flume-Source" class="headerlink" title="Flume Source"></a>Flume Source</h3><p>Flume Source从数据生成器接收数据。 然后将数据作为Flume Event传输到一个或多个Channel。</p>
+<p>Apache Flume支持各种类型的Source。每个source接收来自指定数据生成器的Event。</p>
+<p>如Avro source，Thrift source，twitter source等</p>
+<h3 id="Flume-Channel"><a href="#Flume-Channel" class="headerlink" title="Flume Channel"></a>Flume Channel</h3><p>用来从Source接收Event的临时存储,并且缓存Event直到它们被Sink 取走，它充当了Flume中 source和 sink之间的桥梁。</p>
+<p>如JDBC通道，文件系统通道，内存通道等。</p>
+<h3 id="Flume-Sink"><a href="#Flume-Sink" class="headerlink" title="Flume Sink"></a>Flume Sink</h3><p>Sink用来将数据存储到Hbase或HDFS等目的存储中或下一个Agent，它消耗来自Channel的Event，然后将其传送到目的地， Sink的目的地可以是另一个Agent或存储系统，如Hbase和HDFS。</p>
+<p>如HDFS Sink，另外，需要注意的是，Agent可以有许多数量的 Source，Channel和 Sink。</p>
+<p>Flume Client生成Event然后将其发送给一个或多个Agent。</p>
+<h2 id="Flume-Agent的附加组件"><a href="#Flume-Agent的附加组件" class="headerlink" title="Flume Agent的附加组件"></a>Flume Agent的附加组件</h2><p>上面介绍的组件都是Apache Flume Agent的基本组件。还有一些组件在Flume event从数据生成器传输到目的存储中起着至关重要的作用。</p>
+<h3 id="Apache-Flume-Interceptors"><a href="#Apache-Flume-Interceptors" class="headerlink" title="Apache Flume Interceptors"></a>Apache Flume Interceptors</h3><p>通过Interceptors，可以改变/检查Source和Channel之间传输的Flume Event.</p>
+<h3 id="Channel-Selectors"><a href="#Channel-Selectors" class="headerlink" title="Channel Selectors"></a>Channel Selectors</h3><p>为了确定在多通道 (Channel)的情况下应该选择传送数据的通道，我们使用Channel Selectors。Channel Selectors通常有两种类型:</p>
+<ul>
+<li><p>默认通道选择器 – 复制每个通道中所有Event的Channel Selectors;</p>
+</li>
+<li><p>Multiplexing channel selectors – 根据该Event Header中的地址决定发送Event的通道;</p>
+</li>
+</ul>
+<h3 id="Sink-Processors"><a href="#Sink-Processors" class="headerlink" title="Sink Processors"></a>Sink Processors</h3><p>通常 Sink Processor 用来调用特定 Sink。此外，还可用来在sink中创建故障转移路径或负载平衡event等。</p>
+<h2 id="厂内应用点"><a href="#厂内应用点" class="headerlink" title="厂内应用点"></a>厂内应用点</h2><p>我厂前段时间有个需求，需要将与我厂合作的爬虫团队爬取的数据定时传送到我厂，我厂通过flume接收并存入mongodb中。</p>
+<p>我方</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/flume/">flume</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/07/10/flume初探/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/07/10/flume初探/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/06/04/springboot-kafka/" title="springboot_kafka" itemprop="url">springboot_kafka</a>
   </h1>
   <p class="article-author">By
@@ -1024,129 +1223,6 @@ Authorizations can remain in your account anywhere from 24 hours up to 14 busine
 	
 	  	<span></span>
 		<a href="/2019/02/20/google-cloud-vm建免费vps/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/20/google-cloud-vm建免费vps/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/16/docker日志问题导致磁盘空间被占用/" title="docker日志问题导致磁盘空间被占用" itemprop="url">docker日志问题导致磁盘空间被占用</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-02-16T12:15:00.000Z" itemprop="datePublished"> 发表于 2019-02-16</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="docker日志问题导致磁盘空间不足"><a href="#docker日志问题导致磁盘空间不足" class="headerlink" title="docker日志问题导致磁盘空间不足"></a>docker日志问题导致磁盘空间不足</h1><p>昨天突然发现本厂开发环境各个docker实例都处于非健康状态，在宿主机上执行命令：</p>
-<pre><code>df -h
-</code></pre><p>发现docker相关的文件占用空间是100%：</p>
-<p><img src="http://blog.huguiqi.com/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
-<p>有点不正常，我看看docker相关的文件占用情况，是镜像占用的还是容器占用的，或者是Volumes占用的，执行：</p>
-<pre><code>docker system df
-</code></pre><p>这里面显示一切正常，也并没有超过挂载盘的大小256G。</p>
-<p>首先把多余的镜像和不用的docker都清理掉。</p>
-<p>执行命令：</p>
-<pre><code>docker system prune -a
-</code></pre><p>可以将没有容器使用Docker镜像和未开启的容器都删掉。</p>
-<p>我看到占用超过226G空间的都来自 <code>/mnt/docker/overlay2/*</code> 这个目录,<br>进入到这个目录，并执行：</p>
-<pre><code>du -lbhs ./*
-</code></pre><p>发现这里面也没有超过2个G的目录文件大小。</p>
-<p>我潜意识里就觉得八成是日志导致的，所以我首先看看是不是我所有的docker输出的日志文件是否需要清理了，我到挂载目录里去看看，果然发现了很多docker容器的日志目录就占了1-2个G，我du -lbhs 了一下，发现所有容器挂载的日志目录加起来的容量才8G多点，不足以占用256个G的空间。<br>算了，先把这8个G的占用清了吧。</p>
-<pre><code>rm -rf ./*/logs/*
-</code></pre><p>然后我再看看docker容器本身还有多少占用的空间情况：</p>
-<pre><code>docker ps --size
-</code></pre><p>发现还有两个docker占用了3个多占的空间，但是又不知道具体是什么导致的，那我只能看看docker本身的硬盘占用情况了：</p>
-<pre><code>docker diff &lt;container&gt;
-</code></pre><p>发现<code>/tmp</code> 目录下有好多文件：</p>
-<p><img src="http://blog.huguiqi.com/15503217004152bmdcd14.png?imageslim" alt="paste image"></p>
-<p>还有指向<code>/tmp/tomcat.*/*</code> 相关的目录：</p>
-<p><img src="http://blog.huguiqi.com/1550321770403ggnsq3dy.png?imageslim" alt="paste image"></p>
-<p>我觉得八成就是这些东西占用的，/tmp 临时文件按道理讲系统会自动删除的，不知道为什么没有删除，这个后面再找原因。<br>我就把所有docker容器里的<code>/tmp</code>目录下的文件全部删除，反正是临时文件。</p>
-<pre><code>docker exec &lt;container&gt; rm -rf /tmp/*
-</code></pre><p>好，都删除了，再看一下硬盘空间，发现还是已使用100%。</p>
-<p>怎么办，有点慌了，我看这个指向的还是overlay2目录，我尝试着在目录里找找问题。</p>
-<p>我想，这个overlay2目录可能有挂载或者链接，它自身并不大，是挂载的目录占用大。</p>
-<p>我们往上一级再看看哪个文件占用空间大：</p>
-<pre><code>cd ..
-du -lbhs ./*
-</code></pre><p>发现有几个contarins目录下的目录文件占用挻大的：</p>
-<p><img src="http://blog.huguiqi.com/1550320388470wopcicty.png?imageslim" alt="paste image"></p>
-<p>我就从最大的目录下手，占用空间7.4G的，是8972f…..这个目录，我进去看一眼：</p>
-<p><img src="http://blog.huguiqi.com/1550320522538gmcr7qay.png?imageslim" alt="paste image"></p>
-<p>我发现里面有个后缀为<code>xxxx-json.log</code>的这个文件占了198G，这个就是问题了，很兴奋，赶紧删除了：</p>
-<pre><code>rm -rf ./*/*.log
-</code></pre><p>这个就把所有的contarner的控制台日志文件删除了。</p>
-<p>我们再看看docker的空间占用情况：</p>
-<p><img src="http://blog.huguiqi.com/1550322418176dwe2uam6.png?imageslim" alt="paste image"></p>
-<p>这里已经很好了，只有镜像占用了1个多G。</p>
-<p>我们再来看看宿主机的空间情况：</p>
-<pre><code>df -h
-</code></pre><p>发现还是100%，见鬼了：</p>
-<p><img src="http://blog.huguiqi.com/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
-<p>一般觉得见鬼了的时候，只有两种情况，一种是你操作错了别的东西，一种是缓存，我觉得是后者。</p>
-<p>我觉得肯定是docker还没有读到真实的容器占用硬盘空间的数据，那我只能重启docker了：</p>
-<pre><code>systemctl daemon-reload 
-
-systemctl restart docker
-</code></pre><p>为了确认一切顺利，运行:</p>
-<pre><code>docker info
-</code></pre><p>ok，没有问题了，再执行 <code>df -h</code><br>很好：</p>
-<p><img src="http://blog.huguiqi.com/1550322879853rhx6bckp.png?imageslim" alt="paste image"></p>
-<p>已经只占用挂载磁盘 <code>/dev/vdbd1</code>总大小的2%。</p>
-<p>看来后面还是要写一个自动删除日志的脚本，来维持硬盘空间的大小。</p>
-<p><a href="https://github.com/moby/moby/issues/33775" target="_blank" rel="noopener">参考文章1</a></p>
-<p><a href="https://meta.discourse.org/t/var-lib-docker-overlay2-took-all-the-disk-space/84624" target="_blank" rel="noopener">参考文章2</a></p>
-<p><a href="https://stackoverflow.com/questions/46672001/is-it-safe-to-clean-docker-overlay2" target="_blank" rel="noopener">参考文章3</a></p>
-<p><a href="https://blog.csdn.net/weixin_32820767/article/details/81196250" target="_blank" rel="noopener">参考文件章4</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/IT-运维/">IT&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/docker/">docker</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/02/16/docker日志问题导致磁盘空间被占用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/16/docker日志问题导致磁盘空间被占用/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
