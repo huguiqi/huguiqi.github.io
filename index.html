@@ -142,115 +142,11 @@
 <li>高吞吐，高可用，高可靠的数据收集工具</li>
 </ul>
 <p>Apache Flume具有高度可扩展性，可靠性，可用性，可水平扩展以及可针对不同源数据和Sink进行定制,有助于收集，汇总和移动大量的数据集。 例如Facebook，Twitter和电子商务网站产生的数据等</p>
-<ul>
-<li>使用配置简单</li>
-</ul>
-<ul>
-<li><p>开源: Apache Flume是开源的，即易于获得。</p>
-</li>
-<li><p>文档丰富</p>
-<p>  提供丰富的文档，有很多很好的例子和模式，可以在其文档中找到。</p>
-</li>
-<li><p>低延迟</p>
-<p>Apache Flume提供较高的吞吐量和较低的延迟。</p>
-</li>
-</ul>
-<ul>
-<li><p>数据流</p>
-<p>在Hadoop环境中，Flume可以连续生成流式数据源。 比如日志文件等</p>
-</li>
-<li><p>Routing</p>
-<p>  Flume会查看流数据或Event等有效负载,构建合适的Routing (Routing Context)。</p>
-</li>
-<li><p>节省成本</p>
-<p>Flume为开源软件，安装，操作和维护成本低。</p>
-</li>
-</ul>
-<ul>
-<li>可靠的消息传递</li>
-</ul>
-<pre><code>提供可靠的消息传递。 在Flume中，transaction (事物)是基于channel的，其中为每条消息维护两个transaction（一个source之间的，一个和sink之间的）。
-</code></pre><ul>
-<li>基于稳定的数据流</li>
-</ul>
-<p> 提供了一种可靠和分布式的解决方案，并从HDFS中的各种来源如网络流量，社交媒体，电子邮件消息，日志文件等接收实时流数据。而且，在读取和写入操作之间，Flume能够提供稳定的数据流</p>
-<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><h5 id="Weak-Ordering-Guarantee"><a href="#Weak-Ordering-Guarantee" class="headerlink" title="Weak Ordering Guarantee"></a>Weak Ordering Guarantee</h5><p>Apache Flume 对于 消息排序的支持不强；</p>
-<h5 id="Duplicacy"><a href="#Duplicacy" class="headerlink" title="Duplicacy"></a>Duplicacy</h5><p>Flume不保证信息到达是唯一的。 重复的消息时间可能会被接受到,所以有时候会接收到一些重复的消息。</p>
-<h5 id="低可扩展性"><a href="#低可扩展性" class="headerlink" title="低可扩展性"></a>低可扩展性</h5><p>影响Flume硬件的高低的因素很多，在大多数情况下，是一个反复试验的过程。 因此，从这点上考虑，其可扩展性很低。</p>
-<h5 id="可靠性问题"><a href="#可靠性问题" class="headerlink" title="可靠性问题"></a>可靠性问题</h5><p>如果考虑到所有因素，如果没有明智地选择存储的选择，则其可扩展性和可靠性受到质疑。</p>
-<h2 id="flume适合做什么"><a href="#flume适合做什么" class="headerlink" title="flume适合做什么"></a>flume适合做什么</h2><p>下面列出所有可能的Apache Flume用例：</p>
-<p>•    从各种来源获取数据事件和日志并存储到Hadoop系统中，可以使用Apache Flume；</p>
-<p>•    如果需要以高速率和高容量的数据在Hadoop系统中处理，可以使用Apache Flume；</p>
-<p>•    可以将数据可靠地传送到目的地。</p>
-<p>•     当数据的速度和数量增加时，通过Flume可扩展的解决方案，只需增加更多的机器就可以扩展；</p>
-<p>•    不会产生任何停机时间，并且Flume可动态配置Flume Architecture的各个组件。</p>
-<p>•    实时数据流，可以使用Apache Flume；</p>
-<p>•     从多台服务器高效收集日志数据并将其提取到分布式存储系统中（HDFS，HBase）可以使用Flume；</p>
-<p>•    可以实时的，以批处理模式从多个服务器收集数据；</p>
-<p>•    可导入社交媒体网站（如Facebook和Twitter）和各种电子商务网站实时生成的大量事件数据并分析；</p>
-<p>•    可以从许多数据来源收集数据，然后使用Flume将数据事件移动到多个目的地。</p>
-<p>•    Flume支持Multi-hop 流, fan-in 和fan-out 数据流, 以及 contextual routing。</p>
-<p>•    如果有多个Web应用程序服务正在运行，生成大量的日志信息，必须以非常快的速度将日志移动到HDFS，可以使用Apache Flume；</p>
-<p>•    使用抓取工具下载twitter中的各种数据，Flume可以将这些数据移至HDFS;</p>
-<p>•    通过使用interceptors，可以在Flume中处理正在传输的数据。</p>
-<p>•    Flume可以 对数据进行屏蔽或过滤； </p>
-<p>•    可以水平扩展容量；</p>
-<h2 id="有什么竞品"><a href="#有什么竞品" class="headerlink" title="有什么竞品"></a>有什么竞品</h2><ol>
-<li><p>logstash</p>
-<ul>
-<li>工作原理与结构</li>
-</ul>
-<p>logstash简单来看，内部节构是这样的：</p>
-</li>
-</ol>
-<p><img src="http://blog.huguiqi.com/1563706062866z5jxwyg4.png?imageslim" alt="paste image"></p>
-<p>这样看的话，其实和flume的结构很像：</p>
-<p><img src="http://blog.huguiqi.com/15637061807761bucub3o.png?imageslim" alt="paste image"></p>
-<p>都是入口—&gt;中间件—-&gt;出口，看来设计思想是一样的。</p>
-<ul>
-<li>配置复杂度</li>
-</ul>
-<p>flume的配置相对于logstash来说，作为程序员来说，略显复杂，而logstash相对简单。</p>
-<ul>
-<li>使用复杂度</li>
-</ul>
-<p>Logstash可以和ELK其他组件配合使用，开发、应用都会简单很多，技术成熟，使用场景广泛。</p>
-<p>相反Flume组件就需要和其他很多工具配合使用，场景的针对性会比较强,技术栈将会越铺越多。</p>
-<ul>
-<li>设计初衷</li>
-</ul>
-<p>flume本身最初设计的目的是为了把数据传入HDFS中,并不是为了采集日志而设计，这和Logstash有根本的区别</p>
-<h2 id="Flume-Event"><a href="#Flume-Event" class="headerlink" title="Flume Event"></a>Flume Event</h2><p>在Flume内部传输的数据的基本单位就是Event。 它包含字节数组的PayLoad。可以通过Header将信息从输出源传输到目的地。 请参考下图的Flume Event结构。</p>
-<p><img src="http://blog.huguiqi.com/1563707939113kxlz92z6.png?imageslim" alt="paste image"></p>
-<p>所以如果你的source是http类型，则client发送数据时，输入：</p>
-<pre><code>curl -X POST http://ip:8000 -d &apos;[{&quot;headers&quot;:{&quot;h1&quot;:&quot;v1&quot;,&quot;h2&quot;:&quot;v2&quot;},&quot;body&quot;:&quot;hello body&quot;}]&apos;
-</code></pre><h2 id="Flume-Agent"><a href="#Flume-Agent" class="headerlink" title="Flume Agent"></a>Flume Agent</h2><p> 在Apache Flume中，Agent是一个独立的JVM守护进程。 它接收来自Client或其他Agent的Event。 之后，将它转发到下一个目标地点，如Sink或Agent。 注意，Flume可以有多个Agent。 参考下面的图片来了解Flume Agent。</p>
-<p> <img src="http://blog.huguiqi.com/15637081939873jfw6s5l.png?imageslim" alt="paste image"></p>
-<p>Agent包含三个主要组件: Source，Channel和 Sink。</p>
-<h3 id="Flume-Source"><a href="#Flume-Source" class="headerlink" title="Flume Source"></a>Flume Source</h3><p>Flume Source从数据生成器接收数据。 然后将数据作为Flume Event传输到一个或多个Channel。</p>
-<p>Apache Flume支持各种类型的Source。每个source接收来自指定数据生成器的Event。</p>
-<p>如Avro source，Thrift source，twitter source等</p>
-<h3 id="Flume-Channel"><a href="#Flume-Channel" class="headerlink" title="Flume Channel"></a>Flume Channel</h3><p>用来从Source接收Event的临时存储,并且缓存Event直到它们被Sink 取走，它充当了Flume中 source和 sink之间的桥梁。</p>
-<p>如JDBC通道，文件系统通道，内存通道等。</p>
-<h3 id="Flume-Sink"><a href="#Flume-Sink" class="headerlink" title="Flume Sink"></a>Flume Sink</h3><p>Sink用来将数据存储到Hbase或HDFS等目的存储中或下一个Agent，它消耗来自Channel的Event，然后将其传送到目的地， Sink的目的地可以是另一个Agent或存储系统，如Hbase和HDFS。</p>
-<p>如HDFS Sink，另外，需要注意的是，Agent可以有许多数量的 Source，Channel和 Sink。</p>
-<p>Flume Client生成Event然后将其发送给一个或多个Agent。</p>
-<h2 id="Flume-Agent的附加组件"><a href="#Flume-Agent的附加组件" class="headerlink" title="Flume Agent的附加组件"></a>Flume Agent的附加组件</h2><p>上面介绍的组件都是Apache Flume Agent的基本组件。还有一些组件在Flume event从数据生成器传输到目的存储中起着至关重要的作用。</p>
-<h3 id="Apache-Flume-Interceptors"><a href="#Apache-Flume-Interceptors" class="headerlink" title="Apache Flume Interceptors"></a>Apache Flume Interceptors</h3><p>通过Interceptors，可以改变/检查Source和Channel之间传输的Flume Event.</p>
-<h3 id="Channel-Selectors"><a href="#Channel-Selectors" class="headerlink" title="Channel Selectors"></a>Channel Selectors</h3><p>为了确定在多通道 (Channel)的情况下应该选择传送数据的通道，我们使用Channel Selectors。Channel Selectors通常有两种类型:</p>
-<ul>
-<li><p>默认通道选择器 – 复制每个通道中所有Event的Channel Selectors;</p>
-</li>
-<li><p>Multiplexing channel selectors – 根据该Event Header中的地址决定发送Event的通道;</p>
-</li>
-</ul>
-<h3 id="Sink-Processors"><a href="#Sink-Processors" class="headerlink" title="Sink Processors"></a>Sink Processors</h3><p>通常 Sink Processor 用来调用特定 Sink。此外，还可用来在sink中创建故障转移路径或负载平衡event等。</p>
-<h2 id="厂内应用点"><a href="#厂内应用点" class="headerlink" title="厂内应用点"></a>厂内应用点</h2><p>我厂前段时间有个需求，需要将与我厂合作的爬虫团队爬取的数据定时传送到我厂，我厂通过flume接收并存入mongodb中。</p>
-<p>我方</p>
-
         
         
         <p class="article-more-link">
+          
+            <a href="/2019/07/10/flume初探/#more">Read More</a>
           
        </p>
     </div>
