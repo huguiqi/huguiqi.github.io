@@ -18,23 +18,23 @@
 <meta name="keywords" content="从印象笔记导入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD 深入理解（二）">
-<meta property="og:url" content="http://www.huguiqi.com/2018/11/19/GCD 深入理解（二）/index.html">
+<meta property="og:url" content="http://www.huguiqi.top/2018/11/19/GCD 深入理解（二）/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="GCD 深入理解（二）GCD深入理解（二）\发布于：2014-05-1513:05阅读数：5291\在本系列的第一部分中，你已经学到超过你想像的关于并发、线程以及GCD如何工作的知识。通过在初始化时利用dispatch_once，你创建了一个线程安全的 PhotoManager 单例，而且你通过使用dispatch\“\”\\\\ 阅读器\ GCD\\">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/BE196C34-5AA7-4AB9-9032-CE6C741B5EE0.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/372B2833-98A8-47D8-92C6-1E3DF26CBCEB.jpg">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/15898141-FDE2-49D1-B602-2F7E0C5BFF1C.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/E4472260-C5D1-4861-9405-9B304C254936.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/0B0D5372-DD0E-42AF-AE84-EAC80AE279B2.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/178906E8-EBA3-47FF-9645-C835E23A0DB4.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/2CF15A91-DEF1-4DBA-BD89-4A004DC0FDAB.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/BE196C34-5AA7-4AB9-9032-CE6C741B5EE0.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/372B2833-98A8-47D8-92C6-1E3DF26CBCEB.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/15898141-FDE2-49D1-B602-2F7E0C5BFF1C.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/E4472260-C5D1-4861-9405-9B304C254936.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/0B0D5372-DD0E-42AF-AE84-EAC80AE279B2.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/178906E8-EBA3-47FF-9645-C835E23A0DB4.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/2CF15A91-DEF1-4DBA-BD89-4A004DC0FDAB.png">
 <meta property="og:updated_time" content="2018-11-19T09:56:22.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD 深入理解（二）">
 <meta name="twitter:description" content="GCD 深入理解（二）GCD深入理解（二）\发布于：2014-05-1513:05阅读数：5291\在本系列的第一部分中，你已经学到超过你想像的关于并发、线程以及GCD如何工作的知识。通过在初始化时利用dispatch_once，你创建了一个线程安全的 PhotoManager 单例，而且你通过使用dispatch\“\”\\\\ 阅读器\ GCD\\">
-<meta name="twitter:image" content="http://www.huguiqi.com/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png">
+<meta name="twitter:image" content="http://www.huguiqi.top/2018/11/19/GCD%20深入理解（二）/GCD%20%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%EF%BC%88%E4%BA%8C%EF%BC%89.resources/143E4419-038C-4A8E-9A2B-5C0AFD0E2463.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -205,7 +205,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.huguiqi.com/2018/11/19/GCD 深入理解（二）/" data-title="GCD 深入理解（二） | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  <div data-url="http://www.huguiqi.top/2018/11/19/GCD 深入理解（二）/" data-title="GCD 深入理解（二） | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -239,7 +239,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/11/19/GCD 深入理解（二）/" data-title="GCD 深入理解（二）" data-url="http://www.huguiqi.com/2018/11/19/GCD 深入理解（二）/"></div>
+	<div class="ds-thread" data-thread-key="2018/11/19/GCD 深入理解（二）/" data-title="GCD 深入理解（二）" data-url="http://www.huguiqi.top/2018/11/19/GCD 深入理解（二）/"></div>
 </section>
 
 

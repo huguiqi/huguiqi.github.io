@@ -18,73 +18,73 @@
 <meta name="keywords" content="从印象笔记导入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jenkins 重复执行job">
-<meta property="og:url" content="http://www.huguiqi.com/2018/11/19/jenkins 重复执行job/index.html">
+<meta property="og:url" content="http://www.huguiqi.top/2018/11/19/jenkins 重复执行job/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="jenkins 重复执行jobjenkins配置全过程  \ Jenkins使用经验谈4（创建Job）=============================    前面做了那么多工作，现在终于到了创建Job这一步了，某种意义上，Jenkins的主要工作就是为了调度这些Job。Job的创建是有很大自由度的，也没有谁规定一定要创建成什么样子才行。下面我会以实际使用中的几个场景来举例说明。\需要注意">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909062.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909063.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909064.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909065.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909066.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909067.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909068.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909069.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090610.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090611.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090612.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090613.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090614.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090615.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090616.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090617.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090618.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090619.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090620.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090621.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090622.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090623.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090624.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090625.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090626.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090627.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090628.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090629.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090630.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090631.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090632.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090633.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090634.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090635.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090636.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090637.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090638.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090639.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090640.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090641.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090642.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090643.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090644.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090645.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090646.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090647.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090648.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090649.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090650.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090651.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090652.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090653.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090654.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090655.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090656.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090657.png">
-<meta property="og:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090658.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909062.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909063.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909064.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909065.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909066.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909067.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909068.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909069.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090610.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090611.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090612.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090613.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090614.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090615.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090616.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090617.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090618.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090619.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090620.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090621.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090622.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090623.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090624.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090625.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090626.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090627.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090628.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090629.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090630.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090631.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090632.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090633.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090634.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090635.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090636.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090637.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090638.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090639.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090640.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090641.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090642.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090643.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090644.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090645.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090646.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090647.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090648.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090649.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090650.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090651.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090652.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090653.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090654.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090655.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090656.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090657.png">
+<meta property="og:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/14110300819090658.png">
 <meta property="og:updated_time" content="2018-11-19T09:56:23.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jenkins 重复执行job">
 <meta name="twitter:description" content="jenkins 重复执行jobjenkins配置全过程  \ Jenkins使用经验谈4（创建Job）=============================    前面做了那么多工作，现在终于到了创建Job这一步了，某种意义上，Jenkins的主要工作就是为了调度这些Job。Job的创建是有很大自由度的，也没有谁规定一定要创建成什么样子才行。下面我会以实际使用中的几个场景来举例说明。\需要注意">
-<meta name="twitter:image" content="http://www.huguiqi.com/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
+<meta name="twitter:image" content="http://www.huguiqi.top/2018/11/19/jenkins%20重复执行job/jenkins%20%E9%87%8D%E5%A4%8D%E6%89%A7%E8%A1%8Cjob.resources/1411030081909061.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -365,7 +365,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.huguiqi.com/2018/11/19/jenkins 重复执行job/" data-title="jenkins 重复执行job | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  <div data-url="http://www.huguiqi.top/2018/11/19/jenkins 重复执行job/" data-title="jenkins 重复执行job | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -399,7 +399,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2018/11/19/jenkins 重复执行job/" data-title="jenkins 重复执行job" data-url="http://www.huguiqi.com/2018/11/19/jenkins 重复执行job/"></div>
+	<div class="ds-thread" data-thread-key="2018/11/19/jenkins 重复执行job/" data-title="jenkins 重复执行job" data-url="http://www.huguiqi.top/2018/11/19/jenkins 重复执行job/"></div>
 </section>
 
 
