@@ -22,17 +22,17 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="7天学会使用springcloud(五)hystrix集成springcloud使用app-service项目中，pom.xml: &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;quot; xmlns">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://blog.huguiqi.com/15273523469114tx4hfou.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/15273530615360wfrs5b0.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/1527353090768tm00flye.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/1527352180459kqll74wa.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/1527353605119ja1qnq8z.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/1527354179380hlt0wlxs.png?imageslim">
-<meta property="og:updated_time" content="2018-11-19T09:56:22.683Z">
+<meta property="og:image" content="http://img.huguiqi.top/15273523469114tx4hfou.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/15273530615360wfrs5b0.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/1527353090768tm00flye.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/1527352180459kqll74wa.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/1527353605119ja1qnq8z.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/1527354179380hlt0wlxs.png?imageslim">
+<meta property="og:updated_time" content="2019-12-05T08:21:44.947Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7天学会使用springcloud(五)">
 <meta name="twitter:description" content="7天学会使用springcloud(五)hystrix集成springcloud使用app-service项目中，pom.xml: &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;quot; xmlns">
-<meta name="twitter:image" content="http://blog.huguiqi.com/15273523469114tx4hfou.png?imageslim">
+<meta name="twitter:image" content="http://img.huguiqi.top/15273523469114tx4hfou.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -242,7 +242,7 @@
 <li>启用hystrix</li>
 </ul>
 <p>在启动类上添加 @EnableCircuitBreaker与@EnableHystrixDashboard注解</p>
-<p><img src="http://blog.huguiqi.com/15273523469114tx4hfou.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/15273523469114tx4hfou.png?imageslim" alt="paste image"></p>
 <ul>
 <li>使用</li>
 </ul>
@@ -274,9 +274,9 @@ public class ClientRemoteProxy {
 }
 </code></pre><p>我启动了两个client,一个client有hello接口，另一个则没有，因为robbin会有自动负载均衡策略，我们来看看什么效果？</p>
 <p>我来回刷新请求了5-6次，会随机返回断路器信息和正确信息，但和zuul断路信息不同：</p>
-<p><img src="http://blog.huguiqi.com/15273530615360wfrs5b0.png?imageslim" alt="paste image"></p>
-<p><img src="http://blog.huguiqi.com/1527353090768tm00flye.png?imageslim" alt="paste image"></p>
-<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p><img src="http://blog.huguiqi.com/1527352180459kqll74wa.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/15273530615360wfrs5b0.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1527353090768tm00flye.png?imageslim" alt="paste image"></p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p><img src="http://img.huguiqi.top/1527352180459kqll74wa.png?imageslim" alt="paste image"></p>
 <h2 id="检测状态"><a href="#检测状态" class="headerlink" title="检测状态"></a>检测状态</h2><p>如果springboot安装了actuator组件，我们可以访问请求地址：</p>
 <pre><code>http://localhost:9000/actuator/health 
 </code></pre><p>来检测状态，当然也可以直接请求：    </p>
@@ -287,7 +287,7 @@ public class ClientRemoteProxy {
 </code></pre><p>这个引用了包：</p>
 <pre><code>spring-cloud-starter-netflix-hystrix-dashboard
 </code></pre><p>可以看到有多少接口调用失败了，被熔断的次数，接口请求次数等数据：</p>
-<p><img src="http://blog.huguiqi.com/1527353605119ja1qnq8z.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1527353605119ja1qnq8z.png?imageslim" alt="paste image"></p>
 <p>参考springcloud的官方文档：</p>
 <p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
 <p>访问dashboard的地址：</p>
@@ -298,7 +298,7 @@ public class ClientRemoteProxy {
 </blockquote>
 </blockquote>
 <p>这个turbine和dashboard配合使用的：</p>
-<p><img src="http://blog.huguiqi.com/1527354179380hlt0wlxs.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1527354179380hlt0wlxs.png?imageslim" alt="paste image"></p>
 <p>瞬定是会珍惜整个目录的。</p>
 <p>关于trubine的使用我没有可分享的，需要去实践。</p>
 <h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>springcloud-service<br>好困要睡觉了，晚安各位。。。。。。。</p>
@@ -469,11 +469,11 @@ public class ClientRemoteProxy {
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
@@ -558,11 +558,11 @@ public class ClientRemoteProxy {
 			
 		
 			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
 			
 		
 			
@@ -570,15 +570,7 @@ public class ClientRemoteProxy {
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
@@ -586,7 +578,11 @@ public class ClientRemoteProxy {
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
@@ -594,15 +590,7 @@ public class ClientRemoteProxy {
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -618,11 +606,23 @@ public class ClientRemoteProxy {
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

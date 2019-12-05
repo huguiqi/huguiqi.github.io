@@ -22,16 +22,16 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="问题描述架构是前后端分离的，也就是说前端可能是在不同的服务器，甚至在不同域名下的。那这样的话，势必有跨域问题，而正常的跨域问题，springboot都已经提供了解决方案，即在BackGatewayApplication启动类上添加如下filter: @Bean     public CorsFilter corsFilter() {         final UrlBasedCorsConfig">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://blog.huguiqi.com/1546866135627qlw7n1a0.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/1546874949672jvi5ks3f.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/15468766676916dme9nbx.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/1546865302940pgu0d42v.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/1546878109010bsidige0.png?imageslim">
-<meta property="og:updated_time" content="2019-01-07T16:28:42.845Z">
+<meta property="og:image" content="http://img.huguiqi.top/1546866135627qlw7n1a0.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/1546874949672jvi5ks3f.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/15468766676916dme9nbx.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/1546865302940pgu0d42v.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/1546878109010bsidige0.png?imageslim">
+<meta property="og:updated_time" content="2019-12-05T08:17:40.515Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring-cloud oauth2与前端跨域问题">
 <meta name="twitter:description" content="问题描述架构是前后端分离的，也就是说前端可能是在不同的服务器，甚至在不同域名下的。那这样的话，势必有跨域问题，而正常的跨域问题，springboot都已经提供了解决方案，即在BackGatewayApplication启动类上添加如下filter: @Bean     public CorsFilter corsFilter() {         final UrlBasedCorsConfig">
-<meta name="twitter:image" content="http://blog.huguiqi.com/1546866135627qlw7n1a0.png?imageslim">
+<meta name="twitter:image" content="http://img.huguiqi.top/1546866135627qlw7n1a0.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -144,7 +144,7 @@ public class BackGatewayApplication {
 <pre><code>Access to XMLHttpRequest at &apos;http://127.0.0.1:9002/rios-upms/authUser/test&apos; from origin &apos;http://www.runoob.com&apos; has been blocked by CORS policy: No &apos;Access-Control-Allow-Origin&apos; header is present on the requested resource.
 </code></pre><p>看着像是说跨域问题。</p>
 <p>但是，我们之前遇到的跨域大部分是浏览器的行为，将请求拦截了，但是这个不同的是他的请求发出去了，服务端也接收到了请求，并返回了，返回的失效token的提示，通过postman或者curl工具能正常返回，并且还有状态码：</p>
-<p><img src="http://blog.huguiqi.com/1546866135627qlw7n1a0.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1546866135627qlw7n1a0.png?imageslim" alt="paste image"></p>
 <p>但是通过ajax请求浏览器访问，却总是出现error,以下是用jquery的ajax请求：</p>
 <pre><code>$(document).ready(function(){
     $(&quot;button&quot;).click(function(){
@@ -180,7 +180,7 @@ public class BackGatewayApplication {
     });
 });
 </code></pre><p>调用ajax请求后，总是直接调用了error的回调方法，并在控制台打印：</p>
-<p><img src="http://blog.huguiqi.com/1546874949672jvi5ks3f.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1546874949672jvi5ks3f.png?imageslim" alt="paste image"></p>
 <p>打印的xhr是：</p>
 <pre><code>{&quot;readyState&quot;:0,&quot;responseText&quot;:&quot;&quot;,&quot;status&quot;:0,&quot;statusText&quot;:&quot;error&quot;}
 </code></pre><h3 id="关于readystate五个状态总结"><a href="#关于readystate五个状态总结" class="headerlink" title="关于readystate五个状态总结"></a>关于readystate五个状态总结</h3><h4 id="readyState-状态-状态说明"><a href="#readyState-状态-状态说明" class="headerlink" title="readyState 状态    状态说明"></a>readyState 状态    状态说明</h4><ul>
@@ -225,13 +225,13 @@ public class BackGatewayApplication {
 <p>那么，我就在response的header设置一下：</p>
 <pre><code>httpServletResponse.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
 </code></pre><p>再次访问，就得到了状态码：</p>
-<p><img src="http://blog.huguiqi.com/15468766676916dme9nbx.png?imageslim" alt="paste image">![paste image]</p>
+<p><img src="http://img.huguiqi.top/15468766676916dme9nbx.png?imageslim" alt="paste image">![paste image]</p>
 <p>而这次是在complete方法里取得了xhr:</p>
 <pre><code>{&quot;readyState&quot;:4,&quot;responseText&quot;:&quot;{\&quot;msg\&quot;:\&quot;无效的token\&quot;,\&quot;code\&quot;:401}&quot;,&quot;responseJSON&quot;:{&quot;msg&quot;:&quot;无效的token&quot;,&quot;code&quot;:401},&quot;status&quot;:403,&quot;statusText&quot;:&quot;error&quot;}
 </code></pre><p>得到的状态值是4，status值是403。</p>
 <p>在这里还没完，因为我用的是security+oauth2,在gateway处理所有资源请求的权限认证的，而在oauth2这里，确有个头疼的问题，在token失效的时候，我就拿不到readyState，也一直是0，说这个问题的之前，先来说下我的架构。</p>
 <h2 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h2><p>目前我的服务请求流程大致是这样：</p>
-<p><img src="http://blog.huguiqi.com/1546865302940pgu0d42v.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1546865302940pgu0d42v.png?imageslim" alt="paste image"></p>
 <p>所有的资源请求都经过gateway转发并在gateway认证(在oauth2里把gateway作为一个总的资源服务器配置来校验各资源服务器的权限)，调用认证服务器去校验token的正确性。</p>
 <p>而oauth2的工作流程大致是：</p>
 <p>OAuth2AuthenticationProcessingFilter：</p>
@@ -309,7 +309,7 @@ public class BackGatewayApplication {
         return user;
     }
 </code></pre><p>再次访问，完美解决。。。。。</p>
-<p><img src="http://blog.huguiqi.com/1546878109010bsidige0.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1546878109010bsidige0.png?imageslim" alt="paste image"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -464,11 +464,11 @@ public class BackGatewayApplication {
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
@@ -553,11 +553,11 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
 			
 		
 			
@@ -565,15 +565,7 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
@@ -581,7 +573,11 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
@@ -589,15 +585,7 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -613,11 +601,23 @@ public class BackGatewayApplication {
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

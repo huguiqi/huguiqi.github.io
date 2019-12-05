@@ -105,7 +105,7 @@
 </header>
     <div class="article-content">
         
-        <h1 id="Google-Cloud-Platform免费申请-amp-一键搭建SSR-amp-BBR加速教程"><a href="#Google-Cloud-Platform免费申请-amp-一键搭建SSR-amp-BBR加速教程" class="headerlink" title="Google Cloud Platform免费申请&amp;一键搭建SSR &amp; BBR加速教程"></a>Google Cloud Platform免费申请&amp;一键搭建SSR &amp; BBR加速教程</h1><p><img src="http://blog.huguiqi.com/1550645437458oolft1bo.png?imageslim" alt="paste image"></p>
+        <h1 id="Google-Cloud-Platform免费申请-amp-一键搭建SSR-amp-BBR加速教程"><a href="#Google-Cloud-Platform免费申请-amp-一键搭建SSR-amp-BBR加速教程" class="headerlink" title="Google Cloud Platform免费申请&amp;一键搭建SSR &amp; BBR加速教程"></a>Google Cloud Platform免费申请&amp;一键搭建SSR &amp; BBR加速教程</h1><p><img src="http://img.huguiqi.top/1550645437458oolft1bo.png?imageslim" alt="paste image"></p>
 <ol>
 <li>Google Cloud Platform (GCP) 简介<br>Google Cloud Platform (以下简称GCP)是Google提供的云平台, 可以用来搭建加速服务, 网站和存储数据等等, 本文将介绍如何申请GCP一年的免费试用、Linux服务器环境搭建、配置BBR加速以及安装SSR等服务端. 网上关于如何搭建GCP的教程很多, 不过都不是太详尽. 如果你是没基础的新手, 或者像下图这位童鞋踩到坑不知所措的话, 希望这篇教程能帮到你 🙂</li>
 </ol>
@@ -115,37 +115,37 @@
 </ol>
 <p>GCP的优势在于:</p>
 <p>免费<br>Google云服务平台对新用户赠送300美元, 可以免费使用1年.<br>并且到期后如果不打算续费, 也不会额外收取费用 (像亚马逊AWS就直接扣你费用了).<br>如果还想继续用, 直接新注册个账号, 免费 🙂<br>用来搭SS的话, 最低配置的机型$5/月, 出口大陆流量1T以内为0.23$/1G, 算下来每个月可用80多G的流量, 足够用了, 当然你还可以顺便搭个网站之类的 🙂<br>GCP 300美元一年免费试用<br>速度快<br>Google GCP有美国, 亚洲, 欧洲等机房, 而亚洲机房就在厦门正对面的台湾省彰化县, TTL只有40ms左右，快到飞起, 而Linode、Vultr等通常是200多；</p>
-<p><img src="http://blog.huguiqi.com/1550645478291dta7czwt.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550645478291dta7czwt.png?imageslim" alt="paste image"></p>
 <ol>
 <li><p>需要准备的东西<br>Gmail账号<br>双币信用卡 (淘宝购买的虚拟卡无法使用, 不要浪费钱)<br>Xshell: SSH客户端 (也可用Google自带的在线SSH, 以后比较方便).<br>Xshell不建议用绿色版, 某些电脑没装运行库的话可能无法打开.<br>另外之前官方5.0 Build 1322版本存在后门, 所以还是去官网下载最新的安装版吧.<br>Xshell 6官网下载地址点我, 目前家庭与学校用户可免费使用. 填写姓名和邮箱并提交表单后, 邮箱会收到下载链接.<br>puttygen: SSH密钥生成工具. 官网下载地址: puttygen 32位 , puttygen 64位<br>能访问Google (额, 这貌似是个悖论, 你可以先找其他临时方案)<br>需要一定动手能力以及Linux系统基础知识, 想省事或遇到问题的, 请找人工付费服务…<br>废话不多说,下面直接上教程:</p>
 </li>
 <li><p>申请Google Cloud Platform<br>4.1 注册<br>申请地址: <a href="https://cloud.google.com/free/" target="_blank" rel="noopener">https://cloud.google.com/free/</a></p>
 </li>
 </ol>
-<p><img src="http://blog.huguiqi.com/1550645534869jqqmk5f5.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550645534869jqqmk5f5.png?imageslim" alt="paste image"></p>
 <p>Google Cloud Platform 免费试用<br>点击免费试用, 登入Gmail账号.<br>地区选中国.</p>
-<p><img src="http://blog.huguiqi.com/1550645557551lan7x677.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550645557551lan7x677.png?imageslim" alt="paste image"></p>
 <p>账号类型选个人, 接下来输入账单地址以及信用卡信息. Google会从信用卡扣除1美元用于验证, 验证完成后会退还到账户.<br>点击开始免费试用.</p>
 <p>4.2 激活结算账号<br>注册成功后可能并不能马上使用 (国内注册的基本都需要激活, 当然也不排除你人品好的情况), Gmail邮箱会受到一封标题为紧急通知：您的结算帐号 XXXXX 已经被暂停使用的邮件, 你需要点击邮件中的链接, 上传身份证和信用卡照片完成验证 (信用卡照片可以遮住或PS掉敏感信息, 只保留最后四位, 自己看页面提示), 一般提交后10分钟左右就能收到通过的邮件, 验证完成后就可以正常使用了.</p>
 <p>这一步很多人会忽略, 结果就是创建实例的时候会不停提示你Enable Billing Account, 但是指引界面又没有明确说明要怎么激活, 即使是进到账号管理界面也无法自己开启. 所以别忘了去喵一眼你的邮箱 🙂</p>
-<p><img src="http://blog.huguiqi.com/1550645633146sc8anwy9.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550645633146sc8anwy9.png?imageslim" alt="paste image"></p>
 <p>邮件: 紧急通知：您的结算帐号 XXXXX 已经被暂停使用<br>结算账号验证成功后会显示消息:</p>
-<p><img src="http://blog.huguiqi.com/155064566991862c1mypz.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/155064566991862c1mypz.png?imageslim" alt="paste image"></p>
 <p>结算账号验证成功消息<br>4.3 修改防火墙规则<br>有的文章是先创建实例再改规则.<br>我们先修改防火墙规则, 后面会省事一点.</p>
-<p><img src="http://blog.huguiqi.com/1550645708034sj9y13cj.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550645708034sj9y13cj.png?imageslim" alt="paste image"></p>
 <p>直接访问 <a href="https://console.cloud.google.com/networking/firewalls/list" target="_blank" rel="noopener">https://console.cloud.google.com/networking/firewalls/list</a></p>
 <p>Google Cloud Platform 防火墙规则<br>点击创建防火墙规则, 按下图设置:</p>
-<p><img src="http://blog.huguiqi.com/15506457319939ssxmqpy.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/15506457319939ssxmqpy.png?imageslim" alt="paste image"></p>
 <p>Google Cloud Platform 创建防火墙规则<br>注意IP地址范围是0.0.0.0/0, 别写错了.<br>有遇到过有人写成0.0.0.0, 结果后来怎么试都不成功的.</p>
 <p>4.5 创建计算引擎<br>4.5.1 创建实例</p>
 <p>直接访问 <a href="https://console.cloud.google.com/compute/instances" target="_blank" rel="noopener">https://console.cloud.google.com/compute/instances</a><br>或登录GCP控制台后, 点击计算引擎 – 创建实例. 如图:</p>
 <p>名称: 随便填<br>地区: 建议选asia-east1-c<br>asia-east1-a, asia-east1-b, asia-east1-c 机房都在中国台湾彰化县, 实测c区更好.</p>
-<p><img src="http://blog.huguiqi.com/1550645905180a22csqj8.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550645905180a22csqj8.png?imageslim" alt="paste image"></p>
 <p>4.5.2 生成静态IP<br>点击网络选项卡—外部IP—创建IP地址.</p>
-<p><img src="http://blog.huguiqi.com/1550645997523jarg291u.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550645997523jarg291u.png?imageslim" alt="paste image"></p>
 <p>Google运服务器-创建实例-网络选项卡<br>外部IP,创建IP地址<br>创建IP地址<br>然后会提示输入名称, 任意输入即可(小写字母开头,不能为大写字母)</p>
 <p>保留新的静态IP地址<br>补充说明<br>关于IP会有静态和临时两个选项.<br>推荐选择静态, 选择临时的话机器重启后会重新分配IP地址.</p>
-<p><img src="http://blog.huguiqi.com/155064606590858rawbmd.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/155064606590858rawbmd.png?imageslim" alt="paste image"></p>
 <p>更多信息可以去Dashboard中的网络 – VNC网络 – 外部IP地址或直接点击<a href="https://console.cloud.google.com/networking/addresses/list查看" target="_blank" rel="noopener">https://console.cloud.google.com/networking/addresses/list查看</a>.</p>
 <p>把创建好的IP记下来, 用Xshell连接的时候会用到.</p>
 <p>静态IP一定记得绑定到实例.<br>已分配但未被使用的IP, 会按$0.01/小时计费.</p>
@@ -268,7 +268,7 @@
         <h1 id="docker日志问题导致磁盘空间不足"><a href="#docker日志问题导致磁盘空间不足" class="headerlink" title="docker日志问题导致磁盘空间不足"></a>docker日志问题导致磁盘空间不足</h1><p>昨天突然发现本厂开发环境各个docker实例都处于非健康状态，在宿主机上执行命令：</p>
 <pre><code>df -h
 </code></pre><p>发现docker相关的文件占用空间是100%：</p>
-<p><img src="http://blog.huguiqi.com/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
 <p>有点不正常，我看看docker相关的文件占用情况，是镜像占用的还是容器占用的，或者是Volumes占用的，执行：</p>
 <pre><code>docker system df
 </code></pre><p>这里面显示一切正常，也并没有超过挂载盘的大小256G。</p>
@@ -286,9 +286,9 @@
 </code></pre><p>发现还有两个docker占用了3个多占的空间，但是又不知道具体是什么导致的，那我只能看看docker本身的硬盘占用情况了：</p>
 <pre><code>docker diff &lt;container&gt;
 </code></pre><p>发现<code>/tmp</code> 目录下有好多文件：</p>
-<p><img src="http://blog.huguiqi.com/15503217004152bmdcd14.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/15503217004152bmdcd14.png?imageslim" alt="paste image"></p>
 <p>还有指向<code>/tmp/tomcat.*/*</code> 相关的目录：</p>
-<p><img src="http://blog.huguiqi.com/1550321770403ggnsq3dy.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550321770403ggnsq3dy.png?imageslim" alt="paste image"></p>
 <p>我觉得八成就是这些东西占用的，/tmp 临时文件按道理讲系统会自动删除的，不知道为什么没有删除，这个后面再找原因。<br>我就把所有docker容器里的<code>/tmp</code>目录下的文件全部删除，反正是临时文件。</p>
 <pre><code>docker exec &lt;container&gt; rm -rf /tmp/*
 </code></pre><p>好，都删除了，再看一下硬盘空间，发现还是已使用100%。</p>
@@ -298,19 +298,19 @@
 <pre><code>cd ..
 du -lbhs ./*
 </code></pre><p>发现有几个contarins目录下的目录文件占用挻大的：</p>
-<p><img src="http://blog.huguiqi.com/1550320388470wopcicty.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550320388470wopcicty.png?imageslim" alt="paste image"></p>
 <p>我就从最大的目录下手，占用空间7.4G的，是8972f…..这个目录，我进去看一眼：</p>
-<p><img src="http://blog.huguiqi.com/1550320522538gmcr7qay.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550320522538gmcr7qay.png?imageslim" alt="paste image"></p>
 <p>我发现里面有个后缀为<code>xxxx-json.log</code>的这个文件占了198G，这个就是问题了，很兴奋，赶紧删除了：</p>
 <pre><code>rm -rf ./*/*.log
 </code></pre><p>这个就把所有的contarner的控制台日志文件删除了。</p>
 <p>我们再看看docker的空间占用情况：</p>
-<p><img src="http://blog.huguiqi.com/1550322418176dwe2uam6.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550322418176dwe2uam6.png?imageslim" alt="paste image"></p>
 <p>这里已经很好了，只有镜像占用了1个多G。</p>
 <p>我们再来看看宿主机的空间情况：</p>
 <pre><code>df -h
 </code></pre><p>发现还是100%，见鬼了：</p>
-<p><img src="http://blog.huguiqi.com/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
 <p>一般觉得见鬼了的时候，只有两种情况，一种是你操作错了别的东西，一种是缓存，我觉得是后者。</p>
 <p>我觉得肯定是docker还没有读到真实的容器占用硬盘空间的数据，那我只能重启docker了：</p>
 <pre><code>systemctl daemon-reload 
@@ -319,7 +319,7 @@ systemctl restart docker
 </code></pre><p>为了确认一切顺利，运行:</p>
 <pre><code>docker info
 </code></pre><p>ok，没有问题了，再执行 <code>df -h</code><br>很好：</p>
-<p><img src="http://blog.huguiqi.com/1550322879853rhx6bckp.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550322879853rhx6bckp.png?imageslim" alt="paste image"></p>
 <p>已经只占用挂载磁盘 <code>/dev/vdbd1</code>总大小的2%。</p>
 <p>看来后面还是要写一个自动删除日志的脚本，来维持硬盘空间的大小。</p>
 <p><a href="https://github.com/moby/moby/issues/33775" target="_blank" rel="noopener">参考文章1</a></p>
@@ -390,7 +390,7 @@ systemctl restart docker
         
         <h1 id="大数据之数据仓库"><a href="#大数据之数据仓库" class="headerlink" title="大数据之数据仓库"></a>大数据之数据仓库</h1><h2 id="什么是数据仓库"><a href="#什么是数据仓库" class="headerlink" title="什么是数据仓库"></a>什么是数据仓库</h2><p>数据仓库，英文名称Data Warehouse，简写为DW。数据仓库顾名思义，是一个很大的数据存储集合。数据仓库必须满足主题性、集成性、稳定性、时变性这些特征。</p>
 <p>数据仓库的输入方是各种各样的数据源，最终的输出用于企业的数据分析、数据挖掘、数据报表等方向。</p>
-<p><img src="http://blog.huguiqi.com/1550125093251lvxgy9x9.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1550125093251lvxgy9x9.png?imageslim" alt="paste image"></p>
 <h3 id="数据仓库的特征"><a href="#数据仓库的特征" class="headerlink" title="数据仓库的特征"></a>数据仓库的特征</h3><blockquote>
 <blockquote>
 <p>什么样的数据表现形式才能叫数据仓库？</p>
@@ -561,7 +561,7 @@ public class BackGatewayApplication {
 <pre><code>Access to XMLHttpRequest at &apos;http://127.0.0.1:9002/rios-upms/authUser/test&apos; from origin &apos;http://www.runoob.com&apos; has been blocked by CORS policy: No &apos;Access-Control-Allow-Origin&apos; header is present on the requested resource.
 </code></pre><p>看着像是说跨域问题。</p>
 <p>但是，我们之前遇到的跨域大部分是浏览器的行为，将请求拦截了，但是这个不同的是他的请求发出去了，服务端也接收到了请求，并返回了，返回的失效token的提示，通过postman或者curl工具能正常返回，并且还有状态码：</p>
-<p><img src="http://blog.huguiqi.com/1546866135627qlw7n1a0.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1546866135627qlw7n1a0.png?imageslim" alt="paste image"></p>
 <p>但是通过ajax请求浏览器访问，却总是出现error,以下是用jquery的ajax请求：</p>
 <pre><code>$(document).ready(function(){
     $(&quot;button&quot;).click(function(){
@@ -597,7 +597,7 @@ public class BackGatewayApplication {
     });
 });
 </code></pre><p>调用ajax请求后，总是直接调用了error的回调方法，并在控制台打印：</p>
-<p><img src="http://blog.huguiqi.com/1546874949672jvi5ks3f.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1546874949672jvi5ks3f.png?imageslim" alt="paste image"></p>
 <p>打印的xhr是：</p>
 <pre><code>{&quot;readyState&quot;:0,&quot;responseText&quot;:&quot;&quot;,&quot;status&quot;:0,&quot;statusText&quot;:&quot;error&quot;}
 </code></pre><h3 id="关于readystate五个状态总结"><a href="#关于readystate五个状态总结" class="headerlink" title="关于readystate五个状态总结"></a>关于readystate五个状态总结</h3><h4 id="readyState-状态-状态说明"><a href="#readyState-状态-状态说明" class="headerlink" title="readyState 状态    状态说明"></a>readyState 状态    状态说明</h4><ul>
@@ -642,13 +642,13 @@ public class BackGatewayApplication {
 <p>那么，我就在response的header设置一下：</p>
 <pre><code>httpServletResponse.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
 </code></pre><p>再次访问，就得到了状态码：</p>
-<p><img src="http://blog.huguiqi.com/15468766676916dme9nbx.png?imageslim" alt="paste image">![paste image]</p>
+<p><img src="http://img.huguiqi.top/15468766676916dme9nbx.png?imageslim" alt="paste image">![paste image]</p>
 <p>而这次是在complete方法里取得了xhr:</p>
 <pre><code>{&quot;readyState&quot;:4,&quot;responseText&quot;:&quot;{\&quot;msg\&quot;:\&quot;无效的token\&quot;,\&quot;code\&quot;:401}&quot;,&quot;responseJSON&quot;:{&quot;msg&quot;:&quot;无效的token&quot;,&quot;code&quot;:401},&quot;status&quot;:403,&quot;statusText&quot;:&quot;error&quot;}
 </code></pre><p>得到的状态值是4，status值是403。</p>
 <p>在这里还没完，因为我用的是security+oauth2,在gateway处理所有资源请求的权限认证的，而在oauth2这里，确有个头疼的问题，在token失效的时候，我就拿不到readyState，也一直是0，说这个问题的之前，先来说下我的架构。</p>
 <h2 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h2><p>目前我的服务请求流程大致是这样：</p>
-<p><img src="http://blog.huguiqi.com/1546865302940pgu0d42v.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1546865302940pgu0d42v.png?imageslim" alt="paste image"></p>
 <p>所有的资源请求都经过gateway转发并在gateway认证(在oauth2里把gateway作为一个总的资源服务器配置来校验各资源服务器的权限)，调用认证服务器去校验token的正确性。</p>
 <p>而oauth2的工作流程大致是：</p>
 <p>OAuth2AuthenticationProcessingFilter：</p>
@@ -726,7 +726,7 @@ public class BackGatewayApplication {
         return user;
     }
 </code></pre><p>再次访问，完美解决。。。。。</p>
-<p><img src="http://blog.huguiqi.com/1546878109010bsidige0.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1546878109010bsidige0.png?imageslim" alt="paste image"></p>
 
         
         
@@ -854,7 +854,7 @@ public class BackGatewayApplication {
 <li>将spring-cloud版本升级到：Finchley.SR2</li>
 </ol>
 <p>好了，再运行一遍，ok了。。。。。。</p>
-<p><img src="http://blog.huguiqi.com/1544004879882pt6voptb.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1544004879882pt6voptb.png?imageslim" alt="paste image"></p>
 
         
         
@@ -992,18 +992,18 @@ public class BackGatewayApplication {
 <li>instance-id: 必须为当前可访问的服务地址，否则eureka就会被视作down的状态</li>
 </ol>
 <p>配置文件满足以上几个条件了，那么就可以eureka集群了：</p>
-<p><img src="http://blog.huguiqi.com/1543211372162gpnp4b7g.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1543211372162gpnp4b7g.png?imageslim" alt="paste image"></p>
 <p>看到general info下的environment的值是product,这个值如果在配置文件里配置：</p>
 <pre><code>eureka:
       environment: product
 </code></pre><p>我的服务上就会看到如下：</p>
-<p><img src="http://blog.huguiqi.com/1543211547827xiof9rm5.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1543211547827xiof9rm5.png?imageslim" alt="paste image"></p>
 <h2 id="分地域分区"><a href="#分地域分区" class="headerlink" title="分地域分区"></a>分地域分区</h2><p>eureka提供了region和zone两个概念来进行分区，这两个概念均来自于亚马逊的AWS：</p>
 <ul>
 <li>region：可以简单理解为地理上的分区，比如亚洲地区，或者华北地区，再或者北京等等，没有具体大小的限制。根据项目具体的情况，可以自行合理划分region。</li>
 <li>zone：可以简单理解为region内的具体机房，比如说region划分为北京，然后北京有两个机房，就可以在此region之下划分出zone1,zone2两个zone。</li>
 </ul>
-<h2 id="分区服务架构图"><a href="#分区服务架构图" class="headerlink" title="分区服务架构图"></a>分区服务架构图</h2><p><img src="http://blog.huguiqi.com/1543211822262b16nl0yi.png?imageslim" alt="paste image"></p>
+<h2 id="分区服务架构图"><a href="#分区服务架构图" class="headerlink" title="分区服务架构图"></a>分区服务架构图</h2><p><img src="http://img.huguiqi.top/1543211822262b16nl0yi.png?imageslim" alt="paste image"></p>
 <p>如图所示，有一个region:beijing，下面有zone-1和zone-2两个分区，每个分区内有一个注册中心Eureka Server和一个服务提供者Service。<br>我们在zone-1内创建一个Consumer-1服务消费者的话，其会优先调用同一个zone内的Service-1，当Service-1不可用时，才会去调用zone-2内的Service-2</p>
 <ol>
 <li>Eureka Server-1：</li>
@@ -1381,11 +1381,11 @@ zone.name: zone-1
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
@@ -1470,11 +1470,11 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
 			
 		
 			
@@ -1482,15 +1482,7 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
@@ -1498,7 +1490,11 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
@@ -1506,15 +1502,7 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1530,11 +1518,23 @@ zone.name: zone-1
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="7天学会使用springcloud(六)eureka集群配置eureka的集群配置需要几个必要条件 支持注册中心集群 application.yml  available-replicas条件为：   eureka.instance.appname 必须等于 spring.application.name 并且不可缺省,所以直接占位符 appname: ${spring.application.n">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://blog.huguiqi.com/1543211372162gpnp4b7g.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/1543211547827xiof9rm5.png?imageslim">
-<meta property="og:image" content="http://blog.huguiqi.com/1543211822262b16nl0yi.png?imageslim">
-<meta property="og:updated_time" content="2018-11-26T09:34:44.904Z">
+<meta property="og:image" content="http://img.huguiqi.top/1543211372162gpnp4b7g.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/1543211547827xiof9rm5.png?imageslim">
+<meta property="og:image" content="http://img.huguiqi.top/1543211822262b16nl0yi.png?imageslim">
+<meta property="og:updated_time" content="2019-12-05T08:21:44.971Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7天学会使用springcloud(六)">
 <meta name="twitter:description" content="7天学会使用springcloud(六)eureka集群配置eureka的集群配置需要几个必要条件 支持注册中心集群 application.yml  available-replicas条件为：   eureka.instance.appname 必须等于 spring.application.name 并且不可缺省,所以直接占位符 appname: ${spring.application.n">
-<meta name="twitter:image" content="http://blog.huguiqi.com/1543211372162gpnp4b7g.png?imageslim">
+<meta name="twitter:image" content="http://img.huguiqi.top/1543211372162gpnp4b7g.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -126,18 +126,18 @@
 <li>instance-id: 必须为当前可访问的服务地址，否则eureka就会被视作down的状态</li>
 </ol>
 <p>配置文件满足以上几个条件了，那么就可以eureka集群了：</p>
-<p><img src="http://blog.huguiqi.com/1543211372162gpnp4b7g.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1543211372162gpnp4b7g.png?imageslim" alt="paste image"></p>
 <p>看到general info下的environment的值是product,这个值如果在配置文件里配置：</p>
 <pre><code>eureka:
       environment: product
 </code></pre><p>我的服务上就会看到如下：</p>
-<p><img src="http://blog.huguiqi.com/1543211547827xiof9rm5.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1543211547827xiof9rm5.png?imageslim" alt="paste image"></p>
 <h2 id="分地域分区"><a href="#分地域分区" class="headerlink" title="分地域分区"></a>分地域分区</h2><p>eureka提供了region和zone两个概念来进行分区，这两个概念均来自于亚马逊的AWS：</p>
 <ul>
 <li>region：可以简单理解为地理上的分区，比如亚洲地区，或者华北地区，再或者北京等等，没有具体大小的限制。根据项目具体的情况，可以自行合理划分region。</li>
 <li>zone：可以简单理解为region内的具体机房，比如说region划分为北京，然后北京有两个机房，就可以在此region之下划分出zone1,zone2两个zone。</li>
 </ul>
-<h2 id="分区服务架构图"><a href="#分区服务架构图" class="headerlink" title="分区服务架构图"></a>分区服务架构图</h2><p><img src="http://blog.huguiqi.com/1543211822262b16nl0yi.png?imageslim" alt="paste image"></p>
+<h2 id="分区服务架构图"><a href="#分区服务架构图" class="headerlink" title="分区服务架构图"></a>分区服务架构图</h2><p><img src="http://img.huguiqi.top/1543211822262b16nl0yi.png?imageslim" alt="paste image"></p>
 <p>如图所示，有一个region:beijing，下面有zone-1和zone-2两个分区，每个分区内有一个注册中心Eureka Server和一个服务提供者Service。<br>我们在zone-1内创建一个Consumer-1服务消费者的话，其会优先调用同一个zone内的Service-1，当Service-1不可用时，才会去调用zone-2内的Service-2</p>
 <ol>
 <li>Eureka Server-1：</li>
@@ -395,11 +395,11 @@ zone.name: zone-1
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
@@ -484,11 +484,11 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
 			
 		
 			
@@ -496,15 +496,7 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
@@ -512,7 +504,11 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
@@ -520,15 +516,7 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -544,11 +532,23 @@ zone.name: zone-1
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			
