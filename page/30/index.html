@@ -92,6 +92,73 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:22.664Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
+<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/" target="_blank" rel="noopener">下载地址(文档)</a></p>
+</li>
+<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/3d_touch例子一个/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/2）/" title="2）" itemprop="url">2）</a>
   </h1>
   <p class="article-author">By
@@ -967,81 +1034,9 @@ Access-Control-Max-Age: 预检请求的有效期，单位为秒。有效期内�
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/08/05/docker-compose传参问题/" title="docker-compose传参问题" itemprop="url">docker-compose传参问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-08-05T14:34:00.000Z" itemprop="datePublished"> 发表于 2018-08-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="docker-compose传参问题"><a href="#docker-compose传参问题" class="headerlink" title="docker-compose传参问题"></a>docker-compose传参问题</h1><h2 id="Dockerfile中CMD和ENTRYPOINT命令详解"><a href="#Dockerfile中CMD和ENTRYPOINT命令详解" class="headerlink" title="Dockerfile中CMD和ENTRYPOINT命令详解"></a>Dockerfile中CMD和ENTRYPOINT命令详解</h2><p>CMD 和 ENTRYPOINT 指令都是用来指定容器启动时运行的命令。</p>
-<p>单从功能上来看，这两个命令几乎是重复的。单独使用其中的一个就可以实现绝大多数的用例。</p>
-<p>但是还是有些许区别，我们来一起看看。</p>
-<h3 id="exec-模式和-shell-模式"><a href="#exec-模式和-shell-模式" class="headerlink" title="exec 模式和 shell 模式"></a>exec 模式和 shell 模式</h3><h4 id="CMD-指令"><a href="#CMD-指令" class="headerlink" title="CMD 指令"></a>CMD 指令</h4><p>CMD 指令的目的是：为容器提供默认的执行命令。<br>CMD 指令有三种使用方式，其中的一种是为 ENTRYPOINT 提供默认的参数：</p>
-<pre><code>CMD [&quot;param1&quot;,&quot;param2&quot;]
-</code></pre><p>另外两种使用方式分别是 exec 模式和 shell 模式：</p>
-<h5 id="exec-模式"><a href="#exec-模式" class="headerlink" title="exec 模式"></a>exec 模式</h5><pre><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] // 这是 exec 模式的写法，注意需要使用双引号。
-</code></pre><p>exec 模式的特点是不会通过 shell 执行相关的命令，所以像 $HOME 这样的环境变量是取不到的：</p>
-<pre><code>FROM ubuntu
-CMD [ &quot;echo&quot;, &quot;$HOME&quot; ]
-</code></pre><p>把上面的代码保存到 test1 目录的 Dockerfile 中，然后进入 test1 目录构建镜像并启动一个容器：</p>
-<pre><code>$ docker build --no-cache -t test1 .
-$ docker run --rm test1
-</code></pre><p><img src="http://img.huguiqi.top/1533481840969knusv9p6.png?imageslim" alt="paste image"></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/08/05/docker-compose传参问题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/docker-compose/">docker-compose</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/08/05/docker-compose传参问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/05/docker-compose传参问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/29/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/31/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/29/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/31/">Next<span></span></a>
   </nav>
 
 
@@ -1170,7 +1165,7 @@ $ docker run --rm test1
 		  
 		
 		  
-			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>6</sup></a></li>
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>7</sup></a></li>
 		  
 		
 		  
@@ -1227,11 +1222,11 @@ $ docker run --rm test1
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/随笔/" title="随笔">随笔<sup>7</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
 			
 		
 			
