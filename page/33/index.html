@@ -92,6 +92,68 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/09/07/当新团队公司和领导价值观与你不同时该怎么办/" title="当新团队公司和领导价值观与你不同时该怎么办？" itemprop="url">当新团队公司和领导价值观与你不同时该怎么办？</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-09-07T14:21:59.000Z" itemprop="datePublished"> 发表于 2017-09-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>刚进入一家新公司后发现，公司文化和团队成员，领导都很low，怎么办？反正我的决定是尽快离开他们。。。。。</p>
+<p><img src="http://img.huguiqi.top/150479427135078f1itqn.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1504794302964j2ii2qsb.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1504794316944rrq3fpeh.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1504794333956no0afl3o.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/15047943477853iid1h23.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/15047943617432ukmtaw4.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1504794372667t1c6v6ap.png?imageslim" alt="paste image"></p>
+<p><img src="http://img.huguiqi.top/1504794381623m2mcqwc0.png?imageslim" alt="paste image"></p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/09/07/当新团队公司和领导价值观与你不同时该怎么办/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/09/07/当新团队公司和领导价值观与你不同时该怎么办/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/09/07/当新团队公司和领导价值观与你不同时该怎么办/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/07/29/一天上手springboot/" title="一天上手springboot" itemprop="url">一天上手springboot</a>
   </h1>
   <p class="article-author">By
@@ -1062,181 +1124,6 @@ public void run() {
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/06/30/TreeMap实现原理深究/" title="TreeMap实现原理深究" itemprop="url">TreeMap实现原理深究</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-06-30T13:22:00.000Z" itemprop="datePublished"> 发表于 2017-06-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>Java TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering），也可以通过构造时传入的比较器（Comparator）。<br>TreeMap底层通过红黑树（Red-Black tree）实现，也就意味着containsKey(), get(), put(), remove()都有着log(n)的时间复杂度。</p>
-</blockquote>
-<p>这句话是我在网上摘抄的，对于这句话，有很多的不理解，所以通过查阅TreeMap的源码来解惑。(其实就是原文作者装逼，很多知识点就是不明说)</p>
-<h2 id="惑一：natural-ordering"><a href="#惑一：natural-ordering" class="headerlink" title="惑一：natural ordering"></a>惑一：natural ordering</h2><blockquote>
-<p>TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering）</p>
-</blockquote>
-<p>先来看看这段代码：</p>
-<pre><code>TreeMap map = new TreeMap();
-map.put(&quot;A&quot;,&quot;1&quot;);
-map.put(&quot;C&quot;,&quot;2&quot;);
-map.put(&quot;B&quot;,&quot;3&quot;);
-map.put(&quot;E&quot;,&quot;4&quot;);
-map.put(&quot;D&quot;,&quot;5&quot;);
-System.out.println(map);
-</code></pre><p>output:</p>
-<pre><code>{A=1, B=3, C=2, D=5, E=4}
-</code></pre><p>可以发现，默认按照升序自动排序了。</p>
-<p>通过查阅TreeMap源码，发现treeMap的put方法如下：</p>
-<pre><code>public V put(K key, V value) {
-Entry&lt;K,V&gt; t = root;
-if (t == null) {
-compare(key, key); // type (and possibly null) check
-
-root = new Entry&lt;&gt;(key, value, null);
-size = 1;
-modCount++;
-return null;
-}
-int cmp;
-Entry&lt;K,V&gt; parent;
-// split comparator and comparable paths
-Comparator&lt;? super K&gt; cpr = comparator;
-if (cpr != null) {
-do {
-parent = t;
-cmp = cpr.compare(key, t.key);
-if (cmp &lt; 0)
-t = t.left;
-else if (cmp &gt; 0)
-t = t.right;
-else
-return t.setValue(value);
-} while (t != null);
-}
-else {
-if (key == null)
-throw new NullPointerException();
-@SuppressWarnings(&quot;unchecked&quot;)
-Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
-do {
-parent = t;
-cmp = k.compareTo(t.key);
-if (cmp &lt; 0)
-t = t.left;
-else if (cmp &gt; 0)
-t = t.right;
-else
-return t.setValue(value);
-} while (t != null);
-}
-Entry&lt;K,V&gt; e = new Entry&lt;&gt;(key, value, parent);
-if (cmp &lt; 0)
-parent.left = e;
-else
-parent.right = e;
-fixAfterInsertion(e);
-size++;
-modCount++;
-return null;
-}
-
-
-/**
-Compares two keys using the correct comparison method for this TreeMap.
- */
-@SuppressWarnings(&quot;unchecked&quot;)
-final int compare(Object k1, Object k2) {
-return comparator==null ? ((Comparable&lt;? super K&gt;)k1).compareTo((K)k2)
-: comparator.compare((K)k1, (K)k2);
-}
-</code></pre><p>找出关键代码：</p>
-<pre><code>Comparator&lt;? super K&gt; cpr = comparator;
-if (cpr != null) {
-do {
-parent = t;
-cmp = cpr.compare(key, t.key);
-if (cmp &lt; 0)
-t = t.left;
-else if (cmp &gt; 0)
-t = t.right;
-else
-return t.setValue(value);
-} while (t != null);
-}
-else {
-if (key == null)
-throw new NullPointerException();
-@SuppressWarnings(&quot;unchecked&quot;)
-Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
-do {
-parent = t;
-cmp = k.compareTo(t.key);
-if (cmp &lt; 0)
-t = t.left;
-else if (cmp &gt; 0)
-t = t.right;
-else
-return t.setValue(value);
-} while (t != null);
-}
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/06/30/TreeMap实现原理深究/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/java/">java</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/面试题/">面试题</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/06/30/TreeMap实现原理深究/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/06/30/TreeMap实现原理深究/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/32/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/page/34/">34</a><a class="page-number" href="/page/35/">35</a><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/34/">Next<span></span></a>
@@ -1366,7 +1253,7 @@ return t.setValue(value);
 		  
 		
 		  
-			<li><a href="/categories/感悟/" title="感悟">感悟<sup>1</sup></a></li>
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1595,7 +1482,7 @@ return t.setValue(value);
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2019 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2020 
 		
 		<a href="/about" target="_blank" title="sam">sam</a>
 		

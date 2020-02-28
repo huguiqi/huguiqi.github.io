@@ -92,6 +92,138 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/08/14/springmvc关于同源策略问题解决/" title="springmvc关于同源策略问题解决" itemprop="url">springmvc关于同源策略问题解决</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-08-14T05:52:00.000Z" itemprop="datePublished"> 发表于 2018-08-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="springmvc关于同源策略问题解决"><a href="#springmvc关于同源策略问题解决" class="headerlink" title="springmvc关于同源策略问题解决"></a>springmvc关于同源策略问题解决</h1><h3 id="1-CORS-简介"><a href="#1-CORS-简介" class="headerlink" title="1. CORS 简介"></a>1. CORS 简介</h3><p>同源策略（same origin policy）是浏览器安全的基石。在同源策略的限制下，非同源的网站之间不能发送 ajax 请求的。</p>
+<p>为了解决这个问题，w3c 提出了跨源资源共享，即 CORS(Cross-Origin Resource Sharing)。</p>
+<p>CORS 做到了两点：</p>
+<p>不破坏即有规则<br>服务器实现了 CORS 接口，就可以跨源通信<br>基于这两点，CORS 将请求分为两类：简单请求和非简单请求。</p>
+<p>1.1 简单请求<br>可以先看下 CORS 出现前的情况：跨源时能够通过 script 或者 image 标签触发 GET 请求或通过表单发送一条 POST 请求，但这两种请求 HTTP 头信息中都不能包含任何自定义字段。</p>
+<p>简单请求对应该规则，因此对简单请求的定义为：</p>
+<p>请求方法是 </p>
+<pre><code>HEAD
+、
+GET
+ 或 
+POST
+</code></pre><p> 且 HTTP 头信息不超过以下几个字段：</p>
+<pre><code>Accept
+、
+Accept-Language
+、
+Content-Language
+、
+Last-Event-ID
+、
+Content-Type
+（只限于 
+application/x-www-form-urlencoded
+、
+multipart/form-data
+、
+text/plain
+）。
+</code></pre><p>比如有一个简单请求：</p>
+<pre><code>GET /test HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, sdch, br
+Origin: http://www.examples.com
+Host: www.examples.com
+</code></pre><p>对于这样的简单请求，CORS 的策略是请求时，<strong>在头信息中添加一个 Origin 字段</strong>，服务器收到请求后，根据该字段判断是否允许该请求。</p>
+<p>如果允许，则在 HTTP 头信息中添加 </p>
+<pre><code>Access-Control-Allow-Origin
+</code></pre><p> 字段，并返回正确的结果<br>如果不允许，则不在头信息中添加 </p>
+<pre><code>Access-Control-Allow-Origin
+</code></pre><p> 字段。<br>浏览器先于用户得到返回结果，根据有无<br>Access-Control-Allow-Origin<br> 字段来决定是否拦截该返回结果。</p>
+<p>对于 CORS 出现前的一些服务，CORS 对他们的影响分两种情况：</p>
+<p>script 或者 image 触发的 GET 请求不包含 Origin 头，所以不受到 CORS 的限制，依旧可用。<br>如果是 ajax 请求，HTTP 头信息中会包含 Origin 字段，由于服务器没有做任何配置，所以返回结果不会包含<br>Access-Control-Allow-Origin<br>，因此返回结果会被浏览器拦截，接口依旧不可以被 ajax 跨源访问。<br>可以看出，CORS 的出现，没有对”旧的“服务造成任何影响。</p>
+<p>另外，除了提到的<br>Access-Control-Allow-Origin<br> 还有几个字段用于描述 CORS 返回结果：</p>
+<pre><code>Access-Control-Allow-Credentials: 可选，用户是否可以发送、处理 cookie。
+Access-Control-Expose-Headers：可选，可以让用户拿到的字段。
+</code></pre><p>有几个字段无论设置与否都可以拿到的，包括：<br>Cache-Control、Content-Language、Content-Type、Expires、Last-Modified、Pragma。</p>
+<h3 id="1-2-非简单请求"><a href="#1-2-非简单请求" class="headerlink" title="1.2 非简单请求"></a>1.2 非简单请求</h3><p>除了简单请求之外的请求，就是非简单请求。</p>
+<p>对于非简单请求的跨源请求，<strong>浏览器会在真实请求发出前</strong>，增加一次 OPTION 请求，称为预检请求（preflight request）。预检请求将真实请求的信息，包括请求方法、自定义头字段、源信息添加到 HTTP 头信息字段中，询问服务器是否允许这样的操作。</p>
+<p>比如对于<br>DELETE<br> 请求：</p>
+<pre><code>OPTIONS /test HTTP/1.1
+Origin: http://www.examples.com
+Access-Control-Request-Method: DELETE
+Access-Control-Request-Headers: X-Custom-Header
+Host: www.examples.com
+</code></pre><p>与 CORS 相关的字段有：</p>
+<p>Access-Control-Request-Method<br>: 真实请求使用的 HTTP 方法。<br>Access-Control-Request-Headers<br>: 真实请求中包含的自定义头字段。<br>服务器收到请求时，需要分别对 Origin、Access-Control-Request-Method、Access-Control-Request-Headers 进行验证，验证通过后，会在返回 Http 头信息中添加</p>
+<pre><code>Access-Control-Allow-Origin: http://www.examples.com
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE
+Access-Control-Allow-Headers: X-Custom-Header
+Access-Control-Allow-Credentials: true
+Access-Control-Max-Age: 1728000
+</code></pre><p>他们的含义分别是：</p>
+<pre><code>Access-Control-Allow-Methods: 真实请求允许的方法
+Access-Control-Allow-Headers: 服务器允许使用的字段
+Access-Control-Allow-Credentials: 是否允许用户发送、处理 cookie
+Access-Control-Max-Age: 预检请求的有效期，单位为秒。有效期内，不会重复发送预检请求
+当预检请求通过后，浏览器会发送真实请求到服务器。这就实现了跨源请求。
+</code></pre><p>了解完 CORS，接下来我们来搭建简单的 Spring MVC 服务，并进一步了解 Spring MVC 如何配置 CORS。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/08/14/springmvc关于同源策略问题解决/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springboot/">springboot</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springboot/">springboot</a><a href="/tags/浏览器同源问题/">浏览器同源问题</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/08/14/springmvc关于同源策略问题解决/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/14/springmvc关于同源策略问题解决/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/08/05/docker-compose传参问题/" title="docker-compose传参问题" itemprop="url">docker-compose传参问题</a>
   </h1>
   <p class="article-author">By
@@ -1291,227 +1423,6 @@ The service is unavailable.
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/02/7天学会使用springcloud-三/" title="7天学会使用springcloud(三)" itemprop="url">7天学会使用springcloud(三)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-05-02T06:02:00.000Z" itemprop="datePublished"> 发表于 2018-05-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="7天学会使用springcloud-三"><a href="#7天学会使用springcloud-三" class="headerlink" title="7天学会使用springcloud(三)"></a>7天学会使用springcloud(三)</h1><h2 id="组建通过zuul转发的方式来调用各app"><a href="#组建通过zuul转发的方式来调用各app" class="headerlink" title="组建通过zuul转发的方式来调用各app"></a>组建通过zuul转发的方式来调用各app</h2><p>上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！</p>
-<p>放心 ，这个坑spring cloud已经给你踩好了，就等你入了。</p>
-<p>用zuul这个组件就可以解决这个问题。<br>你只需要通过：</p>
-<pre><code>http://serviceip:port/appname/interfaceName
-</code></pre><p>这样访问就可以了。</p>
-<h2 id="zuul简介"><a href="#zuul简介" class="headerlink" title="zuul简介"></a>zuul简介</h2><p>在微服务架构中，需要几个基础的服务治理组件，包括服务注册与发现、服务消费、负载均衡、断路器、智能路由、配置管理等，由这几个基础组件相互协作，共同组建了一个简单的微服务系统。一个简单的微服务系统如下图：</p>
-<p><img src="http://img.huguiqi.top/1525242853550g5f8bk6v.png?imageslim" alt="t1"></p>
-<p>ps：先抄着吧，这张图有些地方画得不对，后面有时间去画一个</p>
-<p>Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能。</p>
-<p>官方地址：<a href="https://docs.openstack.org/infra/zuul/" target="_blank" rel="noopener">https://docs.openstack.org/infra/zuul/</a></p>
-<p>项目地址：<a href="https://github.com/Netflix/zuul" target="_blank" rel="noopener">https://github.com/Netflix/zuul</a></p>
-<p>zuul有以下功能：</p>
-<ul>
-<li>Authentication 鉴权</li>
-<li>Insights</li>
-<li>Stress Testing 压力测试</li>
-<li>Canary Testing 金丝雀测试（首测）</li>
-<li>Dynamic Routing 动态路由</li>
-<li>Service Migration 服务迁移</li>
-<li>Load Shedding 分级卸载</li>
-<li>Security 密码安全</li>
-<li>Static Response handling</li>
-<li>Active/Active traffic management</li>
-</ul>
-<h2 id="集成zuul"><a href="#集成zuul" class="headerlink" title="集成zuul"></a>集成zuul</h2><p>在Spring Cloud微服务系统中，一种常见的负载均衡方式是，客户端的请求首先经过负载均衡（zuul、Ngnix），再到达服务网关（zuul集群），然后再到具体的服务。服务统一注册到高可用的服务注册中心集群，服务的所有的配置文件由配置服务管理（下一篇文章讲述），配置服务的配置文件放在git仓库，方便开发人员随时改配置。</p>
-<p>在service的pom.xml里新增：</p>
-<pre><code>&lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
-            &lt;exclusions&gt;
-                &lt;exclusion&gt;
-                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
-                &lt;/exclusion&gt;
-            &lt;/exclusions&gt;
-&lt;/dependency&gt;
-</code></pre><h1 id="启用zuul"><a href="#启用zuul" class="headerlink" title="启用zuul"></a>启用zuul</h1><p>在入口类中加上’EnableZuulProxy’注解：</p>
-<pre><code>@SpringBootApplication
-@EnableZuulProxy
-@RestController
-public class AppServiceApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(AppServiceApplication.class, args);
-    }
-
-
-    @Bean
-    @LoadBalanced
-    RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-    @Autowired
-    HelloService helloService;
-
-
-    @RequestMapping(value = &quot;/hi&quot;)
-    public String hi(@RequestParam String name){
-        return helloService.hiService(name);
-    }
-}
-</code></pre><p>然后重启app-service,地址栏输入地址：</p>
-<pre><code>http://localhost:9000/appclient/hi?name=11111
-</code></pre><p>访问成功：</p>
-<p><img src="http://img.huguiqi.top/1525242343091d5w2o8dj.png?imageslim" alt="paste image"></p>
-<p>多刷几次发现它的负载均衡也是有效的：</p>
-<p><img src="http://img.huguiqi.top/152524240009109md1gy5.png?imageslim" alt="paste image"></p>
-<p>我们的robbin+zull的集成完成了。</p>
-<p>通过这种方式，我们可以无限的给各个app-client注册新的群组实例。</p>
-<p>如果有些外部调用的服务不是一个微服务，但是我也想通过service去转发调用他们，那怎么办？</p>
-<p>spring集成zuul的官方使用文档：</p>
-<pre><code>https://spring.io/guides/gs/routing-and-filtering/
-</code></pre><h2 id="zuul指定地址转发"><a href="#zuul指定地址转发" class="headerlink" title="zuul指定地址转发"></a>zuul指定地址转发</h2><p>在配置文件中加入：</p>
-<p>application.yml：</p>
-<pre><code>zuul:
-  sensitiveHeaders:
-  addHostHeader: true
-  ignored-services: &apos;protected-*&apos;
-  routes:
-    otaapp:
-      stripPrefix: true
-      path: /thirdService/**
-      url: http://192.168.1.200:8080
-  host:
-    maxTotalConnections: 5000
-    maxPerRouteConnections: 500
-    socket-timeout-millis: 60000
-    connect-timeout-millis: 60000
-  semaphore:
-    maxSemaphores: 2000
-</code></pre><p>那如果要经过网关层访问thirdService时，则只要输入：</p>
-<pre><code>http://{app-service的ip}:port/thirdService/接口名
-</code></pre><p>就可以完成转发    </p>
-<h2 id="安全验证"><a href="#安全验证" class="headerlink" title="安全验证"></a>安全验证</h2><p>zuul不仅只是路由，并且还能过滤，做一些安全验证。继续改造工程；</p>
-<pre><code>@Component
-public class MyFilter extends ZuulFilter{
-
-    private static Logger log = LoggerFactory.getLogger(MyFilter.class);
-    @Override
-    public String filterType() {
-        return &quot;pre&quot;;
-    }
-
-    @Override
-    public int filterOrder() {
-        return 0;
-    }
-
-    @Override
-    public boolean shouldFilter() {
-        return true;
-    }
-
-    @Override
-    public Object run() {
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest request = ctx.getRequest();
-        log.info(String.format(&quot;%s &gt;&gt;&gt; %s&quot;, request.getMethod(), request.getRequestURL().toString()));
-        Object accessToken = request.getParameter(&quot;token&quot;);
-        if(accessToken == null) {
-            log.warn(&quot;token is empty&quot;);
-            ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
-            try {
-                ctx.getResponse().getWriter().write(&quot;token is empty&quot;);
-            }catch (Exception e){}
-
-            return null;
-        }
-        log.info(&quot;ok&quot;);
-        return null;
-    }
-}
-</code></pre><p>filterType：返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下： </p>
-<ul>
-<li>pre：路由之前</li>
-<li>routing：路由之时</li>
-<li>post： 路由之后</li>
-<li>error：发送错误调用</li>
-<li>filterOrder：过滤的顺序</li>
-<li>shouldFilter：这里可以写逻辑判断，是否要过滤，本文true,永远过滤。</li>
-<li>run：过滤器的具体逻辑。可用很复杂，包括查sql，nosql去判断该请求到底有没有权限访问。</li>
-</ul>
-<h2 id="Static-Response-handling"><a href="#Static-Response-handling" class="headerlink" title="Static Response handling"></a>Static Response handling</h2><p>实现ZuulFallbackProvider这个接口，可以处理返回的值。</p>
-<p>ps: 这个ZuulFallbackProvider是’org.springframework.cloud.netflix.zuul’的1.3.1版本有的，目前在最新版本里已经没有这个filter了，看最新的官方例子，应该是用HttpOutboundSyncFilter替代了。</p>
-<h2 id="zuul-filter"><a href="#zuul-filter" class="headerlink" title="zuul filter"></a>zuul filter</h2><p>参考官方文档：<a href="https://github.com/Netflix/zuul/wiki/Filters" target="_blank" rel="noopener">https://github.com/Netflix/zuul/wiki/Filters</a></p>
-<h3 id="Sample-Filters"><a href="#Sample-Filters" class="headerlink" title="Sample Filters"></a>Sample Filters</h3><ul>
-<li><p>DebugRequest - look for a query param to add extra debug logging for a request</p>
-</li>
-<li><p>Healthcheck - simple static endpoint filter that returns 200, if everything is bootstrapped correctly</p>
-</li>
-<li><p>ZuulResponseFilter - add informational headers to provide extra details on routing, request execution, status and error cause</p>
-</li>
-<li><p>Core Filters<br>GZipResponseFilter - can be enabled to gzip outbound responses<br>SurgicalDebugFilter - can be enabled to route specific requests to different hosts for debugging</p>
-</li>
-</ul>
-<p>这些作用的filters在github上都有例子：</p>
-<pre><code>https://github.com/Netflix/zuul/tree/2.1/zuul-sample
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/spring-cloud/">spring cloud</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/05/02/7天学会使用springcloud-三/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/02/7天学会使用springcloud-三/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/30/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><a class="page-number" href="/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/page/32/">32</a><a class="page-number" href="/page/33/">33</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/32/">Next<span></span></a>
@@ -1641,7 +1552,7 @@ public class MyFilter extends ZuulFilter{
 		  
 		
 		  
-			<li><a href="/categories/感悟/" title="感悟">感悟<sup>1</sup></a></li>
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1870,7 +1781,7 @@ public class MyFilter extends ZuulFilter{
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2019 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2020 
 		
 		<a href="/about" target="_blank" title="sam">sam</a>
 		
