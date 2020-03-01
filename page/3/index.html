@@ -92,6 +92,184 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/26/7天学会使用springcloud-六/" title="7天学会使用springcloud(六)" itemprop="url">7天学会使用springcloud(六)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-26T05:38:00.000Z" itemprop="datePublished"> 发表于 2018-11-26</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="7天学会使用springcloud-六"><a href="#7天学会使用springcloud-六" class="headerlink" title="7天学会使用springcloud(六)"></a>7天学会使用springcloud(六)</h1><h2 id="eureka集群配置"><a href="#eureka集群配置" class="headerlink" title="eureka集群配置"></a>eureka集群配置</h2><p>eureka的集群配置需要几个必要条件</p>
+<p>支持注册中心集群</p>
+<p>application.yml  available-replicas条件为： </p>
+<ol>
+<li>eureka.instance.appname 必须等于 spring.application.name 并且不可缺省,所以直接占位符 appname: ${spring.application.name}</li>
+<li>prefer-ip-address: 必须为false 或者缺省</li>
+<li>fetch-registry 必须为false 或者缺省</li>
+<li>register-with-eureka: 必须为true</li>
+<li>instance-id: 必须为当前可访问的服务地址，否则eureka就会被视作down的状态</li>
+</ol>
+<p>配置文件满足以上几个条件了，那么就可以eureka集群了：</p>
+<p><img src="http://img.huguiqi.top/1543211372162gpnp4b7g.png?imageslim" alt="paste image"></p>
+<p>看到general info下的environment的值是product,这个值如果在配置文件里配置：</p>
+<pre><code>eureka:
+      environment: product
+</code></pre><p>我的服务上就会看到如下：</p>
+<p><img src="http://img.huguiqi.top/1543211547827xiof9rm5.png?imageslim" alt="paste image"></p>
+<h2 id="分地域分区"><a href="#分地域分区" class="headerlink" title="分地域分区"></a>分地域分区</h2><p>eureka提供了region和zone两个概念来进行分区，这两个概念均来自于亚马逊的AWS：</p>
+<ul>
+<li>region：可以简单理解为地理上的分区，比如亚洲地区，或者华北地区，再或者北京等等，没有具体大小的限制。根据项目具体的情况，可以自行合理划分region。</li>
+<li>zone：可以简单理解为region内的具体机房，比如说region划分为北京，然后北京有两个机房，就可以在此region之下划分出zone1,zone2两个zone。</li>
+</ul>
+<h2 id="分区服务架构图"><a href="#分区服务架构图" class="headerlink" title="分区服务架构图"></a>分区服务架构图</h2><p><img src="http://img.huguiqi.top/1543211822262b16nl0yi.png?imageslim" alt="paste image"></p>
+<p>如图所示，有一个region:beijing，下面有zone-1和zone-2两个分区，每个分区内有一个注册中心Eureka Server和一个服务提供者Service。<br>我们在zone-1内创建一个Consumer-1服务消费者的话，其会优先调用同一个zone内的Service-1，当Service-1不可用时，才会去调用zone-2内的Service-2</p>
+<ol>
+<li>Eureka Server-1：</li>
+</ol>
+<pre><code>spring:
+  application:
+    name: Server-1
+server:
+  port: 30000
+eureka:
+  instance:
+    prefer-ip-address: true
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    #地区
+    region: beijing
+    availability-zones:
+      beijing: zone-1,zone-2
+    service-url:
+      zone-1: http://localhost:30000/eureka/
+      zone-2: http://localhost:30001/eureka/
+</code></pre><ol>
+<li>Eureka Server-2   </li>
+</ol>
+<pre><code>spring:
+  application:
+    name: Server-2
+server:
+  port: 30001
+eureka:
+  instance:
+    prefer-ip-address: true
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    #地区
+    region: beijing
+    availability-zones:
+      beijing: zone-2,zone-1
+    service-url:
+      zone-1: http://localhost:30000/eureka/
+      zone-2: http://localhost:30001/eureka/
+</code></pre><ol>
+<li>Service-1</li>
+</ol>
+<pre><code>@RestController
+public class HiController {
+    @Value(&quot;${zone.name}&quot;)
+    private String zoneName;
+
+    @RequestMapping(value = &quot;/hi&quot;, method = RequestMethod.GET)
+    public String hi() {
+        return zoneName;
+    }
+}
+</code></pre><p>配置文件：</p>
+<pre><code>spring:
+  application:
+    name: service
+server:
+  port: 30010
+eureka:
+  instance:
+    prefer-ip-address: true
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+    metadata-map:
+      zone: zone-1
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    #地区
+    region: beijing
+    availability-zones:
+      beijing: zone-1,zone-2
+    service-url:
+      zone-1: http://localhost:30000/eureka/
+      zone-2: http://localhost:30001/eureka/
+
+zone.name: zone-1
+</code></pre><p><strong> ps 参考博客: </strong></p>
+<p><a href="https://segmentfault.com/a/1190000014107639" target="_blank" rel="noopener">https://segmentfault.com/a/1190000014107639</a></p>
+<p><a href="https://www.jianshu.com/p/2ca32773b3e5" target="_blank" rel="noopener">https://www.jianshu.com/p/2ca32773b3e5</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springcloud/">springcloud</a><a href="/tags/集群/">集群</a><a href="/tags/eureka/">eureka</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/26/7天学会使用springcloud-六/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/26/7天学会使用springcloud-六/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？/" title="日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？" itemprop="url">日本设计师的极简主义设计，是否和日本民族的高密度生活状态有直接联系？</a>
   </h1>
   <p class="article-author">By
@@ -742,82 +920,6 @@ df -h
 	
 	  	<span></span>
 		<a href="/2018/11/19/创建系统无法删除的文件夹 加密文件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/创建系统无法删除的文件夹 加密文件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/" title="每位开发人员都应铭记的10句编程谚语" itemprop="url">每位开发人员都应铭记的10句编程谚语</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.432Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="每位开发人员都应铭记的10句编程谚语"><a href="#每位开发人员都应铭记的10句编程谚语" class="headerlink" title="每位开发人员都应铭记的10句编程谚语"></a>每位开发人员都应铭记的10句编程谚语</h1><p>所谓谚语，就是用言简意赅、通俗易懂的方式传达人生箴言和普遍真理的话，它们能很好地帮助你处理生活和工作上的事情。也正因如此，我才整理了10句编程谚语，每位开发人员都应该铭记他们，武装自己。\<br>\<br> 　　<strong>1. 无风不起浪</strong></p>
-<div style="text-align: center;"><br><br>\<br>\<br><br><em>别紧张，这也许只是一场消防演习\
-</em><br><br></div>
-
-<p>\<br> 　　代码设计是否糟糕，从某些地方就可以看出来。比如：</p>
-<ul>
-<li>a. 超大类或超大函数</li>
-<li>b. 大片被注释的代码</li>
-<li>c. 逻辑重复</li>
-<li>d. If/else嵌套过深</li>
-</ul>
-<p>\<br> 　　程序员们通常称它们作代码异味(Code<br>Smell)，但是就我个人认为“代码警报”这个名字更为合适一些，因为它有更高的紧迫感的含义。根本问题处理不当，终将引火烧身。\<br>\<br> 　　译注：Code<br>Smell中文译名一般为“代码异味”，或“代码味道”，它是提示代码中某个地方存在错误的一个暗示，开发人员可以通过这种smell（异味）在代码中追捕到问题。\<br>\<br>\<br> 　　<strong>2. 预防为主，治疗为辅</strong></p>
-<div style="text-align: center;"><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/每位开发人员都应铭记的10句编程谚语/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/每位开发人员都应铭记的10句编程谚语/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 

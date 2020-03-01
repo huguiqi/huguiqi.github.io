@@ -92,6 +92,70 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)" itemprop="url">让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.907Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题"><a href="#让Maven正确处理javac警告-如果使用了SUN的专用API将会出现此类问题" class="headerlink" title="让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)"></a>让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)</h1><div style="HEIGHT: auto !important"><br><br>+————————————————————————–+<br>| <div style="POSITION: relative; HEIGHT: 100%; OVERFLOW: hidden">         |<br>|                                                                          |<br>| <div style="FONT-SIZE: 14px">                                            |<br>|                                                                          |<br>| 如果你用maven编译项目，而且在项目中用了SUN的专用API，你会得到警告信息，然后Maven会报告编译失败，像这个样子： |<br>|                                                                          |<br>|                                                                          |<br>| &gt; …\                                                                     |<br>| &gt;  [ERROR]                                                             |<br>| &gt; \workspaces\mvn\javac-warning-test\src\main\java\com\juvenxu\ |<br>| TestJavacWarning.java:[7,32]                                           |<br>| &gt; 警告：sun.misc.BASE64Decoder 是 Sun 的专用\                            |<br>| &gt;  API，可能会在未来版本中删除\                                          |<br>| &gt;  [INFO] ————————————————————-\                                       |<br>| &gt;  [INFO] BUILD FAILURE                                                |<br>|                                                                          |<br>| 这当然是不合理的，javac只是警告而已，maven凭什么就直接报失败呢？         |<br>|                                                                          |<br>| 其实最好的解决办法是避免用到这些SUN专用的API,这些API都有现成的替代品，不过本文要讨论的不是这个，如果你用了某个依赖，该依赖用了SUN专 |<br>| 用API，你往往会束手无策。                                                |<br>|                                                                          |<br>| 第一反应是Maven肯定可以提供一些配置点，允许我们忽略这种警告，嗯，当初我也是这么想的，一次培训的时候，一同学问到这个问题，我想当然的回答，“ |<br>| 这个配置javac忽略警告就可以啦，不是Maven的问题”，我自己根本没有试过，这么不负责任的回答我现在想想都脸红。后来和 |<br>|                                                                          |<br>| <a href="http://www.intellij.org.cn/blog/" target="_blank" rel="noopener">linux_china</a>                         |<br>| 又讨论到这个问题，然后我动手尝试了下，折腾了几乎所有maven-compiler-plugin的配置，到最后竟然是无解！（其实也不算完全无解，至 |<br>| 少我们可以配置maven-compiler-plugin忽略编译错误，不过这个解决办法连我自己都觉得太恶心） |<br>|                                                                          |<br>|                                                                          |<br>| 无解归无解，至少我找到了<a href="http://jira.codehaus.org/browse/MCOMPILER-109" target="_blank" rel="noopener">这个问题的根本原因</a>，其 |<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/让Maven正确处理javac警告(如果使用了SUN的专用API将会出现此类问题)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/在IDEA下远程调试JavaScript/" title="在IDEA下远程调试JavaScript" itemprop="url">在IDEA下远程调试JavaScript</a>
   </h1>
   <p class="article-author">By
@@ -693,72 +757,6 @@
 	
 	  	<span></span>
 		<a href="/2018/11/19/swift学习笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/swift学习笔记/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/svn常用命令/" title="svn常用命令" itemprop="url">svn常用命令</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.846Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="svn常用命令"><a href="#svn常用命令" class="headerlink" title="svn常用命令"></a>svn常用命令</h1><div><br><br>\<br><br></div>
-
-<div style="word-break: normal !important; font-family: verdana, 'ms song', 宋体, Arial, 微软雅黑, Helvetica, sans-serif; font-size: 13px; text-align: left; background-color: rgb(254, 254, 242);"><br><br><strong>1、将文件checkout到本地目录</strong>\<br> svn checkout path（path是服务器上的目录）\<br> 例如：svn checkout <a href="svn://192.168.1.1/pro/domain" target="_blank" rel="noopener">svn://192.168.1.1/pro/domain</a>\<br> 简写：svn co\<br>\<br> <strong>2、往版本库中添加新的文件</strong>\<br> svn add file\<br> 例如：svn add test.php(添加test.php)\<br> svn add *.php(添加当前目录下所有的php文件)\<br>\<br> <strong>3、将改动的文件提交到版本库</strong>\<br> svn commit -m “LogMessage“ [-N] [–no-unlock]<br>PATH(如果选择了保持锁，就使用–no-unlock开关)\<br> 例如：svn commit -m “add test file for my test“ test.php\<br> 简写：svn ci\<br>\<br> <strong>4、加锁/解锁</strong>\<br> svn lock -m “LockMessage“ [–force] PATH\<br> 例如：svn lock -m “lock test file“ test.php\<br> svn unlock PATH\<br>\<br> <strong>5、更新到某个版本</strong>\<br> svn update -r m path\<br> 例如：\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/svn常用命令/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/svn常用命令/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/svn常用命令/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 

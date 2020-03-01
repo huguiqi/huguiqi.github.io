@@ -92,6 +92,64 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/mac新装mysql设置root密码/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.609Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <hr>
+<p>title: mac系统新装mysql设置root密码<br>date: 1542621383609<br>categories: mysql</p>
+<h2 id="tags-mac与mysql"><a href="#tags-mac与mysql" class="headerlink" title="tags: mac与mysql"></a>tags: mac与mysql</h2><h1 id="mac新装mysql设置root密码"><a href="#mac新装mysql设置root密码" class="headerlink" title="mac新装mysql设置root密码"></a>mac新装mysql设置root密码</h1><p>默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># mysqladmin -uroot -p password &apos;newpassword&apos;</span><br><span class="line">Enter password:</span><br><span class="line">mysqladmin: connect to server at &apos;localhost&apos; failed</span><br><span class="line">error: &apos;Access denied for user &apos;root&apos;@&apos;localhost&apos; (using password: YES)&apos;</span><br></pre></td></tr></table></figure>
+<p><strong>ps:<br>mysql默认在安装后mysqladmin命令不是全局的，如果要设置为全部的，需要设置自启动(mysql的命令行默认在/usr/local/mysql/bin/下)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># /etc/init.d/mysql stop</span><br><span class="line"># mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;</span><br><span class="line"># mysql -u root mysql</span><br><span class="line">mysql&gt; UPDATE user SET Password=PASSWORD(&apos;newpassword&apos;) where USER=&apos;root&apos;;</span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line">mysql&gt; quit</span><br><span class="line"># /etc/init.d/mysql restart</span><br><span class="line"># mysql -uroot -p</span><br><span class="line">Enter password: &lt;输入新设的密码newpassword&gt;</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/mac新装mysql设置root密码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/mac新装mysql设置root密码/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/mac 下载youku视频/" title="mac 下载youku视频" itemprop="url">mac 下载youku视频</a>
   </h1>
   <p class="article-author">By
@@ -713,80 +771,6 @@
 	
 	  	<span></span>
 		<a href="/2018/11/19/linux 查看系统信息命令(比较全)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/linux 查看系统信息命令(比较全)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/linux 安装软件/" title="linux 安装软件" itemprop="url">linux 安装软件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.548Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux-安装软件"><a href="#linux-安装软件" class="headerlink" title="linux 安装软件"></a>linux 安装软件</h1><div><br><br>1. 若系统有自带的mysql或libs，可选择先卸载再安装<br><br></div>
-
-<div><br><br># rpm -qa | grep mysql<br>  //查看该操作系统上是否已经安装了mysql数据库<br><br></div>
-
-<div><br><br># rpm -e mysql                     //普通删除模式<br><br></div>
-
-<div><br><br># rpm -e –nodeps mysql         // 强力删除模式<br><br></div>
-
-<div><br><br># yum -y remove mysql-libs-*   //删除所有包<br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/linux 安装软件/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/linux 安装软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/linux 安装软件/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 

@@ -92,6 +92,80 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/08/20/spring-cloud之gateway无法zuul转发问题@- 无标题 - 2/" title="spring-cloud之gateway无法zuul转发问题" itemprop="url">spring-cloud之gateway无法zuul转发问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-08-20T03:52:00.000Z" itemprop="datePublished"> 发表于 2018-08-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="spring-cloud之gateway无法zuul转发问题"><a href="#spring-cloud之gateway无法zuul转发问题" class="headerlink" title="# spring-cloud之gateway无法zuul转发问题"></a># spring-cloud之gateway无法zuul转发问题</h1><p>需要在配置文件中加一个nonSecurePort配置，最好将这个端口配置为当前服务端口</p>
+<p>eureka:<br>  instance:<br>hostname: ${HOST_NAME}<br>prefer-ip-address: false<br>instance-id: ${eureka.instance.hostname}:${server.port}<br>appname: ${HOST_NAME}<br>nonSecurePort: ${server.port}</p>
+<h2 id="eurake无法访问的资源文件问题"><a href="#eurake无法访问的资源文件问题" class="headerlink" title="eurake无法访问的资源文件问题"></a>eurake无法访问的资源文件问题</h2><p>通过intelij启动eurake项目，可以访问eureka地址，并可正常加载resource文件，但通过java -jar 的形式都无法正常加载资源文件（css,js等）。</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>解决方案：</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>在bootstrap.yml里添加：</p>
+<p>spring:<br>  resources:<br>  add-mappings: true</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/zuul/">zuul</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/08/20/spring-cloud之gateway无法zuul转发问题@- 无标题 - 2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/20/spring-cloud之gateway无法zuul转发问题@- 无标题 - 2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/08/14/springmvc关于同源策略问题解决/" title="springmvc关于同源策略问题解决" itemprop="url">springmvc关于同源策略问题解决</a>
   </h1>
   <p class="article-author">By
@@ -1196,220 +1270,6 @@ public class ClientRemoteProxy {
 	
 	  	<span></span>
 		<a href="/2018/05/27/7天学会使用springcloud-五/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/27/7天学会使用springcloud-五/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/05/12/7天学会使用springcloud-四/" title="7天学会使用springcloud(四)" itemprop="url">7天学会使用springcloud(四)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-05-12T14:20:00.000Z" itemprop="datePublished"> 发表于 2018-05-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="7天学会使用springcloud-四"><a href="#7天学会使用springcloud-四" class="headerlink" title="7天学会使用springcloud(四)"></a>7天学会使用springcloud(四)</h1><h2 id="什么是熔断机制"><a href="#什么是熔断机制" class="headerlink" title="什么是熔断机制"></a>什么是熔断机制</h2><p>最近电脑翻墙出了点问题，无法到wiki上去看它的定义，只能上百度百科上去找这个定义了，这个名词其实引自股票行业：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>熔断机制（Circuit Breaker），也叫自动停盘机制，是指当股指波幅达到规定的熔断点时，交易所为控制风险采取的暂停交易措施。 [1]  具体来说是对某一合约在达到涨跌停板之前，设置一个熔断价格，使合约买卖报价在一段时间内只能在这一价格范围内交易的机制。</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>引入到软件架构中，就是当某个应用服务达到一个风险值的时候(内存，cpu等)，使此应用暂停服务，以免影响整个服务的正常运行。</p>
-<h2 id="springcloud的熔断机制"><a href="#springcloud的熔断机制" class="headerlink" title="springcloud的熔断机制"></a>springcloud的熔断机制</h2><p>在微服务架构中，根据业务来拆分成一个个的服务，服务与服务之间可以相互调用（RPC），在Spring Cloud可以用RestTemplate+Ribbon和Feign来调用。为了保证其高可用，单个服务通常会集群部署。由于网络原因或者自身的原因，服务并不能保证100%可用，如果单个服务出现问题，调用这个服务就会出现线程阻塞，此时若有大量的请求涌入，Servlet容器的线程资源会被消耗完毕，导致服务瘫痪。服务与服务之间的依赖性，故障会传播，会对整个微服务系统造成灾难性的严重后果，这就是服务故障的“雪崩”效应。</p>
-<p>为了解决这个问题，业界提出了断路器模型。</p>
-<h2 id="springcloud熔断机制有几种方式"><a href="#springcloud熔断机制有几种方式" class="headerlink" title="springcloud熔断机制有几种方式"></a>springcloud熔断机制有几种方式</h2><h3 id="路由熔断"><a href="#路由熔断" class="headerlink" title="路由熔断"></a>路由熔断</h3><p>zull除了做网关，还可以做路由熔断。</p>
-<p>当我们的后端服务出现异常的时候，我们不希望将异常抛出给最外层，期望服务可以自动进行一降级。Zuul给我们提供了这样的支持。当某个服务出现异常时，直接返回我们预设的信息。</p>
-<p>目前最新的zuul是通过filter的方式进行熔断的</p>
-<p>如果zuul引用的版本是：</p>
-<pre><code>&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-&lt;artifactId&gt;spring-cloud-netflix&lt;/artifactId&gt;
-&lt;version&gt;1.3.1.RELEASE&lt;/version&gt;
-</code></pre><p>我们通过自定义的fallback方法，并且将其指定给某个route来实现该route访问出问题的熔断处理。主要继承ZuulFallbackProvider接口来实现，ZuulFallbackProvider默认有两个方法，一个用来指明熔断拦截哪个服务，一个定制返回内容</p>
-<pre><code>public interface ZuulFallbackProvider {
-   /**
-     * The route this fallback will be used for.
-     * @return The route the fallback will be used for.
-     */
-    public String getRoute();
-
-    /**
-     * Provides a fallback response.
-     * @return The fallback response.
-     */
-    public ClientHttpResponse fallbackResponse();
-}
-</code></pre><p>实现类通过实现getRoute方法，告诉Zuul它是负责哪个route定义的熔断。而fallbackResponse方法则是告诉 Zuul 断路出现时，它会提供一个什么返回值来处理请求。</p>
-<p>后来Spring又扩展了此类，丰富了返回方式，在返回的内容中添加了异常信息，因此最新版本建议直接继承类FallbackProvider 。</p>
-<p>我们以上面的eruake-service服务为例，定制它的熔断返回内容。</p>
-<pre><code>@Component
-public class ProducerFallback implements FallbackProvider {
-    private final Logger logger = LoggerFactory.getLogger(FallbackProvider.class);
-
-    //指定要处理的 service。
-    @Override
-    public String getRoute() {
-        return &quot;appclient&quot;;
-    }
-
-    public ClientHttpResponse fallbackResponse() {
-        return new ClientHttpResponse() {
-            @Override
-            public HttpStatus getStatusCode() throws IOException {
-                return HttpStatus.OK;
-            }
-
-            @Override
-            public int getRawStatusCode() throws IOException {
-                return 200;
-            }
-
-            @Override
-            public String getStatusText() throws IOException {
-                return &quot;OK&quot;;
-            }
-
-            @Override
-            public void close() {
-
-            }
-
-            @Override
-            public InputStream getBody() throws IOException {
-                return new ByteArrayInputStream(&quot;The service is unavailable.&quot;.getBytes());
-            }
-
-            @Override
-            public HttpHeaders getHeaders() {
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                return headers;
-            }
-        };
-    }
-
-    @Override
-    public ClientHttpResponse fallbackResponse(Throwable cause) {
-        if (cause != null &amp;&amp; cause.getCause() != null) {
-            String reason = cause.getCause().getMessage();
-            logger.info(&quot;Excption {}&quot;,reason);
-        }
-        return fallbackResponse();
-    }
-}
-</code></pre><p>当服务出现异常时，打印相关异常信息，并返回</p>
-<p>“The service is unavailable.”。</p>
-<p>手动关闭client1项目，多次访问地址：<a href="http://localhost:8888/applicent/hello?name=neo&amp;token=xx，会交替返回：" target="_blank" rel="noopener">http://localhost:8888/applicent/hello?name=neo&amp;token=xx，会交替返回：</a></p>
-<pre><code>hello neo，this is first messge
-The service is unavailable.
-...
-</code></pre><p>根据返回结果可以看出：eurake-client-2项目已经启用了熔断，返回:The service is unavailable.</p>
-<p>如果zuul引用的版本是：</p>
-<pre><code>&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-&lt;artifactId&gt;spring-cloud-starter-netflix&lt;/artifactId&gt;
-&lt;version&gt;2.0.0.M8&lt;/version&gt;
-</code></pre><p>那就用FallbackProvider代替ZuulFallbackProvider来实现。</p>
-<p>ps:<br>Zuul 目前只支持服务级别的熔断，不支持具体到某个URL进行熔断。</p>
-<h3 id="熔断器（CircuitBreaker）"><a href="#熔断器（CircuitBreaker）" class="headerlink" title="熔断器（CircuitBreaker）"></a>熔断器（CircuitBreaker）</h3><ul>
-<li>断路器原理</li>
-</ul>
-<p>断路器的原理很简单，如同电力过载保护器。它可以实现快速失败，如果它在一段时间内侦测到许多类似的错误，会强迫其以后的多个调用快速失败，不再访问远程服务器，从而防止应用程序不断地尝试执行可能会失败的操作，使得应用程序继续执行而不用等待修正错误，或者浪费CPU时间去等到长时间的超时产生。熔断器也可以使应用程序能够诊断错误是否已经修正，如果已经修正，应用程序会再次尝试调用操作。</p>
-<p>熔断器模式就像是那些容易导致错误的操作的一种代理。这种代理能够记录最近调用发生错误的次数，然后决定使用允许操作继续，或者立即返回错误。</p>
-<p>引入官方的调用图：</p>
-<p><img src="http://img.huguiqi.top/1527348164587o75pzs9y.png?imageslim" alt="paste image"></p>
-<p>Martin Fowler官方对断路器的定义都在这里：</p>
-<p><a href="https://martinfowler.com/bliki/CircuitBreaker.html" target="_blank" rel="noopener">https://martinfowler.com/bliki/CircuitBreaker.html</a></p>
-<ul>
-<li>Hystrix</li>
-</ul>
-<blockquote>
-<blockquote>
-<p>Netflix has created a library called Hystrix that implements the circuit breaker pattern. In a microservice architecture, it is common to have multiple layers of service calls</p>
-</blockquote>
-</blockquote>
-<p>hystrix是实现了martin fowler的断路器的一个框架，目前也是使用最广的。<br>Hystrix原理很好理解, 当Hystrix Command请求后端服务失败数量超过一定比例(默认50%), 断路器会切换到开路状态(Open). 这时所有请求会直接失败而不会发送到后端服务. 断路器保持在开路状态一段时间后(默认5秒), 自动切换到半开路状态(HALF-OPEN). 这时会判断下一次请求的返回情况, 如果请求成功, 断路器切回闭路状态(CLOSED), 否则重新切换到开路状态(OPEN). Hystrix的断路器就像我们家庭电路中的保险丝, 一旦后端服务不可用, 断路器会直接切断请求链, 避免发送大量无效请求影响系统吞吐量, 并且断路器有自我检测并恢复的能力.</p>
-<p>以上摘自springcloud文档中关于断路器中的原文：</p>
-<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
-<ol>
-<li>Fallback</li>
-</ol>
-<p>Fallback相当于是降级操作. 对于查询操作, 我们可以实现一个fallback方法, 当请求后端服务出现异常的时候, 可以使用fallback方法返回的值. fallback方法的返回值一般是设置的默认值或者来自缓存.</p>
-<ol>
-<li>资源隔离</li>
-</ol>
-<p>在Hystrix中, 主要通过线程池来实现资源隔离. 通常在使用的时候我们会根据调用的远程服务划分出多个线程池. 例如调用产品服务的Command放入A线程池, 调用账户服务的Command放入B线程池. 这样做的主要优点是运行环境被隔离开了. 这样就算调用服务的代码存在bug或者由于其他原因导致自己所在线程池被耗尽时, 不会对系统的其他服务造成影响. 但是带来的代价就是维护多个线程池会对系统带来额外的性能开销. 如果是对性能有严格要求而且确信自己调用服务的客户端代码不会出问题的话, 可以使用Hystrix的信号模式(Semaphores)来隔离资源.</p>
-<h2 id="熔断机制的应用场景"><a href="#熔断机制的应用场景" class="headerlink" title="熔断机制的应用场景"></a>熔断机制的应用场景</h2><p>依赖服务调用，依赖服务如果访问失败或者服务挂了，但又不想拖垮整个应用网络，则使用它。</p>
-<h2 id="熔断机制有什么优缺点"><a href="#熔断机制有什么优缺点" class="headerlink" title="熔断机制有什么优缺点"></a>熔断机制有什么优缺点</h2><ol>
-<li><p>解决大并发数据量情况下，某些调用链环节失败导致拖垮整个网络的情况发生</p>
-</li>
-<li><p>适合大型分布式应用场景，对外部依赖严重项目</p>
-</li>
-<li>提高了复杂系统之间排查线上问题的效率</li>
-<li>使用网关路由熔断只支持具体服务,并且只适合微服务。</li>
-<li>在Hystrix中可以支持到url，无服务限制，可以是任何服务地址。</li>
-</ol>
-<h2 id="springboot集成熔断"><a href="#springboot集成熔断" class="headerlink" title="springboot集成熔断"></a>springboot集成熔断</h2><ol>
-<li>zuul + zuulFilter</li>
-</ol>
-<p>上面已经实现</p>
-<ol>
-<li>fegin+Hystrix</li>
-</ol>
-<p>这个放到下篇文章里写吧。</p>
-<p>参考文章：</p>
-<p><a href="http://www.cnblogs.com/niechen/p/8513597.html" target="_blank" rel="noopener">http://www.cnblogs.com/niechen/p/8513597.html</a></p>
-<p><a href="https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html" target="_blank" rel="noopener">feign官网地址</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springcloud/">springcloud</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/熔断机制/">熔断机制</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/05/12/7天学会使用springcloud-四/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/05/12/7天学会使用springcloud-四/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
