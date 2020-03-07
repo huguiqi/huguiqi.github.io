@@ -92,6 +92,79 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/ORACLE 字符集长度问题/" title="ORACLE 字符集长度问题" itemprop="url">ORACLE 字符集长度问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:22.965Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="ORACLE-字符集长度问题"><a href="#ORACLE-字符集长度问题" class="headerlink" title="ORACLE 字符集长度问题"></a>ORACLE 字符集长度问题</h1><div><br><br><div><br><br>ORACLE 字符集长度问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>很多新手在做建数据库时，会这样忽略一个问题：ORACLE中VARCHAR2类型的字段长度是按照byte来定义的。如果数据库使用的字<br>符集是GBK,GB2312或者其他定长字符集的话，这个问题似乎可以被忽略，因为只要把数据库的字段长度/2就可以得到你要限制插入该字段的中文长度<br>了。 但是，如果数据库的字符集是UTF-8呢，杯具了吧，人家是变长的。<br><br></div>
+
+<pre><code>有人说数据库字段长度/3，这是一定不可取的，因为UTF-8是变长表示的，平均为3byte表示一个字符，而并不是一定用3byte。
+
+其实人家ORACLE没这么笨，本来就可以用字符为单位来定义varchar2的长度的，这个时候需要注意在建表时这样写：
+</code></pre><div><br><br><div><br><br>Sql代码<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/ORACLE 字符集长度问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/ORACLE 字符集长度问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/ORACLE 字符集长度问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/Node.js 常见面试题/" title="Node.js 常见面试题" itemprop="url">Node.js 常见面试题</a>
   </h1>
   <p class="article-author">By
@@ -728,82 +801,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/Maven仓库的两个概念：本地仓库和远程仓库/" title="Maven仓库的两个概念：本地仓库和远程仓库" itemprop="url">Maven仓库的两个概念：本地仓库和远程仓库</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.908Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Maven仓库的两个概念：本地仓库和远程仓库"><a href="#Maven仓库的两个概念：本地仓库和远程仓库" class="headerlink" title="Maven仓库的两个概念：本地仓库和远程仓库"></a>Maven仓库的两个概念：本地仓库和远程仓库</h1><p>Maven仓库的两个概念：本地仓库和远程仓库</p>
-<p>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。</p>
-<p>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：</p>
-<p>Xml代码</p>
-<pre><code>\
-</code></pre><p>   …      \<br>   D:\java\repository    \<br>   …      \<br>     \</p>
-<p>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:</p>
-<p>\${M2_HOME}/conf/setting.xml</p>
-<p>还可以通过在运行时指定目录，但是并不推荐这么做：</p>
-<p>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/</p>
-<p>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到\org\apache\maven<br>\project\pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：</p>
-<pre><code>\
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/Maven仓库的两个概念：本地仓库和远程仓库/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/Maven仓库的两个概念：本地仓库和远程仓库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Maven仓库的两个概念：本地仓库和远程仓库/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/25/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/27/">Next<span></span></a>
@@ -903,11 +900,11 @@
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -924,8 +921,6 @@
 		
 		  
 			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
-		  
-		
 		  
 		
 		  
@@ -1006,10 +1001,6 @@
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
@@ -1018,7 +1009,7 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1026,7 +1017,11 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1046,11 +1041,11 @@
 			
 		
 			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
@@ -1058,11 +1053,11 @@
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

@@ -92,6 +92,74 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/Redis 横向扩展案例/" title="Redis 横向扩展案例" itemprop="url">Redis 横向扩展案例</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:23.021Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Redis-横向扩展案例"><a href="#Redis-横向扩展案例" class="headerlink" title="Redis 横向扩展案例"></a>Redis 横向扩展案例</h1><h2 id="0x01-背景介绍"><a href="#0x01-背景介绍" class="headerlink" title="0x01 背景介绍"></a>0x01 背景介绍</h2><p>A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A<br>项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达<br>100K，甚至一度达到<br>120K。某天晚上，终于崩溃了。这也印证了「<strong>墨菲定律</strong>」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anything<br>that can go wrong will go<br>wrong）。所以，平时的运维过程，千万不要抱有侥幸心理，有问题就第一时间反应，有隐患就及时处理。</p>
+<hr>
+<h2 id="0x02-分析解决"><a href="#0x02-分析解决" class="headerlink" title="0x02 分析解决"></a>0x02 分析解决</h2><h3 id="2-1-初步分析"><a href="#2-1-初步分析" class="headerlink" title="2.1 初步分析"></a>2.1 初步分析</h3><p>单点 Redis<br>实例崩溃的现象就是新的连接不能建立，超时严重，数据不能及时读取。查看系统日志，发现有大量形如「kernel:<br>Possible SYN flooding on port xxxx. Sending<br>cookies」的日志。我们很快排查了系统遭受攻击的可能性。查看端口占用情况，确实是被<br>Redis 消耗了。分析监控数据和端口数情况，此时的 Redis 连接数达到了<br>7K，QPS 已经达到 100K。现在亟待解决的问题就是连接数高的问题。另外，针对<br>QPS 过高的问题，确认是否可以使用 Redis 管道技术。</p>
+<p><img src="http://i.imgur.com/OFlADoe.png" alt="QPS of Redis at Crash time"></p>
+<p>经过和研发沟通，得知程序采用 Nginx Lua 实现。Lua<br>是一个简洁、轻量、可扩展的脚本语言，也是号称性能最高的脚本语言。使用<br>Nginx Lua，再加上 LuaRedisModule 模块，就可以原生地和 Redis<br>建立请求，并解析响应。但真实的项目中采用的是 lua-resty-redis，这是一个为<br>ngx_lua 设计的，基于 cosocket API 的 Redis Lua 客户端。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/Redis 横向扩展案例/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/Redis 横向扩展案例/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Redis 横向扩展案例/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/RESTEasy入门/" title="RESTEasy入门" itemprop="url">RESTEasy入门</a>
   </h1>
   <p class="article-author">By
@@ -722,79 +790,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/ORACLE 字符集长度问题/" title="ORACLE 字符集长度问题" itemprop="url">ORACLE 字符集长度问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.965Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="ORACLE-字符集长度问题"><a href="#ORACLE-字符集长度问题" class="headerlink" title="ORACLE 字符集长度问题"></a>ORACLE 字符集长度问题</h1><div><br><br><div><br><br>ORACLE 字符集长度问题<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>很多新手在做建数据库时，会这样忽略一个问题：ORACLE中VARCHAR2类型的字段长度是按照byte来定义的。如果数据库使用的字<br>符集是GBK,GB2312或者其他定长字符集的话，这个问题似乎可以被忽略，因为只要把数据库的字段长度/2就可以得到你要限制插入该字段的中文长度<br>了。 但是，如果数据库的字符集是UTF-8呢，杯具了吧，人家是变长的。<br><br></div>
-
-<pre><code>有人说数据库字段长度/3，这是一定不可取的，因为UTF-8是变长表示的，平均为3byte表示一个字符，而并不是一定用3byte。
-
-其实人家ORACLE没这么笨，本来就可以用字符为单位来定义varchar2的长度的，这个时候需要注意在建表时这样写：
-</code></pre><div><br><br><div><br><br>Sql代码<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/ORACLE 字符集长度问题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/ORACLE 字符集长度问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/ORACLE 字符集长度问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/24/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="page-number" href="/page/24/">24</a><span class="page-number current">25</span><a class="page-number" href="/page/26/">26</a><a class="page-number" href="/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/26/">Next<span></span></a>
@@ -894,11 +889,11 @@
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -915,8 +910,6 @@
 		
 		  
 			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
-		  
-		
 		  
 		
 		  
@@ -997,10 +990,6 @@
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
@@ -1009,7 +998,7 @@
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1017,7 +1006,11 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1037,11 +1030,11 @@
 			
 		
 			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
@@ -1049,11 +1042,11 @@
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

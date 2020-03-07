@@ -92,6 +92,211 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/03/12/spring-security oauth2 集成 swagger 2.9.2/" title="spring-security oauth2 集成 swagger 2.9.2" itemprop="url">spring-security oauth2 集成 swagger 2.9.2</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-03-12T03:56:00.000Z" itemprop="datePublished"> 发表于 2019-03-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="pring-security-oauth2-集成-swagger-2-9-2"><a href="#pring-security-oauth2-集成-swagger-2-9-2" class="headerlink" title="pring-security oauth2 集成 swagger 2.9.2"></a>pring-security oauth2 集成 swagger 2.9.2</h1><p>pom.xml:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?\&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;\&gt;
+&lt;modelVersion\&gt;4.0.0\&lt;/modelVersion\&gt;
+
+&lt;groupId\&gt;com.xxx.xxx\&lt;/groupId\&gt;
+&lt;artifactId\&gt;bzy-auth\&lt;/artifactId\&gt;
+&lt;version\&gt;1.0\&lt;/version\&gt;
+&lt;packaging\&gt;jar\&lt;/packaging\&gt;
+
+&lt;name\&gt;xxx-auth\&lt;/name\&gt;
+&lt;description\&gt;xxx-auth project for sign,auth\&lt;/description\&gt;
+
+&lt;parent\&gt;
+&lt;groupId\&gt;com.xxxl.xxx\&lt;/groupId\&gt;
+&lt;artifactId\&gt;xxx-parent\&lt;/artifactId\&gt;
+&lt;version\&gt;1.0.0-SNAPSHOT\&lt;/version\&gt;
+&lt;/parent\&gt;
+
+&lt;dependencies\&gt;
+
+&lt;dependency\&gt;
+&lt;groupId\&gt;com.hhotel.bzy\&lt;/groupId\&gt;
+&lt;artifactId\&gt;bzy-common-swagger\&lt;/artifactId\&gt;
+&lt;version\&gt;${common.swagger.version}\&lt;/version\&gt;
+&lt;type\&gt;jar\&lt;/type\&gt;
+&lt;/dependency\&gt;
+
+&lt;dependency\&gt;
+&lt;groupId\&gt;org.springframework.cloud\&lt;/groupId\&gt;
+&lt;artifactId\&gt;spring-cloud-starter-netflix-eureka-client\&lt;/artifactId\&gt;
+&lt;/dependency\&gt;
+
+
+&lt;dependency\&gt;
+&lt;groupId\&gt;org.springframework.cloud\&lt;/groupId\&gt;
+&lt;artifactId\&gt;spring-cloud-starter-security\&lt;/artifactId\&gt;
+&lt;/dependency\&gt;
+&lt;dependency\&gt;
+&lt;groupId\&gt;org.springframework.security.oauth.boot\&lt;/groupId\&gt;
+&lt;artifactId\&gt;spring-security-oauth2-autoconfigure\&lt;/artifactId\&gt;
+&lt;version\&gt;2.1.1.RELEASE\&lt;/version\&gt;
+&lt;/dependency\&gt;
+
+&lt;/dependencies\&gt;
+
+
+
+
+&lt;/project\&gt;
+</code></pre><p>SwaggerConfig:</p>
+<pre><code>package com.xxx.xxx.auth.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.AuthorizationCodeGrantBuilder;
+import springfox.documentation.builders.OAuthBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.\*;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.SecurityConfiguration;
+import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.Arrays;
+
+/\*\*  \* Created by sam on 2019/3/11.
+     */
+    @Configuration
+    @EnableSwagger2
+    public class SwaggerAuthConfig {
+
+    @Value(&quot;${bzy.swagger-enable}&quot;)
+    private Boolean swaggerEnable;
+
+    @Value(&quot;${bzy.swagger-auth-url}&quot;)
+    private String authServerUrl;
+
+    @Value(&quot;${bzy.security-auth2.clientId}&quot;)
+    private String clientId;
+
+    @Value(&quot;${bzy.security-auth2.clientId}&quot;)
+    private String secretKey;
+
+    public SwaggerAuthConfig() {
+
+    }
+    @Bean
+    public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+    .enable(this.swaggerEnable.booleanValue())
+    .select()
+    .apis(RequestHandlerSelectors.any())
+    .paths(PathSelectors.any())
+    .build()
+    .securitySchemes(Arrays.asList(securityScheme()))
+    .securityContexts(Arrays.asList(securityContext()));
+    }
+
+    @Bean
+    public SecurityConfiguration security() {
+    return SecurityConfigurationBuilder.builder()
+    .clientId(clientId)
+    .clientSecret(secretKey)
+    .scopeSeparator(&quot; &quot;)
+    .useBasicAuthenticationWithAccessCodeGrant(true)
+    .build();
+    }
+
+
+    private SecurityScheme securityScheme() {
+    GrantType grantType = new AuthorizationCodeGrantBuilder()
+    .tokenEndpoint(new TokenEndpoint(authServerUrl + &quot;/token&quot;, &quot;oauthtoken&quot;))
+    .tokenRequestEndpoint(
+    new TokenRequestEndpoint(authServerUrl + &quot;/authorize&quot;, clientId, secretKey))
+    .build();
+
+    SecurityScheme oauth = new OAuthBuilder().name(&quot;spring_oauth&quot;)
+    .grantTypes(Arrays.asList(grantType))
+    .scopes(Arrays.asList(scopes()))
+    .build();
+    return oauth;
+    }
+
+    private AuthorizationScope[]() scopes() {
+    AuthorizationScope[]() scopes = {
+    new AuthorizationScope(&quot;read&quot;, &quot;for read operations&quot;),
+    new AuthorizationScope(&quot;write&quot;, &quot;for write operations&quot;),
+    new AuthorizationScope(&quot;all&quot;, &quot;for all operation API&quot;) };
+    return scopes;
+    }
+
+    private SecurityContext securityContext() {
+    return SecurityContext.builder()
+    .securityReferences(
+    Arrays.asList(new SecurityReference(&quot;spring_oauth&quot;, scopes())))
+    .forPaths(PathSelectors.any())
+    .build();
+    }
+    }
+</code></pre><p><a href="https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api" target="_blank" rel="noopener">参考文章</a></p>
+<p><a href="https://www.xncoding.com/2017/07/08/spring/sb-swagger2.html" target="_blank" rel="noopener">优秀博客</a></p>
+<p><a href="https://www.cnblogs.com/bndong/p/10037197.html" target="_blank" rel="noopener">优秀博客</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/spring-security-oauth2-swagger2-9-2/">spring-security oauth2 swagger2.9.2</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/03/12/spring-security oauth2 集成 swagger 2.9.2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/12/spring-security oauth2 集成 swagger 2.9.2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/01/微服务与SOA/" title="微服务与传统垂直架构和SOA比较" itemprop="url">微服务与传统垂直架构和SOA比较</a>
   </h1>
   <p class="article-author">By
@@ -1118,70 +1323,6 @@ public class BackGatewayApplication {
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/12/04/JPA学习相关/" title="JPA学习相关" itemprop="url">JPA学习相关</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-12-04T01:59:53.000Z" itemprop="datePublished"> 发表于 2018-12-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <ul>
-<li>官方文档：</li>
-</ul>
-<p><a href="https://docs.spring.io/spring-data/jpa/docs/2.1.3.RELEASE/reference/html/#jpa.query-methods.named-queries" target="_blank" rel="noopener">https://docs.spring.io/spring-data/jpa/docs/2.1.3.RELEASE/reference/html/#jpa.query-methods.named-queries</a></p>
-<ul>
-<li>JPA结合mysql：</li>
-</ul>
-<p><a href="https://hellokoding.com/jpa-one-to-one-foreignkey-relationship-example-with-spring-boot-maven-and-mysql/" target="_blank" rel="noopener">https://hellokoding.com/jpa-one-to-one-foreignkey-relationship-example-with-spring-boot-maven-and-mysql/</a></p>
-<ul>
-<li>JPA关联关系示例</li>
-</ul>
-<p><a href="https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-one-mapping-example/" target="_blank" rel="noopener">https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-one-mapping-example/</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/12/04/JPA学习相关/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/12/04/JPA学习相关/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -1281,11 +1422,11 @@ public class BackGatewayApplication {
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1302,8 +1443,6 @@ public class BackGatewayApplication {
 		
 		  
 			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
-		  
-		
 		  
 		
 		  
@@ -1384,10 +1523,6 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
@@ -1396,7 +1531,7 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1404,7 +1539,11 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1424,11 +1563,11 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
@@ -1436,11 +1575,11 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			
