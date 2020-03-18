@@ -92,6 +92,210 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2020/03/08/spring与数据库的事务隔离级别复习/" title="与springboot相关的面试题整理" itemprop="url">与springboot相关的面试题整理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-03-08T02:58:00.000Z" itemprop="datePublished"> 发表于 2020-03-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="与springboot相关的面试题整理"><a href="#与springboot相关的面试题整理" class="headerlink" title="与springboot相关的面试题整理"></a>与springboot相关的面试题整理</h1><p>公司快倒闭了，从今天开始，后面一有时间就复习，更新一篇文章，以便后面复习用。</p>
+<p>我要围绕的是mysql和springboot的事务隔离级别来搞事情。</p>
+<p>因为这也是我曾经喜欢问来我厂面试的题目。</p>
+<h2 id="springboot的应用是如何运行的？"><a href="#springboot的应用是如何运行的？" class="headerlink" title="springboot的应用是如何运行的？"></a>springboot的应用是如何运行的？</h2><p><img src="http://img.huguiqi.top/1584522979144lgbz4jey.png?imageslim" alt="paste image"></p>
+<p>参考文章：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/59845520" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/59845520</a></p>
+<h2 id="springboot框架中，你是如何处理事务的？原理是什么？"><a href="#springboot框架中，你是如何处理事务的？原理是什么？" class="headerlink" title="springboot框架中，你是如何处理事务的？原理是什么？"></a>springboot框架中，你是如何处理事务的？原理是什么？</h2><p>支持两种方式，一种是编程式事务,另一种是声明式事务。</p>
+<ul>
+<li>编程式事务管理：</li>
+</ul>
+<p> 编程式事务管理使用TransactionTemplate或者直接使用底层的PlatformTransactionManager，将事务控制代码编写在业务代码之中。。对于编程式事务管理，spring推荐使用TransactionTemplate。</p>
+<ul>
+<li><p>声明式事务管理： </p>
+<p>建立在AOP之上的。其本质是对方法前后进行拦截，然后在目标方法开始之前创建或者加入一个事务，在执行完目标方法之后根据执行情况提交或者回滚事务。<br>声明式事务管理不需要入侵代码，通过@Transactional就可以进行事务操作，更快捷而且简单，推荐使用。</p>
+</li>
+</ul>
+<h2 id="spring对数据库的默认提交方式是什么？"><a href="#spring对数据库的默认提交方式是什么？" class="headerlink" title="spring对数据库的默认提交方式是什么？"></a>spring对数据库的默认提交方式是什么？</h2><p>默认情况下，数据库处于自动提交模式。每一条语句处于一个单独的事务中，在这条语句执行完毕时，如果执行成功则隐式的提交事务，如果执行失败则隐式的回滚事务。<br>对于正常的事务管理，是一组相关的操作处于一个事务之中，因此必须关闭数据库的自动提交模式。不过，这个我们不用担心，spring会将底层连接的自动提交特性设置为false。也就是在使用spring进行事物管理的时候，spring会将是否自动提交设置为false，等价于JDBC中的 connection.setAutoCommit(false);，在执行完之后在进行提交，connection.commit(); 。</p>
+<h2 id="springboot的默认事务隔离级别是什么？"><a href="#springboot的默认事务隔离级别是什么？" class="headerlink" title="springboot的默认事务隔离级别是什么？"></a>springboot的默认事务隔离级别是什么？</h2><p>springboot的默认事务隔离级别是Isolation.DEFAULT,取的是数据库的默认隔离级别。正常情况下，mysql数据库默认是<code>repeatable read（可重读）</code>;</p>
+<p>springboot有以下隔离级别：</p>
+<pre><code>DEFAULT(-1),  ## spring默认级别,取数据库设置的默认级别
+READ_UNCOMMITTED(1), ## 不提交读，可读取未提交事务数据
+READ_COMMITTED(2), ## 提交读，读取已提交事务数据
+REPEATABLE_READ(4), ## 可重读，mysql数据库的默认级别，同一事务中保证数据一致，可能会出现幻读(不同事务会话中)
+SERIALIZABLE(8); ## 串行化，不可并发执行sql，必须等待其它事务提交后才可执行成功
+</code></pre><p>除了DEFAULT，其它对应数据库的隔离级别。</p>
+<p>如果特别设置，就以springboot设置为准。</p>
+<h2 id="mysql有几种事务隔离级别，默认是哪种"><a href="#mysql有几种事务隔离级别，默认是哪种" class="headerlink" title="mysql有几种事务隔离级别，默认是哪种"></a>mysql有几种事务隔离级别，默认是哪种</h2><p>四种，分别是：</p>
+<ul>
+<li>repeatable read（可重读）—MySQL默认的隔离级别</li>
+<li>read committed（可以读取其他事务提交的数据）— 大多数数据库默认的隔离级别</li>
+<li>read uncommitted（读取未提交数据）</li>
+<li>serializable（串行化）—不可并发执行sql，必须等待其它事务提交后才可执行成功</li>
+</ul>
+<p>参考文章：</p>
+<p><a href="https://www.jianshu.com/p/4e3edbedb9a8" target="_blank" rel="noopener">https://www.jianshu.com/p/4e3edbedb9a8</a></p>
+<h2 id="mysql存储引擎有几种，哪个支持事务。"><a href="#mysql存储引擎有几种，哪个支持事务。" class="headerlink" title="mysql存储引擎有几种，哪个支持事务。"></a>mysql存储引擎有几种，哪个支持事务。</h2><p>mysql主要有以下几种存储引擎：</p>
+<p>MyISAM、InnoDB、MERGE、MEMORY(HEAP)、BDB(BerkeleyDB)等</p>
+<ul>
+<li>MyISAM</li>
+</ul>
+<p>特性如下：</p>
+<ol>
+<li>不支持事务使用表级锁</li>
+<li>并发性差主机宕机后，MyISAM表易损坏，灾难恢复性不佳可以配合锁，实现操作系统下的复制备份、迁移只缓存索引，数据的缓存是利用操作系统缓冲区来实现的。</li>
+<li>可能引发过多的系统调用且效率不佳</li>
+<li>数据紧凑存储，因此可获得更小的索引和更快的全表扫描性能</li>
+</ol>
+<ul>
+<li>InnoDB</li>
+</ul>
+<p>MySQL 5.5 及以后版本中的默认存储引擎，他的优点如下：</p>
+<ol>
+<li>灾难恢复性好</li>
+<li>支持事务使用行级锁</li>
+<li>支持外键关联</li>
+<li>支持热备份</li>
+<li>对于InnoDB引擎中的表，其数据的物理组织形式是簇表（Cluster Table，key-value），主键索引和数据是在一起的，数据按主键的顺序物理分布实现了缓冲管理，不仅能缓冲索引也能缓冲数据，并且会自动创建散列索引以加快数据的获取</li>
+<li>支持热备份</li>
+</ol>
+<ul>
+<li>MEMORY 存储引擎</li>
+</ul>
+<p>提供内存表，也不支持事务和外键。</p>
+<p>显著提高访问数据的速度，可用于缓存会频繁访问的、可以重构的数据、计算结果、统计值、中间结果。</p>
+<p>缺点如下：</p>
+<ol>
+<li>使用表级锁，虽然内存访问快，但如果频繁的读写，表级锁会成为瓶颈只</li>
+<li>支持固定大小的行。Varchar类型的字段会存储为固定长度的Char类型，浪费空间</li>
+<li>不支持TEXT、BLOB字段。</li>
+<li>当有些查询需要使用到临时表（使用的也是MEMORY存储引擎）时，如果表中有TEXT、BLOB字段，那么会转换为基于磁盘的MyISAM表，严重降低性能由于内存资源成本昂贵，一般不建议设置过大的内存表，如果内存表满了，可通过清除数据或调整内存表参数来避免报错</li>
+<li>服务器重启后数据会丢失，复制维护时需要小心</li>
+</ol>
+<h3 id="MySQL存储引擎MyISAM与InnoDB如何选择"><a href="#MySQL存储引擎MyISAM与InnoDB如何选择" class="headerlink" title="MySQL存储引擎MyISAM与InnoDB如何选择"></a>MySQL存储引擎MyISAM与InnoDB如何选择</h3><ol>
+<li><p>两种存储引擎的大致区别表现在：<br> 1）InnoDB支持事务，MyISAM不支持，这一点是非常之重要。事务是一种高级的处理方式，如在一些列增删改中只要哪个出错还可以回滚还原，而MyISAM就不可以了。</p>
+<p> 2）MyISAM适合查询以及插入为主的应用，InnoDB适合频繁修改以及涉及到安全性较高的应用</p>
+<p> 3）InnoDB支持外键，MyISAM不支持</p>
+<p> 4）从MySQL5.5.5以后，InnoDB是默认引擎</p>
+<p> 5）InnoDB不支持FULLTEXT类型的索引</p>
+<p> 6）InnoDB中不保存表的行数，如select count(<em>) from table时，InnoDB需要扫描一遍整个表来计算有多少行，但是MyISAM只要简单的读出保存好的行数即可。注意的是，当count(</em>)语句包含where条件时MyISAM也需要扫描整个表。</p>
+<p> 7）对于自增长的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中可以和其他字段一起建立联合索引。</p>
+<p> 8）清空整个表时，InnoDB是一行一行的删除，效率非常慢。MyISAM则会重建表。</p>
+<p> 9）InnoDB支持行锁（某些情况下还是锁整表，如 update table set a=1 where user like ‘%lee%’有人说MYISAM只能用于小型应用，其实这只是一种偏见。如果数据量比较大，这是需要通过升级架构来解决，比如分表分库，读写分离，而不是单纯地依赖存储引擎。</p>
+<p> 现在一般都是选用InnoDB了，主要是MyISAM的全表锁，读写串行问题，并发效率锁表，效率低，MyISAM对于读写密集型应用一般是不会去选用的。</p>
+</li>
+</ol>
+<p> 总之：</p>
+<p>   1.MyISAM类型不支持事务处理等高级处理，而InnoDB类型支持。     2.MyISAM类型的表强调的是性能，其执行速度比InnoDB类型更快，但是不提供事务支持，而InnoDB提供事务支持已经外部键等高级数据库功能。</p>
+<p>参考文章：<br><a href="https://juejin.im/post/5baca114f265da0a8c6c3168" target="_blank" rel="noopener">https://juejin.im/post/5baca114f265da0a8c6c3168</a></p>
+<p><a href="https://juejin.im/post/5d2ac9066fb9a07edd2a4191#heading-1" target="_blank" rel="noopener">https://juejin.im/post/5d2ac9066fb9a07edd2a4191#heading-1</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/面试整理/">面试整理</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/springboot/">springboot</a><a href="/tags/mysql/">mysql</a><a href="/tags/事务/">事务</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/03/08/spring与数据库的事务隔离级别复习/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/03/08/spring与数据库的事务隔离级别复习/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/03/07/隔离期间全民学爬虫之docker环境/" title="隔离期间全民学爬虫之构建PYSpider的docker镜像" itemprop="url">隔离期间全民学爬虫之构建PYSpider的docker镜像</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-03-07T15:07:57.000Z" itemprop="datePublished"> 发表于 2020-03-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="隔离期间全民学爬虫之构建PYSpider的docker镜像"><a href="#隔离期间全民学爬虫之构建PYSpider的docker镜像" class="headerlink" title="隔离期间全民学爬虫之构建PYSpider的docker镜像"></a>隔离期间全民学爬虫之构建PYSpider的docker镜像</h1><p><a href="https://www.jianshu.com/p/1dc8f165da46" target="_blank" rel="noopener">https://www.jianshu.com/p/1dc8f165da46</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/03/07/隔离期间全民学爬虫之docker环境/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/03/07/隔离期间全民学爬虫之docker环境/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2020/03/07/隔离期间学习python/" title="隔离期间全民学爬虫之python-安装环境(一)" itemprop="url">隔离期间全民学爬虫之python-安装环境(一)</a>
   </h1>
   <p class="article-author">By
@@ -99,7 +303,7 @@
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2020-03-07T07:56:59.000Z" itemprop="datePublished"> 发表于 2020-03-07</time>
+    <time datetime="2020-03-07T07:56:00.000Z" itemprop="datePublished"> 发表于 2020-03-07</time>
     
   </p>
 </header>
@@ -186,6 +390,16 @@ trusted-host = mirrors.aliyun.com
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/python/">python</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/爬虫/">爬虫</a>
+  </div>
 
 </div>
 
@@ -1041,166 +1255,6 @@ management:
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/04/21/spring-aop-annotation/" title="spring+aop+annotation" itemprop="url">spring+aop+annotation</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-04-21T13:51:05.000Z" itemprop="datePublished"> 发表于 2019-04-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="spring-boot-aop"><a href="#spring-boot-aop" class="headerlink" title="spring-boot-aop"></a>spring-boot-aop</h1><p>spring boot + aop</p>
-<h1 id="AOP原理详解"><a href="#AOP原理详解" class="headerlink" title="AOP原理详解"></a>AOP原理详解</h1><p>我们都知道，aop的原理就是动态代理，所以首先来介绍下java的动态代理</p>
-<h2 id="动态代理方式"><a href="#动态代理方式" class="headerlink" title="动态代理方式"></a>动态代理方式</h2><p>主要有两种：</p>
-<ol>
-<li>jdk自带动态代理</li>
-<li>cglib</li>
-</ol>
-<h3 id="JDK自带动态代理"><a href="#JDK自带动态代理" class="headerlink" title="JDK自带动态代理"></a>JDK自带动态代理</h3><blockquote>
-<blockquote>
-<p>JDK自带的动态代理方式必须要被代理对象实现某些接口；</p>
-</blockquote>
-</blockquote>
-<p>JDK动态代理所用到的代理类在程序调用到代理类对象时才由JVM真正创建，JVM根据传进来的 业务实现类对象 以及 方法名 ，动态地创建了一个代理类的class文件并被字节码引擎执行，然后通过该代理类对象进行方法调用。我们需要做的，只需指定代理类的预处理、调用后操作即可。</p>
-<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><ol>
-<li>实现InvocationHandler接口</li>
-<li>调用java.lang.reflect.Proxy类的newProxyInstance或者getProxyClass方法</li>
-</ol>
-<p>将被代理类传给即将生成的代理类<br>Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),this);</p>
-<ol>
-<li>重载invoke方法，将要处理的统一事件填入</li>
-</ol>
-<pre><code>public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {.....}
-</code></pre><h4 id="关键源码分析"><a href="#关键源码分析" class="headerlink" title="关键源码分析"></a>关键源码分析</h4><pre><code>newProxyInstance ---&gt; getProxyClass0 ---&gt;proxyClassCache.get(loader, interfaces)---&gt;Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));----&gt;ProxyClassFactory.apply 
-</code></pre><h4 id="apply方法里关键代码："><a href="#apply方法里关键代码：" class="headerlink" title="apply方法里关键代码："></a>apply方法里关键代码：</h4><p>//生成代理类class文件</p>
-<pre><code>long num = nextUniqueNumber.getAndIncrement();     
-String proxyName = proxyPkg + proxyClassNamePrefix + num; 
-byte[] proxyClassFile = ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);
-</code></pre><h3 id="CGLIB"><a href="#CGLIB" class="headerlink" title="CGLIB"></a>CGLIB</h3><p>cglib是针对类来实现代理的，原理是对指定的业务类生成一个子类，并覆盖其中业务方法实现代理。因为采用的是继承，所以不能对final修饰的类进行代理。</p>
-<p>demo中使用的是apache实现的cglib动态代理类：</p>
-<p>github地址：</p>
-<pre><code>https://github.com/cglib/cglib
-</code></pre><p>在这个项目中，我用apache的cglib实现去模拟spring aop的工作原理</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2019/04/21/spring-aop-annotation/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/04/21/spring-aop-annotation/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/04/21/spring-aop-annotation/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/12/jenkins重置jop的buildNum/" title="jenkins重置jop的buildNum" itemprop="url">jenkins重置jop的buildNum</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-03-12T10:31:00.000Z" itemprop="datePublished"> 发表于 2019-03-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <ol>
-<li>Jenkins -&gt; Manage Jenkins</li>
-<li>脚本命令行</li>
-</ol>
-<p>执行：</p>
-<pre><code>resetNumberTarget = 1
-item = Jenkins.instance.getItemByFullName(&quot;run-bzy-hotel&quot;)
-//println(item)
-item.builds.each() { build -&gt;
-  //println(build)
-  //println(build.number)
-  if(build.number &gt;= resetNumberTarget)
-  {
-    println(&quot;About to Delete &apos;&quot; + build + &quot;&apos;&quot;)    
-    build.delete()  
-  }
-}
-item.updateNextBuildNumber(resetNumberTarget)
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/jenkins/">jenkins</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/03/12/jenkins重置jop的buildNum/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/12/jenkins重置jop的buildNum/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1292,6 +1346,10 @@ item.updateNextBuildNumber(resetNumberTarget)
 		  
 		
 		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/redis/" title="redis">redis<sup>1</sup></a></li>
 		  
 		
@@ -1300,11 +1358,11 @@ item.updateNextBuildNumber(resetNumberTarget)
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
@@ -1372,6 +1430,10 @@ item.updateNextBuildNumber(resetNumberTarget)
 		  
 		
 		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
 		  
 		
@@ -1397,23 +1459,11 @@ item.updateNextBuildNumber(resetNumberTarget)
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>6</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
@@ -1425,7 +1475,19 @@ item.updateNextBuildNumber(resetNumberTarget)
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -1437,7 +1499,7 @@ item.updateNextBuildNumber(resetNumberTarget)
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1449,7 +1511,7 @@ item.updateNextBuildNumber(resetNumberTarget)
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
@@ -1457,11 +1519,11 @@ item.updateNextBuildNumber(resetNumberTarget)
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 		</ul>

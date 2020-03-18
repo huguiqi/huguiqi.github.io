@@ -92,6 +92,166 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/04/21/spring-aop-annotation/" title="spring+aop+annotation" itemprop="url">spring+aop+annotation</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-04-21T13:51:05.000Z" itemprop="datePublished"> 发表于 2019-04-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="spring-boot-aop"><a href="#spring-boot-aop" class="headerlink" title="spring-boot-aop"></a>spring-boot-aop</h1><p>spring boot + aop</p>
+<h1 id="AOP原理详解"><a href="#AOP原理详解" class="headerlink" title="AOP原理详解"></a>AOP原理详解</h1><p>我们都知道，aop的原理就是动态代理，所以首先来介绍下java的动态代理</p>
+<h2 id="动态代理方式"><a href="#动态代理方式" class="headerlink" title="动态代理方式"></a>动态代理方式</h2><p>主要有两种：</p>
+<ol>
+<li>jdk自带动态代理</li>
+<li>cglib</li>
+</ol>
+<h3 id="JDK自带动态代理"><a href="#JDK自带动态代理" class="headerlink" title="JDK自带动态代理"></a>JDK自带动态代理</h3><blockquote>
+<blockquote>
+<p>JDK自带的动态代理方式必须要被代理对象实现某些接口；</p>
+</blockquote>
+</blockquote>
+<p>JDK动态代理所用到的代理类在程序调用到代理类对象时才由JVM真正创建，JVM根据传进来的 业务实现类对象 以及 方法名 ，动态地创建了一个代理类的class文件并被字节码引擎执行，然后通过该代理类对象进行方法调用。我们需要做的，只需指定代理类的预处理、调用后操作即可。</p>
+<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><ol>
+<li>实现InvocationHandler接口</li>
+<li>调用java.lang.reflect.Proxy类的newProxyInstance或者getProxyClass方法</li>
+</ol>
+<p>将被代理类传给即将生成的代理类<br>Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),this);</p>
+<ol>
+<li>重载invoke方法，将要处理的统一事件填入</li>
+</ol>
+<pre><code>public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {.....}
+</code></pre><h4 id="关键源码分析"><a href="#关键源码分析" class="headerlink" title="关键源码分析"></a>关键源码分析</h4><pre><code>newProxyInstance ---&gt; getProxyClass0 ---&gt;proxyClassCache.get(loader, interfaces)---&gt;Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));----&gt;ProxyClassFactory.apply 
+</code></pre><h4 id="apply方法里关键代码："><a href="#apply方法里关键代码：" class="headerlink" title="apply方法里关键代码："></a>apply方法里关键代码：</h4><p>//生成代理类class文件</p>
+<pre><code>long num = nextUniqueNumber.getAndIncrement();     
+String proxyName = proxyPkg + proxyClassNamePrefix + num; 
+byte[] proxyClassFile = ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);
+</code></pre><h3 id="CGLIB"><a href="#CGLIB" class="headerlink" title="CGLIB"></a>CGLIB</h3><p>cglib是针对类来实现代理的，原理是对指定的业务类生成一个子类，并覆盖其中业务方法实现代理。因为采用的是继承，所以不能对final修饰的类进行代理。</p>
+<p>demo中使用的是apache实现的cglib动态代理类：</p>
+<p>github地址：</p>
+<pre><code>https://github.com/cglib/cglib
+</code></pre><p>在这个项目中，我用apache的cglib实现去模拟spring aop的工作原理</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/04/21/spring-aop-annotation/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/04/21/spring-aop-annotation/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/04/21/spring-aop-annotation/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/12/jenkins重置jop的buildNum/" title="jenkins重置jop的buildNum" itemprop="url">jenkins重置jop的buildNum</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-03-12T10:31:00.000Z" itemprop="datePublished"> 发表于 2019-03-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <ol>
+<li>Jenkins -&gt; Manage Jenkins</li>
+<li>脚本命令行</li>
+</ol>
+<p>执行：</p>
+<pre><code>resetNumberTarget = 1
+item = Jenkins.instance.getItemByFullName(&quot;run-bzy-hotel&quot;)
+//println(item)
+item.builds.each() { build -&gt;
+  //println(build)
+  //println(build.number)
+  if(build.number &gt;= resetNumberTarget)
+  {
+    println(&quot;About to Delete &apos;&quot; + build + &quot;&apos;&quot;)    
+    build.delete()  
+  }
+}
+item.updateNextBuildNumber(resetNumberTarget)
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/jenkins/">jenkins</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/03/12/jenkins重置jop的buildNum/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/12/jenkins重置jop的buildNum/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/03/12/spring-security oauth2 集成 swagger 2.9.2/" title="spring-security oauth2 集成 swagger 2.9.2" itemprop="url">spring-security oauth2 集成 swagger 2.9.2</a>
   </h1>
   <p class="article-author">By
@@ -940,389 +1100,6 @@ systemctl restart docker
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/01/07/spring-cloud-oauth2与前端跨域问题/" title="spring-cloud oauth2与前端跨域问题" itemprop="url">spring-cloud oauth2与前端跨域问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-01-07T12:07:38.000Z" itemprop="datePublished"> 发表于 2019-01-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>架构是前后端分离的，也就是说前端可能是在不同的服务器，甚至在不同域名下的。<br>那这样的话，势必有跨域问题，而正常的跨域问题，springboot都已经提供了解决方案，即在BackGatewayApplication启动类上添加如下filter:</p>
-<pre><code>@Bean
-    public CorsFilter corsFilter() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin(&quot;*&quot;);
-        config.addAllowedHeader(&quot;*&quot;);
-        config.addAllowedMethod(&quot;OPTIONS&quot;);
-        config.addAllowedMethod(&quot;HEAD&quot;);
-        config.addAllowedMethod(&quot;GET&quot;);
-        config.addAllowedMethod(&quot;PUT&quot;);
-        config.addAllowedMethod(&quot;POST&quot;);
-        config.addAllowedMethod(&quot;DELETE&quot;);
-        config.addAllowedMethod(&quot;PATCH&quot;);
-        source.registerCorsConfiguration(&quot;/**&quot;, config);
-        return new CorsFilter(source);
-    }
-</code></pre><p>或者还有更方便的：</p>
-<pre><code>@CrossOrigin(origins = &quot;*&quot;)
-public class BackGatewayApplication {
-    .....
-}
-</code></pre><p>目前遇到的问题是，前端通过ajax请求，如果传了一个失效的token，则前端会直接报错，显示的是这样的：</p>
-<pre><code>Access to XMLHttpRequest at &apos;http://127.0.0.1:9002/rios-upms/authUser/test&apos; from origin &apos;http://www.runoob.com&apos; has been blocked by CORS policy: No &apos;Access-Control-Allow-Origin&apos; header is present on the requested resource.
-</code></pre><p>看着像是说跨域问题。</p>
-<p>但是，我们之前遇到的跨域大部分是浏览器的行为，将请求拦截了，但是这个不同的是他的请求发出去了，服务端也接收到了请求，并返回了，返回的失效token的提示，通过postman或者curl工具能正常返回，并且还有状态码：</p>
-<p><img src="http://img.huguiqi.top/1546866135627qlw7n1a0.png?imageslim" alt="paste image"></p>
-<p>但是通过ajax请求浏览器访问，却总是出现error,以下是用jquery的ajax请求：</p>
-<pre><code>$(document).ready(function(){
-    $(&quot;button&quot;).click(function(){
-        $.ajax({
-                url:&quot;http://bgateway.riosclub.com/rios-upms/authUser/findMenu&quot;,
-                headers: {
-                    Accept: &quot;application/json; charset=utf-8&quot;,
-                    Authorization: &quot;Bearer Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NDY2MTYyMzAsInVzZXJfbmFtZSI6InhpYW9oZWkiLCJhdXRob3JpdGllcyI6WyJVU0VSIiwiQURNSU4iXSwianRpIjoiNTc5NzcwZjUtYjU5OC00ZGU2LWFjODktNGI2YzM3Mjg0ZTAzIiwiY2xpZW50X2lkIjoiY2xpZW50YXBwIiwic2NvcGUiOlsiYWxsIl19.b-E1XXWuUZuq61eIkJ07LWjDkUY4P5CpP8_kRNKz-7A&quot;
-                },
-                type: &quot;post&quot;,
-                success:function(result){
-                    alert(&apos;success&apos;);
-                    console.log(JSON.stringify(result));
-                    $(&quot;#div1&quot;).html(result);
-                },
-                fail: function(e){
-                    alert(&apos;fail&apos;);
-                    alert(e);
-                },
-             error: function(xhr,status,error){
-                 alert(&apos;error&apos;);
-                 console.log(JSON.stringify(xhr));
-                 console.log(JSON.stringify(status));
-                 console.log(JSON.stringify(error));
-
-             },
-            complete: function(xhr,status){
-                alert(&apos;complete&apos;);
-                alert(JSON.stringify(xhr));
-                alert(&apos;complete&apos; + status);
-            }
-               });
-    });
-});
-</code></pre><p>调用ajax请求后，总是直接调用了error的回调方法，并在控制台打印：</p>
-<p><img src="http://img.huguiqi.top/1546874949672jvi5ks3f.png?imageslim" alt="paste image"></p>
-<p>打印的xhr是：</p>
-<pre><code>{&quot;readyState&quot;:0,&quot;responseText&quot;:&quot;&quot;,&quot;status&quot;:0,&quot;statusText&quot;:&quot;error&quot;}
-</code></pre><h3 id="关于readystate五个状态总结"><a href="#关于readystate五个状态总结" class="headerlink" title="关于readystate五个状态总结"></a>关于readystate五个状态总结</h3><h4 id="readyState-状态-状态说明"><a href="#readyState-状态-状态说明" class="headerlink" title="readyState 状态    状态说明"></a>readyState 状态    状态说明</h4><ul>
-<li>(0)未初始化</li>
-</ul>
-<p>此阶段确认XMLHttpRequest对象是否创建，并为调用open()方法进行未初始化作好准备。值为0表示对象已经存在，否则浏览器会报错－－对象不存在。</p>
-<ul>
-<li>(1)载入</li>
-</ul>
-<p>此阶段对XMLHttpRequest对象进行初始化，即调用open()方法，根据参数(method,url,true)完成对象状态的设置。并调用send()方法开始向服务端发送请求。值为1表示正在向服务端发送请求。</p>
-<ul>
-<li>(2)载入完成</li>
-</ul>
-<p>此阶段接收服务器端的响应数据。但获得的还只是服务端响应的原始数据，并不能直接在客户端使用。值为2表示已经接收完全部响应数据。并为下一阶段对数据解析作好准备。</p>
-<ul>
-<li>(3)交互</li>
-</ul>
-<p>此阶段解析接收到的服务器端响应数据。即根据服务器端响应头部返回的MIME类型把数据转换成能通过responseBody、responseText或responseXML属性存取的格式，为在客户端调用作好准备。状态3表示正在解析数据。</p>
-<ul>
-<li>(4)完成</li>
-</ul>
-<p>此阶段确认全部数据都已经解析为客户端可用的格式，解析已经完成。值为4表示数据解析完毕，可以通过XMLHttpRequest对象的相应属性取得数据。<br>概而括之，整个XMLHttpRequest对象的生命周期应该包含如下阶段：<br>创建－初始化请求－发送请求－接收数据－解析数据－完成</p>
-<p>readyState为0，了解了一下，出现这种情况，xhr中readyState为0的几种情况：</p>
-<p>引用官方对XMLHttpRequest的说明：</p>
-<p><a href="http://www.w3.org/TR/XMLHttpRequest/" target="_blank" rel="noopener">http://www.w3.org/TR/XMLHttpRequest/</a></p>
-<blockquote>
-<blockquote>
-<p>The status attribute must return the result of running these steps:</p>
-</blockquote>
-</blockquote>
-<p>status的值一定会返回运行这些步骤的结果。</p>
-<ul>
-<li>1、If the state is UNSENT or OPENED, return 0.（如果状态是UNSENT或者OPENED，返回0）</li>
-<li>2、If the error flag is set, return 0.（如果错误标签被设置，返回0）</li>
-<li>3、Return the HTTP status code.（返回HTTP状态码）</li>
-</ul>
-<p>而根据我得到的error错误，第一反应是跨域访问，被浏览器拒绝了，但是，关键是我服务端收到了请求。</p>
-<p>还有一种情况，也是会导致state的状态为0的，就是：</p>
-<p>If the cross-origin request status is network error</p>
-<pre><code>This is a network error.
-</code></pre><p>虽然去访问了，应该是浏览器跨域的返回头没有被允许，所以浏览器阻止返回的响应，Access-Control-Allow-Origin 浏览器没有发现这个属性的设置，所以就报跨域，也就是服务器在响应头里也要设置跨域处理，不然也会出现这种情况。</p>
-<p>那么，我就在response的header设置一下：</p>
-<pre><code>httpServletResponse.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
-</code></pre><p>再次访问，就得到了状态码：</p>
-<p><img src="http://img.huguiqi.top/15468766676916dme9nbx.png?imageslim" alt="paste image">![paste image]</p>
-<p>而这次是在complete方法里取得了xhr:</p>
-<pre><code>{&quot;readyState&quot;:4,&quot;responseText&quot;:&quot;{\&quot;msg\&quot;:\&quot;无效的token\&quot;,\&quot;code\&quot;:401}&quot;,&quot;responseJSON&quot;:{&quot;msg&quot;:&quot;无效的token&quot;,&quot;code&quot;:401},&quot;status&quot;:403,&quot;statusText&quot;:&quot;error&quot;}
-</code></pre><p>得到的状态值是4，status值是403。</p>
-<p>在这里还没完，因为我用的是security+oauth2,在gateway处理所有资源请求的权限认证的，而在oauth2这里，确有个头疼的问题，在token失效的时候，我就拿不到readyState，也一直是0，说这个问题的之前，先来说下我的架构。</p>
-<h2 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h2><p>目前我的服务请求流程大致是这样：</p>
-<p><img src="http://img.huguiqi.top/1546865302940pgu0d42v.png?imageslim" alt="paste image"></p>
-<p>所有的资源请求都经过gateway转发并在gateway认证(在oauth2里把gateway作为一个总的资源服务器配置来校验各资源服务器的权限)，调用认证服务器去校验token的正确性。</p>
-<p>而oauth2的工作流程大致是：</p>
-<p>OAuth2AuthenticationProcessingFilter：</p>
-<pre><code>public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-    .......
-
-    Authentication authResult = this.authenticationManager.authenticate(authentication);
-    ......
-}
-</code></pre><p>然后是OAuth2AuthenticationManager:</p>
-<pre><code>public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        if(authentication == null) {
-            throw new InvalidTokenException(&quot;Invalid token (token not found)&quot;);
-        } else {
-            String token = (String)authentication.getPrincipal();
-            OAuth2Authentication auth = this.tokenServices.loadAuthentication(token);
-            .......
-                    return auth;
-                }
-</code></pre><p>再UserInfoTokenServices:</p>
-<pre><code>public OAuth2Authentication loadAuthentication(String accessToken) throws AuthenticationException, InvalidTokenException {
-        Map&lt;String, Object&gt; map = this.getMap(this.userInfoEndpointUrl, accessToken);
-        if(map.containsKey(&quot;error&quot;)) {
-            if(this.logger.isDebugEnabled()) {
-                this.logger.debug(&quot;userinfo returned error: &quot; + map.get(&quot;error&quot;));
-            }
-
-            throw new InvalidTokenException(accessToken);
-        } else {
-            return this.extractAuthentication(map);
-        }
-    }
-</code></pre><p>这段很关键，<code>if(map.containsKey(&quot;error&quot;))</code></p>
-<p>有这个key就会抛出InvalidTokenException异常。</p>
-<p>然后当中的this.getMap(…)这个方法很重要，我们看看：</p>
-<pre><code>private Map&lt;String, Object&gt; getMap(String path, String accessToken) {
-        if(this.logger.isDebugEnabled()) {
-            this.logger.debug(&quot;Getting user info from: &quot; + path);
-        }
-
-        try {
-            OAuth2RestOperations restTemplate = this.restTemplate;
-            if(restTemplate == null) {
-                BaseOAuth2ProtectedResourceDetails resource = new BaseOAuth2ProtectedResourceDetails();
-                resource.setClientId(this.clientId);
-                restTemplate = new OAuth2RestTemplate(resource);
-            }
-
-            OAuth2AccessToken existingToken = ((OAuth2RestOperations)restTemplate).getOAuth2ClientContext().getAccessToken();
-            if(existingToken == null || !accessToken.equals(existingToken.getValue())) {
-                DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(accessToken);
-                token.setTokenType(this.tokenType);
-                ((OAuth2RestOperations)restTemplate).getOAuth2ClientContext().setAccessToken(token);
-            }
-
-            return (Map)((OAuth2RestOperations)restTemplate).getForEntity(path, Map.class, new Object[0]).getBody();
-        } catch (Exception var6) {
-            this.logger.warn(&quot;Could not fetch user details: &quot; + var6.getClass() + &quot;, &quot; + var6.getMessage());
-            return Collections.singletonMap(&quot;error&quot;, &quot;Could not fetch user details&quot;);
-        }
-    }
-</code></pre><p>这个方法是调用认证服务器获取用户信息的接口，也就是我写在认证服务器的一个接口：</p>
-<pre><code>@GetMapping(&quot;/userinfo&quot;)
-    public Object user(Principal user){
-        return user;
-    }
-</code></pre><p>很显然，如果我传的token是过期的token，那这个返回的user肯定是null,通过调试，果然如此，但是，按理说应该会被catch掉，但是，因为返回的是null，却没走这里，不知道为什么，可能是被其它的filter或者监听器给捕获了，那么，我只能让它不返回null，但又不能破坏oauth2原有的规则，既然是通过返回的map里面的key来判断是否有error来抛出<code>InvalidTokenException</code>异常的，那我这么改造一下：</p>
-<pre><code>@GetMapping(&quot;/userinfo&quot;)
-    public Object user(Principal user){
-        if (user == null){
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(&quot;error&quot;,&quot;未获取到用户信息&quot;);
-            return jsonObject;
-        }
-        return user;
-    }
-</code></pre><p>再次访问，完美解决。。。。。</p>
-<p><img src="http://img.huguiqi.top/1546878109010bsidige0.png?imageslim" alt="paste image"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/01/07/spring-cloud-oauth2与前端跨域问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/01/07/spring-cloud-oauth2与前端跨域问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/12/05/spring-cloud-security-auth2集成问题/" title="spring-cloud security+auth2集成问题" itemprop="url">spring-cloud security+auth2集成问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-12-05T09:55:00.000Z" itemprop="datePublished"> 发表于 2018-12-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="spring-cloud-security-auth2集成问题"><a href="#spring-cloud-security-auth2集成问题" class="headerlink" title="spring-cloud security+auth2集成问题"></a>spring-cloud security+auth2集成问题</h1><p>网络上和官网的例子都是老版本的，集成到spring cloud的2.0之后的版本有很<br>多问题，在本人集成时遇到的问题都整理起来。</p>
-<h2 id="security4升级到5的问题"><a href="#security4升级到5的问题" class="headerlink" title="security4升级到5的问题"></a>security4升级到5的问题</h2><p>报错信息：</p>
-<pre><code>Spring Security 5 : There is no PasswordEncoder mapped for the id “null”
-</code></pre><ul>
-<li>原因：</li>
-</ul>
-<p>security5之后不默认不允许不加密的密码和secret</p>
-<ul>
-<li>参考文章</li>
-</ul>
-<p><a href="https://stackoverflow.com/questions/49654143/spring-security-5-there-is-no-passwordencoder-mapped-for-the-id-null" target="_blank" rel="noopener">https://stackoverflow.com/questions/49654143/spring-security-5-there-is-no-passwordencoder-mapped-for-the-id-null</a></p>
-<ul>
-<li>解决办法：</li>
-</ul>
-<p>1, 添加password encoder</p>
-<p>2, 设置密码时通过jsonFormat规则：{noop}secret</p>
-<p>参考文章：</p>
-<p><a href="https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-format" target="_blank" rel="noopener">https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-format</a></p>
-<h2 id="Encoded-password-does-not-look-like-BCrypt"><a href="#Encoded-password-does-not-look-like-BCrypt" class="headerlink" title="Encoded password does not look like BCrypt"></a>Encoded password does not look like BCrypt</h2><p>也是升级问题导致，输入参数不是一个加密的格式</p>
-<p>参考文章</p>
-<p><a href="https://stackoverflow.com/questions/49582971/encoded-password-does-not-look-like-bcrypt" target="_blank" rel="noopener">https://stackoverflow.com/questions/49582971/encoded-password-does-not-look-like-bcrypt</a></p>
-<p><a href="https://www.cnkirito.moe/spring-security-6/" target="_blank" rel="noopener">https://www.cnkirito.moe/spring-security-6/</a></p>
-<h2 id="Redis存储问题"><a href="#Redis存储问题" class="headerlink" title="Redis存储问题"></a>Redis存储问题</h2><p>报错信息：</p>
-<pre><code>NoSuchMethodError.RedisConnection.set([B[B)V issue
-</code></pre><p>原因：<br>因为我是auth2.0的2.0.1的版本，2.x版本有一直有这个bug，直到Update spring-security-oauth2 to 2.3.3.RELEASE这个版本才fix掉</p>
-<p>参考文章：<br><a href="https://github.com/spring-projects/spring-security-oauth2-boot/issues/27" target="_blank" rel="noopener">https://github.com/spring-projects/spring-security-oauth2-boot/issues/27</a></p>
-<p>由于我是spring-cloud的方式集成的，我的maven pom.xml:</p>
-<pre><code>&lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;redis.clients&lt;/groupId&gt;
-            &lt;artifactId&gt;jedis&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
-            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
-            &lt;optional&gt;true&lt;/optional&gt;
-            &lt;version&gt;1.16.18&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-security&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-oauth2&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-</code></pre><p>解决办法：</p>
-<ol>
-<li>将springboot的版本升级到：2.1.1.RELEASE</li>
-<li>将spring-cloud版本升级到：Finchley.SR2</li>
-</ol>
-<p>好了，再运行一遍，ok了。。。。。。</p>
-<p><img src="http://img.huguiqi.top/1544004879882pt6voptb.png?imageslim" alt="paste image"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springCloud/">springCloud</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/spring-cloud/">spring-cloud</a><a href="/tags/security/">security</a><a href="/tags/auth2/">auth2</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/12/05/spring-cloud-security-auth2集成问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/12/05/spring-cloud-security-auth2集成问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -1414,6 +1191,10 @@ public class BackGatewayApplication {
 		  
 		
 		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/redis/" title="redis">redis<sup>1</sup></a></li>
 		  
 		
@@ -1422,11 +1203,11 @@ public class BackGatewayApplication {
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
@@ -1494,6 +1275,10 @@ public class BackGatewayApplication {
 		  
 		
 		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
 		  
 		
@@ -1519,23 +1304,11 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>6</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
@@ -1547,7 +1320,19 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
@@ -1559,7 +1344,7 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -1571,7 +1356,7 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
@@ -1579,11 +1364,11 @@ public class BackGatewayApplication {
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 		</ul>
