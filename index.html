@@ -92,6 +92,391 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2020/04/16/团队内代码分支管理/" title="团队内代码分支管理" itemprop="url">团队内代码分支管理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-16T12:17:00.000Z" itemprop="datePublished"> 发表于 2020-04-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="华通代码分支流程管理"><a href="#华通代码分支流程管理" class="headerlink" title="华通代码分支流程管理"></a>华通代码分支流程管理</h1><p>随着华通开发团队成员的日益增加，系统的需求不断升级与变化，发布版本与时间经常不断变化，代码提交分支的规范性就极其重要，为了适应这一变化，我们引入目前互联网开源社区标准的git flow流程来管理代码。</p>
+<p>以下是一个标准的git flow代码分支管理流程图：</p>
+<p><img src="https://pic4.zhimg.com/v2-4bf7e68c49e29c353a01bd6b782a1be3_r.jpg" alt="preview"></p>
+<p>根据华通团队的实际情况，我们将develop分支省去，目前只保留master、feature、release、hotfix四个分支。</p>
+<p>tag我认为不是分支，只是版本记录的镜像，也缺一不可。</p>
+<p>有一个长期分支，master分支，也是默认分支。</p>
+<h2 id="各分支功能及作业"><a href="#各分支功能及作业" class="headerlink" title="各分支功能及作业"></a>各分支功能及作业</h2><h3 id="master"><a href="#master" class="headerlink" title="master"></a>master</h3><p>主分支，永远保持稳定的状态，切下来就能正常运行，<strong>不允许任何成员直接提交，应该禁用成员直接push代码，只能通过Merge Request合并代码。</strong><br>理论上，主分支的代码和生产上运行的代码是要保持一致的。</p>
+<h3 id="feature"><a href="#feature" class="headerlink" title="feature"></a>feature</h3><p>功能分支，基于master，开发新功能时从master新建分支开发，完成后合并回master。</p>
+<p><strong>feature分支只用来功能代码提交，未提测的代码提交，已提测的代码尽量不要在feature上提交。</strong></p>
+<p><code>华通团队建议按照``软件版本号+</code>迭代版本号命名，如华通本次迭代版本为2.9.4, 软件版本号为1.0.2，则新建功能分支为：feature/1.0.2_v2.9.4。</p>
+<h3 id="release"><a href="#release" class="headerlink" title="release"></a>release</h3><p>准备发布的分支状态，用来预发、修复bugs，基于 master, 完成后 merge 回 master。</p>
+<p>在华通项目团队中，开发人员提测的时候，测试人员就从master分支中拉release分支,测试出的bug，开发人员在release分支上进行修复。</p>
+<h3 id="hotfix"><a href="#hotfix" class="headerlink" title="hotfix"></a>hotfix</h3><p>紧急修复线上版本的问题, 等不及 release 版本就必须马上上线. 基于 master/tag, 完成后 merge 回master。</p>
+<p>如果当前还有新功能release分支，也同步到release分支上。</p>
+<p><strong>理论上master分支代码应该和生产上一致，所以hotfix应尽量从master上拉取，但如果有并行开发的问题，就建议直接从tag镜像上拉代码。</strong></p>
+<h3 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h3><p>版本镜像，理论上不属于代码分支，记录release发布版本的镜像，最新的tag应该是和生产保持一致的。</p>
+<p>分支走向是这样的：</p>
+<p><img src="http://img.huguiqi.top/1587039443577lphdjw8z.png?imageslim" alt="paste image"></p>
+<h2 id="代码分支各岗位分工与流程"><a href="#代码分支各岗位分工与流程" class="headerlink" title="代码分支各岗位分工与流程"></a>代码分支各岗位分工与流程</h2><p>【测试人员】</p>
+<p>1. 收到提测申请后，从master分支上拉取release分支。</p>
+<p>2. release分支建议命名：release/软件版本号_迭代版本号。</p>
+<p>3. 测试出的bug，开发人员在release分支上进行修复。</p>
+<p>4. release分支测试通过后，测试人员发邮件通知开发人员，测试全部通过，可进行生产发布。</p>
+<p>5. 开发人员收到邮件后，将release分支代码合并到master,运维发布完release分支代码后，测试人员打tag。</p>
+<p><code>【ps】：</code></p>
+<p>release分支理论上会要求在建立分支时，将发布内容都写在分支描述上，这样测试人员也会更明确本次的测试范围。</p>
+<p>生产发布完成并合并完代码后，建议release分支即时删除。</p>
+<p>【开发人员】</p>
+<ol>
+<li>每个项目或者代码仓库都应该指派一个主开发人员，主开发人员负责监督代码分支策略的规范性，督促成员严格按照代码分支策略执行。</li>
+</ol>
+<p>3. 开发人员在开发期间，只能在feature分支上提交代码，提测后只能在release分支上提交代码。</p>
+<p>4. 主开发人员在收到测试通过消息或者邮件时，将release代码合并到master。</p>
+<p>以下为代码分支提测流程图：</p>
+<p><img src="http://img.huguiqi.top/15870395016442llqimo8.png?imageslim" alt="paste image"></p>
+<p><a href="https://guides.github.com/introduction/flow/index.html" target="_blank" rel="noopener">github推荐flow</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/git/">git</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git-flow/">git flow</a><a href="/tags/代码分支管理/">代码分支管理</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/16/团队内代码分支管理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/16/团队内代码分支管理/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/14/elasticseach集群记录/" title="elasticseach集群记录" itemprop="url">elasticseach集群记录</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-14T08:06:00.000Z" itemprop="datePublished"> 发表于 2020-04-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="elasticseach实践记录"><a href="#elasticseach实践记录" class="headerlink" title="elasticseach实践记录"></a>elasticseach实践记录</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>环境： macos<br>es版本：7.6.2<br>集群模式：单例模式</p>
+<h3 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h3><p>sh:</p>
+<pre><code>docker run -d --name elasticsearch --net riosNetwork -p 9200:9200 -p 9300:9300 -e &quot;discovery.type=single-node&quot; elasticsearch:7.6.2
+</code></pre><p>docker-compose.yml:</p>
+<pre><code>version: &quot;3.6&quot;
+services:
+      elasticsearch:
+         image: elasticsearch:7.6.2
+         volumes:
+                - ~/docker_map/elasticsearch2/data:/usr/share/elasticsearch/data
+         ports:
+            - &quot;9200:9200&quot;
+            - &quot;9300:9300&quot;
+         environment:
+           ES_JAVA_OPTS: &quot;-Xmx256m -Xms256m&quot;
+           discovery.type: &quot;single-node&quot;
+
+
+
+networks:
+    default:
+      external:
+          name: riosNetwork           
+</code></pre><p>执行完成：</p>
+<p><img src="http://img.huguiqi.top/1586851936336st7o5dyv.png?imageslim" alt="paste image"></p>
+<p>docker已启动：</p>
+<p><img src="http://img.huguiqi.top/1586851983001db46yu4d.png?imageslim" alt="paste image"></p>
+<h2 id="验证是否安装成功"><a href="#验证是否安装成功" class="headerlink" title="验证是否安装成功"></a>验证是否安装成功</h2><pre><code>curl &apos;http://localhost:9200/?pretty&apos;
+</code></pre><p>返回：</p>
+<pre><code>  {
+&quot;name&quot; : &quot;c6bc494831c6&quot;,
+&quot;cluster_name&quot; : &quot;docker-cluster&quot;,
+&quot;cluster_uuid&quot; : &quot;w5dg5AojT4K1B1_2m055iQ&quot;,
+&quot;version&quot; : {
+  &quot;number&quot; : &quot;7.6.2&quot;,
+  &quot;build_flavor&quot; : &quot;default&quot;,
+  &quot;build_type&quot; : &quot;docker&quot;,
+  &quot;build_hash&quot; : &quot;ef48eb35cf30adf4db14086e8aabd07ef6fb113f&quot;,
+  &quot;build_date&quot; : &quot;2020-03-26T06:34:37.794943Z&quot;,
+  &quot;build_snapshot&quot; : false,
+  &quot;lucene_version&quot; : &quot;8.4.0&quot;,
+  &quot;minimum_wire_compatibility_version&quot; : &quot;6.8.0&quot;,
+  &quot;minimum_index_compatibility_version&quot; : &quot;6.0.0-beta1&quot;
+},
+&quot;tagline&quot; : &quot;You Know, for Search&quot;
+</code></pre><p>  }</p>
+<p>表示安装成功  ！！！</p>
+<h2 id="查看节点使用情况"><a href="#查看节点使用情况" class="headerlink" title="查看节点使用情况"></a>查看节点使用情况</h2><pre><code>http://localhost:9200/_cat/nodes?v
+</code></pre><p>返回：</p>
+<p><img src="http://img.huguiqi.top/1586852130897is2tglzt.png?imageslim" alt="paste image"></p>
+<h2 id="安装监控插件"><a href="#安装监控插件" class="headerlink" title="安装监控插件"></a>安装监控插件</h2><p><a href="https://www.elastic.co/cn/downloads/marvel" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/marvel</a></p>
+<p>Marvel是Elasticsearch的管理和监控工具,但是在es5.0之后，就不单独存在了，被整合到x-Pack里了，而x-pack不能独立安装，要求必须同时安装了：</p>
+<ul>
+<li>ES</li>
+<li>Kibana</li>
+</ul>
+<h3 id="x-pack安装步骤"><a href="#x-pack安装步骤" class="headerlink" title="x-pack安装步骤"></a>x-pack安装步骤</h3><p><a href="https://www.elastic.co/cn/downloads/x-pack" target="_blank" rel="noopener">Install X-Pack</a></p>
+<h2 id="安装中文分词"><a href="#安装中文分词" class="headerlink" title="安装中文分词"></a>安装中文分词</h2><pre><code>docker-compose exec elasticsearch elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.6.2/elasticsearch-analysis-ik-7.6.2.zip
+</code></pre><p>重启下docker:</p>
+<pre><code>docker-compose restart elasticsearch
+</code></pre><p>这种方式安装插件经常会因为资源是在外网上，导致安装失败。</p>
+<p>可通过先在宿主机上将插件下载下来，然后copy到docker容器中进行本地安装：</p>
+<pre><code>wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.6.2/elasticsearch-analysis-ik-7.6.2.zip
+</code></pre><p>copy 到docker中：</p>
+<p>docker cp elasticsearch-analysis-ik-7.6.2.zip [docker name]</p>
+<p>然后进入docker安装：</p>
+<pre><code>./bin/elasticsearch-plugin install elasticsearch-analysis-ik-7.6.2.zip
+</code></pre><p><img src="http://img.huguiqi.top/1586932688320h96kfn3q.png?imageslim" alt="paste image"></p>
+<h2 id="使用中文分词"><a href="#使用中文分词" class="headerlink" title="使用中文分词"></a>使用中文分词</h2><p>官方教程很简单：</p>
+<p><a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
+<h3 id="创建一个索引："><a href="#创建一个索引：" class="headerlink" title="创建一个索引："></a>创建一个索引：</h3><pre><code>curl -XPUT http://localhost:9200/xiaoheitest
+</code></pre><p><img src="http://img.huguiqi.top/15869329067169r6ijqpz.png?imageslim" alt="paste image"></p>
+<h3 id="创建索引的maping规则："><a href="#创建索引的maping规则：" class="headerlink" title="创建索引的maping规则："></a>创建索引的maping规则：</h3><pre><code>curl -XPOST http://localhost:9200/xiaoheitest/_mapping -H &apos;Content-Type:application/json&apos; -d&apos;
+{
+        &quot;properties&quot;: {
+            &quot;content&quot;: {
+                &quot;type&quot;: &quot;text&quot;,
+                &quot;analyzer&quot;: &quot;ik_max_word&quot;,
+                &quot;search_analyzer&quot;: &quot;ik_smart&quot;
+            }
+        }
+
+}&apos;
+</code></pre><p>一般查询条件用ik_smart就ok了，是比较粗粒度的分词。<br>返回内容匹配使用ik_max_word，最大精底的分词。</p>
+<h3 id="添加索引中的文档内容"><a href="#添加索引中的文档内容" class="headerlink" title="添加索引中的文档内容"></a>添加索引中的文档内容</h3><p>curl -XPOST <a href="http://localhost:9200/xiaoheitest/_create/1" target="_blank" rel="noopener">http://localhost:9200/xiaoheitest/_create/1</a> -H ‘Content-Type:application/json’ -d’<br>{“content”:”你今天加班吗？加班的话去吃饭吧”}<br>‘</p>
+<p>curl -XPOST <a href="http://localhost:9200/xiaoheitest/_create/2" target="_blank" rel="noopener">http://localhost:9200/xiaoheitest/_create/2</a> -H ‘Content-Type:application/json’ -d’<br>{“content”:”「宋战磊：@星空 @张延宏 上午把语音调通，和周剑一起试试，把问题记录下来@星空 @张延宏 语音能跑起来了嘛？可以了我们一起测测”}<br>‘</p>
+<pre><code>curl -XPOST http://localhost:9200/xiaoheitest/_create/3 -H &apos;Content-Type:application/json&apos; -d&apos;
+{&quot;content&quot;:&quot;一天一报的线上问题，今天能搞定么？@宋战磊&quot;}
+&apos;
+
+curl -XPOST http://localhost:9200/xiaoheitest/_create/4 -H &apos;Content-Type:application/json&apos; -d&apos;
+{&quot;content&quot;:&quot;大家伙们来呀&quot;}
+&apos;
+
+curl -XPOST http://localhost:9200/xiaoheitest/_create/5 -H &apos;Content-Type:application/json&apos; -d&apos;
+{&quot;content&quot;:&quot;@KN    你名下的bug处理下&quot;}
+&apos;
+
+curl -XPOST http://localhost:9200/xiaoheitest/_create/6 -H &apos;Content-Type:application/json&apos; -d&apos;
+{&quot;content&quot;:&quot;怎么处理&quot;}
+&apos;
+
+
+curl -XPOST http://localhost:9200/xiaoheitest/_create/7 -H &apos;Content-Type:application/json&apos; -d&apos;
+{&quot;content&quot;:&quot;该关的关，该延期的延期，该分配的分配，还用我教你？&quot;}
+&apos;
+</code></pre><h3 id="匹配查询一下"><a href="#匹配查询一下" class="headerlink" title="匹配查询一下"></a>匹配查询一下</h3><pre><code>curl -XPOST http://localhost:9200/xiaoheitest/_search  -H &apos;Content-Type:application/json&apos; -d&apos;
+{
+    &quot;query&quot; : { &quot;match&quot; : { &quot;content&quot; : &quot;你&quot; }},
+    &quot;highlight&quot; : {
+        &quot;pre_tags&quot; : [&quot;&lt;tag1&gt;&quot;, &quot;&lt;tag2&gt;&quot;],
+        &quot;post_tags&quot; : [&quot;&lt;/tag1&gt;&quot;, &quot;&lt;/tag2&gt;&quot;],
+        &quot;fields&quot; : {
+            &quot;content&quot; : {}
+        }
+    }
+}
+&apos;
+</code></pre><p><img src="http://img.huguiqi.top/1586936386368xucjuucn.png?imageslim" alt="paste image"></p>
+<p>发现返回了匹配数据：</p>
+<pre><code>  {
+   &quot;took&quot;:880,
+   &quot;timed_out&quot;:false,
+   &quot;_shards&quot;:{
+      &quot;total&quot;:1,
+      &quot;successful&quot;:1,
+      &quot;skipped&quot;:0,
+      &quot;failed&quot;:0
+   },
+   &quot;hits&quot;:{
+      &quot;total&quot;:{
+         &quot;value&quot;:2,
+         &quot;relation&quot;:&quot;eq&quot;
+      },
+      &quot;max_score&quot;:1.4698057,
+      &quot;hits&quot;:[
+         {
+            &quot;_index&quot;:&quot;xiaoheitest&quot;,
+            &quot;_type&quot;:&quot;_doc&quot;,
+            &quot;_id&quot;:&quot;5&quot;,
+            &quot;_score&quot;:1.4698057,
+            &quot;_source&quot;:{
+               &quot;content&quot;:&quot;@KN    你名下的bug处理下&quot;
+            },
+            &quot;highlight&quot;:{
+               &quot;content&quot;:[
+                  &quot;@KN    &lt;tag1&gt;你&lt;/tag1&gt;名下的bug处理下&quot;
+               ]
+            }
+         },
+         {
+            &quot;_index&quot;:&quot;xiaoheitest&quot;,
+            &quot;_type&quot;:&quot;_doc&quot;,
+            &quot;_id&quot;:&quot;1&quot;,
+            &quot;_score&quot;:1.3706115,
+            &quot;_source&quot;:{
+               &quot;content&quot;:&quot;你今天加班吗？加班的话去吃饭吧&quot;
+            },
+            &quot;highlight&quot;:{
+               &quot;content&quot;:[
+                  &quot;&lt;tag1&gt;你&lt;/tag1&gt;今天加班吗？加班的话去吃饭吧&quot;
+               ]
+            }
+         }
+      ]
+   }
+}
+</code></pre><p>看得出来，全部匹配到的会打个全亮的标签。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/docker/">docker</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/elasticseach/">elasticseach</a><a href="/tags/索引/">索引</a><a href="/tags/分词/">分词</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/14/elasticseach集群记录/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/14/elasticseach集群记录/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/07/RabbitMQ学习-一/" title="RabbitMQ学习(一)" itemprop="url">RabbitMQ学习(一)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-06T16:39:58.000Z" itemprop="datePublished"> 发表于 2020-04-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="RabbitMQ学习-一"><a href="#RabbitMQ学习-一" class="headerlink" title="RabbitMQ学习(一)"></a>RabbitMQ学习(一)</h1><p>一张图片展示rabbitMQ的工作模式</p>
+<p><img src="https://www.rabbitmq.com/img/tutorials/intro/hello-world-example-routing.png" alt="past"></p>
+<p><img src="http://img.huguiqi.top/15861912872172x0okr9u.png?imageslim" alt="paste image"></p>
+<h2 id="rabbitMQ思维导图"><a href="#rabbitMQ思维导图" class="headerlink" title="rabbitMQ思维导图"></a>rabbitMQ思维导图</h2><p>RabbitMQ.png<img src="http://img.huguiqi.top/15868359689484kv0s3gu.png?imageslim" alt="paste image"></p>
+<p>RabbitMQ.xmind</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/07/RabbitMQ学习-一/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/07/RabbitMQ学习-一/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2020/03/08/spring与数据库的事务隔离级别复习/" title="与springboot相关的面试题整理" itemprop="url">与springboot相关的面试题整理</a>
   </h1>
   <p class="article-author">By
@@ -953,308 +1338,6 @@ management:
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/07/10/flume初探/" title="flume初探" itemprop="url">flume初探</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-07-10T15:14:00.000Z" itemprop="datePublished"> 发表于 2019-07-10</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="什么是flume"><a href="#什么是flume" class="headerlink" title="什么是flume"></a>什么是flume</h2><blockquote>
-<blockquote>
-<p>Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统，Flume支持在日志系统中定制各类数据发送方，用于收集数据；同时，Flume提供对数据进行简单处理，并写到各种数据接受方（可定制）的能力。</p>
-</blockquote>
-</blockquote>
-<p>这个定义来自百度百科。</p>
-<p>当然，由于百度的公信力与可靠性越来越差，我周边大部分的技术人员都不相信百度了，那我们就看看flume官网是怎么定义它的。</p>
-<p>官方:</p>
-<blockquote>
-<blockquote>
-<p>Flume is a distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data. It has a simple and flexible architecture based on streaming data flows. It is robust and fault tolerant with tunable reliability mechanisms and many failover and recovery mechanisms. It uses a simple extensible data model that allows for online analytic application.</p>
-</blockquote>
-</blockquote>
-<p>由于我英文与不是特别好，但是感觉和百度百科的定义应该大致相致。<br>通过google翻译为中文如下:</p>
-<blockquote>
-<blockquote>
-<p>Flume是一种分布式，可靠且可用的服务，用于有效地收集，聚合和移动大量日志数据。 它具有基于流数据流的简单灵活的架构。 它具有可靠的可靠性机制和许多故障转移和恢复机制，具有强大的容错性。 它使用简单的可扩展数据模型，允许在线分析应用程序。</p>
-</blockquote>
-</blockquote>
-<p>以下是flume官方给出的flume架构图：</p>
-<p><img src="http://img.huguiqi.top/1562772504860hkflis2v.png?imageslim" alt="paste image"></p>
-<p>根据这个图，我猜的大概意思应该是，入口从web服务来。一个agen由source,sink,channel组成。</p>
-<p>source对应的是入口地址定义。<br>将从source获取的数据丢到channel管道中，然后输出到sink，sink定义与配置了具体是什么存储介质来接受数据。</p>
-<p>使用flume的基本系统要求：</p>
-<ul>
-<li>Java Runtime Environment - Java 1.8 or later</li>
-<li>Memory - Sufficient memory for configurations used by sources, channels or sinks</li>
-<li>Disk Space - Sufficient disk space for configurations used by channels or sinks</li>
-<li>Directory Permissions - Read/Write permissions for directories used by agent</li>
-</ul>
-<p>内存和磁盘空间都可以通过配置文件进行配置，对agent的使用的目录必须有读写权限。</p>
-<p>ps: 最近这家叫Cloudera的公司好像传出资金链断裂的消息.</p>
-<p>不过，好在它早就是Apache基金会下的一个开源项目。</p>
-<h2 id="有什么优缺点"><a href="#有什么优缺点" class="headerlink" title="有什么优缺点"></a>有什么优缺点</h2><h4 id="优点"><a href="#优点" class="headerlink" title="优点:"></a>优点:</h4><ul>
-<li>高吞吐，高可用，高可靠的数据收集工具</li>
-</ul>
-<p>Apache Flume具有高度可扩展性，可靠性，可用性，可水平扩展以及可针对不同源数据和Sink进行定制,有助于收集，汇总和移动大量的数据集。 例如Facebook，Twitter和电子商务网站产生的数据等</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2019/07/10/flume初探/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/flume/">flume</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/07/10/flume初探/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/07/10/flume初探/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/06/04/springboot-kafka/" title="springboot_kafka" itemprop="url">springboot_kafka</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-06-04T08:55:00.000Z" itemprop="datePublished"> 发表于 2019-06-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="springboot-kafka集成"><a href="#springboot-kafka集成" class="headerlink" title="springboot_kafka集成"></a>springboot_kafka集成</h1><h1 id="kafka-client"><a href="#kafka-client" class="headerlink" title="kafka_client"></a>kafka_client</h1><h2 id="maven-依赖"><a href="#maven-依赖" class="headerlink" title="maven 依赖"></a>maven 依赖</h2><p>pom.xml:</p>
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;
-    &lt;artifactId&gt;kafka-clients&lt;/artifactId&gt;
-    &lt;version&gt;2.1.0&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><h2 id="安装kafka"><a href="#安装kafka" class="headerlink" title="安装kafka"></a>安装kafka</h2><p><a href="http://kafka.apache.org/" target="_blank" rel="noopener">kafka官网</a></p>
-<h3 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h3><ol>
-<li>下载kafka</li>
-</ol>
-<p>目前最新版本是2.2.0</p>
-<p><a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.2.0/kafka_2.12-2.2.0.tgz" target="_blank" rel="noopener">下载地址</a></p>
-<pre><code>&gt; tar -xzf kafka_2.12-2.2.0.tgz
-&gt; cd kafka_2.12-2.2.0
-</code></pre><ol>
-<li>启动zooKeeper服务器</li>
-</ol>
-<p>因为kafka的运行需要zookeeper 作节点调度，所以kafka包里有zookeeper服务器的启动脚本,启动单节点的zookeeper实例:</p>
-<pre><code>kafka_2.11-2.2.1&gt; sh ./bin/zookeeper-server-start.sh config/zookeeper.properties
-    /Users/sam/Public/bigData/kafka_2.11-2.2.1/bin/kafka-run-class.sh: line 306: /usr/libexec/java_home/bin/java: Not a directory
-    /Users/sam/Public/bigData/kafka_2.11-2.2.1/bin/kafka-run-class.sh: line 306: exec: /usr/libexec/java_home/bin/java: cannot execute: Not a directory
-</code></pre><p>启动zookeeper服务器报错，说<code>kafka-run-class.sh</code>里的java_home找不到，那么vi这个文件进去定位到306行，在226行前一行插入<code>JAVA_HOME</code>：</p>
-<pre><code># Which java to use
-225 JAVA_HOME=&apos;/Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home&apos;
-226
-227 if [ -z &quot;$JAVA_HOME&quot; ]; then
-228   JAVA=&quot;java&quot;
-229 else
-230   JAVA=&quot;$JAVA_HOME/bin/java&quot;
-231 fi
-</code></pre><p>保存，再次启动zookeeper:</p>
-<pre><code>sh ./bin/zookeeper-server-start.sh config/zookeeper.properties
-</code></pre><p>控制台中打印出：</p>
-<pre><code>[2019-06-04 15:02:29,345] INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
-</code></pre><p>表示启动成功。</p>
-<ol>
-<li>启动kafka服务器</li>
-</ol>
-<p>执行：</p>
-<pre><code>sh bin/kafka-server-start.sh config/server.properties
-</code></pre><p>控制台打出：</p>
-<pre><code>[2019-06-04 15:07:19,041] INFO Awaiting socket connections on s0.0.0.0:9092. (kafka.network.Acceptor)
-[2019-06-04 15:07:19,068] INFO [SocketServer brokerId=0] Created data-plane acceptor and processors for endpoint : EndPoint(null,9092,ListenerName(PLAINTEXT),PLAINTEXT) (kafka.network.SocketServer)
-</code></pre><p>代表启动成功!!</p>
-<ol>
-<li>写一个生产者test，往kafka服务里写数据</li>
-</ol>
-<p>看代码。。。。</p>
-<ol>
-<li>写一个消费者服务，从kafka服务里获取生产都的数据，并对数据进行消费</li>
-</ol>
-<p>看代码</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2019/06/04/springboot-kafka/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/springboot/">springboot</a><a href="/tags/kafka/">kafka</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/06/04/springboot-kafka/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/06/04/springboot-kafka/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/05/22/工作，生活心情整理/" title="工作，生活心情整理" itemprop="url">工作，生活心情整理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-05-22T15:03:24.000Z" itemprop="datePublished"> 发表于 2019-05-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="最近心情很焦虑"><a href="#最近心情很焦虑" class="headerlink" title="最近心情很焦虑"></a>最近心情很焦虑</h1><p>可能是因为步入中年，每个中年人都会有这种感觉吧。<br>曾经年少时觉得，中年对我而言还太早，觉得就算自己到中年，绝对不会像网上相关文章说的那样惨，但是现在，我觉得很有可能会更惨。</p>
-<p>2017年10月份，我结婚了，那一年，刚好30岁，那一年在事业上也是我最迷茫的一年。幸好，在生活上，我找到了目标，结束了我半人的生活。我很感谢我老婆，也很感谢我岳父岳母，让我感觉很幸福。</p>
-<p>2018年3月12日凌晨2点多，我可爱的女儿诞生了，从那一刻起，我觉得我一定要更努力赚钱，为女儿将来有更多的人生选择。因为，我小时候的选择太少了，物质条件太贫瘠了。</p>
-<pre><code>老师告诉我，读书是唯一途径，但是，当年我爸爸那一代人普遍觉得，读书没什么用，我那时就很矛盾，我想把书读好，但是我心里经常又会质疑老师说的话，觉得老师在骗人，读书有用的话，为什么他们要做老师，而且当时我遇到很多老师素质并不好，读高中时，我对老师这个职业是最讨厌的，因为他们当中很多人非常的虚伪，甚至有些老师现在回想看来，连起码的做人底线都没有。所以我从高中开始，就发誓，永远不要做老师，因为老师这个职业在我看来，是对自己最大的侮辱，可能是这个社会的悲哀吧，也可能是中国教育的失败吧，曾经的师生之道，荡然无存，师无德，生无礼。我希望我的女儿将来也不要做教师，因为教师在我心里，是最肮脏的职业。
-</code></pre><p> 家庭的负担从女儿出生开始，我感觉每个月的支出除去房贷，确实压力不小，如果出现了金融危机，我失业了，对家庭是个不小的打击。我觉得，应该提高家庭的抗风险能力。</p>
-<ul>
-<li><p>如何提升搞风险能力呢？</p>
-<ul>
-<li>基金</li>
-</ul>
-</li>
-</ul>
-<p>这个问题我一直在摸索中，其中，我从2017年开始，就投资了某p2p平台，其中有一家投资的平台暴雷，损失了一万多块钱,~_~ 我很伤心。<br>后来，2018年底开始基金定投，每两周定投200元到我选择的基金中，到目前为止，我收益了1500多元，因为2019年中美贸易战，A股市场一直在跌，估计这1000多块钱还是会跌回去，但是长期来看，中美贸易战结束后，我相信会迎来一波春天，我决定坚持下去。</p>
-<p>直接买股票，赚得快。但是目前我自认为还没有能力预知股市的能力，所以直接买股票，至少这两年我不会做。</p>
-<pre><code>* 网红
-</code></pre><p>之前的一个朋友已经开始了网红之路了，目前他创作的视频点击率已经超过了27万次，马上就可以接广告了。但是，对于我来说，没时间做这个，也没他有创意去做这个。但是，我媳妇已经在积累粉丝了，他每天的口头蝉就是：”等我以后火了，月放十万，你就给我跪下叫爸爸”!。    </p>
-<ul>
-<li>父母家庭不和谐</li>
-</ul>
-<p>我父母从我记事起，他们就在不停的吵架，打架，一直到我母亲瘫痪在床，甚至前天，我妹妹打电话给我，说和我父亲吵架了，吵得异常凶狠，互相骂得就像没人知道他们是父女，就像仇人一样。</p>
-<p>为什么？一个家庭会这样，半辈子都在争吵中渡过？这是一个正常家庭吗？</p>
-<p>我的父亲是个脾气暴躁的人，是个蛮横不讲理的人，是个霸道且长年家暴的人，同时又是一个不聪明，却又固执的人。一提起他，我觉得没有人能跟他正常生活超过3天。在心里面，我恨他。我记得，小时候，有一天晚上不知道是因为什么事，我被他揍了，当时心理非常难受，觉得为什么让我出生在这样的家庭，为什么让我面对一个这样的父亲，当天晚上，我甚至都想拿起菜刀，趁他熟睡的时候，送他走了，也算是为家庭做出贡献，但理智让我放下了刀，他毕竟是我父亲。</p>
-<p>我的妹妹从小生活在我父母身边，他读完初中，因为讨厌上学(经常跟同学逃课去县城里玩)，而被送到了我父母工作的城市—-云南曲靖，那个时候我是非常反对我妹妹辍学去云南给我父母帮忙做生意的，但只怪我当时无能力改变。</p>
-<p>当时心中一直在想，我妹妹将来肯定会后悔当初的决定，只怕将来会埋怨父母，埋怨我没有拦着他。其实我妹妹很聪明，如果让他学一门技术，其实他能很快学会，但是，错就错在，生在这样一个家庭。<br>我妹妹的性格现在让我感觉完全就是我父亲的性格，脾气大，不听劝，偏执，固执，一根筋，没耐性，不爱干净。<br>我只能说，摊上这种父母，我无能为力。</p>
-<p>我从小是很不听话的那种小孩，因为生活在这样的家庭里，从初中到大学，都没有和父母生活在一起，我能够分辨出哪些是对的，哪些我是觉得绝对不能听从的。所以，在父母和外人看来，我是非常不听话的，而且每年只要我父母回来，我都会和他们吵架，他们说什么，我不会全部都认为是对的。</p>
-<p>我的母亲其实脾气也不小，虽然你看着他感觉很可怜，但是套用鲁讯的一句话：”可怜之人必有可恨之处”!</p>
-<p>我的母亲非常唠叨，而且话也非常多，最要命的是，说话从来不过脑子，也从来不长记性，一辈子都不长记性，不过脑子，脾气还不小。</p>
-<p>遇到我父亲这种人，肯定不是被骂就是被凶，如果来回吵，肯定就动手了，不该说的别说，永远不知道闭嘴，你知道他蠢，你又说出来，他不恼凶成怒吗？你知道他做错了，你一直说，他不恼凶成怒吗？</p>
-<p>希望我不会成为一个那样的父亲，如果哪一天，我发现自己也变成那样，我觉得应该从楼上跳下去自杀，因为如果我变成这样，会对自己的孩子产生一生的阴影。<br>会直接影响孩子的未来健康成长，如果是这样，不如死了算了。</p>
-<h2 id="工作琐事分享"><a href="#工作琐事分享" class="headerlink" title="工作琐事分享"></a>工作琐事分享</h2><ul>
-<li>年纪越大，耐心越差</li>
-</ul>
-<p>之前听过一句话，说年纪越大，耐心越差。年经越大，越不想听别人说话。</p>
-<p>最近在工作中感受就越来越深了，虽然我很尊重我的领导，也很认同他的工作方式，但是，有时候真的会让我很崩溃。因为，在一些工作中，从头到尾都是他在说，一直说，几乎不给其它人说话的机会，也几乎没有耐心听别人的完整方案，也经常提出一些没经过分析的方案，如果不挑战他吧，按照他说的做，可能做的时候就会入大坑，事后总不能说，”按你说的做的，现在有问题了，没法做下去了“！，但这个时候你就完全被他左右了，被他框死了。如果挑战他吧，又觉得事太多，给他难堪。我觉得，我的领导可能会慢慢的变成了他以前讨厌的人，我真的很惋惜。</p>
-<ul>
-<li>年纪越大，越自负</li>
-</ul>
-<p>这个可以理解，因为工作经验会比别人要多，确实在很多地方比较有经验，从而也是非常自信。但请注意，不是全部领域，如果把这种心态上升到权威，上升到绝对自信，我觉得这会打击很多人的自信心，让他们有疑问都不敢提，对领导的方案没有怀疑，其实这对整个工作是没有好处的。对员工而言，也是没有好处的，因为员工得不到锻炼，而解决方案也不一定达到最优。只有在不断的质疑中权衡出来的方案，才是团队的最优方案。</p>
-<h2 id="如何平衡生活与工作压力"><a href="#如何平衡生活与工作压力" class="headerlink" title="如何平衡生活与工作压力"></a>如何平衡生活与工作压力</h2><p>这两天一直想回老家看看我母亲，看看她，也只能是看看她。<br>但是，现在想想，对于现状的改变，没有任何作用，既然没有作用，那就算了吧，等国庆节再带着我的小可爱一起回去吧，既然改变不了，又何须徒添伤悲呢？</p>
-<p>努力工作吧，为自己的这个新家应对更大的挑战而努力吧！！！！<br>工作上，质疑领导的事情还是少做吧！！！</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/05/22/工作，生活心情整理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/05/22/工作，生活心情整理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1302,11 +1385,11 @@ management:
 		  
 		
 		  
-			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1358,11 +1441,11 @@ management:
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1471,15 +1554,11 @@ management:
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1487,27 +1566,7 @@ management:
 			
 		
 			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1515,15 +1574,39 @@ management:
 			
 		
 			
-				<li><a href="/tags/犹太人/" title="犹太人">犹太人<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/springcloud/" title="springcloud">springcloud<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
 			
 		
 		</ul>

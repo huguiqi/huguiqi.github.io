@@ -92,6 +92,288 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/19/安装服务器nodejs环境/" title="docker 换国内镜像" itemprop="url">docker 换国内镜像</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.275Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="安装服务器nodejs环境"><a href="#安装服务器nodejs环境" class="headerlink" title="安装服务器nodejs环境"></a>安装服务器nodejs环境</h1><h2 id="一，下载"><a href="#一，下载" class="headerlink" title="一，下载"></a>一，下载</h2><pre><code>wget https://nodejs.org/dist/v4.4.3/node-v4.4.3.tar.gz
+</code></pre><h2 id="二，安装"><a href="#二，安装" class="headerlink" title="二，安装"></a>二，安装</h2><ol>
+<li><p>解压：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zxf node-v4.4.3.tar.gz </span><br><span class="line">cd node-v4.4.3</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>编译配置：</p>
+<pre><code>./configure     
+</code></pre></li>
+<li><p>开始编译源代码并安装</p>
+<pre><code>make
+</code></pre></li>
+<li><p>当编译完成后，我们需要使之在系统范围内可用, 编译后的二进制文件将被放置到系统路径，默认情况下，Node二进制文件应该放在/user/local/bin/node文件夹下:</p>
+<pre><code>make install
+</code></pre></li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/docker/">docker</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker-国内镜像/">docker 国内镜像</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/安装服务器nodejs环境/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/安装服务器nodejs环境/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/构建最新的nodejs_docker服务器/" title="构建最新的nodejs docker服务器" itemprop="url">构建最新的nodejs docker服务器</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.271Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="构建最新的nodejs-docker服务器"><a href="#构建最新的nodejs-docker服务器" class="headerlink" title="构建最新的nodejs docker服务器"></a>构建最新的nodejs docker服务器</h1><p><a href="https://nodejs.org/en/docs/guides/nodejs-docker-webapp/" target="_blank" rel="noopener">参考文档</a></p>
+<ul>
+<li><p>新建一个目录作为我的dockerImages的目录，然后执行：</p>
+<pre><code>mkdir /Users/samhu/Public/dockerImages
+</code></pre></li>
+<li><p>新建package.json</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">	&#123;</span><br><span class="line">  &quot;name&quot;: &quot;docker_web_app&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;Node.js on Docker&quot;,</span><br><span class="line">  &quot;author&quot;: &quot;First Last &lt;first.last@example.com&gt;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;server.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">              &quot;start&quot;: &quot;node server.js&quot;</span><br><span class="line">              &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">                    &quot;express&quot;: &quot;^4.13.3&quot;</span><br><span class="line">                  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>新建server.js文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&apos;use strict&apos;;</span><br><span class="line"></span><br><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line"></span><br><span class="line">// Constants</span><br><span class="line"> const PORT = 8080;</span><br><span class="line">//</span><br><span class="line">// // App</span><br><span class="line"> const app = express();</span><br><span class="line"> app.get(&apos;/&apos;, function (req, res) &#123;</span><br><span class="line">   res.send(&apos;Hello world\n&apos;);</span><br><span class="line">   &#125;);</span><br><span class="line"></span><br><span class="line">   app.listen(PORT);</span><br><span class="line">   console.log(&apos;Running on http://localhost:&apos; + PORT);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">* 新建Dockerfile</span><br><span class="line"></span><br><span class="line">		vi Dockerfile </span><br><span class="line">		</span><br><span class="line">内容为：</span><br></pre></td></tr></table></figure>
+<p>  FROM node:argon</p>
+<h1 id="Create-app-directory"><a href="#Create-app-directory" class="headerlink" title="Create app directory"></a>Create app directory</h1><p>RUN mkdir -p /usr/src/app<br>WORKDIR /usr/src/app</p>
+<h1 id="Install-app-dependencies"><a href="#Install-app-dependencies" class="headerlink" title="Install app dependencies"></a>Install app dependencies</h1><p>COPY package.json /usr/src/app/<br>RUN npm install</p>
+<h1 id="Bundle-app-source"><a href="#Bundle-app-source" class="headerlink" title="Bundle app source"></a>Bundle app source</h1><p>COPY . /usr/src/app</p>
+<p>VOLUME [“/var/www”, “/usr/src/app”, “/var/nginx”]</p>
+<p>EXPOSE 8080</p>
+<p>#CMD [ “npm”, “start” ]</p>
+<p>RUN PORT=8080 npm start</p>
+<p>  ```</p>
+<p>CMD内容 npm start 会执行 node server.js这个命令。。。。。</p>
+<p>最后在dockerImage目录下，build成image:</p>
+<pre><code>docker build -t sam.hu/node-web-app . 
+</code></pre><p>启动一个nodejs应用服务器，端口号是40000：</p>
+<pre><code>docker run -p 40000:8080 --rm -it -v $(pwd):/usr/src/app sam.hu/node-web-app
+</code></pre><p>不加 <code>-it</code> 是为容器启动</p>
+<p>查看docker容器使用情况:</p>
+<pre><code>docker stats
+</code></pre><h1 id="安装Apache-Bench（ab-作压力测试"><a href="#安装Apache-Bench（ab-作压力测试" class="headerlink" title="安装Apache Bench（ab)作压力测试"></a>安装Apache Bench（ab)作压力测试</h1><p>三种方式：</p>
+<ul>
+<li><p>源码安装</p>
+<p><a href="http://httpd.apache.org/" target="_blank" rel="noopener">download</a></p>
+<p>下载后解压，终端执行：</p>
+<pre><code>./configuare
+</code></pre></li>
+<li><p>二进制安装</p>
+<pre><code>命令行忘记了    
+</code></pre></li>
+<li><p>命令行安装</p>
+<pre><code>yum install httpd
+</code></pre></li>
+</ul>
+<h2 id="使用ab测试并发"><a href="#使用ab测试并发" class="headerlink" title="使用ab测试并发"></a>使用ab测试并发</h2><pre><code>ab -n 5000 -c 600 http://www.jinjiang.com/
+</code></pre><p>如果出现错误：</p>
+<pre><code>enchmarking www.jinjiang.com (be patient)
+socket: Too many open files (24)
+</code></pre><p>则是因为服务器对并发文件连接有open files限制    ，登陆服务器执行：</p>
+<pre><code>ulimit -a  
+</code></pre><p>找到：</p>
+<pre><code>open files                      (-n) 1024    
+</code></pre><p>调整可以打开的文件数：</p>
+<pre><code>ulimit -n 65535
+</code></pre><p>同时修改nginx.conf添加</p>
+<pre><code>worker_rlimit_nofile 65535;
+</code></pre><p>但是在nginx服务器可以打开的文件数量受你操作系统的限制，所以编辑<br><code>/etc/sysctl.conf</code> 添加如下内容：</p>
+<pre><code>fs.file-max = 70000
+</code></pre><p>保存退出，从新读取系统配置</p>
+<p><code>sysctl -p</code></p>
+<p>再编辑 <code>/etc/security/limits.conf</code> 添加内容:</p>
+<pre><code>soft nofile 10000
+hard nofile 30000
+</code></pre><p>此修改内容需要reboot系统才能生效，所以务必从新启动下服务器。</p>
+<p>再次查看系统输出</p>
+<pre><code>ulimit -Hn
+ulimit -Sn    
+</code></pre><p>输出：</p>
+<p>30000 10000</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/docker/">docker</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nodejs/">nodejs</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/构建最新的nodejs_docker服务器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/构建最新的nodejs_docker服务器/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/19/旧工程适配iOS6和iPhone5续之第三方静态库/" title="旧工程适配iOS6和iPhone5续之第三方静态库" itemprop="url">旧工程适配iOS6和iPhone5续之第三方静态库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-19T09:56:24.267Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="旧工程适配iOS6和iPhone5续之第三方静态库"><a href="#旧工程适配iOS6和iPhone5续之第三方静态库" class="headerlink" title="旧工程适配iOS6和iPhone5续之第三方静态库"></a>旧工程适配iOS6和iPhone5续之第三方静态库</h1><div><br><br>旧工程适配iOS6和iPhone5续之第三方静态库<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>如果你的工程没有使用第三方的静态库或者framework，那么看完<a href="http://blog.cnrainbird.com/?p=1208" target="_blank" rel="noopener">旧工程适配iOS6和iPhone5的一些故事</a>基本上适配也就结束了，可是像笔者这样有的工程里用到第三方库了，打包的时候还会提示下面的问题:<br><br></div>
+
+<div><br><br>ld: file is universal (3 slices) but does not contain a(n) armv7s slice:<br>/Users/rainbird/Desktop/myapp/iFileManager/iFileManager/ZBarSDK/libzbar.a<br>for architecture armv7s<br><br></div>
+
+<div><br><br>clang: error: linker command failed with exit code 1 (use -v to see<br>invocation)<br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/11/19/旧工程适配iOS6和iPhone5续之第三方静态库/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/11/19/旧工程适配iOS6和iPhone5续之第三方静态库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/旧工程适配iOS6和iPhone5续之第三方静态库/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/19/数据类型和Json格式/" title="数据类型和Json格式" itemprop="url">数据类型和Json格式</a>
   </h1>
   <p class="article-author">By
@@ -99,7 +381,7 @@
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.263Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2018-11-19T09:56:24.262Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
@@ -573,293 +855,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/如何添加brewcask没有的软件/" title="如何添加brewcask没有的软件" itemprop="url">如何添加brewcask没有的软件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.204Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="如何添加brewcask没有的软件"><a href="#如何添加brewcask没有的软件" class="headerlink" title="如何添加brewcask没有的软件"></a>如何添加brewcask没有的软件</h1><p>按照<a href="https://github.com/caskroom/homebrew-cask/blob/master/CONTRIBUTING.md#adding-a-cask" target="_blank" rel="noopener">brewcask的wiki</a>上说的步骤</p>
-<h2 id="添加步骤："><a href="#添加步骤：" class="headerlink" title="添加步骤："></a>添加步骤：</h2><ol>
-<li>fork homebrew-cask</li>
-<li>进入你的系统的homebrew-cask的repository目录，mac系统默认都在：<code>/usr/local/Library/Taps/phinze/homebrew-cask</code></li>
-<li>一定要先更新你的brewcask 的repository:<code>git pull</code></li>
-<li><p>按照官方文档的做法，把你的fork过去的项目url加入到remote里去</p>
-<pre><code>$ github_user=&apos;huguiqi&apos;
-$ cd &quot;$(brew --repository)&quot;/Library/Taps/caskroom/homebrew-cask
-$ git remote add &quot;$github_user&quot; &quot;https://github.com/$github_user/homebrew-cask&quot;
-</code></pre></li>
-<li><p>建立软件token(<strong>这一步官方文档上没写</strong>)</p>
-<pre><code>&quot;$(brew --repository)/Library/Taps/caskroom/homebrew-cask/developer/bin/generate_cask_token&quot; &apos;software_name&apos;
-</code></pre></li>
-</ol>
-<p>如已经在repostory目录了，则执行如下:</p>
-<pre><code>developer/bin/generate_cask_token &apos;solftName&apos;
-</code></pre><p>如果执行报错，那么可以<code>git pull试下</code><br>6 . 新建cask:<code>brew cask create solftName</code></p>
-<p>在这一步的时候，一直报错，后面看了报错信息，说是什么找不到这个token，在<code>/usr/local/Library/Taps/caskroom/homebrew-cask</code>目录下，这就奇了怪了，明明我的repository在另外一个目录，它怎么会往这个不存在的目录里去找呢，后面找了很久，发现是我更新了brew，而brew-cask还是用的老的：<code>phinze/homebrew-cask</code>，<a href="https://github.com/caskroom/homebrew-cask" target="_blank" rel="noopener">官方wiki上有这个问题的解决方案</a>：</p>
-<ol>
-<li><code>$ brew update; brew cleanup; brew cask cleanup</code></li>
-<li><code>$ brew uninstall --force brew-cask; brew update</code></li>
-<li>如果还报错，则可能是之前你的没有卸载干净，再执行：<code>brew untap phinze/cask; brew untap caskroom/cask; brew update</code></li>
-<li>最后再重复第1、2步</li>
-</ol>
-<p><strong> cask重装以后再执行一遍repository下add remote url</strong></p>
-<p>执行 cask create 以后，会打开一个*.rb文件，如下：</p>
-<pre><code>cask &apos;my-new-cask&apos; do 
-    version &apos;&apos;
-    sha256 &apos;&apos;
-    url &apos;&apos;
-    name &apos;&apos;
-    homepage &apos;&apos;
-    license :unknown # TODO: change license and remove this comment; &apos;:unknown&apos; is a machine-generated placeholder
-    app &apos;&apos;
-end
-</code></pre><p>其中将：</p>
-<p>– my_new_cask改为新建cask名称 <br><br>– version 改成改软件最新版本，如果下方所提供的下载链接并不包含版本信息此处写成：version :latest <br><br>– sha256 下载文件的SHA-256校验值，当下方所提供的下载链接并不包含版本信息此处写成：sha256 :no_check <br><br>– url 为软件下载链接 <br><br>– name 为软件名称 <br><br>– homepage 为软件主页 <br><br>– license 可以分为以下几大类，同时大类下面又分成 gratis commercial freemium 等小类，具体请查阅参考1。 <br><br>– app 中填写url下载文件中*.app文件的相对位置 <br></p>
-<table>
-<thead>
-<tr>
-<th>symbol</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>:oss</td>
-<td>开源软件</td>
-</tr>
-<tr>
-<td>:closed</td>
-<td>闭源软件</td>
-</tr>
-<tr>
-<td>:unknown</td>
-<td>许可未知</td>
-</tr>
-<tr>
-<td>:oss</td>
-<td>其他</td>
-</tr>
-</tbody>
-</table>
-<h2 id="测试-cask"><a href="#测试-cask" class="headerlink" title="测试 cask"></a>测试 cask</h2><pre><code>bwcs readkit
-</code></pre><p>发现有可以搜索到了，太棒了。。。。。。</p>
-<p>安装呢，哈哈，我已经安装了，就不试了</p>
-<h2 id="提交到git库"><a href="#提交到git库" class="headerlink" title="提交到git库"></a>提交到git库</h2><pre><code>git commit -a -m &quot;readkit&quot;
-git push newRemote
-</code></pre><p>在push之前我遇到一个从示遇到的问题，就是push的时候老push不上去，总是报错：</p>
-<pre><code>sam@samhus-MBP /u/l/L/T/c/homebrew-cask&gt; gp huguiqi                      master
-Counting objects: 12, done.
-Delta compression using up to 8 threads.
-Compressing objects: 100% (12/12), done.
-Writing objects: 100% (12/12), 1.46 KiB | 0 bytes/s, done.
-Total 12 (delta 8), reused 1 (delta 0)
-To git@github.com:huguiqi/homebrew-cask.git
- ! [remote rejected] master -&gt; master (shallow update not allowed)
-error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.git&apos;
-</code></pre><p>google了一下，发现说什么，只要添加了remote或者更改了remote，shallow 的更新不被允许，我也不知道shallow啥意思，可能是个啥标志吧，就是要将老的remote库标志为unshallow(这样老库就不会更新了),新的remote才能push，这什么鬼规则。。。</p>
-<pre><code>master -&gt; master (shallow update not allowed)
-</code></pre><p>那怎么样去flag老的remote为unshallow呢，就要用fetch命令了。<br>好吧，我就干下吧，干的时候必须带上unshallow：</p>
-<pre><code>git fetch --unshallow origin 
-</code></pre><p><strong>ps:这个库是我从主库fork下来的，只是提交到我自己的公有库上，而对于brew-cask的主库而言，我是它无数个分支中的一个分支，别人暂时通过<code>brew cask search readkit</code> 是搜不到的，直到主库维护者将无数分支merge到主库，用户更新了brew-cask 的index，那就可以搜得到了</strong></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/brew-cask-添加cask/">brew-cask 添加cask</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/如何添加brewcask没有的软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/如何添加brewcask没有的软件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/怎么关闭U盘的自动播放功能/" title="怎么关闭U盘的自动播放功能" itemprop="url">怎么关闭U盘的自动播放功能</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.198Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="怎么关闭U盘的自动播放功能"><a href="#怎么关闭U盘的自动播放功能" class="headerlink" title="怎么关闭U盘的自动播放功能"></a>怎么关闭U盘的自动播放功能</h1><h1 id="怎么关闭U盘的自动播放功能-1"><a href="#怎么关闭U盘的自动播放功能-1" class="headerlink" title="怎么关闭U盘的自动播放功能"></a><span>怎么关闭U盘的自动播放功能</span></h1><pre><code>每次把移动硬盘查到USB口就会自动播放，尤其是移动硬盘分了N个区的时候，要手动一个一个的关掉，真是十分的麻烦！怎么样能解决这个问题呢？下面西部e网这里了几种关闭移动硬盘或者U盘自动播放的方法供大家参考：  
-
- 1、SHIFT按键法   这个方法早在Windows98就用过了吧？好像是哦，反正我最早在关闭自动播放CD的时候就使用的这种方法。插入移动硬盘的时候按住SHIFT键，移动硬盘就不会自动播放啦。   
-
-2、策略组关闭法   在前段时间熊猫烧香流行的时候，网上就流传着使用策略组关闭移动硬盘或者U盘自动关闭功能的方法。具体如：单击“开始-运行”，在“打开”框中，键入“gpedit.msc”，单击“确定”按钮，打开“组策略”窗口。在左窗格的“本地计算机策略”下，展开“计算机配置-管理模板-系统”，然后在右窗格的“设置”标题下，双击“关闭自动播放”。单击“设置”选项卡，选中“已启用”复选钮，然后在“关闭自动播放”框中单击“所有驱动器”，单击“确定”按钮，最后关闭组策略窗口。   
-
-3、关闭服务法   在“我的电脑”点击鼠标右键，选择“管理”，在打开的“计算机管理”中找到“服务和应用程序-服务”，然后在右窗格找到“Shell Hardware Detection”服务，这个服务的功能就是为自动播放硬件事件提供通知，双击它，在“状态”中点击“停止”按钮，然后将“启动类型”修改为“已禁用”或者“手动”就可以了。   
-
-4、磁盘操作法   这个方法对Windows XP有效，也比较好用。打开“我的电脑”，在“硬盘”里面或者在“有可移动的存储设备”下面会看到你的盘符，一般移动硬盘的盘符会在“硬盘”中，U盘或者数码相机什么的在“有可移动的存储设备”中。鼠标右键点击需要关闭自动播放功能的盘符，选择“属性”，在弹出的窗体中选择“自动播放”选项卡，在这里用户可以针对“音乐文件”、“图片”、“视频文件”、“混合内容”和“音乐CD”五类内容设置不同的操作方式，都选用“不执行操作”即可禁用自动运行功能，“确定”后设置立即生效。这种方法同样使用于针对DVD/CD驱动器。   
-
-5、注册表法   注册表是个麻烦的东西，一般不建议使用注册表来修改。
-
- 打开注册表编辑器，展开到[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Exploer]主键下，在右窗格中找到“NoDriveTypeAutoRun”，就是这个键决定了是否执行CDROM或硬盘的AutoRun功能。   NoDriveTypeAutoRun这个键决定了是否执行Autorun功能。其中每一位代表一个设备，不同设备用以下数值表示：     设备名称 第几位 数值 设备用如下数值表示 设备名称含义   DRIVE_UNKNOWN 0 1 01H 不能识别的类型设备   DRIVE_NO_ROOT_DIR 1 0 02H 没有根目录的驱动器   DRIVE_REMOVABLE 2 1 04H 可移动驱动器   DRIVE_FIXED 3 0 08H 固定的驱动器   DRIVE_REMOTE 4 1 10H 网络驱动器   DRIVE_CDROM 5 0 20H 光驱   DRIVE_RAMDISK 6 0 40H RAM磁盘      以上值“0”表示设备运行，“1”表示设备不运行。   6、软件法   Tweak UI是Microsoft出品的软件，可以针对任何操作系统。使用Tweak UI软件，可以控制任意盘符是否可以自动播放。
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/怎么关闭U盘的自动播放功能/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/怎么关闭U盘的自动播放功能/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/彻底删除Mac OS X开机自启动项目/" title="彻底删除Mac OS X开机自启动项目" itemprop="url">彻底删除Mac OS X开机自启动项目</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.189Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="彻底删除Mac-OS-X开机自启动项目"><a href="#彻底删除Mac-OS-X开机自启动项目" class="headerlink" title="彻底删除Mac OS X开机自启动项目"></a>彻底删除Mac OS X开机自启动项目</h1><div style="font-size: 24px; margin: 10px; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; background-color: rgb(255, 255, 255);"><br><br>彻底删除Mac OS X开机自启动项目<span style="font-size: 14px; float: right; margin: 5px 10px 0px 0px; cursor: pointer; color: rgb(255, 0, 0);">进入全屏</span><br><div style="font-size: 0px;"><br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/63A76FC7-7BC5-4F9F-ADA0-FDA2B807808E.gif" alt=""><br><br></div>
-
-<p></p></div><p></p>
-<div style="zoom: 1; padding: 20px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(221, 221, 221); overflow: hidden; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; font-size: 16px; line-height: 24px; background-color: rgb(255, 255, 255);"><br><br>今天重新安装了SSD硬盘上的OS<br>X系统，所有数据都从另外一块HD硬盘迁移过来的，所以直接导致一些不需要的东西直接开机自启动了，试图从<span style="color: rgb(255, 0, 0);">LoginItems</span>（打开System<br>Preferences，选择System -&gt; Accounts，选择Login<br>Items选项卡）进行管理，但这里已经是OK的了。所以只能通过删除<span style="color: rgb(255, 0, 0);">LaunchAgents</span>的方法搞定了，LaunchAgents目录：/Library/LaunchAgents，下面其实有好多东西都是可以强制删掉的：<br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/858844E8-8EEC-4BE8-ADAC-DFF0BF88826E.png" alt="">\<br><br>当然，如果这都不能解决问题，还可以通过清理<span style="color: rgb(51, 51, 51); font-family: arial;"><span style="color: rgb(255, 0, 0);">StartupItems</span></span>的方式搞定，StartupItems的目录：/Library/StartupItems<br><br>一些系统级别的，可以到这里去清理：/System/Library/StartupItems<br><br>\<br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/彻底删除Mac OS X开机自启动项目/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/彻底删除Mac OS X开机自启动项目/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/彻底删除Mac OS X开机自启动项目/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/6/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/8/">Next<span></span></a>
@@ -907,11 +902,11 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 		  
 		
 		  
-			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
 		  
 		
 		  
@@ -963,11 +958,11 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1076,15 +1071,11 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1092,27 +1083,7 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 			
 		
 			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1120,15 +1091,39 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 			
 		
 			
-				<li><a href="/tags/犹太人/" title="犹太人">犹太人<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/springcloud/" title="springcloud">springcloud<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
 			
 		
 		</ul>

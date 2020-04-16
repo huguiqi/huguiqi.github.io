@@ -92,6 +92,275 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2019/02/16/docker日志问题导致磁盘空间被占用/" title="docker日志问题导致磁盘空间被占用" itemprop="url">docker日志问题导致磁盘空间被占用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-16T12:15:00.000Z" itemprop="datePublished"> 发表于 2019-02-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="docker日志问题导致磁盘空间不足"><a href="#docker日志问题导致磁盘空间不足" class="headerlink" title="docker日志问题导致磁盘空间不足"></a>docker日志问题导致磁盘空间不足</h1><p>昨天突然发现本厂开发环境各个docker实例都处于非健康状态，在宿主机上执行命令：</p>
+<pre><code>df -h
+</code></pre><p>发现docker相关的文件占用空间是100%：</p>
+<p><img src="http://img.huguiqi.top/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
+<p>有点不正常，我看看docker相关的文件占用情况，是镜像占用的还是容器占用的，或者是Volumes占用的，执行：</p>
+<pre><code>docker system df
+</code></pre><p>这里面显示一切正常，也并没有超过挂载盘的大小256G。</p>
+<p>首先把多余的镜像和不用的docker都清理掉。</p>
+<p>执行命令：</p>
+<pre><code>docker system prune -a
+</code></pre><p>可以将没有容器使用Docker镜像和未开启的容器都删掉。</p>
+<p>我看到占用超过226G空间的都来自 <code>/mnt/docker/overlay2/*</code> 这个目录,<br>进入到这个目录，并执行：</p>
+<pre><code>du -lbhs ./*
+</code></pre><p>发现这里面也没有超过2个G的目录文件大小。</p>
+<p>我潜意识里就觉得八成是日志导致的，所以我首先看看是不是我所有的docker输出的日志文件是否需要清理了，我到挂载目录里去看看，果然发现了很多docker容器的日志目录就占了1-2个G，我du -lbhs 了一下，发现所有容器挂载的日志目录加起来的容量才8G多点，不足以占用256个G的空间。<br>算了，先把这8个G的占用清了吧。</p>
+<pre><code>rm -rf ./*/logs/*
+</code></pre><p>然后我再看看docker容器本身还有多少占用的空间情况：</p>
+<pre><code>docker ps --size
+</code></pre><p>发现还有两个docker占用了3个多占的空间，但是又不知道具体是什么导致的，那我只能看看docker本身的硬盘占用情况了：</p>
+<pre><code>docker diff &lt;container&gt;
+</code></pre><p>发现<code>/tmp</code> 目录下有好多文件：</p>
+<p><img src="http://img.huguiqi.top/15503217004152bmdcd14.png?imageslim" alt="paste image"></p>
+<p>还有指向<code>/tmp/tomcat.*/*</code> 相关的目录：</p>
+<p><img src="http://img.huguiqi.top/1550321770403ggnsq3dy.png?imageslim" alt="paste image"></p>
+<p>我觉得八成就是这些东西占用的，/tmp 临时文件按道理讲系统会自动删除的，不知道为什么没有删除，这个后面再找原因。<br>我就把所有docker容器里的<code>/tmp</code>目录下的文件全部删除，反正是临时文件。</p>
+<pre><code>docker exec &lt;container&gt; rm -rf /tmp/*
+</code></pre><p>好，都删除了，再看一下硬盘空间，发现还是已使用100%。</p>
+<p>怎么办，有点慌了，我看这个指向的还是overlay2目录，我尝试着在目录里找找问题。</p>
+<p>我想，这个overlay2目录可能有挂载或者链接，它自身并不大，是挂载的目录占用大。</p>
+<p>我们往上一级再看看哪个文件占用空间大：</p>
+<pre><code>cd ..
+du -lbhs ./*
+</code></pre><p>发现有几个contarins目录下的目录文件占用挻大的：</p>
+<p><img src="http://img.huguiqi.top/1550320388470wopcicty.png?imageslim" alt="paste image"></p>
+<p>我就从最大的目录下手，占用空间7.4G的，是8972f…..这个目录，我进去看一眼：</p>
+<p><img src="http://img.huguiqi.top/1550320522538gmcr7qay.png?imageslim" alt="paste image"></p>
+<p>我发现里面有个后缀为<code>xxxx-json.log</code>的这个文件占了198G，这个就是问题了，很兴奋，赶紧删除了：</p>
+<pre><code>rm -rf ./*/*.log
+</code></pre><p>这个就把所有的contarner的控制台日志文件删除了。</p>
+<p>我们再看看docker的空间占用情况：</p>
+<p><img src="http://img.huguiqi.top/1550322418176dwe2uam6.png?imageslim" alt="paste image"></p>
+<p>这里已经很好了，只有镜像占用了1个多G。</p>
+<p>我们再来看看宿主机的空间情况：</p>
+<pre><code>df -h
+</code></pre><p>发现还是100%，见鬼了：</p>
+<p><img src="http://img.huguiqi.top/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
+<p>一般觉得见鬼了的时候，只有两种情况，一种是你操作错了别的东西，一种是缓存，我觉得是后者。</p>
+<p>我觉得肯定是docker还没有读到真实的容器占用硬盘空间的数据，那我只能重启docker了：</p>
+<pre><code>systemctl daemon-reload 
+
+systemctl restart docker
+</code></pre><p>为了确认一切顺利，运行:</p>
+<pre><code>docker info
+</code></pre><p>ok，没有问题了，再执行 <code>df -h</code><br>很好：</p>
+<p><img src="http://img.huguiqi.top/1550322879853rhx6bckp.png?imageslim" alt="paste image"></p>
+<p>已经只占用挂载磁盘 <code>/dev/vdbd1</code>总大小的2%。</p>
+<p>看来后面还是要写一个自动删除日志的脚本，来维持硬盘空间的大小。</p>
+<p><a href="https://github.com/moby/moby/issues/33775" target="_blank" rel="noopener">参考文章1</a></p>
+<p><a href="https://meta.discourse.org/t/var-lib-docker-overlay2-took-all-the-disk-space/84624" target="_blank" rel="noopener">参考文章2</a></p>
+<p><a href="https://stackoverflow.com/questions/46672001/is-it-safe-to-clean-docker-overlay2" target="_blank" rel="noopener">参考文章3</a></p>
+<p><a href="https://blog.csdn.net/weixin_32820767/article/details/81196250" target="_blank" rel="noopener">参考文件章4</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/IT-运维/">IT&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/16/docker日志问题导致磁盘空间被占用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/16/docker日志问题导致磁盘空间被占用/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/14/大数据之数据仓库/" title="大数据之数据仓库" itemprop="url">大数据之数据仓库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-14T05:18:00.000Z" itemprop="datePublished"> 发表于 2019-02-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="大数据之数据仓库"><a href="#大数据之数据仓库" class="headerlink" title="大数据之数据仓库"></a>大数据之数据仓库</h1><h2 id="什么是数据仓库"><a href="#什么是数据仓库" class="headerlink" title="什么是数据仓库"></a>什么是数据仓库</h2><p>数据仓库，英文名称Data Warehouse，简写为DW。数据仓库顾名思义，是一个很大的数据存储集合。数据仓库必须满足主题性、集成性、稳定性、时变性这些特征。</p>
+<p>数据仓库的输入方是各种各样的数据源，最终的输出用于企业的数据分析、数据挖掘、数据报表等方向。</p>
+<p><img src="http://img.huguiqi.top/1550125093251lvxgy9x9.png?imageslim" alt="paste image"></p>
+<h3 id="数据仓库的特征"><a href="#数据仓库的特征" class="headerlink" title="数据仓库的特征"></a>数据仓库的特征</h3><blockquote>
+<blockquote>
+<p>什么样的数据表现形式才能叫数据仓库？</p>
+</blockquote>
+</blockquote>
+<p>1.主题性</p>
+<p>不同于传统数据库对应于某一个或多个项目，数据仓库根据使用者实际需求，将不同数据源的数据在一个较高的抽象层次上做整合，所有数据都围绕某一主题来组织。</p>
+<p>这里的主题怎么来理解呢？比如对于滴滴出行，“司机行为分析”就是一个主题，对于链家网，“成交分析”就是一个主题。</p>
+<p>2.集成性</p>
+<p>数据仓库中存储的数据是来源于多个数据源的集成，原始数据来自不同的数据源，存储方式各不相同。要整合成为最终的数据集合，需要从数据源经过一系列抽取、清洗、转换的过程。</p>
+<p>3.稳定性</p>
+<p>数据仓库中保存的数据是一系列历史快照，不允许被修改。用户只能通过分析工具进行查询和分析。</p>
+<p>4.时变性</p>
+<p>数据仓库会定期接收新的集成数据，反应出最新的数据变化。这和特点并不矛盾。</p>
+<p>~~
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/02/14/大数据之数据仓库/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/大数据/">大数据</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据仓库/">数据仓库</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/14/大数据之数据仓库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/14/大数据之数据仓库/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/10/2019新征途/" title="2019新征途" itemprop="url">2019新征途</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-10T15:54:38.000Z" itemprop="datePublished"> 发表于 2019-02-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="回顾2018"><a href="#回顾2018" class="headerlink" title="回顾2018"></a>回顾2018</h1><p>2018年对于我来说注定是一个复杂的一年，工作方面，遭遇了一家金融公司的倒闭，也让我在金钱方面也蒙受了不少损失，大概在两万多元左右。最让我吃亏的是社保公积金因为此事停缴了两个月，至此我离在上海买房的目标越来越远了。。。。。。</p>
+<h2 id="工作方面"><a href="#工作方面" class="headerlink" title="工作方面"></a>工作方面</h2><p>2018年4月，我回到了那个曾经熟悉但又陌生的工作环境，说熟悉，这是我<br>的老东家，我的老上司也在，说陌生，是因为感觉到这个公司已经完全不是我当年离开时的那个味道了，甚至公司名称都改成了xx网络科技有限公司了，回来主要是受老上司的邀请，共同解决大数据量的酒店相关后端服务的。我的到来，刚开始确实为公司，为团队解决了很多棘手的问题，关于这一点，我很欣慰。</p>
+<p>2018年7月，还是应老上同邀请，拉我一起从这个熟悉而陌生的环境出来，<br>去一家可能比较有前任的创业公司，我非常欣赏我的上司，可以说，这么多年，我更多的是把他当作朋友（也作良师益友吧），我也觉得，在目前这家公司一直待下去，确实也学不到什么东西，还不如和志气相同的人一起做些有意义的事，毕竟，我也不是第一次干了，何况这家创业公司的老板也是我们共同看好的人，所以我也欣然同去了。</p>
+<p>2019年1月，在创业公司经过半年的发展与探索，老板发现，我们的发展模<br>式非常有问题，并迅速停止了所有的业务。</p>
+<p>2019年1月底，老板将这家创业公司部分骨干人员并入到一家新的酒店行业<br>的类独角兽——嗨住。嗨住团队是一个非常有互联网精神的团队，他们的氛围，我感觉我挻喜欢。合并后，我们产生了一家新的公司，名字叫——慧住。</p>
+<p>以上是我2018年的全部工作历程，很曲折，也很无奈。</p>
+<p>而回顾2018年，我立下的flag又有哪些已经兑现了呢？</p>
+<blockquote>
+<blockquote>
+<p>将服务端技术提升上一个台阶<br>帮助老朋友解决掉目前的困难<br>让漂泊的心暂时稳定下来<br>考驾照<br>往架构师方向发展 </p>
+</blockquote>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/02/10/2019新征途/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/10/2019新征途/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/10/2019新征途/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2019/01/07/spring-cloud-oauth2与前端跨域问题/" title="spring-cloud oauth2与前端跨域问题" itemprop="url">spring-cloud oauth2与前端跨域问题</a>
   </h1>
   <p class="article-author">By
@@ -724,7 +993,7 @@ zone.name: zone-1
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.524Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2018-11-19T09:56:24.523Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
@@ -866,7 +1135,7 @@ zone.name: zone-1
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.503Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2018-11-19T09:56:24.502Z" itemprop="datePublished"> 发表于 2018-11-19</time>
     
   </p>
 </header>
@@ -935,216 +1204,6 @@ zone.name: zone-1
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/传统行业公司涉足互联网软件开发之我见/" title="传统行业公司涉足互联网软件开发之我见" itemprop="url">传统行业公司涉足互联网软件开发之我见</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.499Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="传统行业公司涉足互联网软件开发之我见"><a href="#传统行业公司涉足互联网软件开发之我见" class="headerlink" title="传统行业公司涉足互联网软件开发之我见"></a>传统行业公司涉足互联网软件开发之我见</h1><p>2016年过去了，还有三天就要回老家过年了；这一年走来，总结下来，有喜有悲，有聚有散；<br>生活上，终于找到了我的另一半，因为她，今年我再累，心也是甜的。今年我将会带她见我的父母，如果顺利的话，我们将在17年国庆举行婚礼。</p>
-<p>我的公司老板，有一颗做国产第一支智能电动牙刷的心，但是从第一天见他时，从他身上就透露着一身江湖草莽义气，当时觉得，讲义气的人，人品不会太差，老板的话更不会，再加上，我也觉得挻有意思，也想做做这个方面的东西，所以就答应建立团队，给他做出个像样的东西。。。。。<br>但一年过去了，双十一的app版本，说句心里话，我自己都非常不满意的；<br>首先，app的使用并不流畅，很多地方用起来非常容易搞错，比如说：二维码扫描的入口，智能非智能用户完全搞不清楚；经常出现很多用户联系投诉；<br>但是，从这一年与杭州的沟通交流中种种的不畅，让我彻底意识到，出现这些问题，并不能把原因简单的归咎于运营/产品、软件、硬件分属三地，导致沟通不畅；<br>我总结下来主要有这几点：</p>
-<ul>
-<li>运营与产品信息更新不及时；<em> </em> 产品对技术信息曝光不及时；</li>
-<li>硬件方面问题全部都体现在软件上，用户只能去怪软件，差评只会说软件的问题，因为入口就是软件</li>
-<li>不专业团队指挥技术团队；</li>
-<li>技术团队初期招人不慎，导致代码超难维护；</li>
-<li>产品原型的缺失与需求不清晰导致设计漏洞太多;</li>
-</ul>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/传统行业公司涉足互联网软件开发之我见/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/随笔/">随笔</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/传统行业公司涉足互联网软件开发之我见/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/传统行业公司涉足互联网软件开发之我见/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/（模板方法的运用）持久层操作的java代码/" title="（模板方法的运用）持久层操作的java代码" itemprop="url">（模板方法的运用）持久层操作的java代码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.481Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="（模板方法的运用）持久层操作的java代码"><a href="#（模板方法的运用）持久层操作的java代码" class="headerlink" title="（模板方法的运用）持久层操作的java代码"></a>（模板方法的运用）持久层操作的java代码</h1><div><br><br><span style="font-size: large"><span style="color: red">\<br></span></span><br><br></div>
-
-<div><br><br><span style="font-size: large"><span style="color: red">第一个是操作数据库方法的抽象接口，<br> 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。<br><br>为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。<br></span></span><br><br><div><br><br><div><br><br>Java代码<br><br><br>1.  <span>package</span><span>  com.yd.idao;    </span><br>2.  <span>    </span><br>3.  <span>import</span><span>  java.util.List;    </span><br>4.  <span>import</span><span>  java.sql.Connection;    </span><br>5.  <span>import</span><span>  java.sql.ResultSet;    </span><br>6.  <span>import</span><span>  java.sql.SQLException;    </span><br>7.  <span>    </span><br>8.  <span>import</span><span>  com.yd.support.JDataSet;    </span><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/（模板方法的运用）持久层操作的java代码/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/（模板方法的运用）持久层操作的java代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/（模板方法的运用）持久层操作的java代码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/" title="从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)" itemprop="url">从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.471Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="从用户友好性看中文长度的校验-页面与数据库对字符长度的不同表示"><a href="#从用户友好性看中文长度的校验-页面与数据库对字符长度的不同表示" class="headerlink" title="从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)"></a>从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)</h1><div><br><br>### 从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<p>字符的长度校验是程序中必不可少的。\<br>\</p>
-<p>如一个业务需求是名称不能大于10个字，在数据库设计时该字段设为最大长度10。\<br>\<br> 计算机在用gbk编码存储中文字符时需要2个字节，而ascii字符需要1个字节。\<br>\</p>
-<p>不幸的是，不管JavaScript还是Java在求字符长度的方法对中英文是一视同仁的，即”中”.length()<br>和”e”.length()的返回值都是1，象Struts这样的验证拦截器也是这样。这样好了，用户输入6个中文字符，傻了，数据库插入数据失败：违反<br>最大长度约束。\<br>\</p>
-<p>最快的解决办法是将可以输入中文的字段的最大长度放大到2倍或者在页面上控制长度为数据库字符/2的大小。\<br>\</p>
-<p>用户满意了，但有些人会狗尾续貂，想现在名称字段明明可以存储20个英文字符，你却硬生生地砍掉一半，不是浪费了数据库潜力嘛。于是乎费老鼻子劲<br>在JavaScript中，在Java中将中文字符算做2个，用了长度验证拦截器的还得专门写个中文长度校验的拦截器配置到应用中，貌是很好很强大，然后<br>在长度提示中出现如下字符：名称长度不能超过20（一个中文算2个字符）\<br>\</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -1192,11 +1251,11 @@ zone.name: zone-1
 		  
 		
 		  
-			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1248,11 +1307,11 @@ zone.name: zone-1
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1361,15 +1420,11 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1377,27 +1432,7 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -1405,15 +1440,39 @@ zone.name: zone-1
 			
 		
 			
-				<li><a href="/tags/犹太人/" title="犹太人">犹太人<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/springcloud/" title="springcloud">springcloud<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
 			
 		
 		</ul>

@@ -92,6 +92,268 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/01/reactapp一步步学习-2/" title="react app一步步学习" itemprop="url">react app一步步学习</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-01T11:41:00.000Z" itemprop="datePublished"> 发表于 2017-03-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="react-app一步步学习2"><a href="#react-app一步步学习2" class="headerlink" title="react app一步步学习2"></a>react app一步步学习2</h1><h1 id="React学习第二天"><a href="#React学习第二天" class="headerlink" title="React学习第二天"></a>React学习第二天</h1><h2 id="组件的生命周期"><a href="#组件的生命周期" class="headerlink" title="组件的生命周期"></a>组件的生命周期</h2><blockquote>
+<p>每个组件都有生命周期的方法,可以提供给你进行重写,如果你对objec-c的命名方式比较熟悉的话,你会看到熟悉的willXX,didXxx类似的方法.  </p>
+</blockquote>
+<p>组件的生命周期可分成三个状态:</p>
+<ul>
+<li>Mounting：已插入真实 DOM   </li>
+<li>Updating：正在被重新渲染</li>
+<li>Unmounting：已移出真实 DOM  </li>
+</ul>
+<h2 id="Mounting"><a href="#Mounting" class="headerlink" title="Mounting"></a>Mounting</h2><p>以下这些方法,是在插入dom操作之前会被调用,顺序分别是:  </p>
+<ul>
+<li>constructor()</li>
+<li>componentWillMount()   </li>
+<li>render()</li>
+<li>componentDidMount()</li>
+</ul>
+<p>实际上,在constructor方法之后,还会执行两个方法,分别是:  </p>
+<ul>
+<li>getDefaultProps<ul>
+<li>getInitialState  </li>
+</ul>
+</li>
+</ul>
+<p>这两个方法是定义 对象方法  </p>
+<p>网上有很多乱七八糟的教程，说props的setProps方法可以更改属性，这是不对的，官方文档明确指出，props 是只读的。<br>  <img src="http://img.huguiqi.top/95q0mn9wc3vhbzfp6w8vqmd4r6" alt="paste image"></p>
+<h2 id="Updating"><a href="#Updating" class="headerlink" title="Updating"></a>Updating</h2><blockquote>
+<p>组件中的值或者状态的改变,都会引起updating事件的发生, 这些方法都是在render发生时调用  </p>
+</blockquote>
+<p>按顺序列出:  </p>
+<ul>
+<li>componentWillReceiveProps()<br>当属性值改变时,将会调用这个方法,但初始化和setState时不会调用,只有两次render时,dom结构发生变化时,才会被调用  <ul>
+<li>shouldComponentUpdate()<br>再次render时,这个方法会检测state和props是否有改变,判断都在这里  </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>componentWillUpdate()</li>
+<li>componentDidUpdate()   </li>
+</ul>
+<h2 id="Unmounting"><a href="#Unmounting" class="headerlink" title="Unmounting"></a>Unmounting</h2><p>componentWillUnmount()  </p>
+<h2 id="第三天的计划"><a href="#第三天的计划" class="headerlink" title="第三天的计划"></a>第三天的计划</h2><ol>
+<li>组件ajax</li>
+<li>react 表单与事件</li>
+<li>组件间传值与更新值</li>
+</ol>
+<h2 id="React与React-Native-的区别"><a href="#React与React-Native-的区别" class="headerlink" title="React与React Native 的区别"></a>React与React Native 的区别</h2><blockquote>
+<p>刚开始学习React，对于React和React Native弄的比较蒙逼，原来React和RN不是一个东西,之前两天还一直在学习React，以为学习了React就可以开始混合app，其实不对，React是用来开发web的,也包括mobileWeb。</p>
+</blockquote>
+<p>React是一种思想，Facebook对于Web Components的理解与实现。其中ReactJS是Web端，React Native是iOS/Android端。值得注意的是React Native写的应用是Native App，而不是Hybrid App。最后React其理念是“Learn once, write anywhere”，所以目前Web和Mobile端要写两套代码。</p>
+<p>也就是说，前几天的学习，是对React.js的学习，只是学习了他的web的知识。</p>
+<p>那现在开始学习React Native，以快速可以开发app为目的。</p>
+<h1 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h1><blockquote>
+<p>Learn once, write anywhere</p>
+</blockquote>
+<p><a href="https://facebook.github.io/react/docs/hello-world.html" target="_blank" rel="noopener">React官网</a></p>
+<p><a href="http://facebook.github.io/react-native/docs/getting-started.html" target="_blank" rel="noopener">RN官网</a></p>
+<h2 id="Installing-Dependencies"><a href="#Installing-Dependencies" class="headerlink" title="Installing Dependencies"></a>Installing Dependencies</h2><ul>
+<li>Node.js</li>
+<li>Watchman</li>
+<li>the React Native command line interface, and Xcode.</li>
+</ul>
+<p>We recommend installing Node and Watchman using Homebrew. Run the following commands in a Terminal after installing Homebrew:<br><code>brew install node
+``brew install watchman</code><br>Watchman is a tool by Facebook for watching changes in the filesystem. It is highly recommended you install it for better performance.</p>
+<h2 id="The-React-Native-CLI"><a href="#The-React-Native-CLI" class="headerlink" title="The React Native CLI"></a>The React Native CLI</h2><p>Node.js comes with npm, which lets you install the React Native command line interface.<br>Run the following command in a Terminal:</p>
+<p><code>npm install -g react-native-cli</code>If you get an error like Cannot find module ‘npmlog’, try installing npm directly: <code>curl -0 -L https://npmjs.org/install.sh | sudo sh.</code><br>Xcode<br>The easiest way to install Xcode is via the Mac App Store. Installing Xcode will also install the iOS Simulator and all the necessary tools to build your iOS app.</p>
+<p>Testing your React Native Installation<br>Use the React Native command line interface to generate a new React Native project called “AwesomeProject”, then run react-native run-ios inside the newly created folder.<br><code>react-native init AwesomeProject
+``cd AwesomeProject
+``react-native run-ios</code><br>You should see your new app running in the iOS Simulator shortly.<br>react-native run-ios is just one way to run your app. You can also run it directly from within Xcode or Nuclide.</p>
+<p>如果在初始化项目时，发现无法下载React native相关的依赖，那就是天朝的网络原因了，这个时候执行：</p>
+<p><code>yarn config set registry https://registry.npm.taobao.org</code></p>
+<p>将官网的yarn仓库地址更换成淘宝的源。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/前端技术/">前端技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ReactNative/">ReactNative</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/01/reactapp一步步学习-2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/01/reactapp一步步学习-2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/23/如何提问题/" title="如何提问题" itemprop="url">如何提问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-23T09:00:00.000Z" itemprop="datePublished"> 发表于 2017-02-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="如何提问题"><a href="#如何提问题" class="headerlink" title="如何提问题"></a>如何提问题</h1><p>可能很多人会说，提问题谁不会呢？<br>但是很遗憾，在我看来，我发现确实很多人都不会提问题，而且提的80%问题其实都不是问题，自已想想办法，完全可以解决的。别笑，这里面包括刚参加工作的新人，也包括工作了5年的职业老兵。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/02/23/如何提问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/02/23/如何提问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/23/如何提问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/21/房子婚姻和钱/" title="房子婚姻和钱" itemprop="url">房子婚姻和钱</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-20T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-02-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="房子-婚姻-钱"><a href="#房子-婚姻-钱" class="headerlink" title="房子  婚姻  钱"></a>房子 <em> 婚姻 </em> 钱</h1><p>凡是用钱能解决的问题都不是问题。<br>从去年开始，我抱着投资的心态在海宁一口气买了两套房，一套斜桥一套长安，向我爸要了24万，我自己集了差不多20万左右作为两套房的首付，当时完全是以投资为目的。</p>
+<p>去年中秋之前，因为前同事加朋友给我介绍认识了她，我们一见如故，在中秋节那天，我们迅速确定了关系。去年过年我带她回老家过年见了我家人，外公外婆。<br>计划赶不上变化，我们年后计划今年10月国庆节举行婚礼，同时我们会将长安的房子作为婚房，也就是说需要在婚期前装修好，而且要晾上几个月。<br>这几天才真正的体会到，什么烧钱，什么叫周转不灵，最近深圳的那位中年危机还好没有发生在我身上，但是细细的想想，我的压力也不小。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/02/21/房子婚姻和钱/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/02/21/房子婚姻和钱/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/21/房子婚姻和钱/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/02/10/reactapp一步步学习/" title="react app一步步学习" itemprop="url">react app一步步学习</a>
   </h1>
   <p class="article-author">By
@@ -582,11 +844,11 @@ $ hexo server
 		  
 		
 		  
-			<li><a href="/categories/docker/" title="docker">docker<sup>4</sup></a></li>
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
 		  
 		
 		  
@@ -638,11 +900,11 @@ $ hexo server
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -751,15 +1013,11 @@ $ hexo server
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -767,27 +1025,7 @@ $ hexo server
 			
 		
 			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
@@ -795,15 +1033,39 @@ $ hexo server
 			
 		
 			
-				<li><a href="/tags/犹太人/" title="犹太人">犹太人<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/springcloud/" title="springcloud">springcloud<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
 			
 		
 		</ul>
