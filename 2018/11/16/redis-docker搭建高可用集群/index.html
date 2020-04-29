@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="redis+docker搭建高可用集群准备环境 docker版本： docker version 18.03.0-ce, build 0520e24 安装docker-compose: sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img.huguiqi.top/1542362721042p3cl02vo.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1552815327766vzrd4sag.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1552815969221h6qhh35v.png?imageslim">
-<meta property="og:updated_time" content="2019-12-05T08:21:44.940Z">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1542362721042p3cl02vo.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1552815327766vzrd4sag.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1552815969221h6qhh35v.png?imageslim">
+<meta property="og:updated_time" content="2020-04-29T03:23:56.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis+docker搭建高可用集群">
 <meta name="twitter:description" content="redis+docker搭建高可用集群准备环境 docker版本： docker version 18.03.0-ce, build 0520e24 安装docker-compose: sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname">
-<meta name="twitter:image" content="http://img.huguiqi.top/1542362721042p3cl02vo.png?imageslim">
+<meta name="twitter:image" content="http://q9eg0x3qq.bkt.clouddn.com/1542362721042p3cl02vo.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -235,15 +235,15 @@ sentinel current-epoch 0
 </code></pre><p>以上配置就不多说了。。。。。</p>
 <h2 id="执行docker-compose-命令"><a href="#执行docker-compose-命令" class="headerlink" title="执行docker-compose 命令"></a>执行docker-compose 命令</h2><pre><code>docker-compose up -d
 </code></pre><p>全部done</p>
-<p><img src="http://img.huguiqi.top/1542362721042p3cl02vo.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1542362721042p3cl02vo.png?imageslim" alt="paste image"></p>
 <h2 id="springboot连接高可用redis"><a href="#springboot连接高可用redis" class="headerlink" title="springboot连接高可用redis"></a>springboot连接高可用redis</h2><p>必须通过docker访问redis，否则会出现操作redis读写时报redis connection timeout</p>
 <p>原因可能是client端与docker服务器不在同一个网络的问题，暂时未找到解决方法，网上有说通过配置hosts方式指向docker服务器内网，经测试无效，可能与我的情况不一样吧。<br>暂时无解，只能通过同网络的docker容器访问。</p>
 <p>构建java容器：</p>
 <pre><code>mvn clean package docker:build
-</code></pre><p><img src="http://img.huguiqi.top/1552815327766vzrd4sag.png?imageslim" alt="paste image"></p>
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1552815327766vzrd4sag.png?imageslim" alt="paste image"></p>
 <p>通过镜像启动容器：</p>
 <pre><code>docker run --name=appredis --network riosNetwork -p 9999:8888 -d e60534acc998
-</code></pre><p> <img src="http://img.huguiqi.top/1552815969221h6qhh35v.png?imageslim" alt="paste image"></p>
+</code></pre><p> <img src="http://q9eg0x3qq.bkt.clouddn.com/1552815969221h6qhh35v.png?imageslim" alt="paste image"></p>
 <p>查看日志发现启动成功。。。。。</p>
   
 	</div>
@@ -518,19 +518,11 @@ sentinel current-epoch 0
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -542,23 +534,11 @@ sentinel current-epoch 0
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -566,15 +546,35 @@ sentinel current-epoch 0
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

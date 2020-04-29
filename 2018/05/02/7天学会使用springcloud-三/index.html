@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="7天学会使用springcloud(三)组建通过zuul转发的方式来调用各app上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！ 放心 ，这个坑spring cloud已经给你踩好了，就等你入了。 用zu">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img.huguiqi.top/1525242853550g5f8bk6v.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1525242343091d5w2o8dj.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/152524240009109md1gy5.png?imageslim">
-<meta property="og:updated_time" content="2019-12-05T08:21:44.955Z">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525242853550g5f8bk6v.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525242343091d5w2o8dj.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/152524240009109md1gy5.png?imageslim">
+<meta property="og:updated_time" content="2020-04-29T03:23:56.063Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7天学会使用springcloud(三)">
 <meta name="twitter:description" content="7天学会使用springcloud(三)组建通过zuul转发的方式来调用各app上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！ 放心 ，这个坑spring cloud已经给你踩好了，就等你入了。 用zu">
-<meta name="twitter:image" content="http://img.huguiqi.top/1525242853550g5f8bk6v.png?imageslim">
+<meta name="twitter:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525242853550g5f8bk6v.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -121,7 +121,7 @@
 <pre><code>http://serviceip:port/appname/interfaceName
 </code></pre><p>这样访问就可以了。</p>
 <h2 id="zuul简介"><a href="#zuul简介" class="headerlink" title="zuul简介"></a>zuul简介</h2><p>在微服务架构中，需要几个基础的服务治理组件，包括服务注册与发现、服务消费、负载均衡、断路器、智能路由、配置管理等，由这几个基础组件相互协作，共同组建了一个简单的微服务系统。一个简单的微服务系统如下图：</p>
-<p><img src="http://img.huguiqi.top/1525242853550g5f8bk6v.png?imageslim" alt="t1"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525242853550g5f8bk6v.png?imageslim" alt="t1"></p>
 <p>ps：先抄着吧，这张图有些地方画得不对，后面有时间去画一个</p>
 <p>Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能。</p>
 <p>官方地址：<a href="https://docs.openstack.org/infra/zuul/" target="_blank" rel="noopener">https://docs.openstack.org/infra/zuul/</a></p>
@@ -180,9 +180,9 @@ public class AppServiceApplication {
 </code></pre><p>然后重启app-service,地址栏输入地址：</p>
 <pre><code>http://localhost:9000/appclient/hi?name=11111
 </code></pre><p>访问成功：</p>
-<p><img src="http://img.huguiqi.top/1525242343091d5w2o8dj.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525242343091d5w2o8dj.png?imageslim" alt="paste image"></p>
 <p>多刷几次发现它的负载均衡也是有效的：</p>
-<p><img src="http://img.huguiqi.top/152524240009109md1gy5.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/152524240009109md1gy5.png?imageslim" alt="paste image"></p>
 <p>我们的robbin+zull的集成完成了。</p>
 <p>通过这种方式，我们可以无限的给各个app-client注册新的群组实例。</p>
 <p>如果有些外部调用的服务不是一个微服务，但是我也想通过service去转发调用他们，那怎么办？</p>
@@ -547,19 +547,11 @@ public class MyFilter extends ZuulFilter{
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -571,23 +563,11 @@ public class MyFilter extends ZuulFilter{
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -595,15 +575,35 @@ public class MyFilter extends ZuulFilter{
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

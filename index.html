@@ -92,7 +92,88 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2020/04/16/团队内代码分支管理/" title="团队内代码分支管理" itemprop="url">团队内代码分支管理</a>
+      <a href="/2020/04/19/将公司unbuntu系统镜像copy回家/" title="将公司unbuntu系统镜像copy回家" itemprop="url">将公司unbuntu系统镜像copy回家</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-19T07:45:49.000Z" itemprop="datePublished"> 发表于 2020-04-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>由于在公司的unbuntu系统上安装了很多软件，家里也有个unbuntu，但不想在家里再重复安装一次软件，想了个办法，在unbuntu系统中安装一个Sytemback软件，可以备份系统，并且还可以保存用户数据。</p>
+<p>安装</p>
+<pre><code>sudo add-apt-repository ppa:nemh/systemback
+sudo apt-get update &amp;&amp; sudo apt-get install         systemback unionfs-fuse
+</code></pre><p>注意<br>当iso大于4g时需要用另一种方式来convert to iso：</p>
+<p>原文链接<a href="http://community.bwbot.org/topic/194/解决systemback-无法生成超过4g的iso的问题" target="_blank" rel="noopener">http://community.bwbot.org/topic/194/解决systemback-无法生成超过4g的iso的问题</a></p>
+<p>systemback是一个很好的备份还原软件。用它还可以生成自己的linux系统镜像文件。但是在使用时会发现当生成的sblive文件大于4G的时候是没有办法生成iso文件的。这是由于iso文件自身的限制，iso9600对于文件有限制，单个文件不能超过2G，总的iso文件不能超过4G。</p>
+<p>但是我们经常见到的系统安装iso文件很多都是超过4G的。这是怎么回事呢。经过我的苦苦搜索终于找到了一点线索。对于大于4G的可以采用udf文件系统。下面就是具体的解决方法了。</p>
+<p>解压 .sblive 文件:</p>
+<pre><code>mkdir sblive
+tar -xf /home/systemback_live_2016-04-27.sblive -C sblive
+</code></pre><p>重命名 syslinux 至 isolinux:</p>
+<pre><code>mv sblive/syslinux/syslinux.cfg     sblive/syslinux/isolinux.cfg
+mv sblive/syslinux sblive/isolinux
+</code></pre><p>安装 cdtools</p>
+<pre><code>aria2c -s 10     https://nchc.dl.sourceforge.net/project/cdrtools/alpha/cdrtools-3.02a07.tar.gz
+tar -xzvf cdrtools-3.02a07.tar.gz
+
+cd cdrtools-3.02
+make
+sudo make install
+</code></pre><p>生成 ISO 文件:</p>
+<pre><code>/opt/schily/bin/mkisofs -iso-level 3 -r -V sblive -cache-inodes -J -l -b isolinux/isolinux.bin -no-emul-boot -boot-load-size 4 -boot-info-table -c isolinux/boot.cat -o sblive.iso sblive
+</code></pre><p>这样就可以了，估计当文件大于4G的时候程序会自动采用udf文件系统，所以可以成功创建iso文件。</p>
+<p>我备份的系统里没超过4G，通过systemback将sblive转成了iso，并且写入了U盘，但是，很奇怪的是，它进入启动时，是乱码，并且选择安装时，无法找到目录。</p>
+<h2 id="将iso文件copy出来，并转用老毛桃做启动盘"><a href="#将iso文件copy出来，并转用老毛桃做启动盘" class="headerlink" title="将iso文件copy出来，并转用老毛桃做启动盘"></a>将iso文件copy出来，并转用老毛桃做启动盘</h2><p>下载安装老毛桃9.0.5</p>
+<p>按照正常情况下，做成的启动盘，启动时应该是这样的：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1587284041357ymdfbd11.png?imageslim" alt="paste image"></p>
+<p>但是我的却全是乱码。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/19/将公司unbuntu系统镜像copy回家/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/19/将公司unbuntu系统镜像copy回家/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/16/团队内代码分支/" title="团队内代码分支管理" itemprop="url">团队内代码分支管理</a>
   </h1>
   <p class="article-author">By
        
@@ -122,7 +203,7 @@
 <p><strong>理论上master分支代码应该和生产上一致，所以hotfix应尽量从master上拉取，但如果有并行开发的问题，就建议直接从tag镜像上拉代码。</strong></p>
 <h3 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h3><p>版本镜像，理论上不属于代码分支，记录release发布版本的镜像，最新的tag应该是和生产保持一致的。</p>
 <p>分支走向是这样的：</p>
-<p><img src="http://img.huguiqi.top/1587039443577lphdjw8z.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1587039443577lphdjw8z.png?imageslim" alt="paste image"></p>
 <h2 id="代码分支各岗位分工与流程"><a href="#代码分支各岗位分工与流程" class="headerlink" title="代码分支各岗位分工与流程"></a>代码分支各岗位分工与流程</h2><p>【测试人员】</p>
 <p>1. 收到提测申请后，从master分支上拉取release分支。</p>
 <p>2. release分支建议命名：release/软件版本号_迭代版本号。</p>
@@ -139,7 +220,7 @@
 <p>3. 开发人员在开发期间，只能在feature分支上提交代码，提测后只能在release分支上提交代码。</p>
 <p>4. 主开发人员在收到测试通过消息或者邮件时，将release代码合并到master。</p>
 <p>以下为代码分支提测流程图：</p>
-<p><img src="http://img.huguiqi.top/15870395016442llqimo8.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/15870395016442llqimo8.png?imageslim" alt="paste image"></p>
 <p><a href="https://guides.github.com/introduction/flow/index.html" target="_blank" rel="noopener">github推荐flow</a></p>
 
         
@@ -170,7 +251,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2020/04/16/团队内代码分支管理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/16/团队内代码分支管理/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/16/团队内代码分支/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/16/团队内代码分支/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -227,9 +308,9 @@ networks:
       external:
           name: riosNetwork           
 </code></pre><p>执行完成：</p>
-<p><img src="http://img.huguiqi.top/1586851936336st7o5dyv.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586851936336st7o5dyv.png?imageslim" alt="paste image"></p>
 <p>docker已启动：</p>
-<p><img src="http://img.huguiqi.top/1586851983001db46yu4d.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586851983001db46yu4d.png?imageslim" alt="paste image"></p>
 <h2 id="验证是否安装成功"><a href="#验证是否安装成功" class="headerlink" title="验证是否安装成功"></a>验证是否安装成功</h2><pre><code>curl &apos;http://localhost:9200/?pretty&apos;
 </code></pre><p>返回：</p>
 <pre><code>  {
@@ -252,7 +333,7 @@ networks:
 <p>表示安装成功  ！！！</p>
 <h2 id="查看节点使用情况"><a href="#查看节点使用情况" class="headerlink" title="查看节点使用情况"></a>查看节点使用情况</h2><pre><code>http://localhost:9200/_cat/nodes?v
 </code></pre><p>返回：</p>
-<p><img src="http://img.huguiqi.top/1586852130897is2tglzt.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586852130897is2tglzt.png?imageslim" alt="paste image"></p>
 <h2 id="安装监控插件"><a href="#安装监控插件" class="headerlink" title="安装监控插件"></a>安装监控插件</h2><p><a href="https://www.elastic.co/cn/downloads/marvel" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/marvel</a></p>
 <p>Marvel是Elasticsearch的管理和监控工具,但是在es5.0之后，就不单独存在了，被整合到x-Pack里了，而x-pack不能独立安装，要求必须同时安装了：</p>
 <ul>
@@ -270,11 +351,11 @@ networks:
 <p>docker cp elasticsearch-analysis-ik-7.6.2.zip [docker name]</p>
 <p>然后进入docker安装：</p>
 <pre><code>./bin/elasticsearch-plugin install elasticsearch-analysis-ik-7.6.2.zip
-</code></pre><p><img src="http://img.huguiqi.top/1586932688320h96kfn3q.png?imageslim" alt="paste image"></p>
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586932688320h96kfn3q.png?imageslim" alt="paste image"></p>
 <h2 id="使用中文分词"><a href="#使用中文分词" class="headerlink" title="使用中文分词"></a>使用中文分词</h2><p>官方教程很简单：</p>
 <p><a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
 <h3 id="创建一个索引："><a href="#创建一个索引：" class="headerlink" title="创建一个索引："></a>创建一个索引：</h3><pre><code>curl -XPUT http://localhost:9200/xiaoheitest
-</code></pre><p><img src="http://img.huguiqi.top/15869329067169r6ijqpz.png?imageslim" alt="paste image"></p>
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/15869329067169r6ijqpz.png?imageslim" alt="paste image"></p>
 <h3 id="创建索引的maping规则："><a href="#创建索引的maping规则：" class="headerlink" title="创建索引的maping规则："></a>创建索引的maping规则：</h3><pre><code>curl -XPOST http://localhost:9200/xiaoheitest/_mapping -H &apos;Content-Type:application/json&apos; -d&apos;
 {
         &quot;properties&quot;: {
@@ -321,7 +402,7 @@ curl -XPOST http://localhost:9200/xiaoheitest/_create/7 -H &apos;Content-Type:ap
     }
 }
 &apos;
-</code></pre><p><img src="http://img.huguiqi.top/1586936386368xucjuucn.png?imageslim" alt="paste image"></p>
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586936386368xucjuucn.png?imageslim" alt="paste image"></p>
 <p>发现返回了匹配数据：</p>
 <pre><code>  {
    &quot;took&quot;:880,
@@ -435,8 +516,8 @@ curl -XPOST http://localhost:9200/xiaoheitest/_create/7 -H &apos;Content-Type:ap
         
         <h1 id="RabbitMQ学习-一"><a href="#RabbitMQ学习-一" class="headerlink" title="RabbitMQ学习(一)"></a>RabbitMQ学习(一)</h1><p>一张图片展示rabbitMQ的工作模式</p>
 <p><img src="https://www.rabbitmq.com/img/tutorials/intro/hello-world-example-routing.png" alt="past"></p>
-<p><img src="http://img.huguiqi.top/15861912872172x0okr9u.png?imageslim" alt="paste image"></p>
-<h2 id="rabbitMQ思维导图"><a href="#rabbitMQ思维导图" class="headerlink" title="rabbitMQ思维导图"></a>rabbitMQ思维导图</h2><p>RabbitMQ.png<img src="http://img.huguiqi.top/15868359689484kv0s3gu.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/15861912872172x0okr9u.png?imageslim" alt="paste image"></p>
+<h2 id="rabbitMQ思维导图"><a href="#rabbitMQ思维导图" class="headerlink" title="rabbitMQ思维导图"></a>rabbitMQ思维导图</h2><p>RabbitMQ.png<img src="http://q9eg0x3qq.bkt.clouddn.com/15868359689484kv0s3gu.png?imageslim" alt="paste image"></p>
 <p>RabbitMQ.xmind</p>
 
         
@@ -493,7 +574,7 @@ curl -XPOST http://localhost:9200/xiaoheitest/_create/7 -H &apos;Content-Type:ap
         <h1 id="与springboot相关的面试题整理"><a href="#与springboot相关的面试题整理" class="headerlink" title="与springboot相关的面试题整理"></a>与springboot相关的面试题整理</h1><p>公司快倒闭了，从今天开始，后面一有时间就复习，更新一篇文章，以便后面复习用。</p>
 <p>我要围绕的是mysql和springboot的事务隔离级别来搞事情。</p>
 <p>因为这也是我曾经喜欢问来我厂面试的题目。</p>
-<h2 id="springboot的应用是如何运行的？"><a href="#springboot的应用是如何运行的？" class="headerlink" title="springboot的应用是如何运行的？"></a>springboot的应用是如何运行的？</h2><p><img src="http://img.huguiqi.top/1584522979144lgbz4jey.png?imageslim" alt="paste image"></p>
+<h2 id="springboot的应用是如何运行的？"><a href="#springboot的应用是如何运行的？" class="headerlink" title="springboot的应用是如何运行的？"></a>springboot的应用是如何运行的？</h2><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1584522979144lgbz4jey.png?imageslim" alt="paste image"></p>
 <p>参考文章：</p>
 <p><a href="https://zhuanlan.zhihu.com/p/59845520" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/59845520</a></p>
 <h2 id="springboot框架中，你是如何处理事务的？原理是什么？"><a href="#springboot框架中，你是如何处理事务的？原理是什么？" class="headerlink" title="springboot框架中，你是如何处理事务的？原理是什么？"></a>springboot框架中，你是如何处理事务的？原理是什么？</h2><p>支持两种方式，一种是编程式事务,另一种是声明式事务。</p>
@@ -700,7 +781,7 @@ SERIALIZABLE(8); ## 串行化，不可并发执行sql，必须等待其它事务
 <pre><code>brew install python
 </code></pre><p>检验一下：</p>
 <pre><code>python --version
-</code></pre><p><img src="http://img.huguiqi.top/1583568064696sdpyt4ea.png?imageslim" alt="paste image">    </p>
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1583568064696sdpyt4ea.png?imageslim" alt="paste image">    </p>
 <p><strong>通过homebrew这种方式安装的python3，命令行输入<code>python</code>没反应，但输入<code>python3</code>有反应的，需要去你电脑：<code>/usr/local/bin</code> 目录里将python3文件重命名为python就ok了</strong></p>
 <p>安装好python以后，需要搭建爬虫环境。</p>
 <p>python语法什么的，这些就不写了，就分享一些比较好的论坛吧:</p>
@@ -724,10 +805,10 @@ SERIALIZABLE(8); ## 串行化，不可并发执行sql，必须等待其它事务
 python get-pip.py
 </code></pre><p>安装完成,验证一下pip3是否安装成功：</p>
 <pre><code>pip3 -V
-</code></pre><p><img src="http://img.huguiqi.top/158357513674301jwljp1.png?imageslim" alt="paste image"></p>
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/158357513674301jwljp1.png?imageslim" alt="paste image"></p>
 <p>我们用python包管理器安装requests库：</p>
 <pre><code>pip3 install requests
-</code></pre><p>提示超时：<br><img src="http://img.huguiqi.top/1583575494073usa7mhvk.png?imageslim" alt="paste image"></p>
+</code></pre><p>提示超时：<br><img src="http://q9eg0x3qq.bkt.clouddn.com/1583575494073usa7mhvk.png?imageslim" alt="paste image"></p>
 <p>因为我天朝GFW原因，无法访问。<br>换个镜像源吧：</p>
 <p><a href="https://cloud.tencent.com/developer/article/1520882" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1520882</a></p>
 <pre><code>mkdir -p ~/.pip
@@ -751,14 +832,14 @@ trusted-host = mirrors.aliyun.com
 <p>将下载下来的可执行文件移动到环境变量所在目录里：</p>
 <pre><code>mv chromedriver /usr/local/bin
 </code></pre><p>然后测试一下：</p>
-<p><img src="http://img.huguiqi.top/1583578225531qqxk82bc.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1583578225531qqxk82bc.png?imageslim" alt="paste image"></p>
 <p>返回这些说明配置成功了。</p>
 <h3 id="安装PhantomJS"><a href="#安装PhantomJS" class="headerlink" title="安装PhantomJS"></a>安装PhantomJS</h3><p>这个不能通过brew或者pip3安装了，这个和chromedriver一样，是个可执行文件，安装方式也是一模一样。</p>
 <p>下载地址：<a href="https://phantomjs.org/download.html" target="_blank" rel="noopener">https://phantomjs.org/download.html</a></p>
 <p>把文件下载好后，解压，移动到path记录过的目录里：</p>
 <pre><code>mv phantomjs /usr/local/bin
 </code></pre><p>然后测试一下是否ok:</p>
-<p><img src="http://img.huguiqi.top/1583579245199wlwm4wz3.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1583579245199wlwm4wz3.png?imageslim" alt="paste image"></p>
 <h3 id="安装网页解析器"><a href="#安装网页解析器" class="headerlink" title="安装网页解析器"></a>安装网页解析器</h3><pre><code>pip3 install lxml
 </code></pre><h3 id="安装验证码识别库"><a href="#安装验证码识别库" class="headerlink" title="安装验证码识别库"></a>安装验证码识别库</h3><p>验证码识别库tesserocr：</p>
 <pre><code>pip3 install tesserocr
@@ -828,7 +909,7 @@ trusted-host = mirrors.aliyun.com
     <div class="article-content">
         
         <p>难过，本来想出去看看热闹，无奈被gwf给封了ip和端口，封得我好难受，十几个端口全封了。。。。</p>
-<p><img src="http://img.huguiqi.top/15830439358784yfitbp3.png?imageslim" alt="paste image">![paste image]</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/15830439358784yfitbp3.png?imageslim" alt="paste image">![paste image]</p>
 <p><a href="https://medium.com/@vonsis/%E8%BF%91%E6%9C%9F%E4%BB%A5%E6%9D%A5%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-%E7%BF%BB%E5%A2%99-%E4%BA%8B%E5%AE%9C%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93-8928d55bce73" target="_blank" rel="noopener">https://medium.com/@vonsis/%E8%BF%91%E6%9C%9F%E4%BB%A5%E6%9D%A5%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-%E7%BF%BB%E5%A2%99-%E4%BA%8B%E5%AE%9C%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93-8928d55bce73</a></p>
 
         
@@ -883,7 +964,7 @@ trusted-host = mirrors.aliyun.com
     <div class="article-content">
         
         <p>2020年1月21日下午6点13分，妈妈走了。<br>那天是农历腊月27号，离除夕夜还有两天。</p>
-<p><img src="http://img.huguiqi.top/1582879820401ajaa2zhf.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1582879820401ajaa2zhf.png?imageslim" alt="paste image"></p>
 <p>那天下午，我和妻子，爸爸都在你旁边，却不知道，那段时间，是你最后的妳留。<br>您安静的走了，却没留下任何的言语。<br>就在5分钟前，我却还在问您：“妈，晚上还是做点粥给你吃吧？” 您也微弱的回应了我：“嗯…..”</p>
 <p>我的心在当时真的很复杂，很痛，而且还不知所措。</p>
 <p>妈妈，您知道，我从来不信封建迷信；在给您做招渡法事时，打了卦象，法师说您要求我三年后给您立碑。</p>
@@ -994,337 +1075,6 @@ trusted-host = mirrors.aliyun.com
 	
 	  	<span></span>
 		<a href="/2019/12/16/再见2019，你好2020/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/12/16/再见2019，你好2020/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/11/05/springCloud微服务做到全局配置文件动态刷新/" title="springCloud微服务做到全局配置文件动态刷新" itemprop="url">springCloud微服务做到全局配置文件动态刷新</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-11-05T15:00:53.000Z" itemprop="datePublished"> 发表于 2019-11-05</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="springCloud通过cloudBus实现config动态刷新"><a href="#springCloud通过cloudBus实现config动态刷新" class="headerlink" title="springCloud通过cloudBus实现config动态刷新"></a>springCloud通过cloudBus实现config动态刷新</h1><p>springCloud中通过spring-config组件，可以实现配置文件外置在git仓库中，如果某个服务需要更改配置文件，也可以做到不重启服务，刷新此服务的配置文件。</p>
-<h3 id="config-server"><a href="#config-server" class="headerlink" title="config-server"></a>config-server</h3><p>spring-config-server 项目的<br>pom.xml:</p>
-<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.example&lt;/groupId&gt;
-    &lt;artifactId&gt;config-server&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;jar&lt;/packaging&gt;
-
-    &lt;name&gt;config-server&lt;/name&gt;
-    &lt;description&gt;config-server&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.7.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-annotations&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-core&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
-            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
-            &lt;version&gt;1.18.0&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
-            &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
-            &lt;version&gt;1.2.49&lt;/version&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-
-&lt;/project&gt;
-</code></pre><p>ConfigServerApplication.java:</p>
-<pre><code>@SpringBootApplication
-@EnableEurekaClient
-@EnableConfigServer
-@ComponentScan(basePackages = &quot;com.example.controller&quot;)
-public class ConfigServerApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(ConfigServerApplication.class, args);
-    }
-
-
-}
-</code></pre><h4 id="config-server配置文件"><a href="#config-server配置文件" class="headerlink" title="config-server配置文件"></a>config-server配置文件</h4><p>配置文件application.yml:</p>
-<pre><code>server:
-  port: 8883
-  servlet:
-    context-path: /
-
-spring:
-  application:
-      name: config-server
-  profiles:
-      active: local
-  cloud:
-    config:
-      server:
-        git:
-          uri: http://gitlab.rios.com:8080/servers/config-repo.git
-          clone-on-start: true
-          username: sam.hu
-          password: 12345678
-          default-label: master
-
-eureka:
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${eureka.instance.hostname}:${server.port}
-    nonSecurePort: ${server.port}
-  client:
-    service-url:
-      defaultZone: http://localhost:9999/eureka
-    healthcheck:
-          enabled: true
-
-
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: &apos;*&apos;
-</code></pre><h3 id="eureka"><a href="#eureka" class="headerlink" title="eureka"></a>eureka</h3><p>pom.xml:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.example&lt;/groupId&gt;
-    &lt;artifactId&gt;eureka&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;war&lt;/packaging&gt;
-
-    &lt;name&gt;eureka&lt;/name&gt;
-    &lt;description&gt;Demo project for Spring Boot(spring cloud)&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.7.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-annotations&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-core&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-
-&lt;/project&gt;
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2019/11/05/springCloud微服务做到全局配置文件动态刷新/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/11/05/springCloud微服务做到全局配置文件动态刷新/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/11/05/springCloud微服务做到全局配置文件动态刷新/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1546,19 +1296,11 @@ management:
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1570,23 +1312,11 @@ management:
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -1594,15 +1324,35 @@ management:
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

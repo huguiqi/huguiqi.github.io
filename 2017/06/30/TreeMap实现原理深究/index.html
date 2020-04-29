@@ -22,18 +22,18 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="Java TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering），也可以通过构造时传入的比较器（Comparator）。TreeMap底层通过红黑树（Red-Black tree）实现，也就意味着containsKey(), get(), put(), remove()都有着">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img.huguiqi.top/1498833284942mbt7rqrw.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1498964122299rcwlujax.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1498964788182lorucwvj.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1498965196156il66exh3.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1499227809263er3121jg.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/14992264489782hiym621.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1499224611099quxx72o0.png?imageslim">
-<meta property="og:updated_time" content="2019-12-05T08:17:40.511Z">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1498833284942mbt7rqrw.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1498964122299rcwlujax.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1498964788182lorucwvj.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1498965196156il66exh3.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1499227809263er3121jg.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/14992264489782hiym621.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1499224611099quxx72o0.png?imageslim">
+<meta property="og:updated_time" content="2020-04-29T03:23:56.190Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TreeMap实现原理深究">
 <meta name="twitter:description" content="Java TreeMap实现了SortedMap接口，也就是说会按照key的大小顺序对Map中的元素进行排序，key大小的评判可以通过其本身的自然顺序（natural ordering），也可以通过构造时传入的比较器（Comparator）。TreeMap底层通过红黑树（Red-Black tree）实现，也就意味着containsKey(), get(), put(), remove()都有着">
-<meta name="twitter:image" content="http://img.huguiqi.top/1498833284942mbt7rqrw.png?imageslim">
+<meta name="twitter:image" content="http://q9eg0x3qq.bkt.clouddn.com/1498833284942mbt7rqrw.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -283,7 +283,7 @@ k++;
 private final char value[];
 </code></pre><p>所以真相大白了，跟SortMap一毛钱关系都没有。。。。。</p>
 <p>~~ <!-- more --></p>
-<p>以下是我的调试：<br><img src="http://img.huguiqi.top/1498833284942mbt7rqrw.png?imageslim" alt="paste image"></p>
+<p>以下是我的调试：<br><img src="http://q9eg0x3qq.bkt.clouddn.com/1498833284942mbt7rqrw.png?imageslim" alt="paste image"></p>
 <p>那SortMap是怎么回事？</p>
 <p>我在TreeMap源码里找到这个构造方法：</p>
 <pre><code>public TreeMap(SortedMap&lt;K, ? extends V&gt; m) {
@@ -318,7 +318,7 @@ this.comparator = comparator;
 </ul>
 <p>二叉树是树形结构的一个重要类型。<br>许多实际问题抽象出来的数据结构往往是二叉树的形式，即使是一般的树也能简单地转换为二叉树，而且二叉树的存储结构及其算法都较为简单，因此二叉树显得特别重要。<br>二叉树(BinaryTree)是n(n≥0)个结点的有限集，它或者是空集(n=0)，或者由一个根结点及两棵互不相交的、分别称作这个根的左子树和右子树的二叉树组成。<br>    这个定义是递归的。由于左、右子树也是二叉树， 因此子树也可为空树。下图中展现了五种不同基本形态的二叉树。</p>
 <p>如图：</p>
-<p><img src="http://img.huguiqi.top/1498964122299rcwlujax.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1498964122299rcwlujax.png?imageslim" alt="paste image"></p>
 <p>其中 (a) 为空树， (b) 为仅有一个结点的二叉树， (c) 是仅有左子树而右子树为空的二叉树， (d) 是仅有右子树而左子树为空的二叉树， (e) 是左、右子树均非空的二叉树。这里应特别注意的是，二叉树的左子树和右子树是严格区分并且不能随意颠倒的，图 (c) 与图 (d) 就是两棵不同的二叉树。</p>
 <p>其实二叉树嘛，就是所有的数据结构都是长的像两棵树。</p>
 <h3 id="二叉树的应用与实现"><a href="#二叉树的应用与实现" class="headerlink" title="二叉树的应用与实现"></a>二叉树的应用与实现</h3><ol>
@@ -327,12 +327,12 @@ this.comparator = comparator;
 <li><p>二叉树的java实现<br>首先创建一棵二叉树如下图，然后对这颗二叉树进行遍历操作（遍历操作的实现分为递归实现和非递归实现），同时还提供一些方法如获取双亲结点、获取左孩子、右孩子等。</p>
 </li>
 </ol>
-<p><img src="http://img.huguiqi.top/1498964788182lorucwvj.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1498964788182lorucwvj.png?imageslim" alt="paste image"></p>
 <ul>
 <li>排序</li>
 </ul>
 <p>给一组数字用二叉树的方式进行排序，eg : int  a [ ] = {3,1,2,5,0,7,9,8} ，用这个数组中的数字建立二叉排序树，注意这里的二叉排序树是随便的，没有特殊的要求(比如建立高度最小的二叉排序树)，可知二叉排序树是不唯一的。常规方法采用递归，首先先以3这个数字为根节点，仅接着采用递归,大于根节点的在右子树中，小于等于根节点的在左子树中。二叉排序树结构图：</p>
-<p><img src="http://img.huguiqi.top/1498965196156il66exh3.png?imageslim" alt="paste image">![paste image]</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1498965196156il66exh3.png?imageslim" alt="paste image">![paste image]</p>
 <p>以下是用二叉树结构来实现的排序与几种遍历方式：</p>
 <pre><code>package com.wolf.model.algorithm;
 
@@ -590,17 +590,17 @@ public  List&lt;TreeNode&gt; deepFirst(TreeNode root) {
 <li>如果待删除的节点是叶子节点，则直接删除。</li>
 <li>如果待删除的节点不是叶子节点，则先找到待删除节点的中序遍历的后继节点，用该后继节点的值替换待删除的节点的值，然后删除后继节点。</li>
 </ol>
-<p><img src="http://img.huguiqi.top/1499227809263er3121jg.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1499227809263er3121jg.png?imageslim" alt="paste image"></p>
 <h4 id="寻找节点后继"><a href="#寻找节点后继" class="headerlink" title="寻找节点后继"></a>寻找节点后继</h4><p>对于一棵二叉查找树，给定节点t，其后继（树中比大于t的最小的那个元素）可以通过如下方式找到：</p>
 <pre><code>t的右子树不空，则t的后继是其右子树中最小的那个元素。
 t的右孩子为空，则t的后继是其第一个向左走的祖先。
 </code></pre><p>后继节点在红黑树的删除操作中将会用到。</p>
-<p><img src="http://img.huguiqi.top/14992264489782hiym621.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/14992264489782hiym621.png?imageslim" alt="paste image"></p>
 <p>具体测试代码可以在我的github上下载：<br><a href="https://github.com/huguiqi/WolfSpringMVC.git" target="_blank" rel="noopener">测试代码</a><br>clone或下载分支： java8build</p>
 <p>好了，已经明白了二叉树是个什么玩意，那现在再看红黑树，这红黑树不就是二叉树的变种嘛！也是树。</p>
 <h2 id="为什么会有红黑树"><a href="#为什么会有红黑树" class="headerlink" title="为什么会有红黑树"></a>为什么会有红黑树</h2><p>二叉树存在的主要问题是，数在插入的时候会导致树倾斜，不同的插入顺序会导致树的高度不一样，而树的高度直接的影响了树的查找效率。理想的高度是logN，最坏的情况是所有的节点都在一条斜线上，这样的树的高度为N。</p>
 <p>在理想的情况下，二叉查找树增删查改的时间复杂度为O(logN)（其中N为节点数），最坏的情况下为O(N)。当它的高度为logN+1时，我们就说二叉查找树是平衡的。</p>
-<p><img src="http://img.huguiqi.top/1499224611099quxx72o0.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1499224611099quxx72o0.png?imageslim" alt="paste image"></p>
 <h2 id="RBTree的定义"><a href="#RBTree的定义" class="headerlink" title="RBTree的定义"></a>RBTree的定义</h2><ol>
 <li>任何一个节点都有颜色，黑色或者红色</li>
 <li>根节点是黑色的</li>
@@ -1007,19 +1007,11 @@ t的右孩子为空，则t的后继是其第一个向左走的祖先。
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1031,23 +1023,11 @@ t的右孩子为空，则t的后继是其第一个向左走的祖先。
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -1055,15 +1035,35 @@ t的右孩子为空，则t的后继是其第一个向左走的祖先。
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

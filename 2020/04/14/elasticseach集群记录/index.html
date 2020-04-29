@@ -22,17 +22,17 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="elasticseach实践记录安装环境： macoses版本：7.6.2集群模式：单例模式 docker安装sh: docker run -d --name elasticsearch --net riosNetwork -p 9200:9200 -p 9300:9300 -e &amp;quot;discovery.type=single-node&amp;quot; elasticsearch:7.6.2">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://img.huguiqi.top/1586851936336st7o5dyv.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1586851983001db46yu4d.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1586852130897is2tglzt.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1586932688320h96kfn3q.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/15869329067169r6ijqpz.png?imageslim">
-<meta property="og:image" content="http://img.huguiqi.top/1586936386368xucjuucn.png?imageslim">
-<meta property="og:updated_time" content="2020-04-16T02:04:22.305Z">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1586851936336st7o5dyv.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1586851983001db46yu4d.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1586852130897is2tglzt.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1586932688320h96kfn3q.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/15869329067169r6ijqpz.png?imageslim">
+<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1586936386368xucjuucn.png?imageslim">
+<meta property="og:updated_time" content="2020-04-29T03:23:56.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticseach集群记录">
 <meta name="twitter:description" content="elasticseach实践记录安装环境： macoses版本：7.6.2集群模式：单例模式 docker安装sh: docker run -d --name elasticsearch --net riosNetwork -p 9200:9200 -p 9300:9300 -e &amp;quot;discovery.type=single-node&amp;quot; elasticsearch:7.6.2">
-<meta name="twitter:image" content="http://img.huguiqi.top/1586851936336st7o5dyv.png?imageslim">
+<meta name="twitter:image" content="http://q9eg0x3qq.bkt.clouddn.com/1586851936336st7o5dyv.png?imageslim">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -142,9 +142,9 @@ networks:
       external:
           name: riosNetwork           
 </code></pre><p>执行完成：</p>
-<p><img src="http://img.huguiqi.top/1586851936336st7o5dyv.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586851936336st7o5dyv.png?imageslim" alt="paste image"></p>
 <p>docker已启动：</p>
-<p><img src="http://img.huguiqi.top/1586851983001db46yu4d.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586851983001db46yu4d.png?imageslim" alt="paste image"></p>
 <h2 id="验证是否安装成功"><a href="#验证是否安装成功" class="headerlink" title="验证是否安装成功"></a>验证是否安装成功</h2><pre><code>curl &apos;http://localhost:9200/?pretty&apos;
 </code></pre><p>返回：</p>
 <pre><code>  {
@@ -167,7 +167,7 @@ networks:
 <p>表示安装成功  ！！！</p>
 <h2 id="查看节点使用情况"><a href="#查看节点使用情况" class="headerlink" title="查看节点使用情况"></a>查看节点使用情况</h2><pre><code>http://localhost:9200/_cat/nodes?v
 </code></pre><p>返回：</p>
-<p><img src="http://img.huguiqi.top/1586852130897is2tglzt.png?imageslim" alt="paste image"></p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586852130897is2tglzt.png?imageslim" alt="paste image"></p>
 <h2 id="安装监控插件"><a href="#安装监控插件" class="headerlink" title="安装监控插件"></a>安装监控插件</h2><p><a href="https://www.elastic.co/cn/downloads/marvel" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/marvel</a></p>
 <p>Marvel是Elasticsearch的管理和监控工具,但是在es5.0之后，就不单独存在了，被整合到x-Pack里了，而x-pack不能独立安装，要求必须同时安装了：</p>
 <ul>
@@ -185,11 +185,11 @@ networks:
 <p>docker cp elasticsearch-analysis-ik-7.6.2.zip [docker name]</p>
 <p>然后进入docker安装：</p>
 <pre><code>./bin/elasticsearch-plugin install elasticsearch-analysis-ik-7.6.2.zip
-</code></pre><p><img src="http://img.huguiqi.top/1586932688320h96kfn3q.png?imageslim" alt="paste image"></p>
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586932688320h96kfn3q.png?imageslim" alt="paste image"></p>
 <h2 id="使用中文分词"><a href="#使用中文分词" class="headerlink" title="使用中文分词"></a>使用中文分词</h2><p>官方教程很简单：</p>
 <p><a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik</a></p>
 <h3 id="创建一个索引："><a href="#创建一个索引：" class="headerlink" title="创建一个索引："></a>创建一个索引：</h3><pre><code>curl -XPUT http://localhost:9200/xiaoheitest
-</code></pre><p><img src="http://img.huguiqi.top/15869329067169r6ijqpz.png?imageslim" alt="paste image"></p>
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/15869329067169r6ijqpz.png?imageslim" alt="paste image"></p>
 <h3 id="创建索引的maping规则："><a href="#创建索引的maping规则：" class="headerlink" title="创建索引的maping规则："></a>创建索引的maping规则：</h3><pre><code>curl -XPOST http://localhost:9200/xiaoheitest/_mapping -H &apos;Content-Type:application/json&apos; -d&apos;
 {
         &quot;properties&quot;: {
@@ -236,7 +236,7 @@ curl -XPOST http://localhost:9200/xiaoheitest/_create/7 -H &apos;Content-Type:ap
     }
 }
 &apos;
-</code></pre><p><img src="http://img.huguiqi.top/1586936386368xucjuucn.png?imageslim" alt="paste image"></p>
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1586936386368xucjuucn.png?imageslim" alt="paste image"></p>
 <p>发现返回了匹配数据：</p>
 <pre><code>  {
    &quot;took&quot;:880,
@@ -322,7 +322,7 @@ curl -XPOST http://localhost:9200/xiaoheitest/_create/7 -H &apos;Content-Type:ap
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/16/团队内代码分支管理/" title="团队内代码分支管理">
+ <a href="/2020/04/16/团队内代码分支/" title="团队内代码分支管理">
   <strong>上一篇：</strong><br/>
   <span>
   团队内代码分支管理</span>
@@ -559,19 +559,11 @@ curl -XPOST http://localhost:9200/xiaoheitest/_create/7 -H &apos;Content-Type:ap
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -583,23 +575,11 @@ curl -XPOST http://localhost:9200/xiaoheitest/_create/7 -H &apos;Content-Type:ap
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -607,15 +587,35 @@ curl -XPOST http://localhost:9200/xiaoheitest/_create/7 -H &apos;Content-Type:ap
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			

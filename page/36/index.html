@@ -92,6 +92,195 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/03/reactapp一步步学习-3/" title="react app一步步学习" itemprop="url">react app一步步学习</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-03T02:41:00.000Z" itemprop="datePublished"> 发表于 2017-03-03</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="react-app一步步学习3"><a href="#react-app一步步学习3" class="headerlink" title="react app一步步学习3"></a>react app一步步学习3</h1><p>上一节根据RN的官方文档，建立了一个ios的RN项目，体验了一把RN的组件与style设置。</p>
+<p>将例子的代码附上：<br>    import React, { Component } from ‘react’;<br>    import {<br>      AppRegistry,<br>      StyleSheet,<br>      Text,<br>      View<br>    } from ‘react-native’;</p>
+<pre><code>export default class AwesomeProject extends Component {
+  render() {
+    return (
+      &lt;View style={styles.container}&gt;
+        &lt;Text style={styles.welcome}&gt;
+         你好,React
+        &lt;/Text&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: &apos;center&apos;,
+    alignItems: &apos;center&apos;,
+    backgroundColor: &apos;#F5FCFF&apos;,
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: &apos;center&apos;,
+    margin: 10,
+  }
+});
+
+AppRegistry.registerComponent(&apos;AwesomeProject&apos;, () =&gt; AwesomeProject);
+</code></pre><p>\&lt;!—more—></p>
+<p>以上是官方demo的例子，现在我要启动reactApp，肯定是要启动ios的模拟器，那怎么启动呢，官方的答案是：<br>进入项目目录,执行命令：</p>
+<pre><code>cd AwesomeProject
+react-native run-ios
+</code></pre><p>好了，我们看到了模拟器被启动，这个页面也就被显示出来了。</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1488523386160479kkpe4.png?imageslim" alt="paste image"></p>
+<p>成功后弹出另一个shell窗口：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1488523432472akxr2hnk.png?imageslim" alt="paste image"></p>
+<p>模似器：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/14885234621092eg24u9g.png?imageslim" alt="paste image"></p>
+<p>模似器中的代码：</p>
+<pre><code>import React, { Component } from &apos;react&apos;;
+import {AppRegistry, Text,TextInput, View} from &apos;react-native&apos;
+
+class AppInput extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {text: &apos;&apos;};
+  }
+  render(){
+    return (&lt;View style={{position:'relative',left:'10%',top:'30%',width:'50%'}}&gt;
+      &lt;TextInput style={{height: 40, borderColor: 'gray', borderWidth: 1}} placeholder=&quot;请输入手机号&quot;
+                 onChangeText={(text) =&gt; this.setState({text})}&gt;
+    &lt;/TextInput&gt;&lt;Text&gt;{this.state.text}&lt;/Text&gt;&lt;/View&gt;);
+  }
+}
+
+AppRegistry.registerComponent(&apos;AwesomeProject&apos;, () =&gt; AppInput);
+</code></pre><p>代码解析：<br><code>import React, { Component } from &#39;react&#39;;</code></p>
+<p>这个是源自es6的语法，babel解释了它。</p>
+<p>意思是引入React类,和Component组件，从react.js中。</p>
+<p><code>import {AppRegistry, Text,TextInput, View} from &#39;react-native&#39;</code><br>这个也是一样，引入了四个组件，从RN中。</p>
+<ul>
+<li>props是只读的</li>
+</ul>
+<p>和react一样，props是只读的，是不允许修改的，只允许从父组件传递给子组件。</p>
+<ul>
+<li>state用来更新内容与状态</li>
+</ul>
+<p>state用来更新数据内容</p>
+<ul>
+<li>箭头函数绑定事件</li>
+</ul>
+<p>箭头函数从js诞生之日其实就存在，而firefox是最早使用箭头函数的公司。</p>
+<p>```var f = v ==>x;<br>`相当于<br>    var f = function(v){<br>    return x;<br>    }</p>
+<p>如果没有参数，则：<br><code>var f=()=&gt;x;</code></p>
+<p>RN则写成：<br>``<code>let f=()=&gt;x;</code></p>
+<h2 id="组件属性方法调用"><a href="#组件属性方法调用" class="headerlink" title="组件属性方法调用"></a>组件属性方法调用</h2><pre><code>&lt;TabBarIOS&gt;
+&lt;TabBarIOS.Item
+        title=&quot;设置&quot;
+        icon={{uri: img4_base64, scale: 3.5}}
+        selected={this.state.selectedTap == &apos;setting&apos;}
+        onPress={()=&gt;{
+        this.setState({selectedTap:&apos;setting&apos;})
+        }}&gt;
+        {this.renderView(&apos;设置&apos;)}
+    &lt;/TabBarIOS.Item&gt;
+&lt;/TabBarIOS&gt;
+</code></pre><p>onPress中，用箭头函数来设置值，这样写的好处有二：</p>
+<ol>
+<li>调用方便，不需要再定义函数</li>
+<li>this实例不需要重新绑定，可以直接设置state的更新值</li>
+</ol>
+<p>但作为一个后端出身的我来说，箭头函数实在太难理解了，而且很别扭。</p>
+<p>当然，如果箭头函数不写在这里，单独声明函数也是可以的。</p>
+<pre><code>pressBtn=()=&gt;this.setState({selectedTap:&apos;setting&apos;});`
+</code></pre><p>但如果这样声明，那this将不能直接去更改state,因为this已经不代表组件对象了，而是当前方法的funtion。</p>
+<pre><code> pressBtn(){
+    this.setState({selectedTap:&apos;setting&apos;});//将会报错
+} 
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/14891247193913n3w9gd4.png?imageslim" alt="paste image"></p>
+<h1 id="ReactNative组件之WebView"><a href="#ReactNative组件之WebView" class="headerlink" title="ReactNative组件之WebView"></a>ReactNative组件之WebView</h1><p>根据官方的例子，重要介绍如下属性：</p>
+<ul>
+<li>source</li>
+</ul>
+<p>源地址，写法如下：<br><code>&lt;WebView source={(uri: &#39;https://github.com/facebook/react-native&#39;)}        style={(marginTop: 20)}  /&gt;</code></p>
+<p>source的值的格式：</p>
+<blockquote>
+<p>source?: {uri: string, method: string, headers: object, body: string}, {html: string, baseUrl: string}, number<br>Loads static html or a uri (with optional headers) in the WebView.</p>
+</blockquote>
+<p><strong>注意：</strong><br>如果是加载本地的html文件，则需要这样写：</p>
+<pre><code>&lt;WebView    source={{uri:require(’./html/index.html’)},1} /&gt;
+</code></pre><p>如果这样写，将会报错：</p>
+<pre><code>&lt;WebView    source={uri:require(’./html/index.html’)} /&gt;
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1489127807272ahqcow6v.png?imageslim" alt="paste image"></p>
+<ul>
+<li>onError   网页加载出错时的操作</li>
+<li>renderLoading   loading时的操作</li>
+<li>onLoadStart 网页开始加载时的方法</li>
+<li>onLoadEnd  网页加载完成的方法</li>
+</ul>
+<h2 id="RN的调试"><a href="#RN的调试" class="headerlink" title="RN的调试"></a>RN的调试</h2><p><a href="http://reactnative.cn/docs/0.26/debugging.html#chrome%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7" title="调试ReactNative APP" target="_blank" rel="noopener">如何用chrome调试ReactNative</a></p>
+<p>两种方式，一种是console的warn和error的方式<br>一种是chrome</p>
+<p>需要打开模拟器的开发者模式：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1489132646992du8i6ejs.png?imageslim" alt="paste image"></p>
+<p>开启remote run js:</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1489132738860e4nu3fk7.png?imageslim" alt="paste image"></p>
+<h1 id="用RN加载高德地图jsapi"><a href="#用RN加载高德地图jsapi" class="headerlink" title="用RN加载高德地图jsapi"></a>用RN加载高德地图jsapi</h1><p>由于ios10以上系统不支持https加载html的定位，所以相关的api要用https<br>所有的js/css引入都用https协议；</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/前端技术/">前端技术</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ReactNative/">ReactNative</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/03/reactapp一步步学习-3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/03/reactapp一步步学习-3/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/03/01/reactapp一步步学习-2/" title="react app一步步学习" itemprop="url">react app一步步学习</a>
   </h1>
   <p class="article-author">By
@@ -129,7 +318,7 @@
 </li>
 </ul>
 <p>这两个方法是定义 对象方法  </p>
-<p>网上有很多乱七八糟的教程，说props的setProps方法可以更改属性，这是不对的，官方文档明确指出，props 是只读的。<br>  <img src="http://img.huguiqi.top/95q0mn9wc3vhbzfp6w8vqmd4r6" alt="paste image"></p>
+<p>网上有很多乱七八糟的教程，说props的setProps方法可以更改属性，这是不对的，官方文档明确指出，props 是只读的。<br>  <img src="http://q9eg0x3qq.bkt.clouddn.com/95q0mn9wc3vhbzfp6w8vqmd4r6" alt="paste image"></p>
 <h2 id="Updating"><a href="#Updating" class="headerlink" title="Updating"></a>Updating</h2><blockquote>
 <p>组件中的值或者状态的改变,都会引起updating事件的发生, 这些方法都是在render发生时调用  </p>
 </blockquote>
@@ -354,6 +543,73 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/02/10/17年计划与展望/" title="17年计划与16年展望" itemprop="url">17年计划与16年展望</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-10T06:21:00.000Z" itemprop="datePublished"> 发表于 2017-02-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="17年计划与展望"><a href="#17年计划与展望" class="headerlink" title="17年计划与展望"></a>17年计划与展望</h1><p>新的一年又开始了，今天是正月十三，还有两天元宵节后就正式步入2017年了！<br>今天早上一觉醒来，发现上海下雪了，嗯，没听错，上海今天下雪了，打开朋友圈，大家好兴奋啊，但是，上海下雪，能有多大啊，就飘了一点点碎雪花，天呐，朋友圈感觉都疯了，还有人说可以出来玩雪了，玩雪了。。。。。。</p>
+<p>16年的计划与目标由于去年没有写下来，在这里暂时不作对比；</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/7h4xybwilox3j1yek0bjqs0h9y" alt="paste image"></p>
+<h2 id="工作方向"><a href="#工作方向" class="headerlink" title="工作方向"></a>工作方向</h2><p>其实16年年初已经确定了一个年内工作方向，就是从自己创业重新回归到工作岗位，很明显，这一步是早就已经实现了，但是还有个我从15年年底就一直确立的方向，要学习混合式app开发，当时确立的是要学习angular.js，但随着16年的调研，发现angular.js还是有很多弊端，学习成本也非常高；所以目前已经带领团队往react app方向学习了，希望今年把我们的app改造成react app。</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/02/10/17年计划与展望/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/02/10/17年计划与展望/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/10/17年计划与展望/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/02/10/reactapp一步步学习/" title="react app一步步学习" itemprop="url">react app一步步学习</a>
   </h1>
   <p class="article-author">By
@@ -422,73 +678,6 @@
 	
 	  	<span></span>
 		<a href="/2017/02/10/reactapp一步步学习/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/10/reactapp一步步学习/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/02/10/17年计划与展望/" title="17年计划与16年展望" itemprop="url">17年计划与16年展望</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2017-02-10T06:21:00.000Z" itemprop="datePublished"> 发表于 2017-02-10</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="17年计划与展望"><a href="#17年计划与展望" class="headerlink" title="17年计划与展望"></a>17年计划与展望</h1><p>新的一年又开始了，今天是正月十三，还有两天元宵节后就正式步入2017年了！<br>今天早上一觉醒来，发现上海下雪了，嗯，没听错，上海今天下雪了，打开朋友圈，大家好兴奋啊，但是，上海下雪，能有多大啊，就飘了一点点碎雪花，天呐，朋友圈感觉都疯了，还有人说可以出来玩雪了，玩雪了。。。。。。</p>
-<p>16年的计划与目标由于去年没有写下来，在这里暂时不作对比；</p>
-<p><img src="http://img.huguiqi.top/7h4xybwilox3j1yek0bjqs0h9y" alt="paste image"></p>
-<h2 id="工作方向"><a href="#工作方向" class="headerlink" title="工作方向"></a>工作方向</h2><p>其实16年年初已经确定了一个年内工作方向，就是从自己创业重新回归到工作岗位，很明显，这一步是早就已经实现了，但是还有个我从15年年底就一直确立的方向，要学习混合式app开发，当时确立的是要学习angular.js，但随着16年的调研，发现angular.js还是有很多弊端，学习成本也非常高；所以目前已经带领团队往react app方向学习了，希望今年把我们的app改造成react app。</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/02/10/17年计划与展望/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/随笔/">随笔</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/02/10/17年计划与展望/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/10/17年计划与展望/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1005,19 +1194,11 @@ $ hexo server
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -1029,23 +1210,11 @@ $ hexo server
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
 			
 		
 			
@@ -1053,15 +1222,35 @@ $ hexo server
 			
 		
 			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/security/" title="security">security<sup>1</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
 			
 		
 			
