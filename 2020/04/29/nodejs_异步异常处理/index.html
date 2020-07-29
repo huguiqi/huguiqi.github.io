@@ -1,0 +1,866 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>nodejs异步异常处理 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="nodejs 异步异常处理 环境：  nodejs : 4.4.4express :4.1.13 pm2 :1.1.3  nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。 那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处">
+<meta name="keywords" content="express 异常处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs异步异常处理">
+<meta property="og:url" content="http://www.huguiqi.top/2020/04/29/nodejs_异步异常处理/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="nodejs 异步异常处理 环境：  nodejs : 4.4.4express :4.1.13 pm2 :1.1.3  nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。 那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/10004.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0003.png">
+<meta property="og:updated_time" content="2020-04-29T03:23:56.337Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nodejs异步异常处理">
+<meta name="twitter:description" content="nodejs 异步异常处理 环境：  nodejs : 4.4.4express :4.1.13 pm2 :1.1.3  nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。 那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/10004.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/nodejs_异步异常处理/" title="nodejs异步异常处理" itemprop="url">nodejs异步异常处理</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.336Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nodejs-异步异常处理"><span class="toc-number">1.</span> <span class="toc-text">nodejs 异步异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么解决"><span class="toc-number">1.1.</span> <span class="toc-text">怎么解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#uncaughtException事件监听"><span class="toc-number">1.1.1.</span> <span class="toc-text">uncaughtException事件监听</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用domain模块捕捉异常"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用domain模块捕捉异常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用pm2来解决程序异步异常自动退出"><span class="toc-number">1.2.</span> <span class="toc-text">使用pm2来解决程序异步异常自动退出</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="nodejs-异步异常处理"><a href="#nodejs-异步异常处理" class="headerlink" title="nodejs 异步异常处理"></a>nodejs 异步异常处理</h1><p> 环境：</p>
+<blockquote>
+<p>nodejs : 4.4.4<br>express :4.1.13</p>
+<p>pm2 :1.1.3</p>
+</blockquote>
+<p>nodejs到目前为止已经发行的稳定版本是4.4.4，而用nodejs开发的系统的稳健性一直是被人所诟病的，现在我项目中就出现一有些运行错误或者异常，就导致了整个服务器退出的情况。</p>
+<p>那nodejs可不可以像java一样，有一个统一的异常处理的handller,把所有的没有业务处理的异常抛出给统一的ExceptionHandler去处理呢？</p>
+<p><strong>注意，这里要处理的都是异步的业务异常，同步的异常处理不在这里讨论</strong></p>
+<p>同步异常处理：</p>
+<pre><code>//处理所有同步异常
+app.use(function (err, req, res, next) {
+// 带有四个参数的 middleware 专门用来处理异常
+res.json(&quot;{&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;}&quot;);
+});
+</code></pre><h2 id="怎么解决"><a href="#怎么解决" class="headerlink" title="怎么解决"></a>怎么解决</h2><p>目前其实还没有完美的方法去解决这个问题，但总是有替代的或者相似的解决方案：</p>
+<ul>
+<li>uncaughtException事件监听</li>
+<li>使用domain模块捕捉异常</li>
+</ul>
+<h3 id="uncaughtException事件监听"><a href="#uncaughtException事件监听" class="headerlink" title="uncaughtException事件监听"></a>uncaughtException事件监听</h3><p>uncaughtException 是一个非常古老的事件。当 Node 发现一个未捕获的异常时，会触发这个事件。并且如果这个事件存在回调函数，Node 就不会强制结束进程。</p>
+<p>一般情况下，我们会将有可能出错的代码放到try/catch块里。但是到了Node.js，由于try/catch无法捕捉异步回调里的异常，Node.js原生提供uncaughtException事件挂到process对象上，用于捕获所有未处理的异常，以下是一个模似一个异步异常：</p>
+<pre><code>process.on(&apos;uncaughtException&apos;, function(err) {
+console.error(&apos;Error caught in uncaughtException event:&apos;, err);
+});
+
+try {
+process.nextTick(function() {
+    fs.readFile(&apos;non_existent.js&apos;, function(err, str) {
+        if(err) throw err;
+        else console.log(str);
+    });
+});
+} catch(e) {
+console.error(&apos;Error caught by catch block:&apos;, e);
+}
+</code></pre><p>执行的结果是代码进到了uncaughtException的回调里而不是catch块。 uncaughtException虽然能够捕获异常，但是此时错误的上下文已经丢失，即使看到错误也不知道哪儿报的错，定位问题非常的不利。而且一旦uncaughtException事件触发，而且我们没有自定义重写process的uncaughtException挂载的话，整个node进程将crash掉。</p>
+<p>NodeJS对于未捕获异常的默认处理是： - 触发 uncaughtException 事件 - 如果 uncaughtException 没有被监听，那么 - 打印异常的堆栈信息 - 触发进程的 exit 事件;<br><a id="more"></a></p>
+<p>在app.js里监听了uncaughtException方法的话，进程是不会退出的，但是后面内存会一直飙升，比如，我请求了一个接口，里面模似了异步异常抛出：</p>
+<pre><code>app.get(&apos;/&apos;, function (req, res) {
+ setTimeout(function () {
+     throw new Error(&apos;async exception&apos;); // 抛出一个异步异常
+ }, 1000);
+
+});
+</code></pre><p>执行完了以后，就会触发：uncaughtException方法，但不会立马退出，用pm2监控了他的内存使用情况，从19M到 50.309 MB的内存占用，估计随着时间的增加，内存会一直攀升。</p>
+<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/10004.png" alt="image"></p>
+<h3 id="使用domain模块捕捉异常"><a href="#使用domain模块捕捉异常" class="headerlink" title="使用domain模块捕捉异常"></a>使用domain模块捕捉异常</h3><h2 id="使用pm2来解决程序异步异常自动退出"><a href="#使用pm2来解决程序异步异常自动退出" class="headerlink" title="使用pm2来解决程序异步异常自动退出"></a>使用pm2来解决程序异步异常自动退出</h2><p>当有异步异常导致服务进程自动退出时，pm2会自动重启应用程序，我请求了两次有异步异常的接口(会导致程序退出)，每请求一次，完了后，在终端执行：<code>pm2 show testExpress</code>,得到如下结果：</p>
+<p><img src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0003.png" alt="image"></p>
+<p>这是为什么？不要问我为什么，这是因为pm2 0.7.1 开始，对因为异步异常触发uncaughtException方法导致的程序退出作了优化，只要进程退出，就会通过pm2自动重启当前程序，如果你用了nodejs的cluster自带的负载均衡，则会重启当前分配的服务。</p>
+<p>所以，正确的对uncaughtException的处理是：</p>
+<pre><code>process.on(&apos;uncaughtException&apos;, function(err) {
+
+try {
+    //logger writer with err
+    var killTimer = setTimeout(function () {
+        process.exit(1);
+    }, 30000);
+    killTimer.unref();
+
+    server.close();
+
+    // if (cluster.worker) {
+    //     cluster.worker.disconnect();
+    // }
+} catch (e) {
+    console.log(&apos;error when exit&apos;, e.stack);
+}
+});
+</code></pre><p>那配合pm2一起使用，绝对神作。。。。</p>
+<p>对于一般的异步异常，不会导致程序退出的业务异常，则用domain来解决：</p>
+<p>比如这个异步异常：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app.get(&apos;/&apos;, function (req, res) &#123;</span><br><span class="line">    // if(!req.params.name)</span><br><span class="line">    //     throw new Error(&apos;sync exception&apos;); // 抛出一个同步异常</span><br><span class="line">    //</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">        throw new Error(&apos;async exception&apos;); // 抛出一个异步异常</span><br><span class="line">    &#125;, 1000);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这个自定义的error异常，不会导致程序退出，也就不会调用uncaughtException方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 使用 domain 来捕获大部分异常</span><br><span class="line">app.use(function (req, res, next) &#123;</span><br><span class="line">    var reqDomain = domain.create();</span><br><span class="line">    reqDomain.on(&apos;error&apos;, function (err) &#123; // 下面抛出的异常在这里被捕获,只有异步异常</span><br><span class="line">        res.send(&quot;&#123;&apos;code&apos;:10000,&apos;msg&apos;:&apos;error&apos;&#125;&quot;); // 成功给用户返回了 500</span><br><span class="line">        try &#123;</span><br><span class="line">            // 强制退出机制</span><br><span class="line">            var killTimer = setTimeout(function () &#123;</span><br><span class="line">                process.exit(1);</span><br><span class="line">            &#125;, 30000);</span><br><span class="line">            killTimer.unref(); // 非常重要</span><br><span class="line">        </span><br><span class="line">            // 自动退出机制，停止接收新链接，等待当前已建立连接的关闭</span><br><span class="line">            server.close(function () &#123;</span><br><span class="line">                // 此时所有连接均已关闭，此时 Node 会自动退出，不需要再调用</span><br><span class="line">                process.exit(1); //来结束进程</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; catch(e) &#123;</span><br><span class="line">            console.log(&apos;err&apos;, e.stack);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    reqDomain.run(next);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/express-异常处理/">express 异常处理</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.huguiqi.top/2020/04/29/nodejs_异步异常处理/" data-title="nodejs异步异常处理 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/obj-c 常用字符串处理方法/" title="obj-c 常用字符串处理方法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  obj-c 常用字符串处理方法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/nodejs_学习笔记/"  title="nodejs_学习笔记">
+ <strong>下一篇：</strong><br/> 
+ <span>nodejs_学习笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/nodejs_异步异常处理/" data-title="nodejs异步异常处理" data-url="http://www.huguiqi.top/2020/04/29/nodejs_异步异常处理/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nodejs-异步异常处理"><span class="toc-number">1.</span> <span class="toc-text">nodejs 异步异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么解决"><span class="toc-number">1.1.</span> <span class="toc-text">怎么解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#uncaughtException事件监听"><span class="toc-number">1.1.1.</span> <span class="toc-text">uncaughtException事件监听</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用domain模块捕捉异常"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用domain模块捕捉异常</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用pm2来解决程序异步异常自动退出"><span class="toc-number">1.2.</span> <span class="toc-text">使用pm2来解决程序异步异常自动退出</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2020 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

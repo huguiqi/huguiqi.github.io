@@ -1,0 +1,840 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>根据apple官方3D touch的例子写个3D Touch功能 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="根据apple官方3D touch的例子写个3D Touch功能一，3D touch sample下载 下载地址(文档)  下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习">
+<meta name="keywords" content="3DTouch sample">
+<meta property="og:type" content="article">
+<meta property="og:title" content="根据apple官方3D touch的例子写个3D Touch功能">
+<meta property="og:url" content="http://www.huguiqi.top/2020/04/29/3d_touch例子一个/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="根据apple官方3D touch的例子写个3D Touch功能一，3D touch sample下载 下载地址(文档)  下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://7xqayq.com1.z0.glb.clouddn.com/image05763BBD-7CDE-40C9-99BB-584B16C00D0B.png">
+<meta property="og:updated_time" content="2020-04-29T03:23:56.059Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="根据apple官方3D touch的例子写个3D Touch功能">
+<meta name="twitter:description" content="根据apple官方3D touch的例子写个3D Touch功能一，3D touch sample下载 下载地址(文档)  下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习">
+<meta name="twitter:image" content="http://7xqayq.com1.z0.glb.clouddn.com/image05763BBD-7CDE-40C9-99BB-584B16C00D0B.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.058Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#根据apple官方3D-touch的例子写个3D-Touch功能"><span class="toc-number">1.</span> <span class="toc-text">根据apple官方3D touch的例子写个3D Touch功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一，3D-touch-sample下载"><span class="toc-number">1.1.</span> <span class="toc-text">一，3D touch sample下载</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-要使用3D-touch-需要满足两个必要条件"><span class="toc-number">1.1.1.</span> <span class="toc-text">1) 要使用3D touch 需要满足两个必要条件:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-如何设置（静态设置）"><span class="toc-number">1.1.2.</span> <span class="toc-text">2) 如何设置（静态设置）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自定义设置3D-touch图标"><span class="toc-number">1.1.3.</span> <span class="toc-text">自定义设置3D touch图标</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二，3D-touch的peek-amp-pop"><span class="toc-number">1.2.</span> <span class="toc-text">二，3D touch的peek&amp;pop</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
+<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/" target="_blank" rel="noopener">下载地址(文档)</a></p>
+</li>
+<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
+<a id="more"></a>
+<h5 id="1-要使用3D-touch-需要满足两个必要条件"><a href="#1-要使用3D-touch-需要满足两个必要条件" class="headerlink" title="1) 要使用3D touch 需要满足两个必要条件:"></a>1) 要使用3D touch 需要满足两个必要条件:</h5></li>
+</ol>
+<ul>
+<li>ios9以上系统</li>
+<li>iphone6以上</li>
+</ul>
+<h5 id="2-如何设置（静态设置）"><a href="#2-如何设置（静态设置）" class="headerlink" title="2) 如何设置（静态设置）"></a>2) 如何设置（静态设置）</h5><p> 根据apple官方文档api的介绍:（Define static quick actions in your app’s Info.plist file in the UIApplicationShortcutItems array.）也就是在info.plist中有的UIApplicationShortcutItems节点下面需要定义快捷按钮(图标用的是系统的)：</p>
+<p>  info.plist:  </p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"> &lt;key&gt;UIApplicationShortcutItems&lt;/key&gt;</span><br><span class="line">&lt;array&gt;</span><br><span class="line">	&lt;dict&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemIconType&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;UIApplicationShortcutIconTypeSearch&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemSubtitle&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;shortcutSubtitle1&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemTitle&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;shortcutTitle1&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemType&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;$(PRODUCT_BUNDLE_IDENTIFIER).First&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemUserInfo&lt;/key&gt;</span><br><span class="line">		&lt;dict&gt;</span><br><span class="line">			&lt;key&gt;firstShorcutKey1&lt;/key&gt;</span><br><span class="line">			&lt;string&gt;firstShortcutKeyValue1&lt;/string&gt;</span><br><span class="line">		&lt;/dict&gt;</span><br><span class="line">	&lt;/dict&gt;</span><br><span class="line">	&lt;dict&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemIconType&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;UIApplicationShortcutIconTypeShare&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemSubtitle&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;shortcutSubtitle2&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemTitle&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;shortcutTitle2&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemType&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;$(PRODUCT_BUNDLE_IDENTIFIER).Second&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemUserInfo&lt;/key&gt;</span><br><span class="line">		&lt;dict&gt;</span><br><span class="line">			&lt;key&gt;secondShortcutKey1&lt;/key&gt;</span><br><span class="line">			&lt;string&gt;secondShortcutValue1&lt;/string&gt;</span><br><span class="line">		&lt;/dict&gt;</span><br><span class="line">	&lt;/dict&gt;</span><br><span class="line">&lt;/array&gt;</span><br></pre></td></tr></table></figure>
+<p> appDelegate impl:</p>
+<ul>
+<li><p>obj-c:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> -(void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>swift:  </p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: Bool -&gt; Void)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">##### 3）动态设置</span><br><span class="line"></span><br><span class="line">* obj-c:</span><br></pre></td></tr></table></figure>
+<p>UIApplication <em>app = [UIApplication sharedApplication];<br>//1.获取shortcutItems<br>NSArray </em>existingShortcutItems = [app shortcutItems];</p>
+<p>//2.获取第0个shortcutItem<br>UIApplicationShortcutItem *oldItem = [existingShortcutItems objectAtIndex: 0];  </p>
+<p>//3.更新shortcutItems<br>//将旧的shortcutItem改变为可修改类型shortcutItem<br>UIMutableApplicationShortcutItem *mutableItem = [oldItem mutableCopy];  </p>
+<p>//修改shortcutItem的显示标题<br>[mutableItem setLocalizedTitle: @“Share”];</p>
+<p>//根据旧的shortcutItems生成可变shortcutItems数组<br>NSMutableArray *updatedShortcutItems = [existingShortcutItems mutableCopy];  </p>
+<p>//修改可变shortcutItems数组中对应index下的元素为新的shortcutItem<br>[updatedShortcutItems replaceObjectAtIndex: 0 withObject: mutableItem];  </p>
+<p>//修改应用程序对象的shortcutItems为新的数组<br>[app setShortcutItems: updatedShortcutItems];<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* swift:</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"> let shortcut3 = UIMutableApplicationShortcutItem(type: &quot;Third&quot;, localizedTitle: &quot;Play&quot;, localizedSubtitle: &quot;Will Play an item&quot;, icon: UIApplicationShortcutIcon(type: .Play), userInfo: [</span><br><span class="line">                    AppDelegate.applicationShortcutUserInfoIconKey: UIApplicationShortcutIconType.Play.rawValue</span><br><span class="line">                ]</span><br><span class="line">            )</span><br><span class="line">            </span><br><span class="line">            let shortcut4 = UIMutableApplicationShortcutItem(type: &quot;Third&quot;, localizedTitle: &quot;Pause&quot;, localizedSubtitle: &quot;Will Pause an item&quot;, icon: UIApplicationShortcutIcon(type: .Pause), userInfo: [</span><br><span class="line">                    AppDelegate.applicationShortcutUserInfoIconKey: UIApplicationShortcutIconType.Pause.rawValue</span><br><span class="line">                ]</span><br><span class="line">            )</span><br><span class="line">            </span><br><span class="line">            // Update the application providing the initial &apos;dynamic&apos; shortcut items.</span><br><span class="line">            application.shortcutItems = [shortcut3, shortcut4]</span><br></pre></td></tr></table></figure></p>
+<h5 id="自定义设置3D-touch图标"><a href="#自定义设置3D-touch图标" class="headerlink" title="自定义设置3D touch图标"></a>自定义设置3D touch图标</h5><p>官方文档给出三个必要条件：<br><br>1.使用UIApplicationShortcutItemIconFile类型声明<br></p>
+<ol>
+<li>提供的图片必须是35*35的像素</li>
+<li>图片的颜色必须是单色(single color)</li>
+</ol>
+<p>sample:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dict&gt;</span><br><span class="line">            &lt;key&gt;UIApplicationShortcutItemIconFile&lt;/key&gt;</span><br><span class="line">            &lt;string&gt;customer_3DTouch&lt;/string&gt;</span><br><span class="line">            &lt;key&gt;UIApplicationShortcutItemSubtitle&lt;/key&gt;</span><br><span class="line">            &lt;string&gt;shortcutSubtitle3&lt;/string&gt;</span><br><span class="line">            &lt;key&gt;UIApplicationShortcutItemTitle&lt;/key&gt;</span><br><span class="line">            &lt;string&gt;shortcutTitle3&lt;/string&gt;</span><br><span class="line">            &lt;key&gt;UIApplicationShortcutItemType&lt;/key&gt;</span><br><span class="line">            &lt;string&gt;$(PRODUCT_BUNDLE_IDENTIFIER).Second&lt;/string&gt;</span><br><span class="line">            &lt;key&gt;UIApplicationShortcutItemUserInfo&lt;/key&gt;</span><br><span class="line">            &lt;dict&gt;</span><br><span class="line">                &lt;key&gt;thirdShortcutKey1&lt;/key&gt;</span><br><span class="line">                &lt;string&gt;thirdShortcutValue1&lt;/string&gt;</span><br><span class="line">            &lt;/dict&gt;</span><br><span class="line">        &lt;/dict&gt;</span><br></pre></td></tr></table></figure>
+<p>customer_3DTouch：<br><img src="http://7xqayq.com1.z0.glb.clouddn.com/image05763BBD-7CDE-40C9-99BB-584B16C00D0B.png" alt="customer_3DTouch">  </p>
+<h4 id="二，3D-touch的peek-amp-pop"><a href="#二，3D-touch的peek-amp-pop" class="headerlink" title="二，3D touch的peek&amp;pop"></a>二，3D touch的peek&amp;pop</h4><p>实现3D touch的peek和pop需要三步：  </p>
+<ol>
+<li>ios9以后在UIViewController里添加了一个UIViewControllerPreviewingDelegate协议，需要实现这个delegate</li>
+<li>注册开启使用peek&amp;pop，在哪里用，sourceView就写哪个view</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self registerForPreviewingWithDelegate:self sourceView:homeCell];</span><br></pre></td></tr></table></figure>
+<p>3, 重载两个方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (nullable UIViewController *)previewingContext:(id &lt;UIViewControllerPreviewing&gt;)previewingContext viewControllerForLocation:(CGPoint)location&#123;</span><br><span class="line">    </span><br><span class="line">     Show3DViewController *childVC = (Show3DViewController *)InstantiateControllerFromXIB([Show3DViewController class]);</span><br><span class="line">//     UIViewController *childVC = [[UIViewController alloc] init];</span><br><span class="line">    </span><br><span class="line">    childVC.preferredContentSize = CGSizeMake(0.0f,300.0f);</span><br><span class="line">    </span><br><span class="line">    CGRect rect = CGRectMake(10, location.y - 10, self.view.frame.size.width - 20,20);</span><br><span class="line">    previewingContext.sourceRect = rect;</span><br><span class="line">    return childVC;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)previewingContext:(id &lt;UIViewControllerPreviewing&gt;)previewingContext commitViewController:(UIViewController *)viewControllerToCommit&#123;</span><br><span class="line">    </span><br><span class="line">     [self showViewController:viewControllerToCommit sender:self]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实例<br><br><a href="https://github.com/huguiqi/demos/tree/master/obj-c/Objc_demo" target="_blank" rel="noopener">peek&amp;pop的例子</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.huguiqi.top/2020/04/29/3d_touch例子一个/" data-title="根据apple官方3D touch的例子写个3D Touch功能 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/3月份面试题po出/" title="三月份的面试题目">
+  <strong>上一篇：</strong><br/>
+  <span>
+  三月份的面试题目</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/2）/"  title="2）">
+ <strong>下一篇：</strong><br/> 
+ <span>2）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/3d_touch例子一个/" data-title="根据apple官方3D touch的例子写个3D Touch功能" data-url="http://www.huguiqi.top/2020/04/29/3d_touch例子一个/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#根据apple官方3D-touch的例子写个3D-Touch功能"><span class="toc-number">1.</span> <span class="toc-text">根据apple官方3D touch的例子写个3D Touch功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一，3D-touch-sample下载"><span class="toc-number">1.1.</span> <span class="toc-text">一，3D touch sample下载</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-要使用3D-touch-需要满足两个必要条件"><span class="toc-number">1.1.1.</span> <span class="toc-text">1) 要使用3D touch 需要满足两个必要条件:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-如何设置（静态设置）"><span class="toc-number">1.1.2.</span> <span class="toc-text">2) 如何设置（静态设置）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自定义设置3D-touch图标"><span class="toc-number">1.1.3.</span> <span class="toc-text">自定义设置3D touch图标</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二，3D-touch的peek-amp-pop"><span class="toc-number">1.2.</span> <span class="toc-text">二，3D touch的peek&amp;pop</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2020 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

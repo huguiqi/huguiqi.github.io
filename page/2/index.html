@@ -92,502 +92,37 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/11/05/springCloud微服务做到全局配置文件动态刷新/" title="springCloud微服务做到全局配置文件动态刷新" itemprop="url">springCloud微服务做到全局配置文件动态刷新</a>
+      <a href="/2020/04/29/每位开发人员都应铭记的10句编程谚语/" title="每位开发人员都应铭记的10句编程谚语" itemprop="url">每位开发人员都应铭记的10句编程谚语</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2019-11-05T15:00:53.000Z" itemprop="datePublished"> 发表于 2019-11-05</time>
+    <time datetime="2020-04-29T03:23:56.537Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="springCloud通过cloudBus实现config动态刷新"><a href="#springCloud通过cloudBus实现config动态刷新" class="headerlink" title="springCloud通过cloudBus实现config动态刷新"></a>springCloud通过cloudBus实现config动态刷新</h1><p>springCloud中通过spring-config组件，可以实现配置文件外置在git仓库中，如果某个服务需要更改配置文件，也可以做到不重启服务，刷新此服务的配置文件。</p>
-<h3 id="config-server"><a href="#config-server" class="headerlink" title="config-server"></a>config-server</h3><p>spring-config-server 项目的<br>pom.xml:</p>
-<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+        <h1 id="每位开发人员都应铭记的10句编程谚语"><a href="#每位开发人员都应铭记的10句编程谚语" class="headerlink" title="每位开发人员都应铭记的10句编程谚语"></a>每位开发人员都应铭记的10句编程谚语</h1><p>所谓谚语，就是用言简意赅、通俗易懂的方式传达人生箴言和普遍真理的话，它们能很好地帮助你处理生活和工作上的事情。也正因如此，我才整理了10句编程谚语，每位开发人员都应该铭记他们，武装自己。\<br>\<br> 　　<strong>1. 无风不起浪</strong></p>
+<div style="text-align: center;"><br><br>\<br>\<br><br><em>别紧张，这也许只是一场消防演习\
+</em><br><br></div>
 
-    &lt;groupId&gt;com.example&lt;/groupId&gt;
-    &lt;artifactId&gt;config-server&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;jar&lt;/packaging&gt;
-
-    &lt;name&gt;config-server&lt;/name&gt;
-    &lt;description&gt;config-server&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.7.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-annotations&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-core&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
-            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
-            &lt;version&gt;1.18.0&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
-            &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
-            &lt;version&gt;1.2.49&lt;/version&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-
-&lt;/project&gt;
-</code></pre><p>ConfigServerApplication.java:</p>
-<pre><code>@SpringBootApplication
-@EnableEurekaClient
-@EnableConfigServer
-@ComponentScan(basePackages = &quot;com.example.controller&quot;)
-public class ConfigServerApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(ConfigServerApplication.class, args);
-    }
-
-
-}
-</code></pre><h4 id="config-server配置文件"><a href="#config-server配置文件" class="headerlink" title="config-server配置文件"></a>config-server配置文件</h4><p>配置文件application.yml:</p>
-<pre><code>server:
-  port: 8883
-  servlet:
-    context-path: /
-
-spring:
-  application:
-      name: config-server
-  profiles:
-      active: local
-  cloud:
-    config:
-      server:
-        git:
-          uri: http://gitlab.rios.com:8080/servers/config-repo.git
-          clone-on-start: true
-          username: sam.hu
-          password: 12345678
-          default-label: master
-
-eureka:
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${eureka.instance.hostname}:${server.port}
-    nonSecurePort: ${server.port}
-  client:
-    service-url:
-      defaultZone: http://localhost:9999/eureka
-    healthcheck:
-          enabled: true
-
-
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: &apos;*&apos;
-</code></pre><h3 id="eureka"><a href="#eureka" class="headerlink" title="eureka"></a>eureka</h3><p>pom.xml:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.example&lt;/groupId&gt;
-    &lt;artifactId&gt;eureka&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;war&lt;/packaging&gt;
-
-    &lt;name&gt;eureka&lt;/name&gt;
-    &lt;description&gt;Demo project for Spring Boot(spring cloud)&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.7.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.RELEASE&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-annotations&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-core&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
-            &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
-            &lt;version&gt;2.9.10&lt;/version&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-
-&lt;/project&gt;
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2019/11/05/springCloud微服务做到全局配置文件动态刷新/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/11/05/springCloud微服务做到全局配置文件动态刷新/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/11/05/springCloud微服务做到全局配置文件动态刷新/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/07/10/flume初探/" title="flume初探" itemprop="url">flume初探</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-07-10T15:14:00.000Z" itemprop="datePublished"> 发表于 2019-07-10</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="什么是flume"><a href="#什么是flume" class="headerlink" title="什么是flume"></a>什么是flume</h2><blockquote>
-<blockquote>
-<p>Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统，Flume支持在日志系统中定制各类数据发送方，用于收集数据；同时，Flume提供对数据进行简单处理，并写到各种数据接受方（可定制）的能力。</p>
-</blockquote>
-</blockquote>
-<p>这个定义来自百度百科。</p>
-<p>当然，由于百度的公信力与可靠性越来越差，我周边大部分的技术人员都不相信百度了，那我们就看看flume官网是怎么定义它的。</p>
-<p>官方:</p>
-<blockquote>
-<blockquote>
-<p>Flume is a distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data. It has a simple and flexible architecture based on streaming data flows. It is robust and fault tolerant with tunable reliability mechanisms and many failover and recovery mechanisms. It uses a simple extensible data model that allows for online analytic application.</p>
-</blockquote>
-</blockquote>
-<p>由于我英文与不是特别好，但是感觉和百度百科的定义应该大致相致。<br>通过google翻译为中文如下:</p>
-<blockquote>
-<blockquote>
-<p>Flume是一种分布式，可靠且可用的服务，用于有效地收集，聚合和移动大量日志数据。 它具有基于流数据流的简单灵活的架构。 它具有可靠的可靠性机制和许多故障转移和恢复机制，具有强大的容错性。 它使用简单的可扩展数据模型，允许在线分析应用程序。</p>
-</blockquote>
-</blockquote>
-<p>以下是flume官方给出的flume架构图：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1562772504860hkflis2v.png?imageslim" alt="paste image"></p>
-<p>根据这个图，我猜的大概意思应该是，入口从web服务来。一个agen由source,sink,channel组成。</p>
-<p>source对应的是入口地址定义。<br>将从source获取的数据丢到channel管道中，然后输出到sink，sink定义与配置了具体是什么存储介质来接受数据。</p>
-<p>使用flume的基本系统要求：</p>
+<p>\<br> 　　代码设计是否糟糕，从某些地方就可以看出来。比如：</p>
 <ul>
-<li>Java Runtime Environment - Java 1.8 or later</li>
-<li>Memory - Sufficient memory for configurations used by sources, channels or sinks</li>
-<li>Disk Space - Sufficient disk space for configurations used by channels or sinks</li>
-<li>Directory Permissions - Read/Write permissions for directories used by agent</li>
+<li>a. 超大类或超大函数</li>
+<li>b. 大片被注释的代码</li>
+<li>c. 逻辑重复</li>
+<li>d. If/else嵌套过深</li>
 </ul>
-<p>内存和磁盘空间都可以通过配置文件进行配置，对agent的使用的目录必须有读写权限。</p>
-<p>ps: 最近这家叫Cloudera的公司好像传出资金链断裂的消息.</p>
-<p>不过，好在它早就是Apache基金会下的一个开源项目。</p>
-<h2 id="有什么优缺点"><a href="#有什么优缺点" class="headerlink" title="有什么优缺点"></a>有什么优缺点</h2><h4 id="优点"><a href="#优点" class="headerlink" title="优点:"></a>优点:</h4><ul>
-<li>高吞吐，高可用，高可靠的数据收集工具</li>
-</ul>
-<p>Apache Flume具有高度可扩展性，可靠性，可用性，可水平扩展以及可针对不同源数据和Sink进行定制,有助于收集，汇总和移动大量的数据集。 例如Facebook，Twitter和电子商务网站产生的数据等</p>
+<p>\<br> 　　程序员们通常称它们作代码异味(Code<br>Smell)，但是就我个人认为“代码警报”这个名字更为合适一些，因为它有更高的紧迫感的含义。根本问题处理不当，终将引火烧身。\<br>\<br> 　　译注：Code<br>Smell中文译名一般为“代码异味”，或“代码味道”，它是提示代码中某个地方存在错误的一个暗示，开发人员可以通过这种smell（异味）在代码中追捕到问题。\<br>\<br>\<br> 　　<strong>2. 预防为主，治疗为辅</strong></p>
+<div style="text-align: center;"><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2019/07/10/flume初探/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/flume/">flume</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/07/10/flume初探/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/07/10/flume初探/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/06/04/springboot-kafka/" title="springboot_kafka" itemprop="url">springboot_kafka</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-06-04T08:55:00.000Z" itemprop="datePublished"> 发表于 2019-06-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="springboot-kafka集成"><a href="#springboot-kafka集成" class="headerlink" title="springboot_kafka集成"></a>springboot_kafka集成</h1><h1 id="kafka-client"><a href="#kafka-client" class="headerlink" title="kafka_client"></a>kafka_client</h1><h2 id="maven-依赖"><a href="#maven-依赖" class="headerlink" title="maven 依赖"></a>maven 依赖</h2><p>pom.xml:</p>
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;
-    &lt;artifactId&gt;kafka-clients&lt;/artifactId&gt;
-    &lt;version&gt;2.1.0&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><h2 id="安装kafka"><a href="#安装kafka" class="headerlink" title="安装kafka"></a>安装kafka</h2><p><a href="http://kafka.apache.org/" target="_blank" rel="noopener">kafka官网</a></p>
-<h3 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h3><ol>
-<li>下载kafka</li>
-</ol>
-<p>目前最新版本是2.2.0</p>
-<p><a href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.2.0/kafka_2.12-2.2.0.tgz" target="_blank" rel="noopener">下载地址</a></p>
-<pre><code>&gt; tar -xzf kafka_2.12-2.2.0.tgz
-&gt; cd kafka_2.12-2.2.0
-</code></pre><ol>
-<li>启动zooKeeper服务器</li>
-</ol>
-<p>因为kafka的运行需要zookeeper 作节点调度，所以kafka包里有zookeeper服务器的启动脚本,启动单节点的zookeeper实例:</p>
-<pre><code>kafka_2.11-2.2.1&gt; sh ./bin/zookeeper-server-start.sh config/zookeeper.properties
-    /Users/sam/Public/bigData/kafka_2.11-2.2.1/bin/kafka-run-class.sh: line 306: /usr/libexec/java_home/bin/java: Not a directory
-    /Users/sam/Public/bigData/kafka_2.11-2.2.1/bin/kafka-run-class.sh: line 306: exec: /usr/libexec/java_home/bin/java: cannot execute: Not a directory
-</code></pre><p>启动zookeeper服务器报错，说<code>kafka-run-class.sh</code>里的java_home找不到，那么vi这个文件进去定位到306行，在226行前一行插入<code>JAVA_HOME</code>：</p>
-<pre><code># Which java to use
-225 JAVA_HOME=&apos;/Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home&apos;
-226
-227 if [ -z &quot;$JAVA_HOME&quot; ]; then
-228   JAVA=&quot;java&quot;
-229 else
-230   JAVA=&quot;$JAVA_HOME/bin/java&quot;
-231 fi
-</code></pre><p>保存，再次启动zookeeper:</p>
-<pre><code>sh ./bin/zookeeper-server-start.sh config/zookeeper.properties
-</code></pre><p>控制台中打印出：</p>
-<pre><code>[2019-06-04 15:02:29,345] INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
-</code></pre><p>表示启动成功。</p>
-<ol>
-<li>启动kafka服务器</li>
-</ol>
-<p>执行：</p>
-<pre><code>sh bin/kafka-server-start.sh config/server.properties
-</code></pre><p>控制台打出：</p>
-<pre><code>[2019-06-04 15:07:19,041] INFO Awaiting socket connections on s0.0.0.0:9092. (kafka.network.Acceptor)
-[2019-06-04 15:07:19,068] INFO [SocketServer brokerId=0] Created data-plane acceptor and processors for endpoint : EndPoint(null,9092,ListenerName(PLAINTEXT),PLAINTEXT) (kafka.network.SocketServer)
-</code></pre><p>代表启动成功!!</p>
-<ol>
-<li>写一个生产者test，往kafka服务里写数据</li>
-</ol>
-<p>看代码。。。。</p>
-<ol>
-<li>写一个消费者服务，从kafka服务里获取生产都的数据，并对数据进行消费</li>
-</ol>
-<p>看代码</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2019/06/04/springboot-kafka/#more">Read More</a>
+            <a href="/2020/04/29/每位开发人员都应铭记的10句编程谚语/#more">Read More</a>
           
        </p>
     </div>
@@ -596,13 +131,13 @@ management:
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/springboot/">springboot</a><a href="/tags/kafka/">kafka</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -613,7 +148,7 @@ management:
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2019/06/04/springboot-kafka/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/06/04/springboot-kafka/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/每位开发人员都应铭记的10句编程谚语/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/每位开发人员都应铭记的10句编程谚语/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -633,638 +168,104 @@ management:
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2019/05/22/工作，生活心情整理/" title="工作，生活心情整理" itemprop="url">工作，生活心情整理</a>
+      <a href="/2020/04/29/美栈第一个迭代完成情况/" title="美栈第一个迭代完成情况" itemprop="url">美栈第一个迭代完成情况</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2019-05-22T15:03:24.000Z" itemprop="datePublished"> 发表于 2019-05-22</time>
+    <time datetime="2020-04-29T03:23:56.536Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="最近心情很焦虑"><a href="#最近心情很焦虑" class="headerlink" title="最近心情很焦虑"></a>最近心情很焦虑</h1><p>可能是因为步入中年，每个中年人都会有这种感觉吧。<br>曾经年少时觉得，中年对我而言还太早，觉得就算自己到中年，绝对不会像网上相关文章说的那样惨，但是现在，我觉得很有可能会更惨。</p>
-<p>2017年10月份，我结婚了，那一年，刚好30岁，那一年在事业上也是我最迷茫的一年。幸好，在生活上，我找到了目标，结束了我半人的生活。我很感谢我老婆，也很感谢我岳父岳母，让我感觉很幸福。</p>
-<p>2018年3月12日凌晨2点多，我可爱的女儿诞生了，从那一刻起，我觉得我一定要更努力赚钱，为女儿将来有更多的人生选择。因为，我小时候的选择太少了，物质条件太贫瘠了。</p>
-<pre><code>老师告诉我，读书是唯一途径，但是，当年我爸爸那一代人普遍觉得，读书没什么用，我那时就很矛盾，我想把书读好，但是我心里经常又会质疑老师说的话，觉得老师在骗人，读书有用的话，为什么他们要做老师，而且当时我遇到很多老师素质并不好，读高中时，我对老师这个职业是最讨厌的，因为他们当中很多人非常的虚伪，甚至有些老师现在回想看来，连起码的做人底线都没有。所以我从高中开始，就发誓，永远不要做老师，因为老师这个职业在我看来，是对自己最大的侮辱，可能是这个社会的悲哀吧，也可能是中国教育的失败吧，曾经的师生之道，荡然无存，师无德，生无礼。我希望我的女儿将来也不要做教师，因为教师在我心里，是最肮脏的职业。
-</code></pre><p> 家庭的负担从女儿出生开始，我感觉每个月的支出除去房贷，确实压力不小，如果出现了金融危机，我失业了，对家庭是个不小的打击。我觉得，应该提高家庭的抗风险能力。</p>
-<ul>
-<li><p>如何提升搞风险能力呢？</p>
-<ul>
-<li>基金</li>
-</ul>
+        <h1 id="美栈第一个迭代完成情况"><a href="#美栈第一个迭代完成情况" class="headerlink" title="美栈第一个迭代完成情况"></a>美栈第一个迭代完成情况</h1><div><br><br>\<br><br></div>
+
+<div><br><br>1，查询点评<br><br></div>
+
+<div><br><br>1），添加酒店名称查询<br><br></div>
+
+<div><br><br>2），修改改为审核<br><br></div>
+
+<div><br><br>3），详情添加图片展示(不只是一张，后期看情况做成文本与图片混编)<br><br></div>
+
+<div><br><br>4），添加按时间查询<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/美栈第一个迭代完成情况/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/美栈第一个迭代完成情况/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/美栈第一个迭代完成情况/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/申请企业证书需要的资料/" title="申请企业证书需要的资料" itemprop="url">申请企业证书需要的资料</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.535Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="申请企业证书需要的资料"><a href="#申请企业证书需要的资料" class="headerlink" title="申请企业证书需要的资料"></a>申请企业证书需要的资料</h1><p> 苹果技术电话支持：4006701855</p>
+<ol>
+<li><p>有国际支付功能的银行卡，并且里面有99美元（公司类型的账号需要支付99$)  </p>
 </li>
-</ul>
-<p>这个问题我一直在摸索中，其中，我从2017年开始，就投资了某p2p平台，其中有一家投资的平台暴雷，损失了一万多块钱,~_~ 我很伤心。<br>后来，2018年底开始基金定投，每两周定投200元到我选择的基金中，到目前为止，我收益了1500多元，因为2019年中美贸易战，A股市场一直在跌，估计这1000多块钱还是会跌回去，但是长期来看，中美贸易战结束后，我相信会迎来一波春天，我决定坚持下去。</p>
-<p>直接买股票，赚得快。但是目前我自认为还没有能力预知股市的能力，所以直接买股票，至少这两年我不会做。</p>
-<pre><code>* 网红
-</code></pre><p>之前的一个朋友已经开始了网红之路了，目前他创作的视频点击率已经超过了27万次，马上就可以接广告了。但是，对于我来说，没时间做这个，也没他有创意去做这个。但是，我媳妇已经在积累粉丝了，他每天的口头蝉就是：”等我以后火了，月放十万，你就给我跪下叫爸爸”!。    </p>
-<ul>
-<li>父母家庭不和谐</li>
-</ul>
-<p>我父母从我记事起，他们就在不停的吵架，打架，一直到我母亲瘫痪在床，甚至前天，我妹妹打电话给我，说和我父亲吵架了，吵得异常凶狠，互相骂得就像没人知道他们是父女，就像仇人一样。</p>
-<p>为什么？一个家庭会这样，半辈子都在争吵中渡过？这是一个正常家庭吗？</p>
-<p>我的父亲是个脾气暴躁的人，是个蛮横不讲理的人，是个霸道且长年家暴的人，同时又是一个不聪明，却又固执的人。一提起他，我觉得没有人能跟他正常生活超过3天。在心里面，我恨他。我记得，小时候，有一天晚上不知道是因为什么事，我被他揍了，当时心理非常难受，觉得为什么让我出生在这样的家庭，为什么让我面对一个这样的父亲，当天晚上，我甚至都想拿起菜刀，趁他熟睡的时候，送他走了，也算是为家庭做出贡献，但理智让我放下了刀，他毕竟是我父亲。</p>
-<p>我的妹妹从小生活在我父母身边，他读完初中，因为讨厌上学(经常跟同学逃课去县城里玩)，而被送到了我父母工作的城市—-云南曲靖，那个时候我是非常反对我妹妹辍学去云南给我父母帮忙做生意的，但只怪我当时无能力改变。</p>
-<p>当时心中一直在想，我妹妹将来肯定会后悔当初的决定，只怕将来会埋怨父母，埋怨我没有拦着他。其实我妹妹很聪明，如果让他学一门技术，其实他能很快学会，但是，错就错在，生在这样一个家庭。<br>我妹妹的性格现在让我感觉完全就是我父亲的性格，脾气大，不听劝，偏执，固执，一根筋，没耐性，不爱干净。<br>我只能说，摊上这种父母，我无能为力。</p>
-<p>我从小是很不听话的那种小孩，因为生活在这样的家庭里，从初中到大学，都没有和父母生活在一起，我能够分辨出哪些是对的，哪些我是觉得绝对不能听从的。所以，在父母和外人看来，我是非常不听话的，而且每年只要我父母回来，我都会和他们吵架，他们说什么，我不会全部都认为是对的。</p>
-<p>我的母亲其实脾气也不小，虽然你看着他感觉很可怜，但是套用鲁讯的一句话：”可怜之人必有可恨之处”!</p>
-<p>我的母亲非常唠叨，而且话也非常多，最要命的是，说话从来不过脑子，也从来不长记性，一辈子都不长记性，不过脑子，脾气还不小。</p>
-<p>遇到我父亲这种人，肯定不是被骂就是被凶，如果来回吵，肯定就动手了，不该说的别说，永远不知道闭嘴，你知道他蠢，你又说出来，他不恼凶成怒吗？你知道他做错了，你一直说，他不恼凶成怒吗？</p>
-<p>希望我不会成为一个那样的父亲，如果哪一天，我发现自己也变成那样，我觉得应该从楼上跳下去自杀，因为如果我变成这样，会对自己的孩子产生一生的阴影。<br>会直接影响孩子的未来健康成长，如果是这样，不如死了算了。</p>
-<h2 id="工作琐事分享"><a href="#工作琐事分享" class="headerlink" title="工作琐事分享"></a>工作琐事分享</h2><ul>
-<li>年纪越大，耐心越差</li>
-</ul>
-<p>之前听过一句话，说年纪越大，耐心越差。年经越大，越不想听别人说话。</p>
-<p>最近在工作中感受就越来越深了，虽然我很尊重我的领导，也很认同他的工作方式，但是，有时候真的会让我很崩溃。因为，在一些工作中，从头到尾都是他在说，一直说，几乎不给其它人说话的机会，也几乎没有耐心听别人的完整方案，也经常提出一些没经过分析的方案，如果不挑战他吧，按照他说的做，可能做的时候就会入大坑，事后总不能说，”按你说的做的，现在有问题了，没法做下去了“！，但这个时候你就完全被他左右了，被他框死了。如果挑战他吧，又觉得事太多，给他难堪。我觉得，我的领导可能会慢慢的变成了他以前讨厌的人，我真的很惋惜。</p>
-<ul>
-<li>年纪越大，越自负</li>
-</ul>
-<p>这个可以理解，因为工作经验会比别人要多，确实在很多地方比较有经验，从而也是非常自信。但请注意，不是全部领域，如果把这种心态上升到权威，上升到绝对自信，我觉得这会打击很多人的自信心，让他们有疑问都不敢提，对领导的方案没有怀疑，其实这对整个工作是没有好处的。对员工而言，也是没有好处的，因为员工得不到锻炼，而解决方案也不一定达到最优。只有在不断的质疑中权衡出来的方案，才是团队的最优方案。</p>
-<h2 id="如何平衡生活与工作压力"><a href="#如何平衡生活与工作压力" class="headerlink" title="如何平衡生活与工作压力"></a>如何平衡生活与工作压力</h2><p>这两天一直想回老家看看我母亲，看看她，也只能是看看她。<br>但是，现在想想，对于现状的改变，没有任何作用，既然没有作用，那就算了吧，等国庆节再带着我的小可爱一起回去吧，既然改变不了，又何须徒添伤悲呢？</p>
-<p>努力工作吧，为自己的这个新家应对更大的挑战而努力吧！！！！<br>工作上，质疑领导的事情还是少做吧！！！</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/05/22/工作，生活心情整理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/05/22/工作，生活心情整理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/04/21/spring-aop-annotation/" title="spring+aop+annotation" itemprop="url">spring+aop+annotation</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-04-21T13:51:05.000Z" itemprop="datePublished"> 发表于 2019-04-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="spring-boot-aop"><a href="#spring-boot-aop" class="headerlink" title="spring-boot-aop"></a>spring-boot-aop</h1><p>spring boot + aop</p>
-<h1 id="AOP原理详解"><a href="#AOP原理详解" class="headerlink" title="AOP原理详解"></a>AOP原理详解</h1><p>我们都知道，aop的原理就是动态代理，所以首先来介绍下java的动态代理</p>
-<h2 id="动态代理方式"><a href="#动态代理方式" class="headerlink" title="动态代理方式"></a>动态代理方式</h2><p>主要有两种：</p>
-<ol>
-<li>jdk自带动态代理</li>
-<li>cglib</li>
+<li><p>接收和激活信息的邮箱（申请新开一个技术部的专用邮箱:IT@shfugu.com）</p>
+</li>
+<li>公司法人代表的姓名、法人头衔</li>
+<li>公司营业执照副本(电子版)</li>
+<li>公司联系电话  </li>
 </ol>
-<h3 id="JDK自带动态代理"><a href="#JDK自带动态代理" class="headerlink" title="JDK自带动态代理"></a>JDK自带动态代理</h3><blockquote>
-<blockquote>
-<p>JDK自带的动态代理方式必须要被代理对象实现某些接口；</p>
-</blockquote>
-</blockquote>
-<p>JDK动态代理所用到的代理类在程序调用到代理类对象时才由JVM真正创建，JVM根据传进来的 业务实现类对象 以及 方法名 ，动态地创建了一个代理类的class文件并被字节码引擎执行，然后通过该代理类对象进行方法调用。我们需要做的，只需指定代理类的预处理、调用后操作即可。</p>
-<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><ol>
-<li>实现InvocationHandler接口</li>
-<li>调用java.lang.reflect.Proxy类的newProxyInstance或者getProxyClass方法</li>
-</ol>
-<p>将被代理类传给即将生成的代理类<br>Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),this);</p>
-<ol>
-<li>重载invoke方法，将要处理的统一事件填入</li>
-</ol>
-<pre><code>public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {.....}
-</code></pre><h4 id="关键源码分析"><a href="#关键源码分析" class="headerlink" title="关键源码分析"></a>关键源码分析</h4><pre><code>newProxyInstance ---&gt; getProxyClass0 ---&gt;proxyClassCache.get(loader, interfaces)---&gt;Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));----&gt;ProxyClassFactory.apply 
-</code></pre><h4 id="apply方法里关键代码："><a href="#apply方法里关键代码：" class="headerlink" title="apply方法里关键代码："></a>apply方法里关键代码：</h4><p>//生成代理类class文件</p>
-<pre><code>long num = nextUniqueNumber.getAndIncrement();     
-String proxyName = proxyPkg + proxyClassNamePrefix + num; 
-byte[] proxyClassFile = ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);
-</code></pre><h3 id="CGLIB"><a href="#CGLIB" class="headerlink" title="CGLIB"></a>CGLIB</h3><p>cglib是针对类来实现代理的，原理是对指定的业务类生成一个子类，并覆盖其中业务方法实现代理。因为采用的是继承，所以不能对final修饰的类进行代理。</p>
-<p>demo中使用的是apache实现的cglib动态代理类：</p>
-<p>github地址：</p>
-<pre><code>https://github.com/cglib/cglib
-</code></pre><p>在这个项目中，我用apache的cglib实现去模拟spring aop的工作原理</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2019/04/21/spring-aop-annotation/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/04/21/spring-aop-annotation/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/04/21/spring-aop-annotation/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/12/jenkins重置jop的buildNum/" title="jenkins重置jop的buildNum" itemprop="url">jenkins重置jop的buildNum</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-03-12T10:31:00.000Z" itemprop="datePublished"> 发表于 2019-03-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <ol>
-<li>Jenkins -&gt; Manage Jenkins</li>
-<li>脚本命令行</li>
-</ol>
-<p>执行：</p>
-<pre><code>resetNumberTarget = 1
-item = Jenkins.instance.getItemByFullName(&quot;run-bzy-hotel&quot;)
-//println(item)
-item.builds.each() { build -&gt;
-  //println(build)
-  //println(build.number)
-  if(build.number &gt;= resetNumberTarget)
-  {
-    println(&quot;About to Delete &apos;&quot; + build + &quot;&apos;&quot;)    
-    build.delete()  
-  }
-}
-item.updateNextBuildNumber(resetNumberTarget)
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/jenkins/">jenkins</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/03/12/jenkins重置jop的buildNum/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/12/jenkins重置jop的buildNum/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/12/spring-security oauth2 集成 swagger 2.9.2/" title="spring-security oauth2 集成 swagger 2.9.2" itemprop="url">spring-security oauth2 集成 swagger 2.9.2</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-03-12T03:56:00.000Z" itemprop="datePublished"> 发表于 2019-03-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="pring-security-oauth2-集成-swagger-2-9-2"><a href="#pring-security-oauth2-集成-swagger-2-9-2" class="headerlink" title="pring-security oauth2 集成 swagger 2.9.2"></a>pring-security oauth2 集成 swagger 2.9.2</h1><p>pom.xml:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?\&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;\&gt;
-&lt;modelVersion\&gt;4.0.0\&lt;/modelVersion\&gt;
-
-&lt;groupId\&gt;com.xxx.xxx\&lt;/groupId\&gt;
-&lt;artifactId\&gt;bzy-auth\&lt;/artifactId\&gt;
-&lt;version\&gt;1.0\&lt;/version\&gt;
-&lt;packaging\&gt;jar\&lt;/packaging\&gt;
-
-&lt;name\&gt;xxx-auth\&lt;/name\&gt;
-&lt;description\&gt;xxx-auth project for sign,auth\&lt;/description\&gt;
-
-&lt;parent\&gt;
-&lt;groupId\&gt;com.xxxl.xxx\&lt;/groupId\&gt;
-&lt;artifactId\&gt;xxx-parent\&lt;/artifactId\&gt;
-&lt;version\&gt;1.0.0-SNAPSHOT\&lt;/version\&gt;
-&lt;/parent\&gt;
-
-&lt;dependencies\&gt;
-
-&lt;dependency\&gt;
-&lt;groupId\&gt;com.hhotel.bzy\&lt;/groupId\&gt;
-&lt;artifactId\&gt;bzy-common-swagger\&lt;/artifactId\&gt;
-&lt;version\&gt;${common.swagger.version}\&lt;/version\&gt;
-&lt;type\&gt;jar\&lt;/type\&gt;
-&lt;/dependency\&gt;
-
-&lt;dependency\&gt;
-&lt;groupId\&gt;org.springframework.cloud\&lt;/groupId\&gt;
-&lt;artifactId\&gt;spring-cloud-starter-netflix-eureka-client\&lt;/artifactId\&gt;
-&lt;/dependency\&gt;
-
-
-&lt;dependency\&gt;
-&lt;groupId\&gt;org.springframework.cloud\&lt;/groupId\&gt;
-&lt;artifactId\&gt;spring-cloud-starter-security\&lt;/artifactId\&gt;
-&lt;/dependency\&gt;
-&lt;dependency\&gt;
-&lt;groupId\&gt;org.springframework.security.oauth.boot\&lt;/groupId\&gt;
-&lt;artifactId\&gt;spring-security-oauth2-autoconfigure\&lt;/artifactId\&gt;
-&lt;version\&gt;2.1.1.RELEASE\&lt;/version\&gt;
-&lt;/dependency\&gt;
-
-&lt;/dependencies\&gt;
-
-
-
-
-&lt;/project\&gt;
-</code></pre><p>SwaggerConfig:</p>
-<pre><code>package com.xxx.xxx.auth.config;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.AuthorizationCodeGrantBuilder;
-import springfox.documentation.builders.OAuthBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.\*;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.Arrays;
-
-/\*\*  \* Created by sam on 2019/3/11.
-     */
-    @Configuration
-    @EnableSwagger2
-    public class SwaggerAuthConfig {
-
-    @Value(&quot;${bzy.swagger-enable}&quot;)
-    private Boolean swaggerEnable;
-
-    @Value(&quot;${bzy.swagger-auth-url}&quot;)
-    private String authServerUrl;
-
-    @Value(&quot;${bzy.security-auth2.clientId}&quot;)
-    private String clientId;
-
-    @Value(&quot;${bzy.security-auth2.clientId}&quot;)
-    private String secretKey;
-
-    public SwaggerAuthConfig() {
-
-    }
-    @Bean
-    public Docket api() {
-    return new Docket(DocumentationType.SWAGGER_2)
-    .enable(this.swaggerEnable.booleanValue())
-    .select()
-    .apis(RequestHandlerSelectors.any())
-    .paths(PathSelectors.any())
-    .build()
-    .securitySchemes(Arrays.asList(securityScheme()))
-    .securityContexts(Arrays.asList(securityContext()));
-    }
-
-    @Bean
-    public SecurityConfiguration security() {
-    return SecurityConfigurationBuilder.builder()
-    .clientId(clientId)
-    .clientSecret(secretKey)
-    .scopeSeparator(&quot; &quot;)
-    .useBasicAuthenticationWithAccessCodeGrant(true)
-    .build();
-    }
-
-
-    private SecurityScheme securityScheme() {
-    GrantType grantType = new AuthorizationCodeGrantBuilder()
-    .tokenEndpoint(new TokenEndpoint(authServerUrl + &quot;/token&quot;, &quot;oauthtoken&quot;))
-    .tokenRequestEndpoint(
-    new TokenRequestEndpoint(authServerUrl + &quot;/authorize&quot;, clientId, secretKey))
-    .build();
-
-    SecurityScheme oauth = new OAuthBuilder().name(&quot;spring_oauth&quot;)
-    .grantTypes(Arrays.asList(grantType))
-    .scopes(Arrays.asList(scopes()))
-    .build();
-    return oauth;
-    }
-
-    private AuthorizationScope[]() scopes() {
-    AuthorizationScope[]() scopes = {
-    new AuthorizationScope(&quot;read&quot;, &quot;for read operations&quot;),
-    new AuthorizationScope(&quot;write&quot;, &quot;for write operations&quot;),
-    new AuthorizationScope(&quot;all&quot;, &quot;for all operation API&quot;) };
-    return scopes;
-    }
-
-    private SecurityContext securityContext() {
-    return SecurityContext.builder()
-    .securityReferences(
-    Arrays.asList(new SecurityReference(&quot;spring_oauth&quot;, scopes())))
-    .forPaths(PathSelectors.any())
-    .build();
-    }
-    }
-</code></pre><p><a href="https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api" target="_blank" rel="noopener">参考文章</a></p>
-<p><a href="https://www.xncoding.com/2017/07/08/spring/sb-swagger2.html" target="_blank" rel="noopener">优秀博客</a></p>
-<p><a href="https://www.cnblogs.com/bndong/p/10037197.html" target="_blank" rel="noopener">优秀博客</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/spring-security-oauth2-swagger2-9-2/">spring-security oauth2 swagger2.9.2</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/03/12/spring-security oauth2 集成 swagger 2.9.2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/12/spring-security oauth2 集成 swagger 2.9.2/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/03/01/微服务与SOA/" title="微服务与传统垂直架构和SOA比较" itemprop="url">微服务与传统垂直架构和SOA比较</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-03-01T07:25:05.000Z" itemprop="datePublished"> 发表于 2019-03-01</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="传统垂直架构"><a href="#传统垂直架构" class="headerlink" title="传统垂直架构"></a>传统垂直架构</h2><p>传统垂直架构一般是在业务量非常小，业务系统非常简单的系统架构中使用，<br>在这个阶段一般采用SSH，SSM或者spring+mybatis）框架作为项目的关键技术，Struts负责web层逻辑控制、Spring负责业务层管理Bean、Hibernate/mybatis负责数据库操作进行封装，持久化数据。</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1551425267404h53ty19h.png?imageslim" alt="paste image"></p>
-<p>如果公司进一步的做大，垂直子系统会变的越来越多，系统和系统之间的调用关系呈指数上升的趋势。</p>
-<p>在这样的背景下，很多公司都会考虑服务的SOA化。</p>
-<h2 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h2><p>软件即服务，将单个业务软件系统作为接口提供服务。</p>
-<p>SOA代表面向服务的架构，将应用程序根据不同的职责划分为不同的模块，不同的模块直接通过特定的协议和接口进行交互。这样使整个系统切分成很多单个组件服务来完成请求，当流量过大时通过水平扩展相应的组件来支撑，所有的组件通过交互来满足整体的业务需求。</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1551425561530q5t2toln.png?imageslim" alt="paste image"></p>
-<p>SOA缺点；</p>
-<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><p>微服务架构是 SOA 架构思想的一种扩展，更加强调服务个体的独立性、拆分粒度更小。<br>与SOA相比，有以下区别：</p>
-<ul>
-<li>微服务架构强调业务系统需要彻底的组件化和服务化，一个组件就是一个产品，可以独立对外提供服务微服务。</li>
-<li>不再强调传统SOA架构里面比较重的ESB企业服务总线</li>
-<li>微服务强调每个微服务都有自己独立的运行空间，包括数据库资源。</li>
-<li>微服务架构本身来源于互联网的思路，因此组件对外发布的服务强调了采用HTTP Rest API的方式来进行微服务的切分粒度会更小。</li>
-</ul>
-<p>微服务优点：</p>
-<ol>
-<li>通过分解巨大单体应用为多个服务方法解决了复杂性问题。</li>
-<li>微服务架构模式使得每个微服务独立部署，开发者不再需要协调其它服务部署对本服务的影响。</li>
-<li>微服务架构模式使得每个服务可独立扩展。</li>
-<li>微服务可有效的拆分应用，实现敏捷开发和部署。</li>
-</ol>
-<p>不足：</p>
-<h2 id="为什么选择spring-cloud"><a href="#为什么选择spring-cloud" class="headerlink" title="为什么选择spring cloud"></a>为什么选择spring cloud</h2><ol>
-<li>Spring Cloud来源于Spring，质量、稳定性、持续性都可以得到保证。</li>
-<li>Spirng Cloud天然支持Spring Boot，更加便于业务落地。</li>
-<li>Spring Cloud发展非常的快，从16年开始接触的时候相关组件版本为1.x，到现在已经发布了2.1.3系列</li>
-<li>Spring Cloud是Java领域最适合做微服务的框架。相比于其它框架,Spring Cloud对微服务周边环境的支持力度最大。对于中小企业来讲，使用门槛较低。Spring Cloud　是微服务架构的最佳落地方案</li>
-</ol>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/03/01/微服务与SOA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/01/微服务与SOA/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/22/跟黑哥一起学kafka-一/" title="跟黑哥一起学kafka(一)" itemprop="url">跟黑哥一起学kafka(一)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-02-22T02:58:12.000Z" itemprop="datePublished"> 发表于 2019-02-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="跟黑哥一起学kafka-一"><a href="#跟黑哥一起学kafka-一" class="headerlink" title="跟黑哥一起学kafka(一)"></a>跟黑哥一起学kafka(一)</h1><h2 id="什么是kafka"><a href="#什么是kafka" class="headerlink" title="什么是kafka"></a>什么是kafka</h2><p>官方原文是这样的：</p>
-<blockquote>
-<blockquote>
-<p>Kafka® is used for building real-time data pipelines and streaming apps. It is horizontally scalable, fault-tolerant, wicked fast, and runs in production in thousands of companies.</p>
-</blockquote>
-</blockquote>
-<p>kafka是用作构建处理实时数据管道和流式数据的应用。<br>它是可以水平扩展的，容错的，快速反应的，被成千上万家公司应用于生产的应用。</p>
-<p>这个解析好生硬啊，官方还给了一张图：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550805309682duugdu6c.png?imageslim" alt="paste image"></p>
-<p>这句话不太好理解，可能语文不太好。<br>不管了，</p>
-<h2 id="用来解决什么问题"><a href="#用来解决什么问题" class="headerlink" title="用来解决什么问题"></a>用来解决什么问题</h2><h2 id="kafka主要功能有哪些"><a href="#kafka主要功能有哪些" class="headerlink" title="kafka主要功能有哪些"></a>kafka主要功能有哪些</h2><h2 id="安装-amp-使用"><a href="#安装-amp-使用" class="headerlink" title="安装&amp;使用"></a>安装&amp;使用</h2><ol>
-<li>源码安装</li>
-<li>docker</li>
-<li>安装包</li>
-</ol>
-<p>我推荐使用docker安装，省时，省力。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2019/02/22/跟黑哥一起学kafka-一/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/22/跟黑哥一起学kafka-一/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2019/02/20/在google上开通开发者时填入的招商银行双币卡疑似被盗刷/" title="在google上开通开发者时填入的招商银行双币卡疑似被盗刷" itemprop="url">在google上开通开发者时填入的招商银行双币卡疑似被盗刷</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2019-02-20T08:26:00.000Z" itemprop="datePublished"> 发表于 2019-02-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>今天在开通google cloud 的时候，填写了信用卡信息(因为是必填),顺利开通了google cloud并申请了一台vps vm实例用来作shadowsocks 服务器。</p>
-<p>但是，过了一会突然发现招商银行信用卡中心给我微信发了两条交易提醒：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550651474728pkwlcyq1.png?imageslim" alt="paste image"></p>
-<p>第一感觉就是不是信用卡被盗了？而且是在google上泄漏出去的，这很严重！！！</p>
-<p>网上查了一下，原来是google不支持中国（P.R.C），所以只能”被”成为香港（Hong.Kong）公民了,开通了Visa验证，购买后,就会有以下信息：</p>
-<pre><code>您尾号XXXX的招行信用卡于1月21日10时15分网上交易当地币8.00元；
-</code></pre><p>因为我只是开通开发者成为开发者，并没有真正购买任何商品，只是作了一下信用卡绑定，这可能是google绑定招行双币卡作了一笔会退还的交易，而我注册的时候选择的是居住地在香港，那8元当地币就是港币，当然，它会在几天内还给你，你不需要担心，详见Google的解释：</p>
-<pre><code>Authorizations 
-Authorizations occur between our billing system and your bank&apos;s billing system to ensure that the card is valid and the necessary funds are available in your account before the order is charged. Because the order has been cancelled, the pending authorization will not result in a charge. 
-You may also notice a $1.00 transaction from Google, which is actually a pending authorization request between our billing system and the bank that issued your credit or debit card, so you won&apos;t end up paying the extra $1.00. 
-When you check your bank account or credit card statement, payment authorizations are often listed as &quot;pending.&quot; These transactions might remain in your account between 1-14 business days, depending on your card-issuing bank. Please keep in mind they are authorization requests only, not actual charges. 
-Authorizations can remain in your account anywhere from 24 hours up to 14 business days, depending on the bank. You may contact your bank to confirm the charge for your purchase with Google or to check on the authorization status.
-</code></pre><p>所以，后面又收到一条交易失败的提醒，吓死老子了，我几千万的资产就可能成负的了。。。。。。</p>
+<p>这些是苹果公司在注册公司的开发者帐号时需要用到与核实的信息</p>
 
         
         
@@ -1277,9 +278,14 @@ Authorizations can remain in your account anywhere from 24 hours up to 14 busine
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
 </div>
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ios-developer-upload/">ios developer upload</a>
+  </div>
 
 </div>
 
@@ -1289,7 +295,519 @@ Authorizations can remain in your account anywhere from 24 hours up to 14 busine
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2019/02/20/在google上开通开发者时填入的招商银行双币卡疑似被盗刷/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/20/在google上开通开发者时填入的招商银行双币卡疑似被盗刷/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/申请企业证书需要的资料/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/申请企业证书需要的资料/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/下载花生壳，注册域名。/" title="下载花生壳，注册域名。" itemprop="url">下载花生壳，注册域名。</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.534Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="下载花生壳，注册域名。"><a href="#下载花生壳，注册域名。" class="headerlink" title="下载花生壳，注册域名。"></a>下载花生壳，注册域名。</h1><p><strong><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: 宋体;">下载花生壳，注册域名。</span></strong><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  \<br> 1</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">）到</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><a href="http://www.oray.net/" target="_blank" rel="noopener"><span style="font-family: 宋体;">http://www.oray.net</span></a></span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">下载安装花生壳的客户端。然后运行花生壳软件，点击</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">“</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">注册</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Oray</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">护照</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">”</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">，根据弹出注册护照窗口提示进行注册。注册</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Oray</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">护照完成后，使用所注册的护照名称和密码填入花生壳软件中进行登陆。</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  \<br><a href="http://photo.it.com.cn/photo.htm?http://www.oray.net/Help/Samples/images/4_02/Help_Samples_4_02_clip_image007.jpg" target="_blank" rel="noopener"></a></span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">2)</span><span <!--more--=""><br>lang=”ZH”<br>style=”font-size: 10.5pt; color: rgb(51, 51, 51);”&gt;右击</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">“</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">免费域名</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">”</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">，来注册一个免费域名。这样以后不管上网后的</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">IP</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">地址怎么变化，只要记住该域名就可以连接相对应的</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">IP</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">地址了，方便极了。</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  \<br> 3)  </span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">根据提示激活上一步所申请的免费域名花生壳动态</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">DNS</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">服务。当激活了域名以后时候，花生壳软件已经在线了。我们所申请的免费域名已经绑定到当前的公网</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">IP</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">地址，互联网可通过所申请的域名直接访问到当前的公网</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">IP</span><span lang="ZH" style="font-size: 10.5pt; color: rgb(51, 51, 51);">了。</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">（现在是申请后就自动激活了）</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">  </span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Tomcat</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">的相关配置：</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">安装好</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Tomcat</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">，在环境变量设</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">TOMCAT_HOME</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">为</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">jdk</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">的路径，在</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Tomcat</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">的主目录下，</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">conf</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">目录下找到</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">server.xml,</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">找到</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">&lt;Connector<br>port=”8080” maxHttpHeaderSize=”8192”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>                            <span>  </span></span>maxThreads=”150”<br>minSpareThreads=”25” maxSpareThreads=”75”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>                            <span>  </span></span>enableLookups=”false”<br>redirectPort=”8443” acceptCount=”100”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>                            <span>  </span></span>connectionTimeout=”20000”<br>disableUploadTimeout=”true” /&gt;,</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">把</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">port=”8080”</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改为</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">port=”80”</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">，也可修改为其它端口，注意要和端口映射设相同。</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">&lt;Engine<br>name=”Catalina” defaultHost=”localhost”&gt;</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改为</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">把在</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">defaultHost</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">的“</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">localhost”</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改为自己申请的域名</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">&lt;Host<br>name=”localhost” appBase=”webapps”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>            <span>  </span></span>unpackWARs=”true”<br>autoDeploy=”true”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>            <span>  </span></span>xmlValidation=”false”<br>xmlNamespaceAware=”false”&gt;</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">把</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">&lt;Host<br>name=”localhost” appBase=”webapps”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>            <span>  </span></span>unpackWARs=”true”<br>autoDeploy=”true”</span></p>
+<p><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;"><span>            <span>  </span></span>xmlValidation=”false”<br>xmlNamespaceAware=”false”&gt;</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">把</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Host<br>name</span><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">修改为自己申请的域名。</span></p>
+<p><span style="font-size: 10.5pt; color: rgb(51, 51, 51);">设置好要重启</span><span lang="EN-US" style="font-size: 10.5pt; color: rgb(51, 51, 51); font-family: Arial;">Tomcat.</span></p>
+<p><span style="font-family: 宋体;">端口映射（只限于内网使用，</span><span lang="ZH" style="color: rgb(51, 51, 51); font-family: 宋体;">如果本机是直接</span><span lang="EN-US" style="color: rgb(51, 51, 51); font-family: Arial;">ADSL</span><span lang="ZH" style="color: rgb(51, 51, 51); font-family: 宋体;">拨号上网，则无需端口映射。</span><span style="font-family: 宋体;">）</span></p>
+<p><span style="font-family: 宋体;">登录到</span><span lang="EN-US"><a href="http://192.168.1.1/" target="_blank" rel="noopener">http://192.168.1.1</a></span><span style="font-family: 宋体;">，输入帐号密码，在左边“转发规则</span><span lang="EN-US">–&gt;</span><span style="font-family: 宋体;">虚拟服务器，中间</span><span lang="EN-US">IP</span><span style="font-family: 宋体;">地址输入自己电脑的内部网址，输入一个服务端口，这要和</span><span lang="EN-US">Tomcat</span><span style="font-family: 宋体;">的</span><span lang="EN-US">Port</span><span style="font-family: 宋体;">端口一致，最方便是输入</span><span lang="EN-US">80</span><span style="font-family: 宋体;">，这样输入网址时不用输入端口号。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span style="font-family: 宋体;">保存，有的要重启路由器。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span style="font-family: 宋体;">注意防火墙，如果不行，可先关了防火墙，最后把相关端口设为例外。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span style="font-family: 宋体;">输入</span><span lang="EN-US">http://+</span><span style="font-family: 宋体;">域名</span><span lang="EN-US">+</span><span style="font-family: 宋体;">端口</span><span lang="EN-US">+jsp</span><span style="font-family: 宋体;">文件</span></p>
+<p><span style="font-family: 宋体;">如</span><span lang="EN-US"><a href="http://jisou.eicp.net:80/index.jsp" target="_blank" rel="noopener">http://jisou.eicp.net:80/index.jsp</a></span></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/下载花生壳，注册域名。/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/下载花生壳，注册域名。/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/建立你自己的本地仓库(Maven仓库管理-Nexus)/" title="建立你自己的本地仓库(Maven仓库管理-Nexus)" itemprop="url">建立你自己的本地仓库(Maven仓库管理-Nexus)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.529Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="建立你自己的本地仓库-Maven仓库管理-Nexus"><a href="#建立你自己的本地仓库-Maven仓库管理-Nexus" class="headerlink" title="建立你自己的本地仓库(Maven仓库管理-Nexus)"></a>建立你自己的本地仓库(Maven仓库管理-Nexus)</h1><p>建立你自己的本地仓库(Maven仓库管理-Nexus)\<br>前面我讲到为什么要使用Maven,<br>Maven的安装，以及如何与IDE集成等，前面的介绍可以认为是一个Hello<br>World，教你如何利用Maven来进行项目开发，如何结合IDE实现一键式DEBUG，从现在开始我们开始深入探讨Maven的一些高级内容。\<br>\<br>这一个章节，我分两部分来介绍，首先介绍一下Maven的仓库，然后在说一下如何通过Nexus来建立我们自己的仓库，以及如何使用。\<br>\<br>Maven仓库\<br>在以前使用Ant的时候，我们会建立一个lib目录在存放我们的jar包，比如项目所依赖的第三方包，每建立一个项目都要建立一个lib，不停的做copy工作，不仅是对于磁盘的浪费，而且也造成了版本管理上的麻烦。而且我们还需要通过提交到svn上来对lib进行管理，但是svn对于这种二进制文件的管理并不出色。\<br>\<br>Maven仓库的初中就是为了解决这个问题，是所有常用的第三方包的集中营。这样所有的Maven项目就可以从这个仓库中获取所需要的资源，Maven仓库中对jar通过Group<br>Id, Atifact Id, version<br>来管理，所以Maven项目可以很方便的进行依赖管理。你不需要自己来管理这个庞大的资源仓库，当然你可以创建一个公司层面的仓库管理器，这个我在这个章节的后面会介绍。\<br>\<br>Maven仓库的两个概念：本地仓库和远程仓库\<br>\<br>本地仓库是远程仓库的一个缓冲和子集，当你构建Maven项目的时候，首先会从本地仓库查找资源，如果没有，那么Maven会从远程仓库下载到你本地仓库。这样在你下次使用的时候就不需要从远程下载了。如果你所需要的jar包版本在本地仓库没有，而且也不存在于远程仓库，Maven在构建的时候会报错，这种情况可能发生在有些jar包的新版本没有在Maven仓库中及时更新。\<br>Maven缺省的本地仓库地址为\${user.home}/.m2/repository<br>。也就是说，一个用户会对应的拥有一个本地仓库。当然你可以通过修改\${user.home}/.m2/settings.xml配置这个地址：\<br>Xml代码\</p>
+<ol>
+<li>&lt;settings&gt;\</li>
+<li>…\</li>
+<li>&lt;localRepository&gt;D:/java/repository&lt;/localRepository&gt;\</li>
+<li>…\</li>
+<li>&lt;/settings&gt;\<br>如果你想让所有的用户使用统一的配置那么你可以修改Maven主目录下的setting.xml:\<br>\${M2_HOME}/conf/setting.xml\<br>\<br>还可以通过在运行时指定目录，但是并不推荐这么做：\<br>mvn clean install -Dmaven.repo.local=/home/juven/myrepo/\<br>当我们创建一个简单的Maven项目后(只需要在pom.xml配置好依赖)，运行mvn<br>clean<br>install就可以把项目构建好，不需要我们手工下载任何jar，这全靠中央仓库的存在，它会自动从仓库下载。这个仓库的定义是在\${M2_HOME}/lib/maven-2.0.10-uber.jar里面。你可以在里面找到/org/apache/maven/project/pom-4.0.0.xml这个文件，在这个文件里面定义了中央仓库的地址：\
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/建立你自己的本地仓库(Maven仓库管理-Nexus)/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/建立你自己的本地仓库(Maven仓库管理-Nexus)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/建立你自己的本地仓库(Maven仓库管理-Nexus)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/如何将印象笔记导为markdown/" title="如何将印象笔记导为markdown" itemprop="url">如何将印象笔记导为markdown</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.528Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="如何将印象笔记导为markdown"><a href="#如何将印象笔记导为markdown" class="headerlink" title="如何将印象笔记导为markdown"></a>如何将印象笔记导为markdown</h1><p>由于想把自己多年的印象笔记里的技术笔记都转成markdown导出，但目前印象笔记不支持直接导出evernote,怎么办？google了一下，发现还没有直接导出的，只发现<a href="https://maxiang.io/" target="_blank" rel="noopener">马克飞象</a><strong>可以直接绑定印象笔记和evernote国际版，绑定了以后可以直接在马克飞象上面写文章，然后同步到evernote上去</strong>，但是我需要的是把原来evernote上的笔记全部导出为markdown格式，目前evernote只支持导出为html和enex格式,看来只能从这里入手了。</p>
+<h2 id="一，将印象笔记中技术分类的笔记全部导出"><a href="#一，将印象笔记中技术分类的笔记全部导出" class="headerlink" title="一，将印象笔记中技术分类的笔记全部导出"></a>一，将印象笔记中技术分类的笔记全部导出</h2><p>我是mac电脑，安装的是印象笔记客户端，直接在文件–&gt;导出笔记（格式选html），但是问题来了，导出的是批量的html,目前我们也没有看到有可以批量将html转成markdown的工具，所以就只能自己用脚本摸索一个了。</p>
+<hr>
+<p>目前我知道的比较流行的将html转为markdown的工具有：<br>    1.<a href="http://markdownrules.com/" target="_blank" rel="noopener">MarkdownRules.</a><br>    <br>    <em>这款工具将html转markdown是在线上的，美中不足的是，它不支持 &lt; pre&gt; 这类的标记</em></p>
+<p>2.<a href="http://johnmacfarlane.net/pandoc/" target="_blank" rel="noopener">Pandoc. </a><br><br><br><em>这款工具是就非常强大了，它不公可以转html到markdown，还可以对markdown, reStructuredText, textile, HTML, DocBook, LaTeX, MediaWiki markup, TWiki markup, OPML, Emacs Org-Mode, Txt2Tags, Microsoft Word docx, LibreOffice ODT, EPUB, or Haddock markup 等十几种格式文档相互转换。但是，同样的，对&lt; pre &gt;标记的支持不足,mac用户可以通过home brew 进行安装</em></p>
+<p>3.<a href="https://github.com/aaronsw/html2text" target="_blank" rel="noopener">html2text.</a> </p>
+<p><em>这是一款python写的工具，它相比前两款对&lt; pre &gt;标记解析有着更出色的表现，但也有些情况解析不了</em></p>
+<p>我选择了pandoc对我的东西进行转换</p>
+<h2 id="二，Pandoc批量将html转为markdown"><a href="#二，Pandoc批量将html转为markdown" class="headerlink" title="二，Pandoc批量将html转为markdown"></a>二，Pandoc批量将html转为markdown</h2>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/如何将印象笔记导为markdown/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/如何将印象笔记导为markdown/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/如何将印象笔记导为markdown/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/查找项目中是否有用IDFA/" title="查找项目中是否有用IDFA" itemprop="url">查找项目中是否有用IDFA</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.527Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="查找项目中是否有用IDFA"><a href="#查找项目中是否有用IDFA" class="headerlink" title="查找项目中是否有用IDFA"></a>查找项目中是否有用IDFA</h1><div><br><br>好难过，上传app时友盟又坑我。。。。。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>—使用此命令可以查找项目中是否有用IDFA<br><br></div>
+
+<div><br><br>find . | grep -v .svn<br>| grep “\.a” | grep -v “\.app” | xargs grep advertisingIdentifier<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/查找项目中是否有用IDFA/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/查找项目中是否有用IDFA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/查找项目中是否有用IDFA/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/启动画面自定义动画/" title="启动画面自定义动画" itemprop="url">启动画面自定义动画</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.523Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="启动画面自定义动画"><a href="#启动画面自定义动画" class="headerlink" title="启动画面自定义动画"></a>启动画面自定义动画</h1><p><span style="font: 14.0px 'Helvetica Neue'; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">添加一个ViewController，在这个ViewController的view中添加一个ImageView，全屏显示，横竖屏你自己设定，这个imageView的初始图片可以跟你的启动页面一样，然后在应用程序启动后将这个ViewController<br>设置为rootViewController，在启动时就去获取网络图片的url，然后异步加载图片，将这个图片设置为ImageView的图片。显示出图片后再更换rootViewController，在切换rootViewController时为了自然过渡可以增加一些动画效果，如翻转、淡入淡出等。\<br>\<br> 思路如下：\<br>\</span></p>
+<ol>
+<li>self.window.rootViewController =<br>self.welcomeViewController（显示网络图片的Controller）\<br>\</li>
+<li>EGOImageView *imageView = [[EGOImageView alloc]<br>initWithPlaceholderImage:[UIImage imageNamed: “xxxx”]];\<br>\<br>[ imageView setImageUrl: “xxx”];<br>//这样就可以异步加载图片了，也可以用其他第三方库加载\<br>\</li>
+<li>动画切换rootViewController, 可以用UIView beginAnimation 或者UIView<br>transitionWithView等来实现</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/启动画面自定义动画/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/启动画面自定义动画/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/把你的程序布署在TOMCAT/" title="把你的程序布署在TOMCAT" itemprop="url">把你的程序布署在TOMCAT</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.521Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="把你的程序布署在TOMCAT"><a href="#把你的程序布署在TOMCAT" class="headerlink" title="把你的程序布署在TOMCAT"></a>把你的程序布署在TOMCAT</h1><div><br><br>把你的程序布署在TOMCAT上！！  (2011-04-11 09:08:40)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="%E6%8A%8A%E4%BD%A0%E7%9A%84%E7%A8%8B%E5%BA%8F%E5%B8%83%E7%BD%B2%E5%9C%A8TOMCAT.resources/31FCB674-06D6-4F00-8356-8F42DEF64A98.gif" alt=""><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>网站开发完成了最终<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/把你的程序布署在TOMCAT/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/把你的程序布署在TOMCAT/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/把你的程序布署在TOMCAT/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/" title="【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条" itemprop="url">【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.520Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="【译】我已经写了48年代码了，我感觉我还能写下去-分享自-开发者头条"><a href="#【译】我已经写了48年代码了，我感觉我还能写下去-分享自-开发者头条" class="headerlink" title="【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条"></a>【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条</h1><p>【译】我已经写了48年代码了，我感觉我还能写下去<br><a href="http://toutiao.io/shares/115757/url主题" target="_blank" rel="noopener">http://toutiao.io/shares/115757/url主题</a> （想看更多？下载@开发者头条<br>App：<a href="http://toutiao.io/app/download" target="_blank" rel="noopener">http://toutiao.io/app/download</a> ）\<br><img src="%E3%80%90%E8%AF%91%E3%80%91%E6%88%91%E5%B7%B2%E7%BB%8F%E5%86%99%E4%BA%8648%E5%B9%B4%E4%BB%A3%E7%A0%81%E4%BA%86%EF%BC%8C%E6%88%91%E6%84%9F%E8%A7%89%E6%88%91%E8%BF%98%E8%83%BD%E5%86%99%E4%B8%8B%E5%8E%BB%20-%20%E5%88%86%E4%BA%AB%E8%87%AA@%E5%BC%80%E5%8F%91%E8%80%85%E5%A4%B4%E6%9D%A1.resources/A2D2310B-3639-4AAE-A04C-4FA0D9A7FC6B.jpg" alt=""></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/【译】我已经写了48年代码了，我感觉我还能写下去 - 分享自@开发者头条/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1305,7 +823,7 @@ Authorizations can remain in your account anywhere from 24 hours up to 14 busine
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
   </nav>
 
 
@@ -1462,7 +980,7 @@ Authorizations can remain in your account anywhere from 24 hours up to 14 busine
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>18</sup></a></li>
 		  
 		
 		  
@@ -1511,6 +1029,22 @@ Authorizations can remain in your account anywhere from 24 hours up to 14 busine
 			
 		
 			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
@@ -1519,35 +1053,7 @@ Authorizations can remain in your account anywhere from 24 hours up to 14 busine
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
@@ -1555,23 +1061,35 @@ Authorizations can remain in your account anywhere from 24 hours up to 14 busine
 			
 		
 			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -1590,7 +1108,7 @@ Authorizations can remain in your account anywhere from 24 hours up to 14 busine
         
           <li>
             
-            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
             
           </li>
         

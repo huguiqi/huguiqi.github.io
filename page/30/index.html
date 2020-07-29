@@ -92,46 +92,546 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/Export devices added in Apple's iOS Provision portal/" title="Export devices added in Apple&#39;s iOS Provision portal" itemprop="url">Export devices added in Apple&#39;s iOS Provision portal</a>
+      <a href="/2019/04/21/spring-aop-annotation/" title="spring+aop+annotation" itemprop="url">spring+aop+annotation</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.749Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2019-04-21T13:51:05.000Z" itemprop="datePublished"> 发表于 2019-04-21</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="Export-devices-added-in-Apple’s-iOS-Provision-portal"><a href="#Export-devices-added-in-Apple’s-iOS-Provision-portal" class="headerlink" title="Export devices added in Apple’s iOS Provision portal"></a>Export devices added in Apple’s iOS Provision portal</h1><p>\</p>
-<div style="font-size: 16px"><br><br><div style="font-size:100%;"><br><br><div style="font-size:13px;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;line-height:1.3em;color:rgb(34, 36, 38);background:rgb(255, 255, 255);"><br><br><div style="font-size:100%;text-align:left;"><br><br><div style="font-size:100%;box-sizing:content-box;background-color:rgb(255, 255, 255);"><br><br><div style="font-size:100%;"><br><br><div style="font-size:100%;"><br><br><div style="font-size:100%;"><br><br><div style="font-size:100%;"><br><br>+————————————————————————–+<br>| <div style="font-size:15px;word-wrap:break-word;line-height:1.3;">       |<br>|                                                                          |<br>| If you’re looking for an option that doesn’t require additional          |<br>| software, recordings, or fiddling with regular expressions, here’s a     |<br>| JavaScript snippet you can run in Chrome’s (or I’d assume, any other     |<br>| browser’s) JavaScript console to get a properly-formatted device list:   |<br>|                                                                          |<br>| <code>{style=&quot;max-height:600px;margin:0px;border:0px;font-size:13px;overfl |
-| ow:auto;width:auto;padding:5px;margin-bottom:1em;font-family:Consolas, M |
-| enlo, Monaco, &#39;Lucida Console&#39;, &#39;Liberation Mono&#39;, &#39;DejaVu Sans Mono&#39;, &#39; |
-| Bitstream Vera Sans Mono&#39;, &#39;Courier New&#39;, monospace, sans-serif;backgrou |
-&lt;!--more--&gt;
-| nd-color:rgb(238, 238, 238);display:block;color:rgb(57, 51, 24);word-wra |
-| p:normal;&quot;}                                                              |
-| var ids =[&quot;Device ID&quot;];var names =[&quot;Device Name&quot;];                       |
-| $(&quot;td[aria-describedby=grid-table_name]&quot;).each(function(){               |
-|     names.push($(this).html());});                                       |
-| $(&quot;td[aria-describedby=grid-table_deviceNumber]&quot;).each(function(){       |
-|     ids.push($(this).html());});var output =&quot;&quot;;for(var index =0; index &lt; |
-|  ids.length; index++){                                                   |
-|     output += ids[index]+&quot;\t&quot;+ names[index]+&quot;\n&quot;;}                       |
-| console.log(output);                                                     |
-|</code>                                                                      |<br>|                                                                          |<br>| The complete export will be logged to the console, at which point you    |<br>| can simply copy/paste it into an empty text document, which can then be  |<br>| re-imported back to Apple at any time.                                   |<br>|                                                                          |<br>| This works with Apple’s current developer site layout, as of April 2015. |<br>| Obviously it may break if they change stuff.                             |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+<br><br></div>
+        <h1 id="spring-boot-aop"><a href="#spring-boot-aop" class="headerlink" title="spring-boot-aop"></a>spring-boot-aop</h1><p>spring boot + aop</p>
+<h1 id="AOP原理详解"><a href="#AOP原理详解" class="headerlink" title="AOP原理详解"></a>AOP原理详解</h1><p>我们都知道，aop的原理就是动态代理，所以首先来介绍下java的动态代理</p>
+<h2 id="动态代理方式"><a href="#动态代理方式" class="headerlink" title="动态代理方式"></a>动态代理方式</h2><p>主要有两种：</p>
+<ol>
+<li>jdk自带动态代理</li>
+<li>cglib</li>
+</ol>
+<h3 id="JDK自带动态代理"><a href="#JDK自带动态代理" class="headerlink" title="JDK自带动态代理"></a>JDK自带动态代理</h3><blockquote>
+<blockquote>
+<p>JDK自带的动态代理方式必须要被代理对象实现某些接口；</p>
+</blockquote>
+</blockquote>
+<p>JDK动态代理所用到的代理类在程序调用到代理类对象时才由JVM真正创建，JVM根据传进来的 业务实现类对象 以及 方法名 ，动态地创建了一个代理类的class文件并被字节码引擎执行，然后通过该代理类对象进行方法调用。我们需要做的，只需指定代理类的预处理、调用后操作即可。</p>
+<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><ol>
+<li>实现InvocationHandler接口</li>
+<li>调用java.lang.reflect.Proxy类的newProxyInstance或者getProxyClass方法</li>
+</ol>
+<p>将被代理类传给即将生成的代理类<br>Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),this);</p>
+<ol>
+<li>重载invoke方法，将要处理的统一事件填入</li>
+</ol>
+<pre><code>public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {.....}
+</code></pre><h4 id="关键源码分析"><a href="#关键源码分析" class="headerlink" title="关键源码分析"></a>关键源码分析</h4><pre><code>newProxyInstance ---&gt; getProxyClass0 ---&gt;proxyClassCache.get(loader, interfaces)---&gt;Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));----&gt;ProxyClassFactory.apply 
+</code></pre><h4 id="apply方法里关键代码："><a href="#apply方法里关键代码：" class="headerlink" title="apply方法里关键代码："></a>apply方法里关键代码：</h4><p>//生成代理类class文件</p>
+<pre><code>long num = nextUniqueNumber.getAndIncrement();     
+String proxyName = proxyPkg + proxyClassNamePrefix + num; 
+byte[] proxyClassFile = ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);
+</code></pre><h3 id="CGLIB"><a href="#CGLIB" class="headerlink" title="CGLIB"></a>CGLIB</h3><p>cglib是针对类来实现代理的，原理是对指定的业务类生成一个子类，并覆盖其中业务方法实现代理。因为采用的是继承，所以不能对final修饰的类进行代理。</p>
+<p>demo中使用的是apache实现的cglib动态代理类：</p>
+<p>github地址：</p>
+<pre><code>https://github.com/cglib/cglib
+</code></pre><p>在这个项目中，我用apache的cglib实现去模拟spring aop的工作原理</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/04/21/spring-aop-annotation/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
 
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p>\</p>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/04/21/spring-aop-annotation/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/04/21/spring-aop-annotation/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/12/jenkins重置jop的buildNum/" title="jenkins重置jop的buildNum" itemprop="url">jenkins重置jop的buildNum</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-03-12T10:31:00.000Z" itemprop="datePublished"> 发表于 2019-03-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <ol>
+<li>Jenkins -&gt; Manage Jenkins</li>
+<li>脚本命令行</li>
+</ol>
+<p>执行：</p>
+<pre><code>resetNumberTarget = 1
+item = Jenkins.instance.getItemByFullName(&quot;run-bzy-hotel&quot;)
+//println(item)
+item.builds.each() { build -&gt;
+  //println(build)
+  //println(build.number)
+  if(build.number &gt;= resetNumberTarget)
+  {
+    println(&quot;About to Delete &apos;&quot; + build + &quot;&apos;&quot;)    
+    build.delete()  
+  }
+}
+item.updateNextBuildNumber(resetNumberTarget)
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/jenkins/">jenkins</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/03/12/jenkins重置jop的buildNum/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/12/jenkins重置jop的buildNum/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/12/spring-security oauth2 集成 swagger 2.9.2/" title="spring-security oauth2 集成 swagger 2.9.2" itemprop="url">spring-security oauth2 集成 swagger 2.9.2</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-03-12T03:56:00.000Z" itemprop="datePublished"> 发表于 2019-03-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="pring-security-oauth2-集成-swagger-2-9-2"><a href="#pring-security-oauth2-集成-swagger-2-9-2" class="headerlink" title="pring-security oauth2 集成 swagger 2.9.2"></a>pring-security oauth2 集成 swagger 2.9.2</h1><p>pom.xml:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?\&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;\&gt;
+&lt;modelVersion\&gt;4.0.0\&lt;/modelVersion\&gt;
+
+&lt;groupId\&gt;com.xxx.xxx\&lt;/groupId\&gt;
+&lt;artifactId\&gt;bzy-auth\&lt;/artifactId\&gt;
+&lt;version\&gt;1.0\&lt;/version\&gt;
+&lt;packaging\&gt;jar\&lt;/packaging\&gt;
+
+&lt;name\&gt;xxx-auth\&lt;/name\&gt;
+&lt;description\&gt;xxx-auth project for sign,auth\&lt;/description\&gt;
+
+&lt;parent\&gt;
+&lt;groupId\&gt;com.xxxl.xxx\&lt;/groupId\&gt;
+&lt;artifactId\&gt;xxx-parent\&lt;/artifactId\&gt;
+&lt;version\&gt;1.0.0-SNAPSHOT\&lt;/version\&gt;
+&lt;/parent\&gt;
+
+&lt;dependencies\&gt;
+
+&lt;dependency\&gt;
+&lt;groupId\&gt;com.hhotel.bzy\&lt;/groupId\&gt;
+&lt;artifactId\&gt;bzy-common-swagger\&lt;/artifactId\&gt;
+&lt;version\&gt;${common.swagger.version}\&lt;/version\&gt;
+&lt;type\&gt;jar\&lt;/type\&gt;
+&lt;/dependency\&gt;
+
+&lt;dependency\&gt;
+&lt;groupId\&gt;org.springframework.cloud\&lt;/groupId\&gt;
+&lt;artifactId\&gt;spring-cloud-starter-netflix-eureka-client\&lt;/artifactId\&gt;
+&lt;/dependency\&gt;
+
+
+&lt;dependency\&gt;
+&lt;groupId\&gt;org.springframework.cloud\&lt;/groupId\&gt;
+&lt;artifactId\&gt;spring-cloud-starter-security\&lt;/artifactId\&gt;
+&lt;/dependency\&gt;
+&lt;dependency\&gt;
+&lt;groupId\&gt;org.springframework.security.oauth.boot\&lt;/groupId\&gt;
+&lt;artifactId\&gt;spring-security-oauth2-autoconfigure\&lt;/artifactId\&gt;
+&lt;version\&gt;2.1.1.RELEASE\&lt;/version\&gt;
+&lt;/dependency\&gt;
+
+&lt;/dependencies\&gt;
+
+
+
+
+&lt;/project\&gt;
+</code></pre><p>SwaggerConfig:</p>
+<pre><code>package com.xxx.xxx.auth.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.AuthorizationCodeGrantBuilder;
+import springfox.documentation.builders.OAuthBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.\*;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.SecurityConfiguration;
+import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.Arrays;
+
+/\*\*  \* Created by sam on 2019/3/11.
+     */
+    @Configuration
+    @EnableSwagger2
+    public class SwaggerAuthConfig {
+
+    @Value(&quot;${bzy.swagger-enable}&quot;)
+    private Boolean swaggerEnable;
+
+    @Value(&quot;${bzy.swagger-auth-url}&quot;)
+    private String authServerUrl;
+
+    @Value(&quot;${bzy.security-auth2.clientId}&quot;)
+    private String clientId;
+
+    @Value(&quot;${bzy.security-auth2.clientId}&quot;)
+    private String secretKey;
+
+    public SwaggerAuthConfig() {
+
+    }
+    @Bean
+    public Docket api() {
+    return new Docket(DocumentationType.SWAGGER_2)
+    .enable(this.swaggerEnable.booleanValue())
+    .select()
+    .apis(RequestHandlerSelectors.any())
+    .paths(PathSelectors.any())
+    .build()
+    .securitySchemes(Arrays.asList(securityScheme()))
+    .securityContexts(Arrays.asList(securityContext()));
+    }
+
+    @Bean
+    public SecurityConfiguration security() {
+    return SecurityConfigurationBuilder.builder()
+    .clientId(clientId)
+    .clientSecret(secretKey)
+    .scopeSeparator(&quot; &quot;)
+    .useBasicAuthenticationWithAccessCodeGrant(true)
+    .build();
+    }
+
+
+    private SecurityScheme securityScheme() {
+    GrantType grantType = new AuthorizationCodeGrantBuilder()
+    .tokenEndpoint(new TokenEndpoint(authServerUrl + &quot;/token&quot;, &quot;oauthtoken&quot;))
+    .tokenRequestEndpoint(
+    new TokenRequestEndpoint(authServerUrl + &quot;/authorize&quot;, clientId, secretKey))
+    .build();
+
+    SecurityScheme oauth = new OAuthBuilder().name(&quot;spring_oauth&quot;)
+    .grantTypes(Arrays.asList(grantType))
+    .scopes(Arrays.asList(scopes()))
+    .build();
+    return oauth;
+    }
+
+    private AuthorizationScope[]() scopes() {
+    AuthorizationScope[]() scopes = {
+    new AuthorizationScope(&quot;read&quot;, &quot;for read operations&quot;),
+    new AuthorizationScope(&quot;write&quot;, &quot;for write operations&quot;),
+    new AuthorizationScope(&quot;all&quot;, &quot;for all operation API&quot;) };
+    return scopes;
+    }
+
+    private SecurityContext securityContext() {
+    return SecurityContext.builder()
+    .securityReferences(
+    Arrays.asList(new SecurityReference(&quot;spring_oauth&quot;, scopes())))
+    .forPaths(PathSelectors.any())
+    .build();
+    }
+    }
+</code></pre><p><a href="https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api" target="_blank" rel="noopener">参考文章</a></p>
+<p><a href="https://www.xncoding.com/2017/07/08/spring/sb-swagger2.html" target="_blank" rel="noopener">优秀博客</a></p>
+<p><a href="https://www.cnblogs.com/bndong/p/10037197.html" target="_blank" rel="noopener">优秀博客</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/spring-security-oauth2-swagger2-9-2/">spring-security oauth2 swagger2.9.2</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/03/12/spring-security oauth2 集成 swagger 2.9.2/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/12/spring-security oauth2 集成 swagger 2.9.2/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/01/微服务与SOA/" title="微服务与传统垂直架构和SOA比较" itemprop="url">微服务与传统垂直架构和SOA比较</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-03-01T07:25:05.000Z" itemprop="datePublished"> 发表于 2019-03-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="传统垂直架构"><a href="#传统垂直架构" class="headerlink" title="传统垂直架构"></a>传统垂直架构</h2><p>传统垂直架构一般是在业务量非常小，业务系统非常简单的系统架构中使用，<br>在这个阶段一般采用SSH，SSM或者spring+mybatis）框架作为项目的关键技术，Struts负责web层逻辑控制、Spring负责业务层管理Bean、Hibernate/mybatis负责数据库操作进行封装，持久化数据。</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1551425267404h53ty19h.png?imageslim" alt="paste image"></p>
+<p>如果公司进一步的做大，垂直子系统会变的越来越多，系统和系统之间的调用关系呈指数上升的趋势。</p>
+<p>在这样的背景下，很多公司都会考虑服务的SOA化。</p>
+<h2 id="SOA"><a href="#SOA" class="headerlink" title="SOA"></a>SOA</h2><p>软件即服务，将单个业务软件系统作为接口提供服务。</p>
+<p>SOA代表面向服务的架构，将应用程序根据不同的职责划分为不同的模块，不同的模块直接通过特定的协议和接口进行交互。这样使整个系统切分成很多单个组件服务来完成请求，当流量过大时通过水平扩展相应的组件来支撑，所有的组件通过交互来满足整体的业务需求。</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1551425561530q5t2toln.png?imageslim" alt="paste image"></p>
+<p>SOA缺点；</p>
+<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><p>微服务架构是 SOA 架构思想的一种扩展，更加强调服务个体的独立性、拆分粒度更小。<br>与SOA相比，有以下区别：</p>
+<ul>
+<li>微服务架构强调业务系统需要彻底的组件化和服务化，一个组件就是一个产品，可以独立对外提供服务微服务。</li>
+<li>不再强调传统SOA架构里面比较重的ESB企业服务总线</li>
+<li>微服务强调每个微服务都有自己独立的运行空间，包括数据库资源。</li>
+<li>微服务架构本身来源于互联网的思路，因此组件对外发布的服务强调了采用HTTP Rest API的方式来进行微服务的切分粒度会更小。</li>
+</ul>
+<p>微服务优点：</p>
+<ol>
+<li>通过分解巨大单体应用为多个服务方法解决了复杂性问题。</li>
+<li>微服务架构模式使得每个微服务独立部署，开发者不再需要协调其它服务部署对本服务的影响。</li>
+<li>微服务架构模式使得每个服务可独立扩展。</li>
+<li>微服务可有效的拆分应用，实现敏捷开发和部署。</li>
+</ol>
+<p>不足：</p>
+<h2 id="为什么选择spring-cloud"><a href="#为什么选择spring-cloud" class="headerlink" title="为什么选择spring cloud"></a>为什么选择spring cloud</h2><ol>
+<li>Spring Cloud来源于Spring，质量、稳定性、持续性都可以得到保证。</li>
+<li>Spirng Cloud天然支持Spring Boot，更加便于业务落地。</li>
+<li>Spring Cloud发展非常的快，从16年开始接触的时候相关组件版本为1.x，到现在已经发布了2.1.3系列</li>
+<li>Spring Cloud是Java领域最适合做微服务的框架。相比于其它框架,Spring Cloud对微服务周边环境的支持力度最大。对于中小企业来讲，使用门槛较低。Spring Cloud　是微服务架构的最佳落地方案</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/03/01/微服务与SOA/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/03/01/微服务与SOA/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/22/跟黑哥一起学kafka-一/" title="跟黑哥一起学kafka(一)" itemprop="url">跟黑哥一起学kafka(一)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-22T02:58:12.000Z" itemprop="datePublished"> 发表于 2019-02-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="跟黑哥一起学kafka-一"><a href="#跟黑哥一起学kafka-一" class="headerlink" title="跟黑哥一起学kafka(一)"></a>跟黑哥一起学kafka(一)</h1><h2 id="什么是kafka"><a href="#什么是kafka" class="headerlink" title="什么是kafka"></a>什么是kafka</h2><p>官方原文是这样的：</p>
+<blockquote>
+<blockquote>
+<p>Kafka® is used for building real-time data pipelines and streaming apps. It is horizontally scalable, fault-tolerant, wicked fast, and runs in production in thousands of companies.</p>
+</blockquote>
+</blockquote>
+<p>kafka是用作构建处理实时数据管道和流式数据的应用。<br>它是可以水平扩展的，容错的，快速反应的，被成千上万家公司应用于生产的应用。</p>
+<p>这个解析好生硬啊，官方还给了一张图：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550805309682duugdu6c.png?imageslim" alt="paste image"></p>
+<p>这句话不太好理解，可能语文不太好。<br>不管了，</p>
+<h2 id="用来解决什么问题"><a href="#用来解决什么问题" class="headerlink" title="用来解决什么问题"></a>用来解决什么问题</h2><h2 id="kafka主要功能有哪些"><a href="#kafka主要功能有哪些" class="headerlink" title="kafka主要功能有哪些"></a>kafka主要功能有哪些</h2><h2 id="安装-amp-使用"><a href="#安装-amp-使用" class="headerlink" title="安装&amp;使用"></a>安装&amp;使用</h2><ol>
+<li>源码安装</li>
+<li>docker</li>
+<li>安装包</li>
+</ol>
+<p>我推荐使用docker安装，省时，省力。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/22/跟黑哥一起学kafka-一/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/22/跟黑哥一起学kafka-一/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/20/在google上开通开发者时填入的招商银行双币卡疑似被盗刷/" title="在google上开通开发者时填入的招商银行双币卡疑似被盗刷" itemprop="url">在google上开通开发者时填入的招商银行双币卡疑似被盗刷</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-20T08:26:00.000Z" itemprop="datePublished"> 发表于 2019-02-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>今天在开通google cloud 的时候，填写了信用卡信息(因为是必填),顺利开通了google cloud并申请了一台vps vm实例用来作shadowsocks 服务器。</p>
+<p>但是，过了一会突然发现招商银行信用卡中心给我微信发了两条交易提醒：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550651474728pkwlcyq1.png?imageslim" alt="paste image"></p>
+<p>第一感觉就是不是信用卡被盗了？而且是在google上泄漏出去的，这很严重！！！</p>
+<p>网上查了一下，原来是google不支持中国（P.R.C），所以只能”被”成为香港（Hong.Kong）公民了,开通了Visa验证，购买后,就会有以下信息：</p>
+<pre><code>您尾号XXXX的招行信用卡于1月21日10时15分网上交易当地币8.00元；
+</code></pre><p>因为我只是开通开发者成为开发者，并没有真正购买任何商品，只是作了一下信用卡绑定，这可能是google绑定招行双币卡作了一笔会退还的交易，而我注册的时候选择的是居住地在香港，那8元当地币就是港币，当然，它会在几天内还给你，你不需要担心，详见Google的解释：</p>
+<pre><code>Authorizations 
+Authorizations occur between our billing system and your bank&apos;s billing system to ensure that the card is valid and the necessary funds are available in your account before the order is charged. Because the order has been cancelled, the pending authorization will not result in a charge. 
+You may also notice a $1.00 transaction from Google, which is actually a pending authorization request between our billing system and the bank that issued your credit or debit card, so you won&apos;t end up paying the extra $1.00. 
+When you check your bank account or credit card statement, payment authorizations are often listed as &quot;pending.&quot; These transactions might remain in your account between 1-14 business days, depending on your card-issuing bank. Please keep in mind they are authorization requests only, not actual charges. 
+Authorizations can remain in your account anywhere from 24 hours up to 14 business days, depending on the bank. You may contact your bank to confirm the charge for your purchase with Google or to check on the authorization status.
+</code></pre><p>所以，后面又收到一条交易失败的提醒，吓死老子了，我几千万的资产就可能成负的了。。。。。。</p>
 
         
         
@@ -144,14 +644,9 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
 </div>
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
 
 </div>
 
@@ -161,7 +656,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/Export devices added in Apple's iOS Provision portal/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Export devices added in Apple's iOS Provision portal/" data-count-type="comments">&nbsp;</a>
+		<a href="/2019/02/20/在google上开通开发者时填入的招商银行双币卡疑似被盗刷/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/20/在google上开通开发者时填入的招商银行双币卡疑似被盗刷/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -181,575 +676,245 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/CocoaPods 的一些略为高级一丁点的使用/" title="CocoaPods 的一些略为高级一丁点的使用" itemprop="url">CocoaPods 的一些略为高级一丁点的使用</a>
+      <a href="/2019/02/20/google-cloud-vm建免费vps/" title="google cloud vm建免费vps" itemprop="url">google cloud vm建免费vps</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.738Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2019-02-20T06:49:47.000Z" itemprop="datePublished"> 发表于 2019-02-20</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="CocoaPods-的一些略为高级一丁点的使用"><a href="#CocoaPods-的一些略为高级一丁点的使用" class="headerlink" title="CocoaPods 的一些略为高级一丁点的使用"></a>CocoaPods 的一些略为高级一丁点的使用</h1><p>记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当中早已经出现，甚至成为了开发的标配，尽管如此，CocoaPods依然是对iOS/Mac开发做出了巨大的贡献，在此为CocoaPods做出贡献的人表示感谢。</p>
-<p>CocoaPods功能不算太强大，但大部分时候足够好用，仅仅是最基本的样例配置，就可以满足你项目的大部分需求，但了解更多的一一些的特性，会让你更得心应手。</p>
-<h4 id="指定源"><a href="#指定源" class="headerlink" title="指定源"></a>指定源</h4><p>CocoaPods支持私有 Spec<br>仓库的，我们可以建立自己的源，也可以使用非官方的源，只要是符合规定的都可以指定。</p>
-<h4 id="抑制警告"><a href="#抑制警告" class="headerlink" title="抑制警告"></a>抑制警告</h4><p>inhibit_warnings参数能够有效的抑制CocoaPods引入的第三方代码库产生的warning。</p>
-<p>可以全部指定。</p>
-<p>也可以针对指定。</p>
-<h4 id="使用git的HEAD指向的分支"><a href="#使用git的HEAD指向的分支" class="headerlink" title="使用git的HEAD指向的分支"></a>使用git的HEAD指向的分支</h4><h4 id="使用-master-分支"><a href="#使用-master-分支" class="headerlink" title="使用 master 分支"></a>使用 master 分支</h4><h3 id="指定branch"><a href="#指定branch" class="headerlink" title="指定branch"></a>指定branch</h3><h4 id="指定tag"><a href="#指定tag" class="headerlink" title="指定tag"></a>指定tag</h4><h3 id="指定commit"><a href="#指定commit" class="headerlink" title="指定commit"></a>指定commit</h3><h4 id="使用子库"><a href="#使用子库" class="headerlink" title="使用子库"></a>使用子库</h4><p>可以这样</p>
-<p>也可以这样指定多个子库</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/CocoaPods 的一些略为高级一丁点的使用/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/CocoaPods 的一些略为高级一丁点的使用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/CocoaPods 的一些略为高级一丁点的使用/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/CentOS6.5使用yum命令方式安装/" title="CentOS6.5使用yum命令方式安装" itemprop="url">CentOS6.5使用yum命令方式安装</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.732Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="CentOS6-5使用yum命令方式安装"><a href="#CentOS6-5使用yum命令方式安装" class="headerlink" title="CentOS6.5使用yum命令方式安装"></a>CentOS6.5使用yum命令方式安装</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>CentOS6.5使用yum命令方便快捷安装Nginx<br>=====================================<br><br><div><br><br><div><br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<div><br><br><span>作者：佚名</span><br><span>TAG：<a href="http://www.myhack58.com/Article/tag.asp?name=CentOS" target="_blank" rel="noopener">CentOS</a><br><a href="http://www.myhack58.com/Article/tag.asp?name=Nginx" target="_blank" rel="noopener">Nginx</a> </span><br><br></div>
-
-<p> 当然，首先要求是可以联网的系统，因为yum安装需要互联网连接。 </p>
-<div><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/CentOS6.5使用yum命令方式安装/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/CentOS6.5使用yum命令方式安装/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/CentOS6.5使用yum命令方式安装/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/CentOS 6.0安装配置subversion/" title="CentOS 6.0安装配置subversion" itemprop="url">CentOS 6.0安装配置subversion</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.725Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="CentOS-6-0安装配置subversion"><a href="#CentOS-6-0安装配置subversion" class="headerlink" title="CentOS 6.0安装配置subversion"></a>CentOS 6.0安装配置subversion</h1><p>CentOS 6.0安装配置subversion  </p>
-<div><br><br>\<br><br></div>
-
-<div><br><br>2011-11-18 20:35:06|  分类： CVS |举报|字号 订阅<br><br></div>
-
-<div><br><br>环境：<br><br></div>
-
-<div><br><br>a. 系统为centos 6.0<br><br></div>
-
-<div><br><br>b. 分为svn协议和http协议方式<br><br></div>
-
-<div><br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/CentOS 6.0安装配置subversion/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/CentOS 6.0安装配置subversion/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/CentOS 6.0安装配置subversion/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/" title="App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎" itemprop="url">App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.715Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="App提交-App-Store-审核，遇到过哪些坑？-应用（软件）-知乎"><a href="#App提交-App-Store-审核，遇到过哪些坑？-应用（软件）-知乎" class="headerlink" title="App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎"></a>App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</h1><p>\</p>
-<div><br><br><div><br><br><div><br><br><div><br><br>App提交 App Store 审核，遇到过哪些坑？<br>======================================<br><br><div><br><br><div><br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-<p>ios审核满眼是坑！！！ 大家赞了，那我就在多填些坑。觉得有用就拿走吧。\<br>＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝\<br>一个悲伤的故事：一家公司14年初开发app历时一年还没有提交appstore成功，然后被迫转型了\<br>自己遇到过的：\<br>1.物化女性。软件内姑娘太多导致的。so。。。一定要有帅哥。哪怕首页只有一个。\<br>2.软件名字冲突。提交时发现有软件名字一样。丫停的。只能换。想好软件名字搜一下先。\<br>3.等级评定，娱乐相关所以不要你勾选后发现4+可以。然并乱。必须17+走起\<br>4.支付上，要求用户即使换手机或卸载软件，所购买的物品还可以继续使用。\<br>5.不要用第三方登录，尤其是QQ，用户没有安装qq，会引导你下载，然后就会被退回。\<br>6.有时第三方的统计什么会调用idfa。这个只要你调用了就必须有广告，不然会被打回。\<br>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/ActiviMQ/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.712Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/ActiviMQ/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/ActiviMQ/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/AOP的实现机制/" title="AOP的实现机制" itemprop="url">AOP的实现机制</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.706Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="AOP的实现机制"><a href="#AOP的实现机制" class="headerlink" title="AOP的实现机制"></a>AOP的实现机制</h1><div><br><br><strong><span lang="EN-US" style="font-family:">AOP的实现机制</span></strong><br><br></div>
-
-<div><br><br><strong><span lang="EN-US" style="font-family:">\<br></span></strong><br><br></div>
-
-<div><br><br><strong><span lang="EN-US" style="font-family:">1 AOP</span><span style="font-family: 宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family: 宋体">各种的实现</span></strong><br><br></div>
-
-<p><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">就是面向切面编程，我们可以从几个层面来实现</span><span lang="EN-US" style="font-family:">AOP</span><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">。</span></p>
-<p><span lang="EN-US" style="font-family:"><img src="AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6.resources/1418FE10-F093-4D25-B650-AC16A15AB2F0.jpg" alt=""></span></p>
-<p><span style="mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri">在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。</span><span lang="EN-US" style="font-family:">  </span></p>
-<p><span lang="EN-US" style="font-family:">  </span><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/AOP的实现机制/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/AOP的实现机制/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/AOP的实现机制/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/@synthesize和@dynamic区别/" title="synthesize和 dynamic区别" itemprop="url">synthesize和 dynamic区别</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.696Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="synthesize和-dynamic区别"><a href="#synthesize和-dynamic区别" class="headerlink" title="synthesize和 dynamic区别"></a>synthesize和 dynamic区别</h1><p><span style="font: 16.0px Verdana; font-kerning: none; color: #6466b3; -webkit-text-stroke: 0px #6466b3"><a href="http://www.cnblogs.com/xiaodao/archive/2012/10/09/2716244.html" target="_blank" rel="noopener"><strong> synthesize和 dynamic区别</strong></a></span><span style="font: 16.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646"><strong>\
-</strong></span><span style="font: 12.0px Verdana; font-kerning: none; color: #464646; -webkit-text-stroke: 0px #464646">\<br></span><span style="font: 14.0px Verdana; font-kerning: none; color: #393939; -webkit-text-stroke: 0px #393939">在声明property属性后，有2种实现选择\<br>  synthesize\<br> 编译器期间，让编译器自动生成getter/setter方法。\<br> 当有自定义的存或取方法时，自定义会屏蔽自动生成该方法\<br>  \<br>  dynamic\<br> 告诉编译器，不自动生成getter/setter方法，避免编译期间产生警告\<br> 然后由自己实现存取方法\</span></p>
-<p>或存取方法在运行时动态创建绑定：主要使用在CoreData的实现NSManagedObject子类时使用，由Core<br>Data框架在程序运行的时动态生成子类属性</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/@synthesize和@dynamic区别/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/@synthesize和@dynamic区别/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/3月份面试题po出/" title="三月份的面试题目" itemprop="url">三月份的面试题目</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.669Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="3月份面试题PO出"><a href="#3月份面试题PO出" class="headerlink" title="3月份面试题PO出"></a>3月份面试题PO出</h1><p>上周去面试了，本来应该上周未就应该把这些题目都研究下的，但是我落魄了<br>我面试的是全栈工程师，结果是扑街了。。。。。可能是因为聊天时没发挥好，下次要注意了，要有激情。。。。。</p>
-<p>面试内容：</p>
-<h2 id="一，浏览器跨域问题怎么解决"><a href="#一，浏览器跨域问题怎么解决" class="headerlink" title="一，浏览器跨域问题怎么解决"></a>一，浏览器跨域问题怎么解决</h2><p>先来说说，什么是跨域问题？</p>
-<h3 id="什么是跨域？"><a href="#什么是跨域？" class="headerlink" title="什么是跨域？"></a>什么是跨域？</h3><p>概念：只要协议、域名、端口有任何一个不同，都被当作是不同的域。</p>
-<p>言简意骇吧<br>来看例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">URL                      说明       是否允许通信</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">http://www.a.com/b.js     同一域名下   允许</span><br><span class="line">http://www.a.com/lab/a.js</span><br><span class="line">http://www.a.com/script/b.js 同一域名下不同文件夹 允许</span><br><span class="line">http://www.a.com:8000/a.js</span><br><span class="line">http://www.a.com/b.js     同一域名，不同端口  不允许</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">https://www.a.com/b.js 同一域名，不同协议 不允许</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">http://70.32.92.74/b.js 域名和域名对应ip 不允许</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">http://script.a.com/b.js 主域相同，子域不同 不允许</span><br><span class="line">http://www.a.com/a.js</span><br><span class="line">http://a.com/b.js 同一域名，不同二级域名（同上） 不允许（cookie这种情况下也不允许访问）</span><br><span class="line">http://www.cnblogs.com/a.js</span><br><span class="line">http://www.a.com/b.js 不同域名 不允许</span><br></pre></td></tr></table></figure>
-<p><em>ps:对于端口和协议的不同，只能通过后台来解决。</em></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/3月份面试题po出/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/面试题/">面试题</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/面试题-全栈/">面试题 全栈</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/3月份面试题po出/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/3月份面试题po出/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">根据apple官方3D touch的例子写个3D Touch功能</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:22.664Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="根据apple官方3D-touch的例子写个3D-Touch功能"><a href="#根据apple官方3D-touch的例子写个3D-Touch功能" class="headerlink" title="根据apple官方3D touch的例子写个3D Touch功能"></a>根据apple官方3D touch的例子写个3D Touch功能</h3><h4 id="一，3D-touch-sample下载"><a href="#一，3D-touch-sample下载" class="headerlink" title="一，3D touch sample下载"></a>一，3D touch sample下载</h4><ol>
-<li><p><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/" target="_blank" rel="noopener">下载地址(文档)</a></p>
+        <h1 id="Google-Cloud-Platform免费申请-amp-一键搭建SSR-amp-BBR加速教程"><a href="#Google-Cloud-Platform免费申请-amp-一键搭建SSR-amp-BBR加速教程" class="headerlink" title="Google Cloud Platform免费申请&amp;一键搭建SSR &amp; BBR加速教程"></a>Google Cloud Platform免费申请&amp;一键搭建SSR &amp; BBR加速教程</h1><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550645437458oolft1bo.png?imageslim" alt="paste image"></p>
+<ol>
+<li>Google Cloud Platform (GCP) 简介<br>Google Cloud Platform (以下简称GCP)是Google提供的云平台, 可以用来搭建加速服务, 网站和存储数据等等, 本文将介绍如何申请GCP一年的免费试用、Linux服务器环境搭建、配置BBR加速以及安装SSR等服务端. 网上关于如何搭建GCP的教程很多, 不过都不是太详尽. 如果你是没基础的新手, 或者像下图这位童鞋踩到坑不知所措的话, 希望这篇教程能帮到你 🙂</li>
+</ol>
+<p>Google Cloud Platform搭建问题</p>
+<ol>
+<li>Google Cloud Platform 优势<br>大家用得比较多的可能是Linode, 搬瓦工, Vultr等VPS, 收费$5-$20美金左右.<br>最近LinodeIP段也封得比较多, 基本上开十多台机器都难找到能PING通的IP.<br>另外还有各种VP/恩基本都挂了.<br>至于XX路由器, 本质上只是刷了个固件内置了SS服务而已, 略过不提.</li>
+</ol>
+<p>GCP的优势在于:</p>
+<p>免费<br>Google云服务平台对新用户赠送300美元, 可以免费使用1年.<br>并且到期后如果不打算续费, 也不会额外收取费用 (像亚马逊AWS就直接扣你费用了).<br>如果还想继续用, 直接新注册个账号, 免费 🙂<br>用来搭SS的话, 最低配置的机型$5/月, 出口大陆流量1T以内为0.23$/1G, 算下来每个月可用80多G的流量, 足够用了, 当然你还可以顺便搭个网站之类的 🙂<br>GCP 300美元一年免费试用<br>速度快<br>Google GCP有美国, 亚洲, 欧洲等机房, 而亚洲机房就在厦门正对面的台湾省彰化县, TTL只有40ms左右，快到飞起, 而Linode、Vultr等通常是200多；</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550645478291dta7czwt.png?imageslim" alt="paste image"></p>
+<ol>
+<li><p>需要准备的东西<br>Gmail账号<br>双币信用卡 (淘宝购买的虚拟卡无法使用, 不要浪费钱)<br>Xshell: SSH客户端 (也可用Google自带的在线SSH, 以后比较方便).<br>Xshell不建议用绿色版, 某些电脑没装运行库的话可能无法打开.<br>另外之前官方5.0 Build 1322版本存在后门, 所以还是去官网下载最新的安装版吧.<br>Xshell 6官网下载地址点我, 目前家庭与学校用户可免费使用. 填写姓名和邮箱并提交表单后, 邮箱会收到下载链接.<br>puttygen: SSH密钥生成工具. 官网下载地址: puttygen 32位 , puttygen 64位<br>能访问Google (额, 这貌似是个悖论, 你可以先找其他临时方案)<br>需要一定动手能力以及Linux系统基础知识, 想省事或遇到问题的, 请找人工付费服务…<br>废话不多说,下面直接上教程:</p>
 </li>
-<li><p>下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习  </p>
+<li><p>申请Google Cloud Platform<br>4.1 注册<br>申请地址: <a href="https://cloud.google.com/free/" target="_blank" rel="noopener">https://cloud.google.com/free/</a></p>
+</li>
+</ol>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550645534869jqqmk5f5.png?imageslim" alt="paste image"></p>
+<p>Google Cloud Platform 免费试用<br>点击免费试用, 登入Gmail账号.<br>地区选中国.</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550645557551lan7x677.png?imageslim" alt="paste image"></p>
+<p>账号类型选个人, 接下来输入账单地址以及信用卡信息. Google会从信用卡扣除1美元用于验证, 验证完成后会退还到账户.<br>点击开始免费试用.</p>
+<p>4.2 激活结算账号<br>注册成功后可能并不能马上使用 (国内注册的基本都需要激活, 当然也不排除你人品好的情况), Gmail邮箱会受到一封标题为紧急通知：您的结算帐号 XXXXX 已经被暂停使用的邮件, 你需要点击邮件中的链接, 上传身份证和信用卡照片完成验证 (信用卡照片可以遮住或PS掉敏感信息, 只保留最后四位, 自己看页面提示), 一般提交后10分钟左右就能收到通过的邮件, 验证完成后就可以正常使用了.</p>
+<p>这一步很多人会忽略, 结果就是创建实例的时候会不停提示你Enable Billing Account, 但是指引界面又没有明确说明要怎么激活, 即使是进到账号管理界面也无法自己开启. 所以别忘了去喵一眼你的邮箱 🙂</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550645633146sc8anwy9.png?imageslim" alt="paste image"></p>
+<p>邮件: 紧急通知：您的结算帐号 XXXXX 已经被暂停使用<br>结算账号验证成功后会显示消息:</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/155064566991862c1mypz.png?imageslim" alt="paste image"></p>
+<p>结算账号验证成功消息<br>4.3 修改防火墙规则<br>有的文章是先创建实例再改规则.<br>我们先修改防火墙规则, 后面会省事一点.</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550645708034sj9y13cj.png?imageslim" alt="paste image"></p>
+<p>直接访问 <a href="https://console.cloud.google.com/networking/firewalls/list" target="_blank" rel="noopener">https://console.cloud.google.com/networking/firewalls/list</a></p>
+<p>Google Cloud Platform 防火墙规则<br>点击创建防火墙规则, 按下图设置:</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/15506457319939ssxmqpy.png?imageslim" alt="paste image"></p>
+<p>Google Cloud Platform 创建防火墙规则<br>注意IP地址范围是0.0.0.0/0, 别写错了.<br>有遇到过有人写成0.0.0.0, 结果后来怎么试都不成功的.</p>
+<p>4.5 创建计算引擎<br>4.5.1 创建实例</p>
+<p>直接访问 <a href="https://console.cloud.google.com/compute/instances" target="_blank" rel="noopener">https://console.cloud.google.com/compute/instances</a><br>或登录GCP控制台后, 点击计算引擎 – 创建实例. 如图:</p>
+<p>名称: 随便填<br>地区: 建议选asia-east1-c<br>asia-east1-a, asia-east1-b, asia-east1-c 机房都在中国台湾彰化县, 实测c区更好.</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550645905180a22csqj8.png?imageslim" alt="paste image"></p>
+<p>4.5.2 生成静态IP<br>点击网络选项卡—外部IP—创建IP地址.</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550645997523jarg291u.png?imageslim" alt="paste image"></p>
+<p>Google运服务器-创建实例-网络选项卡<br>外部IP,创建IP地址<br>创建IP地址<br>然后会提示输入名称, 任意输入即可(小写字母开头,不能为大写字母)</p>
+<p>保留新的静态IP地址<br>补充说明<br>关于IP会有静态和临时两个选项.<br>推荐选择静态, 选择临时的话机器重启后会重新分配IP地址.</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/155064606590858rawbmd.png?imageslim" alt="paste image"></p>
+<p>更多信息可以去Dashboard中的网络 – VNC网络 – 外部IP地址或直接点击<a href="https://console.cloud.google.com/networking/addresses/list查看" target="_blank" rel="noopener">https://console.cloud.google.com/networking/addresses/list查看</a>.</p>
+<p>把创建好的IP记下来, 用Xshell连接的时候会用到.</p>
+<p>静态IP一定记得绑定到实例.<br>已分配但未被使用的IP, 会按$0.01/小时计费.</p>
+<p>4.5.3上传SSH公钥<br>点击SSH密钥选项卡</p>
+<p>Google Cloud Platform - 创建实例 - SSH密钥选项卡<br>在上图文本框内填入4.4.1步骤中puttygen中生成的公钥, 注意是下图中蓝色部分的内容, 直接全选并复制, 再粘贴过来即可.</p>
+<p>最后点击最底部的创建按钮, 创建实例.</p>
+<p>页面左下角会提示正在创建实例, 实际等待10秒左右即可创建完成并启动.</p>
+<p>正在创建GCP VM实例<br>VM实例管理界面第一列中绿色的对勾图标表示该实例正在运行, 第五列为实例的外部IP, 也就是下一步用Xshell连接时需要用到的主机IP地址.</p>
+<ol>
+<li>一键安装最新内核并开启BBR脚本<br>BBR要求系统内核版本为4.9以上, 本文采用teddysun的脚本, 支持一键自动判断和安装所需内核版本并开启BBR.</li>
+</ol>
+<p>5.1 连接XShell<br>通过Xshell连接到Google Cloud VPS.</p>
+<p>主机: 之前步骤创建的静态IP, 也可在GCP VM实例的管理界面查看.<br>端口: 默认的22端口<br>用户名: 如你的gmail邮箱是username@gmail.com, 则用户名是username<br>密钥: 使用之前puttygen生成的私钥, 导入即可.</p>
+<p>有的小伙伴不会用Xshell, 补充几张图片:</p>
+<p>Google也自带了在线SSH, 实例创建好后, 在列表界面点击SSH – 在浏览器窗口中打开即可进入, 见下图.<br>不过出于个人习惯, 用Xshell本地进行连接管理更方便, 不用每次都打开浏览器进GCP后台.</p>
+<p>5.2 运行BBR脚本<br>通过脚本一键升级内核并安装BBR加速.</p>
+<p>Linux系统中root用户拥有最高权限, 出于安全考虑, GCP默认是以普通用户登录的, 我们需要先切换到root用户, 否则运行某些命令时会提示无权限.</p>
+<p>先切换到root用户.<br>Xshell连上服务器后, 输入命令:<br>sudo -i</p>
+<p>切换后, 命令前面的提示符中也会显示root, 如图:</p>
+<p>依次运行以下4条命令</p>
+<p>yum install -y wget<br>wget –no-check-certificate <a href="https://github.com/teddysun/across/raw/master/bbr.sh" target="_blank" rel="noopener">https://github.com/teddysun/across/raw/master/bbr.sh</a><br>chmod +x bbr.sh<br>./bbr.sh<br>安装完成后，脚本会提示需要重启VPS，输入 y 并回车后重启, 这时Xshell连接也会自动断开。</p>
+<p>VPS重启可能需要几分钟, 耐心等待一下.</p>
+<p>重启完成后，再用Xhell重新连接VPS, sudo -i切换到root用户.</p>
+<p>现在验证一下是否成功安装了最新内核并开启BBR.<br>输入以下命令：</p>
+<p>uname -r<br>查看内核版本，如果返回值含有4.13或以上版本, 就表示OK了.</p>
+<p>sysctl net.ipv4.tcp_available_congestion_control<br>返回值一般为：<br>net.ipv4.tcp_available_congestion_control = bbr cubic reno</p>
+<p>sysctl net.ipv4.tcp_congestion_control<br>返回值一般为：<br>net.ipv4.tcp_congestion_control = bbr</p>
+<p>sysctl net.core.default_qdisc<br>返回值一般为：<br>net.core.default_qdisc = fq</p>
+<p>lsmod | grep bbr<br>返回值有 tcp_bbr 模块即说明bbr已启动。</p>
+<ol>
+<li>安装SSR<br>本文采用秋水逸冰的Shadowsocks一键安装脚本(四合一).<br>依次运行以下3条命令:</li>
+</ol>
+<p>2017.12.3更新: 记得先用sudo -i命令切换到root用户, 不然会显示This script must be run as root! 见下图:</p>
+<p>wget –no-check-certificate -O shadowsocks-all.sh <a href="https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh" target="_blank" rel="noopener">https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</a><br>chmod +x shadowsocks-all.sh<br>./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log<br>注意: 前面两行命令其实是同一行, 因为网页排版的问题显示成2行了, 直接把这两行都复制, 再粘贴到Xshell即可. 好多人在这一步出错, 特意提醒下. 具体看截图:</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1582903127823y0363snt.png?imageslim" alt="paste image"></p>
+<p>然后是选择SSR版本, 设置端口、密码、加密方式等等，之前的 SSR安装教程有详细步骤， 此处略过.</p>
+<p>安装好之后即可通过客户端进行连接与测速.</p>
+<p>最后附上测速:<br><img src="http://q9eg0x3qq.bkt.clouddn.com/1582903952935r5r74ewo.png?imageslim" alt="paste image"></p>
+<p>小飞机客户端的使用请参考:</p>
+<p>ShadowsocksR客户端 各种隐藏使用技巧说明<br>SSR 安卓 &amp; 苹果 Iphone, Ipad一键设置教程.</p>
+<ol>
+<li>关于流量与扣费<br>Google Cloud Platform计算引擎是按小时收费，网络按流量收费.<br>我们掏出笔来算一算:<br>注册赠送了300美金, 一年免费使用期.</li>
+</ol>
+<p>主机我们选的是微型(最低配置机型), $5/月.<br>还剩300-5*12=$240, 用于抵扣流量的费用.<br>谷歌云服务器出口大陆流量1T以内价格约为0.23$/1G.<br>那么每个月可用流量 = 240/12/0.23 ≈ 86G, 一般日常使用绝对够用, 当然你还可以顺便搭个网站之类的 🙂</p>
+<ol>
+<li>如何查看使用量及余额<br>进入结算概览页面: <a href="https://console.cloud.google.com/billing/" target="_blank" rel="noopener">https://console.cloud.google.com/billing/</a></li>
+</ol>
+<p>可以看到剩余的赠金和天数.<br>点击左侧交易, 以及图中下方相关联的项目名称, 可以查看使用量和扣费明细.</p>
+<p>结算概览查看使用量明细和赠金余额</p>
+<ol>
+<li><p>增加Swap交换分区与调优<br>GCP默认没有Swap交换分区, 如果0.6G内存不够用, 可以手动增加Swap交换分区并且调整对应的内核参数. 参考文章: Google Cloud Platform 增加Swap交换分区与调优</p>
+</li>
+<li><p>如何开启root登录 (非必须)<br>出于安全因素, Google Cloud Platform默认是以普通用户密钥认证的方式登录的, 禁止root登录. 如需要root权限可以使用命令sudo -i进行切换.<br>如果需要直接使用root登录,按如下设置:</p>
+</li>
+</ol>
+<p>先切换到root<br>sudo -i</p>
+<p>创建.ssh目录并修改权限, 然后复制普通用户的密钥文件到root相应目录下. 用户名注意换成你自己的.<br>mkdir .ssh &amp;&amp; chmod 700 .ssh &amp;&amp; cp /home/你的gmail用户名/.ssh/authorized_keys .ssh</p>
+<p>修改SSH配置文件<br>vim /etc/ssh/sshd_config<br>将PermitRootLogin no改为PermitRootLogin yes并保存</p>
+<p>重启SSH服务<br>systemctl restart sshd.service</p>
+<p>测试是否设置成功</p>
+<ol>
+<li>FAQ<br>Q: 运行某些命令提示 <em>*</em> Operation not permitted或者You need to be root to perform this command.?<br>A: 一般是权限不够. 管理GCP时, 记得先sudo -i切换到root用户, 否则某些命令无法运行.</li>
+</ol>
+<p>Q: 区域选的是asia-east1-c台湾机房, 为什么ping显示是美国IP?<br>A: 正常. Ping测试不准. IP地址是谷歌从美国申请的, 但是可用于全球任何一个机房, 因为谷歌是采用网间结算(IP Transit)服务，直接指定部分段与某地区运营商进行连接. 详细机房位置参考: <a href="https://cloud.google.com/compute/docs/regions-zones/#available" target="_blank" rel="noopener">https://cloud.google.com/compute/docs/regions-zones/#available</a>. 另外可用tracert或mtu命令测试路由与节点. Ping的话建议www.ipip.net.</p>
+<p>Q: 还能更快吗?<br>A: 可以, 关键词: 魔改版BBR, 自行搜索</p>
+<p>Q: 装BBR脚本时, 手动更换内核，重启后，整个磁盘变为只读怎么办?<br>A: 执行命令mount -o remount rw /即可恢复.</p>
+<p>Q: 根据谷歌的Always Free政策, us-east1, us-west1, and us-central1这三个地区的微型机器永久免费, 能用吗?<br>A: 可以忽略. 流入中国和澳大利亚的流量要收费, 如下图. 更多限制政策请参考: <a href="https://cloud.google.com/compute/pricing#freeusage" target="_blank" rel="noopener">https://cloud.google.com/compute/pricing#freeusage</a><br>Google Cloud Platform的Always Free政策使用限制<br>Q: Google Cloud Platform能用来建站吗?<br>A: 当然可以, 不过长期建站还是推荐用Linode. GCP流量是要扣费的. 另外外贸站建议机房使用目标客户所在国家. 国内站的话, 反正百度是不咋待见国外服务器的.</p>
+<p>转：<a href="https://www.wmsoho.com/google-cloud-platform-ssr-bbr-tutorial" target="_blank" rel="noopener">https://www.wmsoho.com/google-cloud-platform-ssr-bbr-tutorial</a></p>
+
         
         
         <p class="article-more-link">
           
-            <a href="/2018/11/19/3d_touch例子一个/#more">Read More</a>
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/20/google-cloud-vm建免费vps/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/20/google-cloud-vm建免费vps/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/16/docker日志问题导致磁盘空间被占用/" title="docker日志问题导致磁盘空间被占用" itemprop="url">docker日志问题导致磁盘空间被占用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-16T12:15:00.000Z" itemprop="datePublished"> 发表于 2019-02-16</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="docker日志问题导致磁盘空间不足"><a href="#docker日志问题导致磁盘空间不足" class="headerlink" title="docker日志问题导致磁盘空间不足"></a>docker日志问题导致磁盘空间不足</h1><p>昨天突然发现本厂开发环境各个docker实例都处于非健康状态，在宿主机上执行命令：</p>
+<pre><code>df -h
+</code></pre><p>发现docker相关的文件占用空间是100%：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
+<p>有点不正常，我看看docker相关的文件占用情况，是镜像占用的还是容器占用的，或者是Volumes占用的，执行：</p>
+<pre><code>docker system df
+</code></pre><p>这里面显示一切正常，也并没有超过挂载盘的大小256G。</p>
+<p>首先把多余的镜像和不用的docker都清理掉。</p>
+<p>执行命令：</p>
+<pre><code>docker system prune -a
+</code></pre><p>可以将没有容器使用Docker镜像和未开启的容器都删掉。</p>
+<p>我看到占用超过226G空间的都来自 <code>/mnt/docker/overlay2/*</code> 这个目录,<br>进入到这个目录，并执行：</p>
+<pre><code>du -lbhs ./*
+</code></pre><p>发现这里面也没有超过2个G的目录文件大小。</p>
+<p>我潜意识里就觉得八成是日志导致的，所以我首先看看是不是我所有的docker输出的日志文件是否需要清理了，我到挂载目录里去看看，果然发现了很多docker容器的日志目录就占了1-2个G，我du -lbhs 了一下，发现所有容器挂载的日志目录加起来的容量才8G多点，不足以占用256个G的空间。<br>算了，先把这8个G的占用清了吧。</p>
+<pre><code>rm -rf ./*/logs/*
+</code></pre><p>然后我再看看docker容器本身还有多少占用的空间情况：</p>
+<pre><code>docker ps --size
+</code></pre><p>发现还有两个docker占用了3个多占的空间，但是又不知道具体是什么导致的，那我只能看看docker本身的硬盘占用情况了：</p>
+<pre><code>docker diff &lt;container&gt;
+</code></pre><p>发现<code>/tmp</code> 目录下有好多文件：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/15503217004152bmdcd14.png?imageslim" alt="paste image"></p>
+<p>还有指向<code>/tmp/tomcat.*/*</code> 相关的目录：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550321770403ggnsq3dy.png?imageslim" alt="paste image"></p>
+<p>我觉得八成就是这些东西占用的，/tmp 临时文件按道理讲系统会自动删除的，不知道为什么没有删除，这个后面再找原因。<br>我就把所有docker容器里的<code>/tmp</code>目录下的文件全部删除，反正是临时文件。</p>
+<pre><code>docker exec &lt;container&gt; rm -rf /tmp/*
+</code></pre><p>好，都删除了，再看一下硬盘空间，发现还是已使用100%。</p>
+<p>怎么办，有点慌了，我看这个指向的还是overlay2目录，我尝试着在目录里找找问题。</p>
+<p>我想，这个overlay2目录可能有挂载或者链接，它自身并不大，是挂载的目录占用大。</p>
+<p>我们往上一级再看看哪个文件占用空间大：</p>
+<pre><code>cd ..
+du -lbhs ./*
+</code></pre><p>发现有几个contarins目录下的目录文件占用挻大的：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550320388470wopcicty.png?imageslim" alt="paste image"></p>
+<p>我就从最大的目录下手，占用空间7.4G的，是8972f…..这个目录，我进去看一眼：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550320522538gmcr7qay.png?imageslim" alt="paste image"></p>
+<p>我发现里面有个后缀为<code>xxxx-json.log</code>的这个文件占了198G，这个就是问题了，很兴奋，赶紧删除了：</p>
+<pre><code>rm -rf ./*/*.log
+</code></pre><p>这个就把所有的contarner的控制台日志文件删除了。</p>
+<p>我们再看看docker的空间占用情况：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550322418176dwe2uam6.png?imageslim" alt="paste image"></p>
+<p>这里已经很好了，只有镜像占用了1个多G。</p>
+<p>我们再来看看宿主机的空间情况：</p>
+<pre><code>df -h
+</code></pre><p>发现还是100%，见鬼了：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550319498360gfiveq9s.png?imageslim" alt="paste image"></p>
+<p>一般觉得见鬼了的时候，只有两种情况，一种是你操作错了别的东西，一种是缓存，我觉得是后者。</p>
+<p>我觉得肯定是docker还没有读到真实的容器占用硬盘空间的数据，那我只能重启docker了：</p>
+<pre><code>systemctl daemon-reload 
+
+systemctl restart docker
+</code></pre><p>为了确认一切顺利，运行:</p>
+<pre><code>docker info
+</code></pre><p>ok，没有问题了，再执行 <code>df -h</code><br>很好：</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550322879853rhx6bckp.png?imageslim" alt="paste image"></p>
+<p>已经只占用挂载磁盘 <code>/dev/vdbd1</code>总大小的2%。</p>
+<p>看来后面还是要写一个自动删除日志的脚本，来维持硬盘空间的大小。</p>
+<p><a href="https://github.com/moby/moby/issues/33775" target="_blank" rel="noopener">参考文章1</a></p>
+<p><a href="https://meta.discourse.org/t/var-lib-docker-overlay2-took-all-the-disk-space/84624" target="_blank" rel="noopener">参考文章2</a></p>
+<p><a href="https://stackoverflow.com/questions/46672001/is-it-safe-to-clean-docker-overlay2" target="_blank" rel="noopener">参考文章3</a></p>
+<p><a href="https://blog.csdn.net/weixin_32820767/article/details/81196250" target="_blank" rel="noopener">参考文件章4</a></p>
+
+        
+        
+        <p class="article-more-link">
           
        </p>
     </div>
@@ -758,13 +923,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
+  <a class="article-category-link" href="/categories/IT-运维/">IT&运维</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/3DTouch-sample/">3DTouch sample</a>
+  <span></span> <a href="/tags/docker/">docker</a>
   </div>
 
 </div>
@@ -775,7 +940,153 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/3d_touch例子一个/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/3d_touch例子一个/" data-count-type="comments">&nbsp;</a>
+		<a href="/2019/02/16/docker日志问题导致磁盘空间被占用/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/16/docker日志问题导致磁盘空间被占用/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/14/大数据之数据仓库/" title="大数据之数据仓库" itemprop="url">大数据之数据仓库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-14T05:18:00.000Z" itemprop="datePublished"> 发表于 2019-02-14</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="大数据之数据仓库"><a href="#大数据之数据仓库" class="headerlink" title="大数据之数据仓库"></a>大数据之数据仓库</h1><h2 id="什么是数据仓库"><a href="#什么是数据仓库" class="headerlink" title="什么是数据仓库"></a>什么是数据仓库</h2><p>数据仓库，英文名称Data Warehouse，简写为DW。数据仓库顾名思义，是一个很大的数据存储集合。数据仓库必须满足主题性、集成性、稳定性、时变性这些特征。</p>
+<p>数据仓库的输入方是各种各样的数据源，最终的输出用于企业的数据分析、数据挖掘、数据报表等方向。</p>
+<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1550125093251lvxgy9x9.png?imageslim" alt="paste image"></p>
+<h3 id="数据仓库的特征"><a href="#数据仓库的特征" class="headerlink" title="数据仓库的特征"></a>数据仓库的特征</h3><blockquote>
+<blockquote>
+<p>什么样的数据表现形式才能叫数据仓库？</p>
+</blockquote>
+</blockquote>
+<p>1.主题性</p>
+<p>不同于传统数据库对应于某一个或多个项目，数据仓库根据使用者实际需求，将不同数据源的数据在一个较高的抽象层次上做整合，所有数据都围绕某一主题来组织。</p>
+<p>这里的主题怎么来理解呢？比如对于滴滴出行，“司机行为分析”就是一个主题，对于链家网，“成交分析”就是一个主题。</p>
+<p>2.集成性</p>
+<p>数据仓库中存储的数据是来源于多个数据源的集成，原始数据来自不同的数据源，存储方式各不相同。要整合成为最终的数据集合，需要从数据源经过一系列抽取、清洗、转换的过程。</p>
+<p>3.稳定性</p>
+<p>数据仓库中保存的数据是一系列历史快照，不允许被修改。用户只能通过分析工具进行查询和分析。</p>
+<p>4.时变性</p>
+<p>数据仓库会定期接收新的集成数据，反应出最新的数据变化。这和特点并不矛盾。</p>
+<p>~~
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/02/14/大数据之数据仓库/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/大数据/">大数据</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据仓库/">数据仓库</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/14/大数据之数据仓库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/14/大数据之数据仓库/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/02/10/2019新征途/" title="2019新征途" itemprop="url">2019新征途</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-02-10T15:54:38.000Z" itemprop="datePublished"> 发表于 2019-02-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="回顾2018"><a href="#回顾2018" class="headerlink" title="回顾2018"></a>回顾2018</h1><p>2018年对于我来说注定是一个复杂的一年，工作方面，遭遇了一家金融公司的倒闭，也让我在金钱方面也蒙受了不少损失，大概在两万多元左右。最让我吃亏的是社保公积金因为此事停缴了两个月，至此我离在上海买房的目标越来越远了。。。。。。</p>
+<h2 id="工作方面"><a href="#工作方面" class="headerlink" title="工作方面"></a>工作方面</h2><p>2018年4月，我回到了那个曾经熟悉但又陌生的工作环境，说熟悉，这是我<br>的老东家，我的老上司也在，说陌生，是因为感觉到这个公司已经完全不是我当年离开时的那个味道了，甚至公司名称都改成了xx网络科技有限公司了，回来主要是受老上司的邀请，共同解决大数据量的酒店相关后端服务的。我的到来，刚开始确实为公司，为团队解决了很多棘手的问题，关于这一点，我很欣慰。</p>
+<p>2018年7月，还是应老上同邀请，拉我一起从这个熟悉而陌生的环境出来，<br>去一家可能比较有前任的创业公司，我非常欣赏我的上司，可以说，这么多年，我更多的是把他当作朋友（也作良师益友吧），我也觉得，在目前这家公司一直待下去，确实也学不到什么东西，还不如和志气相同的人一起做些有意义的事，毕竟，我也不是第一次干了，何况这家创业公司的老板也是我们共同看好的人，所以我也欣然同去了。</p>
+<p>2019年1月，在创业公司经过半年的发展与探索，老板发现，我们的发展模<br>式非常有问题，并迅速停止了所有的业务。</p>
+<p>2019年1月底，老板将这家创业公司部分骨干人员并入到一家新的酒店行业<br>的类独角兽——嗨住。嗨住团队是一个非常有互联网精神的团队，他们的氛围，我感觉我挻喜欢。合并后，我们产生了一家新的公司，名字叫——慧住。</p>
+<p>以上是我2018年的全部工作历程，很曲折，也很无奈。</p>
+<p>而回顾2018年，我立下的flag又有哪些已经兑现了呢？</p>
+<blockquote>
+<blockquote>
+<p>将服务端技术提升上一个台阶<br>帮助老朋友解决掉目前的困难<br>让漂泊的心暂时稳定下来<br>考驾照<br>往架构师方向发展 </p>
+</blockquote>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2019/02/10/2019新征途/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2019/02/10/2019新征途/#comments" class="ds-thread-count comments-count-link" data-thread-key="2019/02/10/2019新征途/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -791,7 +1102,7 @@
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/29/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/31/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/29/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/31/">Next<span></span></a>
   </nav>
 
 
@@ -948,7 +1259,7 @@
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>18</sup></a></li>
 		  
 		
 		  
@@ -997,6 +1308,22 @@
 			
 		
 			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
@@ -1005,35 +1332,7 @@
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
@@ -1041,23 +1340,35 @@
 			
 		
 			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -1076,7 +1387,7 @@
         
           <li>
             
-            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
             
           </li>
         

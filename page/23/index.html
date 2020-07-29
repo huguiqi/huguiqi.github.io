@@ -92,29 +92,30 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/centos 开启防火墙后ftp无法访问解决方案/" title="centos 开启防火墙后ftp无法访问解决方案" itemprop="url">centos 开启防火墙后ftp无法访问解决方案</a>
+      <a href="/2020/04/29/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/" title="PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题" itemprop="url">PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.175Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.170Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="centos-开启防火墙后ftp无法访问解决方案"><a href="#centos-开启防火墙后ftp无法访问解决方案" class="headerlink" title="centos 开启防火墙后ftp无法访问解决方案"></a>centos 开启防火墙后ftp无法访问解决方案</h1><div><br><br>Your question isn’t phrased very well, but the symptoms you describe are<br>indicative of a passive FTP not working correctly in combination with<br>your firewall.<br><br>Typically the<br>command <code>insmod nf_conntrack_ftp</code>{style=”padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, ‘Lucida Console’, ‘Liberation Mono’, ‘DejaVu Sans Mono’, ‘Bitstream Vera Sans Mono’, ‘Courier New’, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);”} is<br>sufficient to load the FTP helper module in a badly configured RHEL6 or<br>CentOS firewall.<br><br>To make that persistent:<br><br>Edit the configuration<br>file <code>/etc/sysconfig/iptables-config</code>{style=” padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, ‘Lucida Console’, ‘Liberation Mono’, ‘DejaVu Sans Mono’, ‘Bitstream Vera Sans Mono’, ‘Courier New’, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);”} and<br>add the helper<br>module <code>nf_conntrack_ftp</code>{style=” padding: 1px 5px; border: 0px; font-size: 13px; font-family: Consolas, Menlo, Monaco, ‘Lucida Console’, ‘Liberation Mono’, ‘DejaVu Sans Mono’, ‘Bitstream Vera Sans Mono’, ‘Courier New’, monospace, sans-serif; white-space: pre-wrap; background-color: rgb(238, 238, 238);”} to<br>the IPTABLES_MODULES variable:<br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IPTABLES_MODULES=&quot;nf_conntrack_ftp&quot;</span><br></pre></td></tr></table></figure><br><br></div>
+        <h1 id="PLSQL-Developer编码问题，oracle数据库与这个客户端软件不一致问题"><a href="#PLSQL-Developer编码问题，oracle数据库与这个客户端软件不一致问题" class="headerlink" title="PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题"></a>PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题</h1><div><br><br>PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div style="padding: 0px; border: 0px; font-size: 15px; clear: both; color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><br>
+<div><br><br>解决方式(注意，此操作要在命令行里执行):<br><br></div>
+
+<div><br><br>select Parameter,(value) from nls_database_parameters where<br>value=’AL16UTF16’\<br> order by parameter\<br> update nls_database_parameters set value=’AL32UTF8’ where<br>parameter=’NLS_NCHAR_CHARACTERSET’;\<br>\<br>\<br> ALTER SYSTEM SET NLS_LENGTH_SEMANTICS=’CHAR’ scope=both<br><br></div>
+
         
         
         <p class="article-more-link">
-          
-            <a href="/2018/11/19/centos 开启防火墙后ftp无法访问解决方案/#more">Read More</a>
           
        </p>
     </div>
@@ -140,7 +141,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/centos 开启防火墙后ftp无法访问解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/centos 开启防火墙后ftp无法访问解决方案/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/PLSQL Developer编码问题，oracle数据库与这个客户端软件不一致问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -160,35 +161,244 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/block定义与声明/" title="block定义与声明" itemprop="url">block定义与声明</a>
+      <a href="/2020/04/29/RESTEasy入门/" title="RESTEasy入门" itemprop="url">RESTEasy入门</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.171Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.170Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="block定义与声明"><a href="#block定义与声明" class="headerlink" title="block定义与声明"></a>block定义与声明</h1><div><br><br>\<br><br></div>
+        <h1 id="RESTEasy入门"><a href="#RESTEasy入门" class="headerlink" title="RESTEasy入门"></a>RESTEasy入门</h1><div><br><br>### RESTEasy入门<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br>在方法中声明与使用：<br><br></div>
+<div><br><br>RESTEasy是JBoss的开源项目之一，是一个RESTful Web<br>Services框架。RESTEasy的开发者Bill<br>Burke同时也是JAX-RS的J2EE标准制定者之一。JAX-RS是一个JCP制订的新标准，用于规范基于HTTP的RESTful<br>Web Services的API。<br><br></div>
 
-<div><br><br>(返回值 (\^) (参数类型 参数声明) ) block名字<br><br></div>
+<div><br><br>\<br><br></div>
 
-<div><br><br>-(void)loadHistoryList:(void (\^)(void)) loadBlock{<br><br></div>
+<div><br><br>我们已经有SOAP了，为什么需要Restful<br>WebServices？用Bill自己的话来说：”如果是为了构建SOA应用，从技术选型的角度来讲，我相信REST比SOAP更具优势。开发人员会意识到使用传统方式有进行SOA架构有多复杂，更不用提使用这些做出来的接口了。这时他们就会发现Restful<br>Web Services的光明之处。”<br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/RESTEasy入门/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/RESTEasy入门/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/RESTEasy入门/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/Oracle中TO_DATE格式/" title="Oracle中TO_DATE格式" itemprop="url">Oracle中TO_DATE格式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.167Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Oracle中TO-DATE格式"><a href="#Oracle中TO-DATE格式" class="headerlink" title="Oracle中TO_DATE格式"></a>Oracle中TO_DATE格式</h1><p><span style="font: 14.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><a href="http://www.cnblogs.com/ajian/archive/2009/03/25/1421063.html" target="_blank" rel="noopener"><strong>Oracle中TO_DATE格式</strong></a></span><span style="font: 14.0px Verdana; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>\
+</strong></span><span style="font: 13.0px Verdana; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">\<br> TO_DATE格式(以时间:2007-11-02   13:45:25为例)\<br>   \<br>         Year:     \<br>         yy two digits 两位年                显示值:07\<br>         yyy three digits 三位年                显示值:007\<br>         yyyy four digits 四位年                显示值:2007\<br>            \<br>         Month:     \<br>         mm    number     两位月              显示值:11\<br>         mon    abbreviated 字符集表示<br>显示值:11月,若是英文版,显示nov    \<br>         month spelled out 字符集表示<br>显示值:11月,若是英文版,显示november\<br>          \<br>         Day:     \<br>         dd    number         当月第几天        显示值:02\<br>         ddd    number         当年第几天        显示值:02\<br>         dy    abbreviated 当周第几天简写<br>显示值:星期五,若是英文版,显示fri\<br>         day    spelled out   当周第几天全写<br>显示值:星期五,若是英文版,显示friday       \<br>         ddspth spelled out, ordinal twelfth\<br>             \<br>               Hour:\<br>               hh    two digits 12小时进制            显示值:01\<br>               hh24 two digits 24小时进制            显示值:13\<br>              \<br>               Minute:\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/Oracle中TO_DATE格式/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/Oracle中TO_DATE格式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/Oracle中TO_DATE格式/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/Objective_C动态获取实例属性/" title="Objective_C动态获取实例属性" itemprop="url">Objective_C动态获取实例属性</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.166Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Objective-C动态获取实例属性"><a href="#Objective-C动态获取实例属性" class="headerlink" title="Objective_C动态获取实例属性"></a>Objective_C动态获取实例属性</h1><div><br><br><span style="color: rgb(51, 51, 51); font-family: STHeiti; text-align: left; background-color: rgb(199, 237, 204); float: none;">objective_c动行时库已经有这样的功能。使用这些方法需要加头文件</span><br><br></div>
+
+<div><br><br><span style="color: rgb(51, 51, 51); background-color: rgb(199, 237, 204); font-family: STHeiti; line-height: 1.45;">             #import<br>&lt;objc/message.h&gt;</span>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> interface People : NSObject {<br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/Objective_C动态获取实例属性/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/Objective_C动态获取实例属性/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/Objective_C动态获取实例属性/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/Objective-c之NSString(NSMutableString)/" title="Objective-c之NSString(NSMutableString)" itemprop="url">Objective-c之NSString(NSMutableString)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.165Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Objective-c之NSString-NSMutableString"><a href="#Objective-c之NSString-NSMutableString" class="headerlink" title="Objective-c之NSString(NSMutableString)"></a>Objective-c之NSString(NSMutableString)</h1><div><br><br>Objective-c之NSString(NSMutableString)  (2010-12-09 20:48:24)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="Objective-c%E4%B9%8BNSString(NSMutableString" alt="">.resources/BFF1B981-67D7-48DA-88E7-E0522F4A1618.gif)<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>1、初始化字符串一</strong><br><br></div>
 
 <div><br><br>\<br>
         
         
         <p class="article-more-link">
           
-            <a href="/2018/11/19/block定义与声明/#more">Read More</a>
+            <a href="/2020/04/29/Objective-c之NSString(NSMutableString)/#more">Read More</a>
           
        </p>
     </div>
@@ -214,7 +424,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/block定义与声明/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/block定义与声明/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/Objective-c之NSString(NSMutableString)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/Objective-c之NSString(NSMutableString)/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -234,378 +444,36 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/app加快审核的英文事例/" title="app加快审核的英文事例" itemprop="url">app加快审核的英文事例</a>
+      <a href="/2020/04/29/Objective-C –反射篇/" title="Objective-C –反射篇" itemprop="url">Objective-C –反射篇</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.167Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.162Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="app加快审核的英文事例"><a href="#app加快审核的英文事例" class="headerlink" title="app加快审核的英文事例"></a>app加快审核的英文事例</h1><div><br><br>\<br><br></div>
+        <h1 id="Objective-C-–反射篇"><a href="#Objective-C-–反射篇" class="headerlink" title="Objective-C –反射篇"></a>Objective-C –反射篇</h1><p>Objective-C –反射篇 (2013-08-21 15:57:36)转载▼</p>
+<div><br><br>标签： 杂谈     分类： iphone开发<br><br></div>
 
-<div><br><br>gidoor上线时加快审核的英文<br><br></div>
-
-<div><br><br>Because the app and line under the joint activities, time on December 1,<br>2015, “new users free to send” activity, so the application expedited<br>review on-line, very urgent, thank you!<br><br></div>
-
-<div><br><br>Time: December 1, 2015 activities to on-line<br><br></div>
+<div><br><br><a href="http://zephyrleavesblog.sinaapp.com/?p=676" target="_blank" rel="noopener">http://zephyrleavesblog.sinaapp.com/?p=676</a><br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/app加快审核的英文事例/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/app加快审核的英文事例/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/app加快审核的英文事例/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/app上传流程/" title="申请企业证书需要的资料(二)" itemprop="url">申请企业证书需要的资料(二)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.162Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="一-申请企业证书需要的资料"><a href="#一-申请企业证书需要的资料" class="headerlink" title="一.申请企业证书需要的资料"></a>一.申请企业证书需要的资料</h2><ol>
-<li><p>有国际支付功能的银行卡，并且里面有99美元（公司类型的账号需要支付99$)</p>
-</li>
-<li><p>接收和激活信息的邮箱（申请新开一个技术部的专用邮箱）</p>
-</li>
-<li><p>公司法人代表的姓名、法人头衔</p>
-</li>
-<li><p>公司营业执照副本(电子版)</p>
-</li>
-<li><p>公司联系电话</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/app上传流程/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ios-developer-upload/">ios developer upload</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/app上传流程/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/app上传流程/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/app上传至appStore的流程 /" title="app上传至appStore的流程" itemprop="url">app上传至appStore的流程</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.157Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="app上传至appStore的流程"><a href="#app上传至appStore的流程" class="headerlink" title="app上传至appStore的流程"></a>app上传至appStore的流程</h1><p>1.登录developer.apple.com</p>
-<p><img src="http://img.blog.csdn.net/20150301104134429?xx" alt="![技术分享]"></p>
-<p>2.点击member center后 进下图</p>
-<p><img src="http://img.blog.csdn.net/20150301104323153?xx" alt="技术分享"></p>
-<p>3.点击certificates Identifiers进下图<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/app上传至appStore的流程 /#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ios-developer-上传审核/">ios developer 上传审核</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/app上传至appStore的流程 /#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/app上传至appStore的流程 /" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/apple_worldwide_developer_relations_证书过期问题/" title="apple Worldwide Developer Relations 证书过期问题" itemprop="url">apple Worldwide Developer Relations 证书过期问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.148Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="apple-Worldwide-Developer-Relations-证书过期问题"><a href="#apple-Worldwide-Developer-Relations-证书过期问题" class="headerlink" title="apple Worldwide Developer Relations 证书过期问题"></a>apple Worldwide Developer Relations 证书过期问题</h3><p>1016年过完年打开电脑xcode发布新版本app，发现所有的开发证书都过期了，花了一小时终于搞清楚什么原因了，原来是mac上一个系统根证书(Apple Worldwide Developer Relations Certification Authority)过期了，而所有的开发证书的签发证书都是它，少废话，直接上链接：<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/apple_worldwide_developer_relations_证书过期问题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/ios-Developer/">ios Developer</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/ios-developer-证书过期/">ios developer 证书过期</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/apple_worldwide_developer_relations_证书过期问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/apple_worldwide_developer_relations_证书过期问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/[Nginx] 在Linux下的启动、停止和重加载/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.140Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="Nginx-在Linux下的启动、停止和重加载"><a href="#Nginx-在Linux下的启动、停止和重加载" class="headerlink" title="[Nginx] 在Linux下的启动、停止和重加载"></a>[Nginx] 在Linux下的启动、停止和重加载</h1><div><br><br>Nginx的启动<br><br></div>
-
-<div><br><br>/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf<br><br></div>
-
-<div><br><br>其中-c参数指定配置文件路径。<br><br></div>
-
-<div><br><br>Nginx的停止<br><br></div>
-
-<div><br><br>Nginx支持以下几种信号控制： - TERM, INT 快速关闭 - QUIT 从容关闭 - HUP 平滑重启 - USR1 重新打开日志文件，在切割文件时用处大 - USR2 平滑升级 - WINCH 从容关闭工作进程 我们可以通过信号停止Nginx主进程，首先，我们需要通过ps -ef|grep命令获得master进程的PID，或者通过cat pid文件获得主进程号。下面是几个典型的停止语句：<br><br></div>
-
-<div><br><br>#从容停止Nginx<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/[Nginx] 在Linux下的启动、停止和重加载/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/[Nginx] 在Linux下的启动、停止和重加载/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/[Nginx] 在Linux下的启动、停止和重加载/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/XCode下的iOS单元测试/" title="XCode下的iOS单元测试" itemprop="url">XCode下的iOS单元测试</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.128Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="XCode下的iOS单元测试"><a href="#XCode下的iOS单元测试" class="headerlink" title="XCode下的iOS单元测试"></a>XCode下的iOS单元测试</h1><div><br><br>如何在 XCode 4.2 下使用 OCUnit， GHUnit 和 OCMock 进行单元测试。<br><br></div>
+<div><br><br>今天我们来讲讲Objective-C的反射,<br><br></div>
 
 <div><br><br>\<br><br></div>
 
-<div><br><br><strong>OCUnit</strong><br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>在 XCode 下新建一个 OCUnitProject 工程，选中 Include Unit Tests 选择框，<br><br></div>
-
-<div><br><br>\<br>
+<div><br><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2018/11/19/XCode下的iOS单元测试/#more">Read More</a>
+            <a href="/2020/04/29/Objective-C –反射篇/#more">Read More</a>
           
        </p>
     </div>
@@ -631,7 +499,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/XCode下的iOS单元测试/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/XCode下的iOS单元测试/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/Objective-C –反射篇/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/Objective-C –反射篇/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -651,69 +519,26 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/Windows 命令行下修改文件访问控制权限/" title="Windows 命令行下修改文件访问控制权限" itemprop="url">Windows 命令行下修改文件访问控制权限</a>
+      <a href="/2020/04/29/Objective-C RegEx/" title="Objective-C RegEx" itemprop="url">Objective-C RegEx</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.124Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.161Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="Windows-命令行下修改文件访问控制权限"><a href="#Windows-命令行下修改文件访问控制权限" class="headerlink" title="Windows 命令行下修改文件访问控制权限"></a>Windows 命令行下修改文件访问控制权限</h1><div><br><br>\<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;"><strong>一、使用Cacls．exe命令</strong>\<br>\<br> 　　这是一个在Windows 2000/XP/Server<br>2003操作系统下都可以使用的命令，作用是显示或者修改文件的访问控制表，在命令中可以使用通配符指定多个文件，也可以在命令中指定多个用户。命令语法如下：　　\<br> 　　</span><br><div style="word-wrap: break-word; overflow-x: hidden; overflow-y: hidden; margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 10px; padding-right: 0px; padding-bottom: 5px; padding-left: 10px; background-image: url(http://bbs.dianbo.org/static/image/common//codebg.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(247, 247, 247); color: rgb(102, 102, 102); zoom: 1; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); background-position: 0px 0px; background-repeat: no-repeat repeat;"><br><br><div style="word-wrap: break-word;"><br><br>1.  <span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">Cacls<br>    filename [/T] [/E] [/C] [/G user:perm] [/R user […]]<br>    [/P user:perm […]] [/D user […]]</span><br><br></div>
-
-<p><span <!--more--=""><br>style=”border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;”&gt;<em>复制代码</em></span></p>
-<p></p></div><p></p>
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">　　Filename：显示访问控制列表(以下简称ACL)　　\<br> 　　/T：更改当前目录及其所有子目录中指定文件的ACL　　\<br> 　　/E：编辑ACL而不替换　　\<br> 　　/C：在出现拒绝访问错误时继续 　　　\<br> 　　/G<br>Userer:perm：赋予指定用户访问权限，Perm代表不同级别的访问权限，其值可以是R(读取)、W(写入)、C(更改，写入)、F(完全控制)等。　　\<br> 　　/R<br>user：撤销指定用户的访问权限，注意该参数仅在与“/E”一起使用时有效。　　\<br> 　　/P<br>user：perm：替换指定用户的访问权限，perm的含义同前，但增加了“N(无)”的选项。\<br> 　　/D user：拒绝指定用户的访问。\<br>\<br> 　　实例一：查看文件夹的访问控制权限\<br>\</span></p>
-<p>　　例如，这里我们希望查看h:/temp文件夹的访问控制权限，那么只需要在“开始→运行”对话框或切换到命令提示符模式下，键入如下命令：Cacls<br>h:/temp\</p>
-<p>　　此时，我们会看到所有用户组和用户对h:/temp文件夹的访问控制权限项目，这里的CI表示ACE会由目录继承，OI表示ACE会由文件继承，IO表示ACI不适用于当前文件或目录，每行末尾的字母表示控制权限，例如F表示完全控制，C表示更改，W表示写入。\</p>
-<p>　　如果你希望查看该文件夹中所有文件(包括子文件夹中的文件)的访问控制权限，可以键入“Cacls<br>h:/temp .”命令。\<br>\<br> 　　实例二：修改文件夹的访问控制权限\<br>\<br> 　　假如你希望给予本地用户wzj9999完全控制h:<br>emp文件夹及子文件夹中所有文件的访问权限，只需要键入如下命令： 　　\<br> 　　</p>
-<div style="word-wrap: break-word; overflow-x: hidden; overflow-y: hidden; margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 10px; padding-right: 0px; padding-bottom: 5px; padding-left: 10px; background-image: url(http://bbs.dianbo.org/static/image/common//codebg.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(247, 247, 247); color: rgb(102, 102, 102); zoom: 1; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); background-position: 0px 0px; background-repeat: no-repeat repeat;"><br><br><div style="word-wrap: break-word;"><br><br>1.  <span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">Cacls<br>    h:/temp /t /e /c /g wzj9999:f</span><br><br></div>
-
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;"><em>复制代码</em></span></p>
-<p></p></div><p></p>
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">　　这里的“/t”表示修改文件夹及子文件夹中所有文件的ACL，“/e”表示仅做编辑工作而不替换，“/c”表示在出现拒绝访问错误时继续，而“/g<br>wzj9999:f”表示给予本地用户wzj9999以完全控制的权限，这里的“f”代表完全控制，如果只是希望给予读取权限，那么应当是“r”。\<br> 　　实例三：撤销用户的访问控制权限\<br> 　　如果你希望撤销wzj9999用户对h:<br>emp文件夹及其子文件夹的访问控制权限，可以键入如下命令：\<br> 　　</span></p>
-<div style="word-wrap: break-word; overflow-x: hidden; overflow-y: hidden; margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 10px; padding-right: 0px; padding-bottom: 5px; padding-left: 10px; background-image: url(http://bbs.dianbo.org/static/image/common//codebg.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(247, 247, 247); color: rgb(102, 102, 102); zoom: 1; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); background-position: 0px 0px; background-repeat: no-repeat repeat;"><br><br><div style="word-wrap: break-word;"><br><br>1.  <span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">cacls<br>    h:/temp /t /e /c /r wzj9999</span><br><br></div>
-
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;"><em>复制代码</em></span></p>
-<p></p></div><p></p>
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">　　如果只是拒绝用户的访问，那么可以键入如下命令：\<br> 　　</span></p>
-<div style="word-wrap: break-word; overflow-x: hidden; overflow-y: hidden; margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 10px; padding-right: 0px; padding-bottom: 5px; padding-left: 10px; background-image: url(http://bbs.dianbo.org/static/image/common//codebg.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(247, 247, 247); color: rgb(102, 102, 102); zoom: 1; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); background-position: 0px 0px; background-repeat: no-repeat repeat;"><br><br><div style="word-wrap: break-word;"><br><br>1.  <span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">cacls<br>    h:/temp /t /e /c /d wzj9999</span><br><br></div>
-
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;"><em>复制代码</em></span></p>
-<p></p></div><p></p>
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">　　<strong>二、使用增强工具xcals.exe</strong>\<br>\<br> 　　在windows<br>2000资源工具包中，微软还提供了一个名为xcacls.exe的文件控制权限修改工具，其功能较cacls.exe更为强大，可以通过命令行设置所有可以在windows资源管理器中访问到的文件系统安全选项，我们可以从<a href="http://www.microsoft.com/windows2000/techinfo/reskit/tools/existing/xcacls-o.asp" target="_blank" rel="noopener">http://www.microsoft.com/windows<br>…<br>isting/xcacls-o.asp</a>下载，安装后即可使用。\</span></p>
-<p>　　xcacls.exe命令的语法和参数与cacls.exe基本相同，但不同的是它通过显示和修改文件的访问控制列表（acl）执行此操作。在“/g”参数后除保持原有的perm权限外，还增加了spec（特殊访问权限)的选项，另外还增加了“/y”的参数，表示禁止在替换用户访问权限时出现确认提示，而默认情况下，cacls.exe是要求确认的，这样在批处理中调用cacls.exe命令时，程序将停止响应并等待输入正确的答案，引入“/y”参数后将可以取消此确认，这样我们就可以在批处理中使用xcacls.exe命令了。\<br>\<br> 　　实例一：查看文件或文件夹的权限\<br>\</p>
-<p>　　在“开始→运行”对话框或切换到命令提示符模式下，注意请事先将“c:/program<br>files/resource<br>kit”添加到“系统属性→高级→环境变量→系统变量”中，或者通过cd命令将其设置为当前路径，否则会提示找不到文件，然后键入如下命令：\<br> 　　</p>
-<div style="word-wrap: break-word; overflow-x: hidden; overflow-y: hidden; margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 10px; padding-right: 0px; padding-bottom: 5px; padding-left: 10px; background-image: url(http://bbs.dianbo.org/static/image/common//codebg.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(247, 247, 247); color: rgb(102, 102, 102); zoom: 1; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); background-position: 0px 0px; background-repeat: no-repeat repeat;"><br><br><div style="word-wrap: break-word;"><br><br>1.  <span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">xcacls<br>    h:/temp</span><br><br></div>
-
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;"><em>复制代码</em></span></p>
-<p></p></div><p></p>
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">　　此时，可以查看到所有用户组或用户对h:/temp文件夹的访问控制权限，io表示此ace不应用于当前对象，ci表示从属窗口将继承此ace，oi表示从属文件将继承该ace，np表示从属对象不继续传播继承的ace，而每行末尾的字母表示不同级别的权限，例如f表示完全控制，c表示更改，w表示写入。\<br>\<br> 　　实例二：替换文件夹中的acl而不确认\<br>\<br> 　　</span></p>
-<div style="word-wrap: break-word; overflow-x: hidden; overflow-y: hidden; margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 10px; padding-right: 0px; padding-bottom: 5px; padding-left: 10px; background-image: url(http://bbs.dianbo.org/static/image/common//codebg.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(247, 247, 247); color: rgb(102, 102, 102); zoom: 1; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); background-position: 0px 0px; background-repeat: no-repeat repeat;"><br><br><div style="word-wrap: break-word;"><br><br>1.  <span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">xcacls<br>    h:/temp /g administrator:rw/y</span><br><br></div>
-
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;"><em>复制代码</em></span></p>
-<p></p></div><p></p>
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">　　以上命令将替换h:/temp文件夹中所有文件和文件夹的acl，而不扫描子文件夹，也不会要求用户确认。\<br>\<br> 　　实例三：赋予某用户对文件夹的控制权限\<br>\<br> 　　</span></p>
-<div style="word-wrap: break-word; overflow-x: hidden; overflow-y: hidden; margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 10px; padding-right: 0px; padding-bottom: 5px; padding-left: 10px; background-image: url(http://bbs.dianbo.org/static/image/common//codebg.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(247, 247, 247); color: rgb(102, 102, 102); zoom: 1; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); background-position: 0px 0px; background-repeat: no-repeat repeat;"><br><br><div style="word-wrap: break-word;"><br><br>1.  <span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">xcacls<br>    h:/temp /g wzj9999:rwed;rw /e</span><br><br></div>
-
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;"><em>复制代码</em></span></p>
-<p></p></div><p></p>
-<p><span style="border-collapse: collapse; color: rgb(68, 68, 68); font-family: Tahoma, 宋体, Simsun; font-size: 14px; line-height: 21px;">　　以上命令将赋予用户wzj9999对h:/temp文件夹中所有新建文件的读取、写入、运行和删除权限，但需要说明的是，这条命令只是赋予了用户对文件夹本身的读写权限，而不包括子文件夹下的文件。\<br>\<br>\</span></p>
-<p>　　对普通用户来说，cals.exe和xcacls.exe的作用可能不是那么明显，这在windows<br>2000/xp/server<br>2003的无人值守安装中特别有用，管理员可以为操作系统所在的文件夹设置初始访问权限；在将软件分发到服务器或工作站时，还可以借助xcacls.exe提供单步保护，以防止用户误删除文件夹或文件。</p>
-<p></p></div><p></p>
-
+        <h1 id="Objective-C-RegEx"><a href="#Objective-C-RegEx" class="headerlink" title="Objective-C RegEx"></a>Objective-C RegEx</h1><p><span style="font: 13.0px Verdana">Objective-C RegEx Categories\<br> <a href="https://github.com/bendytree/Objective-C-RegEx-Categories" target="_blank" rel="noopener"><span style="color: #1d58d1">https://github.com/bendytree/Objective-C-RegEx-Categories</span></a>\<br> 使用说明:将 RegExCategories.h RegExCategories.m<br>文件拖入工程中引入头文件即可.\<br>  \</span></p>
+<p>==========================================================================\<br>     //<span style="font: 13.0px Verdana; color: #0433ff">匹配电话号码</span><span style="font: 13.0px Verdana">(手机号以13， 15，18开头，八个 \d<br>数字字符)\<br>     BOOL isMatch = [ “15910514636” isMatch:RX( “</span><span style="font: 13.0px Verdana; color: #ff2500">\^((13[0-9])|(15[\^4,\\D])|(18[0,0-9]))\\d{8}\$</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">匹配邮箱</span><span style="font: 13.0px Verdana">\<br>     BOOL isMatch = [ “<705786230 qq.com="">“ isMatch:RX( “</705786230></span><span style="font: 13.0px Verdana; color: #ff2500">[A-Z0-9a-z._%+-]+ [A-Za-z0-9.-]+\\.[A-Za-z]{2,4}</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>    \<br>     //</span><span style="font: 13.0px Verdana; color: #0433ff">匹配用户名</span><span style="font: 13.0px Verdana">(用户名长度为6-20位之间,大小写字母或者数字均可)\<br>     BOOL isMatch = [ “705786230” isMatch:RX( “</span><span style="font: 13.0px Verdana; color: #ff2500">\^[A-Za-z0-9]{6,20}+\$</span><span style="font: 13.0px Verdana">“)];\<br>     NSLog( “%d”, isMatch);\<br>  \<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2020/04/29/Objective-C RegEx/#more">Read More</a>
           
        </p>
     </div>
@@ -739,7 +564,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/Windows 命令行下修改文件访问控制权限/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Windows 命令行下修改文件访问控制权限/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/Objective-C RegEx/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/Objective-C RegEx/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -759,34 +584,33 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/Validator.js/" title="Validator.js" itemprop="url">Validator.js</a>
+      <a href="/2020/04/29/Object-C内存管理口诀/" title="Object-C内存管理口诀" itemprop="url">Object-C内存管理口诀</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:23.112Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.160Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="Validator-js"><a href="#Validator-js" class="headerlink" title="Validator.js"></a>Validator.js</h1><p>Validator = {</p>
-<div><br><br>     Require : /.+/,<br><br></div>
+        <h1 id="Object-C内存管理口诀"><a href="#Object-C内存管理口诀" class="headerlink" title="Object-C内存管理口诀"></a>Object-C内存管理口诀</h1><div><br><br><span style="font-size: 14px;">\<br></span><br><br></div>
 
-<div><br><br>     Email :<br>/\^\w+([-+.]\w+)* \w+([-.]\w+)*\.\w+([-.]\w+)*\$/,<br><br></div>
+<div><br><br><span style="font-size: 14px;">Object-C内存管理口诀 (2011-11-02<br>21:04:00)转载▼</span><br><br></div>
 
-<div><br><br>     Phone :<br>/\^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,11}(\-\d{1,6})?\$/,<br><br></div>
+<div><br><br><span style="font-size: 14px;">Object-C内存管理口诀</span><br><br></div>
 
-<div><br><br>     Mobile :<br>/\^(852\d{8})|(((\(\d{2,3}\))|(\d{3}\-))?((13\d{9})|(15\d{9})|(18\d{9})))\$/,<br><br></div>
+<div><br><br><span style="font-size: 14px;">1           口诀。</span><br><br></div>
 
-<div><br><br>     Url :<br>/\^(https|http):\/\/[A-Za-z0-9-]+\.[A-Za-z0-9-]+[\/=\?%\-&amp;_~` [\]\‘:+!]*([\^&lt;&gt;\“\“])*\$/,<br><br>
+<div><br><br><span style="font-size: 14px;">1.1<br>谁创建，谁释放（类似于“谁污染，谁治理”）。如果你通过alloc、new或copy来创建一个对象，那么你必须调用release或autorelease。换句话说，不是你创建的，就不用你去释放。</span><br><br></div>
         
         
         <p class="article-more-link">
           
-            <a href="/2018/11/19/Validator.js/#more">Read More</a>
+            <a href="/2020/04/29/Object-C内存管理口诀/#more">Read More</a>
           
        </p>
     </div>
@@ -812,7 +636,152 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/Validator.js/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/Validator.js/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/Object-C内存管理口诀/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/Object-C内存管理口诀/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/Obj-c与swift的语法比较和产生的新特性/" title="Obj-c与swift的语法比较和产生的新特性" itemprop="url">Obj-c与swift的语法比较和产生的新特性</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.159Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Obj-c与swift的语法比较和产生的新特性"><a href="#Obj-c与swift的语法比较和产生的新特性" class="headerlink" title="Obj-c与swift的语法比较和产生的新特性"></a>Obj-c与swift的语法比较和产生的新特性</h1><div><br><br><span style="font-size: 18px;">swift<br>其实是obj-c的变体，还是使用了ARC进行简单内存管理</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br></span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">一,基本语法</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">1，变量</span><br><br></div>
+
+<div><br><br><span style="font-size: 18px;">\<br></span><br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/Obj-c与swift的语法比较和产生的新特性/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/Obj-c与swift的语法比较和产生的新特性/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/Obj-c与swift的语法比较和产生的新特性/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/ORACLE 字符集长度问题/" title="ORACLE 字符集长度问题" itemprop="url">ORACLE 字符集长度问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.158Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="ORACLE-字符集长度问题"><a href="#ORACLE-字符集长度问题" class="headerlink" title="ORACLE 字符集长度问题"></a>ORACLE 字符集长度问题</h1><div><br><br><div><br><br>ORACLE 字符集长度问题<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>很多新手在做建数据库时，会这样忽略一个问题：ORACLE中VARCHAR2类型的字段长度是按照byte来定义的。如果数据库使用的字<br>符集是GBK,GB2312或者其他定长字符集的话，这个问题似乎可以被忽略，因为只要把数据库的字段长度/2就可以得到你要限制插入该字段的中文长度<br>了。 但是，如果数据库的字符集是UTF-8呢，杯具了吧，人家是变长的。<br><br></div>
+
+<pre><code>有人说数据库字段长度/3，这是一定不可取的，因为UTF-8是变长表示的，平均为3byte表示一个字符，而并不是一定用3byte。
+
+其实人家ORACLE没这么笨，本来就可以用字符为单位来定义varchar2的长度的，这个时候需要注意在建表时这样写：
+</code></pre><div><br><br><div><br><br>Sql代码<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/ORACLE 字符集长度问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/ORACLE 字符集长度问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/ORACLE 字符集长度问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -828,7 +797,7 @@
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/22/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/24/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/22/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/24/">Next<span></span></a>
   </nav>
 
 
@@ -985,7 +954,7 @@
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>18</sup></a></li>
 		  
 		
 		  
@@ -1034,6 +1003,22 @@
 			
 		
 			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
@@ -1042,35 +1027,7 @@
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
@@ -1078,23 +1035,35 @@
 			
 		
 			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -1113,7 +1082,7 @@
         
           <li>
             
-            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
             
           </li>
         

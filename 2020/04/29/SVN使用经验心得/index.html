@@ -1,0 +1,859 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>SVN使用经验心得 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="SVN使用经验心得1、如果已经有人lock了一个文件，但另外一个人需要编辑此文件，有两个选择，一个是由管理员来解除锁定，另外一个是在getlock选项中有个steal the locks，选择后，即可以编辑该文件2、SVN的版本概念是针对目录而非文件，即使只更新了一个文件，那么，整体的版本也需要加13、推荐使用目录树为\ /repos/trunk         用来保存主线，所有的code都存放">
+<meta name="keywords" content="从印象笔记导入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVN使用经验心得">
+<meta property="og:url" content="http://www.huguiqi.top/2020/04/29/SVN使用经验心得/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="SVN使用经验心得1、如果已经有人lock了一个文件，但另外一个人需要编辑此文件，有两个选择，一个是由管理员来解除锁定，另外一个是在getlock选项中有个steal the locks，选择后，即可以编辑该文件2、SVN的版本概念是针对目录而非文件，即使只更新了一个文件，那么，整体的版本也需要加13、推荐使用目录树为\ /repos/trunk         用来保存主线，所有的code都存放">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-29T03:23:56.181Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SVN使用经验心得">
+<meta name="twitter:description" content="SVN使用经验心得1、如果已经有人lock了一个文件，但另外一个人需要编辑此文件，有两个选择，一个是由管理员来解除锁定，另外一个是在getlock选项中有个steal the locks，选择后，即可以编辑该文件2、SVN的版本概念是针对目录而非文件，即使只更新了一个文件，那么，整体的版本也需要加13、推荐使用目录树为\ /repos/trunk         用来保存主线，所有的code都存放">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/SVN使用经验心得/" title="SVN使用经验心得" itemprop="url">SVN使用经验心得</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.179Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SVN使用经验心得"><span class="toc-number">1.</span> <span class="toc-text">SVN使用经验心得</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="SVN使用经验心得"><a href="#SVN使用经验心得" class="headerlink" title="SVN使用经验心得"></a>SVN使用经验心得</h1><div><br><br><div><br><br><div><br><br><span lang="EN-US">1、如果已经有人lock了一个文件，但另外一个人需要编辑此文件，有两个选择，一个是由管理员来解除锁定，另外一个是在get<br>lock选项中有个steal the locks，选择后，即可以编辑该文件</span><br><br><span lang="EN-US">2、SVN的版本概念是针对目录而非文件，即使只更新了一个文件，那么，整体的版本也需要加1</span><br><br><span lang="EN-US">3、推荐使用目录树为\<br> /repos/trunk         用来保存主线，所有的code都存放在这个目录中\<br> /repos/branches<br>用来保存目录分支，OEM、新功能、设计方案调整，都有可能需要创建分支目录\<br> /repos/tags<br>用来保存标签拷贝，文档宝的阶段性成果可以打个标签存放到此目录下</span><br><br><span lang="EN-US">4、SVN的上传和更新是异步的，可以分开操作，而不用担心在update的同时把自己不成熟的代码commit从而影响别人的工作。</span><br><br><span lang="EN-US">5、.svn这个目录是用来管理目录与服务器的同步情况和来管理工作copy的，如果不小心删除了，可以把该目录整个删掉，然后返回父目录，并使用update，则会从服务器上重新下载该目录并包含新的.svn</span><br><br><span lang="EN-US">6、SVN常用操作\<br> a、保持客户端和服务器端的一致，从服务器上更新文件，update\<br> b、对客户端文件的增、删、改、剪切，add,delete,copy,move\<br> c、状态比较 status，diff\<br> d、取消对服务器上文件的修改，revert\<br> e、合并别人的修改(后更新的人需要做这个操作)update,resolved\<br> f、客户端修改的文件更新到服务器上，commit</span><br><a id="more"></a><br><br><span lang="EN-US">  </span><br><br><span lang="EN-US">7、查询版本，不单单可以通过版本号查询，也可以通过关键字和版本的日期来查询<br>注意:如果给定时间的话，查询时需要在希望的日期上加一，如要查询2008-09-02的版本，应该使用2008-09-03，因为你只给了日期而没有给指定的时间点。</span><br><br><span lang="EN-US">  </span><br><br><span lang="EN-US">8、锁定-修改-解锁方案，拷贝-修改-合并方案使用的一般原则\<br><br>如果是图像文件，一般使用锁定-修改-解锁方案，因为两个不同的版本没法合并\<br>     如果是文本文件，一般使用拷贝-修改-合并方案 </span><br><br><span lang="EN-US">  </span><br><br><span lang="EN-US">9、锁定文件可以所单个，也可以锁多个，可以选择一个文件夹，然后在列表中勾选。并</span><br><br><span lang="EN-US">且，这个锁定是随时都可以解除的，选择unlock即可。\<br>     注意:\<br><br>如果一旦提交了更新，那么所有的文件都将解锁，即使有部分文件可能还没有更新。<br></span><br><br><span lang="EN-US">     但是如果你在commit的时候，选择keep<br>locks，则文件还是被锁定。</span><br><br><span lang="EN-US">  </span><br><br><span lang="EN-US">10、对客户端的目录或文件可以设置属性，可以从下拉列表中选择\<br><br>如svn:needs-lock，就是对指定的对象设置只读权限，只有当该对象拥有锁定的权<br></span><br><br><span lang="EN-US">限后，才能对文件进行编辑，这样可以确定只有一个用户在操作该文件，避免像图像这</span><br><br><span lang="EN-US">样的文件只能线形操作而导致另外一个人工作的浪费。</span><br><br><span lang="EN-US">  </span><br><br><span lang="EN-US">额外建议：</span><br><br><span lang="EN-US">1、建个专门的服务器，或在现有的目录上建立个专门的目录，用来给公司成员验证SVN的不熟悉的功能和操作步骤，热热身，熟悉了使用方法后再在实际的目录上操作。毕竟，如果一旦出现了问题，需要维护的，还是你自己。</span><br><br><span lang="EN-US">\<br><br>2、抽时间寻找一些SVN的比较工具，管理工具等使用的外置工具来辅助日常工作。</span><br><br></div>
+
+<div><br><br><span lang="EN-US">\<br></span><br><br></div>
+
+<div><br><br><span lang="EN-US">11</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、即使客户端的文件</span><span lang="EN-US">test.doc</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">被重命名了</span><span lang="EN-US">hello.rtf(</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">使用</span><span lang="EN-US">svn</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">重命名</span><span lang="EN-US">)</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">，但它的历史纪录仍然含有重命名以前的信息，并且可以将之前的版本给提取出来。即使再新建一个</span><span lang="EN-US">test.doc</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">也不会有混淆。</span><span lang="EN-US">(</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">查看历史纪录的时候需要把</span><span lang="EN-US">Stop on copy/rename</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">这个选项的复选框的勾去掉</span><span lang="EN-US">)</span><br><br></div>
+
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">12</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、</span><span lang="EN-US">SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">的复制比较特殊，如果复制一个目录，它其实并没有完全复制目录中的所有的文件，它只是建立一个目录树的入口，你可以把它理解为一个快捷方式，即使当你的新目录中的文件有了更改，它也只是更新你修改的文件，其他文件还是原文件夹的映射，没有更改。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">13</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、对主干和分支上文件的修改互不影响。当完成了分支上所有工作，所有的分支修改可以被拷贝回到主干。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">14</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、对同名文件的合并可以先用</span><span lang="EN-US">svn diff</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">查看文件的区别，然后通过</span><span lang="EN-US">svn merge</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">功能来合并文件。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">15</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、如果需要解决版本的冲突，会在本地目录下产生同名的三个文件，初始的版本（在比较的左边）、最终的版本（在比较的右边）、接收区别的工作拷贝（合并的目标）。通过比较来手动合并版本，如果通过比较不需要将本地的修改合并到服务器上去，则使用</span><span lang="EN-US">revert</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">回滚。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">16</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、手工跟踪合并</span><span lang="EN-US">:SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">并不能完全自动合并冲突，比较合适的方法是在版本提交的日志信息中说明合并的特定版本号（或是版本号的范围），这样等到合并时可以运行</span><span lang="EN-US">svn log</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">来查看分支包含了哪些修改。这样可以帮助依序进行合并而不会进行多余的合并。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">17</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、预览合并</span><span lang="EN-US">:</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">当工作拷贝已经改变，合并会针对存在的那一个文件，这时运行</span><span lang="EN-US">revert</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">不会恢复在本地的修改，两部分的修改无法识别出来。解决这个问题的简单的方法就是使用</span><span lang="EN-US">diff</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">来预览变化部分，通过显示合并时的状态信息，得到合并之后的“整体”预览。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">18</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、</span><span lang="EN-US">svn diff</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">和</span><span lang="EN-US">svn merge</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">的区别</span><span lang="EN-US">:</span></p>
+<p><span lang="EN-US"><span style="mso-spacerun: yes">      </span></span><br><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">将</span><span lang="EN-US">test.doc</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">版本</span><span lang="EN-US">100</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">重命名为</span><span lang="EN-US">ceshi.doc</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">，同时新建一个文件</span><span lang="EN-US">test.doc</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">为版本</span><span lang="EN-US">102</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">。</span></p>
+<p><span lang="EN-US"><span style="mso-spacerun: yes">      </span></span><br><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">这样区别就出来了</span><span lang="EN-US">:</span></p>
+<p><span lang="EN-US"><span style="mso-spacerun: yes">      </span> svn<br>diff</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">命令忽略祖先，</span><span lang="EN-US">diff</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">命令只是单纯地比较两条路经下的两个文件。</span></p>
+<p><span lang="EN-US"><span style="mso-spacerun: yes">      </span> svn<br>merge</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">是比较两个对象，会注意到版本</span><span lang="EN-US">100</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">和版本</span><span lang="EN-US">102</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">的</span><span lang="EN-US">test.doc</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">两个文件是不关联的。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">19</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、</span><span lang="EN-US">SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">并没有真正意义上的重命名，</span><span lang="EN-US">move</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">命令只是</span><span lang="EN-US">copy</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、</span><span lang="EN-US">delete</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">两个命令的组合。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">20</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、找回删除的项目</span><span lang="EN-US">:</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">即使删除了文件或目录，</span><span lang="EN-US">SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">的信息从不丢失，只是从当前的</span><span lang="EN-US">HEAD</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">版本消失了，但仍然存在于历史的早期版本。只要通过</span><span lang="EN-US">SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">的</span><span lang="EN-US">log</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">来查看所有改变的每个项目的版本，找出你删除文件或目录的那个版本。</span></p>
+<p></p></div><p></p>
+<div><br><br><span lang="EN-US">\<br></span><br><br></div>
+
+<div><br><br><span lang="EN-US">21</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、将所有的开发代码存放在</span><span lang="EN-US">trunk</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">上。</span><br><br></div>
+
+<p><span lang="EN-US"><span style="mso-spacerun: yes">      </span></span><br><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">常用分支模式</span><span lang="EN-US">:</span></p>
+<p><span lang="EN-US"><span style="mso-spacerun: yes">      </span><br>a</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、发布分支</span><span lang="EN-US">:</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">在代码发展到一定阶段，建立发布分支，将当前的一个版本取出来，拷贝到</span><span lang="EN-US">branches</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">目录下，进行全面严酷的测试，如发现</span><span lang="EN-US">BUG</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">则在当前版本进行修复，并同步更新</span><span lang="EN-US">trunk</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">中的</span><span lang="EN-US">BUG</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">，经测试完成后，将文件拷贝到</span><span lang="EN-US">tags</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">目录中发布，并提交给客户。</span></p>
+<p><span lang="EN-US"><span style="mso-spacerun: yes">      </span><br>b</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、特性分支</span><span lang="EN-US">:</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">如果需要作复杂的修改，会影响到</span><span lang="EN-US">trunk</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">代码的稳定性，则建议建立一个特性分支，等特性稳定之后，再和</span><span lang="EN-US">truck</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">主干合并</span></p>
+<p><span lang="EN-US"><span style="mso-spacerun: yes">      </span></span></p>
+<p><span lang="EN-US">22</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、标签</span><span lang="EN-US">TAG:</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">它是某个项目，某个时间的一个快照，这个术语很常见，每次提交一个修订版本其实都是一个精确的快照。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">23</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、经典常用的版本库布局</span><span lang="EN-US">:</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span></span> <span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">如果是单个项目的，建议使用如下格式</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>/trunk<span style="mso-spacerun: yes">          </span></span> <span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">保存项目开发的主线。</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>/branches<span style="mso-spacerun: yes">    </span></span> <span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">保存项目的各种开发分支。</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>/tags<span style="mso-spacerun: yes">            </span></span> <span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">保存项目的标签，也就是创建后永远不会修改的分支，例如发布</span><span lang="EN-US">release</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">版本。</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span></span> <span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">如果是多个项目在同一个版本库中，建议使用如下格式</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>/RigTMS/trunk</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>/RigTMS/branches</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>/RigTMS/tags</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>/DocProtect/trunk</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>/DocProtect/branches</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>/DocProtect/tags</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span></span> <span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">注释</span><span lang="EN-US">**</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">个人比较倾向于使用第一种方式，一个是格式比较简单，终端用户不容易引起混淆，二是版本库的权限控制比较简单，三是以后的备份</span><span lang="EN-US">/</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">还原相对易行</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span></span></p>
+<p><span lang="EN-US">24</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、</span><span lang="EN-US">SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">的数据存储格式有</span><span lang="EN-US">Berkeley DB</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">和</span><span lang="EN-US">FSFS</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">。我们现在所使用的版本默认为</span><span lang="EN-US">FSFS</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">格式的数据存储。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">25</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、</span><span lang="EN-US">SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">自带工具</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span></span> <span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">（要使用这些工具可以在命令行模式下输入</span><span lang="EN-US">svnadmin help</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、</span><span lang="EN-US">svnlook help</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">等指令即可）</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>Svnadmin:</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">提供创建</span><span lang="EN-US">SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">版本库的功能，还可以用来维护这些版本库。</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>Svnlook:</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">用来查看版本库中不同的修订版本和事物（它不会改变版本的内容）。</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>Svndumpfilter:</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">可以简单快速的作为</span><span lang="EN-US">SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">版本库历史的以路经为基础的过滤器。</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>Svnsync:</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">将一个版本库的历史转移到另外一个上。特点是可以远程操作（“源”、“目标”版本库以及</span><span lang="EN-US">svnsysnc</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">程序可以在不同的计算机上使用。）</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">26</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、</span><span lang="EN-US">SVN</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">节约磁盘空间的主要方法</span><span lang="EN-US">:</span></p>
+<p><span lang="EN-US">1</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、采用增量化技术，对两组数据，只记录其中的一组，另外一组只是存放与第一组有差别的部分。</span></p>
+<p><span lang="EN-US">2</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、由于客户端和服务器网络异常，或客户端</span><span lang="EN-US">svn</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">进程异常中止，都可能导致文件提交的事务失败，可以删除意外中止的事务。可以使用</span><span lang="EN-US">\$svnadmin lstxns myrepos</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">来清除。</span></p>
+<p><span lang="EN-US">  </span></p>
+<p><span lang="EN-US">27</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">、删除不使用的</span><span lang="EN-US">Berkeley DB</span><span style="FONT-FAMILY: 宋体; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'">日志文件</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span><br>Svnadmin list –unused –dblogs /path/to/repos</span></p>
+<p><span lang="EN-US"><span style="mso-tab-count: 1">            </span> Rm<br>‘svnadmin list –unused-dblogs /path/to/repos’</span></p>
+<p></p></div><p></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.huguiqi.top/2020/04/29/SVN使用经验心得/" data-title="SVN使用经验心得 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/SVN客户端命令行设置忽略文件列表/" title="SVN客户端命令行设置忽略文件列表">
+  <strong>上一篇：</strong><br/>
+  <span>
+  SVN客户端命令行设置忽略文件列表</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/SVN分支与合并/"  title="SVN分支与合并">
+ <strong>下一篇：</strong><br/> 
+ <span>SVN分支与合并
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/SVN使用经验心得/" data-title="SVN使用经验心得" data-url="http://www.huguiqi.top/2020/04/29/SVN使用经验心得/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SVN使用经验心得"><span class="toc-number">1.</span> <span class="toc-text">SVN使用经验心得</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2020 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

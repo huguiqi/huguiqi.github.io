@@ -92,6 +92,78 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/08/05/docker-compose传参问题/" title="docker-compose传参问题" itemprop="url">docker-compose传参问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-08-05T14:34:00.000Z" itemprop="datePublished"> 发表于 2018-08-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="docker-compose传参问题"><a href="#docker-compose传参问题" class="headerlink" title="docker-compose传参问题"></a>docker-compose传参问题</h1><h2 id="Dockerfile中CMD和ENTRYPOINT命令详解"><a href="#Dockerfile中CMD和ENTRYPOINT命令详解" class="headerlink" title="Dockerfile中CMD和ENTRYPOINT命令详解"></a>Dockerfile中CMD和ENTRYPOINT命令详解</h2><p>CMD 和 ENTRYPOINT 指令都是用来指定容器启动时运行的命令。</p>
+<p>单从功能上来看，这两个命令几乎是重复的。单独使用其中的一个就可以实现绝大多数的用例。</p>
+<p>但是还是有些许区别，我们来一起看看。</p>
+<h3 id="exec-模式和-shell-模式"><a href="#exec-模式和-shell-模式" class="headerlink" title="exec 模式和 shell 模式"></a>exec 模式和 shell 模式</h3><h4 id="CMD-指令"><a href="#CMD-指令" class="headerlink" title="CMD 指令"></a>CMD 指令</h4><p>CMD 指令的目的是：为容器提供默认的执行命令。<br>CMD 指令有三种使用方式，其中的一种是为 ENTRYPOINT 提供默认的参数：</p>
+<pre><code>CMD [&quot;param1&quot;,&quot;param2&quot;]
+</code></pre><p>另外两种使用方式分别是 exec 模式和 shell 模式：</p>
+<h5 id="exec-模式"><a href="#exec-模式" class="headerlink" title="exec 模式"></a>exec 模式</h5><pre><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] // 这是 exec 模式的写法，注意需要使用双引号。
+</code></pre><p>exec 模式的特点是不会通过 shell 执行相关的命令，所以像 $HOME 这样的环境变量是取不到的：</p>
+<pre><code>FROM ubuntu
+CMD [ &quot;echo&quot;, &quot;$HOME&quot; ]
+</code></pre><p>把上面的代码保存到 test1 目录的 Dockerfile 中，然后进入 test1 目录构建镜像并启动一个容器：</p>
+<pre><code>$ docker build --no-cache -t test1 .
+$ docker run --rm test1
+</code></pre><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1533481840969knusv9p6.png?imageslim" alt="paste image"></p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2018/08/05/docker-compose传参问题/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/docker/">docker</a><a href="/tags/docker-compose/">docker-compose</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2018/08/05/docker-compose传参问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/08/05/docker-compose传参问题/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/08/04/jenkins如何集成nodejs前端做自动化/" title="jenkins如何集成nodejs前端做自动化" itemprop="url">jenkins如何集成nodejs前端做自动化</a>
   </h1>
   <p class="article-author">By
@@ -1440,283 +1512,9 @@ public class MyFilter extends ZuulFilter{
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/04/30/7天学会使用springcloud-二/" title="7天学会使用springcloud(二)" itemprop="url">7天学会使用springcloud(二)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-04-30T02:50:00.000Z" itemprop="datePublished"> 发表于 2018-04-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="7天学会使用springcloud-二"><a href="#7天学会使用springcloud-二" class="headerlink" title="7天学会使用springcloud(二)"></a>7天学会使用springcloud(二)</h1><h2 id="app-service"><a href="#app-service" class="headerlink" title="app-service"></a>app-service</h2><p>由于app-client端是调用服务消费者的门面，那就是说它只是个做转发的一个代理，那真正提供服务的是service,那client的调用怎么调用消费者的接口呢？</p>
-<h2 id="Spring-cloud两种服务调用方式"><a href="#Spring-cloud两种服务调用方式" class="headerlink" title="Spring cloud两种服务调用方式"></a>Spring cloud两种服务调用方式</h2><p>在微服务架构中，业务都会被拆分成一个独立的服务，服务与服务的通讯是基于http restful的。</p>
-<p>Spring cloud有两种服务调用方式，一种是ribbon+restTemplate，另一种是feign。在这一篇文章首先讲解下基于ribbon+rest。</p>
-<h3 id="ribbon简介"><a href="#ribbon简介" class="headerlink" title="ribbon简介"></a>ribbon简介</h3><blockquote>
-<blockquote>
-<p>Ribbon is a Inter Process Communication (remote procedure calls) library with built in software load balancers. The primary usage model involves REST calls with various serialization scheme support.</p>
-</blockquote>
-</blockquote>
-<p>以上是来自官方的摘录介绍，我们来大致翻译一下：</p>
-<p>ribboin是网络进程间通讯调用的库，它内置软件负载平衡器。主使用Rest模型调用，包括使用各种序列化方案支持的REST调用。</p>
-<p>官网也罗列了以下几大功能：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525008858602af38ugzk.png?imageslim" alt="paste image"></p>
-<ol>
-<li>负载均衡</li>
-<li>容错</li>
-<li>支持多协议异步和模型传输</li>
-<li>缓存和批量执行（不知道这样翻译准不准确）</li>
-</ol>
-<p>ribbon是一个负载均衡客户端，可以很好的控制http和tcp的一些行为。Feign默认集成了ribbon。</p>
-<p>ribbon 已经默认实现了这些配置bean：</p>
-<ul>
-<li>IClientConfig ribbonClientConfig: DefaultClientConfigImpl</li>
-</ul>
-<p>IRule ribbonRule: ZoneAvoidanceRule</p>
-<ul>
-<li><p>IPing ribbonPing: NoOpPing</p>
-</li>
-<li><p>ServerList ribbonServerList: ConfigurationBasedServerList</p>
-</li>
-<li><p>ServerListFilter ribbonServerListFilter: ZonePreferenceServerListFilter</p>
-</li>
-<li><p>ILoadBalancer ribbonLoadBalancer: ZoneAwareLoadBalancer</p>
-</li>
-</ul>
-<h2 id="建立服务消费者"><a href="#建立服务消费者" class="headerlink" title="建立服务消费者"></a>建立服务消费者</h2><p>重新新建一个spring-boot工程，取名为：app-service;<br>在它的pom.xml文件分别引入起步依赖spring-cloud-starter-eureka、spring-cloud-starter-ribbon、spring-boot-starter-web</p>
-<p>pom.xml：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.service&lt;/groupId&gt;
-    &lt;artifactId&gt;app-service&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;jar&lt;/packaging&gt;
-
-    &lt;name&gt;app-service&lt;/name&gt;
-    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;2.0.1.RELEASE&lt;/version&gt;
-        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-    &lt;/parent&gt;
-
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;/java.version&gt;
-        &lt;spring-cloud.version&gt;Finchley.RC1&lt;/spring-cloud.version&gt;
-    &lt;/properties&gt;
-
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
-                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
-                &lt;type&gt;pom&lt;/type&gt;
-                &lt;scope&gt;import&lt;/scope&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-
-    &lt;repositories&gt;
-        &lt;repository&gt;
-            &lt;id&gt;spring-milestones&lt;/id&gt;
-            &lt;name&gt;Spring Milestones&lt;/name&gt;
-            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;
-            &lt;snapshots&gt;
-                &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;/snapshots&gt;
-        &lt;/repository&gt;
-    &lt;/repositories&gt;
-
-
-&lt;/project&gt;
-</code></pre><p>application.yml:</p>
-<pre><code>server:
-    port: 8883
-
-spring:
-    application:
-        name: app-service
-    cloud:
-        config:
-        uri: http://localhost:8761/
-        label: master
-
-
-eureka:
-    instance:
-        hostname: localhost
-        prefer-ip-address: true
-        instance-id: ${eureka.instance.hostname}:${server.port}
-        nonSecurePort: 80
-    client:
-        service-url:
-            defaultZone: http://localhost:8761/eureka
-
-
-logging:
-    level:
-        org:
-            springframework:
-                security: DEBUG
-
-spring.cloud.vault:
-config.lifecycle.enabled: true
-fail-fast: true
-</code></pre><h2 id="支持loadBalance"><a href="#支持loadBalance" class="headerlink" title="支持loadBalance"></a>支持loadBalance</h2><p>在service端的Application启动类上加上restTemplate注入：</p>
-<pre><code>@Bean
-@LoadBalanced
-RestTemplate restTemplate() {
-    return new RestTemplate();
-}
-</code></pre><p>在配置robbion的负载均衡的时候，发现一个很诡异的事情，通过service就是无法通过service id 去访问client端：</p>
-<pre><code>restTemplate.getForObject(&quot;http://APP-CLIENT/hi?name=&quot;+name,String.class);
-</code></pre><p>调用的时候一直报连接拒绝：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525188682163i0gi2l31.png?imageslim" alt="paste image"></p>
-<p>经过我反复实验，发现是因为app-client端没有设置访问根目录，则需要在配置文件里server后面加上子项servlet.contextPath = /</p>
-<p>bootstrap.xml:</p>
-<pre><code>server:
-  port: 8882
-  servlet:
-    context-path: /
-</code></pre><p>加上后重启app-client，然后通过server id 访问，就通了。。。。</p>
-<p>注：有时候app-client重启了还不行，可能还需要重启sever注册中心</p>
-<p>再访问就可以了：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525215655578qjdv4f0e.png?imageslim" alt="paste image"></p>
-<p>我们来看看他的负载均衡，再新增一台client实例</p>
-<p>application.yml:</p>
-<pre><code>server:
-  port: 8883
-  servlet:
-    context-path: /
-
-spring:
-  application:
-    name: appclient
-  cloud:
-    config:
-      uri: http://localhost:8761/
-      label: master
-
-
-eureka:
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${eureka.instance.hostname}:${server.port}
-    nonSecurePort: ${server.port}
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
-
-
-spring.cloud.vault:
-    config.lifecycle.enabled: true
-    fail-fast: true
-</code></pre><p>将service的端口号改成9000</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525217029154zqet1ll8.png?imageslim" alt="paste image"></p>
-<p>发现负载均衡起效了。。。。。</p>
-<p>下一章节讲下robbin和zull的结合使用。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/springboot/">springboot</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/spring-cloud/">spring cloud</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/04/30/7天学会使用springcloud-二/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/04/30/7天学会使用springcloud-二/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/31/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="page-number current">32</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/33/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/31/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><span class="page-number current">32</span><a class="page-number" href="/page/33/">33</a><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/33/">Next<span></span></a>
   </nav>
 
 
@@ -1873,7 +1671,7 @@ spring.cloud.vault:
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>18</sup></a></li>
 		  
 		
 		  
@@ -1922,6 +1720,22 @@ spring.cloud.vault:
 			
 		
 			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
@@ -1930,35 +1744,7 @@ spring.cloud.vault:
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
@@ -1966,23 +1752,35 @@ spring.cloud.vault:
 			
 		
 			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -2001,7 +1799,7 @@ spring.cloud.vault:
         
           <li>
             
-            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
             
           </li>
         

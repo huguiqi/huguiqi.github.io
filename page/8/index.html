@@ -92,399 +92,107 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/如何汉化gitlab8.9.2版本/" title="如何汉化gitlab8.9.2版本" itemprop="url">如何汉化gitlab8.9.2版本</a>
+      <a href="/2020/04/29/实现js的map类/" title="实现JS的Map类" itemprop="url">实现JS的Map类</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.208Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.438Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="如何汉化gitlab8-9-2版本"><a href="#如何汉化gitlab8-9-2版本" class="headerlink" title="如何汉化gitlab8.9.2版本"></a>如何汉化gitlab8.9.2版本</h1><p>我参考了这些文章作汉化：</p>
-<p><a href="https://xuanwo.org/2016/04/13/gitlab-install-intro/#" target="_blank" rel="noopener">Gitlab部署和汉化以及简单运维</a></p>
-<p><a href="http://www.jianshu.com/p/7a0d6917e009#" target="_blank" rel="noopener">快速安装 GitLab 并汉化</a></p>
-<p>但是。。。。感觉他们都有些错误，而且我的是最新版本8.9.2，现在中文补丁只打到8.8.5；</p>
-<p>所以，我有个神奇的想法，是不是可以用8.8.5的汉化补丁用到8.9.2上，可能它有些样式上和部分汉化没有汉化到，但是基本上能用，哪怕部分汉化，也很好。。。。</p>
-<p>嗯，所以就这样：<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/如何汉化gitlab8.9.2版本/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-运维/">系统&运维</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/gitlabe汉化/">gitlabe汉化</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/如何汉化gitlab8.9.2版本/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/如何汉化gitlab8.9.2版本/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/如何添加brewcask没有的软件/" title="如何添加brewcask没有的软件" itemprop="url">如何添加brewcask没有的软件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.204Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="如何添加brewcask没有的软件"><a href="#如何添加brewcask没有的软件" class="headerlink" title="如何添加brewcask没有的软件"></a>如何添加brewcask没有的软件</h1><p>按照<a href="https://github.com/caskroom/homebrew-cask/blob/master/CONTRIBUTING.md#adding-a-cask" target="_blank" rel="noopener">brewcask的wiki</a>上说的步骤</p>
-<h2 id="添加步骤："><a href="#添加步骤：" class="headerlink" title="添加步骤："></a>添加步骤：</h2><ol>
-<li>fork homebrew-cask</li>
-<li>进入你的系统的homebrew-cask的repository目录，mac系统默认都在：<code>/usr/local/Library/Taps/phinze/homebrew-cask</code></li>
-<li>一定要先更新你的brewcask 的repository:<code>git pull</code></li>
-<li><p>按照官方文档的做法，把你的fork过去的项目url加入到remote里去</p>
-<pre><code>$ github_user=&apos;huguiqi&apos;
-$ cd &quot;$(brew --repository)&quot;/Library/Taps/caskroom/homebrew-cask
-$ git remote add &quot;$github_user&quot; &quot;https://github.com/$github_user/homebrew-cask&quot;
-</code></pre></li>
-<li><p>建立软件token(<strong>这一步官方文档上没写</strong>)</p>
-<pre><code>&quot;$(brew --repository)/Library/Taps/caskroom/homebrew-cask/developer/bin/generate_cask_token&quot; &apos;software_name&apos;
-</code></pre></li>
-</ol>
-<p>如已经在repostory目录了，则执行如下:</p>
-<pre><code>developer/bin/generate_cask_token &apos;solftName&apos;
-</code></pre><p>如果执行报错，那么可以<code>git pull试下</code><br>6 . 新建cask:<code>brew cask create solftName</code></p>
-<p>在这一步的时候，一直报错，后面看了报错信息，说是什么找不到这个token，在<code>/usr/local/Library/Taps/caskroom/homebrew-cask</code>目录下，这就奇了怪了，明明我的repository在另外一个目录，它怎么会往这个不存在的目录里去找呢，后面找了很久，发现是我更新了brew，而brew-cask还是用的老的：<code>phinze/homebrew-cask</code>，<a href="https://github.com/caskroom/homebrew-cask" target="_blank" rel="noopener">官方wiki上有这个问题的解决方案</a>：</p>
-<ol>
-<li><code>$ brew update; brew cleanup; brew cask cleanup</code></li>
-<li><code>$ brew uninstall --force brew-cask; brew update</code></li>
-<li>如果还报错，则可能是之前你的没有卸载干净，再执行：<code>brew untap phinze/cask; brew untap caskroom/cask; brew update</code></li>
-<li>最后再重复第1、2步</li>
-</ol>
-<p><strong> cask重装以后再执行一遍repository下add remote url</strong></p>
-<p>执行 cask create 以后，会打开一个*.rb文件，如下：</p>
-<pre><code>cask &apos;my-new-cask&apos; do 
-    version &apos;&apos;
-    sha256 &apos;&apos;
-    url &apos;&apos;
-    name &apos;&apos;
-    homepage &apos;&apos;
-    license :unknown # TODO: change license and remove this comment; &apos;:unknown&apos; is a machine-generated placeholder
-    app &apos;&apos;
-end
-</code></pre><p>其中将：</p>
-<p>– my_new_cask改为新建cask名称 <br><br>– version 改成改软件最新版本，如果下方所提供的下载链接并不包含版本信息此处写成：version :latest <br><br>– sha256 下载文件的SHA-256校验值，当下方所提供的下载链接并不包含版本信息此处写成：sha256 :no_check <br><br>– url 为软件下载链接 <br><br>– name 为软件名称 <br><br>– homepage 为软件主页 <br><br>– license 可以分为以下几大类，同时大类下面又分成 gratis commercial freemium 等小类，具体请查阅参考1。 <br><br>– app 中填写url下载文件中*.app文件的相对位置 <br></p>
-<table>
-<thead>
-<tr>
-<th>symbol</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>:oss</td>
-<td>开源软件</td>
-</tr>
-<tr>
-<td>:closed</td>
-<td>闭源软件</td>
-</tr>
-<tr>
-<td>:unknown</td>
-<td>许可未知</td>
-</tr>
-<tr>
-<td>:oss</td>
-<td>其他</td>
-</tr>
-</tbody>
-</table>
-<h2 id="测试-cask"><a href="#测试-cask" class="headerlink" title="测试 cask"></a>测试 cask</h2><pre><code>bwcs readkit
-</code></pre><p>发现有可以搜索到了，太棒了。。。。。。</p>
-<p>安装呢，哈哈，我已经安装了，就不试了</p>
-<h2 id="提交到git库"><a href="#提交到git库" class="headerlink" title="提交到git库"></a>提交到git库</h2><pre><code>git commit -a -m &quot;readkit&quot;
-git push newRemote
-</code></pre><p>在push之前我遇到一个从示遇到的问题，就是push的时候老push不上去，总是报错：</p>
-<pre><code>sam@samhus-MBP /u/l/L/T/c/homebrew-cask&gt; gp huguiqi                      master
-Counting objects: 12, done.
-Delta compression using up to 8 threads.
-Compressing objects: 100% (12/12), done.
-Writing objects: 100% (12/12), 1.46 KiB | 0 bytes/s, done.
-Total 12 (delta 8), reused 1 (delta 0)
-To git@github.com:huguiqi/homebrew-cask.git
- ! [remote rejected] master -&gt; master (shallow update not allowed)
-error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.git&apos;
-</code></pre><p>google了一下，发现说什么，只要添加了remote或者更改了remote，shallow 的更新不被允许，我也不知道shallow啥意思，可能是个啥标志吧，就是要将老的remote库标志为unshallow(这样老库就不会更新了),新的remote才能push，这什么鬼规则。。。</p>
-<pre><code>master -&gt; master (shallow update not allowed)
-</code></pre><p>那怎么样去flag老的remote为unshallow呢，就要用fetch命令了。<br>好吧，我就干下吧，干的时候必须带上unshallow：</p>
-<pre><code>git fetch --unshallow origin 
-</code></pre><p><strong>ps:这个库是我从主库fork下来的，只是提交到我自己的公有库上，而对于brew-cask的主库而言，我是它无数个分支中的一个分支，别人暂时通过<code>brew cask search readkit</code> 是搜不到的，直到主库维护者将无数分支merge到主库，用户更新了brew-cask 的index，那就可以搜得到了</strong></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/系统-工具/">系统&工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/brew-cask-添加cask/">brew-cask 添加cask</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/如何添加brewcask没有的软件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/如何添加brewcask没有的软件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/怎么关闭U盘的自动播放功能/" title="怎么关闭U盘的自动播放功能" itemprop="url">怎么关闭U盘的自动播放功能</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.197Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="怎么关闭U盘的自动播放功能"><a href="#怎么关闭U盘的自动播放功能" class="headerlink" title="怎么关闭U盘的自动播放功能"></a>怎么关闭U盘的自动播放功能</h1><h1 id="怎么关闭U盘的自动播放功能-1"><a href="#怎么关闭U盘的自动播放功能-1" class="headerlink" title="怎么关闭U盘的自动播放功能"></a><span>怎么关闭U盘的自动播放功能</span></h1><pre><code>每次把移动硬盘查到USB口就会自动播放，尤其是移动硬盘分了N个区的时候，要手动一个一个的关掉，真是十分的麻烦！怎么样能解决这个问题呢？下面西部e网这里了几种关闭移动硬盘或者U盘自动播放的方法供大家参考：  
-
- 1、SHIFT按键法   这个方法早在Windows98就用过了吧？好像是哦，反正我最早在关闭自动播放CD的时候就使用的这种方法。插入移动硬盘的时候按住SHIFT键，移动硬盘就不会自动播放啦。   
-
-2、策略组关闭法   在前段时间熊猫烧香流行的时候，网上就流传着使用策略组关闭移动硬盘或者U盘自动关闭功能的方法。具体如：单击“开始-运行”，在“打开”框中，键入“gpedit.msc”，单击“确定”按钮，打开“组策略”窗口。在左窗格的“本地计算机策略”下，展开“计算机配置-管理模板-系统”，然后在右窗格的“设置”标题下，双击“关闭自动播放”。单击“设置”选项卡，选中“已启用”复选钮，然后在“关闭自动播放”框中单击“所有驱动器”，单击“确定”按钮，最后关闭组策略窗口。   
-
-3、关闭服务法   在“我的电脑”点击鼠标右键，选择“管理”，在打开的“计算机管理”中找到“服务和应用程序-服务”，然后在右窗格找到“Shell Hardware Detection”服务，这个服务的功能就是为自动播放硬件事件提供通知，双击它，在“状态”中点击“停止”按钮，然后将“启动类型”修改为“已禁用”或者“手动”就可以了。   
-
-4、磁盘操作法   这个方法对Windows XP有效，也比较好用。打开“我的电脑”，在“硬盘”里面或者在“有可移动的存储设备”下面会看到你的盘符，一般移动硬盘的盘符会在“硬盘”中，U盘或者数码相机什么的在“有可移动的存储设备”中。鼠标右键点击需要关闭自动播放功能的盘符，选择“属性”，在弹出的窗体中选择“自动播放”选项卡，在这里用户可以针对“音乐文件”、“图片”、“视频文件”、“混合内容”和“音乐CD”五类内容设置不同的操作方式，都选用“不执行操作”即可禁用自动运行功能，“确定”后设置立即生效。这种方法同样使用于针对DVD/CD驱动器。   
-
-5、注册表法   注册表是个麻烦的东西，一般不建议使用注册表来修改。
-
- 打开注册表编辑器，展开到[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Exploer]主键下，在右窗格中找到“NoDriveTypeAutoRun”，就是这个键决定了是否执行CDROM或硬盘的AutoRun功能。   NoDriveTypeAutoRun这个键决定了是否执行Autorun功能。其中每一位代表一个设备，不同设备用以下数值表示：     设备名称 第几位 数值 设备用如下数值表示 设备名称含义   DRIVE_UNKNOWN 0 1 01H 不能识别的类型设备   DRIVE_NO_ROOT_DIR 1 0 02H 没有根目录的驱动器   DRIVE_REMOVABLE 2 1 04H 可移动驱动器   DRIVE_FIXED 3 0 08H 固定的驱动器   DRIVE_REMOTE 4 1 10H 网络驱动器   DRIVE_CDROM 5 0 20H 光驱   DRIVE_RAMDISK 6 0 40H RAM磁盘      以上值“0”表示设备运行，“1”表示设备不运行。   6、软件法   Tweak UI是Microsoft出品的软件，可以针对任何操作系统。使用Tweak UI软件，可以控制任意盘符是否可以自动播放。
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/怎么关闭U盘的自动播放功能/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/怎么关闭U盘的自动播放功能/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/彻底删除Mac OS X开机自启动项目/" title="彻底删除Mac OS X开机自启动项目" itemprop="url">彻底删除Mac OS X开机自启动项目</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.189Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="彻底删除Mac-OS-X开机自启动项目"><a href="#彻底删除Mac-OS-X开机自启动项目" class="headerlink" title="彻底删除Mac OS X开机自启动项目"></a>彻底删除Mac OS X开机自启动项目</h1><div style="font-size: 24px; margin: 10px; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; background-color: rgb(255, 255, 255);"><br><br>彻底删除Mac OS X开机自启动项目<span style="font-size: 14px; float: right; margin: 5px 10px 0px 0px; cursor: pointer; color: rgb(255, 0, 0);">进入全屏</span><br><div style="font-size: 0px;"><br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/63A76FC7-7BC5-4F9F-ADA0-FDA2B807808E.gif" alt=""><br><br></div>
-
-<p></p></div><p></p>
-<div style="zoom: 1; padding: 20px; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(221, 221, 221); overflow: hidden; color: rgb(69, 69, 69); font-family: 'courier new', 'heiti sc', 'microsoft yahei'; font-size: 16px; line-height: 24px; background-color: rgb(255, 255, 255);"><br><br>今天重新安装了SSD硬盘上的OS<br>X系统，所有数据都从另外一块HD硬盘迁移过来的，所以直接导致一些不需要的东西直接开机自启动了，试图从<span style="color: rgb(255, 0, 0);">LoginItems</span>（打开System<br>Preferences，选择System -&gt; Accounts，选择Login<br>Items选项卡）进行管理，但这里已经是OK的了。所以只能通过删除<span style="color: rgb(255, 0, 0);">LaunchAgents</span>的方法搞定了，LaunchAgents目录：/Library/LaunchAgents，下面其实有好多东西都是可以强制删掉的：<br><br><img src="%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4Mac%20OS%20X%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE.resources/858844E8-8EEC-4BE8-ADAC-DFF0BF88826E.png" alt="">\<br><br>当然，如果这都不能解决问题，还可以通过清理<span style="color: rgb(51, 51, 51); font-family: arial;"><span style="color: rgb(255, 0, 0);">StartupItems</span></span>的方式搞定，StartupItems的目录：/Library/StartupItems<br><br>一些系统级别的，可以到这里去清理：/System/Library/StartupItems<br><br>\<br><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2018/11/19/彻底删除Mac OS X开机自启动项目/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2018/11/19/彻底删除Mac OS X开机自启动项目/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/彻底删除Mac OS X开机自启动项目/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2018/11/19/产品人的APP/" title="产品人的APP" itemprop="url">产品人的APP</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.182Z" itemprop="datePublished"> 发表于 2018-11-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="产品人的APP"><a href="#产品人的APP" class="headerlink" title="产品人的APP"></a>产品人的APP</h1><p>作为一个刚入门不久的产品，我需要去学习各个方面的知识，而在学习的过程中，也多亏了一些APP的帮助，这里想顺便推荐一下它们。</p>
-<p>—————————————————————————————————————\</p>
+        <h1 id="实现JS的Map类"><a href="#实现JS的Map类" class="headerlink" title="实现JS的Map类"></a>实现JS的Map类</h1><p>两种方式：</p>
 <ul>
-<li>先来推荐几个关于资讯阅读的：\</li>
+<li>简单的Object</li>
 </ul>
-<p>\</p>
-<p><img src="http://pic2.zhimg.com/5ee6e930ec1991623515160b3ca3c4e5_b.jpg" alt=""></p>
-<p>—-Medium</p>
-<p>国外知名的写作平台，上面有很多精品文章，质量很高，想要看什么方面的内容可以通过搜索tag的形式去查找。</p>
-<p>国内的类似的有【简书】</p>
-<p><img src="http://pic4.zhimg.com/11827a75144c8c2fb20a7d2df7b58cdb_b.jpg" alt=""></p>
-<p>—-Quora</p>
-<p>知乎就是模仿Quora做的，相比较知乎而言，我的感觉是它的氛围要更加浓厚一些。用法就和知乎差不多。</p>
-<p><img src="http://pic3.zhimg.com/47145751f514a1dd42305401d86c636e_b.jpg" alt=""></p>
-<p>—-Behance</p>
-<p>2006年创立的著名设计社区，在上面，创意设计人士可以展示自己的作品，发现别人分享的创意作品（上面有许多质量上乘的设计作品）</p>
-<p><img src="http://pic3.zhimg.com/b84399439b9aba8a38c8372c5c7ecbe2_b.jpg" alt=""></p>
-<p>—-知乎</p>
-<p>这个不需要介绍，多多关注一些你想关注的人群，然后去其糟粕取其精华即可。<br>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Map()&#123;&#125;</span><br><span class="line">Map.prototype.get = function(key)&#123;</span><br><span class="line">    return this[key];</span><br><span class="line">&#125;;</span><br><span class="line">Map.prototype.set = function(key,val)&#123;</span><br><span class="line">    this[key]=val;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// var m = new Map();</span><br><span class="line">// m.set(&apos;name&apos;,&apos;foo&apos;);</span><br><span class="line">// console.log(stringify(m)); // &#123;&quot;name&quot;:&quot;foo&quot;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实现map的缓存功能</li>
+</ul>
+<p>UtilMap.js:</p>
         
         
         <p class="article-more-link">
           
-            <a href="/2018/11/19/产品人的APP/#more">Read More</a>
+            <a href="/2020/04/29/实现js的map类/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/HashMap/">HashMap</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/实现js的map类/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/实现js的map类/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/关于jsp中换行问题/" title="关于jsp中换行问题" itemprop="url">关于jsp中换行问题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.437Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="关于jsp中换行问题"><a href="#关于jsp中换行问题" class="headerlink" title="关于jsp中换行问题"></a>关于jsp中换行问题</h1><p><span style="-webkit-border-horizontal-spacing: 2px; -webkit-border-vertical-spacing: 2px;">数据库里换行为‘\r\n’,而在页面中要转换为&lt;br&gt;。在页面显示的时候要注意EL标签&lt;c:out&gt;的一个属性。<br><span style="color: #ff0000;">escapeXml==”false”</span></span></p>
+<p>默认属性为true，会把‘&lt;’和&gt;’解析为&lt;和<br>&gt;,在页面上则显示为&lt;br&gt;而并不是换行。</p>
+<p>相关内容如下：</p>
+<p><strong>**清单 13. &lt;c:out&gt; 操作的语法</strong>\<br>**</p>
+<div><br><br><div><br><br>Java代码<br>  <img src="%E5%85%B3%E4%BA%8Ejsp%E4%B8%AD%E6%8D%A2%E8%A1%8C%E9%97%AE%E9%A2%98.resources/1C0FD903-95D0-4A09-A6B7-83EBDECE3806.png" alt=""><br><br></div>
+
+<ol>
+<li><span>“expression”</span><span>  </span><span>default</span><span>=</span><span>“expression”</span><span>  escapeXml=</span><span>“boolean”</span><span>/&gt;    </span></li>
+</ol>
+<p></p></div><p></p>
+<p><code>escapeXml</code> 属性也是可选的。它控制当用 <code>&lt;c:out&gt;</code><br>标记输出诸如“&lt;”、“&gt;”和“&amp;”之类的字符（在 HTML 和 XML<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/关于jsp中换行问题/#more">Read More</a>
           
        </p>
     </div>
@@ -510,7 +218,7 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/产品人的APP/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/产品人的APP/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/关于jsp中换行问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/关于jsp中换行问题/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -530,24 +238,33 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/节日记录/" title="节日记录" itemprop="url">节日记录</a>
+      <a href="/2020/04/29/判断ios系统版本号的代码/" title="判断ios系统版本号的代码" itemprop="url">判断ios系统版本号的代码</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.177Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.436Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="节日记录"><a href="#节日记录" class="headerlink" title="节日记录"></a>节日记录</h1><p>感恩节在每年11月份最后一周四</p>
+        <h1 id="判断ios系统版本号的代码"><a href="#判断ios系统版本号的代码" class="headerlink" title="判断ios系统版本号的代码"></a>判断ios系统版本号的代码</h1><div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>double version = [[UIDevice currentDevice].systemVersion<br>doubleValue];//判定系统版本。<br><br></div>
 
+<div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>\<br><br></div>
+
+<div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>    if(version&gt;=5.0f){<br><br></div>
+
+<div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>        [[UINavigationBar appearance] setBackgroundImage:[UIImage<br>imageNamed:  “navigationBar.jpg”] forBarMetrics:UIBarMetricsDefault];<br><br></div>
+
+<div style="line-height: 25px; color: rgb(51, 51, 51); font-family: Arial, Helvetica, simsun, u5b8bu4f53; font-size: 14px; text-align: left; background-color: rgb(255, 255, 255);"><br><br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2020/04/29/判断ios系统版本号的代码/#more">Read More</a>
           
        </p>
     </div>
@@ -573,7 +290,7 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/节日记录/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/节日记录/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/判断ios系统版本号的代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/判断ios系统版本号的代码/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -593,27 +310,100 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/网站收藏/" title="网站收藏" itemprop="url">网站收藏</a>
+      <a href="/2020/04/29/一些iOS高效开源类库/" title="一些iOS高效开源类库" itemprop="url">一些iOS高效开源类库</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.172Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.435Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="网站收藏"><a href="#网站收藏" class="headerlink" title="网站收藏"></a>网站收藏</h1><div><br><br>–坏男人学院<br><br></div>
+        <h1 id="一些iOS高效开源类库"><a href="#一些iOS高效开源类库" class="headerlink" title="一些iOS高效开源类库"></a>一些iOS高效开源类库</h1><div><br><br>一些iOS高效开源类库<br><br></div>
 
-<p><a href="http://puahome.com/bbs/" target="_blank" rel="noopener">http://puahome.com/bbs/</a></p>
 <div><br><br>\<br><br></div>
 
-<div><br><br>–google earth<br><br></div>
+<div><br><br>2011-12-27<br><br></div>
 
-<div><br><br><a href="http://www.google.com/intl/zh-CN/earth/index.html" target="_blank" rel="noopener">http://www.google.com/intl/zh-CN/earth/index.html</a><br><br></div>
+<div><br><br>\<br><br></div>
+
+<div><br><br>09:41<br><br></div>
+
+<div><br><br>\<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/一些iOS高效开源类库/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/一些iOS高效开源类库/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/一些iOS高效开源类库/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/解决Xcode中使用Git时出现This file does not exist at the requested revision./" title="解决Xcode中使用Git时出现This file does not exist at the requested revision." itemprop="url">解决Xcode中使用Git时出现This file does not exist at the requested revision.</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.433Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="解决Xcode中使用Git时出现This-file-does-not-exist-at-the-requested-revision"><a href="#解决Xcode中使用Git时出现This-file-does-not-exist-at-the-requested-revision" class="headerlink" title="解决Xcode中使用Git时出现This file does not exist at the requested revision."></a>解决Xcode中使用Git时出现This file does not exist at the requested revision.</h1><div><br><br>解决Xcode中使用Git时出现This file does not exist at the requested<br>revision.<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>05</strong><br><br></div>
+
+<div><br><br><strong>四</strong><br><br></div>
 
 <div><br><br>\<br><br></div>
 
@@ -622,7 +412,7 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
         
         <p class="article-more-link">
           
-            <a href="/2018/11/19/网站收藏/#more">Read More</a>
+            <a href="/2020/04/29/解决Xcode中使用Git时出现This file does not exist at the requested revision./#more">Read More</a>
           
        </p>
     </div>
@@ -648,7 +438,7 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/网站收藏/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/网站收藏/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/解决Xcode中使用Git时出现This file does not exist at the requested revision./#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/解决Xcode中使用Git时出现This file does not exist at the requested revision./" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -668,32 +458,36 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/精益创业/" title="精益创业" itemprop="url">精益创业</a>
+      <a href="/2020/04/29/关于URL重写、session，cookie/" title="关于URL重写、session，cookie" itemprop="url">关于URL重写、session，cookie</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.166Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.432Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="精益创业"><a href="#精益创业" class="headerlink" title="精益创业"></a>精益创业</h1><h3 id="【美】埃里克·里斯"><a href="#【美】埃里克·里斯" class="headerlink" title="【美】埃里克·里斯"></a>【美】埃里克·里斯</h3><p>2014-10-06 19:53:33<br>Facebook的所有业务都以本书为指导。<br><br>注： 精益创业</p>
-<h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p>2014-10-06 19:56:48</p>
-<p>知名科幻小说家科利·多克托罗（Cory Doctorow）曾说：“铁匠在啤酒中洒下眼泪，悲叹自己没有办法在铁路时代卖马掌，但是这并不会使他们的马掌更受欢迎。那些学习变成机械师的铁匠才会保住自己的饭碗。”我对这句名言的理解是：企业唯有快速顺应时代才能赢得未来，产品生产方式必须因时代而变。</p>
-<h5 id="2015-03-16-08-31-43"><a href="#2015-03-16-08-31-43" class="headerlink" title="2015-03-16 08:31:43"></a>2015-03-16 08:31:43</h5><p>我们身处的商业时代有两大主题：互联网化和全球化。</p>
-<h5 id="2015-03-16-08-32-08"><a href="#2015-03-16-08-32-08" class="headerlink" title="2015-03-16 08:32:08"></a>2015-03-16 08:32:08</h5><p>目标顾客—小范围实验—反馈修改—产品迭代—获得核心认知—高速增长</p>
-<h5 id="2015-03-16-08-35-01"><a href="#2015-03-16-08-35-01" class="headerlink" title="2015-03-16 08:35:01"></a>2015-03-16 08:35:01</h5><p>创业的第一阶段是把想法变成产品</p>
-<h5 id="2015-03-16-08-36-37"><a href="#2015-03-16-08-36-37" class="headerlink" title="2015-03-16 08:36:37"></a>2015-03-16 08:36:37</h5><p>创业的第二阶段，新创企业要对正确的产品形态进行重点投入，做好做细，做“最了解用户的人”，做到极致</p>
-<h5 id="2015-03-16-08-37-47"><a href="#2015-03-16-08-37-47" class="headerlink" title="2015-03-16 08:37:47"></a>2015-03-16 08:37:47</h5><p>创业的第三阶段，成功者往往伴随着爆发式的增长，全面的扩张。企业开始与传统的、陈旧的市场势力展开阵地战</p>
+        <h1 id="关于URL重写、session，cookie"><a href="#关于URL重写、session，cookie" class="headerlink" title="关于URL重写、session，cookie"></a>关于URL重写、session，cookie</h1><p>关于URL重写、session，cookie</p>
+<div><br><br>\<br><br></div>
+
+<div><br><br>（1）<br><br></div>
+
+<div><br><br>session总是放在服务器上的，每个客户会跟一个sessionID对应。因为HTTP是无连接的，如何区分同一个客户的多次请求呢，就需要客户端每次发请求的时候，发送相应的sessionID。<br><br></div>
+
+<div><br><br>通常情况下，sessionID在客户端以cookie的形式保存。如果浏览器静止了cookie，客户端再向服务器发请求的时候，就不会发送sessionID，因此服务器就会将这个请求作为一个新客户，所以就会出现session值丢失的假象。<br><br></div>
+
+<div><br><br>这时候出现一个问题，如果客户浏览器不支持cookie，怎么办？J2EE提供的另一个办法就是URL重写，写超链接的时侯，总是用response.encodeURL(url)，连接就会变成*.jsp?sessionID=……，完成了原来用cookie完成的功能。<br><br></div>
+
+<div><br><br>
         
         
         <p class="article-more-link">
           
-            <a href="/2018/11/19/精益创业/#more">Read More</a>
+            <a href="/2020/04/29/关于URL重写、session，cookie/#more">Read More</a>
           
        </p>
     </div>
@@ -702,13 +496,13 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/精益创业/">精益创业</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -719,7 +513,7 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/精益创业/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/精益创业/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/关于URL重写、session，cookie/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/关于URL重写、session，cookie/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -739,27 +533,167 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/清明议事/" title="清明议事" itemprop="url">清明议事</a>
+      <a href="/2020/04/29/基于RBAC模型的权限管理系统的设计和实现/" title="基于RBAC模型的权限管理系统的设计和实现" itemprop="url">基于RBAC模型的权限管理系统的设计和实现</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.160Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.430Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="清明议事"><a href="#清明议事" class="headerlink" title="清明议事"></a>清明议事</h1><blockquote>
-<blockquote>
-<p>清明三天假期已过，今天是周未，朋友圈里又开始了美图大赛。。。。</p>
-</blockquote>
-</blockquote>
-<p>清明三天，我安静的在家里待了整整三天，哪也没去，什么也没做；<br>除了jerry请我去他家过清明，中午喝酒、聊天。<br>我们聊了很多，其中有个话题很触动我，关于业余时间利用。jerry是在做自己的app，运营着自己的app，有自己的服务器，有时还会给自己的app做些活动。目前他双休日还会去练车；</p>
-<p>很遗憾，我的业余时间现在完全是浪费的。。。。。。</p>
-<h2 id="闲与忙哪个更好？"><a href="#闲与忙哪个更好？" class="headerlink" title="闲与忙哪个更好？"></a>闲与忙哪个更好？</h2><h2 id="有时间再做的事，最后真正完成的机率有多大？"><a href="#有时间再做的事，最后真正完成的机率有多大？" class="headerlink" title="有时间再做的事，最后真正完成的机率有多大？"></a>有时间再做的事，最后真正完成的机率有多大？</h2><h2 id="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"><a href="#是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？" class="headerlink" title="是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？"></a>是先有想法，再有目标，还是工作了后，才明白真正的理想与目标？</h2>
+        <h1 id="基于RBAC模型的权限管理系统的设计和实现"><a href="#基于RBAC模型的权限管理系统的设计和实现" class="headerlink" title="基于RBAC模型的权限管理系统的设计和实现"></a>基于RBAC模型的权限管理系统的设计和实现</h1><div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255); text-align: center;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 14pt;">基于</span><span style="margin: 0px; padding: 0px; font-size: 14pt;">RBAC</span><span style="margin: 0px; padding: 0px; font-size: 14pt;">模型的权限管理系统的设计和实现</span></strong><br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255);"><br><br>裴辉东 梁云风<br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255);"><br><br>（<span style="margin: 0px; padding: 0px;">1.<br>山东省烟台海颐软件股份有限公司；2山东省烟台东方电子信息产业股份有限公司</span>）<br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255);"><br><br><br><br></div>
+
+<div <!--more--=""><br>style=”margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;”&gt;<br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">摘要：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">提出了基于RBAC模型的权限管理</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">系统的</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">设计和实现方案。介绍了采用的J2EE架构的多层体系结构设计，阐述了基于角色的访问控制RBAC模型的设计思想</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">，并讨论了权限管理系统的核心面向对象设计模型，以及权限访问、权限控制和权限存储机制等关键技术。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">关键词：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限管</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">理系统；角色；访问控制；RBAC模型；J2EE；LDAP</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 13pt;"><br><br><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">0 </span><span style="margin: 0px; padding: 0px; font-size: 9pt;">引言</span></strong><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">管理信息系统是一个复杂的人机交互系统，其中每个具体环节都可能受到安全威胁。构建强健的权限管理系统，保证管理信息系统的安全性是十分重要的。权限管理系统是管理信息系统中可代码重用性最高的模块之一。任何多用户的系统都不可避免的涉及到相同的权限需求，都需要解决实体鉴别、数据保密性、数据完整性、防抵赖和访问控制等安全服务</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">(据ISO7498-2)</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">。例如，访问控制服务要求系统根据操作者已经设定的操作权限，控制操作者可以访问哪些资源，以及确定对资源如何进行操作。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">目前，权限管理系统也是重复开发率最高的模块之一。在企业中，不同的应用系统都拥有一套独立的权限管理系统。每套权限管理系统只满足自身系统的权限管理需要，无论在数据存储、权限访问和权限控制机制等方面都可能不一样，这种不一致性存在如下弊端：</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">a.</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">系统管理员需要维护多套权限管理系统，重复劳动。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">b.</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">用户管理、组织机构等数据重复维护，数据一致性、完整性得不到保证。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">c.</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">由于权限管理系统的设计不同，概念解释不同，采用的技术有差异，权限管理系统之间的集成存在问题，实现单点登录难度十分大，也给企业构建企业门户带来困难。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">采用统一的安全管理设计思想，规范化设计和先进的技术架构体系，构建一个通用的、完善的、安全的、易于管理的、有良好的可移植性和扩展性的权限管理系统，使得权限管理系统真正成为权限控制的核心，在维护系统安全方面发挥重要的作用，是十分必要的。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">本文介绍一种基于角色的访问控制RBAC（Role-Based<br>policies Access<br>Control）模型的权限管理系统的设计和实现，系统采用基于J2EE架构技术实现。并以讨论了应用系统如何进行</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限的访问和控制</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 13pt;"><br><br><strong> </strong><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">1 </span><span style="margin: 0px; padding: 0px; font-size: 9pt;">采用</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">J2EE</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">架构设计</span></strong><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">采用J2EE企业平台架构构建权限管理系统。J2EE架构集成了先进的软件体系架构思想，具有采用多层分布式应用模型、基于组件并能重用组件、统一完全模型和灵活的事务处理控制等特点。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">系统逻辑上分为四层：客户层、Web层、业务层和资源层。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">a.<br>客户层主要负责人机交互。可以使系统管理员通过Web浏览器访问，也可以提供不同业务系统的API、Web<br>Service调用。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">b.<br>Web层封装了用来提供通过Web访问本系统的客户端的表示层逻辑的服务。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">c.<br>业务层提供业务服务，包括业务数据和业务逻辑，集中了系统业务处理。主要的业务管理模块包括组织机构管理、用户管理、资源管理、权限管理和访问控制几个部分。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">d.<br>资源层主要负责数据的存储、组织和管理等。资源层提供了两种实现方式：大型关系型数据库（如ORACLE）和LDAP（Light<br>Directory Access<br>Protocol，轻量级目录访问协议）目录服务器（如微软的活动目录）。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">2<br>RBAC</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">模型</span></strong><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">访问控制是针对越权使用资源的防御措施。基本目标是为了限制访问主体（用户、进程、服务等）对访问客体（文件、系统等）的访问权限，从而使计算机系统在合法范围内使用；决定用户能做什么，也决定代表一定用户利益的程序能做什么^[1]^。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">企业环境中的访问控制策略一般有三种：自主型访问控制方法、强制型访问控制方法和基于角色的访问控制方法（RBAC）。其中，自主式太弱，强制式太强，二者工作量大，不便于管理^[1]^。基于角色的访问控制方法</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">是目前公认的解决大型企业的统一资源访问控制的有效方法。其显著的两大特征是：</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">1.减</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">小授权管理的复杂性，降低管理开销</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">；2.灵活地支</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">持企业的安全策略，并对企业的变化有很大的伸缩性。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">NIST（The<br>National Institute of Standards and<br>Technology，美国国家标准与技术研究院）标准RBAC模型由4个部件模型组成，这4个部件模型分别是基本模型RBAC0（Core<br>RBAC）、角色分级模型RBAC1（Hierarchal<br>RBAC）、角色限制模型RBAC2（Constraint RBAC）和统一模型RBAC3（Combines<br>RBAC）^[1]^。RBAC0模型如图1所示。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;"><span lang="EN-US" style="margin: 0px; padding: 0px; font-size: 9pt; font-family: 'Times New Roman';"> <span lang="EN-US" style="margin: 0px; padding: 0px; font-size: 9pt;"> <img src="%E5%9F%BA%E4%BA%8ERBAC%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%AE%9E%E7%8E%B0.resources/C125E595-9BA2-4A58-8DFC-E6F2D739CAB7.jpg" alt=""></span></span></span><br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255); text-indent: 18pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">图1<br>RBAC0</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">模型</span><br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255); text-indent: 18pt;"><br><br><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">a.<br>RBAC0定义了能构成一个RBAC控制系统的最小的元素集合。在RBAC之中,包含用户users(USERS)、角色roles(ROLES)、目标objects(OBS)、操作operations(OPS)、许可权permissions(PRMS)五个基本数据元素，权限被赋予角色,而不是用户，当一个角色被指定给一个用户时，此用户就拥有了该角色所包含的权限。会话sessions是用户与激活的角色集合之间的映射。RBAC0与传统访问控制的差别在于增加一层间接性带来了灵活性，RBAC1、RBAC2、RBAC3都是先后在RBAC0上的扩展。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">b.<br>RBAC1引入角色间的继承关系，角色间的继承关系可分为一般继承关系和受限继承关系。一般继承关系仅要求角色继承关系是一个绝对偏序关系，允许角色间的多继承。而受限继承关系则进一步要求角色继承关系是一个树结构。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">c.<br>RBAC2模型中添加了责任分离关系。RBAC2的约束规定了权限被赋予角色时,或角色被赋予用户时,以及当用户在某一时刻激活一个角色时所应遵循的强制性规则。责任分离包括静态责任分离和动态责任分离。约束与用户-角色-权限关系一起决定了RBAC2模型中用户的访问许可。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">d.<br>RBAC3包含了RBAC1和RBAC2，既提供了角色间的继承关系，又提供了责任分离关系。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">3</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">核心对象模型设计</span></strong><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">根据</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">RBAC模型的权限设计思想，建立权限管理系统的核心对象模型。如图2所示。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 20pt; line-height: 13pt;"><br><br>\<br> <span style="margin: 0px; padding: 0px; font-size: 9pt;">对象模型中包含的基本元素主要有：用户（Users）、用户组（Group）、角色（Role）、目标（Objects）、</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">访问模式</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">（Access<br>Mode）、操作（Operator）。主要的关系有：分配角色权限PA（Permission<br>Assignment）、分配用户角色UA（Users Assignmen描述如下：</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 18pt;"><br><br>                                               <img src="%E5%9F%BA%E4%BA%8ERBAC%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%AE%9E%E7%8E%B0.resources/0C4EEB3B-7268-4A68-A640-69FBB768EFF4.jpg" alt=""><br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255); text-indent: 18pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">图2 </span><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限管理系统核心类图</span><br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255); text-indent: 18pt;"><br><br><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">a<br>.控制对象：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">是系统所要保护的资源（Resource），可</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">以被访问的对象</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">。</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">资源的定义需要注</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">意以下两个问题：</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">1.资源具有层次关系和包含关系</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">。例如，网页是资源，网页上的按钮、文本框等对象也是资源，是网页节点的子节点，如可以访问按钮，则必须能够访问页面。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">2.</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">这里提及的资源概念是指资源的类别</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">（Resource<br>Class），不是某个特定资源的实例（Resource Instance）。</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">资源的类别和资源的实例的区分，以及资源的粒度的细分，有利于确定权限管理系统和应用系统之间的管理边界，权限管理系统需要对于资源的类别进行权限管理，而应用系统需要对特定资源的实例进行权限管理。两者的区分主要是基于以下两点考虑：</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">一方面，资源实例的权限常具有资源的相关性。即根据资源实例和访问资源的主体之间的关联关系，才可能进行资源的实例权限判断。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">例如，在管理信息系统中，需要按照营业区域划分不同部门的客户，</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">A区和B区</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">都具有修改客户资料这一受控的资源，这里“客户档案资料”是属于资源的类别的范畴。如果规</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">定A区只能修改A区</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">管理的客户资料，就必须要区分出资料的归属，这里的</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">资源是属于资源实例的范畴</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">。客户档案（资源）本身应该有其使用者的信息（客户资料可能就含有营业区域这一属性），才能区分特定资源的实例操作，可以修改属于自己管辖的信息内容。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">另一方面，资源的实例权限常具有相当大的业务逻辑相关性。对不同的业务逻辑，常常意味着完全不同的权限判定原则和策略。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">b.权限：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">对受保护的资源操作的访问许可</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">(Access<br>Permission)</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">，是绑定在特定的资源实例上的。对应地，访问策略</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">（Access<br>Strategy）和资源</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">类别</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">相关，不同的资源</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">类别</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">可能采用不同的访问模式（Access<br>Mode）。例如，页面具有能打开、不能打开的</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">访问模式，按钮具有可用、不可用的访问模式，文本编辑框具有可编辑、不可编辑的访问模式。同一资源的访问策略可能存在排斥和包含关系。例如，某个数据集的可修改访问模式就包含了可查询访问模式。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">c.用户：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">是</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限的拥有者或主体。用户和权限实现分离，通过授权管理进行绑定。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">d.用户组：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">一组用户的集合。在业务逻辑的判断中，可以实现基于个人身份或组的身份进行判断。系统弱化了用户组的概念，主要实现用户（个人的身份）的方式。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">e.角色：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限分配的单位与载体。角色通过继承关系支持分级的权限实现。例如，科长角色同时具有科长角色、科内不同业务人员角色。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">f.操作：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">完成资源的类别和访问策略之间的绑定。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">g.分配角色权限PA：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">实现操作和角色之间的关联关系映射。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18.05pt; line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">h.分配用户角色UA：</span></strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">实现用户和角色之间的关联关系映射。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">该对象模型最终将访问控制模型转化为访问矩阵形式。访问矩阵中的行对应于用户，列对应于操作，每个矩阵元素规定了相应的角色，对应于相应的目标被准予的访问许可、实施行为。按访问矩阵中的行看，是访问能力表CL(Access<br>Capabilities)的内容；按访问矩阵中的列看，是访问控制表ACL（Access Control<br>Lists）的内容。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 13pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">4 </span><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限访问机制</span></strong><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 13pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限管理系统端：提供集中管理权限的服务，负责提供用户的鉴别、用户信息、组织结构信息,以及权限</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">关系表</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">的计算。如图3所示。</span><br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255); text-indent: 20pt;"><br><br><img src="%E5%9F%BA%E4%BA%8ERBAC%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%AE%9E%E7%8E%B0.resources/1B4388FA-AE09-40E6-A8E8-D56CE49B8EDB.jpg" alt="">\<br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255); text-indent: 18pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">图3<br>权限的访问示意图</span><br><br></div>
+
+<div align="center" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; background-color: rgb(255, 255, 255); text-indent: 18pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">Fig.3 Privilege<br>invoke</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">系统根据用户，角色、操作、</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">访问</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">策略和控制对象之间的关联关系，同时考虑权限的正负向授予，计算出用户的最小权限。在</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">业务逻辑层采用</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">Session<br>Bean实现此服务，也可以发布成Web<br>Service。采用代理Proxy模式，集中控制来自应用系统的所要访问的权限计算服务，并返回权限关系表，即二元组{ObjectId，OperatorId}。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">应用系统端：可以通过访问能力表CL和访问控制表ACL两种可选的访问方式访问权限管理系统。</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">以基于</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">J2EE</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">框架的应用系统为例，说明访问过程</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">：</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">a.首先采用基于表单的验证，利用Servlet方式集中处理登录请求^[2]^。考虑到需要鉴别的实体是用户，采用基于ACL访问方式。用户登录时调用权限管理系统的用户鉴别服务，如果验证成功，调用权限计算服务，并返回权限关系表，以HashMap的方式存放到登录用户的全局Session中；如果没有全局的Session或者过期，则被导向到登录页面，重新获取权限。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">b.直接URL资源采用基于CL访问方式进行的访问控制。如果用户直接输入URL地址访问页面，有两种方法控制访问：1.通过权限标签读取CL进行控制；2.采取Filter模式，进行权限控制，如果没有权限，则重定向到登录页面。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 12pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">5 </span><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限控制机制</span></strong><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限所要控制的资源类别是根据应用系统的需要而定义的，具有的语义和控制规则也是应用系统提供的，对于权限管理系统来说是透明的，权限将不同应用系统的资源和操作统一对待。应用系统调用权限管理系统所获得的权限关系表，也是需要应用系统来解释的。按此设计，权限管理系统的通用性较强，权限的控制机制则由应用系统负责处理。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">由于应用系统的权限控制与特定的技术环境有关，以基于</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">J2EE架</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">构的应用系统为例来说明，系统</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">主要的展示组件是JSP页面，</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">采用标记库和权限控制组件共同来实现。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">a.<br>权限标识：利用标签来标识不同级别资源，页面权限标签将标识页面对象。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">b.<br>权限注册：遍历JSP页面上的权限控制标签，读取JSP的控制权限。通过权限注册组件将JSP页面上的权限控制对象以及规则注册到权限管理信息系统中。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); text-indent: 21pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">c.<br>权限控制：应用系统用户登录系统时，从权限管理系统获得权限关系表之后，一方面，权限标签控制页面展示；另一方面，利用权限控制组件在业务逻辑中进行相应的权限</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">控制</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">，</span><span style="margin: 0px; padding: 0px; font-size: 9pt;">尤其是和业务逻辑紧密联系的控制对象实例的权限控制。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 12pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">6 </span><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限存储机制</span></strong><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">权限管理系统采用了两种可选的存储机制：LDAP（Lightweight<br>Directory Access<br>Protocol）目录服务数据库和关系型数据库。存储用户信息、组织结构、角色、操作、访问模式等信息。</span><br><br></div>
+
+<div align="left" style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; background-color: rgb(255, 255, 255); text-indent: 18pt; line-height: 12pt;"><br><br><span style="margin: 0px; padding: 0px; font-size: 9pt;">其中，目录服务系统基于LDAP标准，具有广泛的数据整合和共享能力。元目录（Meta-Directory）功能允许快速、简洁的与企业现存基础结构进行集成，解决基于传统RDBMS等用户数据库与LDAP用户数据库的同步问题。</span><br><br></div>
+
+<div style="margin: 0px; padding: 0px; color: rgb(51, 51, 51); font-size: 14px; text-align: left; background-color: rgb(255, 255, 255); line-height: 12pt;"><br><br><strong><span style="margin: 0px; padding: 0px; font-size: 9pt;">7 </span><span style="margin: 0px; padding: 0px; font-size: 9pt;">结语</span></strong><br><br></div>
+
+<p><span style="color: rgb(51, 51, 51); line-height: 12pt; text-align: left; text-indent: 18pt; margin: 0px; padding: 0px; font-size: 9pt;">本文论述了</span><span style="color: rgb(51, 51, 51); line-height: 12pt; text-align: left; text-indent: 18pt; margin: 0px; padding: 0px; font-size: 9pt;">一种基于RBAC模型的权限管理系统的</span><span style="color: rgb(51, 51, 51); line-height: 12pt; text-align: left; text-indent: 18pt; margin: 0px; padding: 0px; font-size: 9pt;">实现技术方案。该</span><span style="color: rgb(51, 51, 51); line-height: 12pt; text-align: left; text-indent: 18pt; margin: 0px; padding: 0px; font-size: 9pt;">权限管理系统</span><span style="color: rgb(51, 51, 51); line-height: 12pt; text-align: left; text-indent: 18pt; margin: 0px; padding: 0px; font-size: 9pt;">已成功应用于系统的设计和开发实践，与应用系统具有很好的集成。实践表明，采用</span><span style="color: rgb(51, 51, 51); line-height: 12pt; text-align: left; text-indent: 18pt; margin: 0px; padding: 0px; font-size: 9pt;">基于RBAC模型的权限具有以下优势：权限分配</span><span style="color: rgb(51, 51, 51); line-height: 12pt; text-align: left; text-indent: 18pt; margin: 0px; padding: 0px; font-size: 9pt;">直观、容易理解，便于使用；扩展性好，支持岗位、权限多变的需求；分级权限适合分层的组织结构形式；重用性强。</span></p>
+
         
         
         <p class="article-more-link">
@@ -771,13 +705,13 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/心情感悟/">心情感悟</a>
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
   </div>
 
 </div>
@@ -788,7 +722,7 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/清明议事/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/清明议事/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/基于RBAC模型的权限管理系统的设计和实现/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/基于RBAC模型的权限管理系统的设计和实现/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -808,479 +742,98 @@ error: failed to push some refs to &apos;git@github.com:huguiqi/homebrew-cask.gi
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2018/11/19/接口文档/" title="" itemprop="url"></a>
+      <a href="/2020/04/29/创建JSP自定义标签/" title="创建JSP自定义标签" itemprop="url">创建JSP自定义标签</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
 		
   <p class="article-time">
-    <time datetime="2018-11-19T09:56:24.156Z" itemprop="datePublished"> 发表于 2018-11-19</time>
+    <time datetime="2020-04-29T03:23:56.428Z" itemprop="datePublished"> 发表于 2020-04-29</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h1 id="接口文档"><a href="#接口文档" class="headerlink" title="接口文档"></a>接口文档</h1><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h3 id="接入前提"><a href="#接入前提" class="headerlink" title="接入前提"></a>接入前提</h3><blockquote>
-<p>服务端的公司内网服务器地址为：192.168.0.121:3000<br>外网服务器地址是：101.81.230.69:9000<br>接入服务器时需要token参数，android端与ios端各不一样</p>
-</blockquote>
-<h2 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h2><h3 id="1-1-1-符号定义"><a href="#1-1-1-符号定义" class="headerlink" title="1.1.1 符号定义"></a>1.1.1 符号定义</h3><table>
-<thead>
-<tr>
-<th>序号</th>
-<th>符号缩写</th>
-<th>符号性质</th>
-<th>符号说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>M</td>
-<td>强制域(Mandatory)</td>
-<td>此域必选，否则将被认为格式出错</td>
-</tr>
-<tr>
-<td>2</td>
-<td>C</td>
-<td>条件域(Conditional)</td>
-<td>此域在一定条件下必选</td>
-</tr>
-<tr>
-<td>3</td>
-<td>O</td>
-<td>选用域(Optional)</td>
-<td>此域由发送方自选</td>
-</tr>
-</tbody>
-</table>
-<h3 id="1-1-2-全局变量定义"><a href="#1-1-2-全局变量定义" class="headerlink" title="1.1.2 全局变量定义"></a>1.1.2 全局变量定义</h3><h2 id="1-2-协议"><a href="#1-2-协议" class="headerlink" title="1.2. 协议"></a>1.2. 协议</h2><blockquote>
-<ul>
-<li>目前仅提供HTTP通信协议采用RESTful风格；<ul>
-<li>请求提供GET,POST两种方式；</li>
-<li>接受的请求参数JSON或者表单形式</li>
-<li>返回结果均采用JSON；</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<p><strong>注意</strong></p>
-<ol>
-<li>请求参数为JSON模式，请求头需设置Content-Type: application/json;</li>
-<li>请求参数表单模式须设置请求头为Content-Type:application/x-www-form-urlencoded;</li>
-<li>请求头需要增加一个KEY名为 G-Agent 值组成为：<code>app名称简写;app版本号;设备类型;设备系统版本</code>  设备类型iphone为1，安卓为2</li>
-<li>判断是否登录的标识符 如果登录成功后 须在请求头（或者放在queryString参数上）设上 userId 值</li>
-<li>签名算法为 G-Agent + 接入KEY(token) + userId(userId 未登录传空字符串) 组合字符串的MD5值， 并在请求头设（或者放在queryString参数）上sign值</li>
-</ol>
-<p><code>签名验证</code></p>
-<pre><code>G-Agent=&quot;lbd;1.0;1;ios-9.3&quot;
-ticket=&quot;&quot;
-token=&quot;3E8802D881C51$%DE36FE0C#CA6C4F4D,233E8802D881C519DE36FE0CCA6C4F4D23&quot;
-sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&quot;
-</code></pre><p>例如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">* G-Agent 放在请求头</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">request.setHeader(&quot;G-Agent&quot;,&quot;lbd;1.0;1;ios-9.3&quot;)</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* 登录成功后</span><br><span class="line">*/</span><br><span class="line">request.setHeader(&quot;userId&quot;,&quot;$&#123;userId&#125;&quot;)</span><br></pre></td></tr></table></figure>
-<p>放在请求参数上:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">*签名</span><br><span class="line">*/</span><br><span class="line">http://&#123;domian&#125;:&#123;port&#125;/url/request?sign=MD5(G-Agent + KEY + ticket )</span><br></pre></td></tr></table></figure>
-<h2 id="1-3-编码"><a href="#1-3-编码" class="headerlink" title="1.3 编码"></a>1.3 编码</h2><p>所有接口采用 UTF-8</p>
-<h2 id="1-4-公共参数"><a href="#1-4-公共参数" class="headerlink" title="1.4 公共参数"></a>1.4 公共参数</h2><p>所有的请求都有以下参数，以便识别请求来源是否合法</p>
-<ul>
-<li>request:</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>参数名称</th>
-<th>是否必须</th>
-<th>描述</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sign</td>
-<td>是</td>
-<td>签名</td>
-<td>md5(uid + token)</td>
-</tr>
-<tr>
-<td>token</td>
-<td>是</td>
-<td>令牌key</td>
-<td>分发给访问渠道的令牌</td>
-</tr>
-<tr>
-<td>uid</td>
-<td>是</td>
-<td>用户ID，默认是0</td>
-<td>唯一标识用户</td>
-</tr>
-<tr>
-<td>p</td>
-<td>否</td>
-<td>页码</td>
-<td>分页查询使用</td>
-</tr>
-<tr>
-<td>r</td>
-<td>否</td>
-<td>每页显示条数</td>
-<td>分页查询使用</td>
-</tr>
-<tr>
-<td>channel</td>
-<td>是</td>
-<td>客户端访问渠道:ios,android,wechat,mobileWeb</td>
-<td>区分访问来源</td>
-</tr>
-<tr>
-<td>version</td>
-<td>否</td>
-<td>版本号</td>
-<td>只有app有值</td>
-</tr>
-</tbody>
-</table>
-<h3 id="1-4-1-报文说明"><a href="#1-4-1-报文说明" class="headerlink" title="1.4.1 报文说明"></a>1.4.1 报文说明</h3><p>报文格式采用JSON 根域下面有三个域分别为</p>
-<table>
-<thead>
-<tr>
-<th>节点</th>
-<th>必填</th>
-<th>类型</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>code</td>
-<td>是</td>
-<td>N</td>
-<td>响应码代表服务器处理状态</td>
-</tr>
-<tr>
-<td>data</td>
-<td>可选</td>
-<td>JSON</td>
-<td>响应数据可能为空</td>
-</tr>
-<tr>
-<td>msg</td>
-<td>可选</td>
-<td>ANS</td>
-<td>响应的消息</td>
-</tr>
-</tbody>
-</table>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &#123;  </span><br><span class="line"> &quot;msg&quot;:&quot;success&quot;, </span><br><span class="line"> &quot;data&quot;:&#123;</span><br><span class="line">  &quot;name&quot;:&quot;tom&quot;,</span><br><span class="line">  &quot;age&quot;:12</span><br><span class="line">  &#125;</span><br><span class="line">  &quot;code&quot;:200 // 见1.4.1 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="1-4-2-响应码定义"><a href="#1-4-2-响应码定义" class="headerlink" title="1.4.2 响应码定义"></a>1.4.2 响应码定义</h3><table>
-<thead>
-<tr>
-<th>序号</th>
-<th>code值</th>
-<th>符号说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>200</td>
-<td>处理成功</td>
-</tr>
-<tr>
-<td>2</td>
-<td>400</td>
-<td>参数输入不正确</td>
-</tr>
-<tr>
-<td>3</td>
-<td>401</td>
-<td>session失效需要重新登录</td>
-</tr>
-<tr>
-<td>4</td>
-<td>404</td>
-<td>资源链接不存在，或者请求的数据资源不存在</td>
-</tr>
-<tr>
-<td>5</td>
-<td>406</td>
-<td>签名不正确</td>
-</tr>
-<tr>
-<td>6</td>
-<td>500</td>
-<td>业务处理失败</td>
-</tr>
-<tr>
-<td>7</td>
-<td>10000</td>
-<td>10000以上表示自定义错误,如验证手机号码</td>
-</tr>
-</tbody>
-</table>
-<h1 id="用户接口"><a href="#用户接口" class="headerlink" title="用户接口"></a>用户接口</h1><p><del>## 2.1 验证手机号码是否被注册</del></p>
-<p>请求：</p>
-<p><code>GET  http://${domain}:${port}/user/mobile</code></p>
-<p>输入</p>
-<pre><code>{
- &quot;mobile&quot;: &quot;13524101981&quot; 11位手机号
-}
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 10001,
-&quot;msg&quot;: &quot;手机号码已存在&quot;
-}
-</code></pre><p><strong>注意：只有code为200的情况下，手机号可用</strong></p>
-<h2 id="2-2-用户注册"><a href="#2-2-用户注册" class="headerlink" title="2.2 用户注册"></a>2.2 用户注册</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/user/register</code></p>
-<p>输入</p>
-<pre><code>{
- &quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号
- &quot;password&quot;:&quot;123456&quot;, String、用户密码
- &quot;repassword&quot;:&quot;123456&quot;, String、确认密码
-    &quot;verificationCode&quot;:&quot;4532&quot;,String 验证码
-}
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;,
-&quot;data&quot;:{
-&quot;uid&quot;:&quot;8686ae2da1c217df4815b90a8a6c2abf&quot;,
-&quot;mobile&quot;:&quot;13524101981&quot;
-}    
-}
-</code></pre><table>
-<thead>
-<tr>
-<th>code</th>
-<th>msg</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10008</td>
-<td>验证码失效了</td>
-</tr>
-<tr>
-<td>10007</td>
-<td>验证码不正确</td>
-</tr>
-<tr>
-<td>10003</td>
-<td>手机号已经存在</td>
-</tr>
-</tbody>
-</table>
-<p><strong>注意：只有code为200的情况下，注册成功并返回uid、手机号码</strong></p>
-<h2 id="2-3-用户登录"><a href="#2-3-用户登录" class="headerlink" title="2.3 用户登录"></a>2.3 用户登录</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/user/login</code></p>
-<p>输入</p>
-<pre><code>{
- &quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号
- &quot;password&quot;:&quot;123456&quot; String、用户密码
-}
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;,
-&quot;data&quot;:{
-    &quot;uid&quot;: &quot;asdasdasdsadasdasdas&quot;, String、用户唯一标识
-    &quot;mobile&quot;: &quot;13127538810&quot;, String、手机号码
-    &quot;headPath&quot;:&quot;头像服务器路径&quot;,String、头像服务器路径
-    &quot;userName&quot;:&quot;昵称&quot;,String、昵称
-    &quot;gender&quot;:&quot;性别&quot;,String、性别
-    &quot;age&quot;:18, Int、年龄
-    &quot;professional&quot;:&quot;职业&quot;,String、职业
-    &quot;regChannel&quot;:&quot;暂无&quot;,String
-    &quot;level&quot;:1 Int、会员等级
-}    
-}
-</code></pre><p><strong>注意：只有code为200的情况下，注册成功并返回</strong></p>
-<h2 id="2-4-忘记密码"><a href="#2-4-忘记密码" class="headerlink" title="2.4 忘记密码"></a>2.4 忘记密码</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/user/pwdUpdate</code></p>
-<p>输入</p>
-<pre><code>{
- &quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号
- &quot;password&quot;:&quot;123456&quot;, String、用户密码
- &quot;repassword&quot;:&quot;123456&quot; String、重复密码    
- }
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;
-}
-</code></pre><p><strong>注意：只有code为200的情况下，用户密码修改成功</strong></p>
-<h2 id="2-5-个人资料修改"><a href="#2-5-个人资料修改" class="headerlink" title="2.5 个人资料修改"></a>2.5 个人资料修改</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/user/dataUpdate</code></p>
-<p>输入</p>
-<pre><code>{
-&quot;uid&quot;:&quot;&quot; ,String、用户唯一标识(必填)     
-&quot;mobile&quot;: &quot;13524101981&quot;, String、11位手机号（必填）
- &quot;headPath&quot;:&quot;头像服务器路径&quot;,String、头像服务器路径
-&quot;userName&quot;:&quot;昵称&quot;,String、昵称
-&quot;gender&quot;:&quot;性别&quot;,String、性别
-&quot;age&quot;:18, Int、年龄
-&quot;professional&quot;:&quot;职业&quot;,String、职业
-&quot;regChannel&quot;:&quot;暂无&quot;,String
-&quot;level&quot;:1 Int、会员等级    
- }
-</code></pre><p>输出</p>
-<pre><code>{
-&quot;code&quot;: 200,
-&quot;msg&quot;: &quot;success&quot;
-}
-</code></pre><p><strong>注意：只有code为200的情况下，用户密码修改成功</strong></p>
-<h1 id="七牛token接口"><a href="#七牛token接口" class="headerlink" title="七牛token接口"></a>七牛token接口</h1><h2 id="3-1-生成tonken-只作七牛生成token测试用，上线前会删除"><a href="#3-1-生成tonken-只作七牛生成token测试用，上线前会删除" class="headerlink" title="3.1 生成tonken(只作七牛生成token测试用，上线前会删除)"></a>3.1 生成tonken(只作七牛生成token测试用，上线前会删除)</h2><p>请求：</p>
-<p><code>GET  http://${domain}:${port}/util/:accessKey/:secretKey/:bucket</code></p>
-<p>输入</p>
-<pre><code> `accessKey`:`mvjj9lnueTe85lpJhSKqLosI0nUUWNIrBF38-XLj`, 账户AK地址
- `secretKey`:`t2-NhHB_GQbqN_RSjC_d_EGmCPYYayoESkd2FwV3`, 账户SK地址
-`bucket`:七牛空间名字
-</code></pre><p>输出</p>
-<pre><code>token:mvjj9lnueTe85lpJhSKqLosI0nUUWNIrBF38-XLj:2rSiSh1Y3R9h2KAyoQIpyttKuy4=:eyJkZWFkbGluZSI6MTQ5NTA4MTI3NH0=
-</code></pre><p><strong>注意：只有token: 为授权码</strong></p>
-<h2 id="3-2-发送手机验证码"><a href="#3-2-发送手机验证码" class="headerlink" title="3.2 发送手机验证码"></a>3.2 发送手机验证码</h2><p>请求：</p>
-<p><code>GET http://${domain}:${port}/user/sms/sendValidCode</code></p>
-<p>输入：</p>
-<pre><code>{
-&quot;mobile&quot;: &quot;13524101981&quot;, 11位手机号
-}
-</code></pre><p>输出：</p>
-<pre><code>{
-&quot;code&quot;: 200
-&quot;msg&quot;: &quot;success&quot;
-}
-</code></pre><table>
-<thead>
-<tr>
-<th>code</th>
-<th>msg</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10009</td>
-<td>验证码已经发送了,验证码有效时间为15分钟,如未收到,请耐心等待</td>
-</tr>
-<tr>
-<td>10010</td>
-<td>验证码发送失败,请稍候再试</td>
-</tr>
-<tr>
-<td>10011</td>
-<td>验证码发送失败,请稍候再试</td>
-</tr>
-</tbody>
-</table>
-<h1 id="设备信息"><a href="#设备信息" class="headerlink" title="设备信息"></a>设备信息</h1><h2 id="4-1-设备信息列表API"><a href="#4-1-设备信息列表API" class="headerlink" title="4.1 设备信息列表API"></a>4.1 设备信息列表API</h2><p>请求：</p>
-<p><code>GET  http://${domain}:${port}/device/findById</code></p>
-<p>输入：</p>
-<pre><code>&quot;uid&quot;: &quot;1&quot; String、用户ID
-</code></pre><p>输出：</p>
-<pre><code>{
-    &quot;code&quot;:200,
-    &quot;msg&quot;:&quot;success&quot;,
-    &quot;data&quot;:[
-                {
-                    &quot;name&quot;:&quot;anne&quot;,
-                    &quot;did&quot;:&quot;1&quot;
-                }
-            ]
-}
-</code></pre><p><strong>注意：当result为空数组时，该用户下没有设备</strong></p>
-<h2 id="4-2-设备信息添加API"><a href="#4-2-设备信息添加API" class="headerlink" title="4.2 设备信息添加API"></a>4.2 设备信息添加API</h2><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/device/save</code></p>
-<p>输入：</p>
-<pre><code>{
-    &quot;did&quot;:&quot;1&quot;,   String、唯一ID
-    &quot;name&quot;:&quot;anne&quot;,   String、设备名称
-    &quot;type&quot;: 1,      Int、设备类型  1.消毒底座  2.牙刷  3.手环)
-    &quot;uid&quot;: &quot;1&quot;,  String、用户ID
-    &quot;bluetoothName&quot;: &quot;lbd&quot; String、蓝牙名称
-}
-</code></pre><p>输出：</p>
-<pre><code>{
-    &quot;code&quot;:200,
-    &quot;msg&quot;:&quot;success&quot;
-}
-</code></pre><p><strong>注意：当code为200的情况下，设备信息添加成功</strong></p>
-<p><br></p>
-<h1 id="广告列表接口"><a href="#广告列表接口" class="headerlink" title="广告列表接口"></a>广告列表接口</h1><p>请求：</p>
-<p><code>POST  http://${domain}:${port}/ad/list</code></p>
-<p>参数:</p>
-<pre><code>默认参数
-</code></pre><p>输出：</p>
-<pre><code>{
-    &quot;code&quot;:200,
-    &quot;msg&quot;:&quot;success&quot;,
-    &quot;data&quot;:[
-                {
-                    &quot;adId&quot;:1,
-                    &quot;adType&quot;:1,
-                    &quot;imgUrl&quot;:&quot;http://xxxx/xxx.png&quot;,
-                    &quot;title&quot;:&quot;广告一&quot;,
-                    &quot;flag&quot;:0
-                },
-                {
-                    &quot;adId&quot;:2,
-                    &quot;adType&quot;:2,
-                    &quot;imgUrl&quot;:&quot;http://xxxx/xxx.png&quot;,
-                    &quot;title&quot;:&quot;广告一&quot;,
-                    &quot;flag&quot;:2
-                },
-                {
-                    &quot;adId&quot;:3,
-                    &quot;adType&quot;:3,
-                    &quot;imgUrl&quot;:&quot;http://xxxx/xxx.png&quot;,
-                    &quot;title&quot;:&quot;广告一&quot;,
-                    &quot;flag&quot;:3,
-                    &quot;appPage&quot;:1001
-                }
-            ]
-}
-</code></pre><p>返回参数说明：</p>
-<table>
-<thead>
-<tr>
-<th>参数名称</th>
-<th>描述</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>adId</td>
-<td>广告ID</td>
-<td>广告唯一标识</td>
-</tr>
-<tr>
-<td>adType</td>
-<td>广告内容类型：1、2、3，分别代表:url、content、appPage</td>
-<td>app跳转,如果是url则跳转到app内部网页，content则跳到原生固定详情页面，appPage则跳转到app指定页面</td>
-</tr>
-<tr>
-<td>appPage</td>
-<td>跳转到某个页面的名称</td>
-<td>adType为3的情况下才会有值，用来跳转到app指定页面，内容为app页面码</td>
-</tr>
-<tr>
-<td>imgUrl</td>
-<td>广告图片地址</td>
-<td>显示在手机banner页面上</td>
-</tr>
-<tr>
-<td>title</td>
-<td>广告标题</td>
-<td>广告标题</td>
-</tr>
-<tr>
-<td>flag</td>
-<td>0（普通）、1(特价促销)、2(火爆) 、3(秒杀)</td>
-<td>在手机上banner上显示特殊标记</td>
-</tr>
-</tbody>
-</table>
+        <h1 id="创建JSP自定义标签"><a href="#创建JSP自定义标签" class="headerlink" title="创建JSP自定义标签"></a>创建JSP自定义标签</h1><div><br><br>### 创建JSP自定义标签<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<pre><code>在JSP编程中，Struts一般用来处理form和业务逻辑，Struts中使用了很多自定义标签，如html、bean等，但很多时候我们还是需要使用
+</code></pre><p>“&lt;% java code %&gt;”<br>这样的语句来操作一些输出。为了减少这种代码，可以创建自定义标签。</p>
+<div><br><br>\<br><br></div>
+
+<div><br><br>      一个tag就是一个普通的java类，它唯一特别之处是它必须继承TagSupport或者BodyTagSupport类。这两个类提供了一些方法，负责jsp页面和你编写的类之间的交互，例如输入，输出。而这两个类是由jsp容器提供的，无须开发人员自己实现。换句话说，你只需把实现了业务逻辑的类继承TagSupport或者BodyTagSupport，再做一些特别的工作，你的类就是一个Tag。并且它自己负责和jsp页面的交互，不用你多操心。<br><br></div>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/创建JSP自定义标签/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/创建JSP自定义标签/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/创建JSP自定义标签/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/领悟/" title="二十多岁是要安逸还是要拼搏" itemprop="url">二十多岁是要安逸还是要拼搏</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.424Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="领悟"><a href="#领悟" class="headerlink" title="领悟"></a>领悟</h1><p>4月份在一家传统型企业为核心的公司上班，上海分部原来设立时，主要是地面销售人员，当时面试时，公司老板直接从东莞飞到上海，为了是让我建立自己的一支软件技术团队，以便打造公司未来的产品人机一体化生态产业链。<br>当时听到这里时，心里是一阵悸动，决定和公司一起把产品做成我认为的样子，使命感十足。</p>
+<p>团队在陆续的招聘中，我需要的人员配备基本完成。需求也在不断的与杭州的产品经理不断确定与升级中，虽然他们的产品设计的非常不合理，产品文档让人摸不着头脑，但本着合作的精神，只能一直鼓励与影响着他们持续改进，并期待将来产品文档会越来越详细并有条理。</p>
+<p>需求—技术—硬件分割在三地，一直以来都是我最担心的，这方面最大的问题就是沟通不到位，鸡同鸭讲，但我认为如果保持高度沟通与高度互信，这个问题可以逐步减少，也许可以忽略这个问题。<br>但事实证明，这方面的成本是不可能被忽略的，所占的比重只会随着产品的发布，将来会有越来越多的隐患，如果可以，我真的非常建议软件技术团队和硬件技术团队合并，统一放到一个地方，这样至少技术这块可以达成一致，而且沟通起来可以非常方便。</p>
+<p>这边的项目，目前招的人，如果按照我招人的标准，这些人其实都不合格，都比较初级，无奈，公司老板虽然说对招人薪资标准没有限制，但其实还是有限制的，因为老板不好意思明说，只好授意给HR，给的标准范围都是10-14k，但这个区间的人，目前我看都是在11k左右的标准招的人，在上海，2016年这样，我面试的人都只能说，可以做事，但无法作为技术骨干，只能培养，无法解决很多难题，他们有一个共同的弱点，就是没有解决问题的方法。对问题的解决能力需要很多项目去锻炼，去磨合。</p>
+<p>能力上和思维上，有同样的心态的人，对于团队来说，太重要了，90后这一代人和80后这一代人的生活方式真的不一样，他们很多上班，要的是安逸的工作环境与生活，而不是拼博，对我来说，这么年轻，还要这么安逸的生活，不上进，不拼搏，简直就是人生的罪恶。安逸是50岁以上人的专属，20多岁的人，需要安逸？？？？我的天。。。。。。我的团队有个90后的小朋友，他说经常加班会把身体加坏的；可是我们并不是996啊，公司需要业务活动的支撑，就需要一定强度技术支持呀，其实我们离996还差一点，如果说，加班是因为管理不善，那大公司会加班吗?我总是跟他们说；其实我们已经很幸福了;但是得到的回应却是一脸的不信。</p>
 
         
         
@@ -1291,6 +844,16 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/感悟/">感悟</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/随笔/">随笔</a>
+  </div>
 
 </div>
 
@@ -1300,7 +863,82 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2018/11/19/接口文档/#comments" class="ds-thread-count comments-count-link" data-thread-key="2018/11/19/接口文档/" data-count-type="comments">&nbsp;</a>
+		<a href="/2020/04/29/领悟/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/领悟/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/笔记/" title="笔记" itemprop="url">笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.423Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><div><br><br>《N+1》<br><br></div>
+
+<p>當下誰人不風流？</p>
+<div><br><br>是我是你是表哥？<br><br></div>
+
+<div><br><br>或許女亦不遜色；<br><br></div>
+
+<div><br><br>喚友呼朋飲杯酒，<br><br></div>
+
+<div><br><br>不醉不歸友中友。<br><br></div>
+
+<div><br><br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2020/04/29/笔记/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2020/04/29/笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/笔记/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -1316,7 +954,7 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/7/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><a class="extend next" rel="next" href="/page/9/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/9/">Next<span></span></a>
   </nav>
 
 
@@ -1473,7 +1111,7 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>17</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>18</sup></a></li>
 		  
 		
 		  
@@ -1522,6 +1160,22 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 			
 		
 			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
@@ -1530,35 +1184,7 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
@@ -1566,23 +1192,35 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
 			
 		
 			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/cordova/" title="cordova">cordova<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-证书过期/" title="ios developer 证书过期">ios developer 证书过期<sup>1</sup></a></li>
+				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -1601,7 +1239,7 @@ sign = MD5(G-Agent + token + userId) = &quot;d7251d35ea1ec87bda9794e8b0e3219b&qu
         
           <li>
             
-            	<a href="http://blog.huguiqi.com." target="_blank" title="sam&#39;s Blog">sam&#39;s Blog</a>
+            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
             
           </li>
         

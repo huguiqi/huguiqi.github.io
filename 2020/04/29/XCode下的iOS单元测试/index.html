@@ -1,0 +1,1058 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>XCode下的iOS单元测试 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="XCode下的iOS单元测试如何在 XCode 4.2 下使用 OCUnit， GHUnit 和 OCMock 进行单元测试。  \  OCUnit  \  在 XCode 下新建一个 OCUnitProject 工程，选中 Include Unit Tests 选择框，  \">
+<meta name="keywords" content="从印象笔记导入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XCode下的iOS单元测试">
+<meta property="og:url" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="XCode下的iOS单元测试如何在 XCode 4.2 下使用 OCUnit， GHUnit 和 OCMock 进行单元测试。  \  OCUnit  \  在 XCode 下新建一个 OCUnitProject 工程，选中 Include Unit Tests 选择框，  \">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/ECFA0571-D099-4271-995B-835C91E8D151.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/A44D6E31-A9A8-441C-80AE-51396C85C9B3.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/25EAE0D8-947C-4CFD-BF66-723858800057.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/B80CC479-27BC-4299-8E8B-D3C25DFB3675.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/3A7606D5-6BC7-4CE7-9261-0A37938AE983.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/AEF3A956-72D3-4BA0-ADDA-F3E5065F50DA.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/BF432BB7-37F4-4C0B-8055-3FA71B7317DD.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/3AC850F9-DC16-463F-9F07-260BC40BAC96.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/2A2CCD64-8541-4B6A-A118-C233FCAFCCE3.jpg">
+<meta property="og:updated_time" content="2020-04-29T03:23:56.208Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XCode下的iOS单元测试">
+<meta name="twitter:description" content="XCode下的iOS单元测试如何在 XCode 4.2 下使用 OCUnit， GHUnit 和 OCMock 进行单元测试。  \  OCUnit  \  在 XCode 下新建一个 OCUnitProject 工程，选中 Include Unit Tests 选择框，  \">
+<meta name="twitter:image" content="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/ECFA0571-D099-4271-995B-835C91E8D151.jpg">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/XCode下的iOS单元测试/" title="XCode下的iOS单元测试" itemprop="url">XCode下的iOS单元测试</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-29T03:23:56.207Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#XCode下的iOS单元测试"><span class="toc-number">1.</span> <span class="toc-text">XCode下的iOS单元测试</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="XCode下的iOS单元测试"><a href="#XCode下的iOS单元测试" class="headerlink" title="XCode下的iOS单元测试"></a>XCode下的iOS单元测试</h1><div><br><br>如何在 XCode 4.2 下使用 OCUnit， GHUnit 和 OCMock 进行单元测试。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><strong>OCUnit</strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>在 XCode 下新建一个 OCUnitProject 工程，选中 Include Unit Tests 选择框，<br><br></div>
+
+<div><br><br>\<br><a id="more"></a><br><br></div>
+
+<div><br><br><img src="XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/ECFA0571-D099-4271-995B-835C91E8D151.jpg" alt=""><br><br></div>
+
+<div><br><br>OCUnit 框架则会为我们自动添加 Unit Test 框架代码：<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/A44D6E31-A9A8-441C-80AE-51396C85C9B3.jpg" alt=""><br><br></div>
+
+<div><br><br>XCode 在 OCUnitProjectTests.m 中为我们自动生成了一个 Fail 的测试：<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (void)testExample<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>{<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    STFail( “Unit tests are not implemented yet in OCUnitProjectTests”);<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>让我们来运行 Test，看看效果：<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/25EAE0D8-947C-4CFD-BF66-723858800057.jpg" alt=""><br><br></div>
+
+<div><br><br>从图中的红色下划线部分可以看出，测试没有通过，符合预期。我们只要像类<br>OCUnitProjectTests 一样编写继承自 SenTestCase<br>类的子类，在其中添加形式如：- (void) testXXX();<br>的测试函数既可，注意必须是一个无参无返回类型且名称是以 test<br>为前缀的函数。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>OCUnit 的有点是官方支持，于 XCode 集成的比较好。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br></div>
+
+<div><br><br><strong>GHUnit</strong><br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>GHUnit 是一个开源的单元测试框架，具有可视化界面，功能亦相当强大。Mark<br>写了一篇 OCUnit vs GHUnit 的文章，有兴趣的童鞋可以看一看。OCMock 是由<br>Mulle Kybernetik 为 OS X 和 iOS 平台编写的遵循 mock object<br>理念的单元测试框架。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>下面来介绍如何配置 GHUnit 和 OCMock<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>1，首先，创建一个名为 GHUnitProject 的单视图应用程序，注意：不要选中<br>Include Unit Tests 选择框。然后运行，应该出现白屏。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>2，添加新的 test target，选中左边的工程名，点击右侧的 Add<br>Target，新增一个名为 Tests 的 Empty Application 应用程序，让其附属于<br>GHUnitProject注意：不要选中 Include Unit Tests 选择框。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/B80CC479-27BC-4299-8E8B-D3C25DFB3675.jpg" alt=""><br><br></div>
+
+<div><br><br></div>
+
+<div><br><br><img src="XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/3A7606D5-6BC7-4CE7-9261-0A37938AE983.jpg" alt=""><br><br></div>
+
+<div><br><br>3，向 Tests 工程中（注意是 Tests 工程）添加 GHUnitIOS<br>Framework。首先下载与 XCode 版本对应的 GHUnitIOS<br>Framework。英文好的可以直接查看官方 iOS 版的安装文档：点此查看，跳过此第<br>3 节；否则请接着看。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>3.1，解压 GHUnitIOS 框架到 GHUnitProject 下，让 GHUnitIOS.framework 与<br>Tests 在同一目录下。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>3.2，回到 XCode，右击工程中的 Frameworks group，选中 Add Files<br>to…菜单，选取 GHUnitIOS.framework ，注意 targets 要选择 Tests。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/AEF3A956-72D3-4BA0-ADDA-F3E5065F50DA.jpg" alt=""><br><br></div>
+
+<div><br><br>3.3，设置 Tests 的 Build Settings：在 Other Linker Flags 中增加两个<br>flag： -ObjC 和 -all_load。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/BF432BB7-37F4-4C0B-8055-3FA71B7317DD.jpg" alt=""><br><br></div>
+
+<div><br><br>3.4，删除 Tests 工程中的 UTSAppDelegate.h 和  UTSAppDelegate.m<br>两个文件；<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>3.5，修改 Tests 工程中的 main.m 为:<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>#import &lt;UIKit/UIKit.h&gt;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>#import &lt;GHUnitIOS/GHUnitIOSAppDelegate.h&gt;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>int main(int argc, char *argv[])<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>{<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>     autoreleasepool {<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>        return UIApplicationMain(argc, argv, nil,<br>NSStringFromClass([GHUnitIOSAppDelegate class]));<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    }<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>3.6，选择编译目标 Tests&gt;iPhone 5.0<br>Simulator，编译运行，应该能得到如下效果。目前我们还没有编写任何实际测试，所以列表为空。<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/3AC850F9-DC16-463F-9F07-260BC40BAC96.jpg" alt=""><br><br></div>
+
+<div><br><br>4，编写 GHUnit 测试。向 Tests 工程中添加名为 GHUnitSampleTest 的<br>Objective C class。其内容如下：<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>GHUnitSampleTest.h<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>#import &lt;GHUnitIOS/GHUnit.h&gt;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> interface GHUnitSampleTest: GHTestCase<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>{<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> end<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>GHUnitSampleTest.m<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>#import “GHUnitSampleTest.h”<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> implementation GHUnitSampleTest<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (void)testStrings<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>{<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    NSString *string1 =  “a string”;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    GHTestLog( “I can log to the GHUnit test console: % “, string1);<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>     // Assert string1 is not NULL, with no custom error description<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    GHAssertNotNULL(string1, nil);<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>     // Assert equal objects, add custom error description<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    NSString *string2 =  “a string”;<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    GHAssertEqualObjects(string1, string2,  “A custom error message.<br>string1 should be equal to: % .”, string2);<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br> end<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>然后编译运行，点击 Run，效果如下：<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br><img src="XCode%E4%B8%8B%E7%9A%84iOS%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.resources/2A2CCD64-8541-4B6A-A118-C233FCAFCCE3.jpg" alt=""><br><br></div>
+
+<div><br><br>图中的 All 栏显示所以的测试，Failed<br>栏显示没有通过的测试。强大吧，GHUnit。你可以向 GHUnitSampleTest<br>添加新的测试，比如：<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>- (void)testSimpleFail<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>{<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>    GHAssertTrue(NO, nil);<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>}<br><br></div>
+
+<div><br><br>\<br><br></div>
+
+<div><br><br>我们可以向 Tests 添加更多测试类，只要该类是继承自<br>GHTestCase，且其中的测试方法都是无参无返回值且方法名字是以 test<br>为前缀即可。<br><br></div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/" data-title="XCode下的iOS单元测试 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/[Nginx] 在Linux下的启动、停止和重加载/" title="">
+  <strong>上一篇：</strong><br/>
+  <span>
+  (no title)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/Windows 命令行下修改文件访问控制权限/"  title="Windows 命令行下修改文件访问控制权限">
+ <strong>下一篇：</strong><br/> 
+ <span>Windows 命令行下修改文件访问控制权限
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/XCode下的iOS单元测试/" data-title="XCode下的iOS单元测试" data-url="http://www.huguiqi.top/2020/04/29/XCode下的iOS单元测试/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#XCode下的iOS单元测试"><span class="toc-number">1.</span> <span class="toc-text">XCode下的iOS单元测试</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>18</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2020 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
