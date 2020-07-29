@@ -86,707 +86,460 @@
     <div id="container">
       <div id="main">
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/mac新装mysql设置root密码/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.320Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>title: mac系统新装mysql设置root密码<br>date: 1588130636320<br>categories: mysql</p>
-<h2 id="tags-mac与mysql"><a href="#tags-mac与mysql" class="headerlink" title="tags: mac与mysql"></a>tags: mac与mysql</h2><h1 id="mac新装mysql设置root密码"><a href="#mac新装mysql设置root密码" class="headerlink" title="mac新装mysql设置root密码"></a>mac新装mysql设置root密码</h1><p>默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># mysqladmin -uroot -p password &apos;newpassword&apos;</span><br><span class="line">Enter password:</span><br><span class="line">mysqladmin: connect to server at &apos;localhost&apos; failed</span><br><span class="line">error: &apos;Access denied for user &apos;root&apos;@&apos;localhost&apos; (using password: YES)&apos;</span><br></pre></td></tr></table></figure>
-<p><strong>ps:<br>mysql默认在安装后mysqladmin命令不是全局的，如果要设置为全部的，需要设置自启动(mysql的命令行默认在/usr/local/mysql/bin/下)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># /etc/init.d/mysql stop</span><br><span class="line"># mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;</span><br><span class="line"># mysql -u root mysql</span><br><span class="line">mysql&gt; UPDATE user SET Password=PASSWORD(&apos;newpassword&apos;) where USER=&apos;root&apos;;</span><br><span class="line">mysql&gt; FLUSH PRIVILEGES;</span><br><span class="line">mysql&gt; quit</span><br><span class="line"># /etc/init.d/mysql restart</span><br><span class="line"># mysql -uroot -p</span><br><span class="line">Enter password: &lt;输入新设的密码newpassword&gt;</span><br></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/mac新装mysql设置root密码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/mac新装mysql设置root密码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/mac os VoiceOver/" title="mac os VoiceOver" itemprop="url">mac os VoiceOver</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.319Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="mac-os-VoiceOver"><a href="#mac-os-VoiceOver" class="headerlink" title="mac os VoiceOver"></a>mac os VoiceOver</h1><p><span style="font: 14.0px Tahoma; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333">Mac<br>OS X打开/关闭VoiceOver的快捷键是：Command-F5。</span></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/mac os VoiceOver/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/mac os VoiceOver/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/mac 下载youku视频/" title="mac 下载youku视频" itemprop="url">mac 下载youku视频</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.319Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="mac-下载youku视频"><a href="#mac-下载youku视频" class="headerlink" title="mac 下载youku视频"></a>mac 下载youku视频</h1><p><span style="color: rgb(68, 68, 68); font-family: Tahoma, 'Microsoft Yahei', Simsun; font-size: 14px; line-height: 21px; background-color: rgb(255, 255, 255);">教你一个很好的办法 </span></p>
-<div><br><br><span style="color: rgb(68, 68, 68); font-family: Tahoma, 'Microsoft Yahei', Simsun; font-size: 14px; line-height: 21px; background-color: rgb(255, 255, 255);">1.打开视频网站</span><br><br></div>
-
-<div><br><br><span style="color: rgb(68, 68, 68); font-family: Tahoma, 'Microsoft Yahei', Simsun; font-size: 14px; line-height: 21px; background-color: rgb(255, 255, 255);">2.复制视频网站的地址</span><br><br></div>
-
-<div><br><br><span style="color: rgb(68, 68, 68); font-family: Tahoma, 'Microsoft Yahei', Simsun; font-size: 14px; line-height: 21px; background-color: rgb(255, 255, 255);">3.打开</span><a href="http://www.flvcd.com" target="_blank" rel="noopener">http://www.flvcd.com</a><span style="color: rgb(68, 68, 68); font-family: Tahoma, 'Microsoft Yahei', Simsun; font-size: 14px; line-height: 21px; background-color: rgb(255, 255, 255);">（也可打开kisstudou.com会自动跳转)</span><br><br></div>
-
-<div><br><br><span style="color: rgb(68, 68, 68); font-family: Tahoma, 'Microsoft Yahei', Simsun; font-size: 14px; line-height: 21px; background-color: rgb(255, 255, 255);">4.在输入地址栏里粘贴刚才的视频地址，然后点击go</span><br><br></div>
-
-<p><span style="background-color: rgb(255, 255, 255); color: rgb(68, 68, 68); font-family: Tahoma, 'Microsoft Yahei', Simsun; font-size: 14px; line-height: 21px;">5.跳出一个页面来，复制下载连接，下载就可以了</span><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/mac 下载youku视频/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/mac 下载youku视频/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/mac 下载youku视频/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/mac OS忘记密码后的终极解决方案/" title="mac OS忘记密码后的终极解决方案" itemprop="url">mac OS忘记密码后的终极解决方案</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.318Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="mac-OS忘记密码后的终极解决方案"><a href="#mac-OS忘记密码后的终极解决方案" class="headerlink" title="mac OS忘记密码后的终极解决方案"></a>mac OS忘记密码后的终极解决方案</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">方法一：找出电脑原配的系统盘，重新启动电脑(电脑启动的时候按C键)，选好语言后进入安装的时候，点击“常用工具”，里面会有一项是“重设密码”，这时你就可以重新设定系统的管理员密码了。</span><br><span class="line">　　方法二：开机， 启动时按“cmd+S”。这时，你会进入Single User Model，出现像DOS一样的提示符 #root&gt;。请在#root&gt;下 输入 (注意空格, 大小写)</span><br><span class="line">　　fsck -y</span><br><span class="line">　　mount -uaw /</span><br><span class="line">　　rm /var/db/.AppleSetupDone</span><br><span class="line">　　reboot</span><br></pre></td></tr></table></figure>
-<p><span style="background-color: rgb(255, 255, 255); color: rgb(51, 51, 51); font-family: arial, 'courier new', courier, 宋体, monospace; font-size: 14px; line-height: 24px; white-space: pre-wrap;">　　紧接着，苹果电脑会重启<br>，并且在开机后出现新装机时的欢迎界面。你需要像第一次打开苹果电脑一样，<br>重新建立一个新的管理员账号(数据会保留)。当开机完毕之后，在新的管理员下请打开<br>系统预制 - 账户。打开最下面的锁， 当跳出密码框时，<br>输入新的管理员帐号密码。这时，你会看到出现至少两个账号，包括了新的管理员的帐号和你原来的帐号。你可以点中原来的账号,<br>选 密码 -<br>更改密码。注意，你不需要有原先的密码就直接可以设定新密码了。下一步就是点下面的登陆选项<br>(小房子)。选中自动以右边的身份登陆，<br>同时在下拉菜单中选你原先的账号。当重启或注销之后，你可以用新密码登陆原帐户了。当然，你也可以将刚刚新建的帐户删除。</span></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+    <a href="/2020/04/29/GCD 深入理解（一）/" title="GCD 深入理解（一）" itemprop="url">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/mac OS忘记密码后的终极解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/mac OS忘记密码后的终极解决方案/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">GCD 深入理解（一）</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >GCD 深入理解（一）GCD深入理解（一）\发布于：2014-04-2809:32阅读数：16484\虽然GCD已经出现过一段时间了，但不是每个人都明了其主要内容。这是可以理解的；并发一直很棘手，而GCD 是基于 C 的 API ，它们就像一组尖锐的棱角戳进 Objective-</p>
+        
     
-      <a href="/2020/04/29/linux服务端常用命令行/" title="linux服务端常用命令行" itemprop="url">linux服务端常用命令行</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.317Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux服务端常用命令行"><a href="#linux服务端常用命令行" class="headerlink" title="linux服务端常用命令行"></a>linux服务端常用命令行</h1><div><br><br>–查看进程ID号<br><br></div>
-
-<div><br><br> ps -ef | grep weblogic<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>–看磁盘空间<br><br></div>
-
-<div><br><br>df -h<br><br></div>
-
-<div><br><br>\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/linux服务端常用命令行/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
+    <time datetime="2020-04-29T03:23:56.095Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/linux服务端常用命令行/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/linux服务端常用命令行/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/linux下删除svn属性文件/" title="linux下删除svn属性文件" itemprop="url">linux下删除svn属性文件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.316Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux下删除svn属性文件"><a href="#linux下删除svn属性文件" class="headerlink" title="linux下删除svn属性文件"></a>linux下删除svn属性文件</h1><div><br><br>当在linux服务器上进行了svn代码下载后,要同步到web目录里去的话,就要把.svn这个文件夹给清理干净,给安全性增加一点保障.<br><br></div>
-
-<div><br><br>脚本内容:<br><br></div>
-
-<div><br><br>del_svn.sh<br><br></div>
-
-<div><br><br>代码如下 复制代码<br><br></div>
-
-<div><br><br>#!/bin/bash<br><br></div>
-
-<div><br><br>cd /home/trunk/<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/linux下删除svn属性文件/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/linux下删除svn属性文件/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/linux下删除svn属性文件/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/linux下SVN仓库间数据转移或重命名/" title="linux下SVN仓库间数据转移或重命名" itemprop="url">linux下SVN仓库间数据转移或重命名</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.315Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux下SVN仓库间数据转移或重命名"><a href="#linux下SVN仓库间数据转移或重命名" class="headerlink" title="linux下SVN仓库间数据转移或重命名"></a>linux下SVN仓库间数据转移或重命名</h1><div><br><br>linux下SVN仓库间数据转移或重命名<br><br></div>
-
-<div><br><br>分类： Linux svn 2012-02-28 11:06 1425人阅读 评论(0) 收藏 举报<br><br></div>
-
-<div><br><br>linuxsvn<br><br></div>
-
-<div><br><br>假设将A仓库的数据转移到B仓库<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>A位置：/svndata/A<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/linux下SVN仓库间数据转移或重命名/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+    <a href="/2020/04/29/GCD 深入理解（二） - 已标注/" title="GCD 深入理解（二） - 已标注" itemprop="url">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/linux下SVN仓库间数据转移或重命名/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/linux下SVN仓库间数据转移或重命名/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">GCD 深入理解（二） - 已标注</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >GCD 深入理解（二） - 已标注GCD-深入理解（二）.pdf</p>
+        
     
-      <a href="/2020/04/29/linux系统下mysql中文乱码解决/" title="linux系统下mysql中文乱码解决" itemprop="url">linux系统下mysql中文乱码解决</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.315Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux系统下mysql中文乱码解决"><a href="#linux系统下mysql中文乱码解决" class="headerlink" title="linux系统下mysql中文乱码解决"></a>linux系统下mysql中文乱码解决</h1><div style="color: rgb(0, 0, 0); font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><br><br><div><br><br>\<br><br></div>
-
-<div style="font-size: 16px; padding: 10px 0px 0px; color: black;"><br><br><div><br><br>linux系统下mysql中文乱码解决<br><br></div>
-
-<p></p></div><p></p>
-<ul>
-<li>\</li>
-</ul>
-<div style="clear: both;"><br><br><div><br><br>\<br><br></div>
-
-<p></p></div><p></p>
-<p></p></div><p></p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/linux系统下mysql中文乱码解决/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
+    <time datetime="2020-04-29T03:23:56.094Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/linux系统下mysql中文乱码解决/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/linux系统下mysql中文乱码解决/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/linux下 scp命令不需要输入用户密码/" title="linux下 scp命令不需要输入用户密码" itemprop="url">linux下 scp命令不需要输入用户密码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.314Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux下-scp命令不需要输入用户密码"><a href="#linux下-scp命令不需要输入用户密码" class="headerlink" title="linux下 scp命令不需要输入用户密码"></a>linux下 scp命令不需要输入用户密码</h1><div><br><br>\<br><br></div>
-
-<div><br><br>linux下 scp命令不需要输入用户密码<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<p><span style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>在两台机器的两个用户之间建立安全的信任关系后，可实现执行scp命令时不需要输入用户密码。</strong></span><span style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\
-</strong></span><span style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>1.<br>在机器Client上root用户执行ssh-keygen命令，生成建立安全信任关系的证书。</strong></span><span style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\
-</strong></span><span style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>[root Client<br>root]# <em>ssh-keygen -b 1024 -t rsa</em></strong></span><span style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\
-</strong></span><span style="font: 16.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #000000"><strong>Generating<br>public/private rsa key pair.</strong></span><span style="font: 28.0px Arial; font-kerning: none; color: #323333; -webkit-text-stroke: 0px #323333"><strong>\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/linux下 scp命令不需要输入用户密码/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/linux下 scp命令不需要输入用户密码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/linux下 scp命令不需要输入用户密码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/linux 查看系统信息命令(比较全)/" title="linux 查看系统信息命令(比较全)" itemprop="url">linux 查看系统信息命令(比较全)</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.313Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="linux-查看系统信息命令-比较全"><a href="#linux-查看系统信息命令-比较全" class="headerlink" title="linux 查看系统信息命令(比较全)"></a>linux 查看系统信息命令(比较全)</h1><p>\</p>
-<div><br><br><div><br><br>linux 查看系统信息命令(比较全)<br>==============================<br><br></div>
-
-<p></p></div><p></p>
-<div><br><br>\<br><br></div>
-
-<div><br><br>linux 查看系统信息命令是linux初学者必备的基础知识, 这些命令也非常有用,<br>因为进入linux第一件事就可能是首先查看系统信息,<br>因此必要的系统的学习一下这些linux系统信息命令还是非常有必要的!<br><br>下面给除了各linux发行版比较常用的系统信息查询的命令, 大家可以参考,<br>同时也可以测试学习, 必要的时候man, 一定要学学使用man命令, 呵呵<br><br># uname -a # 查看内核/操作系统/CPU信息\<br> # head -n 1 /etc/issue # 查看操作系统版本\<br> # cat /proc/cpuinfo # 查看CPU信息\<br> # hostname # 查看计算机名\<br> # lspci -tv # 列出所有PCI设备\<br> # lsusb -tv # 列出所有USB设备\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/linux 查看系统信息命令(比较全)/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+    <a href="/2020/04/29/FileWriter注意事项/" title="FileWriter注意事项" itemprop="url">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
+    <h1 itemprop="name">FileWriter注意事项</h1>
+    
+     
+           <p itemprop="description" >FileWriter注意事项//true—-写文件时会叠加进去，false/默认—写文件时会覆盖原来的内容
 
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/linux 查看系统信息命令(比较全)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/linux 查看系统信息命令(比较全)/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
+fileWriter = new FileWriter(file,true);</p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.093Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
 
 
 
 
 
 
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/Export devices added in Apple's iOS Provision portal/" title="Export devices added in Apple&#39;s iOS Provision portal" itemprop="url">
+  
+    <h1 itemprop="name">Export devices added in Apple&#39;s iOS Provision portal</h1>
+    
+     
+           <p itemprop="description" >Export devices added in Apple’s iOS Provision portal\
++————————————————————————–+|        ||                                                </p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.092Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
 
-  <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/13/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/15/">Next<span></span></a>
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/CocoaPods 的一些略为高级一丁点的使用/" title="CocoaPods 的一些略为高级一丁点的使用" itemprop="url">
+  
+    <h1 itemprop="name">CocoaPods 的一些略为高级一丁点的使用</h1>
+    
+     
+       <p itemprop="description" >CocoaPods 的一些略为高级一丁点的使用记得我刚开始做iOS开发的时候，是没有项目依赖管理工具。当需要引入第三方库的时候是相当麻烦的，不是直接拷贝库近来，就是添加依赖工程，直到CocoaPods出来才改变这个状况。项目依赖管理不是CocoaPods首创，在很多其他工程开发当</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.090Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/CentOS6.5使用yum命令方式安装/" title="CentOS6.5使用yum命令方式安装" itemprop="url">
+  
+    <h1 itemprop="name">CentOS6.5使用yum命令方式安装</h1>
+    
+     
+       <p itemprop="description" >CentOS6.5使用yum命令方式安装\
+CentOS6.5使用yum命令方便快捷安装Nginx=====================================
+
+
+
+作者：佚名TAG：CentOSNginx 
+
+ 当然，首先要求是可以联网的系统，因为yum安装需要互</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.089Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/CentOS 6.0安装配置subversion/" title="CentOS 6.0安装配置subversion" itemprop="url">
+  
+    <h1 itemprop="name">CentOS 6.0安装配置subversion</h1>
+    
+     
+       <p itemprop="description" >CentOS 6.0安装配置subversionCentOS 6.0安装配置subversion  
+\
+
+2011-11-18 20:35:06|  分类： CVS |举报|字号 订阅
+
+环境：
+
+a. 系统为centos 6.0
+
+b. 分为svn协议和http协议方式</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.086Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/ActiviMQ/" title="" itemprop="url">
+  
+    <h1 itemprop="name"></h1>
+    
+     
+           <p itemprop="description" ></p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.084Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎/" title="App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎" itemprop="url">
+  
+    <h1 itemprop="name">App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎</h1>
+    
+     
+       <p itemprop="description" >App提交 App Store 审核，遇到过哪些坑？ - 应用（软件） - 知乎\
+App提交 App Store 审核，遇到过哪些坑？======================================
+
+
+
+ios审核满眼是坑！！！ 大家赞了，那我就在多填些坑。觉得有</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.084Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/AOP的实现机制/" title="AOP的实现机制" itemprop="url">
+  
+    <h1 itemprop="name">AOP的实现机制</h1>
+    
+     
+       <p itemprop="description" >AOP的实现机制AOP的实现机制
+
+\
+
+1 AOP各种的实现
+
+AOP就是面向切面编程，我们可以从几个层面来实现AOP。
+
+在编译器修改源代码，在运行期字节码加载前修改字节码或字节码加载后动态创建代理类的字节码，以下是各种实现机制的比较。</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.081Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/@synthesize和@dynamic区别/" title="synthesize和 dynamic区别" itemprop="url">
+  
+    <h1 itemprop="name">synthesize和 dynamic区别</h1>
+    
+     
+           <p itemprop="description" >synthesize和 dynamic区别 synthesize和 dynamic区别\
+\在声明property属性后，有2种实现选择\  synthesize\ 编译器期间，让编译器自动生成getter/setter方法。\ 当有自定义的存或取方法时，自定义会屏蔽自动生成该方</p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.079Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/3月份面试题po出/" title="三月份的面试题目" itemprop="url">
+  
+    <h1 itemprop="name">三月份的面试题目</h1>
+    
+     
+       <p itemprop="description" >3月份面试题PO出上周去面试了，本来应该上周未就应该把这些题目都研究下的，但是我落魄了我面试的是全栈工程师，结果是扑街了。。。。。可能是因为聊天时没发挥好，下次要注意了，要有激情。。。。。
+面试内容：
+一，浏览器跨域问题怎么解决先来说说，什么是跨域问题？
+什么是跨域？概念：只要协</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.061Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/3d_touch例子一个/" title="根据apple官方3D touch的例子写个3D Touch功能" itemprop="url">
+  
+    <h1 itemprop="name">根据apple官方3D touch的例子写个3D Touch功能</h1>
+    
+     
+       <p itemprop="description" >根据apple官方3D touch的例子写个3D Touch功能一，3D touch sample下载
+下载地址(文档)
+
+下载后打开ApplicationShortcuts，发现是swift实现的，现在我们来按照官方文档的说话，再参照官方给的sample项目进行学习</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.058Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/2）/" title="2）" itemprop="url">
+  
+    <h1 itemprop="name">2）</h1>
+    
+     
+           <p itemprop="description" >2）departurePlaceEncode这个码是个什么</p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.058Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/2016.1_jetbrains注册与破解/" title="2016.1_JetBrains注册与破解" itemprop="url">
+  
+    <h1 itemprop="name">2016.1_JetBrains注册与破解</h1>
+    
+     
+           <p itemprop="description" >2016.1_JetBrains注册与破解一，下载2016版的webStorm安装后下载破解包 密码: tp7k
+二，破解webStorm下载JetbrainsCrack_2016.1.jar,打开webStorm.app所在application,右键show Packages</p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.052Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/2012年年中的macbook_pro_retenia显卡门解决方案/" title="2012年年中的macbook显卡门解决方案" itemprop="url">
+  
+    <h1 itemprop="name">2012年年中的macbook显卡门解决方案</h1>
+    
+     
+           <p itemprop="description" >2012年年中的macbook pro retenia显卡门解决方案上个月买了前同事的一台macbookpro 是12年的15inch顶配，而且还是独立显卡的，才花了我7000块，本来很开心，但最近发现，他的电池循环数才201次，电池损耗量也很小，他的续航时间却特别的短，充满电才</p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.050Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/19/将公司unbuntu系统镜像copy回家/" title="将公司unbuntu系统镜像copy回家" itemprop="url">
+  
+    <h1 itemprop="name">将公司unbuntu系统镜像copy回家</h1>
+    
+     
+           <p itemprop="description" >由于在公司的unbuntu系统上安装了很多软件，家里也有个unbuntu，但不想在家里再重复安装一次软件，想了个办法，在unbuntu系统中安装一个Sytemback软件，可以备份系统，并且还可以保存用户数据。
+安装
+sudo add-apt-repository ppa:nem</p>
+        
+    
+    <time datetime="2020-04-19T07:45:49.000Z" itemprop="datePublished">2020-04-19</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/16/团队内代码分支/" title="团队内代码分支管理" itemprop="url">
+  
+    <h1 itemprop="name">团队内代码分支管理</h1>
+    
+     
+           <p itemprop="description" >华通代码分支流程管理随着华通开发团队成员的日益增加，系统的需求不断升级与变化，发布版本与时间经常不断变化，代码提交分支的规范性就极其重要，为了适应这一变化，我们引入目前互联网开源社区标准的git flow流程来管理代码。
+以下是一个标准的git flow代码分支管理流程图：
+
+根</p>
+        
+    
+    <time datetime="2020-04-16T12:17:00.000Z" itemprop="datePublished">2020-04-16</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/14/elasticseach集群记录/" title="elasticseach集群记录" itemprop="url">
+  
+    <h1 itemprop="name">elasticseach集群记录</h1>
+    
+     
+           <p itemprop="description" >elasticseach实践记录安装环境： macoses版本：7.6.2集群模式：单例模式
+docker安装sh:
+docker run -d --name elasticsearch --net riosNetwork -p 9200:9200 -p 9300:9300 -e</p>
+        
+    
+    <time datetime="2020-04-14T08:06:00.000Z" itemprop="datePublished">2020-04-14</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/07/RabbitMQ学习-一/" title="RabbitMQ学习(一)" itemprop="url">
+  
+    <h1 itemprop="name">RabbitMQ学习(一)</h1>
+    
+     
+           <p itemprop="description" >RabbitMQ学习(一)一张图片展示rabbitMQ的工作模式
+
+
+rabbitMQ思维导图RabbitMQ.png
+RabbitMQ.xmind</p>
+        
+    
+    <time datetime="2020-04-06T16:39:58.000Z" itemprop="datePublished">2020-04-07</time>
+  </a>
+</section>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix unexpand">
+    <a class="extend prev" rel="prev" href="/page/13/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/15/">Next<span></span></a>
   </nav>
 
 
@@ -992,6 +745,22 @@
 			
 		
 			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
@@ -1000,43 +769,7 @@
 			
 		
 			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
@@ -1044,15 +777,35 @@
 			
 		
 			
-				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springcloud/" title="springcloud">springcloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/集群/" title="集群">集群<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 		</ul>

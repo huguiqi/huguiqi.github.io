@@ -86,706 +86,496 @@
     <div id="container">
       <div id="main">
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/阿里云遇到的问题/" title="阿里云遇到的问题" itemprop="url">阿里云遇到的问题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.519Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="阿里云遇到的问题"><a href="#阿里云遇到的问题" class="headerlink" title="阿里云遇到的问题"></a>阿里云遇到的问题</h1><div><br><br>1,阿里云ECS服务器不支持直接升级磁盘空间，因之前买的配的系统磁盘空间太小，故重新买了一块独立的ssd云盘挂载在ECS服务器上，但后面如果要做负载均衡，ssd云盘就无法读定共用了<br><br></div>
-
-<div><br><br>RS:<br><br></div>
-
-<div><br><br>NFS解决文件共享问题<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>2，做负载均衡使用SLB还是用原始的nginx做？<br><br></div>
-
-<div><br><br>nginx做负载均衡<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/阿里云遇到的问题/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/阿里云遇到的问题/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/阿里云遇到的问题/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/字符，字节和编码/" title="字符，字节和编码" itemprop="url">字符，字节和编码</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.517Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="字符，字节和编码"><a href="#字符，字节和编码" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h1><h2 id="字符，字节和编码-1"><a href="#字符，字节和编码-1" class="headerlink" title="字符，字节和编码"></a>字符，字节和编码</h2><p>级别：中级</p>
-<blockquote>
-<p>摘要：本文介绍了字符与编码的发展过程，相关概念的正确理解。举例说明了一些实际应用中，编码的实现方法。然后，本文讲述了通常对字符与编码的几种误解，由于这些误解而导致乱码产生的原因，以及消除乱码的办法。本文的内容涵盖了“中文问题”，“乱码问题”。</p>
-<p>掌握编码问题的关键是正确地理解相关概念，编码所涉及的技术其实是很简单的。因此，阅读本文时需要慢读多想，多思考。</p>
-</blockquote>
-<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>“字符与编码”是一个被经常讨论的话题。即使这样，时常出现的乱码仍然困扰着大家。虽然我们有很多的办法可以用来消除乱<br>码，但我们并不一定理解这些办法的内在原理。而有的乱码产生的原因，实际上由于底层代码本身有问题所导致的。因此，不仅是初学者会对字符编码感到模糊，有<br>的底层开发人员同样对字符编码缺乏准确的理解。</p>
-<p>+————————————————————————–+<br>| <img src="%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%AD%97%E8%8A%82%E5%92%8C%E7%BC%96%E7%A |
-| 0%81.resources/D7B0C5DA-2591-4D99-8E5A-2A0000F5519D.gif" alt="">                 |<br>+————————————————————————–+<br>| \                                                                        |<br>| <div style="text-align: -webkit-auto;">                                  |<br>|                                                                          |<br>| \                                                                        |<br>|                                                                          |<br>| </div>                                                                   |<br>+————————————————————————–+</p>
-<h4 id="1-编码问题的由来，相关概念的理解"><a href="#1-编码问题的由来，相关概念的理解" class="headerlink" title="1. 编码问题的由来，相关概念的理解"></a>1. 编码问题的由来，相关概念的理解</h4><h5 id="1-1-字符与编码的发展"><a href="#1-1-字符与编码的发展" class="headerlink" title="1.1 字符与编码的发展"></a>1.1 字符与编码的发展</h5><p>从计算机对多国语言的支持角度看，大致可以分为三个阶段：</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/字符，字节和编码/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/字符，字节和编码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/字符，字节和编码/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/删除文件夹后点commit提交，但是报错/" title="删除文件夹后点commit提交，但是报错" itemprop="url">删除文件夹后点commit提交，但是报错</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.515Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="删除文件夹后点commit提交，但是报错"><a href="#删除文件夹后点commit提交，但是报错" class="headerlink" title="删除文件夹后点commit提交，但是报错"></a>删除文件夹后点commit提交，但是报错</h1><div><br><br>删除文件夹后点commit提交，但是报错，报错内容如下：<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>提示 “svn: Commit failed (details follow): svn: ‘/***/xxx.c’ is<br>scheduled for addition, but is missing “<br><br></div>
-
-<div><br><br>\<br><br></div>
-
-<div><br><br>原因：之前用SVN提交过的文件，被标记为”add”状态，等待被加入到仓库。若此时你把这个文件删除了，SVN提交的时候还是会尝试提交这个文件，虽然它的状态已经是<br>“missing”了。<br><br></div>
-
-<div><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/删除文件夹后点commit提交，但是报错/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+    <a href="/2020/04/29/摇一摇动画/" title="摇一摇动画" itemprop="url">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/删除文件夹后点commit提交，但是报错/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/删除文件夹后点commit提交，但是报错/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">摇一摇动画</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+       <p itemprop="description" >摇一摇动画\
+
+\
+
+//                             [UIView animateWithDuration:0.3
+//                                                   delay:0.0
+//o</p>
+      
     
-      <a href="/2020/04/29/听德鲁克讲管理_大师的9堂管理课/" title="听德鲁克讲管理：大师的9堂管理课" itemprop="url">听德鲁克讲管理：大师的9堂管理课</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.513Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="听德鲁克讲管理：大师的9堂管理课"><a href="#听德鲁克讲管理：大师的9堂管理课" class="headerlink" title="听德鲁克讲管理：大师的9堂管理课"></a>听德鲁克讲管理：大师的9堂管理课</h1><h3 id="姚大球"><a href="#姚大球" class="headerlink" title="姚大球"></a>姚大球</h3><p>2014-06-26 19:04:59<br>最有价值的人，不是最会说或者最会做的人，而是最善于倾听，善于最大限度获得资讯，为自己发展助力的人</p>
-<p>2014-06-26 19:10:16<br>作为管理者，把事情做正确和做正确的事情都是需要用毕生时间来实践的。<br><br>◆ 影响决策执行效果的因素有很多，比如实施时间和地点、政策、经济形势、竞争者状况等，要顺应形势对原本的决策加以修正，拥有恰当时机的决策才能获得最大效益。<br><br>◆ 做决策之前，要善于分析各种现实条件。<br><br>◆ 做决策之时，要善于把握、利用时机。<br><br>◆ 做决策之后，要善于及时根据实际执行情况调整方案。</p>
-<p>2014-06-26 19:11:46<br>决策必须先行，哪怕是仅仅只需要花一分钟的思考。</p>
-<p>2014-06-26 19:09:39<br>管理者的身份就是正确地做事和做正确的事</p>
-<p>2014-06-26 19:19:40</p>
-<p>优秀管理者必须擅长自我约束<br><br>注： 正人先正己<br>2014-06-26 19:21:36</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/听德鲁克讲管理_大师的9堂管理课/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/管理/">管理</a>
-</div>
+    <time datetime="2020-04-29T03:23:56.481Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/德鲁克讲管理/">德鲁克讲管理</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/听德鲁克讲管理_大师的9堂管理课/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/听德鲁克讲管理_大师的9堂管理课/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/对象序列化框架/" title="对象序列化框架" itemprop="url">对象序列化框架</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.510Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="对象序列化框架"><a href="#对象序列化框架" class="headerlink" title="对象序列化框架"></a>对象序列化框架</h2><p><a href="http://code.google.com/p/kryo/" target="_blank" rel="noopener">kryo</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/对象序列化框架/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/对象序列化框架/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/大数据时代笔记/" title="大数据时代笔记" itemprop="url">大数据时代笔记</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.509Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="大数据时代笔记"><a href="#大数据时代笔记" class="headerlink" title="大数据时代笔记"></a>大数据时代笔记</h1><p><strong>一，大数据特点：</strong>\<br> 1，数据量大，以PB（1024TB）为计数单位\<br> 2，数据结构复杂(含有结构与非结构的不规则数据)\<br> 3，需要发掘数据价值(表面上看不到有价值的数据)\<br> 4，没有因果关系，逻辑关系，只有通过挖掘建立数据之间的某些特定相关联系\<br>\<br> <strong>二，大数据带来的问题</strong>\</p>
-<p>一个大规模生产，分享和应用数据时代正在开启，目前的单个计算机或者服务器已经无法满足大数据产生的大量的，复杂的，无规则的数据进行分析，计算，统计等操作\<br>\<br>\<br> <strong>三，解决问题的方法—-云计算</strong>\<br>\<br> 云计算特点：\<br> 1，便宜–有效存储终端数据并随时分析与计算\<br> 2，精准–分析大数据结果更精准，更多的挖掘数据的隐藏价值\<br> 3，处理数据能力超强，专为大数据的解决方案\<br>\<br> <strong>四，大数据的未来</strong>\<br>\<br> 1，成为基础设施的一部分\<br> 2，价值不会贬值，而且数据会永远保存\<br>\<br> <strong>五，大数据带来的变化</strong>\<br>\<br> 20世纪价值已经从实体基建转变为无形财产，从工地和工厂转变为品牌和产权\</p>
-<p>现在，一个新的价值转变为：电脑不存储和分析数据的方法取代了电脑硬件成为了价值的源泉\<br>\</p>
-<p>1，可以分析更多的数据，甚至可以处理特定某个两家的相关所有数据，据而不必依我倚赖随机采样\<br> 2，研究的数据太多,我们不再热衷于追求精准度，允许一些错误\<br> 3，不再热衷于寻找因果关系，而是去挖掘数据发现相关关系\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/大数据时代笔记/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/大数据时代笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/大数据时代笔记/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/加菲猫生活歪理/" title="加菲猫生活歪理" itemprop="url">加菲猫生活歪理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.507Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="加菲猫生活歪理"><a href="#加菲猫生活歪理" class="headerlink" title="加菲猫生活歪理"></a>加菲猫生活歪理</h1><p>￼\<br>\<br>\<br>\<br>\<br>加菲猫生活歪理\<br>\<br>\<br>\<br>1、 今天吃得下的千万别搁到明天。\<br>\<br>\<br>2、爱情来得快去得也快，只有猪肉卷是永恒的。\<br>\<br>\<br>3、欧迪，我们去吃冰淇淋吧，不过你得看着我吃。\<br>\<br>\<br>4、肚子大不可怕，可怕的是肚子里没有好东西。\<br>\<br>\<br>5、「欧迪在窗外冻得瑟瑟发抖，真可怜。我真有点不忍心看他这样。\<br>\<br>\<br>不，难道我能坐视不管吗？我必须做点什么。」加菲拉上了窗帘。\<br>\<br>\<br>6、 失败的人特点是会不断地失败。\<br>如果你想看看他的失败的话，他是不会让你失望的。\<br>\<br>\<br>\<br>\<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/加菲猫生活歪理/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
+    <a href="/2020/04/29/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/加菲猫生活歪理/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/加菲猫生活歪理/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">开源中国 Maven 库</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+       <p itemprop="description" >开源中国 Maven 库\
+开源中国 Maven 库使用帮助=========================
+
+
+
+亲爱的小伙伴们，开源中国的 Maven 库上线咯！为了方便广大开发同学，开源中国特别推出国内的 Maven 中央库，提供高速稳定的网络和服务，为国内 Maven </p>
+      
     
-      <a href="/2020/04/29/力博得公司培训/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.506Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="力博得公司培训"><a href="#力博得公司培训" class="headerlink" title="力博得公司培训"></a>力博得公司培训</h1><h2 id="五个分公司"><a href="#五个分公司" class="headerlink" title="五个分公司"></a>五个分公司</h2><ul>
-<li>杭州独聚</li>
-<li>东莞工厂总部</li>
-<li>上海力博得</li>
-<li>广州工业设计</li>
-<li>深圳力博得研发中心</li>
-</ul>
-<p><strong>13年研发经验</strong></p>
-<ul>
-<li><p>购买产品—员工价</p>
-</li>
-<li><p>转正后—试用产品体验</p>
-</li>
-</ul>
-<p>请假、报销，写邮件，有格式</p>
-<p>每个部门团建<br>150元/人</p>
-<h1 id="声波牙刷技术培训"><a href="#声波牙刷技术培训" class="headerlink" title="声波牙刷技术培训"></a>声波牙刷技术培训</h1><p>目前电动牙刷种类比较多，主要有以下几种：</p>
-<ol>
-<li><p>普通电动牙刷<br>通过电动机芯的快速旋转或震动，使刷头产生高频震动，瞬间将牙膏分解成细微泡沫，深入清洁牙缝；与此同时，刷毛的颤动能促进口腔的血液循环，对牙龈组织有很好的护理效果。</p>
-</li>
-<li><p>声波牙刷<br>声波牙刷是指刷毛/刷头的振动频率与声波频率一致或者相近，因此也叫声波振动牙刷。并非字面意思理解的用”声波”来刷牙，只是类似于声波振动频率的刷毛快速运动创造了超越传统手动牙刷近100倍的超强清洁效果。</p>
-</li>
-</ol>
-<ol>
-<li><p>超声波牙刷<br>超声波牙刷是利用超声波能量在牙周的空化效应达到清除牙周的病菌和不洁物的，其清洁范围能覆盖牙周各个部位。</p>
-</li>
-<li><p>电动喷雾牙刷<br>电动喷雾牙刷就是在其牙刷柄内装了一罐气雾剂牙膏，在牙刷头上设有牙膏通道与喷口，气雾剂牙膏在气压的作用下顶动软胶单向阀从喷口喷出。不管电动牙刷的刷毛如何抖动气雾剂牙膏都能完全与牙齿相接触并全面发挥功效。</p>
-</li>
-</ol>
-<p>恒定机芯:恒向、100g重力感应恒力、2分钟恒时</p>
-<p>力博得与飞利浦的电动牙刷的区别：</p>
-<ol>
-<li>都有各自的专利，不同的是，力博得的机芯要比飞利浦的要小</li>
-<li>都是通过磁振动来改变周围力场</li>
-<li>力博得充电器是防水的，而飞利浦的充电器不防水</li>
-</ol>
-<p>力博得专供</p>
-<p>x系–牙科、医院、护士<br>i系—全渠道产品<br>g系–</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/力博得公司培训/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/力博得公司培训/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
+    <time datetime="2020-04-29T03:23:56.478Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
 
 
 
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2020/04/29/以线颜色取色器/" title="以线颜色取色器" itemprop="url">以线颜色取色器</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.505Z" itemprop="datePublished"> 发表于 2020-04-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="以线颜色取色器"><a href="#以线颜色取色器" class="headerlink" title="以线颜色取色器"></a>以线颜色取色器</h1><p>1：<span style="color: rgb(128, 0, 128);"><a href="http://wellstyled.com/tools/colorscheme/index-en.html" target="_blank" rel="noopener">http://wellstyled.com/tools/colorscheme/index-en.html</a></span>\<br>\<br> <span style="color: rgb(128, 0, 128);">\<br></span>2：<span style="color: rgb(128, 0, 128);"><a href="http://wellstyled.com/tools/colorscheme2/index-en.html" target="_blank" rel="noopener">http://wellstyled.com/tools/colorscheme2/index-en.html</a></span>\<br>\<br> <span style="color: rgb(128, 0, 128);">\<br></span>3：<span style="color: rgb(128, 0, 128);"><a href="http://www.colorschemer.com/online.html" target="_blank" rel="noopener">http://www.colorschemer.com/online.html</a></span>\<br>\<br> <span style="color: rgb(128, 0, 128);">\<br></span>4：<span style="color: rgb(128, 0, 128);"><a href="http://www.lvjiyong.com/books/css/colortools.html" target="_blank" rel="noopener">http://www.lvjiyong.com/books/css/colortools.html</a></span></p>
-<p>\</p>
-<p><span style="background-color: rgb(255, 255, 255); color: rgb(51, 51, 51); font-size: 14px; line-height: 26px; text-align: left;">5：</span><a href="http://www.dark-i.com/archive.aspx" target="_blank" rel="noopener">http://www.dark-i.com/archive.aspx</a></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/专业技术-印象笔记/">专业技术(印象笔记)</a>
-</div>
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/以线颜色取色器/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/以线颜色取色器/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/如何设置mysql在局域网中访问/" title="如何设置mysql在局域网中访问" itemprop="url">
+  
+    <h1 itemprop="name">如何设置mysql在局域网中访问</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+       <p itemprop="description" >如何设置mysql在局域网中访问### 如何设置mysql在局域网中访问mysql数据库
+
+
+第一：更改 “mysql” 数据库里的 “user”表里的 “host” 项，从”localhost”改称’%’。\ 或者新加条记录，“host” 项为要访问的ip地址，并授权。重启my</p>
+      
     
-      <a href="/2020/04/29/一本禁书的笔记/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
-		
-  <p class="article-time">
-    <time datetime="2020-04-29T03:23:56.503Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    <time datetime="2020-04-29T03:23:56.477Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/如何汉化gitlab8.9.2版本/" title="如何汉化gitlab8.9.2版本" itemprop="url">
+  
+    <h1 itemprop="name">如何汉化gitlab8.9.2版本</h1>
     
-  </p>
-</header>
-    <div class="article-content">
+     
+       <p itemprop="description" >如何汉化gitlab8.9.2版本我参考了这些文章作汉化：
+Gitlab部署和汉化以及简单运维
+快速安装 GitLab 并汉化
+但是。。。。感觉他们都有些错误，而且我的是最新版本8.9.2，现在中文补丁只打到8.8.5；
+所以，我有个神奇的想法，是不是可以用8.8.5的汉化补丁用</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.475Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/如何添加brewcask没有的软件/" title="如何添加brewcask没有的软件" itemprop="url">
+  
+    <h1 itemprop="name">如何添加brewcask没有的软件</h1>
+    
+     
+           <p itemprop="description" >如何添加brewcask没有的软件按照brewcask的wiki上说的步骤
+添加步骤：
+fork homebrew-cask
+进入你的系统的homebrew-cask的repository目录，mac系统默认都在：/usr/local/Library/Taps/phinze/ho</p>
         
-        <hr>
-<p>title:  读一本禁书的笔记<br>date: 1588130636503<br>categories: 读书笔记</p>
-<h2 id="tags-我的奋斗"><a href="#tags-我的奋斗" class="headerlink" title="tags: 我的奋斗"></a>tags: 我的奋斗</h2><h1 id="读一本禁书的笔记"><a href="#读一本禁书的笔记" class="headerlink" title="读一本禁书的笔记"></a>读一本禁书的笔记</h1><p><strong>从2015年过期间到2016年3月底，这本书我终于看完了，全世界的国家都把它列为禁书，他的书会让人发狂，可以让整个民族亢奋，也可以毁灭世界。。。。。
-</strong></p>
-<p>我曾经在youtube上和一位台湾网友争论，什么是法西斯政权，什么是纳粹？很遗憾，台湾的这一代年轻人太弱了，不但对大陆这边的人有非常深的偏见(不停的咒骂)，而且对世界的了解出乎意料的浅薄，这让我非常失望，想当年从大陆去了台湾的人可是中国精英中的精英啊，可惜了，21世纪这一代台湾人，真的让我大跌眼镜。。。。。</p>
-<p><strong>这位网友认为：</strong></p>
-<ol>
-<li>大陆人民都是被洗脑了的，生活、文化水平没办法与台湾比</li>
-<li>大陆是非常黑暗的，这位网友非常不客气的叫中国人是支那人(这是我最愤怒的)</li>
-<li>他认为共产主义就是纳粹，希特勒当年实行的就是社会主义制度(读过历史的都知道，纳粹是最仇视社会主义、共产主义的)</li>
-<li>他认为纳粹的意思就是社会主义(但他不知道，什么是民族社会主义,就多了个民族，却是完全不一样的东西)</li>
-<li>法西斯就是当年德国(但其实法西斯是意大利墨索里尼政权)</li>
-<li>台湾是民主国家，制度比大陆优越，大陆马上要完蛋了(这种优越感真不知道从哪里来的)</li>
-</ol>
-<p>以下是作的笔记：</p>
-<p><em>注解是本人拙见，其它的都是原文摘录</em></p>
+    
+    <time datetime="2020-04-29T03:23:56.474Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/怎么关闭U盘的自动播放功能/" title="怎么关闭U盘的自动播放功能" itemprop="url">
+  
+    <h1 itemprop="name">怎么关闭U盘的自动播放功能</h1>
+    
+     
+           <p itemprop="description" >怎么关闭U盘的自动播放功能怎么关闭U盘的自动播放功能每次把移动硬盘查到USB口就会自动播放，尤其是移动硬盘分了N个区的时候，要手动一个一个的关掉，真是十分的麻烦！怎么样能解决这个问题呢？下面西部e网这里了几种关闭移动硬盘或者U盘自动播放的方法供大家参考：  
+
+ 1、SHIFT按</p>
         
+    
+    <time datetime="2020-04-29T03:23:56.473Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/彻底删除Mac OS X开机自启动项目/" title="彻底删除Mac OS X开机自启动项目" itemprop="url">
+  
+    <h1 itemprop="name">彻底删除Mac OS X开机自启动项目</h1>
+    
+     
+       <p itemprop="description" >彻底删除Mac OS X开机自启动项目彻底删除Mac OS X开机自启动项目进入全屏
+
+
+今天重新安装了SSD硬盘上的OSX系统，所有数据都从另外一块HD硬盘迁移过来的，所以直接导致一些不需要的东西直接开机自启动了，试图从LoginItems（打开SystemPreference</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.471Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/产品人的APP/" title="产品人的APP" itemprop="url">
+  
+    <h1 itemprop="name">产品人的APP</h1>
+    
+     
+       <p itemprop="description" >产品人的APP作为一个刚入门不久的产品，我需要去学习各个方面的知识，而在学习的过程中，也多亏了一些APP的帮助，这里想顺便推荐一下它们。
+—————————————————————————————————————\
+
+先来推荐几个关于资讯阅读的：\
+
+\
+
+—-Medium
+国外</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.470Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/节日记录/" title="节日记录" itemprop="url">
+  
+    <h1 itemprop="name">节日记录</h1>
+    
+     
+           <p itemprop="description" >节日记录感恩节在每年11月份最后一周四</p>
         
-        <p class="article-more-link">
-          
-            <a href="/2020/04/29/一本禁书的笔记/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2020/04/29/一本禁书的笔记/#comments" class="ds-thread-count comments-count-link" data-thread-key="2020/04/29/一本禁书的笔记/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
+    
+    <time datetime="2020-04-29T03:23:56.469Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
 
 
 
 
 
 
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/网站收藏/" title="网站收藏" itemprop="url">
+  
+    <h1 itemprop="name">网站收藏</h1>
+    
+     
+       <p itemprop="description" >网站收藏–坏男人学院
 
-  <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/37/">37</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+http://puahome.com/bbs/
+\
+
+–google earth
+
+http://www.google.com/intl/zh-CN/earth/index.html
+
+\</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.469Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/精益创业/" title="精益创业" itemprop="url">
+  
+    <h1 itemprop="name">精益创业</h1>
+    
+     
+       <p itemprop="description" >精益创业【美】埃里克·里斯2014-10-06 19:53:33Facebook的所有业务都以本书为指导。注： 精益创业
+序2014-10-06 19:56:48
+知名科幻小说家科利·多克托罗（Cory Doctorow）曾说：“铁匠在啤酒中洒下眼泪，悲叹自己没有办法在铁路时代卖</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.467Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/清明议事/" title="清明议事" itemprop="url">
+  
+    <h1 itemprop="name">清明议事</h1>
+    
+     
+           <p itemprop="description" >清明议事
+
+清明三天假期已过，今天是周未，朋友圈里又开始了美图大赛。。。。
+
+
+清明三天，我安静的在家里待了整整三天，哪也没去，什么也没做；除了jerry请我去他家过清明，中午喝酒、聊天。我们聊了很多，其中有个话题很触动我，关于业余时间利用。jerry是在做自己的app，运营着自</p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.467Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/接口文档/" title="" itemprop="url">
+  
+    <h1 itemprop="name"></h1>
+    
+     
+           <p itemprop="description" >接口文档概述接入前提
+服务端的公司内网服务器地址为：192.168.0.121:3000外网服务器地址是：101.81.230.69:9000接入服务器时需要token参数，android端与ios端各不一样
+
+1.1 定义1.1.1 符号定义
+
+
+序号
+符号缩写
+符号性质
+符号</p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.465Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/发展感想/" title="发展感想" itemprop="url">
+  
+    <h1 itemprop="name">发展感想</h1>
+    
+     
+           <p itemprop="description" >发展感想今年的PDP主要是新技术的学习与团队项目的协调上，对于新语言swift的学习已经开始着手，并将基础语法进行的练习。在与obj-c的对应特征上，做了一些比较，写了一个swift的demo。
+在接下来的swift学习当中，会在下个月会出来一张swift与obj-c特征对照表，</p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.462Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/如何让secureCRT显示Linux的颜色/" title="如何让secureCRT显示Linux的颜色" itemprop="url">
+  
+    <h1 itemprop="name">如何让secureCRT显示Linux的颜色</h1>
+    
+     
+           <p itemprop="description" >如何让secureCRT显示Linux的颜色如何让secureCRT显示Linux的颜色 2011-06-13 13:54:52
+
+分类： Linux
+
+Linux的控制台颜色很好设置：Options -&amp;gt;Session Options -&amp;gt; Terminal-&amp;gt</p>
+        
+    
+    <time datetime="2020-04-29T03:23:56.456Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/直接将google进行本地映射，不进行域名解析，加速访问/" title="直接将google进行本地映射，不进行域名解析，加速访问" itemprop="url">
+  
+    <h1 itemprop="name">直接将google进行本地映射，不进行域名解析，加速访问</h1>
+    
+     
+       <p itemprop="description" >直接将google进行本地映射，不进行域名解析，加速访问\
+
+\
+
+203.208.46.146 www.google.com
+
+203.208.46.147 www.google.com.hk
+
+203.208.46.132 clients1.google.com</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.456Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/如何在UIAlertView中显示进度条/" title="如何在UIAlertView中显示进度条" itemprop="url">
+  
+    <h1 itemprop="name">如何在UIAlertView中显示进度条</h1>
+    
+     
+       <p itemprop="description" >如何在UIAlertView中显示进度条如何在UIAlertView中显示进度条
+
+2011-12-23
+
+\
+
+10:58
+
+\
+
+\</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.454Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/什么是SQL注入式攻击？/" title="什么是SQL注入式攻击？" itemprop="url">
+  
+    <h1 itemprop="name">什么是SQL注入式攻击？</h1>
+    
+     
+       <p itemprop="description" >什么是SQL注入式攻击？什么是SQL注入式攻击？\所谓SQL注入式攻击，就是攻击者把SQL命令插入到Web表单的输入域或页面请求的查询字符串，欺骗服务器执行恶意的SQL命令。在某些表单中，用户输入的内容直接用来构造（或者影响）动态SQL命令，或作为存储过程的输入参数，这类表单特别</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.452Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/软链接/" title="软链接" itemprop="url">
+  
+    <h1 itemprop="name">软链接</h1>
+    
+     
+       <p itemprop="description" >软链接linux下创建和删除软、硬链接\
+在Linux系统中,内核为每一个新创建的文件分配一个Inode(索引结点),每个文件都有一个惟一的inode号。文件属性保存在索引结点里，在访问文件时，索引结点被复制到内存在，从而实现文件的快速访问。\
+链接是一种在共享文件和访问它的用户</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.451Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2020/04/29/羊皮卷/" title="羊皮卷" itemprop="url">
+  
+    <h1 itemprop="name">羊皮卷</h1>
+    
+     
+       <p itemprop="description" >羊皮卷（陕西师大版）【美】弗洛伦丝·西恩等最伟大的商人
+2014-11-04 07:43:42不了解犹太人，就不了解世界
+2014-11-04 07:44:02世界的钱在美国人的口袋里，而美国人的钱却在犹太人的口袋里
+2015-06-16 08:48:15自己学习并逐渐地领悟，才</p>
+      
+    
+    <time datetime="2020-04-29T03:23:56.450Z" itemprop="datePublished">2020-04-29</time>
+  </a>
+</section>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix unexpand">
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 
@@ -991,6 +781,22 @@
 			
 		
 			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
@@ -999,43 +805,7 @@
 			
 		
 			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
@@ -1043,15 +813,35 @@
 			
 		
 			
-				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/eureka/" title="eureka">eureka<sup>1</sup></a></li>
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/elasticseach/" title="elasticseach">elasticseach<sup>1</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springcloud/" title="springcloud">springcloud<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/集群/" title="集群">集群<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 		</ul>
