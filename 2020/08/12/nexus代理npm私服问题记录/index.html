@@ -27,7 +27,8 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1ghnv01w3e5j30ra0bqgme.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1ghnvalrqp3j30va09wdgm.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1ghnvbaci5sj30qs0a2my6.jpg">
-<meta property="og:updated_time" content="2020-08-12T04:05:19.420Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1ghnzgkzyzyj31os07u0uf.jpg">
+<meta property="og:updated_time" content="2020-08-12T05:54:21.763Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nexus代理npm私服问题记录">
 <meta name="twitter:description" content="nexus代理npm私服问题记录因公司要求所有项目的代码依赖必须走公司内网的私服，编译构建必须在jenkins上进行，而jenkins上的编译机器是不通外网的，而需要走nexus的代理服务器，开通了什么代理，就找安全部门将相关地址开通外网访问白名单。 先列出我遇到的一系列问题：  nexues镜像地址外网不通问题 nodejs项目构建时未指定新的仓库地址 node_sass依赖构件无法从代理镜像下">
@@ -113,7 +114,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nexus代理npm私服问题记录"><span class="toc-number">1.</span> <span class="toc-text">nexus代理npm私服问题记录</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nexus代理npm私服问题记录"><span class="toc-number">1.</span> <span class="toc-text">nexus代理npm私服问题记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#权限码生成方式："><span class="toc-number">1.0.1.</span> <span class="toc-text">权限码生成方式：</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
@@ -159,9 +160,12 @@
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ghnvalrqp3j30va09wdgm.jpg" alt="image-20200812112901514"></p>
 <p>proxy地址必须是：<a href="https://npm.taobao.org/mirrors/node-sass" target="_blank" rel="noopener">https://npm.taobao.org/mirrors/node-sass</a></p>
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ghnvbaci5sj30qs0a2my6.jpg" alt="image-20200812112940989"></p>
-<p>而npm install 之前，还必须将_auth的权限码放到.npmrc文件中。</p>
-<p>权限码生成方式：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo -n 'myuser:mypassword' | openssl base64</span><br></pre></td></tr></table></figure>
+<ol>
+<li>node_sass代理地址权限问题,npm install 的时候返回如下：</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ghnzgkzyzyj31os07u0uf.jpg" alt="image-20200812135309568"></p>
+<p>在npm install 之前，还必须将_auth的权限码放到.npmrc文件中。</p>
+<h3 id="权限码生成方式："><a href="#权限码生成方式：" class="headerlink" title="权限码生成方式："></a>权限码生成方式：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo -n 'myuser:mypassword' | openssl base64</span><br></pre></td></tr></table></figure>
 <p>或者使用命令：npm addUser </p>
 <p>这种方式虽然简单，但是可能会暴露密码，如果你不想把密码给编译团队，就给权限码就行了。</p>
 <p><a href="https://blog.sonatype.com/using-nexus-3-as-your-repository-part-2-npm-packages" target="_blank" rel="noopener">参考地址1</a></p>
@@ -204,6 +208,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2020/09/03/springboot项目上传到nexus不通过/" title="springboot项目上传到nexus不通过">
+  <strong>上一篇：</strong><br/>
+  <span>
+  springboot项目上传到nexus不通过</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2020/08/07/新建k8s的只读用户/"  title="新建k8s的只读用户">
@@ -233,7 +245,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nexus代理npm私服问题记录"><span class="toc-number">1.</span> <span class="toc-text">nexus代理npm私服问题记录</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nexus代理npm私服问题记录"><span class="toc-number">1.</span> <span class="toc-text">nexus代理npm私服问题记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#权限码生成方式："><span class="toc-number">1.0.1.</span> <span class="toc-text">权限码生成方式：</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
@@ -329,7 +341,7 @@
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>5</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>6</sup></a></li>
 		  
 		
 		  
@@ -385,7 +397,7 @@
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>21</sup></a></li>
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>22</sup></a></li>
 		  
 		
 		  
@@ -430,15 +442,11 @@
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>6</sup></a></li>
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>7</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
@@ -450,15 +458,19 @@
 			
 		
 			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/k8s/" title="k8s">k8s<sup>3</sup></a></li>
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>3</sup></a></li>
 			
 		
 			
@@ -474,11 +486,15 @@
 			
 		
 			
-				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
 			
 		
 			
@@ -491,10 +507,6 @@
 		
 			
 				<li><a href="/tags/集群/" title="集群">集群<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 		</ul>
