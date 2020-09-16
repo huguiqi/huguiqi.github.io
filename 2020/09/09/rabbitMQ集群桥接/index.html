@@ -22,20 +22,20 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="rabbitMQ集群桥接必要环境rabbitmq 3.8.8 docker 19.03.12 背景说明公司有新老机房并行问题，最终新机房将会完全替换掉老机房。 目前新老机房都有部署rabbimq集群，新老机房都有应用在调用各自的rabbitmq集群，现在要解决的是，新老机房都会互相调用，所产生的message消费与生产可以互联。 如图：  我们现在使用的方案就是用feduration插件 使用插件">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://www.huguiqi.top/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lpc3V5YW55dQ==,size_16,color_FFFFFF,t_70.png">
-<meta property="og:image" content="http://www.huguiqi.top/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/007S8ZIlgy1gimnnv1ta9j315u0cwwgd.png">
-<meta property="og:image" content="http://www.huguiqi.top/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/007S8ZIlgy1gimnow7zh5j31ae0fg0uq.png">
-<meta property="og:image" content="http://www.huguiqi.top/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/007S8ZIlgy1gimnpvfd4uj312k0qa412.png">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gir4sbufo4j30rm0d848e.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gir4mw0nhxj315u0cwmyp.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gir4o52pz3j31ae0fg75y.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gir4oaypkhj312k0qagnp.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gikf6a3mx8j30x40d8ab6.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gikef1vwe5j30xm0fu75m.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gikeggk7glj31ki05oab4.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gikei87m83j311s0a2gmi.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gikeiudealj311w0cymyb.jpg">
-<meta property="og:updated_time" content="2020-09-15T01:48:18.802Z">
+<meta property="og:updated_time" content="2020-09-15T02:35:09.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="rabbitMQ集群桥接">
 <meta name="twitter:description" content="rabbitMQ集群桥接必要环境rabbitmq 3.8.8 docker 19.03.12 背景说明公司有新老机房并行问题，最终新机房将会完全替换掉老机房。 目前新老机房都有部署rabbimq集群，新老机房都有应用在调用各自的rabbitmq集群，现在要解决的是，新老机房都会互相调用，所产生的message消费与生产可以互联。 如图：  我们现在使用的方案就是用feduration插件 使用插件">
-<meta name="twitter:image" content="http://www.huguiqi.top/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lpc3V5YW55dQ==,size_16,color_FFFFFF,t_70.png">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gir4sbufo4j30rm0d848e.jpg">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -126,7 +126,7 @@
 <h2 id="背景说明"><a href="#背景说明" class="headerlink" title="背景说明"></a>背景说明</h2><p>公司有新老机房并行问题，最终新机房将会完全替换掉老机房。</p>
 <p>目前新老机房都有部署rabbimq集群，新老机房都有应用在调用各自的rabbitmq集群，现在要解决的是，新老机房都会互相调用，所产生的message消费与生产可以互联。</p>
 <p>如图：</p>
-<p><img src="/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lpc3V5YW55dQ==,size_16,color_FFFFFF,t_70.png" alt="img"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gir4sbufo4j30rm0d848e.jpg" alt="img"></p>
 <p>我们现在使用的方案就是用feduration插件</p>
 <h2 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h2><p>实现集群与集群间的数据同步；节点与节点之间的通信；</p>
 <p>Federation插件是一个在不需要cluster，而broker之间传输消息的高性能插件。</p>
@@ -141,9 +141,9 @@
 <p>apt-get install net-tools</p>
 <p>apt-get install vim</p>
 <p>apt-get install inetutils-ping</p>
-<h2 id="配置federation"><a href="#配置federation" class="headerlink" title="配置federation"></a>配置federation</h2><h3 id="新建policy"><a href="#新建policy" class="headerlink" title="新建policy"></a>新建policy</h3><p><img src="/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/007S8ZIlgy1gimnnv1ta9j315u0cwwgd.png" alt="image-20200911133937733"></p>
-<p><img src="/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/007S8ZIlgy1gimnow7zh5j31ae0fg0uq.png" alt="image-20200911134043885"></p>
-<h2 id="新建桥接stream"><a href="#新建桥接stream" class="headerlink" title="新建桥接stream"></a>新建桥接stream</h2><p><img src="/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/007S8ZIlgy1gimnpvfd4uj312k0qa412.png" alt="image-20200911134140482"></p>
+<h2 id="配置federation"><a href="#配置federation" class="headerlink" title="配置federation"></a>配置federation</h2><h3 id="新建policy"><a href="#新建policy" class="headerlink" title="新建policy"></a>新建policy</h3><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gir4mw0nhxj315u0cwmyp.jpg" alt="image-20200911133937733"></p>
+<p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gir4o52pz3j31ae0fg75y.jpg" alt="image-20200911134043885"></p>
+<h2 id="新建桥接stream"><a href="#新建桥接stream" class="headerlink" title="新建桥接stream"></a>新建桥接stream</h2><p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gir4oaypkhj312k0qagnp.jpg" alt="image-20200911134140482"></p>
 <p><strong>注意：在填写uri时，如果默认的guest账号未开启远程服务，则建议重新新建一个账号，新建账号默认是开启了远程访问</strong></p>
 <h2 id="建立可远程访问的用户"><a href="#建立可远程访问的用户" class="headerlink" title="建立可远程访问的用户"></a>建立可远程访问的用户</h2><p>命令行：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user test test</span><br><span class="line">rabbitmqctl set_user_tags test administrator</span><br><span class="line">rabbitmqctl set_permissions -p / test &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br></pre></td></tr></table></figure>
@@ -202,9 +202,9 @@
  
 
 <div class="next">
-<a href="/2020/09/03/如何配置maven的全局settings.xml文件将jar上传到nexus/"  title="">
+<a href="/2020/09/03/springboot项目上传到nexus不通过/"  title="springboot项目上传到nexus不通过">
  <strong>下一篇：</strong><br/> 
- <span>(no title)
+ <span>springboot项目上传到nexus不通过
 </span>
 </a>
 </div>
@@ -325,11 +325,11 @@
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>6</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>7</sup></a></li>
 		  
 		
 		  
@@ -422,11 +422,11 @@
 			
 		
 			
-				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>7</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>7</sup></a></li>
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
 			
 		
 			
@@ -434,23 +434,11 @@
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
 			
 		
 			
@@ -458,11 +446,19 @@
 			
 		
 			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
@@ -470,11 +466,15 @@
 			
 		
 			
-				<li><a href="/tags/nexus/" title="nexus">nexus<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
@@ -486,11 +486,11 @@
 			
 		
 			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/集群/" title="集群">集群<sup>1</sup></a></li>
+				<li><a href="/tags/docker升级/" title="docker升级">docker升级<sup>1</sup></a></li>
 			
 		
 		</ul>
