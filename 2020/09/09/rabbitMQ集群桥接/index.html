@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gikeggk7glj31ki05oab4.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gikei87m83j311s0a2gmi.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/007S8ZIlgy1gikeiudealj311w0cymyb.jpg">
-<meta property="og:updated_time" content="2020-09-15T02:35:09.291Z">
+<meta property="og:updated_time" content="2020-10-28T06:56:40.581Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="rabbitMQ集群桥接">
 <meta name="twitter:description" content="rabbitMQ集群桥接必要环境rabbitmq 3.8.8 docker 19.03.12 背景说明公司有新老机房并行问题，最终新机房将会完全替换掉老机房。 目前新老机房都有部署rabbimq集群，新老机房都有应用在调用各自的rabbitmq集群，现在要解决的是，新老机房都会互相调用，所产生的message消费与生产可以互联。 如图：  我们现在使用的方案就是用feduration插件 使用插件">
@@ -156,13 +156,12 @@
 <p>绑定成功：</p>
 <p><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gikeiudealj311w0cymyb.jpg" alt="image-20200909145224200"></p>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
-<li>federation插件只作同步，不对消费与删除作监听，针对不同集群同步过去的消息，各集群的消费互不影响</li>
-</ol>
-<ol>
+<li><p>federation插件只作同步，针对不同集群同步过去的消息</p>
+</li>
 <li><p>桥接时输入的地址rmpq协议地址建议填集群地址</p>
 </li>
-<li><p>如果是单向桥接，只有上游的消息会同步到下游，下游产生的消息不会同步到上游</p>
-</li>
+<li>如果是单向桥接，只有上游的消息会同步到下游，下游产生的消息不会同步到上游，下游的消费如果发现上游的消息消费来不及时，会主动帮助上游消费消息。</li>
+<li>如果是双向桥接，则互为上下游，无论在哪边生产消息或者消费消息，都会影响另一端。</li>
 </ol>
 <p>参考：<a href="https://www.rabbitmq.com/access-control.html" target="_blank" rel="noopener">https://www.rabbitmq.com/access-control.html</a></p>
   
