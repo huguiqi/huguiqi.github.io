@@ -14,18 +14,32 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="k8s 自定义controllerCRD Controller 开发环境搭建我们创建了CRD，再通过自动生成代码的工具将controller所需的informer、client等依赖全部准备好，到了本章，就该编写controller的代码了，也就是说，现在已经能监听到Student对象的增删改等事件，接下来就是根据这些事件来做不同的事情，满足个性化的业务需求； 需要安装的环境：  golang &amp;">
+    <meta name="description" content="k8s 自定义controllerCRD Controller的开发逻辑控制器的目的是让 CRD 定义的资源达到我们预期的一个状态，要达到我们定义的状态，我们需要监听触发事件。触发事件的概念是从硬件信号产生 中断 的机制衍生过来的，其产生一个电平信号时，有水平触发（包括高电平、低电平），也有边缘触发（包括上升沿、下降沿触发等）。  水平触发 : 系统仅依赖于当前状态。即使系统错过了某个事件（可能因">
 <meta name="keywords" content="k8s,CRD">
 <meta property="og:type" content="article">
 <meta property="og:title" content="k8s 自定义controller">
 <meta property="og:url" content="http://www.huguiqi.top/2020/09/30/k8s 自定义controller/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="k8s 自定义controllerCRD Controller 开发环境搭建我们创建了CRD，再通过自动生成代码的工具将controller所需的informer、client等依赖全部准备好，到了本章，就该编写controller的代码了，也就是说，现在已经能监听到Student对象的增删改等事件，接下来就是根据这些事件来做不同的事情，满足个性化的业务需求； 需要安装的环境：  golang &amp;">
+<meta property="og:description" content="k8s 自定义controllerCRD Controller的开发逻辑控制器的目的是让 CRD 定义的资源达到我们预期的一个状态，要达到我们定义的状态，我们需要监听触发事件。触发事件的概念是从硬件信号产生 中断 的机制衍生过来的，其产生一个电平信号时，有水平触发（包括高电平、低电平），也有边缘触发（包括上升沿、下降沿触发等）。  水平触发 : 系统仅依赖于当前状态。即使系统错过了某个事件（可能因">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-10-20T08:05:49.184Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190331114526283.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly94aW5jaGVuLmJsb2cuY3Nkbi5uZXQ=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsssp62aaj31lk0ha0wb.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnstbsivzwj314c05m0u1.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsuof9cbaj312u0e0acg.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsvsc03rhj313c066ta8.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsvug14o7j314007qgn6.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsxqgs7h7j31440a8jt2.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnszqmgrn6j31420bw770.jpg">
+<meta property="og:image" content="http://www.huguiqi.top/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/008eGmZEgy1gnt026d90tj31200ekgnt.png">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt077d5sqj312c0eaq5q.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt09ium8kj30zk0dodik.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt0al7t8yj30tg07iabc.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt1aypgchj310k0duwhd.jpg">
+<meta property="og:updated_time" content="2021-02-19T12:06:50.221Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="k8s 自定义controller">
-<meta name="twitter:description" content="k8s 自定义controllerCRD Controller 开发环境搭建我们创建了CRD，再通过自动生成代码的工具将controller所需的informer、client等依赖全部准备好，到了本章，就该编写controller的代码了，也就是说，现在已经能监听到Student对象的增删改等事件，接下来就是根据这些事件来做不同的事情，满足个性化的业务需求； 需要安装的环境：  golang &amp;">
+<meta name="twitter:description" content="k8s 自定义controllerCRD Controller的开发逻辑控制器的目的是让 CRD 定义的资源达到我们预期的一个状态，要达到我们定义的状态，我们需要监听触发事件。触发事件的概念是从硬件信号产生 中断 的机制衍生过来的，其产生一个电平信号时，有水平触发（包括高电平、低电平），也有边缘触发（包括上升沿、下降沿触发等）。  水平触发 : 系统仅依赖于当前状态。即使系统错过了某个事件（可能因">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190331114526283.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly94aW5jaGVuLmJsb2cuY3Nkbi5uZXQ=,size_16,color_FFFFFF,t_70">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -107,18 +121,100 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k8s-自定义controller"><span class="toc-number">1.</span> <span class="toc-text">k8s 自定义controller</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CRD-Controller-开发环境搭建"><span class="toc-number">1.1.</span> <span class="toc-text">CRD Controller 开发环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用kubebuiler生成controller-crd模板"><span class="toc-number">1.2.</span> <span class="toc-text">使用kubebuiler生成controller+crd模板</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k8s-自定义controller"><span class="toc-number">1.</span> <span class="toc-text">k8s 自定义controller</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CRD-Controller的开发逻辑"><span class="toc-number">1.1.</span> <span class="toc-text">CRD Controller的开发逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#那-KubeBuilder-原理呢？"><span class="toc-number">1.1.1.</span> <span class="toc-text">那 KubeBuilder 原理呢？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CRD-Controller-开发环境搭建"><span class="toc-number">1.2.</span> <span class="toc-text">CRD Controller 开发环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装kubeBuilder"><span class="toc-number">1.3.</span> <span class="toc-text">安装kubeBuilder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用kubebuilder生成controller-crd模板"><span class="toc-number">1.4.</span> <span class="toc-text">使用kubebuilder生成controller+crd模板</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成架构代码"><span class="toc-number">1.4.1.</span> <span class="toc-text">生成架构代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建CRD"><span class="toc-number">1.5.</span> <span class="toc-text">创建CRD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装CRD到集群"><span class="toc-number">1.6.</span> <span class="toc-text">安装CRD到集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动控制器"><span class="toc-number">1.7.</span> <span class="toc-text">启动控制器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写自定义controller逻辑代码"><span class="toc-number">1.8.</span> <span class="toc-text">编写自定义controller逻辑代码</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="k8s-自定义controller"><a href="#k8s-自定义controller" class="headerlink" title="k8s 自定义controller"></a>k8s 自定义controller</h1><h2 id="CRD-Controller-开发环境搭建"><a href="#CRD-Controller-开发环境搭建" class="headerlink" title="CRD Controller 开发环境搭建"></a>CRD Controller 开发环境搭建</h2><p>我们创建了CRD，再通过自动生成代码的工具将controller所需的informer、client等依赖全部准备好，到了本章，就该编写controller的代码了，也就是说，现在已经能监听到Student对象的增删改等事件，接下来就是根据这些事件来做不同的事情，满足个性化的业务需求；</p>
-<p>需要安装的环境：</p>
+		<h1 id="k8s-自定义controller"><a href="#k8s-自定义controller" class="headerlink" title="k8s 自定义controller"></a>k8s 自定义controller</h1><h2 id="CRD-Controller的开发逻辑"><a href="#CRD-Controller的开发逻辑" class="headerlink" title="CRD Controller的开发逻辑"></a>CRD Controller的开发逻辑</h2><p>控制器的目的是让 CRD 定义的资源达到我们预期的一个状态，要达到我们定义的状态，我们需要监听触发事件。触发事件的概念是从硬件信号产生 <code>中断</code> 的机制衍生过来的，<br>其产生一个电平信号时，有水平触发（包括高电平、低电平），也有边缘触发（包括上升沿、下降沿触发等）。</p>
 <ul>
-<li>golang &gt;1.14</li>
-<li><a href="https://book.kubebuilder.io/introduction.html" target="_blank" rel="noopener">KubeBuilder</a></li>
+<li>水平触发 : 系统仅依赖于当前状态。即使系统错过了某个事件（可能因为故障挂掉了），当它恢复时，依然可以通过查看信号的当前状态来做出正确的响应。</li>
+<li>边缘触发 : 系统不仅依赖于当前状态，还依赖于过去的状态。如果系统错过了某个事件（“边缘”），则必须重新查看该事件才能恢复系统。</li>
 </ul>
+<p>Kubernetes 的 API 和控制器都是基于水平触发的，可以促进系统的自我修复和周期调协。<br>其 API 实现方式（也是我们常说的声明式 API）是：控制器监视资源对象的实际状态，并与对象期望的状态进行对比，然后调整实际状态，使之与期望状态相匹配。</p>
+<h3 id="那-KubeBuilder-原理呢？"><a href="#那-KubeBuilder-原理呢？" class="headerlink" title="那 KubeBuilder 原理呢？"></a>那 KubeBuilder 原理呢？</h3><p>它的控制器实现的接口是 Reconcile 方法，该方法要求控制器的实现逻辑是基于水平触发的, 实现方不能假定每一次的对象的变更都会触发一次 Reconcile。KubeBuilder 为性能考虑会合并同一个对象的修改请求，这要求使用方不考虑中间的执行步骤，以面向终态的方式来实现业务逻辑。具体来说每次资源 Status 状态的构建都不能依赖过去的值，要求能够完全根据目前的环境的查询来构建值。</p>
+<h2 id="CRD-Controller-开发环境搭建"><a href="#CRD-Controller-开发环境搭建" class="headerlink" title="CRD Controller 开发环境搭建"></a>CRD Controller 开发环境搭建</h2><p>我们创建了CRD，再通过自动生成代码的工具将controller所需的informer、client等依赖全部准备好，到了本章，就该编写controller的代码了，也就是说，现在已经能监听到Student对象的增删改等事件，接下来就是根据这些事件来做不同的事情，满足个性化的业务需求；</p>
+<p>controller的作用就是监听指定对象的新增、删除、修改等变化，针对这些变化做出相应的响应（例如新增pod的响应为创建docker容器），关于controller的详细设计，最好的参考就是Harry (Lei) Zhang老师在twitter上的分享，如下图，地址是：<a href="https://twitter.com/resouer/status/1009996649832185856" target="_blank" rel="noopener">https://twitter.com/resouer/status/1009996649832185856</a></p>
+<p>原理：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190331114526283.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly94aW5jaGVuLmJsb2cuY3Nkbi5uZXQ=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>如上图，API对象的变化会通过Informer存入队列（WorkQueue），在Controller中消费队列的数据做出响应，响应相关的具体代码就是我们要做的真正业务逻辑；</p>
+<p><a href="https://book.kubebuilder.io/introduction.html" target="_blank" rel="noopener">https://book.kubebuilder.io/introduction.html</a></p>
 <p>使用 <a href="https://book.kubebuilder.io/introduction.html" target="_blank" rel="noopener">KubeBuilder</a> v2 版本，该框架可以方便的生成符合 K8S 规范的 CRD 文件和对应的 Controller 代码，我们只需要实现其调协逻辑即可。</p>
-<h2 id="使用kubebuiler生成controller-crd模板"><a href="#使用kubebuiler生成controller-crd模板" class="headerlink" title="使用kubebuiler生成controller+crd模板"></a>使用kubebuiler生成controller+crd模板</h2><p><a href="https://blog.csdn.net/qianggezhishen/article/details/106995181#311-%E9%87%87%E7%94%A8-gopath-%E6%9D%A5%E7%94%9F%E6%88%90" target="_blank" rel="noopener">参考此文章</a></p>
+<h2 id="安装kubeBuilder"><a href="#安装kubeBuilder" class="headerlink" title="安装kubeBuilder"></a>安装kubeBuilder</h2><p>安装kubeBuilder的必要条件：</p>
+<ul>
+<li>go version v1.13+.</li>
+<li>docker version 17.03+.</li>
+<li>kubectl version v1.11.3+.</li>
+<li>Access to a Kubernetes v1.11.3+ cluster.</li>
+</ul>
+<p>我使用的是mac os,当前的go版本是v1.12,需要升级，由于升级太麻烦了，我之前是通过homebrew安装的，所以我直接卸载掉，从<a href="https://golang.org/dl/" target="_blank" rel="noopener">官网</a>上下载最新的go版本，直接安装：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsssp62aaj31lk0ha0wb.jpg" alt="tval.sinaimg"></p>
+<p>现在已经满足了安装kubebuilder的要求了。</p>
+<p>官方文档是这样安装的：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">os=$(go env GOOS)</span><br><span class="line">arch=$(go env GOARCH)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> download kubebuilder and extract it to tmp</span><br><span class="line">curl -L https://go.kubebuilder.io/dl/2.3.1/$&#123;os&#125;/$&#123;arch&#125; | tar -xz -C /tmp/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> move to a long-term location and put it on your path</span><br><span class="line"><span class="meta">#</span> (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)</span><br><span class="line">sudo mv /tmp/kubebuilder_2.3.1_$&#123;os&#125;_$&#123;arch&#125; /usr/local/kubebuilder</span><br><span class="line">export PATH=$PATH:/usr/local/kubebuilder/bin</span><br></pre></td></tr></table></figure>
+<p>但我电脑上好像无法这样安装，只能通过这样安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">os=$(go env GOOS) </span><br><span class="line"></span><br><span class="line">arch=$(go env GOARCH)</span><br><span class="line"></span><br><span class="line">wget https://go.kubebuilder.io/dl/latest/$&#123;os&#125;/$&#123;arch&#125;</span><br><span class="line"></span><br><span class="line">tar -xzvf kubebuilder_master_darwin_amd64.tar.gz -C /tmp/</span><br><span class="line"></span><br><span class="line">sudo mv /tmp/kubebuilder_master_darwin_amd64 /usr/local/kubebuilder</span><br><span class="line"></span><br><span class="line">export PATH=$PATH:/usr/local/kubebuilder/bin</span><br></pre></td></tr></table></figure>
+<p>使环境变量永久生效，加入到.bash_profile, <code>vi ~/.bash_profile</code>：</p>
+<p>​        export PATH=$PATH:/usr/local/kubebuilder/bin</p>
+<p><code>source ~/.bash_profile</code></p>
+<p>检查kubebuilder是否安装成功：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnstbsivzwj314c05m0u1.jpg" alt="image-20210219141047307"></p>
+<p>发现已经安装成功了！！！</p>
+<h2 id="使用kubebuilder生成controller-crd模板"><a href="#使用kubebuilder生成controller-crd模板" class="headerlink" title="使用kubebuilder生成controller+crd模板"></a>使用kubebuilder生成controller+crd模板</h2><p>kubebuilder官网生成controller模板：</p>
+<p><a href="https://github.com/kubernetes-sigs/kubebuilder" target="_blank" rel="noopener">https://github.com/kubernetes-sigs/kubebuilder</a></p>
+<h3 id="生成架构代码"><a href="#生成架构代码" class="headerlink" title="生成架构代码"></a>生成架构代码</h3><p>有两种方法，一种是采用 <code>GOPATH</code>，另一种是 <code>go mod</code></p>
+<p>官方建议：</p>
+<blockquote>
+<p>If you’re not in <code>GOPATH</code>, you’ll need to run <code>go mod init &lt;modulename&gt;</code> in order to tell kubebuilder and Go the base import path of your module.</p>
+</blockquote>
+<p>我电脑上也没配置GOPATH，所以我只能通过go mod 方式。</p>
+<p>一般不建议通过在GOPATH目录下新建项目，所以我使用<code>go mod</code>方式生成架构代码：</p>
+<p>因为墙的原因，需要设置go的代理：<code>export GOPROXY=https://goproxy.cn</code> ，否则kubebuilder init时会timeout</p>
+<ol>
+<li><p>mkdir test1 &amp;&amp; go mod init my.domain</p>
+<p>返回： <code>go: creating new go.mod: module my.domain</code></p>
+</li>
+</ol>
+<ol>
+<li>kubebuilder init –domain my.domain</li>
+</ol>
+<p>返回如下信息：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsuof9cbaj312u0e0acg.jpg" alt="image-20210219145732228"></p>
+<p>初始化项目完成!!</p>
+<p>现在我们只生成了第一步的代码，我们先来看看这部分代码是否能运行及其效果如何？</p>
+<p>这时需要保证你的终端能访问 K8S 的测试集群，简单就是用 <code>kubectl cluster-info</code> 看看是否出错，如果不出错，就可以 <code>go run main.go</code> 了</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsvsc03rhj313c066ta8.jpg" alt="image-20210219153552962"></p>
+<p>由以上图片可以看出，集群是正常运行的。</p>
+<p>现在我们执行一下 <code>go run main.go</code>返回：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsvug14o7j314007qgn6.jpg" alt="image-20210219153755319"></p>
+<p>从以上图片返回的结果可以看出，其实 KubeBuilder 帮我们生成一个管理 Controller 的 Manager 的代码(controller-runtime.manager)，但是还没添加 Controller</p>
+<h2 id="创建CRD"><a href="#创建CRD" class="headerlink" title="创建CRD"></a>创建CRD</h2><p>创建一个名为Guestbook的CRD, 路径为webapp/v1:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubebuilder create api --group webapp --version v1 --kind Guestbook</span><br></pre></td></tr></table></figure>
+<p>执行后报错了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsxqgs7h7j31440a8jt2.jpg" alt="image-20210219164317707"></p>
+<p>是不是由于我安装的kubeBuilder版本是master版本，对应的k8s版本是1.16.4的原因?</p>
+<p>经过不断的探索，发现是由于我k8s的api server所支持的go版本是v1.13.5:</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnszqmgrn6j31420bw770.jpg" alt="image-20210219175237674"></p>
+<p>将最新的1.16版本卸载，安装1.13.5这个版本</p>
+<p>再次执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubebuilder create api --group webapp --version v1 --kind Guestbook</span><br></pre></td></tr></table></figure>
+<p>返回成功：</p>
+<p><img src="/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/008eGmZEgy1gnt026d90tj31200ekgnt.png" alt="image-20210219180344798"></p>
+<p>这里简单注意一下， <code>group / version / kind</code> 这三个属性组合起来来标识一个 K8S 的 CRD。另外就是 <code>kind</code> 要首字母大写而且不能有特殊符号</p>
+<p>成功建立了一个自定义crd了，但是内容是空的，没做任何事。。。。</p>
+<h2 id="安装CRD到集群"><a href="#安装CRD到集群" class="headerlink" title="安装CRD到集群"></a>安装CRD到集群</h2><p>make install</p>
+<p>又报错了：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt077d5sqj312c0eaq5q.jpg" alt="image-20210219180834671"></p>
+<p>是因为没有安装kustomize,那我安装一个：</p>
+<p><code>bwi kustomize</code></p>
+<p>再次执行,返回成功：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt09ium8kj30zk0dodik.jpg" alt="image-20210219181048285"></p>
+<p>查看一下，是否安装成功：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt0al7t8yj30tg07iabc.jpg" alt="image-20210219181149669"></p>
+<p>此时已经将 CRD 安装到集群了。</p>
+<h2 id="启动控制器"><a href="#启动控制器" class="headerlink" title="启动控制器"></a>启动控制器</h2><p>使用make run 命令启动控制器：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt1aypgchj310k0duwhd.jpg" alt="image-20210219184647486"></p>
+<h2 id="编写自定义controller逻辑代码"><a href="#编写自定义controller逻辑代码" class="headerlink" title="编写自定义controller逻辑代码"></a>编写自定义controller逻辑代码</h2><p><a href="https://blog.csdn.net/qianggezhishen/article/details/106995181#311-%E9%87%87%E7%94%A8-gopath-%E6%9D%A5%E7%94%9F%E6%88%90" target="_blank" rel="noopener">参考此文章</a></p>
+<p><a href="https://www.cnblogs.com/alisystemsoftware/p/11580202.html" target="_blank" rel="noopener">https://www.cnblogs.com/alisystemsoftware/p/11580202.html</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -191,7 +287,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k8s-自定义controller"><span class="toc-number">1.</span> <span class="toc-text">k8s 自定义controller</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CRD-Controller-开发环境搭建"><span class="toc-number">1.1.</span> <span class="toc-text">CRD Controller 开发环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用kubebuiler生成controller-crd模板"><span class="toc-number">1.2.</span> <span class="toc-text">使用kubebuiler生成controller+crd模板</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k8s-自定义controller"><span class="toc-number">1.</span> <span class="toc-text">k8s 自定义controller</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CRD-Controller的开发逻辑"><span class="toc-number">1.1.</span> <span class="toc-text">CRD Controller的开发逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#那-KubeBuilder-原理呢？"><span class="toc-number">1.1.1.</span> <span class="toc-text">那 KubeBuilder 原理呢？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CRD-Controller-开发环境搭建"><span class="toc-number">1.2.</span> <span class="toc-text">CRD Controller 开发环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装kubeBuilder"><span class="toc-number">1.3.</span> <span class="toc-text">安装kubeBuilder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用kubebuilder生成controller-crd模板"><span class="toc-number">1.4.</span> <span class="toc-text">使用kubebuilder生成controller+crd模板</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成架构代码"><span class="toc-number">1.4.1.</span> <span class="toc-text">生成架构代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建CRD"><span class="toc-number">1.5.</span> <span class="toc-text">创建CRD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装CRD到集群"><span class="toc-number">1.6.</span> <span class="toc-text">安装CRD到集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动控制器"><span class="toc-number">1.7.</span> <span class="toc-text">启动控制器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编写自定义controller逻辑代码"><span class="toc-number">1.8.</span> <span class="toc-text">编写自定义controller逻辑代码</span></a></li></ol></li></ol>
  
   </div>
 
@@ -560,7 +656,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2020 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2021 
 		
 		<a href="/about" target="_blank" title="sam">sam</a>
 		
