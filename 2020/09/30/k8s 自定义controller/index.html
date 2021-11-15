@@ -18,7 +18,7 @@
 <meta name="keywords" content="k8s,CRD">
 <meta property="og:type" content="article">
 <meta property="og:title" content="k8s 自定义controller">
-<meta property="og:url" content="http://www.huguiqi.top/2020/09/30/k8s 自定义controller/index.html">
+<meta property="og:url" content="http://clockcoder.com/2020/09/30/k8s 自定义controller/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="k8s 自定义controllerCRD Controller的开发逻辑控制器的目的是让 CRD 定义的资源达到我们预期的一个状态，要达到我们定义的状态，我们需要监听触发事件。触发事件的概念是从硬件信号产生 中断 的机制衍生过来的，其产生一个电平信号时，有水平触发（包括高电平、低电平），也有边缘触发（包括上升沿、下降沿触发等）。  水平触发 : 系统仅依赖于当前状态。即使系统错过了某个事件（可能因">
 <meta property="og:locale" content="zh-CN">
@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsvug14o7j314007qgn6.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsxqgs7h7j31440a8jt2.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnszqmgrn6j31420bw770.jpg">
-<meta property="og:image" content="http://www.huguiqi.top/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/008eGmZEgy1gnt026d90tj31200ekgnt.png">
+<meta property="og:image" content="http://clockcoder.com/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/008eGmZEgy1gnt026d90tj31200ekgnt.png">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt077d5sqj312c0eaq5q.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt09ium8kj30zk0dodik.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008eGmZEgy1gnt0al7t8yj30tg07iabc.jpg">
@@ -61,7 +61,6 @@
     <header>
       
 <div>
-<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
 
 		
 			<div id="imglogo">
@@ -84,7 +83,7 @@
 					
 						<li><a href="/about">关于</a></li>
 					
-					<li><a href="http://blog.huguiqi.com.">副站</a></li>
+					<li><a href="http://clockcoder.com">副站</a></li>
 					<li>
  					
 						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
@@ -150,7 +149,7 @@
 <p><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnsssp62aaj31lk0ha0wb.jpg" alt="tval.sinaimg"></p>
 <p>现在已经满足了安装kubebuilder的要求了。</p>
 <p>官方文档是这样安装的：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">os=$(go env GOOS)</span><br><span class="line">arch=$(go env GOARCH)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> download kubebuilder and extract it to tmp</span><br><span class="line">curl -L https://go.kubebuilder.io/dl/2.3.1/$&#123;os&#125;/$&#123;arch&#125; | tar -xz -C /tmp/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> move to a long-term location and put it on your path</span><br><span class="line"><span class="meta">#</span> (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)</span><br><span class="line">sudo mv /tmp/kubebuilder_2.3.1_$&#123;os&#125;_$&#123;arch&#125; /usr/local/kubebuilder</span><br><span class="line">export PATH=$PATH:/usr/local/kubebuilder/bin</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">os=$(go env GOOS)</span><br><span class="line">arch=$(go env GOARCH)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> download kubebuilder and extract it to tmp</span></span><br><span class="line">curl -L https://go.kubebuilder.io/dl/2.3.1/$&#123;os&#125;/$&#123;arch&#125; | tar -xz -C /tmp/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> move to a long-term location and put it on your path</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> (you<span class="string">'ll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)</span></span></span><br><span class="line">sudo mv /tmp/kubebuilder_2.3.1_$&#123;os&#125;_$&#123;arch&#125; /usr/local/kubebuilder</span><br><span class="line">export PATH=$PATH:/usr/local/kubebuilder/bin</span><br></pre></td></tr></table></figure>
 <p>但我电脑上好像无法这样安装，只能通过这样安装：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">os=$(go env GOOS) </span><br><span class="line"></span><br><span class="line">arch=$(go env GOARCH)</span><br><span class="line"></span><br><span class="line">wget https://go.kubebuilder.io/dl/latest/$&#123;os&#125;/$&#123;arch&#125;</span><br><span class="line"></span><br><span class="line">tar -xzvf kubebuilder_master_darwin_amd64.tar.gz -C /tmp/</span><br><span class="line"></span><br><span class="line">sudo mv /tmp/kubebuilder_master_darwin_amd64 /usr/local/kubebuilder</span><br><span class="line"></span><br><span class="line">export PATH=$PATH:/usr/local/kubebuilder/bin</span><br></pre></td></tr></table></figure>
 <p>使环境变量永久生效，加入到.bash_profile, <code>vi ~/.bash_profile</code>：</p>
@@ -237,7 +236,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://www.huguiqi.top/2020/09/30/k8s 自定义controller/" data-title="k8s 自定义controller | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  <div data-url="http://clockcoder.com/2020/09/30/k8s 自定义controller/" data-title="k8s 自定义controller | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -271,7 +270,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2020/09/30/k8s 自定义controller/" data-title="k8s 自定义controller" data-url="http://www.huguiqi.top/2020/09/30/k8s 自定义controller/"></div>
+	<div class="ds-thread" data-thread-key="2020/09/30/k8s 自定义controller/" data-title="k8s 自定义controller" data-url="http://clockcoder.com/2020/09/30/k8s 自定义controller/"></div>
 </section>
 
 
@@ -403,11 +402,11 @@
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -581,13 +580,7 @@
         
           <li>
             
-            	<a href="http://godeggs.cn " target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="https://kalasearch.cn" target="_blank" title="谢科的搜索引擎">谢科的搜索引擎</a>
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
             
           </li>
         
