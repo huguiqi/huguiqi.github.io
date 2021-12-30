@@ -1,0 +1,870 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>nodejs连接kafka踩坑记 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="nodejs 连接kafka踩坑记背景由于所在的架构团队中很多后台应用使用的nodejs写的代码，现在要把nodejs的日志全部记入到公司的kafka中，运维团队只分配给我无一个topic,然后让我们通过结构逻辑去区分。 需求：  因我的应用全是容器部署，故希望通过不改代码，将容器控制台日志直接输出到kafka 如果不改代码不可行，则通过改代码的方式解决  kafka-server:    版本号">
+<meta name="keywords" content="nodejs,kafka,kafka client">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs连接kafka踩坑记">
+<meta property="og:url" content="http://clockcoder.com/2021/08/11/nodejs 连接kafka踩坑记/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="nodejs 连接kafka踩坑记背景由于所在的架构团队中很多后台应用使用的nodejs写的代码，现在要把nodejs的日志全部记入到公司的kafka中，运维团队只分配给我无一个topic,然后让我们通过结构逻辑去区分。 需求：  因我的应用全是容器部署，故希望通过不改代码，将容器控制台日志直接输出到kafka 如果不改代码不可行，则通过改代码的方式解决  kafka-server:    版本号">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gtd044e5bkj61hv0u0ao902.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gtd13fg1soj61ns0bcmyi02.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNgy1gtd183uv2tj60u00w8dj602.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNgy1gtd1c4f6glj61ku0togwy02.jpg">
+<meta property="og:updated_time" content="2021-12-30T13:46:59.618Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nodejs连接kafka踩坑记">
+<meta name="twitter:description" content="nodejs 连接kafka踩坑记背景由于所在的架构团队中很多后台应用使用的nodejs写的代码，现在要把nodejs的日志全部记入到公司的kafka中，运维团队只分配给我无一个topic,然后让我们通过结构逻辑去区分。 需求：  因我的应用全是容器部署，故希望通过不改代码，将容器控制台日志直接输出到kafka 如果不改代码不可行，则通过改代码的方式解决  kafka-server:    版本号">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gtd044e5bkj61hv0u0ao902.jpg">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2021/08/11/nodejs 连接kafka踩坑记/" title="nodejs连接kafka踩坑记" itemprop="url">nodejs连接kafka踩坑记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2021-08-11T06:30:00.000Z" itemprop="datePublished"> 发表于 2021-08-11</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nodejs-连接kafka踩坑记"><span class="toc-number">1.</span> <span class="toc-text">nodejs 连接kafka踩坑记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#收集容器日志输出到kafka"><span class="toc-number">1.2.</span> <span class="toc-text">收集容器日志输出到kafka</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写代码方案-选组件"><span class="toc-number">1.3.</span> <span class="toc-text">写代码方案-选组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kafkajs"><span class="toc-number">1.3.1.</span> <span class="toc-text">kafkajs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kafka-node"><span class="toc-number">1.3.2.</span> <span class="toc-text">kafka-node</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-rdkafka"><span class="toc-number">1.3.3.</span> <span class="toc-text">node-rdkafka</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="nodejs-连接kafka踩坑记"><a href="#nodejs-连接kafka踩坑记" class="headerlink" title="nodejs 连接kafka踩坑记"></a>nodejs 连接kafka踩坑记</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于所在的架构团队中很多后台应用使用的nodejs写的代码，现在要把nodejs的日志全部记入到公司的kafka中，运维团队只分配给我无一个topic,然后让我们通过结构逻辑去区分。</p>
+<p>需求：</p>
+<ol>
+<li>因我的应用全是容器部署，故希望通过不改代码，将容器控制台日志直接输出到kafka</li>
+<li>如果不改代码不可行，则通过改代码的方式解决</li>
+</ol>
+<p>kafka-server:</p>
+<p>   版本号：3.2.0</p>
+<p>   加密协议：SASL_PLAINTEXT</p>
+<p>   加密算法：SCRAM-SHA-256</p>
+<h2 id="收集容器日志输出到kafka"><a href="#收集容器日志输出到kafka" class="headerlink" title="收集容器日志输出到kafka"></a>收集容器日志输出到kafka</h2><p>使用阿里开源的log-ploit来收集容器日志，然后输出到kafka</p>
+<p>docker-compose:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;3.2&apos;</span><br><span class="line">services:</span><br><span class="line">  zookeeper:</span><br><span class="line">    image: wurstmeister/zookeeper</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;2181:2181&quot;</span><br><span class="line">  pilot:</span><br><span class="line">    image: hz-log-pilot:1.0.3</span><br><span class="line">    volumes:</span><br><span class="line">      - /var/run/docker.sock:/var/run/docker.sock</span><br><span class="line">      - /:/host</span><br><span class="line">    privileged: true</span><br><span class="line">    environment:</span><br><span class="line">      - LOGGING_OUTPUT=kafka</span><br><span class="line">      - KAFKA_BROKERS=test-kafka-idc-1.xxx.com:9092</span><br><span class="line">      - KAFKA_VERSION=0.11.0</span><br><span class="line">      - KAFKA_USERNAME=admin</span><br><span class="line">      - KAFKA_PASSWORD=xxx</span><br><span class="line">      - KAFKA_MECHANISM=SCRAM-SHA-256</span><br><span class="line">      - KAFKA_SSL=true</span><br><span class="line">      - KAFKA_PROTOCOL=PLAIN</span><br><span class="line">    labels:</span><br><span class="line">      aliyun.global: true</span><br><span class="line"></span><br><span class="line">  hello-node:</span><br><span class="line">    image: hello-node:1.0</span><br><span class="line">    ports:</span><br><span class="line"></span><br><span class="line">   - &quot;9003:8888&quot;</span><br><span class="line">     vironment:</span><br><span class="line">        - aliyun_logs_topic-devops=stdout</span><br><span class="line">          aliyun_logs_topic-devops_format=json</span><br><span class="line">             - aliyun_logs_topic-devops_tags=appId=backend,appName=test-app</span><br></pre></td></tr></table></figure>
+<p>经过测试发现这个在我厂的kafka服务端的配置中，是无法将日志发送过去的，但在我自己搭建的kafka服务器上可以正常输出到kafka。</p>
+<p>后面经过一通查找，发现ploit这个组件底层使用的filebeat是不支持SCRAM-SHA-256的加密的，气死。。。。。</p>
+<h2 id="写代码方案-选组件"><a href="#写代码方案-选组件" class="headerlink" title="写代码方案-选组件"></a>写代码方案-选组件</h2><p>必应了一下，关键字: nodejs kafka</p>
+<p>发现很多人都推荐使用kafkajs来对接nodejs。</p>
+<p><a href="https://kafka.js.org/docs/getting-started" target="_blank" rel="noopener">https://kafka.js.org/docs/getting-started</a></p>
+<p><a href="https://github.com/tulios/kafkajs" target="_blank" rel="noopener">https://github.com/tulios/kafkajs</a></p>
+<p>然后写了个test:</p>
+<h3 id="kafkajs"><a href="#kafkajs" class="headerlink" title="kafkajs"></a>kafkajs</h3><p>kafka.test-spec.ts:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">const &#123; Kafka &#125; = require(&apos;kafkajs&apos;)</span><br><span class="line"></span><br><span class="line">const kafka = new Kafka(&#123;</span><br><span class="line">    // clientId: &apos;devops&apos;,</span><br><span class="line">    logLevel: 5,</span><br><span class="line">    brokers: [&apos;10.105.141.164:49171&apos;],</span><br><span class="line">    authenticationTimeout: 1000,</span><br><span class="line">    reauthenticationThreshold: 10000,</span><br><span class="line">    sasl: &#123;</span><br><span class="line">        mechanism: &quot;SCRAM-SHA-256&quot;,</span><br><span class="line">        username: &quot;admin&quot;,</span><br><span class="line">        password: &quot;xxxx&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const topic = &apos;test1&apos;</span><br><span class="line">const producer = kafka.producer()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">const sendMessage = async () =&gt; &#123;</span><br><span class="line">    await producer.connect()</span><br><span class="line">    return producer</span><br><span class="line">        .send(&#123;</span><br><span class="line">            topic,</span><br><span class="line">            compression: Kafka.CompressionTypes.None,</span><br><span class="line">            messages: [</span><br><span class="line">                &#123;topic:&quot;test&quot;,messages:JSON.stringify(&#123;&quot;name&quot;:&quot;jack&quot;,&quot;age&quot;:&quot;120&quot;&#125;),partition:0&#125;</span><br><span class="line">            ],</span><br><span class="line">        &#125;)</span><br><span class="line">        .then(console.log)</span><br><span class="line">        .catch(e =&gt; console.error(`[example/producer] $&#123;e.message&#125;`, e))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">describe(&apos;kafka tests&apos;, function() &#123;</span><br><span class="line">    describe(&apos;send Tests&apos;, function() &#123;</span><br><span class="line">        this.timeout(15000);</span><br><span class="line">        it(&apos;should connection success&apos;, async function (done) &#123;</span><br><span class="line">                await sendMessage();</span><br><span class="line">            done();</span><br><span class="line"></span><br><span class="line">        &#125;,4000);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>webstorm(集成nodejs单元测试)运行一下，发现无法连接:</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gtd044e5bkj61hv0u0ao902.jpg" alt="image-20210811175832351"></p>
+<p>原因是，因为kafka-server端使用的加密协议是：<code>SASL_PLAINTEXT</code>，但kafkajs只支持plain协议，所有无法连接。</p>
+<p>再加上kafka-server端使用的版本是：2.3.0，虽然kafkajs说支持kafka的版本是0.11+，有可能2.x还不支持。</p>
+<p>后面又看到说kafka-node也挻火，所以又写了个test。</p>
+<h3 id="kafka-node"><a href="#kafka-node" class="headerlink" title="kafka-node"></a>kafka-node</h3><p><a href="https://www.npmjs.com/package/kafka-node/v/5.0.0#producer" target="_blank" rel="noopener">https://www.npmjs.com/package/kafka-node/v/5.0.0#producer</a></p>
+<blockquote>
+<p>Kafka-node is a Node.js client for Apache Kafka 0.9 and later.</p>
+</blockquote>
+<p><a href="https://github.com/SOHU-Co/kafka-node" target="_blank" rel="noopener">https://github.com/SOHU-Co/kafka-node</a></p>
+<p>是soho的库，说是支持0.9之后的版本，上代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">var assert = require(&apos;assert&apos;);</span><br><span class="line"></span><br><span class="line">var expect = require(&apos;chai&apos;).expect;</span><br><span class="line"></span><br><span class="line">var kafka = require(&apos;kafka-node&apos;),</span><br><span class="line">    Producer = kafka.Producer,</span><br><span class="line">    KeyedMessage = kafka.KeyedMessage,</span><br><span class="line">    client = new kafka.KafkaClient(&#123;kafkaHost: &apos;test-kafka-idc-1.xxx.com:9092&apos;, connectTimeout: 3000, sasl:&#123;mechanism: &apos;scram-sha-256&apos;, username: &apos;admin&apos;, password: &apos;xxx&apos;&#125; &#125;),</span><br><span class="line">    producer = new Producer(client),</span><br><span class="line">    km = new KeyedMessage(&apos;key&apos;, &apos;message&apos;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var producerOption = &#123;</span><br><span class="line">    requireAcks: 1,</span><br><span class="line">    ackTimeoutMs: 100,</span><br><span class="line">    partitionerType: 0 //默认为第一个分区</span><br><span class="line">&#125;;</span><br><span class="line"> producer = new Producer(client,producerOption);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function getPayloads()&#123;</span><br><span class="line">    return [</span><br><span class="line">        &#123;topic:&quot;test&quot;,messages:JSON.stringify(&#123;&quot;name&quot;:&quot;jack&quot;,&quot;age&quot;:&quot;120&quot;&#125;),partition:0&#125;</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">describe(&apos;kafka tests&apos;, function() &#123;</span><br><span class="line">    describe(&apos;send Tests&apos;, function() &#123;</span><br><span class="line">        this.timeout(15000);</span><br><span class="line">        it(&apos;should connection success&apos;,  function (done) &#123;</span><br><span class="line">            producer.on(&apos;ready&apos;, async function () &#123;</span><br><span class="line">                producer.send(getPayloads(), function (err, data) &#123;</span><br><span class="line">                    if (err) &#123;</span><br><span class="line">                        console.log(&apos;[kafka-producer -&gt; test1]: broker update failed&apos;);</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        console.log(&apos;[kafka-producer -&gt; test1]: broker update success&apos;);</span><br><span class="line">                    &#125;</span><br><span class="line">                    done();</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;);</span><br><span class="line">            producer.on(&apos;error&apos;, function (err) &#123;</span><br><span class="line">                console.log(&apos;error:&apos;+err.toString());</span><br><span class="line">                done();</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">        &#125;,6000);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 函数实现，参数单位 秒 ；</span><br><span class="line">function wait(second) &#123;</span><br><span class="line">    // execSync 属于同步方法；异步方式请根据需要自行查询 node.js 的 child_process 相关方法；</span><br><span class="line">    let ChildProcess_ExecSync = require(&apos;child_process&apos;).execSync;</span><br><span class="line">    ChildProcess_ExecSync(&apos;sleep &apos; + second);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>还是无法连接，报连接超时：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gtd13fg1soj61ns0bcmyi02.jpg" alt="image-20210811183231115"></p>
+<p>在他github上发现，已经两年没更新了，看来是不维护了，估计还是不支持那个协议，或者是客户端版本不匹配问题。</p>
+<p>还是上kafka官网看看吧，在官网上看到kafka client端支持：</p>
+<p><a href="https://cwiki.apache.org/confluence/display/KAFKA/Clients" target="_blank" rel="noopener">https://cwiki.apache.org/confluence/display/KAFKA/Clients</a></p>
+<p>发现了nodejs的支持的库，官方推荐排在第一的是：node-rdkafka</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNgy1gtd183uv2tj60u00w8dj602.jpg" alt="image-20210811183700339"></p>
+<p>虽然kafka-node排第二，但是貌似不支持我厂kafka服务端的协议配置。</p>
+<h3 id="node-rdkafka"><a href="#node-rdkafka" class="headerlink" title="node-rdkafka"></a>node-rdkafka</h3><p><a href="https://github.com/Blizzard/node-rdkafka" target="_blank" rel="noopener">https://github.com/Blizzard/node-rdkafka</a></p>
+<p>同样写个test, rd-kafka.test-spec.ts:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">var assert = require(&apos;assert&apos;);</span><br><span class="line"></span><br><span class="line">var expect = require(&apos;chai&apos;).expect;</span><br><span class="line">const Kafka = require(&apos;node-rdkafka&apos;)</span><br><span class="line">const ERR_TOPIC_ALREADY_EXISTS = 36;</span><br><span class="line">const config = &#123;</span><br><span class="line">    &apos;bootstrap.servers&apos;: &apos;test-kafka-idc-1.xxx.com:9092&apos;,</span><br><span class="line">    &apos;sasl.username&apos;: &apos;admin&apos;,</span><br><span class="line">    &apos;sasl.password&apos;: &apos;xxx&apos;,</span><br><span class="line">    &apos;security.protocol&apos;: &apos;SASL_PLAINTEXT&apos;,</span><br><span class="line">    &apos;sasl.mechanisms&apos;: &apos;SCRAM-SHA-256&apos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const topic = &apos;topic-devops&apos;;</span><br><span class="line"></span><br><span class="line">function getPayloads()&#123;</span><br><span class="line">    return [</span><br><span class="line">        &#123;topic:topic,messages:JSON.stringify(&#123;&quot;name&quot;:&quot;jack&quot;,&quot;age&quot;:&quot;120&quot;&#125;),partition:0&#125;</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">describe(&apos;kafka tests&apos;, function() &#123;</span><br><span class="line">    describe(&apos;send Tests&apos;, function() &#123;</span><br><span class="line">        this.timeout(15000);</span><br><span class="line">        it(&apos;should connection success&apos;, async function (done) &#123;</span><br><span class="line">            await produceExample();</span><br><span class="line">        &#125;,6000);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">function ensureTopicExists() &#123;</span><br><span class="line">    const adminClient = Kafka.AdminClient.create(config);</span><br><span class="line"></span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">        adminClient.createTopic(&#123;</span><br><span class="line">            topic: topic,</span><br><span class="line">            num_partitions: 1,</span><br><span class="line">            replication_factor: 3</span><br><span class="line">        &#125;, (err) =&gt; &#123;</span><br><span class="line">            if (!err) &#123;</span><br><span class="line">                console.log(`Created topic $&#123;config.topic&#125;`);</span><br><span class="line">                return resolve();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (err.code === ERR_TOPIC_ALREADY_EXISTS) &#123;</span><br><span class="line">                return resolve();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return reject(err);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async function produceExample() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    // await ensureTopicExists();</span><br><span class="line"></span><br><span class="line">    const producer = await createProducer((err, report) =&gt; &#123;</span><br><span class="line">        if (err) &#123;</span><br><span class="line">            console.warn(&apos;Error producing&apos;, err)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            const &#123;topic, partition, value&#125; = report;</span><br><span class="line">            console.log(`Successfully produced record to topic &quot;$&#123;topic&#125;&quot; partition $&#123;partition&#125; $&#123;value&#125;`);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    for (let idx = 0; idx &lt; 10; ++idx) &#123;</span><br><span class="line">        const key = &apos;alice&apos;;</span><br><span class="line">        const value = Buffer.from(JSON.stringify(&#123; name:key+idx,count: idx &#125;));</span><br><span class="line"></span><br><span class="line">        console.log(`Producing record $&#123;key&#125;\t$&#123;value&#125;`);</span><br><span class="line"></span><br><span class="line">        producer.produce(topic, -1, value, key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    producer.flush(10000, () =&gt; &#123;</span><br><span class="line">        producer.disconnect();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">produceExample()</span><br><span class="line">    .catch((err) =&gt; &#123;</span><br><span class="line">        console.error(`Something went wrong:\n$&#123;err&#125;`);</span><br><span class="line">        process.exit(1);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function createProducer(onDeliveryReport) &#123;</span><br><span class="line">    let proConfig = config;</span><br><span class="line">    proConfig[&apos;dr_msg_cb&apos;]=true;</span><br><span class="line">    const producer = new Kafka.Producer(proConfig);</span><br><span class="line"></span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">        producer</span><br><span class="line">            .on(&apos;ready&apos;, () =&gt; resolve(producer))</span><br><span class="line">            .on(&apos;delivery-report&apos;, onDeliveryReport)</span><br><span class="line">            .on(&apos;event.error&apos;, (err) =&gt; &#123;</span><br><span class="line">                console.warn(&apos;event.error&apos;, err);</span><br><span class="line">                reject(err);</span><br><span class="line">            &#125;);</span><br><span class="line">        producer.connect();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>webstorm执行一下：</p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNgy1gtd1c4f6glj61ku0togwy02.jpg" alt="image-20210811184052421"></p>
+<p>发现已经发送成功，到后台查下，发现已经发过去了，太棒了。。。。。。</p>
+<p>这个问题之前已经困扰了我差不多一周时间了，特此记录下来，方便后面的同学参考。。。。。。</p>
+<p><a href="https://docs.confluent.io/platform/current/tutorials/examples/clients/docs/nodejs.html" target="_blank" rel="noopener">https://docs.confluent.io/platform/current/tutorials/examples/clients/docs/nodejs.html</a></p>
+<p><a href="https://blizzard.github.io/node-rdkafka/current/" target="_blank" rel="noopener">https://blizzard.github.io/node-rdkafka/current/</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/kafka/">kafka</a>►<a class="article-category-link" href="/categories/kafka/nodejs/">nodejs</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nodejs/">nodejs</a><a href="/tags/kafka/">kafka</a><a href="/tags/kafka-client/">kafka client</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2021/08/11/nodejs 连接kafka踩坑记/" data-title="nodejs连接kafka踩坑记 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2021/12/30/sonarqube7.0升级到8.9.6踩坑记/" title="sonarqube7.0升级到8.9.6踩坑记">
+  <strong>上一篇：</strong><br/>
+  <span>
+  sonarqube7.0升级到8.9.6踩坑记</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2021/07/06/软件系统中上下游区分/"  title="软件系统中上下游区分">
+ <strong>下一篇：</strong><br/> 
+ <span>软件系统中上下游区分
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2021/08/11/nodejs 连接kafka踩坑记/" data-title="nodejs连接kafka踩坑记" data-url="http://clockcoder.com/2021/08/11/nodejs 连接kafka踩坑记/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#nodejs-连接kafka踩坑记"><span class="toc-number">1.</span> <span class="toc-text">nodejs 连接kafka踩坑记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#收集容器日志输出到kafka"><span class="toc-number">1.2.</span> <span class="toc-text">收集容器日志输出到kafka</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#写代码方案-选组件"><span class="toc-number">1.3.</span> <span class="toc-text">写代码方案-选组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kafkajs"><span class="toc-number">1.3.1.</span> <span class="toc-text">kafkajs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kafka-node"><span class="toc-number">1.3.2.</span> <span class="toc-text">kafka-node</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#node-rdkafka"><span class="toc-number">1.3.3.</span> <span class="toc-text">node-rdkafka</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>22</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CRD/" title="CRD">CRD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitmq/" title="rabbitmq">rabbitmq<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2021 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
