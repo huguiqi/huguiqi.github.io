@@ -22,15 +22,15 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="7天学会使用springcloud(二)app-service由于app-client端是调用服务消费者的门面，那就是说它只是个做转发的一个代理，那真正提供服务的是service,那client的调用怎么调用消费者的接口呢？ Spring cloud两种服务调用方式在微服务架构中，业务都会被拆分成一个独立的服务，服务与服务的通讯是基于http restful的。 Spring cloud有两种服务">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525008858602af38ugzk.png?imageslim">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525188682163i0gi2l31.png?imageslim">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygnb5wh4fj317k0ecgnk.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygnbesk2jj324o0dggyc.jpg">
 <meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525215655578qjdv4f0e.png?imageslim">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525217029154zqet1ll8.png?imageslim">
-<meta property="og:updated_time" content="2020-04-29T03:23:56.066Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygnee1bcmj318i0eyadq.jpg">
+<meta property="og:updated_time" content="2022-01-17T06:23:03.226Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7天学会使用springcloud(二)">
 <meta name="twitter:description" content="7天学会使用springcloud(二)app-service由于app-client端是调用服务消费者的门面，那就是说它只是个做转发的一个代理，那真正提供服务的是service,那client的调用怎么调用消费者的接口呢？ Spring cloud两种服务调用方式在微服务架构中，业务都会被拆分成一个独立的服务，服务与服务的通讯是基于http restful的。 Spring cloud有两种服务">
-<meta name="twitter:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525008858602af38ugzk.png?imageslim">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygnb5wh4fj317k0ecgnk.jpg">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -126,7 +126,7 @@
 <p>以上是来自官方的摘录介绍，我们来大致翻译一下：</p>
 <p>ribboin是网络进程间通讯调用的库，它内置软件负载平衡器。主使用Rest模型调用，包括使用各种序列化方案支持的REST调用。</p>
 <p>官网也罗列了以下几大功能：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525008858602af38ugzk.png?imageslim" alt="paste image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygnb5wh4fj317k0ecgnk.jpg" alt="paste image"></p>
 <ol>
 <li>负载均衡</li>
 <li>容错</li>
@@ -266,23 +266,24 @@ logging:
 spring.cloud.vault:
 config.lifecycle.enabled: true
 fail-fast: true
-</code></pre><h2 id="支持loadBalance"><a href="#支持loadBalance" class="headerlink" title="支持loadBalance"></a>支持loadBalance</h2><p>在service端的Application启动类上加上restTemplate注入：</p>
+</code></pre><p>​<br>​    </p>
+<h2 id="支持loadBalance"><a href="#支持loadBalance" class="headerlink" title="支持loadBalance"></a>支持loadBalance</h2><p>在service端的Application启动类上加上restTemplate注入：</p>
 <pre><code>@Bean
 @LoadBalanced
 RestTemplate restTemplate() {
     return new RestTemplate();
 }
-</code></pre><p>在配置robbion的负载均衡的时候，发现一个很诡异的事情，通过service就是无法通过service id 去访问client端：</p>
+</code></pre><p>​<br>在配置robbion的负载均衡的时候，发现一个很诡异的事情，通过service就是无法通过service id 去访问client端：</p>
 <pre><code>restTemplate.getForObject(&quot;http://APP-CLIENT/hi?name=&quot;+name,String.class);
 </code></pre><p>调用的时候一直报连接拒绝：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525188682163i0gi2l31.png?imageslim" alt="paste image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygnbesk2jj324o0dggyc.jpg" alt="paste image"></p>
 <p>经过我反复实验，发现是因为app-client端没有设置访问根目录，则需要在配置文件里server后面加上子项servlet.contextPath = /</p>
 <p>bootstrap.xml:</p>
 <pre><code>server:
   port: 8882
   servlet:
     context-path: /
-</code></pre><p>加上后重启app-client，然后通过server id 访问，就通了。。。。</p>
+</code></pre><p>​<br>加上后重启app-client，然后通过server id 访问，就通了。。。。</p>
 <p>注：有时候app-client重启了还不行，可能还需要重启sever注册中心</p>
 <p>再访问就可以了：</p>
 <p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525215655578qjdv4f0e.png?imageslim" alt="paste image"></p>
@@ -324,7 +325,7 @@ spring.cloud.vault:
     config.lifecycle.enabled: true
     fail-fast: true
 </code></pre><p>将service的端口号改成9000</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525217029154zqet1ll8.png?imageslim" alt="paste image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygnee1bcmj318i0eyadq.jpg" alt="image-20220117142235680"></p>
 <p>发现负载均衡起效了。。。。。</p>
 <p>下一章节讲下robbin和zull的结合使用。</p>
   

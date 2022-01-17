@@ -22,17 +22,17 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="7天学会使用springcloud(五)hystrix集成springcloud使用app-service项目中，pom.xml: &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;quot; xmlns">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/15273523469114tx4hfou.png?imageslim">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/15273530615360wfrs5b0.png?imageslim">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1527353090768tm00flye.png?imageslim">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1527352180459kqll74wa.png?imageslim">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1527353605119ja1qnq8z.png?imageslim">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1527354179380hlt0wlxs.png?imageslim">
-<meta property="og:updated_time" content="2020-04-29T03:23:56.069Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygmq1ya5qj30x80bimz8.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygn27shovj318q0bmwgh.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygmrpvlquj30z609kabr.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygmsydb1xj31ad0u0q66.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygmt6kj09j315h0u0439.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygmth6jozj318m0t0af0.jpg">
+<meta property="og:updated_time" content="2022-01-17T06:12:44.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7天学会使用springcloud(五)">
 <meta name="twitter:description" content="7天学会使用springcloud(五)hystrix集成springcloud使用app-service项目中，pom.xml: &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;quot; xmlns">
-<meta name="twitter:image" content="http://q9eg0x3qq.bkt.clouddn.com/15273523469114tx4hfou.png?imageslim">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygmq1ya5qj30x80bimz8.jpg">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -241,7 +241,7 @@
 <li>启用hystrix</li>
 </ul>
 <p>在启动类上添加 @EnableCircuitBreaker与@EnableHystrixDashboard注解</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/15273523469114tx4hfou.png?imageslim" alt="paste image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygmq1ya5qj30x80bimz8.jpg" alt="paste image"></p>
 <ul>
 <li>使用</li>
 </ul>
@@ -273,9 +273,9 @@ public class ClientRemoteProxy {
 }
 </code></pre><p>我启动了两个client,一个client有hello接口，另一个则没有，因为robbin会有自动负载均衡策略，我们来看看什么效果？</p>
 <p>我来回刷新请求了5-6次，会随机返回断路器信息和正确信息，但和zuul断路信息不同：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/15273530615360wfrs5b0.png?imageslim" alt="paste image"></p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1527353090768tm00flye.png?imageslim" alt="paste image"></p>
-<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p><img src="http://q9eg0x3qq.bkt.clouddn.com/1527352180459kqll74wa.png?imageslim" alt="paste image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygn27shovj318q0bmwgh.jpg" alt="image-20220117141054189"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygmrpvlquj30z609kabr.jpg" alt="paste image"></p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygmsydb1xj31ad0u0q66.jpg" alt="paste image"></p>
 <h2 id="检测状态"><a href="#检测状态" class="headerlink" title="检测状态"></a>检测状态</h2><p>如果springboot安装了actuator组件，我们可以访问请求地址：</p>
 <pre><code>http://localhost:9000/actuator/health 
 </code></pre><p>来检测状态，当然也可以直接请求：    </p>
@@ -286,7 +286,7 @@ public class ClientRemoteProxy {
 </code></pre><p>这个引用了包：</p>
 <pre><code>spring-cloud-starter-netflix-hystrix-dashboard
 </code></pre><p>可以看到有多少接口调用失败了，被熔断的次数，接口请求次数等数据：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1527353605119ja1qnq8z.png?imageslim" alt="paste image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygmt6kj09j315h0u0439.jpg" alt="paste image"></p>
 <p>参考springcloud的官方文档：</p>
 <p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html" target="_blank" rel="noopener">http://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.0.RC2/single/spring-cloud-netflix.html</a></p>
 <p>访问dashboard的地址：</p>
@@ -297,7 +297,7 @@ public class ClientRemoteProxy {
 </blockquote>
 </blockquote>
 <p>这个turbine和dashboard配合使用的：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1527354179380hlt0wlxs.png?imageslim" alt="paste image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygmth6jozj318m0t0af0.jpg" alt="paste image"></p>
 <p>瞬定是会珍惜整个目录的。</p>
 <p>关于trubine的使用我没有可分享的，需要去实践。</p>
 <h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>springcloud-service<br>好困要睡觉了，晚安各位。。。。。。。</p>

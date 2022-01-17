@@ -23,9 +23,9 @@
 <meta property="og:description" content="7天学会使用springcloud(三)组建通过zuul转发的方式来调用各app上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！ 放心 ，这个坑spring cloud已经给你踩好了，就等你入了。 用zu">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525242853550g5f8bk6v.png?imageslim">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/1525242343091d5w2o8dj.png?imageslim">
-<meta property="og:image" content="http://q9eg0x3qq.bkt.clouddn.com/152524240009109md1gy5.png?imageslim">
-<meta property="og:updated_time" content="2020-04-29T03:23:56.064Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygn9jeiqaj31cm0e6tad.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gygn9sg841j31co09gta8.jpg">
+<meta property="og:updated_time" content="2022-01-17T06:24:27.903Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7天学会使用springcloud(三)">
 <meta name="twitter:description" content="7天学会使用springcloud(三)组建通过zuul转发的方式来调用各app上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！ 放心 ，这个坑spring cloud已经给你踩好了，就等你入了。 用zu">
@@ -150,7 +150,8 @@
                 &lt;/exclusion&gt;
             &lt;/exclusions&gt;
 &lt;/dependency&gt;
-</code></pre><h1 id="启用zuul"><a href="#启用zuul" class="headerlink" title="启用zuul"></a>启用zuul</h1><p>在入口类中加上’EnableZuulProxy’注解：</p>
+</code></pre><p>​    </p>
+<h1 id="启用zuul"><a href="#启用zuul" class="headerlink" title="启用zuul"></a>启用zuul</h1><p>在入口类中加上’EnableZuulProxy’注解：</p>
 <pre><code>@SpringBootApplication
 @EnableZuulProxy
 @RestController
@@ -179,9 +180,9 @@ public class AppServiceApplication {
 </code></pre><p>然后重启app-service,地址栏输入地址：</p>
 <pre><code>http://localhost:9000/appclient/hi?name=11111
 </code></pre><p>访问成功：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/1525242343091d5w2o8dj.png?imageslim" alt="paste image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygn9jeiqaj31cm0e6tad.jpg" alt="paste image"></p>
 <p>多刷几次发现它的负载均衡也是有效的：</p>
-<p><img src="http://q9eg0x3qq.bkt.clouddn.com/152524240009109md1gy5.png?imageslim" alt="paste image"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gygn9sg841j31co09gta8.jpg" alt="paste image"></p>
 <p>我们的robbin+zull的集成完成了。</p>
 <p>通过这种方式，我们可以无限的给各个app-client注册新的群组实例。</p>
 <p>如果有些外部调用的服务不是一个微服务，但是我也想通过service去转发调用他们，那怎么办？</p>
