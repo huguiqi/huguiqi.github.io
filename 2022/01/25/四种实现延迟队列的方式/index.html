@@ -22,7 +22,7 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="四种实现延迟队列的方式定时任务轮询db用户下单后db中会生成一条订单记录，记录了订单号、用户ID、创建时间、订单详情、订单状态等信息。假设超时时间是600秒，我们后台起一个定时任务，每隔固定时间运行一次，每次扫描db中的超时订单select * from order where createTime &amp;lt;= now()-600，然后取消查询到的订单。 这种方法实现简单，但是有很多缺点。超时时间">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2022-01-25T14:08:23.365Z">
+<meta property="og:updated_time" content="2022-01-26T08:08:38.856Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="四种实现延迟队列的方式">
 <meta name="twitter:description" content="四种实现延迟队列的方式定时任务轮询db用户下单后db中会生成一条订单记录，记录了订单号、用户ID、创建时间、订单详情、订单状态等信息。假设超时时间是600秒，我们后台起一个定时任务，每隔固定时间运行一次，每次扫描db中的超时订单select * from order where createTime &amp;lt;= now()-600，然后取消查询到的订单。 这种方法实现简单，但是有很多缺点。超时时间">
@@ -106,7 +106,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#四种实现延迟队列的方式"><span class="toc-number">1.</span> <span class="toc-text">四种实现延迟队列的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定时任务轮询db"><span class="toc-number">1.1.</span> <span class="toc-text">定时任务轮询db</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK-的DelayQueue"><span class="toc-number">1.2.</span> <span class="toc-text">JDK 的DelayQueue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis的zset"><span class="toc-number">1.3.</span> <span class="toc-text">redis的zset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ的TTL-DLX"><span class="toc-number">1.4.</span> <span class="toc-text">RabbitMQ的TTL+DLX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#四种实现延迟队列的方式"><span class="toc-number">1.</span> <span class="toc-text">四种实现延迟队列的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定时任务轮询db"><span class="toc-number">1.1.</span> <span class="toc-text">定时任务轮询db</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK-的DelayQueue"><span class="toc-number">1.2.</span> <span class="toc-text">JDK 的DelayQueue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis的zset"><span class="toc-number">1.3.</span> <span class="toc-text">redis的zset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ的TTL-DLX"><span class="toc-number">1.4.</span> <span class="toc-text">RabbitMQ的TTL+DLX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时间片轮询"><span class="toc-number">1.5.</span> <span class="toc-text">时间片轮询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.6.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -138,7 +138,7 @@
 <h2 id="RabbitMQ的TTL-DLX"><a href="#RabbitMQ的TTL-DLX" class="headerlink" title="RabbitMQ的TTL+DLX"></a>RabbitMQ的TTL+DLX</h2><blockquote>
 <p>RabbitMQ可设置消息过期时间（TTL），当消息过期后可以将该消息投递到队列上设置的死信交换器（DLX）上。然后投递到死信队列中，重新消费。</p>
 </blockquote>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>  
+<h2 id="时间片轮询"><a href="#时间片轮询" class="headerlink" title="时间片轮询"></a>时间片轮询</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -173,6 +173,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2022/01/27/spring-boot集成redis学习/" title="spring-boot集成redis学习">
+  <strong>上一篇：</strong><br/>
+  <span>
+  spring-boot集成redis学习</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2022/01/11/RabbitMQ多源配置/"  title="RabbitMQ多源配置及ack相关使用">
@@ -202,7 +210,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#四种实现延迟队列的方式"><span class="toc-number">1.</span> <span class="toc-text">四种实现延迟队列的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定时任务轮询db"><span class="toc-number">1.1.</span> <span class="toc-text">定时任务轮询db</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK-的DelayQueue"><span class="toc-number">1.2.</span> <span class="toc-text">JDK 的DelayQueue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis的zset"><span class="toc-number">1.3.</span> <span class="toc-text">redis的zset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ的TTL-DLX"><span class="toc-number">1.4.</span> <span class="toc-text">RabbitMQ的TTL+DLX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#四种实现延迟队列的方式"><span class="toc-number">1.</span> <span class="toc-text">四种实现延迟队列的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定时任务轮询db"><span class="toc-number">1.1.</span> <span class="toc-text">定时任务轮询db</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK-的DelayQueue"><span class="toc-number">1.2.</span> <span class="toc-text">JDK 的DelayQueue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis的zset"><span class="toc-number">1.3.</span> <span class="toc-text">redis的zset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ的TTL-DLX"><span class="toc-number">1.4.</span> <span class="toc-text">RabbitMQ的TTL+DLX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时间片轮询"><span class="toc-number">1.5.</span> <span class="toc-text">时间片轮询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.6.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
  
   </div>
 
@@ -322,7 +330,7 @@
 		  
 		
 		  
-			<li><a href="/categories/redis/" title="redis">redis<sup>1</sup></a></li>
+			<li><a href="/categories/redis/" title="redis">redis<sup>2</sup></a></li>
 		  
 		
 		  
@@ -439,7 +447,7 @@
 			
 		
 			
-				<li><a href="/tags/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
 			
 		
 			
@@ -467,11 +475,11 @@
 			
 		
 			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+				<li><a href="/tags/redis/" title="redis">redis<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
 			
 		
 			
@@ -483,7 +491,15 @@
 			
 		
 			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
 			
 		
 			
@@ -491,7 +507,7 @@
 			
 		
 			
-				<li><a href="/tags/maven/" title="maven">maven<sup>2</sup></a></li>
+				<li><a href="/tags/rabbitmq/" title="rabbitmq">rabbitmq<sup>2</sup></a></li>
 			
 		
 			
@@ -499,15 +515,7 @@
 			
 		
 			
-				<li><a href="/tags/rabbitmq/" title="rabbitmq">rabbitmq<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+				<li><a href="/tags/maven/" title="maven">maven<sup>2</sup></a></li>
 			
 		
 		</ul>
