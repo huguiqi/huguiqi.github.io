@@ -28,7 +28,9 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNgy1gytepkhvlaj312e0jk751.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNgy1gyteru1xn8j31aq0eagn7.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNgy1gytesqf37gj31b409emy5.jpg">
-<meta property="og:updated_time" content="2022-01-28T12:06:46.866Z">
+<meta property="og:image" content="https://static001.infoq.cn/resource/image/e4/52/e44bbaae05ff8f204f491dc21aa9a252.png">
+<meta property="og:image" content="https://static001.infoq.cn/resource/image/7f/5e/7f40f79963ec22fba09757b64cbb5e5e.png">
+<meta property="og:updated_time" content="2022-02-07T07:48:40.020Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="五种实现延迟队列的方式">
 <meta name="twitter:description" content="五种实现延迟队列的方式定时任务轮询db用户下单后db中会生成一条订单记录，记录了订单号、用户ID、创建时间、订单详情、订单状态等信息。假设超时时间是600秒，我们后台起一个定时任务，每隔固定时间运行一次，每次扫描db中的超时订单select * from order where createTime &amp;lt;= now()-600，然后取消查询到的订单。 这种方法实现简单，但是有很多缺点。超时时间">
@@ -188,9 +190,9 @@
 <p>zset 会按 score 进行排序，如果 score 代表想要执行时间的时间戳。在某个时间将它插入zset集合中，它变会按照时间戳大小进行排序，也就是对执行时间前后进行排序。</p>
 <p>起一个死循环线程不断地进行取第一个key值，如果当前时间戳大于等于该key值的socre就将它取出来进行消费删除，可以达到延时执行的目的。</p>
 </li>
-<li><p>排行榜<br>经常浏览技术社区的话，应该对 “1小时最热门” 这类榜单不陌生。如何实现呢？如果记录在数据库中，不太容易对实时统计数据做区分。我们以当前小时的时间戳作为 zset 的 key，把贴子ID作为 member ，点击数评论数等作为 score，当 score 发生变化时更新 score。利用 ZREVRANGE 或者 ZRANGE 查到对应数量的记录。</p>
+<li><p>排行榜<br> 经常浏览技术社区的话，应该对 “1小时最热门” 这类榜单不陌生。如何实现呢？如果记录在数据库中，不太容易对实时统计数据做区分。我们以当前小时的时间戳作为 zset 的 key，把贴子ID作为 member ，点击数评论数等作为 score，当 score 发生变化时更新 score。利用 ZREVRANGE 或者 ZRANGE 查到对应数量的记录。</p>
 </li>
-<li><p>限流<br>滑动窗口是限流常见的一直策略。如果我们把一个用户的 ID 作为key 来定义一个 zset ，member 或者 score 都为访问时的时间戳。我们只需统计某个 key 下在指定时间戳区间内的个数，就能得到这个用户滑动窗口内访问频次，与最大通过次数比较，来决定是否允许通过。</p>
+<li><p>限流<br> 滑动窗口是限流常见的一直策略。如果我们把一个用户的 ID 作为key 来定义一个 zset ，member 或者 score 都为访问时的时间戳。我们只需统计某个 key 下在指定时间戳区间内的个数，就能得到这个用户滑动窗口内访问频次，与最大通过次数比较，来决定是否允许通过。</p>
 </li>
 </ol>
 <h3 id="java代码实现redis延迟队列"><a href="#java代码实现redis延迟队列" class="headerlink" title="java代码实现redis延迟队列"></a>java代码实现redis延迟队列</h3><p>将任务加入队列中，作为生产者，TaskProducer.java:</p>
@@ -214,7 +216,7 @@
 <ol>
 <li>什么是死信队列</li>
 </ol>
-<p>死信交换机: DLX，dead-letter-exchange 其实就是在一般的队列上面设置dlx属性。 利用 dlx，当消息在一个队列中变成死信 (dead message) 之后，它能被重新 publish 到另一个 exchange，这个 exchange 就是 dlx</p>
+<p>死信交换机: DLX，dead-letter-exchange 其实就是在一般的队列上面设置dlx属性。 利用 dlx，当消息在一个队列中变成死信 (dead message) 之后，它能被重新 publish 到另一个 exchange，这个 exchange 就是 dlx, 而连接dead-letter-exchange交换机的队列就叫死信队列。</p>
 <ol>
 <li>什么情况会变成死信队列</li>
 </ol>
@@ -224,9 +226,9 @@
 <li>实现死信的两种方式</li>
 </ol>
 <ul>
-<li><p>设置原生队列dlx参数</p>
+<li><p>设置原生队列TTL参数</p>
 </li>
-<li><p>安装rabbitMQ官方提供的插件</p>
+<li><p>安装rabbitMQ官方提供的插件(rabbitmq-delayed-message-exchange)，可支持对message设置TTL</p>
 </li>
 </ul>
 <ol>
@@ -251,7 +253,19 @@
 <p><img src="https://tva1.sinaimg.cn/large/008i3skNgy1gytesqf37gj31b409emy5.jpg" alt="image-20220128151720632"></p>
 <p><a href="https://www.cnblogs.com/mfrank/p/11184929.html" target="_blank" rel="noopener">参考文章</a></p>
 <p><a href="https://github.com/huguiqi/springboot-rabbitmq-sample.git" target="_blank" rel="noopener">代码实现在这里</a></p>
-<h2 id="时间片轮询"><a href="#时间片轮询" class="headerlink" title="时间片轮询"></a>时间片轮询</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><table>
+<h2 id="时间片轮询"><a href="#时间片轮询" class="headerlink" title="时间片轮询"></a>时间片轮询</h2><p><img src="https://static001.infoq.cn/resource/image/e4/52/e44bbaae05ff8f204f491dc21aa9a252.png" alt="img"></p>
+<p><img src="https://static001.infoq.cn/resource/image/7f/5e/7f40f79963ec22fba09757b64cbb5e5e.png" alt="img"></p>
+<p><a href="https://zhuanlan.zhihu.com/p/121483218" target="_blank" rel="noopener">原理</a></p>
+<p><a href="https://juejin.cn/post/6961633277199253534" target="_blank" rel="noopener">实现1</a></p>
+<p>时间轮是通过代码实现的消费者的实现，并利用kafka的暂停和恢复功能来实现延时消费，不适用跨度比较长的延时消息，无法持久轮询状态，且执行时间误差较大，在实际的生产应用中很少使用。</p>
+<blockquote>
+<p>延时消息队列最优的中间件实现是rocketMQ, rocketMQ显示的支持设置40天以内的任何时刻(单位为毫秒)，并且支持延时消息持久化, 容灾能力强。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*发送延时消息，需要设置延时时间，单位毫秒（ms），消息将在指定延时时间后投递，例如消息将在3秒后投递。*/</span></span><br><span class="line">                <span class="keyword">long</span> delayTime = System.currentTimeMillis() + <span class="number">3000</span>;</span><br><span class="line">                msg.putUserProperty(<span class="string">"__STARTDELIVERTIME"</span>, String.valueOf(delayTime));</span><br><span class="line">      </span><br><span class="line">                <span class="comment">/**</span></span><br><span class="line"><span class="comment">                *若需要发送定时消息，则需要设置定时时间，消息将在指定时间进行投递，例如消息将在2021-08-10 18:45:00投递。</span></span><br><span class="line"><span class="comment">                *定时时间格式为：yyyy-MM-dd HH:mm:ss，若设置的时间戳在当前时间之前，则消息将被立即投递给Consumer。</span></span><br><span class="line"><span class="comment">                * long timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2021-08-10 18:45:00").getTime();</span></span><br><span class="line"><span class="comment">                * msg.putUserProperty("__STARTDELIVERTIME", String.valueOf(timeStamp));</span></span><br><span class="line"><span class="comment">                */</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/dushixiang/kafka-map/blob/master/src/test/java/cn/typesafe/km/DelayQueueTest.java" target="_blank" rel="noopener">代码实现</a></p>
+<p><a href="https://www.jianshu.com/p/b73ebc49931f" target="_blank" rel="noopener">参考文章</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/142441996#:~:text=RocketMQ%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E8%B7%AF%E6%98%AF%EF%BC%9A%E6%89%80%E6%9C%89%E7%9A%84%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF%E7%94%B1producer%E5%8F%91%E5%87%BA%E4%B9%8B%E5%90%8E%EF%BC%8C%E9%83%BD%E4%BC%9A%E5%AD%98%E6%94%BE%E5%88%B0%E5%90%8C%E4%B8%80%E4%B8%AAtopic%EF%BC%88SCHEDULE_TOPIC_XXXX%EF%BC%89%E4%B8%8B%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BB%B6%E8%BF%9F%E7%BA%A7%E5%88%AB%E4%BC%9A%E5%AF%B9%E5%BA%94%E4%B8%8D%E5%90%8C%E7%9A%84%E9%98%9F%E5%88%97%E5%BA%8F%E5%8F%B7%EF%BC%8C%E5%BD%93%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4%E5%88%B0%E4%B9%8B%E5%90%8E%EF%BC%8C%E7%94%B1%E5%AE%9A%E6%97%B6%E7%BA%BF%E7%A8%8B%E8%AF%BB%E5%8F%96%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%99%AE%E9%80%9A%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%8C%87%E5%AE%9A%E7%9A%84topic%E4%B8%8B%EF%BC%8C%E6%AD%A4%E6%97%B6%E5%AF%B9%E4%BA%8Econsumer%E7%AB%AF%E6%AD%A4%E6%B6%88%E6%81%AF%E6%89%8D%E5%8F%AF%E8%A7%81%EF%BC%8C%E4%BB%8E%E8%80%8C%E8%A2%ABconsumer%E6%B6%88%E8%B4%B9%E3%80%82.%20%E6%B3%A8%E6%84%8F%EF%BC%9ARocketMQ%E4%B8%8D%E6%94%AF%E6%8C%81%E4%BB%BB%E6%84%8F%E6%97%B6%E9%97%B4%E7%9A%84%E5%BB%B6%E6%97%B6%EF%BC%8C%E5%8F%AA%E6%94%AF%E6%8C%81%E4%BB%A5%E4%B8%8B%E5%87%A0%E4%B8%AA%E5%9B%BA%E5%AE%9A%E7%9A%84%E5%BB%B6%E6%97%B6%E7%AD%89%E7%BA%A7.%20private%20String%20messageDelayLevel%20%3D%20%221s%205s,7m%208m%209m%2010m%2020m%2030m%201h%202h%22%3B" target="_blank" rel="noopener">参考文章2</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><table>
 <thead>
 <tr>
 <th>方案</th>
@@ -283,7 +297,7 @@
 <tr>
 <td>kafka时间片轮询</td>
 <td>性能好，效率高、速度快(内存中),支持集群环境</td>
-<td>不适用跨度非常大的场景，不支持持久化与高可用</td>
+<td>不适用时间跨度非常大的场景，不支持持久化与高可用</td>
 </tr>
 </tbody>
 </table>
@@ -484,7 +498,7 @@
 		  
 		
 		  
-			<li><a href="/categories/redis/" title="redis">redis<sup>2</sup></a></li>
+			<li><a href="/categories/redis/" title="redis">redis<sup>3</sup></a></li>
 		  
 		
 		  
@@ -621,11 +635,11 @@
 			
 		
 			
-				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+				<li><a href="/tags/redis/" title="redis">redis<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
 			
 		
 			
@@ -633,7 +647,7 @@
 			
 		
 			
-				<li><a href="/tags/redis/" title="redis">redis<sup>3</sup></a></li>
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 			
 		
 			
@@ -649,15 +663,15 @@
 			
 		
 			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
 			
 		
 			
