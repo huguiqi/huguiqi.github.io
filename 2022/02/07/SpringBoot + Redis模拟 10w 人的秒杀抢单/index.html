@@ -22,14 +22,14 @@
 <meta property="og:site_name" content="小黑的技术博客">
 <meta property="og:description" content="SpringBoot + Redis模拟 10w 人的秒杀抢单！本篇内容主要讲解的是redis分布式锁，这个在各大厂面试几乎都是必备的，下面结合模拟抢单的场景来使用她；本篇不涉及到的redis环境搭建，快速搭建个人测试环境，这里建议使用docker；本篇内容节点如下： Jedis的nx生成锁如何删除锁模拟抢单动作(10w个人开抢)jedis的nx生成锁对于java中想操作redis，好的方式是使用">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/JdLkEI9sZfet04nYdzibDfc7P4CHXOMOrxmhX9vHgPj5V7q42hIlprH8FIFORykmo1aITUkSohkxcHC3EdeJqHA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/JdLkEI9sZfet04nYdzibDfc7P4CHXOMOr2ab4ibYrqkm6t9NgNClQZAdU4uicsGIRuwwvPGiaaOxicByTnhjG1f5PKg/640?wx_fmt=jpeg&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/JdLkEI9sZfet04nYdzibDfc7P4CHXOMOr0icsSacJcYIZMrJANVB0ErgfFRu4Aibnu5TXEWq0icNl37icw4nRl6Evhw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:updated_time" content="2022-02-07T12:46:12.024Z">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gz68prkhjwj30il055q3m.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gz68sbgcmcj30je0c7aba.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNgy1gz68tch07vj30jl01qmxc.jpg">
+<meta property="og:updated_time" content="2022-02-08T09:43:45.545Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot + Redis：模拟 10w 人的秒杀抢单！">
 <meta name="twitter:description" content="SpringBoot + Redis模拟 10w 人的秒杀抢单！本篇内容主要讲解的是redis分布式锁，这个在各大厂面试几乎都是必备的，下面结合模拟抢单的场景来使用她；本篇不涉及到的redis环境搭建，快速搭建个人测试环境，这里建议使用docker；本篇内容节点如下： Jedis的nx生成锁如何删除锁模拟抢单动作(10w个人开抢)jedis的nx生成锁对于java中想操作redis，好的方式是使用">
-<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_png/JdLkEI9sZfet04nYdzibDfc7P4CHXOMOrxmhX9vHgPj5V7q42hIlprH8FIFORykmo1aITUkSohkxcHC3EdeJqHA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gz68prkhjwj30il055q3m.jpg">
 <meta name="twitter:creator" content="@XiaoheiSpring">
 <link rel="publisher" href="109318125124422212783">
 
@@ -138,7 +138,7 @@
 <p>setnx如果失败直接封装返回false即可，下面我们通过一个get方式的api来调用下这个setnx方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/setnx/&#123;key&#125;/&#123;val&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">setnx</span><span class="params">(@PathVariable String key, @PathVariable String val)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> jedisCom.setnx(key, val);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>访问如下测试url，正常来说第一次返回了true，第二次返回了false，由于第二次请求的时候redis的key已存在，所以无法set成功</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/JdLkEI9sZfet04nYdzibDfc7P4CHXOMOrxmhX9vHgPj5V7q42hIlprH8FIFORykmo1aITUkSohkxcHC3EdeJqHA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gz68prkhjwj30il055q3m.jpg" alt="图片"></p>
 <p>由上图能够看到只有一次set成功，并key具有一个有效时间，此时已到达了分布式锁的条件。</p>
 <h2 id="如何删除锁"><a href="#如何删除锁" class="headerlink" title="如何删除锁"></a>如何删除锁</h2><p>上面是创建锁，同样的具有有效时间，但是我们不能完全依赖这个有效时间，场景如：有效时间设置1分钟，本身用户A获取锁后，没遇到什么特殊情况正常生成了抢购订单后，此时其他用户应该能正常下单了才对，但是由于有个1分钟后锁才能自动释放，那其他用户在这1分钟无法正常下单（因为锁还是A用户的），因此我们需要A用户操作完后，主动去解锁：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public int delnx(String key, String val) &#123;</span><br><span class="line">       Jedis jedis = null;</span><br><span class="line">       try &#123;</span><br><span class="line">           jedis = jedisPool.getResource();</span><br><span class="line">           if (jedis == null) &#123;</span><br><span class="line">               return 0;</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
@@ -157,9 +157,9 @@
 <p>4、jedisCom.setnx(shangpingKey, b)：用户获取抢购锁</p>
 <p>5、获取锁后并下单成功，最后释放锁：jedisCom.delnx(shangpingKey, b)</p>
 <p>再来看下记录的日志结果：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/JdLkEI9sZfet04nYdzibDfc7P4CHXOMOr2ab4ibYrqkm6t9NgNClQZAdU4uicsGIRuwwvPGiaaOxicByTnhjG1f5PKg/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNly1gz68sbgcmcj30je0c7aba.jpg" alt="图片"></p>
 <p>最终返回抢购成功的用户：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/JdLkEI9sZfet04nYdzibDfc7P4CHXOMOr0icsSacJcYIZMrJANVB0ErgfFRu4Aibnu5TXEWq0icNl37icw4nRl6Evhw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p><img src="https://tva1.sinaimg.cn/large/008i3skNgy1gz68tch07vj30jl01qmxc.jpg" alt="图片"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
