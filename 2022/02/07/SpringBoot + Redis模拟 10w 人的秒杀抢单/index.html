@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gz68prkhjwj30il055q3m.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNly1gz68sbgcmcj30je0c7aba.jpg">
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNgy1gz68tch07vj30jl01qmxc.jpg">
-<meta property="og:updated_time" content="2022-02-10T09:00:48.730Z">
+<meta property="og:updated_time" content="2022-02-10T10:36:33.322Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot + Redis：模拟 10w 人的秒杀抢单！">
 <meta name="twitter:description" content="SpringBoot + Redis模拟 10w 人的秒杀抢单！本篇内容主要讲解的是redis分布式锁，这个在各大厂面试几乎都是必备的，下面结合模拟抢单的场景来使用她；本篇不涉及到的redis环境搭建，快速搭建个人测试环境，这里建议使用docker；本篇内容节点如下： Jedis的nx生成锁如何删除锁模拟抢单动作(10w个人开抢)jedis的nx生成锁对于java中想操作redis，好的方式是使用">
@@ -243,6 +243,7 @@ String ret = jedis.set(key, val, setParams);
 <p>正确使用jedis：</p>
 <pre><code>1. jedis即用即取,用完就关
 2. jedis实例不可作为共享变量来使用,调用close后，无法重连获取连接
+3. jedis实例其实就是JedisPool中的客户端连接，不应该为作共享变量来使用
 </code></pre><p>总结下来解决方案：</p>
 <p>  将jedis变量的作用域放到方法级别，方法执行完就回收掉<br>  本代码是使用的这种方式解决的，经过<code>jedis2.9.0</code>版本到<code>jedis 3.3.0</code>的升级与测试，最终得出结论：设置为方法级变量后，就不再出现那个报错了(即用即取，用完还掉，并关掉socket连接)。</p>
 <p> <a href="https://github.com/huguiqi/springboot-jedis-sample" target="_blank" rel="noopener">实现代码地址</a></p>
