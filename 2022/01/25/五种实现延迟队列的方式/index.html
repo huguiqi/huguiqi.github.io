@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://tva1.sinaimg.cn/large/008i3skNgy1gytesqf37gj31b409emy5.jpg">
 <meta property="og:image" content="https://static001.infoq.cn/resource/image/e4/52/e44bbaae05ff8f204f491dc21aa9a252.png">
 <meta property="og:image" content="https://static001.infoq.cn/resource/image/7f/5e/7f40f79963ec22fba09757b64cbb5e5e.png">
-<meta property="og:updated_time" content="2022-02-07T07:48:40.020Z">
+<meta property="og:updated_time" content="2022-02-11T04:23:35.130Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="五种实现延迟队列的方式">
 <meta name="twitter:description" content="五种实现延迟队列的方式定时任务轮询db用户下单后db中会生成一条订单记录，记录了订单号、用户ID、创建时间、订单详情、订单状态等信息。假设超时时间是600秒，我们后台起一个定时任务，每隔固定时间运行一次，每次扫描db中的超时订单select * from order where createTime &amp;lt;= now()-600，然后取消查询到的订单。 这种方法实现简单，但是有很多缺点。超时时间">
@@ -207,6 +207,8 @@
 <ul>
 <li>如果最小的score小于等于当前时间戳，就将该任务取出来执行，否则休眠一段时间后再查询</li>
 </ul>
+<p>写个单元测试模拟触发:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = Demo1Application.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DelayQueenTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> TaskProducer taskProducer;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="keyword">private</span> TaskConsumer taskConsumer;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDelayQueen_query</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="comment">//创建 3个任务，并设置超时间为 10s 5s 20s</span></span><br><span class="line">      taskProducer.produce(<span class="number">1</span>, System.currentTimeMillis() + <span class="number">10000</span>);</span><br><span class="line">      taskProducer.produce(<span class="number">2</span>, System.currentTimeMillis() + <span class="number">5000</span>);</span><br><span class="line">      taskProducer.produce(<span class="number">3</span>, System.currentTimeMillis() + <span class="number">20000</span>);</span><br><span class="line"></span><br><span class="line">      System.out.println(<span class="string">"等待任务执行==========="</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">//消费端从redis中消费任务</span></span><br><span class="line">      taskConsumer.consumer();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">         TimeUnit.MILLISECONDS.sleep(<span class="number">50000</span>);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">         e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><a href="https://github.com/huguiqi/springboot-redis" target="_blank" rel="noopener">demo</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/148667260" target="_blank" rel="noopener">参考文章</a></p>
 <p><a href="https://www.runoob.com/redis/sorted-sets-zrangebyscore.html" target="_blank" rel="noopener">redis命令行中文教程</a></p>
@@ -498,7 +500,7 @@
 		  
 		
 		  
-			<li><a href="/categories/redis/" title="redis">redis<sup>3</sup></a></li>
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
 		  
 		
 		  
@@ -514,11 +516,11 @@
 		  
 		
 		  
-			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
 		  
 		
 		  
@@ -635,11 +637,35 @@
 			
 		
 			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/redis/" title="redis">redis<sup>4</sup></a></li>
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
@@ -651,27 +677,7 @@
 			
 		
 			
-				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
 			
 		
 			
@@ -679,11 +685,7 @@
 			
 		
 			
-				<li><a href="/tags/maven/" title="maven">maven<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
 			
 		
 			
@@ -691,7 +693,7 @@
 			
 		
 			
-				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
 			
 		
 		</ul>
