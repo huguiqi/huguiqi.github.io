@@ -1,0 +1,1068 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>2022年2月interView | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="2022年2月interView做总结，复习，学习。。。。。。  java所有问题基于jdk1.8  jvm的两种回收机制，cms和g1的工作原理及区别 cms  暂停性内存回收，采用标记–清除算法, 块状清理，容易产生更多碎片。 gc运行时将使所有线程挂起，导致系统服务出现短暂停止。  g1  jdk1.7推出，采用并行、并发标记整理算法，可预测停顿，产生更少的碎片, 以网格方式进行gc分析处理">
+<meta name="keywords" content="题目,review">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2022年2月interView">
+<meta property="og:url" content="http://clockcoder.com/2022/02/22/2022年2月interView/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="2022年2月interView做总结，复习，学习。。。。。。  java所有问题基于jdk1.8  jvm的两种回收机制，cms和g1的工作原理及区别 cms  暂停性内存回收，采用标记–清除算法, 块状清理，容易产生更多碎片。 gc运行时将使所有线程挂起，导致系统服务出现短暂停止。  g1  jdk1.7推出，采用并行、并发标记整理算法，可预测停顿，产生更少的碎片, 以网格方式进行gc分析处理">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2022-03-02T18:18:44.882Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2022年2月interView">
+<meta name="twitter:description" content="2022年2月interView做总结，复习，学习。。。。。。  java所有问题基于jdk1.8  jvm的两种回收机制，cms和g1的工作原理及区别 cms  暂停性内存回收，采用标记–清除算法, 块状清理，容易产生更多碎片。 gc运行时将使所有线程挂起，导致系统服务出现短暂停止。  g1  jdk1.7推出，采用并行、并发标记整理算法，可预测停顿，产生更少的碎片, 以网格方式进行gc分析处理">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2022/02/22/2022年2月interView/" title="2022年2月interView" itemprop="url">2022年2月interView</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2022-02-22T02:17:52.189Z" itemprop="datePublished"> 发表于 2022-02-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2022年2月interView"><span class="toc-number">1.</span> <span class="toc-text">2022年2月interView</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#jvm的两种回收机制，cms和g1的工作原理及区别"><span class="toc-number">1.1.</span> <span class="toc-text">jvm的两种回收机制，cms和g1的工作原理及区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM运行中新生代对象在什么情况下，会被上升到老年代？"><span class="toc-number">1.2.</span> <span class="toc-text">JVM运行中新生代对象在什么情况下，会被上升到老年代？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么判断对象可回收"><span class="toc-number">1.2.1.</span> <span class="toc-text">怎么判断对象可回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆中有对象可回收时，触发的哪种机制回收"><span class="toc-number">1.2.2.</span> <span class="toc-text">堆中有对象可回收时，触发的哪种机制回收</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#gc时采用的算法"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">gc时采用的算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM是如何与cpu、内存进行调度交互的"><span class="toc-number">1.3.</span> <span class="toc-text">JVM是如何与cpu、内存进行调度交互的?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有个秒杀接口，接口中间调用了几个微服务接口，原来支持1000个QPS-现在要求优化，将QPS提升到1万-，怎么优化"><span class="toc-number">1.4.</span> <span class="toc-text">有个秒杀接口，接口中间调用了几个微服务接口，原来支持1000个QPS, 现在要求优化，将QPS提升到1万+，怎么优化?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工作中有解决过什么问题，解决思路是什么"><span class="toc-number">1.5.</span> <span class="toc-text">工作中有解决过什么问题，解决思路是什么?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用重启问题"><span class="toc-number">1.5.1.</span> <span class="toc-text">应用重启问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#集群相关配置"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">集群相关配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#cluster-partition-handling"><span class="toc-number">1.5.1.1.1.</span> <span class="toc-text">cluster_partition_handling</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#如何处理rabbitMQ集群脑裂问题"><span class="toc-number">1.5.1.1.1.1.</span> <span class="toc-text">如何处理rabbitMQ集群脑裂问题</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mirroring-sync-batch-size"><span class="toc-number">1.5.1.1.2.</span> <span class="toc-text">mirroring_sync_batch_size</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#rabbitMQ集群发现机制"><span class="toc-number">1.5.1.1.3.</span> <span class="toc-text">rabbitMQ集群发现机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端配置"><span class="toc-number">1.5.2.</span> <span class="toc-text">客户端配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rabbitMQ-怎么保证100-消息不丢失"><span class="toc-number">1.6.</span> <span class="toc-text">rabbitMQ 怎么保证100%消息不丢失?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#你们微服务系统主要使用了哪些监控系统"><span class="toc-number">1.7.</span> <span class="toc-text">你们微服务系统主要使用了哪些监控系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#链路追踪"><span class="toc-number">1.7.1.</span> <span class="toc-text">链路追踪</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#性能监控-amp-报警"><span class="toc-number">1.7.2.</span> <span class="toc-text">性能监控&amp;报警</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日志服务"><span class="toc-number">1.7.3.</span> <span class="toc-text">日志服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springcloud-限流设置具体是怎么设置的"><span class="toc-number">1.8.</span> <span class="toc-text">springcloud 限流设置具体是怎么设置的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springcloud-是如何实现限流的？限流算法是怎样的？"><span class="toc-number">1.9.</span> <span class="toc-text">springcloud 是如何实现限流的？限流算法是怎样的？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#限流算法"><span class="toc-number">1.9.1.</span> <span class="toc-text">限流算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java如何实现hash表的"><span class="toc-number">1.10.</span> <span class="toc-text">java如何实现hash表的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单链表有什么优缺点"><span class="toc-number">1.11.</span> <span class="toc-text">单链表有什么优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在过去的项目中，是否有通过状态机去实现一些功能"><span class="toc-number">1.12.</span> <span class="toc-text">在过去的项目中，是否有通过状态机去实现一些功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#熔断机制"><span class="toc-number">1.12.1.</span> <span class="toc-text">熔断机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#规则引擎"><span class="toc-number">1.12.2.</span> <span class="toc-text">规则引擎</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#微服务的项目里是用什么方式实现限流的"><span class="toc-number">1.13.</span> <span class="toc-text">微服务的项目里是用什么方式实现限流的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sentinel"><span class="toc-number">1.13.1.</span> <span class="toc-text">Sentinel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hystrix"><span class="toc-number">1.13.2.</span> <span class="toc-text">Hystrix</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何实现接口的幂等性"><span class="toc-number">1.14.</span> <span class="toc-text">如何实现接口的幂等性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库乐观锁"><span class="toc-number">1.14.1.</span> <span class="toc-text">数据库乐观锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全局唯一键ID约束"><span class="toc-number">1.14.2.</span> <span class="toc-text">全局唯一键ID约束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防重Token令牌"><span class="toc-number">1.14.3.</span> <span class="toc-text">防重Token令牌</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递请求ID-认证key"><span class="toc-number">1.14.4.</span> <span class="toc-text">传递请求ID+认证key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql数据库有几种存储引擎"><span class="toc-number">1.15.</span> <span class="toc-text">mysql数据库有几种存储引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#innerDB"><span class="toc-number">1.15.1.</span> <span class="toc-text">innerDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#isMySam"><span class="toc-number">1.15.2.</span> <span class="toc-text">isMySam</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql数据库水平方向的扩展"><span class="toc-number">1.16.</span> <span class="toc-text">mysql数据库水平方向的扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#垂直-纵向-拆分："><span class="toc-number">1.16.1.</span> <span class="toc-text">垂直(纵向)拆分：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#水平-横向-拆分："><span class="toc-number">1.16.2.</span> <span class="toc-text">水平(横向)拆分：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库什么时候分区，什么时候分库，什么时候分表"><span class="toc-number">1.17.</span> <span class="toc-text">数据库什么时候分区，什么时候分库，什么时候分表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql数据库插入一条数据，具体做了什么事情"><span class="toc-number">1.18.</span> <span class="toc-text">mysql数据库插入一条数据，具体做了什么事情</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql集群部署方式"><span class="toc-number">1.18.1.</span> <span class="toc-text">mysql集群部署方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何防止redis雪崩，穿透，击穿"><span class="toc-number">1.19.</span> <span class="toc-text">如何防止redis雪崩，穿透，击穿</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis有几种存储方式"><span class="toc-number">1.20.</span> <span class="toc-text">redis有几种存储方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux系统零拷贝"><span class="toc-number">1.21.</span> <span class="toc-text">linux系统零拷贝</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="2022年2月interView"><a href="#2022年2月interView" class="headerlink" title="2022年2月interView"></a>2022年2月interView</h1><p>做总结，复习，学习。。。。。。</p>
+<blockquote>
+<p>java所有问题基于jdk1.8</p>
+</blockquote>
+<h2 id="jvm的两种回收机制，cms和g1的工作原理及区别"><a href="#jvm的两种回收机制，cms和g1的工作原理及区别" class="headerlink" title="jvm的两种回收机制，cms和g1的工作原理及区别"></a>jvm的两种回收机制，cms和g1的工作原理及区别</h2><blockquote>
+<p>cms</p>
+</blockquote>
+<p>暂停性内存回收，采用标记–清除算法, 块状清理，容易产生更多碎片。</p>
+<p>gc运行时将使所有线程挂起，导致系统服务出现短暂停止。</p>
+<blockquote>
+<p>g1</p>
+</blockquote>
+<p>jdk1.7推出，采用并行、并发标记整理算法，可预测停顿，产生更少的碎片, 以网格方式进行gc分析处理。</p>
+<h2 id="JVM运行中新生代对象在什么情况下，会被上升到老年代？"><a href="#JVM运行中新生代对象在什么情况下，会被上升到老年代？" class="headerlink" title="JVM运行中新生代对象在什么情况下，会被上升到老年代？"></a>JVM运行中新生代对象在什么情况下，会被上升到老年代？</h2><p>答：未被使用的时候，如果没有引用了，对象会被直接回收，引发ygc。</p>
+<h3 id="怎么判断对象可回收"><a href="#怎么判断对象可回收" class="headerlink" title="怎么判断对象可回收"></a>怎么判断对象可回收</h3><p>需要进行一系列的可达性分析：</p>
+<ol>
+<li><p>查找无GC Root引用后，jvm将对其作一次mark</p>
+</li>
+<li><p>jvm不期对已标记对象进行筛选，根据情况再决定是否调用finalize方法</p>
+</li>
+<li><p>如果对象被判定需要执行finalize方法，则将此对象移入F-Queue队列中,等待 Finalizer 线程执行</p>
+</li>
+<li><p>执行finalize方法中，GC将对F-Queue中对象进行二次标记，用来判定是否触发gc</p>
+</li>
+</ol>
+<blockquote>
+<p> 通过一系列的 ‘GC Roots’ 的对象作为起始点，从这些节点出发所走过的路径称为引用链。当一个对象到 GC Roots 没有任何引用链相连的时候说明对象可回收，没有被使用。</p>
+</blockquote>
+<p>可作为 GC Roots 的对象：</p>
+<ul>
+<li>虚拟机栈(栈帧中的本地变量表)中引用的对象</li>
+<li>方法区中类静态属性引用的对象</li>
+<li>方法区中常量引用的对象</li>
+<li>本地方法栈中 JNI(即一般说的 Native 方法) 引用的对象</li>
+</ul>
+<h3 id="堆中有对象可回收时，触发的哪种机制回收"><a href="#堆中有对象可回收时，触发的哪种机制回收" class="headerlink" title="堆中有对象可回收时，触发的哪种机制回收"></a>堆中有对象可回收时，触发的哪种机制回收</h3><h4 id="gc时采用的算法"><a href="#gc时采用的算法" class="headerlink" title="gc时采用的算法"></a>gc时采用的算法</h4><ul>
+<li>标记–清除算法</li>
+<li>标记- 整理算法</li>
+</ul>
+<p>老年代gc时采用的算法</p>
+<ul>
+<li>复制算法</li>
+</ul>
+<p><a href="https://blog.csdn.net/qq_41701956/article/details/81664921" target="_blank" rel="noopener">JVM hotspot</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/358607300" target="_blank" rel="noopener">垃圾收集器</a></p>
+<h2 id="JVM是如何与cpu、内存进行调度交互的"><a href="#JVM是如何与cpu、内存进行调度交互的" class="headerlink" title="JVM是如何与cpu、内存进行调度交互的?"></a>JVM是如何与cpu、内存进行调度交互的?</h2><p>jvm相关文章参考：</p>
+<p><a href="https://blog.csdn.net/qq_41701956/article/details/81664921" target="_blank" rel="noopener">https://blog.csdn.net/qq_41701956/article/details/81664921</a></p>
+<p><a href="https://www.cnblogs.com/yichunguo/p/12007038.html" target="_blank" rel="noopener">https://www.cnblogs.com/yichunguo/p/12007038.html</a></p>
+<p><a href="https://blog.csdn.net/smartbetter/article/details/80561284" target="_blank" rel="noopener">https://blog.csdn.net/smartbetter/article/details/80561284</a></p>
+<h2 id="有个秒杀接口，接口中间调用了几个微服务接口，原来支持1000个QPS-现在要求优化，将QPS提升到1万-，怎么优化"><a href="#有个秒杀接口，接口中间调用了几个微服务接口，原来支持1000个QPS-现在要求优化，将QPS提升到1万-，怎么优化" class="headerlink" title="有个秒杀接口，接口中间调用了几个微服务接口，原来支持1000个QPS, 现在要求优化，将QPS提升到1万+，怎么优化?"></a>有个秒杀接口，接口中间调用了几个微服务接口，原来支持1000个QPS, 现在要求优化，将QPS提升到1万+，怎么优化?</h2><p>异步队列？</p>
+<p>生产者消费者？</p>
+<p>确保最终一致性？事后补偿机制</p>
+<h2 id="工作中有解决过什么问题，解决思路是什么"><a href="#工作中有解决过什么问题，解决思路是什么" class="headerlink" title="工作中有解决过什么问题，解决思路是什么?"></a>工作中有解决过什么问题，解决思路是什么?</h2><h3 id="应用重启问题"><a href="#应用重启问题" class="headerlink" title="应用重启问题"></a>应用重启问题</h3><blockquote>
+<p>影响因素：</p>
+<ol>
+<li><p>内存分配不合理，堆内存溢出导致crash</p>
+</li>
+<li><p>线程池使用不当，核心线程数设置太高，导致大量线程请求连接堵塞，占用内存与io, 最大线程数2n+3</p>
+</li>
+</ol>
+</blockquote>
+<p>问题分析：</p>
+<p>以每秒打印一次gc情况：</p>
+<p>​        <figure class="highlight plain"><figcaption><span>-gcutil 12 1000```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">发现ygc特别频繁，平均2分钟一次，一小时几乎30次,一天720次，而fullgc一天平均16次。</span><br><span class="line"></span><br><span class="line">1. 由于fullgc的效率远没有ygc高，所以肯定是因为内存分配不合理，导致fullgc频繁，而ygc的次数特别高，说明在年轻代的对象生生特别快，导致年轻代需要通过频繁的gc来释放更多的空间以便容纳新对象。而老年代gc频繁，说明有越来越多的长期未释放的对象或线程占用资源，需要移动到老年代，而老年代由于空间不足，只能通过不断gc来释放，但由于fullgc太过频繁，而由于又是使用的CMS作为收集方式，系统将暂停，所有线程将会被挂起，而随着时间推移，系统暂停时间越来越长，导致k8s健康检查失败，从而导致触发重启。</span><br><span class="line">2. 通过观察，应用中活动线程数超过了3000个，而默认一个线程栈大小是1M，如果这3000个线程一直不回收，或者nio发生堵塞，则就会OOM, 而出现这种情况的原因是线程池参数配置有问题</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">解决方案：</span><br><span class="line"></span><br><span class="line">容器内存8G</span><br><span class="line"></span><br><span class="line">1. 调整jvm堆内存大小，将堆内存设置为5G(NewSize设置为3G，剩下的就是OldSize为2G), 还剩3G给非堆动态扩展(元空间默认大小21M, 其余将近3G内存由非堆支配)</span><br><span class="line">2. 设置线程池参数，将核心线程数设置为2+1，最大活跃线程数控制在2*2+1，blockQueue管通大小设置为100(经验参数)，将系统线程数控制在105个左右，减少非堆的内存压力。</span><br><span class="line">3. 将jvm参数中的线程栈大小设置为512kb, 减少线程stack内存占用，提高线程线数容量。</span><br><span class="line"></span><br><span class="line">N = int availableProcessors = Runtime.getRuntime().availableProcessors();容器这种写法有问题</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 包冲突导致应用访问异常问题</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt; 现象:</span><br><span class="line">&gt;</span><br><span class="line">&gt; 1. 应用可以正常启动</span><br><span class="line">&gt; 2. 业务接口通过postman可正常返回</span><br><span class="line">&gt; 3. curl 命令访问接口返回的http状态码为500，但有返回值</span><br><span class="line"></span><br><span class="line">原因：</span><br><span class="line"></span><br><span class="line">项目里有大量包冲突，其中hibenate的Validator包影响了springboot web中相关的包。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">解决方式：</span><br><span class="line"></span><br><span class="line">1. 解决包冲突</span><br><span class="line">2. 删除hibernate相关包（用不到）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 配置中心技术选型，各配置中心的区别与优缺点，为什么最终选择了那个?</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 有两个List,每个list都有100w条数据，现在要将两个list中的重复数据取出来，有什么办法(也可以借助第三方中间件实现)？</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一个map，将重复数据取出</span><br><span class="line"></span><br><span class="line">1. 将list以k,v存入map</span><br><span class="line">2. 将第二个list遍历，将值作为key去取，取到值则将其放入到新list中</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## rabbiMQ 配置问题</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 服务端配置</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt; num_acceptors.tcp tcp 接受TCP侦听器连接的Erlang进程数。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">一旦打开了一个使用tcp连接的套接字，它就始终保持打开状态，直至任何一方关闭它或因为一个错误而终止。在建立一个连接时，一般为每一次请求产生一个新进程，num_acceptors就是控制产生新进程的个数。假设有一个监听进程，其任务是等待传入的tcp请求。只要一个请求到达，响应该连接请求的进程就变成了接收进程。默认的配置为num_acceptors.tcp = 10。</span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">num_acceptors.tcp = 10</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>handshake_timeout  </p>
+<p>Maximum time for AMQP 0-9-1 handshake (after socket connection and TLS handshake), in milliseconds.</p>
+</blockquote>
+<p>AMQP 0-9-1握手（socket连接和TLS握手之后）的最大时间，以毫秒为单位。<br>默认的配置为handshake_timeout = 10000。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">handshake_timeout = 10000</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>channel_max</p>
+<p>Maximum permissible number of channels to negotiate with clients, not including a special channel number 0 used in the protocol. Setting to 0 means “unlimited”, a dangerous value since applications sometimes have channel leaks. Using more channels increases memory footprint of the broker.</p>
+</blockquote>
+<p>设置每个连接的最大允许通道数量。 0表示“没有限制”。默认的配置为channel_max = 2047。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">channel_max = 2047</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>max_message_size</p>
+<p>The largest allowed message payload size in bytes. Messages of larger size will be rejected with a suitable channel exception</p>
+</blockquote>
+<p>最大消息大小设置，超过了会抛出相应的通道异常来拒绝消息。</p>
+<p>默认值：134217728 byte， 最大值: 536870912 byte</p>
+<h4 id="集群相关配置"><a href="#集群相关配置" class="headerlink" title="集群相关配置"></a>集群相关配置</h4><h5 id="cluster-partition-handling"><a href="#cluster-partition-handling" class="headerlink" title="cluster_partition_handling"></a>cluster_partition_handling</h5><blockquote>
+<p>cluster_partition_handling</p>
+<p>How to handle network partitions? </p>
+</blockquote>
+<p>newwork partitions 就是脑裂，网络分裂,也叫 <code>脑裂（split-brain）</code></p>
+<h6 id="如何处理rabbitMQ集群脑裂问题"><a href="#如何处理rabbitMQ集群脑裂问题" class="headerlink" title="如何处理rabbitMQ集群脑裂问题"></a>如何处理rabbitMQ集群脑裂问题</h6><p>一种在系统的任何两个集群之间的所有网络连接同时发生故障后所出现的情况。发生这种情况时，分裂的系统双方都会从对方一侧重新启动应用程序，进而导致重复服务或裂脑。由网络分裂造成的最为严重的问题是它会影响共享磁盘上的数据。默认为ignore模式。如何处理网络分裂？详细的文档可以参考<a href="https://www.rabbitmq.com/partitions.html#automatic-handling" target="_blank" rel="noopener">官网文档</a></p>
+<p>rabbitMQ提供了四种处理模式可选:</p>
+<ul>
+<li><p>ignore：忽略不处理</p>
+</li>
+<li><p>pause_minority：暂停少数模式。</p>
+</li>
+</ul>
+<p>  RabbitMQ在看到其他节点停止后自动处于少数（即少于或等于节点总数的一半）的群集节点。 因此，它从CAP定理中选择对可用性的分裂容差。 这确保了在网络分裂的情况下，单个分裂中的节点最多的将继续运行。 只要分裂开始，少数的节点就会暂停，并在分裂结束时再次启动。</p>
+<ul>
+<li><p>autoheal：自动裁决。</p>
+<p>如果分裂被认为已经发生，RabbitMQ将自动决定获胜分裂，并且将重新启动不在获胜分裂中的所有节点。 与pause_minority模式不同，它在分裂结束时生效，而不是在启动时生效。</p>
+</li>
+<li><p>pause_if_all_down：暂停全部关闭模式。</p>
+<p>所有列出的节点都必须关闭以便RabbitMQ暂停群集节点。这接近暂停少数模式，但是，它允许管理员决定选择哪个节点，而不是依赖于上下文。例如，如果集群由机架A中的两个节点和机架B中的两个节点组成，并且机架之间的链路丢失，则暂停少数模式将暂停所有节点。如果管理员在机架A中列出了两个节点，那么在全部停机模式下，只有机架B中的节点才会暂停。请注意，列出的节点可能会在分区的两侧分裂：在这种情况下，没有节点会暂停。这就是为什么有一个额外的ignore / autoheal参数来指示如何从分区中恢复。</p>
+</li>
+</ul>
+<p><a href="https://juejin.cn/post/6844903895387340813" target="_blank" rel="noopener">参考文章1</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1027323" target="_blank" rel="noopener">参考文章2</a></p>
+<p><a href="https://www.jianshu.com/p/b7cc32b94d2a" target="_blank" rel="noopener">集群方式</a></p>
+<h5 id="mirroring-sync-batch-size"><a href="#mirroring-sync-batch-size" class="headerlink" title="mirroring_sync_batch_size"></a>mirroring_sync_batch_size</h5><p>在消息中镜像同步批量大小。增加这将加快同步，但批量总大小（以字节为单位）不得超过2 GiB。该设置可用于RabbitMQ 3.6.0或更高版本。默认的配置为 mirroring_sync_batch_size = 4096(4k)。</p>
+<p>default:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mirroring_sync_batch_size = 4096</span><br></pre></td></tr></table></figure>
+<h5 id="rabbitMQ集群发现机制"><a href="#rabbitMQ集群发现机制" class="headerlink" title="rabbitMQ集群发现机制"></a>rabbitMQ集群发现机制</h5><ul>
+<li>Config file</li>
+<li>DNS</li>
+</ul>
+<p><a href="https://www.cnblogs.com/guchunchao/p/13176206.html#_label0" target="_blank" rel="noopener">另rabbitMQ各集群模式实现</a></p>
+<p><a href="https://developer.aliyun.com/article/606985" target="_blank" rel="noopener">10个节点的集群搭建</a></p>
+<p><a href="https://www.cnblogs.com/doit8791/p/10295262.html#:~:text=RabbitMQ%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95.%20%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%88Load%20balance%EF%BC%89%E6%98%AF%E4%B8%80%E7%A7%8D%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%EF%BC%8C%E7%94%A8%E4%BA%8E%E5%9C%A8%E5%A4%9A%E4%B8%AA%E8%AE%A1%E7%AE%97%E6%9C%BA%EF%BC%88%E8%AE%A1%E7%AE%97%E6%9C%BA%E9%9B%86%E7%BE%A4%EF%BC%89%E3%80%81%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E3%80%81CPU%E3%80%81%E7%A3%81%E7%9B%98%E9%A9%B1%E5%8A%A8%E5%99%A8%E6%88%96%E5%85%B6%E4%BB%96%E8%B5%84%E6%BA%90%E4%B8%AD%E5%88%86%E9%85%8D%E8%B4%9F%E8%BD%BD%EF%BC%8C%E4%BB%A5%E8%BE%BE%E5%88%B0%E6%9C%80%E4%BD%B3%E8%B5%84%E6%BA%90%E4%BD%BF%E7%94%A8%E3%80%81%E6%9C%80%E5%A4%A7%E5%8C%96%E5%90%9E%E5%90%90%E7%8E%87%E3%80%81%E6%9C%80%E5%B0%8F%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4%E4%BB%A5%E5%8F%8A%E9%81%BF%E5%85%8D%E8%BF%87%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84%E3%80%82.,%E4%BD%BF%E7%94%A8%E5%B8%A6%E6%9C%89%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%9A%84%E5%A4%9A%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BB%84%E4%BB%B6%EF%BC%8C%E5%8F%96%E4%BB%A3%E5%8D%95%E4%B8%80%E7%9A%84%E7%BB%84%E4%BB%B6%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E5%86%97%E4%BD%99%E6%8F%90%E9%AB%98%E5%8F%AF%E9%9D%A0%E6%80%A7%E3%80%82.%20%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%80%9A%E5%B8%B8%E5%88%86%E4%B8%BA%E8%BD%AF%E4%BB%B6%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%92%8C%E7%A1%AC%E4%BB%B6%20" target="_blank" rel="noopener">负载均衡的几种方式</a></p>
+<p><a href="https://www.cnblogs.com/guchunchao/p/13176206.html#_label0" target="_blank" rel="noopener">https://www.cnblogs.com/guchunchao/p/13176206.html#_label0</a></p>
+<h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><blockquote>
+<p>prefetchCount参数的作用</p>
+</blockquote>
+<p>预加载，消费者消费之前将待消费消息放到本地block队列中，消费者消费完后直接从block中取下一消息f进行消费。</p>
+<blockquote>
+<p>有哪些size配置，分别是做什么的</p>
+</blockquote>
+<p><strong><em>setTxSize</em></strong>：设置事务当中可以处理的消息数量。</p>
+<h2 id="rabbitMQ-怎么保证100-消息不丢失"><a href="#rabbitMQ-怎么保证100-消息不丢失" class="headerlink" title="rabbitMQ 怎么保证100%消息不丢失?"></a>rabbitMQ 怎么保证100%消息不丢失?</h2><ul>
+<li>HA</li>
+<li>集群(镜像模式)</li>
+<li>异地多活(federation插件)</li>
+</ul>
+<p><a href="https://blog.csdn.net/w15802080081/article/details/121858744" target="_blank" rel="noopener">镜像模式</a></p>
+<h2 id="你们微服务系统主要使用了哪些监控系统"><a href="#你们微服务系统主要使用了哪些监控系统" class="headerlink" title="你们微服务系统主要使用了哪些监控系统"></a>你们微服务系统主要使用了哪些监控系统</h2><h3 id="链路追踪"><a href="#链路追踪" class="headerlink" title="链路追踪"></a>链路追踪</h3><blockquote>
+<p>skywalking</p>
+</blockquote>
+<p>优点：</p>
+<ol>
+<li>代码无侵入</li>
+<li>有dashboard</li>
+<li>apache 开源</li>
+</ol>
+<blockquote>
+<p>Spring Cloud Sleuth + zipkin</p>
+</blockquote>
+<p>查看微服务调用关系，非常清晰</p>
+<ol>
+<li>twitter 开源</li>
+<li>代码侵入</li>
+<li>链路更清晰</li>
+</ol>
+<p>、</p>
+<h3 id="性能监控-amp-报警"><a href="#性能监控-amp-报警" class="headerlink" title="性能监控&amp;报警"></a>性能监控&amp;报警</h3><blockquote>
+<p>Prometheus+Grafana</p>
+</blockquote>
+<h3 id="日志服务"><a href="#日志服务" class="headerlink" title="日志服务"></a>日志服务</h3><p>elk</p>
+<h2 id="springcloud-限流设置具体是怎么设置的"><a href="#springcloud-限流设置具体是怎么设置的" class="headerlink" title="springcloud 限流设置具体是怎么设置的"></a>springcloud 限流设置具体是怎么设置的</h2><blockquote>
+<p>至少说出类名</p>
+</blockquote>
+<p>实现 HystrixCommand父类</p>
+<p><a href="https://api.cloud.yisu.com/zixun/88871.html" target="_blank" rel="noopener">https://api.cloud.yisu.com/zixun/88871.html</a></p>
+<p><a href="https://blog.csdn.net/varyall/article/details/99722594" target="_blank" rel="noopener">https://blog.csdn.net/varyall/article/details/99722594</a></p>
+<h2 id="springcloud-是如何实现限流的？限流算法是怎样的？"><a href="#springcloud-是如何实现限流的？限流算法是怎样的？" class="headerlink" title="springcloud 是如何实现限流的？限流算法是怎样的？"></a>springcloud 是如何实现限流的？限流算法是怎样的？</h2><p>通过Hystixy</p>
+<h3 id="限流算法"><a href="#限流算法" class="headerlink" title="限流算法"></a>限流算法</h3><h2 id="java如何实现hash表的"><a href="#java如何实现hash表的" class="headerlink" title="java如何实现hash表的"></a>java如何实现hash表的</h2><p>hashTable</p>
+<p>## </p>
+<h2 id="单链表有什么优缺点"><a href="#单链表有什么优缺点" class="headerlink" title="单链表有什么优缺点"></a>单链表有什么优缺点</h2><h2 id="在过去的项目中，是否有通过状态机去实现一些功能"><a href="#在过去的项目中，是否有通过状态机去实现一些功能" class="headerlink" title="在过去的项目中，是否有通过状态机去实现一些功能"></a>在过去的项目中，是否有通过状态机去实现一些功能</h2><h3 id="熔断机制"><a href="#熔断机制" class="headerlink" title="熔断机制"></a>熔断机制</h3><h3 id="规则引擎"><a href="#规则引擎" class="headerlink" title="规则引擎"></a>规则引擎</h3><h2 id="微服务的项目里是用什么方式实现限流的"><a href="#微服务的项目里是用什么方式实现限流的" class="headerlink" title="微服务的项目里是用什么方式实现限流的"></a>微服务的项目里是用什么方式实现限流的</h2><blockquote>
+<p> 令牌桶算法</p>
+</blockquote>
+<ul>
+<li>固定窗口算法</li>
+</ul>
+<ul>
+<li>滑动窗口算法</li>
+</ul>
+<blockquote>
+<p>漏桶算法</p>
+</blockquote>
+<h3 id="Sentinel"><a href="#Sentinel" class="headerlink" title="Sentinel"></a>Sentinel</h3><h3 id="Hystrix"><a href="#Hystrix" class="headerlink" title="Hystrix"></a>Hystrix</h3><h2 id="如何实现接口的幂等性"><a href="#如何实现接口的幂等性" class="headerlink" title="如何实现接口的幂等性"></a>如何实现接口的幂等性</h2><h3 id="数据库乐观锁"><a href="#数据库乐观锁" class="headerlink" title="数据库乐观锁"></a>数据库乐观锁</h3><p>添加版本号或者时间戳</p>
+<h3 id="全局唯一键ID约束"><a href="#全局唯一键ID约束" class="headerlink" title="全局唯一键ID约束"></a>全局唯一键ID约束</h3><p>由数据库的唯一键约束来保证无重复数据产生</p>
+<p>唯一ID需保证分布式环境中全局唯一</p>
+<p>客户端—-&gt;请求分布式ID—-&gt;携带分布式ID请求业务接口—&gt;入库</p>
+<p>如果有重复请求进来，则数据库唯一键约束会将此脏数据挡在外面。</p>
+<h3 id="防重Token令牌"><a href="#防重Token令牌" class="headerlink" title="防重Token令牌"></a>防重Token令牌</h3><p>请求业务接口前从服务端拿一个token(此token唯一，存在redis中, key=token，value=userId)—–&gt;携带token访问新增接口—-&gt;服务端将token从redis中取出来，如果有值，且value与当前userId相匹配，则从redis中删除此token，并放行请求，否则就表示请求为重复请求或者非法请求。</p>
+<h3 id="传递请求ID-认证key"><a href="#传递请求ID-认证key" class="headerlink" title="传递请求ID+认证key"></a>传递请求ID+认证key</h3><p>所谓<strong>请求ID</strong>，其实就是每次向服务端请求时候附带一个短时间内唯一不重复的序列号，该序列号可以是一个<strong>有序 <code>ID</code></strong>，也可以是一个<strong>订单号</strong>，一般由下游生成，在调用上游服务端接口时附加该序列号和用于认证的 <code>ID</code>。</p>
+<p>当上游服务器收到请求信息后拿取该 <strong>请求ID</strong> 和下游 <strong>认证ID</strong> 进行组合，形成用于操作 Redis 的 <code>Key</code>，然后到 Redis 中查询是否存在对应的 <code>Key</code> 的键值对，根据其结果：</p>
+<ol>
+<li><strong>如果存在</strong>，就说明已经对该下游的该序列号的请求进行了业务处理，这时可以直接响应重复请求的错误信息。</li>
+<li><strong>如果不存在</strong>，就以该 <code>Key</code> 作为 Redis 的键，以下游关键信息作为存储的值（例如下游商传递的一些业务逻辑信息），将该键值对存储到 Redis 中 ，然后再正常执行对应的业务逻辑即可。</li>
+</ol>
+<p><a href="https://juejin.cn/post/6906290538761158670" target="_blank" rel="noopener">接口幂等性</a></p>
+<h2 id="mysql数据库有几种存储引擎"><a href="#mysql数据库有几种存储引擎" class="headerlink" title="mysql数据库有几种存储引擎"></a>mysql数据库有几种存储引擎</h2><h3 id="innerDB"><a href="#innerDB" class="headerlink" title="innerDB"></a>innerDB</h3><ol>
+<li>支持事务</li>
+<li>支持索引</li>
+</ol>
+<h3 id="isMySam"><a href="#isMySam" class="headerlink" title="isMySam"></a>isMySam</h3><h2 id="mysql数据库水平方向的扩展"><a href="#mysql数据库水平方向的扩展" class="headerlink" title="mysql数据库水平方向的扩展"></a>mysql数据库水平方向的扩展</h2><p>Mysql的扩展方案包括Scale Out和Scale Up两种。</p>
+<p>Scale Out(横向扩展)是指Application可以在水平方向上扩展。一般对数据中心的应用而言，Scale out指的是当添加更多的机器时，应用仍然可以很好的利用这些机器的资源来提升自己的效率从而达到很好的扩展性。</p>
+<p>Scale Up(纵向扩展)是指Application可以在垂直方向上扩展。一般对单台机器而言，Scale Up值得是当某个计算节点(机器)添加更多的CPU Cores，存储设备，使用更大的内存时，应用可以很充分的利用这些资源来提升自己的效率从而达到很好的扩展性。</p>
+<p>MySql的Sharding策略包括垂直切分和水平切分两种。</p>
+<h3 id="垂直-纵向-拆分："><a href="#垂直-纵向-拆分：" class="headerlink" title="垂直(纵向)拆分："></a>垂直(纵向)拆分：</h3><p>是指按功能模块拆分，以解决表与表之间的io竞争。比如分为订单库、商品库、用户库…这种方式多个数据库之间的表结构不同。</p>
+<p>表结构设计垂直切分。常见的一些场景包括</p>
+<p>a).大字段的垂直切分。单独将大字段建在另外的表中，提高基础表的访问性能，原则上在性能关键的应用中应当避免数据库的大字段</p>
+<p>b). 按照使用用途垂直切分。例如企业物料属性，可以按照基本属性、销售属性、采购属性、生产制造属性、财务会计属性等用途垂直切分</p>
+<p>c). 按照访问频率垂直切分。例如电子商务、Web 2.0系统中，如果用户属性设置非常多，可以将基本、使用频繁的属性和不常用的属性垂直切分开</p>
+<h3 id="水平-横向-拆分："><a href="#水平-横向-拆分：" class="headerlink" title="水平(横向)拆分："></a>水平(横向)拆分：</h3><p>将同一个表的数据进行分块保存到不同的数据库中，来解决单表中数据量增长出现的压力。这些数据库中的表结构完全相同。</p>
+<h2 id="数据库什么时候分区，什么时候分库，什么时候分表"><a href="#数据库什么时候分区，什么时候分库，什么时候分表" class="headerlink" title="数据库什么时候分区，什么时候分库，什么时候分表"></a>数据库什么时候分区，什么时候分库，什么时候分表</h2><p><a href="https://bbs.huaweicloud.com/blogs/331724#:~:text=Mysql%E7%9A%84%E6%89%A9%E5%B1%95%E6%96%B9%E6%A1%88%E5%8C%85%E6%8B%ACScale%20Out%E5%92%8CScale%20Up%E4%B8%A4%E7%A7%8D%E3%80%82%20Scale,Out%20%28%E6%A8%AA%E5%90%91%E6%89%A9%E5%B1%95%29%E6%98%AF%E6%8C%87Application%E5%8F%AF%E4%BB%A5%E5%9C%A8%E6%B0%B4%E5%B9%B3%E6%96%B9%E5%90%91%E4%B8%8A%E6%89%A9%E5%B1%95%E3%80%82%20%E4%B8%80%E8%88%AC%E5%AF%B9%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E7%9A%84%E5%BA%94%E7%94%A8%E8%80%8C%E8%A8%80%EF%BC%8CScale%20out%E6%8C%87%E7%9A%84%E6%98%AF%E5%BD%93%E6%B7%BB%E5%8A%A0%E6%9B%B4%E5%A4%9A%E7%9A%84%E6%9C%BA%E5%99%A8%E6%97%B6%EF%BC%8C%E5%BA%94%E7%94%A8%E4%BB%8D%E7%84%B6%E5%8F%AF%E4%BB%A5%E5%BE%88%E5%A5%BD%E7%9A%84%E5%88%A9%E7%94%A8%E8%BF%99%E4%BA%9B%E6%9C%BA%E5%99%A8%E7%9A%84%E8%B5%84%E6%BA%90%E6%9D%A5%E6%8F%90%E5%8D%87%E8%87%AA%E5%B7%B1%E7%9A%84%E6%95%88%E7%8E%87%E4%BB%8E%E8%80%8C%E8%BE%BE%E5%88%B0%E5%BE%88%E5%A5%BD%E7%9A%84%E6%89%A9%E5%B1%95%E6%80%A7%E3%80%82" target="_blank" rel="noopener">都在这篇文章里</a></p>
+<h2 id="mysql数据库插入一条数据，具体做了什么事情"><a href="#mysql数据库插入一条数据，具体做了什么事情" class="headerlink" title="mysql数据库插入一条数据，具体做了什么事情"></a>mysql数据库插入一条数据，具体做了什么事情</h2><h3 id="mysql集群部署方式"><a href="#mysql集群部署方式" class="headerlink" title="mysql集群部署方式"></a>mysql集群部署方式</h3><h2 id="如何防止redis雪崩，穿透，击穿"><a href="#如何防止redis雪崩，穿透，击穿" class="headerlink" title="如何防止redis雪崩，穿透，击穿"></a>如何防止redis雪崩，穿透，击穿</h2><p><a href="https://zhuanlan.zhihu.com/p/100706208" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/100706208</a></p>
+<h2 id="redis有几种存储方式"><a href="#redis有几种存储方式" class="headerlink" title="redis有几种存储方式"></a>redis有几种存储方式</h2><p>Redis有两种持久化的方式：快照（RDB文件）和追加式文件（AOF文件）：</p>
+<ul>
+<li>RDB持久化方式会在一个特定的间隔保存那个时间点的一个数据快照。</li>
+<li>AOF持久化方式则会记录每一个服务器收到的写操作。在服务启动时，这些记录的操作会逐条执行从而重建出原来的数据。写操作命令记录的格式跟Redis协议一致，以追加的方式进行保存。</li>
+<li>Redis的持久化是可以禁用的，就是说你可以让数据的生命周期只存在于服务器的运行时间里。</li>
+<li>两种方式的持久化是可以同时存在的，但是当Redis重启时，AOF文件会被优先用于重建数据</li>
+</ul>
+<h2 id="linux系统零拷贝"><a href="#linux系统零拷贝" class="headerlink" title="linux系统零拷贝"></a>linux系统零拷贝</h2><ul>
+<li>依赖操作系统底层native api</li>
+<li>将传统的读写次数由4次降底到3次, 提高了效率</li>
+<li>上下文切换由4次降到2次</li>
+</ul>
+<p>可见确实是消除了从内核空间到用户空间的来回复制，因此“zero-copy”这个词实际上是站在内核的角度来说的，并不是完全不会发生任何拷贝。</p>
+<p>在Java NIO包中提供了零拷贝机制对应的API，即FileChannel.transferTo()方法。不过FileChannel类是抽象类，transferTo()也是一个抽象方法，因此还要依赖于具体实现。FileChannel的实现类并不在JDK本身，而位于sun.nio.ch.FileChannelImpl类中，零拷贝的具体实现自然也都是native方法，看官如有兴趣可以自行查找源码来看，这里不再赘述。</p>
+<p>将传统方式的发送端逻辑改写一下，大致如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SocketAddress socketAddress = new InetSocketAddress(HOST, PORT);</span><br><span class="line">SocketChannel socketChannel = SocketChannel.open();</span><br><span class="line">socketChannel.connect(socketAddress);</span><br><span class="line"></span><br><span class="line">File file = new File(FILE_PATH);</span><br><span class="line">FileChannel fileChannel = new FileInputStream(file).getChannel();</span><br><span class="line">fileChannel.transferTo(0, file.length(), socketChannel);</span><br><span class="line"></span><br><span class="line">fileChannel.close();</span><br><span class="line">socketChannel.close();</span><br></pre></td></tr></table></figure>
+<p><a href="https://cloud.tencent.com/developer/article/1744444" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1744444</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/review/">review</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/题目/">题目</a><a href="/tags/review/">review</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2022/02/22/2022年2月interView/" data-title="2022年2月interView | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2022/02/22/分布式系统名词整理/" title="分布式系统名词整理">
+  <strong>上一篇：</strong><br/>
+  <span>
+  分布式系统名词整理</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2022/02/16/SpringBoot + Redis模拟秒杀抢单！(lettuce实现)/"  title="SpringBoot + Redis：SpringBoot + Redis模拟秒杀抢单！(lettuce实现)">
+ <strong>下一篇：</strong><br/> 
+ <span>SpringBoot + Redis：SpringBoot + Redis模拟秒杀抢单！(lettuce实现)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2022/02/22/2022年2月interView/" data-title="2022年2月interView" data-url="http://clockcoder.com/2022/02/22/2022年2月interView/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2022年2月interView"><span class="toc-number">1.</span> <span class="toc-text">2022年2月interView</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#jvm的两种回收机制，cms和g1的工作原理及区别"><span class="toc-number">1.1.</span> <span class="toc-text">jvm的两种回收机制，cms和g1的工作原理及区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM运行中新生代对象在什么情况下，会被上升到老年代？"><span class="toc-number">1.2.</span> <span class="toc-text">JVM运行中新生代对象在什么情况下，会被上升到老年代？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么判断对象可回收"><span class="toc-number">1.2.1.</span> <span class="toc-text">怎么判断对象可回收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆中有对象可回收时，触发的哪种机制回收"><span class="toc-number">1.2.2.</span> <span class="toc-text">堆中有对象可回收时，触发的哪种机制回收</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#gc时采用的算法"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">gc时采用的算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM是如何与cpu、内存进行调度交互的"><span class="toc-number">1.3.</span> <span class="toc-text">JVM是如何与cpu、内存进行调度交互的?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有个秒杀接口，接口中间调用了几个微服务接口，原来支持1000个QPS-现在要求优化，将QPS提升到1万-，怎么优化"><span class="toc-number">1.4.</span> <span class="toc-text">有个秒杀接口，接口中间调用了几个微服务接口，原来支持1000个QPS, 现在要求优化，将QPS提升到1万+，怎么优化?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工作中有解决过什么问题，解决思路是什么"><span class="toc-number">1.5.</span> <span class="toc-text">工作中有解决过什么问题，解决思路是什么?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#应用重启问题"><span class="toc-number">1.5.1.</span> <span class="toc-text">应用重启问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#集群相关配置"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">集群相关配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#cluster-partition-handling"><span class="toc-number">1.5.1.1.1.</span> <span class="toc-text">cluster_partition_handling</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#如何处理rabbitMQ集群脑裂问题"><span class="toc-number">1.5.1.1.1.1.</span> <span class="toc-text">如何处理rabbitMQ集群脑裂问题</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mirroring-sync-batch-size"><span class="toc-number">1.5.1.1.2.</span> <span class="toc-text">mirroring_sync_batch_size</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#rabbitMQ集群发现机制"><span class="toc-number">1.5.1.1.3.</span> <span class="toc-text">rabbitMQ集群发现机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端配置"><span class="toc-number">1.5.2.</span> <span class="toc-text">客户端配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rabbitMQ-怎么保证100-消息不丢失"><span class="toc-number">1.6.</span> <span class="toc-text">rabbitMQ 怎么保证100%消息不丢失?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#你们微服务系统主要使用了哪些监控系统"><span class="toc-number">1.7.</span> <span class="toc-text">你们微服务系统主要使用了哪些监控系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#链路追踪"><span class="toc-number">1.7.1.</span> <span class="toc-text">链路追踪</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#性能监控-amp-报警"><span class="toc-number">1.7.2.</span> <span class="toc-text">性能监控&amp;报警</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#日志服务"><span class="toc-number">1.7.3.</span> <span class="toc-text">日志服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springcloud-限流设置具体是怎么设置的"><span class="toc-number">1.8.</span> <span class="toc-text">springcloud 限流设置具体是怎么设置的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springcloud-是如何实现限流的？限流算法是怎样的？"><span class="toc-number">1.9.</span> <span class="toc-text">springcloud 是如何实现限流的？限流算法是怎样的？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#限流算法"><span class="toc-number">1.9.1.</span> <span class="toc-text">限流算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java如何实现hash表的"><span class="toc-number">1.10.</span> <span class="toc-text">java如何实现hash表的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单链表有什么优缺点"><span class="toc-number">1.11.</span> <span class="toc-text">单链表有什么优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在过去的项目中，是否有通过状态机去实现一些功能"><span class="toc-number">1.12.</span> <span class="toc-text">在过去的项目中，是否有通过状态机去实现一些功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#熔断机制"><span class="toc-number">1.12.1.</span> <span class="toc-text">熔断机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#规则引擎"><span class="toc-number">1.12.2.</span> <span class="toc-text">规则引擎</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#微服务的项目里是用什么方式实现限流的"><span class="toc-number">1.13.</span> <span class="toc-text">微服务的项目里是用什么方式实现限流的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sentinel"><span class="toc-number">1.13.1.</span> <span class="toc-text">Sentinel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hystrix"><span class="toc-number">1.13.2.</span> <span class="toc-text">Hystrix</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何实现接口的幂等性"><span class="toc-number">1.14.</span> <span class="toc-text">如何实现接口的幂等性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库乐观锁"><span class="toc-number">1.14.1.</span> <span class="toc-text">数据库乐观锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全局唯一键ID约束"><span class="toc-number">1.14.2.</span> <span class="toc-text">全局唯一键ID约束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#防重Token令牌"><span class="toc-number">1.14.3.</span> <span class="toc-text">防重Token令牌</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传递请求ID-认证key"><span class="toc-number">1.14.4.</span> <span class="toc-text">传递请求ID+认证key</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql数据库有几种存储引擎"><span class="toc-number">1.15.</span> <span class="toc-text">mysql数据库有几种存储引擎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#innerDB"><span class="toc-number">1.15.1.</span> <span class="toc-text">innerDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#isMySam"><span class="toc-number">1.15.2.</span> <span class="toc-text">isMySam</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql数据库水平方向的扩展"><span class="toc-number">1.16.</span> <span class="toc-text">mysql数据库水平方向的扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#垂直-纵向-拆分："><span class="toc-number">1.16.1.</span> <span class="toc-text">垂直(纵向)拆分：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#水平-横向-拆分："><span class="toc-number">1.16.2.</span> <span class="toc-text">水平(横向)拆分：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库什么时候分区，什么时候分库，什么时候分表"><span class="toc-number">1.17.</span> <span class="toc-text">数据库什么时候分区，什么时候分库，什么时候分表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql数据库插入一条数据，具体做了什么事情"><span class="toc-number">1.18.</span> <span class="toc-text">mysql数据库插入一条数据，具体做了什么事情</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql集群部署方式"><span class="toc-number">1.18.1.</span> <span class="toc-text">mysql集群部署方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何防止redis雪崩，穿透，击穿"><span class="toc-number">1.19.</span> <span class="toc-text">如何防止redis雪崩，穿透，击穿</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis有几种存储方式"><span class="toc-number">1.20.</span> <span class="toc-text">redis有几种存储方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux系统零拷贝"><span class="toc-number">1.21.</span> <span class="toc-text">linux系统零拷贝</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CRD/" title="CRD">CRD<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jenkins/" title="jenkins">jenkins<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitmq/" title="rabbitmq">rabbitmq<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javascript-原型编程/" title="javascript&amp;原型编程">javascript&amp;原型编程<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2022 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
