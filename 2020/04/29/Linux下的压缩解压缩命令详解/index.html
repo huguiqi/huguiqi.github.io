@@ -1,0 +1,2480 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>Linux下的压缩解压缩命令详解 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="Linux下的压缩解压缩命令详解  Linux下的压缩解压缩命令详解     发布时间：2009-12-13&amp;nbsp;16:05:33&amp;nbsp; &amp;nbsp;来源：PHP100中文网&amp;nbsp;&amp;nbsp;评论：0&amp;nbsp;点击：&amp;nbsp;次&amp;nbsp;【字号：大&amp;nbsp;中&amp;nbsp;小】     QQ空间&amp;nbsp;新浪微博&amp;nbsp;腾讯微博&amp;nbsp;人人网&amp;nbsp;豆瓣网&amp;n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下的压缩解压缩命令详解">
+<meta property="og:url" content="http://clockcoder.com/2020/04/29/Linux%E4%B8%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="Linux下的压缩解压缩命令详解  Linux下的压缩解压缩命令详解     发布时间：2009-12-13&amp;nbsp;16:05:33&amp;nbsp; &amp;nbsp;来源：PHP100中文网&amp;nbsp;&amp;nbsp;评论：0&amp;nbsp;点击：&amp;nbsp;次&amp;nbsp;【字号：大&amp;nbsp;中&amp;nbsp;小】     QQ空间&amp;nbsp;新浪微博&amp;nbsp;腾讯微博&amp;nbsp;人人网&amp;nbsp;豆瓣网&amp;n">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:07.096Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="从印象笔记导入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/Linux下的压缩解压缩命令详解/" title="Linux下的压缩解压缩命令详解" itemprop="url">Linux下的压缩解压缩命令详解</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E4%B8%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">Linux下的压缩解压缩命令详解</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="Linux下的压缩解压缩命令详解"><a title="Linux下的压缩解压缩命令详解" class="headerlink" href="#Linux下的压缩解压缩命令详解"></a>Linux下的压缩解压缩命令详解</h1><div>
+
+<p>Linux下的压缩解压缩命令详解</p>
+</div>
+
+<div>
+
+<p>发布时间：2009-12-13&nbsp;16:05:33&nbsp; &nbsp;来源：PHP100中文网&nbsp;<br>&nbsp;评论：0&nbsp;点击：&nbsp;次&nbsp;【字号：大&nbsp;中&nbsp;小】</p>
+</div>
+
+<div>
+
+<p>QQ空间&nbsp;新浪微博&nbsp;腾讯微博&nbsp;人人网&nbsp;豆瓣网&nbsp;百度空间&nbsp;百度搜藏&nbsp;开心网&nbsp;复制&nbsp;更多&nbsp;149&nbsp;linux&nbsp;zip命令&nbsp;zip&nbsp;-r&nbsp;myfile.zip&nbsp;./*&nbsp;将当前目录下的所有文件和文件夹全部压缩成myfile.zip文件,－r表示递归压缩子目录下所有文件.&nbsp;2.unzip&nbsp;unzip&nbsp;-o&nbsp;-d&nbsp;/home/sunny&nbsp;myfile.zip&nbsp;把myfile.zip文件解压到&nbsp;/home/sunny/&nbsp;-o:不提示的情况下覆盖文件；&nbsp;-d:-d&nbsp;/h
+&nbsp; &nbsp;</p>
+</div>
+
+<div>
+
+<p>linux&nbsp;zip命令</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+
+<p>zip&nbsp;-r&nbsp;myfile.zip&nbsp;./*</p>
+</div>
+
+<div>
+
+<p>将当前目录下的所有文件和文件夹全部压缩成myfile.zip文件,－r表示递归压缩子目录下所有文件.</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>2.unzip</p>
+</div>
+
+<div>
+
+<p>unzip&nbsp;-o&nbsp;-d&nbsp;/home/sunny&nbsp;myfile.zip</p>
+</div>
+
+<div>
+
+<p>把myfile.zip文件解压到&nbsp;/home/sunny/</p>
+</div>
+
+<div>
+
+<p>-o:不提示的情况下覆盖文件；</p>
+</div>
+
+<div>
+
+<p>-d:-d&nbsp;/home/sunny&nbsp;指明将文件解压缩到/home/sunny目录下；</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>3.其他</p>
+</div>
+
+<div>
+
+<p>zip&nbsp;-d&nbsp;myfile.zip&nbsp;smart.txt</p>
+</div>
+
+<div>
+
+<p>删除压缩文件中smart.txt文件</p>
+</div>
+
+<div>
+
+<p>zip&nbsp;-m&nbsp;myfile.zip&nbsp;./rpm_info.txt</p>
+</div>
+
+<div>
+
+<p>向压缩文件中myfile.zip中添加rpm_info.txt文件</p>
+</div>
+
+<div>
+
+<hr>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>要使用&nbsp;zip&nbsp;来压缩文件，在&nbsp;shell&nbsp;提示下键入下面的命令：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>zip&nbsp;-r&nbsp;filename.zip&nbsp;filesdir</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>在这个例子里，filename.zip&nbsp;代表你创建的文件，filesdir&nbsp;代表你想放置新&nbsp;zip&nbsp;文件的目录。-r&nbsp;选项指定你想递归地（recursively）包括所有包括在&nbsp;filesdir&nbsp;目录中的文件。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>要抽取&nbsp;zip&nbsp;文件的内容，键入以下命令：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>unzip&nbsp;filename.zip</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>你可以使用&nbsp;zip&nbsp;命令同时处理多个文件和目录，方法是将它们逐一列出，并用空格间隔：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>zip&nbsp;-r&nbsp;filename.zip&nbsp;file1&nbsp;file2&nbsp;file3&nbsp;/usr/work/school&nbsp;</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>上面的命令把&nbsp;file1、file2、&nbsp;file3、以及&nbsp;/usr/work/school&nbsp;目录的内容（假设这个目录存在）压缩起来，然后放入&nbsp;filename.zip&nbsp;文件中。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>tar&nbsp;命令详解</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -c:&nbsp;建立压缩档案</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -x：解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -t：查看内容</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -r：向压缩归档文件末尾追加文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -u：更新原压缩包中的文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这五个是独立的命令，压缩解压都要用到其中一个，可以和别的命令连用但只能用其中一个。下面的参数是根据需要在压缩或解压档案时可选的。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -c:&nbsp;建立压缩档案</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -x：解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -t：查看内容</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -r：向压缩归档文件末尾追加文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -u：更新原压缩包中的文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 下面的参数-f是必须的</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; -f:&nbsp;使用档案名字，切记，这个参数是最后一个参数，后面只能接档案名。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-cf&nbsp;all.tar&nbsp;*.png</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这条命令是将所有.png的文件打成一个名为all.tar的包。-c是表示产生新的包，-f指定包的文件名。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-rf&nbsp;all.tar&nbsp;*.gif</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这条命令是将所有.gif的文件增加到all.tar的包里面去。-r是表示增加文件的意思。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-uf&nbsp;all.tar&nbsp;logo.gif</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是更新原来tar包all.tar中logo.gif文件，-u是表示更新文件的意思。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-tf&nbsp;all.tar</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是列出all.tar包中所有文件，-t是列出文件的意思</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-xf&nbsp;all.tar</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是解出all.tar包中所有文件，-t是解开的意思</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 压缩</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;–cvf.png.tar&nbsp;*.png&nbsp;//将目录里所.png文件打包成tar.png</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>tar&nbsp;–czf.png.tar.gz&nbsp;*.png&nbsp;//将目录里所.png文件打包.png.tar后，并且将其用gzip压缩，生成一个gzip压缩过的包，命名.png.tar.gz</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>tar&nbsp;–cjf.png.tar.bz2&nbsp;*.png&nbsp;//将目录里所.png文件打包.png.tar后，并且将其用bzip2压缩，生成一个bzip2压缩过的包，命名.png.tar.bz2</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>tar&nbsp;–cZf.png.tar.Z&nbsp;*.png&nbsp;//将目录里所.png文件打包.png.tar后，并且将其用compress压缩，生成一个umcompress压缩过的包，命名.png.tar.Z</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; rar&nbsp;a.png.rar&nbsp;*.png&nbsp;//rar格式的压缩，需要先下载rar&nbsp;for&nbsp;linux</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; zip.png.zip&nbsp;*.png&nbsp;//zip格式的压缩，需要先下载zip&nbsp;for&nbsp;linux</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;–xvf&nbsp;file.tar&nbsp;//解压&nbsp;tar包</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;-xzvf&nbsp;file.tar.gz&nbsp;//解压tar.gz</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;-xjvf&nbsp;file.tar.bz2&nbsp;//解压&nbsp;tar.bz2</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;–xZvf&nbsp;file.tar.Z&nbsp;//解压tar.Z</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; unrar&nbsp;e&nbsp;file.rar&nbsp;//解压rar</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; unzip&nbsp;file.zip&nbsp;//解压zip</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 总结</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 1、*.tar&nbsp;用&nbsp;tar&nbsp;–xvf&nbsp;解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 2、*.gz&nbsp;用&nbsp;gzip&nbsp;-d或者gunzip&nbsp;解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 3、*.tar.gz和*.tgz&nbsp;用&nbsp;tar&nbsp;–xzf&nbsp;解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 4、*.bz2&nbsp;用&nbsp;bzip2&nbsp;-d或者用bunzip2&nbsp;解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 5、*.tar.bz2用tar&nbsp;–xjf&nbsp;解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 6、*.Z&nbsp;用&nbsp;uncompress&nbsp;解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 7、*.tar.Z&nbsp;用tar&nbsp;–xZf&nbsp;解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 8、*.rar&nbsp;用&nbsp;unrar&nbsp;e解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 9、*.zip&nbsp;用&nbsp;unzip&nbsp;解压</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; Linux中tar命令详解(转载的资料)</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 2008年04月17日&nbsp;星期四&nbsp;15:37</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar命令</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>tar&nbsp;可以为文件和目录创建档案。利用tar，用户可以为某一特定文件创建档案(备份文件)，也可以在档案中改变文件，或者向档案中加入新的文件。tar最初被&nbsp;用来在磁带上创建档案，现在，用户可以在任何设备上创建档案，如软盘。利用tar命令，可以把一大堆的文件和目录全部打包成一个文件，这对于备份文件或将&nbsp;几个文件组合成为一个文件以便于网络传输是非常有用的。Linux上的tar是GNU版本的。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 语法：tar&nbsp;[主选项+辅选项]&nbsp;文件或者目录</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>使用该命令时，主选项是必须要有的，它告诉tar要做什么事情，辅选项是辅助使用的，可以选用。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 主选项：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>c&nbsp;创建新的档案文件。如果用户想备份一个目录或是一些文件，就要选择这个选项。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>r&nbsp;把要存档的文件追加到档案文件的未尾。例如用户已经作好备份文件，又发现还有一个目录或是一些文件忘记备份了，这时可以使用该选项，将忘记的目录或文件追加到备份文件中。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; t&nbsp;列出档案文件的内容，查看已经备份了哪些文件。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>u&nbsp;更新文件。就是说，用新增的文件取代原备份文件，如果在备份文件中找不到要更新的文件，则把它追加到备份文件的最后。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; x&nbsp;从档案文件中释放文件。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 辅助选项：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>b&nbsp;该选项是为磁带机设定的。其后跟一数字，用来说明区块的大小，系统预设值为20(20*512&nbsp;bytes)。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; f&nbsp;使用档案文件或设备，这个选项通常是必选的。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>k&nbsp;保存已经存在的文件。例如我们把某个文件还原，在还原的过程中，遇到相同的文件，不会进行覆盖。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; m&nbsp;在还原文件时，把所有文件的修改时间设定为现在。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; M&nbsp;创建多卷的档案文件，以便在几个磁盘中存放。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; v&nbsp;详细报告tar处理的文件信息。如无此选项，tar不报告文件信息。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; w&nbsp;每一步都要求确认。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>z&nbsp;用gzip来压缩/解压缩文件，加上该选项后可以将档案文件进行压缩，但还原时也一定要使用该选项进行解压缩。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; Linux下的压缩文件剖析</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>对于刚刚接触Linux的人来说，一定会给Linux下一大堆各式各样的文件名给搞晕。别个不说，单单就压缩文件为例，我们知道在Windows下最常见&nbsp;的压缩文件就只有两种，一是,zip，另一个是.rap。可是Linux就不同了，它有.gz、.tar.gz、tgz、bz2、.Z、.tar等众多的&nbsp;压缩文件名，此外windows下的.zip和.rar也可以在Linux下使用，不过在Linux使用.zip和.rar的人就太少了。本文就来对这些&nbsp;常见的压缩文件进行一番小结，希望你下次遇到这些文件时不至于被搞晕。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>在具体总结各类压缩文件之前呢，首先要弄清两个概念：打包和压缩。打包是指将一大堆文件或目录什么的变成一个总的文件，压缩则是将一个大的文件通过一些压&nbsp;缩算法变成一个小文件。为什么要区分这两个概念呢?其实这源于Linux中的很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你就&nbsp;得先借助另它的工具将这一大堆文件先打成一个包，然后再就原来的压缩程序进行压缩。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>Linux下最常用的打包程序就是tar了，使用tar程序打出来的包我们常称为tar包，tar包文件的命令通常都是以.tar结尾的。生成tar包后，就可以用其它的程序来进行压缩了，所以首先就来讲讲tar命令的基本用法：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>tar命令的选项有很多(用man&nbsp;tar可以查看到)，但常用的就那么几个选项，下面来举例说明一下：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-cf&nbsp;all.tar&nbsp;*.png</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这条命令是将所有.png的文件打成一个名为all.tar的包。-c是表示产生新的包，-f指定包的文件名。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-rf&nbsp;all.tar&nbsp;*.gif</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这条命令是将所有.gif的文件增加到all.tar的包里面去。-r是表示增加文件的意思。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-uf&nbsp;all.tar&nbsp;logo.gif</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是更新原来tar包all.tar中logo.gif文件，-u是表示更新文件的意思。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-tf&nbsp;all.tar</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是列出all.tar包中所有文件，-t是列出文件的意思</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-xf&nbsp;all.tar</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是解出all.tar包中所有文件，-t是解开的意思</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>以上就是tar的最基本的用法。为了方便用户在打包解包的同时可以压缩或解压文件，tar提供了一种特殊的功能。这就是tar可以在打包或解包的同时调用其它的压缩程序，比如调用gzip、bzip2等。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 1)&nbsp;tar调用gzip</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>gzip是GNU组织开发的一个压缩程序，.gz结尾的文件就是gzip压缩的结果。与gzip相对的解压程序是gunzip。tar中使用-z这个参数来调用gzip。下面来举例说明一下：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-czf&nbsp;all.tar.gz&nbsp;*.png</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这条命令是将所有.png的文件打成一个tar包，并且将其用gzip压缩，生成一个gzip压缩过的包，包名为all.tar.gz</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-xzf&nbsp;all.tar.gz</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是将上面产生的包解开。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 2)&nbsp;tar调用bzip2</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>bzip2是一个压缩能力更强的压缩程序，.bz2结尾的文件就是bzip2压缩的结果。与bzip2相对的解压程序是bunzip2。tar中使用-j这个参数来调用gzip。下面来举例说明一下：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-cjf&nbsp;all.tar.bz2&nbsp;*.png</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这条命令是将所有.png的文件打成一个tar包，并且将其用bzip2压缩，生成一个bzip2压缩过的包，包名为all.tar.bz2</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-xjf&nbsp;all.tar.bz2</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是将上面产生的包解开。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 3)tar调用compress</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>compress也是一个压缩程序，但是好象使用compress的人不如gzip和bzip2的人多。.Z结尾的文件就是bzip2压缩的结果。与&nbsp;compress相对的解压程序是uncompress。tar中使用-Z这个参数来调用gzip。下面来举例说明一下：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-cZf&nbsp;all.tar.Z&nbsp;*.png</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这条命令是将所有.png的文件打成一个tar包，并且将其用compress压缩，生成一个uncompress压缩过的包，包名为all.tar.Z</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-xZf&nbsp;all.tar.Z</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是将上面产生的包解开</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>有了上面的知识，你应该可以解开多种压缩文件了，下面对于tar系列的压缩文件作一个小结：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 1)对于.tar结尾的文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;-xf&nbsp;all.tar</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 2)对于.gz结尾的文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; gzip&nbsp;-d&nbsp;all.gz</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; gunzip&nbsp;all.gz</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 3)对于.tgz或.tar.gz结尾的文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;-xzf&nbsp;all.tar.gz</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;-xzf&nbsp;all.tgz</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 4)对于.bz2结尾的文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; bzip2&nbsp;-d&nbsp;all.bz2</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; bunzip2&nbsp;all.bz2</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 5)对于tar.bz2结尾的文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;-xjf&nbsp;all.tar.bz2</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 6)对于.Z结尾的文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; uncompress&nbsp;all.Z</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 7)对于.tar.Z结尾的文件</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; tar&nbsp;-xZf&nbsp;all.tar.z</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>另外对于Window下的常见压缩文件.zip和.rar，Linux也有相应的方法来解压它们：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 1)对于.zip</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>linux下提供了zip和unzip程序，zip是压缩程序，unzip是解压程序。它们的参数选项很多，这里只做简单介绍，依旧举例说明一下其用法：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;zip&nbsp;all.zip&nbsp;*.png</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是将所有.png的文件压缩成一个zip包</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;unzip&nbsp;all.zip</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是将all.zip中的所有文件解压出来</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 2)对于.rar</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>要在linux下处理.rar文件，需要安装RAR&nbsp;for&nbsp;Linux，可以从网上下载，但要记住，RAR&nbsp;for&nbsp;Linux</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 不是免费的;然后安装：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;tar&nbsp;-xzpvf&nbsp;rarlinux-3.2.0.tar.gz</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;cd&nbsp;rar</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;make</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这样就安装好了，安装后就有了rar和unrar这两个程序，rar是压缩程序，unrar是解压程序。它们的参数选项很多，这里只做简单介绍，依旧举例说明一下其用法：</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;rar&nbsp;a&nbsp;all&nbsp;*.png</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>这条命令是将所有.png的文件压缩成一个rar包，名为all.rar，该程序会将.rar&nbsp;扩展名将自动附加到包名后。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; #&nbsp;unrar&nbsp;e&nbsp;all.rar</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp; 这条命令是将all.rar中的所有文件解压出来</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>到此为至，我们已经介绍过linux下的tar、gzip、gunzip、bzip2、bunzip2、compress、uncompress、&nbsp;zip、unzip、rar、unrar等程式，你应该已经能够使用它们对.tar、.gz、.tar.gz、.tgz、.bz2、.tar.bz2、.&nbsp;Z、.tar.Z、.zip、.rar这10种压缩文件进行解压了，以后应该不需要为下载了一个软件而不知道如何在Linux下解开而烦恼了。而且以上方&nbsp;法对于Unix也基本有效。</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>&nbsp;<br>本文介绍了linux下的压缩程式tar、gzip、gunzip、bzip2、bunzip2、&nbsp;compress、uncompress、zip、unzip、rar、unrar等程式，以及如何使用它们对.tar、.gz、.tar.gz、.&nbsp;tgz、.bz2、.tar.bz2、.Z、.tar.Z、.zip、.rar这10种压缩文件进行操作</p>
+</div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E4%B8%93%E4%B8%9A%E6%8A%80%E6%9C%AF-%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2020/04/29/Linux%E4%B8%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/" data-title="Linux下的压缩解压缩命令详解 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/Linux下必须知道的11个网络命令/" title="Linux下必须知道的11个网络命令">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Linux下必须知道的11个网络命令</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/Objective-C –反射篇/"  title="Objective-C –反射篇">
+ <strong>下一篇：</strong><br/> 
+ <span>Objective-C –反射篇
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/Linux下的压缩解压缩命令详解/" data-title="Linux下的压缩解压缩命令详解" data-url="http://clockcoder.com/2020/04/29/Linux%E4%B8%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E4%B8%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">Linux下的压缩解压缩命令详解</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,1037 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>7天学会使用springcloud(三) | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="7天学会使用springcloud(三)组建通过zuul转发的方式来调用各app上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！ 放心 ，这个坑spring cloud已经给你踩好了，就等你入了。 用zu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7天学会使用springcloud(三)">
+<meta property="og:url" content="http://clockcoder.com/2018/05/02/7%E5%A4%A9%E5%AD%A6%E4%BC%9A%E4%BD%BF%E7%94%A8springcloud-%E4%B8%89/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="7天学会使用springcloud(三)组建通过zuul转发的方式来调用各app上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！ 放心 ，这个坑spring cloud已经给你踩好了，就等你入了。 用zu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/images/1525242853550g5f8bk6v.png?imageslim">
+<meta property="og:image" content="http://clockcoder.com/images/008i3skNly1gygn9jeiqaj31cm0e6tad.png">
+<meta property="og:image" content="http://clockcoder.com/images/008i3skNly1gygn9sg841j31co09gta8.png">
+<meta property="article:published_time" content="2018-05-02T06:02:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:06.935Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="spring cloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/images/1525242853550g5f8bk6v.png?imageslim">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/05/02/7天学会使用springcloud-三/" title="7天学会使用springcloud(三)" itemprop="url">7天学会使用springcloud(三)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2018-05-02T06:02:00.000Z" itemprop="datePublished"> 发表于 2018-05-02</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#7%E5%A4%A9%E5%AD%A6%E4%BC%9A%E4%BD%BF%E7%94%A8springcloud-%E4%B8%89"><span class="toc-number">1.</span> <span class="toc-text">7天学会使用springcloud(三)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%BB%BA%E9%80%9A%E8%BF%87zuul%E8%BD%AC%E5%8F%91%E7%9A%84%E6%96%B9%E5%BC%8F%E6%9D%A5%E8%B0%83%E7%94%A8%E5%90%84app"><span class="toc-number">1.1.</span> <span class="toc-text">组建通过zuul转发的方式来调用各app</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zuul%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">zuul简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90zuul"><span class="toc-number">1.3.</span> <span class="toc-text">集成zuul</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E7%94%A8zuul"><span class="toc-number">2.</span> <span class="toc-text">启用zuul</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#zuul%E6%8C%87%E5%AE%9A%E5%9C%B0%E5%9D%80%E8%BD%AC%E5%8F%91"><span class="toc-number">2.1.</span> <span class="toc-text">zuul指定地址转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%AA%8C%E8%AF%81"><span class="toc-number">2.2.</span> <span class="toc-text">安全验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Static-Response-handling"><span class="toc-number">2.3.</span> <span class="toc-text">Static Response handling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zuul-filter"><span class="toc-number">2.4.</span> <span class="toc-text">zuul filter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Filters"><span class="toc-number">2.4.1.</span> <span class="toc-text">Sample Filters</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="7天学会使用springcloud-三"><a title="7天学会使用springcloud(三)" class="headerlink" href="#7天学会使用springcloud-三"></a>7天学会使用springcloud(三)</h1><h2 id="组建通过zuul转发的方式来调用各app"><a title="组建通过zuul转发的方式来调用各app" class="headerlink" href="#组建通过zuul转发的方式来调用各app"></a>组建通过zuul转发的方式来调用各app</h2><p>上个章节集成了robbin来用service去访问app-client端的服务接口，但是如果我想通过service去访问各个app-client的接口，如果有很多接口，难道我就要在service同样新增几个中间接口去转一下吗？那岂不是很麻烦？！</p>
+<p>放心 ，这个坑spring cloud已经给你踩好了，就等你入了。</p>
+<p>用zuul这个组件就可以解决这个问题。<br>你只需要通过：</p>
+<pre><code>http://serviceip:port/appname/interfaceName
+</code></pre>
+<p>这样访问就可以了。</p>
+<h2 id="zuul简介"><a title="zuul简介" class="headerlink" href="#zuul简介"></a>zuul简介</h2><p>在微服务架构中，需要几个基础的服务治理组件，包括服务注册与发现、服务消费、负载均衡、断路器、智能路由、配置管理等，由这几个基础组件相互协作，共同组建了一个简单的微服务系统。一个简单的微服务系统如下图：</p>
+<p><img alt="t1" src="http://clockcoder.com/images/1525242853550g5f8bk6v.png?imageslim"></p>
+<p>ps：先抄着吧，这张图有些地方画得不对，后面有时间去画一个</p>
+<p>Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能。</p>
+<p>官方地址：<a target="_blank" rel="noopener" href="https://docs.openstack.org/infra/zuul/">https://docs.openstack.org/infra/zuul/</a></p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/Netflix/zuul">https://github.com/Netflix/zuul</a></p>
+<p>zuul有以下功能：</p>
+<ul>
+<li>Authentication 鉴权</li>
+<li>Insights</li>
+<li>Stress Testing 压力测试</li>
+<li>Canary Testing 金丝雀测试（首测）</li>
+<li>Dynamic Routing 动态路由</li>
+<li>Service Migration 服务迁移</li>
+<li>Load Shedding 分级卸载</li>
+<li>Security 密码安全</li>
+<li>Static Response handling</li>
+<li>Active/Active traffic management</li>
+</ul>
+<h2 id="集成zuul"><a title="集成zuul" class="headerlink" href="#集成zuul"></a>集成zuul</h2><p>在Spring Cloud微服务系统中，一种常见的负载均衡方式是，客户端的请求首先经过负载均衡（zuul、Ngnix），再到达服务网关（zuul集群），然后再到具体的服务。服务统一注册到高可用的服务注册中心集群，服务的所有的配置文件由配置服务管理（下一篇文章讲述），配置服务的配置文件放在git仓库，方便开发人员随时改配置。</p>
+<p>在service的pom.xml里新增：</p>
+<pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>​    </p>
+<h1 id="启用zuul"><a title="启用zuul" class="headerlink" href="#启用zuul"></a>启用zuul</h1><p>在入口类中加上’EnableZuulProxy’注解：</p>
+<pre><code>@SpringBootApplication
+@EnableZuulProxy
+@RestController
+public class AppServiceApplication &#123;
+
+    public static void main(String[] args) &#123;
+        SpringApplication.run(AppServiceApplication.class, args);
+    &#125;
+
+
+    @Bean
+    @LoadBalanced
+    RestTemplate restTemplate() &#123;
+        return new RestTemplate();
+    &#125;
+
+    @Autowired
+    HelloService helloService;
+
+
+    @RequestMapping(value = "/hi")
+    public String hi(@RequestParam String name)&#123;
+        return helloService.hiService(name);
+    &#125;
+&#125;
+</code></pre>
+<p>然后重启app-service,地址栏输入地址：</p>
+<pre><code>http://localhost:9000/appclient/hi?name=11111
+</code></pre>
+<p>访问成功：</p>
+<p><img alt="paste image" src="/images/008i3skNly1gygn9jeiqaj31cm0e6tad.png"></p>
+<p>多刷几次发现它的负载均衡也是有效的：</p>
+<p><img alt="paste image" src="/images/008i3skNly1gygn9sg841j31co09gta8.png"></p>
+<p>我们的robbin+zull的集成完成了。</p>
+<p>通过这种方式，我们可以无限的给各个app-client注册新的群组实例。</p>
+<p>如果有些外部调用的服务不是一个微服务，但是我也想通过service去转发调用他们，那怎么办？</p>
+<p>spring集成zuul的官方使用文档：</p>
+<pre><code>https://spring.io/guides/gs/routing-and-filtering/
+</code></pre>
+<h2 id="zuul指定地址转发"><a title="zuul指定地址转发" class="headerlink" href="#zuul指定地址转发"></a>zuul指定地址转发</h2><p>在配置文件中加入：</p>
+<p>application.yml：</p>
+<pre><code>zuul:
+  sensitiveHeaders:
+  addHostHeader: true
+  ignored-services: 'protected-*'
+  routes:
+    otaapp:
+      stripPrefix: true
+      path: /thirdService/**
+      url: http://192.168.1.200:8080
+  host:
+    maxTotalConnections: 5000
+    maxPerRouteConnections: 500
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+  semaphore:
+    maxSemaphores: 2000
+</code></pre>
+<p>那如果要经过网关层访问thirdService时，则只要输入：</p>
+<pre><code>http://&#123;app-service的ip&#125;:port/thirdService/接口名
+</code></pre>
+<p>就可以完成转发    </p>
+<h2 id="安全验证"><a title="安全验证" class="headerlink" href="#安全验证"></a>安全验证</h2><p>zuul不仅只是路由，并且还能过滤，做一些安全验证。继续改造工程；</p>
+<pre><code>@Component
+public class MyFilter extends ZuulFilter&#123;
+
+    private static Logger log = LoggerFactory.getLogger(MyFilter.class);
+    @Override
+    public String filterType() &#123;
+        return "pre";
+    &#125;
+
+    @Override
+    public int filterOrder() &#123;
+        return 0;
+    &#125;
+
+    @Override
+    public boolean shouldFilter() &#123;
+        return true;
+    &#125;
+
+    @Override
+    public Object run() &#123;
+        RequestContext ctx = RequestContext.getCurrentContext();
+        HttpServletRequest request = ctx.getRequest();
+        log.info(String.format("%s &gt;&gt;&gt; %s", request.getMethod(), request.getRequestURL().toString()));
+        Object accessToken = request.getParameter("token");
+        if(accessToken == null) &#123;
+            log.warn("token is empty");
+            ctx.setSendZuulResponse(false);
+            ctx.setResponseStatusCode(401);
+            try &#123;
+                ctx.getResponse().getWriter().write("token is empty");
+            &#125;catch (Exception e)&#123;&#125;
+
+            return null;
+        &#125;
+        log.info("ok");
+        return null;
+    &#125;
+&#125;
+</code></pre>
+<p>filterType：返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下： </p>
+<ul>
+<li>pre：路由之前</li>
+<li>routing：路由之时</li>
+<li>post： 路由之后</li>
+<li>error：发送错误调用</li>
+<li>filterOrder：过滤的顺序</li>
+<li>shouldFilter：这里可以写逻辑判断，是否要过滤，本文true,永远过滤。</li>
+<li>run：过滤器的具体逻辑。可用很复杂，包括查sql，nosql去判断该请求到底有没有权限访问。</li>
+</ul>
+<h2 id="Static-Response-handling"><a title="Static Response handling" class="headerlink" href="#Static-Response-handling"></a>Static Response handling</h2><p>实现ZuulFallbackProvider这个接口，可以处理返回的值。</p>
+<p>ps: 这个ZuulFallbackProvider是’org.springframework.cloud.netflix.zuul’的1.3.1版本有的，目前在最新版本里已经没有这个filter了，看最新的官方例子，应该是用HttpOutboundSyncFilter替代了。</p>
+<h2 id="zuul-filter"><a title="zuul filter" class="headerlink" href="#zuul-filter"></a>zuul filter</h2><p>参考官方文档：<a target="_blank" rel="noopener" href="https://github.com/Netflix/zuul/wiki/Filters">https://github.com/Netflix/zuul/wiki/Filters</a></p>
+<h3 id="Sample-Filters"><a title="Sample Filters" class="headerlink" href="#Sample-Filters"></a>Sample Filters</h3><ul>
+<li><p>DebugRequest - look for a query param to add extra debug logging for a request</p>
+</li>
+<li><p>Healthcheck - simple static endpoint filter that returns 200, if everything is bootstrapped correctly</p>
+</li>
+<li><p>ZuulResponseFilter - add informational headers to provide extra details on routing, request execution, status and error cause</p>
+</li>
+<li><p>Core Filters<br>GZipResponseFilter - can be enabled to gzip outbound responses<br>SurgicalDebugFilter - can be enabled to route specific requests to different hosts for debugging</p>
+</li>
+</ul>
+<p>这些作用的filters在github上都有例子：</p>
+<pre><code>https://github.com/Netflix/zuul/tree/2.1/zuul-sample
+</code></pre>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springboot/">springboot</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/spring-cloud/">spring cloud</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2018/05/02/7%E5%A4%A9%E5%AD%A6%E4%BC%9A%E4%BD%BF%E7%94%A8springcloud-%E4%B8%89/" data-title="7天学会使用springcloud(三) | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/05/12/7天学会使用springcloud-四/" title="7天学会使用springcloud(四)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  7天学会使用springcloud(四)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/04/30/7天学会使用springcloud-二/"  title="7天学会使用springcloud(二)">
+ <strong>下一篇：</strong><br/> 
+ <span>7天学会使用springcloud(二)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2018/05/02/7天学会使用springcloud-三/" data-title="7天学会使用springcloud(三)" data-url="http://clockcoder.com/2018/05/02/7%E5%A4%A9%E5%AD%A6%E4%BC%9A%E4%BD%BF%E7%94%A8springcloud-%E4%B8%89/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#7%E5%A4%A9%E5%AD%A6%E4%BC%9A%E4%BD%BF%E7%94%A8springcloud-%E4%B8%89"><span class="toc-number">1.</span> <span class="toc-text">7天学会使用springcloud(三)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%BB%BA%E9%80%9A%E8%BF%87zuul%E8%BD%AC%E5%8F%91%E7%9A%84%E6%96%B9%E5%BC%8F%E6%9D%A5%E8%B0%83%E7%94%A8%E5%90%84app"><span class="toc-number">1.1.</span> <span class="toc-text">组建通过zuul转发的方式来调用各app</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zuul%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">zuul简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90zuul"><span class="toc-number">1.3.</span> <span class="toc-text">集成zuul</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E7%94%A8zuul"><span class="toc-number">2.</span> <span class="toc-text">启用zuul</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#zuul%E6%8C%87%E5%AE%9A%E5%9C%B0%E5%9D%80%E8%BD%AC%E5%8F%91"><span class="toc-number">2.1.</span> <span class="toc-text">zuul指定地址转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%AA%8C%E8%AF%81"><span class="toc-number">2.2.</span> <span class="toc-text">安全验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Static-Response-handling"><span class="toc-number">2.3.</span> <span class="toc-text">Static Response handling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zuul-filter"><span class="toc-number">2.4.</span> <span class="toc-text">zuul filter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sample-Filters"><span class="toc-number">2.4.1.</span> <span class="toc-text">Sample Filters</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

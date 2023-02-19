@@ -1,0 +1,1088 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>springboot_kafka | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="springboot_kafka集成kafka_clientmaven 依赖pom.xml:     &lt;dependency&gt;         &lt;groupId&gt;org.apache.kafka&lt;&#x2F;groupId&gt;         &lt;artifactId&gt;kafka-clients&lt;&#x2F;artifactId&gt;         &lt;ver">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot_kafka">
+<meta property="og:url" content="http://clockcoder.com/2019/06/04/springboot-kafka/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="springboot_kafka集成kafka_clientmaven 依赖pom.xml:     &lt;dependency&gt;         &lt;groupId&gt;org.apache.kafka&lt;&#x2F;groupId&gt;         &lt;artifactId&gt;kafka-clients&lt;&#x2F;artifactId&gt;         &lt;ver">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/images/1559638747484fxnv4uer.png?imageslim">
+<meta property="og:image" content="http://clockcoder.com/images/1559640109584ssafa30k.png?imageslim">
+<meta property="article:published_time" content="2019-06-04T08:55:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:07.843Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="kafka">
+<meta property="article:tag" content="springboot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/images/1559638747484fxnv4uer.png?imageslim">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/06/04/springboot-kafka/" title="springboot_kafka" itemprop="url">springboot_kafka</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2019-06-04T08:55:00.000Z" itemprop="datePublished"> 发表于 2019-06-04</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#springboot-kafka%E9%9B%86%E6%88%90"><span class="toc-number">1.</span> <span class="toc-text">springboot_kafka集成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kafka-client"><span class="toc-number">2.</span> <span class="toc-text">kafka_client</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#maven-%E4%BE%9D%E8%B5%96"><span class="toc-number">2.1.</span> <span class="toc-text">maven 依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85kafka"><span class="toc-number">2.2.</span> <span class="toc-text">安装kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="toc-number">2.2.1.</span> <span class="toc-text">快速开始</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90springboot"><span class="toc-number">2.3.</span> <span class="toc-text">集成springboot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AEkafka"><span class="toc-number">2.4.</span> <span class="toc-text">springboot自动配置kafka</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka-Streams-%E6%B5%81%E5%BC%8F%E5%A4%84%E7%90%86"><span class="toc-number">2.5.</span> <span class="toc-text">Kafka Streams (流式处理)</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="springboot-kafka集成"><a title="springboot_kafka集成" class="headerlink" href="#springboot-kafka集成"></a>springboot_kafka集成</h1><h1 id="kafka-client"><a title="kafka_client" class="headerlink" href="#kafka-client"></a>kafka_client</h1><h2 id="maven-依赖"><a title="maven 依赖" class="headerlink" href="#maven-依赖"></a>maven 依赖</h2><p>pom.xml:</p>
+<pre><code>    &lt;dependency&gt;
+        &lt;groupId&gt;org.apache.kafka&lt;/groupId&gt;
+        &lt;artifactId&gt;kafka-clients&lt;/artifactId&gt;
+        &lt;version&gt;2.1.0&lt;/version&gt;
+    &lt;/dependency&gt;
+    
+</code></pre>
+<h2 id="安装kafka"><a title="安装kafka" class="headerlink" href="#安装kafka"></a>安装kafka</h2><p><a target="_blank" rel="noopener" href="http://kafka.apache.org/">kafka官网</a></p>
+<h3 id="快速开始"><a title="快速开始" class="headerlink" href="#快速开始"></a>快速开始</h3><ol>
+<li>下载kafka</li>
+</ol>
+<p>目前最新版本是2.2.0</p>
+<p><a target="_blank" rel="noopener" href="https://www.apache.org/dyn/closer.cgi?path=/kafka/2.2.0/kafka_2.12-2.2.0.tgz">下载地址</a></p>
+<pre><code>&gt; tar -xzf kafka_2.12-2.2.0.tgz
+&gt; cd kafka_2.12-2.2.0
+</code></pre>
+<ol start="2">
+<li>启动zooKeeper服务器</li>
+</ol>
+<p>因为kafka的运行需要zookeeper 作节点调度，所以kafka包里有zookeeper服务器的启动脚本,启动单节点的zookeeper实例:</p>
+<pre><code>kafka_2.11-2.2.1&gt; sh ./bin/zookeeper-server-start.sh config/zookeeper.properties
+    /Users/sam/Public/bigData/kafka_2.11-2.2.1/bin/kafka-run-class.sh: line 306: /usr/libexec/java_home/bin/java: Not a directory
+    /Users/sam/Public/bigData/kafka_2.11-2.2.1/bin/kafka-run-class.sh: line 306: exec: /usr/libexec/java_home/bin/java: cannot execute: Not a directory
+    
+</code></pre>
+<p>启动zookeeper服务器报错，说<code>kafka-run-class.sh</code>里的java_home找不到，那么vi这个文件进去定位到306行，在226行前一行插入<code>JAVA_HOME</code>：</p>
+<pre><code># Which java to use
+225 JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home'
+226
+227 if [ -z "$JAVA_HOME" ]; then
+228   JAVA="java"
+229 else
+230   JAVA="$JAVA_HOME/bin/java"
+231 fi
+    
+    
+</code></pre>
+<p>保存，再次启动zookeeper:</p>
+<pre><code>sh ./bin/zookeeper-server-start.sh config/zookeeper.properties
+</code></pre>
+<p>控制台中打印出：</p>
+<pre><code>[2019-06-04 15:02:29,345] INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
+</code></pre>
+<p>表示启动成功。</p>
+<ol start="3">
+<li>启动kafka服务器</li>
+</ol>
+<p>执行：</p>
+<pre><code>    sh bin/kafka-server-start.sh config/server.properties
+     
+</code></pre>
+<p>控制台打出：</p>
+<pre><code>     [2019-06-04 15:07:19,041] INFO Awaiting socket connections on s0.0.0.0:9092. (kafka.network.Acceptor)
+     [2019-06-04 15:07:19,068] INFO [SocketServer brokerId=0] Created data-plane acceptor and processors for endpoint : EndPoint(null,9092,ListenerName(PLAINTEXT),PLAINTEXT) (kafka.network.SocketServer)
+     
+</code></pre>
+<p>代表启动成功!!</p>
+<ol start="4">
+<li>写一个生产者test，往kafka服务里写数据</li>
+</ol>
+<p>看代码。。。。</p>
+<ol start="5">
+<li>写一个消费者服务，从kafka服务里获取生产都的数据，并对数据进行消费</li>
+</ol>
+<p>看代码</p>
+         
+<h2 id="集成springboot"><a title="集成springboot" class="headerlink" href="#集成springboot"></a>集成springboot</h2><p>以下是springboot版本和kafka对应支持的版本：</p>
+<p><img alt="paste image" src="http://clockcoder.com/images/1559638747484fxnv4uer.png?imageslim"></p>
+<p>pom.xml:</p>
+<pre><code>    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-kafka&lt;/artifactId&gt;
+        &lt;version&gt;2.2.4.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    
+</code></pre>
+<p>由于我的spring-boot的版本是：</p>
+<pre><code>2.1.3.RELEASE
+</code></pre>
+<p>查到spring-依赖的版本号：</p>
+<p><img alt="paste image" src="http://clockcoder.com/images/1559640109584ssafa30k.png?imageslim"></p>
+<p>所以就使用2.2.4</p>
+<h2 id="springboot自动配置kafka"><a title="springboot自动配置kafka" class="headerlink" href="#springboot自动配置kafka"></a>springboot自动配置kafka</h2><p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-messaging.html#boot-features-kafka">spring-kafka文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-messaging.html#boot-features-kafka">https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-messaging.html#boot-features-kafka</a></p>
+<p>(既可以为生产者也可以为消费者)配置文件中：</p>
+<p>spring.kafka.bootstrap-servers=localhost:9092<br>spring.kafka.consumer.group-id=myGroup</p>
+<p>发送消息，KafkaTemplate的实例是自动配置的：</p>
+<pre><code>@Component
+public class MyBean &#123;
+
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
+    @Autowired
+    public MyBean(KafkaTemplate kafkaTemplate) &#123;
+        this.kafkaTemplate = kafkaTemplate;
+    &#125;
+
+    // ...
+
+&#125;
+</code></pre>
+<p>在本例子项目中，在启动入口时，加入kafka消息发送测试代码：</p>
+<pre><code>package com.example.demo;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
+
+import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+@SpringBootApplication(exclude = &#123;
+        DataSourceAutoConfiguration.class,
+        DataSourceTransactionManagerAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class&#125;)
+public class Demo1Application &#123;
+
+    public static void main(String[] args) &#123;
+        SpringApplication.run(Demo1Application.class, args);
+    &#125;
+
+
+
+    @Bean
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) &#123;
+        return args -&gt; &#123;
+
+            System.out.println("Let's inspect the beans provided by Spring Boot:");
+
+            String[] beanNames = ctx.getBeanDefinitionNames();
+            Arrays.sort(beanNames);
+            for (String beanName : beanNames) &#123;
+                System.out.println(beanName);
+            &#125;
+
+            this.template.send("myTopic", "foo1");
+            this.template.send("myTopic", "foo2");
+            this.template.send("myTopic", "foo3");
+            latch.await(60, TimeUnit.SECONDS);
+            System.out.println("All received");
+        &#125;;
+    &#125;
+
+
+    @Autowired
+    private KafkaTemplate&lt;String, String&gt; template;
+
+    private final CountDownLatch latch = new CountDownLatch(3);
+
+
+    @KafkaListener(topics = "myTopic")
+    public void listen(ConsumerRecord&lt;?, ?&gt; cr) throws Exception &#123;
+        System.out.println(cr.toString());
+        latch.countDown();//调用三次才唤醒
+    &#125;
+
+&#125;
+</code></pre>
+<h2 id="Kafka-Streams-流式处理"><a title="Kafka Streams (流式处理)" class="headerlink" href="#Kafka-Streams-流式处理"></a>Kafka Streams (流式处理)</h2><pre><code>@Configuration
+@EnableKafkaStreams
+static class KafkaStreamsExampleConfiguration &#123;
+
+    @Bean
+    public KStream&lt;Integer, String&gt; kStream(StreamsBuilder streamsBuilder) &#123;
+        KStream&lt;Integer, String&gt; stream = streamsBuilder.stream("ks1In");
+        stream.map((k, v) -&gt; new KeyValue&lt;&gt;(k, v.toUpperCase())).to("ks1Out",
+                Produced.with(Serdes.Integer(), new JsonSerde&lt;&gt;()));
+        return stream;
+    &#125;
+
+&#125;
+</code></pre>
+<p>将topic名为ks1In的流中的value转为大写字母,然后再转到新的topic，kslOut这个topic上去。</p>
+<p>如果只是生产者的角色，则springboot项目中配置为：</p>
+<pre><code>spring:
+    kafka:
+        producer: 
+            bootstrap-servers: broke1,broke2
+</code></pre>
+<p>如果是消费者，则springboot配置为：</p>
+<pre><code>spring:
+  kafka:
+    consumer:
+      enable-auto-commit: true
+      group-id: applog
+      auto-offset-reset: latest
+      bootstrap-servers: broke1,broke2
+  
+</code></pre>
+<ul>
+<li>enable-auto-commit: true //指定消息被消费之后自动提交偏移量（即消息的编号，表示消费到了哪个位置，消费者每消费完一条消息就会向kafka服务器汇报自己消消费到的那个消息的编号，以便于下次继续消费）。</li>
+<li>group-id: applog //消费者组</li>
+<li>auto-offset-reset: latest //从最近的地方开始消费</li>
+</ul>
+<p>你还可以配置kafka的序列化与反序列化：</p>
+<pre><code>spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.JsonDeserializer
+spring.kafka.consumer.properties.spring.json.value.default.type=com.example.Invoice
+spring.kafka.consumer.properties.spring.json.trusted.packages=com.example,org.acme
+</code></pre>
+<p>Similarly, you can disable the JsonSerializer default behavior of sending type information in headers:</p>
+<pre><code>spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+spring.kafka.producer.properties.spring.json.add.type.headers=false
+
+
+  
+  
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://github.com/huguiqi/springboot-kafka.git">项目源码</a>      </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/springboot/">springboot</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/kafka/">kafka</a><a href="/tags/springboot/">springboot</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2019/06/04/springboot-kafka/" data-title="springboot_kafka | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/07/10/flume初探/" title="flume初探">
+  <strong>上一篇：</strong><br/>
+  <span>
+  flume初探</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/05/22/工作，生活心情整理/"  title="工作，生活心情整理">
+ <strong>下一篇：</strong><br/> 
+ <span>工作，生活心情整理
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2019/06/04/springboot-kafka/" data-title="springboot_kafka" data-url="http://clockcoder.com/2019/06/04/springboot-kafka/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#springboot-kafka%E9%9B%86%E6%88%90"><span class="toc-number">1.</span> <span class="toc-text">springboot_kafka集成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kafka-client"><span class="toc-number">2.</span> <span class="toc-text">kafka_client</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#maven-%E4%BE%9D%E8%B5%96"><span class="toc-number">2.1.</span> <span class="toc-text">maven 依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85kafka"><span class="toc-number">2.2.</span> <span class="toc-text">安装kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="toc-number">2.2.1.</span> <span class="toc-text">快速开始</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90springboot"><span class="toc-number">2.3.</span> <span class="toc-text">集成springboot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AEkafka"><span class="toc-number">2.4.</span> <span class="toc-text">springboot自动配置kafka</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kafka-Streams-%E6%B5%81%E5%BC%8F%E5%A4%84%E7%90%86"><span class="toc-number">2.5.</span> <span class="toc-text">Kafka Streams (流式处理)</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

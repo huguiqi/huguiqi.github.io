@@ -1,0 +1,1294 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>k8s学习（一） | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="k8s学习（一）安装升级docker for desktop的mac版本到 https:&#x2F;&#x2F;kubernetes.io&#x2F;zh&#x2F;docs&#x2F;setup&#x2F;production-environment&#x2F;tools&#x2F;kubeadm&#x2F;install-kubeadm&#x2F; ** unbuntu环境安装 1. 使用kubeadm安装kubectlvim &#x2F;etc&#x2F;docker&#x2F;daemon.json  export">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s学习（一）">
+<meta property="og:url" content="http://clockcoder.com/2020/08/04/kubectl-for-mac%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="k8s学习（一）安装升级docker for desktop的mac版本到 https:&#x2F;&#x2F;kubernetes.io&#x2F;zh&#x2F;docs&#x2F;setup&#x2F;production-environment&#x2F;tools&#x2F;kubeadm&#x2F;install-kubeadm&#x2F; ** unbuntu环境安装 1. 使用kubeadm安装kubectlvim &#x2F;etc&#x2F;docker&#x2F;daemon.json  export">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huguiqi/hexoImg/image-20200728094925556.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huguiqi/hexoImg/image-20200728095523717.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huguiqi/hexoImg/image-20200728094442332.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/huguiqi/hexoImg/image-20200728094649289.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1ghg8zvq7vlj30v40mctat.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlly1gh72ufomfej313806eq36.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlly1gh72zmdtxlj31iu0jy78a.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlly1gh735zqmvfj30p00ha0w0.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlly1gh737lazk1j30pw05c754.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlly1gh739x1uuoj31jw0l477s.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1gh7rx2v0xcj3112052gmj.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1gh7y6ptmuhj314806uta3.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1gh824eywjlj311m066my6.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1gh82b7aj16j31020digoi.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1ghgy3vc7nlj31b806owfv.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1ghgy5zq2irj327y0ckgpa.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1ghgyjnaa31j31ic04sjsl.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1ghgymjatwoj30ku09m74j.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1ghgynnnq42j30yg04ogm9.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1ghgyrlxaqwj30qc050dgq.png">
+<meta property="article:published_time" content="2020-08-04T03:13:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:07.600Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/huguiqi/hexoImg/image-20200728094925556.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/08/04/kubectl-for-mac学习/" title="k8s学习（一）" itemprop="url">k8s学习（一）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-08-04T03:13:00.000Z" itemprop="datePublished"> 发表于 2020-08-04</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k8s%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">k8s学习（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85kubectl"><span class="toc-number">1.2.</span> <span class="toc-text">1. 使用kubeadm安装kubectl</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%A2%99%E5%86%85%E9%95%9C%E5%83%8F%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.1.</span> <span class="toc-text">设置墙内镜像地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85docker-ce-kubelet-kubeadm-kubectl"><span class="toc-number">1.2.2.</span> <span class="toc-text">安装docker-ce kubelet kubeadm kubectl</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-MiniKube-%E5%AE%89%E8%A3%85"><span class="toc-number">1.3.</span> <span class="toc-text">2. MiniKube 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8minikube%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E8%80%81%E6%98%AF%E9%81%87%E5%88%B0%E7%AB%AF%E5%8F%A3%E8%A2%AB%E5%8D%A0%E7%94%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">启动minikube的时候，老是遇到端口被占用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mac%E7%8E%AF%E5%A2%83"><span class="toc-number">1.4.</span> <span class="toc-text">mac环境</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.0.0.1.</span> <span class="toc-text">安装后遇到的问题</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85dashboard"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">安装dashboard</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BA%E5%A4%9A%E8%8A%82%E7%82%B9kubenet"><span class="toc-number">1.5.</span> <span class="toc-text">在本地创建多节点kubenet</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8"><span class="toc-number">1.5.1.</span> <span class="toc-text">部署应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BANode-js%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.6.</span> <span class="toc-text">创建Node.js应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BADocker%E5%AE%B9%E5%99%A8%E9%95%9C%E5%83%8F"><span class="toc-number">1.7.</span> <span class="toc-text">创建Docker容器镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAService"><span class="toc-number">1.8.</span> <span class="toc-text">创建Service</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ingressCntroller-ingress-web"><span class="toc-number">1.8.1.</span> <span class="toc-text">ingressCntroller+ ingress+web</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AFminikube%E7%9A%84ingressController%E6%8F%92%E4%BB%B6"><span class="toc-number">1.8.2.</span> <span class="toc-text">开启minikube的ingressController插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81ingressController%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF%E6%88%90%E5%8A%9F"><span class="toc-number">1.8.2.1.</span> <span class="toc-text">验证ingressController是否开启成功</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEingress-rule"><span class="toc-number">1.8.3.</span> <span class="toc-text">配置ingress rule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E9%95%9C%E5%83%8F%E4%B8%8E%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.8.4.</span> <span class="toc-text">更新镜像与服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.9.</span> <span class="toc-text">更新应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E7%90%86%E5%88%A0%E9%99%A4"><span class="toc-number">1.10.</span> <span class="toc-text">清理删除</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="k8s学习（一）"><a title="k8s学习（一）" class="headerlink" href="#k8s学习（一）"></a>k8s学习（一）</h1><h2 id="安装"><a title="安装" class="headerlink" href="#安装"></a>安装</h2><p>升级docker for desktop的mac版本到</p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/</a></p>
+<p>** unbuntu环境安装</p>
+<h2 id="1-使用kubeadm安装kubectl"><a title="1. 使用kubeadm安装kubectl" class="headerlink" href="#1-使用kubeadm安装kubectl"></a>1. 使用kubeadm安装kubectl</h2><pre><code>vim /etc/docker/daemon.json
+</code></pre>
+<p>export PS1=”[\033[33m]\u[\033[0m]@[\033[36m]k8s[\033[0m]:[\033[32m]\W [\033[0m]$ “</p>
+<pre><code>apt -y install apt-transport-https ca-certificates curl software-properties-common
+
+curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | apt-key add -
+
+curl -fsSL https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add -
+</code></pre>
+<h3 id="设置墙内镜像地址"><a title="设置墙内镜像地址" class="headerlink" href="#设置墙内镜像地址"></a>设置墙内镜像地址</h3><pre><code>cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/docker-k8s.list
+deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
+deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable
+EOF
+
+cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/docker-k8s.list
+deb http://mirrors.ustc.edu.cn/kubernetes/apt kubernetes-xenial main
+EOF
+</code></pre>
+<h3 id="安装docker-ce-kubelet-kubeadm-kubectl"><a title="安装docker-ce kubelet kubeadm kubectl" class="headerlink" href="#安装docker-ce-kubelet-kubeadm-kubectl"></a>安装docker-ce kubelet kubeadm kubectl</h3><p>apt update &amp;&amp; apt install -y docker-ce kubelet kubeadm kubectl<br>systemctl enable kubelet &amp;&amp; systemctl start kubelet</p>
+<p>** 禁用swapp</p>
+<pre><code>sudo swapoff -a
+</code></pre>
+<p>** 要永久禁掉swap分区，打开如下文件注释掉swap那一行</p>
+<pre><code>sudo vi /etc/fstab
+</code></pre>
+<p>摘取镜像</p>
+<pre><code>kubeadm config images list
+</code></pre>
+<p> 初始化 </p>
+<pre><code> kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=NumCPU
+</code></pre>
+<p>设置master主机名</p>
+<pre><code>sudo hostnamectl set-hostname kubemaster
+
+systemctl kubelet status
+systemctl start kubelet
+systemctl kubelet status
+systemctl enable kubelet &amp;&amp; systemctl start kubelet
+</code></pre>
+<p>这个方式如果是个人测试与学习用，安装比较复杂，并且浪费时间，建议使用minikube</p>
+<ul>
+<li>minikube</li>
+</ul>
+<ol>
+<li>需要安装kubectl</li>
+</ol>
+<p>最新的minikue不需要再安装kebectl环境了，因为经常由于版本不匹配问题，导致minikube安装不成功，奶奶的</p>
+<h2 id="2-MiniKube-安装"><a title="2. MiniKube 安装" class="headerlink" href="#2-MiniKube-安装"></a>2. MiniKube 安装</h2><p>MiniKube 是使用 Go 语言开发的，所以安装其实很方便，一是通过下载基于不同平台早已编译好的二级制文件安装，二是可以编译源文件安装。</p>
+<pre><code>curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v1.12.1/minikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/local/bin/
+</code></pre>
+<ol start="3">
+<li>启动minikube<br>minikube start –vm-driver=none –registry-mirror=<a target="_blank" rel="noopener" href="https://registry.docker-cn.com/">https://registry.docker-cn.com</a></li>
+</ol>
+<p>minikube status</p>
+<p>遇到的问题：</p>
+<pre><code># sudo systemctl enable kubelet
+Failed to enable unit: Unit file /etc/systemd/system/kubelet.service is masked.
+</code></pre>
+<p>出现这种情况，执行：</p>
+<pre><code>kubelet --version
+</code></pre>
+<p>有反应，说明kubelet安装成功，只是环境变量有问题。</p>
+<p>解决办法：</p>
+<pre><code># sudo rm /etc/systemd/system/kubelet.service	
+
+root@kubenode:/etc/systemd/system# rm -rf kubelet.service.d/10-kubeadm.conf	
+</code></pre>
+<p>重新加载系统配置：</p>
+<pre><code>sudo systemctl daemon-reload	
+</code></pre>
+<p>查看状态：</p>
+<pre><code>sudo systemctl status kubelet
+</code></pre>
+<p>启动成功：</p>
+<pre><code>root@kubenode:/etc/systemd/system# sudo systemctl status kubelet
+● kubelet.service - kubelet: The Kubernetes Node Agent
+   Loaded: loaded (/lib/systemd/system/kubelet.service; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: http://kubernetes.io/docs/
+root@kubenode:/etc/systemd/system# sudo systemctl start kubelet
+root@kubenode:/etc/systemd/system# sudo systemctl status kubelet
+● kubelet.service - kubelet: The Kubernetes Node Agent
+   Loaded: loaded (/lib/systemd/system/kubelet.service; enabled; vendor preset: enabled)
+   Active: active (running) since Mon 2020-07-27 18:43:06 CST; 6s ago
+     Docs: http://kubernetes.io/docs/
+ Main PID: 23171 (kubelet)	
+</code></pre>
+<p>全局启动：</p>
+<pre><code>sudo systemctl enable kubelet
+
+sudo systemctl is-enabled kubelet
+</code></pre>
+<p>查看是否启动，返回：</p>
+<pre><code>enabled
+</code></pre>
+<h3 id="启动minikube的时候，老是遇到端口被占用"><a title="启动minikube的时候，老是遇到端口被占用" class="headerlink" href="#启动minikube的时候，老是遇到端口被占用"></a>启动minikube的时候，老是遇到端口被占用</h3><p><img alt="image-20200728094925556" src="https://cdn.jsdelivr.net/gh/huguiqi/hexoImg/image-20200728094925556.png"></p>
+<p>原因是：localkube，kubectl, kubelet在外面启动了，应该不要启动</p>
+<p>关闭</p>
+
+
+<p>sudo systemctl stop localkube</p>
+<p>sudo systemctl stop kubelet</p>
+<p>再执行：</p>
+
+
+
+
+<p><img alt="image-20200728095523717" src="https://cdn.jsdelivr.net/gh/huguiqi/hexoImg/image-20200728095523717.png"></p>
+<p>启动minkiube:</p>
+<p>​	<code>minikube start --vm-driver=none</code></p>
+<p><img alt="image-20200728094442332" src="https://cdn.jsdelivr.net/gh/huguiqi/hexoImg/image-20200728094442332.png"></p>
+<p>查看状态：</p>
+<p><img alt="image-20200728094649289" src="https://cdn.jsdelivr.net/gh/huguiqi/hexoImg/image-20200728094649289.png"></p>
+<p>看看之前禁用掉的两个服务：</p>
+
+
+
+
+
+
+<h2 id="mac环境"><a title="mac环境" class="headerlink" href="#mac环境"></a>mac环境</h2><ul>
+<li>docker desk</li>
+</ul>
+<p>docker-for-desktop</p>
+<p>版本：2.3.0.4(46911)</p>
+<p>docker engine: 19.03.12</p>
+<p>compose: 1.26.2</p>
+<p>k8s: v1.16.5</p>
+<p><img alt="image-20200805211832103" src="/images/007S8ZIlgy1ghg8zvq7vlj30v40mctat.png"></p>
+<h5 id="安装后遇到的问题"><a title="安装后遇到的问题" class="headerlink" href="#安装后遇到的问题"></a>安装后遇到的问题</h5><p>开启k8s后，docker desk 界面一直在转：</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d87980f5188253f74438bb6">https://juejin.im/post/5d87980f5188253f74438bb6</a></p>
+<h4 id="安装dashboard"><a title="安装dashboard" class="headerlink" href="#安装dashboard"></a>安装dashboard</h4>
+
+<p>因文件中镜像在国内无法下载，使用如下镜像代替：</p>
+<p>docker pull gcrxio/kubernetes-dashboard-amd64:v1.10.1</p>
+<p>下载完后改成文件中的名字(k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.1)：</p>
+
+
+
+
+<p>启动代理：</p>
+<p> kubectl proxy</p>
+<p>启动成功后，可以通过该地址进行访问 Dashboard：</p>
+<p><a target="_blank" rel="noopener" href="http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/">http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/</a></p>
+<p>进入 Dashboard 需要令牌，可以通过以下命令获取令牌：</p>
+
+
+<ul>
+<li>minikube</li>
+</ul>
+<p>安装：</p>
+
+
+
+
+
+
+<p>##dashboard password:</p>
+<p>kubectl -n kube-system describe secret default| awk ‘$1==”token:”{print $2}’\n</p>
+<p>验证kubectl集群配置</p>
+
+
+
+
+<h2 id="在本地创建多节点kubenet"><a title="在本地创建多节点kubenet" class="headerlink" href="#在本地创建多节点kubenet"></a>在本地创建多节点kubenet</h2><ol>
+<li>查看当前所在集群信息</li>
+</ol>
+
+
+
+
+<p><img alt="image-20200728225429941" src="/images/007S8ZIlly1gh72ufomfej313806eq36.png"></p>
+<ol start="2">
+<li><p>查看集群的node数</p>
+
+
+
+</li>
+<li><p>启动dashboard</p>
+</li>
+</ol>
+
+
+<p>启动后会自动打开浏览器访问dashboard的地址：</p>
+<p><img alt="image-20200728230038597" src="/images/007S8ZIlly1gh72zmdtxlj31iu0jy78a.png"></p>
+<ol start="4">
+<li><p>本机只有一个节点，我要模拟多个节点</p>
+
+
+<p>因为minikube添加节点会自动加入到当前集群中，而且会自动命名：</p>
+</li>
+</ol>
+<p><img alt="image-20200728230645893" src="/images/007S8ZIlly1gh735zqmvfj30p00ha0w0.png"></p>
+<ol start="5">
+<li>查看集群中节点数目</li>
+</ol>
+
+
+
+
+<p><img alt="image-20200728230818901" src="/images/007S8ZIlly1gh737lazk1j30pw05c754.png"></p>
+<p><em>ps: roles没有设置，暂时也不知道怎么设置</em></p>
+<p>在dashboard中也可以看到新加的nodes：</p>
+<p><img alt="image-20200728231031837" src="/images/007S8ZIlly1gh739x1uuoj31jw0l477s.png"></p>
+<h3 id="部署应用"><a title="部署应用" class="headerlink" href="#部署应用"></a>部署应用</h3><p>由于我已经有两个节点了，那我部署应用应该至少设置2个及以上的pod数量</p>
+<h2 id="创建Node-js应用程序"><a title="创建Node.js应用程序" class="headerlink" href="#创建Node-js应用程序"></a>创建Node.js应用程序</h2><p>下一步编写应用程序。将这段代码保存在一个名为hellonode的文件夹中，文件名server.js:</p>
+<p><strong>server.js</strong></p>
+
+
+
+
+<p>运行应用：</p>
+
+
+
+
+<p>curl <a target="_blank" rel="noopener" href="http://localhost:8888/">http://localhost:8888</a></p>
+<p>返回：hello world !</p>
+<p>按Ctrl-C停止正在运行的Node.js服务器。</p>
+<p>下一步将应用程序打包到Docker容器中。</p>
+<h2 id="创建Docker容器镜像"><a title="创建Docker容器镜像" class="headerlink" href="#创建Docker容器镜像"></a>创建Docker容器镜像</h2><p>在hellonode文件夹中创建一个Dockerfile命名的文件。Dockerfile描述了build的镜像，通过现有的镜像扩展（extend）build Docker容器镜像，本教程中的镜像扩展（extend）了现有的Node.js镜像。</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/kubernetes/kubernetes.github.io/master/docs/tutorials/stateless-application/Dockerfile">Dockerfile </a></p>
+
+
+<p>本教程使用Minikube，而不是将Docker镜像push到registry，可以使用与Minikube VM相同的Docker主机构建镜像，以使镜像自动存在。为此，请确保使用Minikube Docker守护进程：</p>
+
+
+<p>注意：如果不在使用Minikube主机时，可以通过运行eval $(minikube docker-env -u)来撤消此更改。</p>
+<p>使用Minikube Docker守护进程build Docker镜像：</p>
+
+
+<p>好了Minikube VM可以运行构建好的镜像。</p>
+<p>由于我是在本地构建的image,所以为了防止在其它的node上重复下载image或者下载不到image,则执行镜像拉取：</p>
+
+
+
+
+<p>但是这种方式有问题，新建一个node，部署的时候，还是报错：</p>
+<p><img alt="image-20200729132310762" src="/images/007S8ZIlgy1gh7rx2v0xcj3112052gmj.png"></p>
+<p>在部署应用之前，我有两个节点，一个master一个node，但是master不承担应用节点负载，那么我再建立一个node:</p>
+
+
+
+
+<p>生成了minikube-m03</p>
+<p>下载完了以后，部署一个deployment:</p>
+<p> kubectl run hello-node –image=hello-node:v1 –port=8888 –replicas=6</p>
+<p>只能先用笨办法，进入node节点机器，将镜像手动再build一下：</p>
+<p>minikube ssh -n minikube-m03</p>
+<p>由于在国内，因为墙的原因，新增的node节点无法下载镜像,则需要在启动minikube的时候，加上镜像地址：</p>
+
+
+
+
+
+
+
+
+<h2 id="创建Service"><a title="创建Service" class="headerlink" href="#创建Service"></a>创建Service</h2><p>默认情况，Pod只能通过Kubernetes群集内部IP访问。要使hello-node容器从Kubernetes虚拟网络外部访问，须要使用Kubernetes <a target="_blank" rel="noopener" href="http://docs.kubernetes.org.cn/703.html">Service</a>暴露Pod。(理论上就算用service暴露pod,也只能在kubectl内部的服务去访问)</p>
+<p>我们可以使用kubectl expose命令将Pod暴露到外部环境：</p>
+
+
+<p>查看刚创建的Service：</p>
+
+
+<p>输出：</p>
+<p><img alt="image-20200729165959949" src="/images/007S8ZIlgy1gh7y6ptmuhj314806uta3.png"></p>
+<p>将此service临时暴露出来，让宿主机可以访问：</p>
+
+
+<p>将打开浏览器，在本地IP地址为应用提供服务，显示“Hello World”的消息。</p>
+<p>最后可以查看到一些日志</p>
+
+
+
+
+<p>[参考文章]: (<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube">https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube</a>	“)”<br>[例子参考]: <a target="_blank" rel="noopener" href="http://docs.kubernetes.org.cn/94.html">http://docs.kubernetes.org.cn/94.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://docs.kubernetes.org.cn/94.html">http://docs.kubernetes.org.cn/94.html</a></p>
+<h3 id="ingressCntroller-ingress-web"><a title="ingressCntroller+ ingress+web" class="headerlink" href="#ingressCntroller-ingress-web"></a>ingressCntroller+ ingress+web</h3><h3 id="开启minikube的ingressController插件"><a title="开启minikube的ingressController插件" class="headerlink" href="#开启minikube的ingressController插件"></a>开启minikube的ingressController插件</h3><p>我们有些后台服务是直接在外网上被调用的，比如给h5或者app提供服务的应用，</p>
+<p>在minikube上已经集成了ingressController。</p>
+
+
+
+
+
+
+<p><img alt="image-20200729191613728" src="/images/007S8ZIlgy1gh824eywjlj311m066my6.png"></p>
+<p>只要启动的时间加上–driver=hyperkit (这个是在mac上提示这样写的，但实际上无效，不支持开启插件)</p>
+<p><em>ps: 在mac平台下，minikube有个bug, 是不会成功的。</em></p>
+<p>只能切换到unbuntu上运行：</p>
+
+
+<p>ps: 目前这个是不可以的的</p>
+<p>问题已经在github上暴露出来了：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/kubernetes/minikube/pull/7393">https://github.com/kubernetes/minikube/pull/7393</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d87980f5188253f74438bb6">参考文章</a></p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/">https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/</a></p>
+<h4 id="验证ingressController是否开启成功"><a title="验证ingressController是否开启成功" class="headerlink" href="#验证ingressController是否开启成功"></a>验证ingressController是否开启成功</h4>
+
+
+
+<p>返回：</p>
+<p>NAME                                        READY   STATUS      RESTARTS   AGE<br>coredns-546565776c-z5h75                    1/1     Running     0          39m<br>etcd-kubenode                               1/1     Running     0          39m<br>ingress-nginx-admission-create-x2rss        0/1     Completed   0          7m14s<br>ingress-nginx-admission-patch-kzj24         0/1     Completed   1          7m14s<br>ingress-nginx-controller-69ccf5d9d8-j5qnj   1/1     Running     0          7m14s<br>kube-apiserver-kubenode                     1/1     Running     0          39m<br>kube-controller-manager-kubenode            1/1     Running     0          39m<br>kube-proxy-kdgpn                            1/1     Running     0          39m<br>kube-scheduler-kubenode                     1/1     Running     0          39m<br>storage-provisioner                         1/1     Running     0          39m</p>
+<p><img alt="image-20200729192245410" src="/images/007S8ZIlgy1gh82b7aj16j31020digoi.png"></p>
+<h3 id="配置ingress-rule"><a title="配置ingress rule" class="headerlink" href="#配置ingress-rule"></a>配置ingress rule</h3><p>example-ingress.yaml:</p>
+<ul>
+<li><ul>
+<li>```shell<br>kind: Ingress<br> metadata:<br>   name: example-ingress<br>   annotations:<br> nginx.ingress.kubernetes.io/rewrite-target: /$1<br> spec:<br>   rules:<ul>
+<li>host: hello.node.info<br>http:<br>  paths:<ul>
+<li>path: /<br>backend:<br>  serviceName: hello-node<br>  servicePort: 8888</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>或者从github下载源码包：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/kubernetes/ingress-nginx/releases/tag/controller-v0.34.1">https://github.com/kubernetes/ingress-nginx/releases/tag/controller-v0.34.1</a></p>
+<p>下载下来，找到deploy.yaml文件：</p>
+
+
+
+
+<p>注意，官网上它发布了两种包：</p>
+<ul>
+<li>ingress-nginx-xxx  必须结合helm才能部署执行</li>
+<li>controller-v034.1  是源包</li>
+</ul>
+<p>2.下载镜像：</p>
+<p>因为deploy.yaml里的镜像地址，国内因为墙的原因，无法访问，所以我们将它的镜像地址改成阿里云的镜像地址：</p>
+
+
+
+
+<p><strong>ps: 因为阿里云没有0.34.1这个版本，所以换成了0.30.0</strong></p>
+<p><strong>ps: 找到了国内可以用的0.34镜像：</strong></p>
+<p>​	</p>
+
+
+
+
+<ol start="3">
+<li>启动ingressController</li>
+</ol>
+<p>将deploy.yaml 改名：ingress-nginx-controller.yaml</p>
+
+
+
+
+<p>查看是否启动成功：</p>
+
+
+
+
+<p><img alt="image-20200806114722687" src="/images/007S8ZIlgy1ghgy3vc7nlj31b806owfv.png"></p>
+<p>有两个adminssion没有启动，只是镜像下载完成了，我们看看什么原因：</p>
+
+
+<p>事件日志：</p>
+<p><img alt="image-20200806114925870" src="/images/007S8ZIlgy1ghgy5zq2irj327y0ckgpa.png"></p>
+<p>这个至于为什么，我暂时没找到解决办法，但这个pod不影响我们ingress-controller的正常运行，先不管了。</p>
+<p>我们看看ingress-controller 的service是否正常：</p>
+
+
+
+
+<p><img alt="image-20200806120232485" src="/images/007S8ZIlgy1ghgyjnaa31j31ic04sjsl.png"></p>
+<p>发现已经解析到本机的localhost了。</p>
+<p>我们看看：</p>
+<p>curl localhost</p>
+<p><img alt="image-20200806120520145" src="/images/007S8ZIlgy1ghgymjatwoj30ku09m74j.png"></p>
+<p>我们因为之前已经部署了hello-node的pod服务，我们看看ingress是否生效：</p>
+<p>​	</p>
+
+
+<p><img alt="image-20200806120624455" src="/images/007S8ZIlgy1ghgynnnq42j30yg04ogm9.png"></p>
+<p>发现已经将我们自定义的host指向了address地址，我们访问看看：</p>
+<p><img alt="image-20200806121012329" src="/images/007S8ZIlgy1ghgyrlxaqwj30qc050dgq.png"></p>
+<p>负载均衡已经起效。</p>
+<p>参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/">https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/</a></p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.github.io/ingress-nginx/deploy/">https://kubernetes.github.io/ingress-nginx/deploy/</a></p>
+<h3 id="更新镜像与服务"><a title="更新镜像与服务" class="headerlink" href="#更新镜像与服务"></a>更新镜像与服务</h3><h2 id="更新应用程序"><a title="更新应用程序" class="headerlink" href="#更新应用程序"></a>更新应用程序</h2><p>编辑server.js文件以返回pod容器的ip：</p>
+
+
+
+
+<p>完整server.js:</p>
+
+
+<p>build新版本镜像</p>
+
+
+<p>Deployment更新镜像：</p>
+
+
+<p>再次运行应用以查看新消息：</p>
+
+
+<h2 id="清理删除"><a title="清理删除" class="headerlink" href="#清理删除"></a>清理删除</h2><p>现在可以删除在集群中创建的资源：</p>
+
+
+<p>或者停止Minikube：</p>
+
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F-%E8%BF%90%E7%BB%B4/">系统&运维</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/k8s/">k8s</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2020/08/04/kubectl-for-mac%E5%AD%A6%E4%B9%A0/" data-title="k8s学习（一） | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/08/06/k8s学习(二)/" title="k8s学习（二）">
+  <strong>上一篇：</strong><br/>
+  <span>
+  k8s学习（二）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/2012年年中的macbook_pro_retenia显卡门解决方案/"  title="2012年年中的macbook显卡门解决方案">
+ <strong>下一篇：</strong><br/> 
+ <span>2012年年中的macbook显卡门解决方案
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/08/04/kubectl-for-mac学习/" data-title="k8s学习（一）" data-url="http://clockcoder.com/2020/08/04/kubectl-for-mac%E5%AD%A6%E4%B9%A0/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k8s%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">k8s学习（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8kubeadm%E5%AE%89%E8%A3%85kubectl"><span class="toc-number">1.2.</span> <span class="toc-text">1. 使用kubeadm安装kubectl</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%A2%99%E5%86%85%E9%95%9C%E5%83%8F%E5%9C%B0%E5%9D%80"><span class="toc-number">1.2.1.</span> <span class="toc-text">设置墙内镜像地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85docker-ce-kubelet-kubeadm-kubectl"><span class="toc-number">1.2.2.</span> <span class="toc-text">安装docker-ce kubelet kubeadm kubectl</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-MiniKube-%E5%AE%89%E8%A3%85"><span class="toc-number">1.3.</span> <span class="toc-text">2. MiniKube 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8minikube%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E8%80%81%E6%98%AF%E9%81%87%E5%88%B0%E7%AB%AF%E5%8F%A3%E8%A2%AB%E5%8D%A0%E7%94%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">启动minikube的时候，老是遇到端口被占用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mac%E7%8E%AF%E5%A2%83"><span class="toc-number">1.4.</span> <span class="toc-text">mac环境</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.0.0.1.</span> <span class="toc-text">安装后遇到的问题</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85dashboard"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">安装dashboard</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%88%9B%E5%BB%BA%E5%A4%9A%E8%8A%82%E7%82%B9kubenet"><span class="toc-number">1.5.</span> <span class="toc-text">在本地创建多节点kubenet</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8"><span class="toc-number">1.5.1.</span> <span class="toc-text">部署应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BANode-js%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.6.</span> <span class="toc-text">创建Node.js应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BADocker%E5%AE%B9%E5%99%A8%E9%95%9C%E5%83%8F"><span class="toc-number">1.7.</span> <span class="toc-text">创建Docker容器镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAService"><span class="toc-number">1.8.</span> <span class="toc-text">创建Service</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ingressCntroller-ingress-web"><span class="toc-number">1.8.1.</span> <span class="toc-text">ingressCntroller+ ingress+web</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AFminikube%E7%9A%84ingressController%E6%8F%92%E4%BB%B6"><span class="toc-number">1.8.2.</span> <span class="toc-text">开启minikube的ingressController插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81ingressController%E6%98%AF%E5%90%A6%E5%BC%80%E5%90%AF%E6%88%90%E5%8A%9F"><span class="toc-number">1.8.2.1.</span> <span class="toc-text">验证ingressController是否开启成功</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEingress-rule"><span class="toc-number">1.8.3.</span> <span class="toc-text">配置ingress rule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E9%95%9C%E5%83%8F%E4%B8%8E%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.8.4.</span> <span class="toc-text">更新镜像与服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.9.</span> <span class="toc-text">更新应用程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E7%90%86%E5%88%A0%E9%99%A4"><span class="toc-number">1.10.</span> <span class="toc-text">清理删除</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

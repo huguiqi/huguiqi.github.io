@@ -1,0 +1,877 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>linux su和sudo命令的区别 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="linux su和sudo命令的区别linuxsu和sudo命令的区别****相关信息来源：互联网作者：佚名时间：04-1311:02:50 【大 中 小】资讯正文   一. 使用 su 命令临时切换用户身份 1、su的适用条件和威力　　su命令就是切换用户的工具，怎么理解呢？比如我们以普通用户beinan登录的，但要添加用户任务，执行useradd，beinan用户没有这个权限，而这个权限恰恰由">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux su和sudo命令的区别">
+<meta property="og:url" content="http://clockcoder.com/2020/04/29/linux%20su%E5%92%8Csudo%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="linux su和sudo命令的区别linuxsu和sudo命令的区别****相关信息来源：互联网作者：佚名时间：04-1311:02:50 【大 中 小】资讯正文   一. 使用 su 命令临时切换用户身份 1、su的适用条件和威力　　su命令就是切换用户的工具，怎么理解呢？比如我们以普通用户beinan登录的，但要添加用户任务，执行useradd，beinan用户没有这个权限，而这个权限恰恰由">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:07.607Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="从印象笔记导入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/linux su和sudo命令的区别/" title="linux su和sudo命令的区别" itemprop="url">linux su和sudo命令的区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#linux-su%E5%92%8Csudo%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">linux su和sudo命令的区别</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="linux-su和sudo命令的区别"><a title="linux su和sudo命令的区别" class="headerlink" href="#linux-su和sudo命令的区别"></a>linux su和sudo命令的区别</h1><p><span style="font: 15.0px Tahoma; font-kerning: none; color: #669900; background-color: #f7fcff; -webkit-text-stroke: 0px #669900"><strong>linux<br>su和sudo命令的区别</strong></span><span style="font: 15.0px Tahoma; font-kerning: none; color: #669900; -webkit-text-stroke: 0px #669900">**<br>**</span><span style="font: 12.0px Tahoma; font-kerning: none; background-color: #f7fcff; -webkit-text-stroke: 0px #000000">相关信息</span><span style="font: 12.0px Tahoma; font-kerning: none; -webkit-text-stroke: 0px #000000"><br></span><span style="font: 12.0px Tahoma; font-kerning: none; color: #666666; background-color: #f7fcff; -webkit-text-stroke: 0px #666666">来源：互联网</span><br><span style="font: 12.0px Tahoma; font-kerning: none; color: #666666; background-color: #f7fcff; -webkit-text-stroke: 0px #666666">作者：佚名</span><br><span style="font: 12.0px Tahoma; font-kerning: none; color: #666666; background-color: #f7fcff; -webkit-text-stroke: 0px #666666">时间：04-13<br>11:02:50</span> <span style="font: 12.0px Tahoma; font-kerning: none; color: #666666; background-color: #f7fcff; -webkit-text-stroke: 0px #666666">【<span style="font-kerning: none">大</span> <span style="font-kerning: none">中</span> <span style="font-kerning: none">小</span>】</span><span style="font: 12.0px Tahoma; font-kerning: none; -webkit-text-stroke: 0px #000000"><br></span><span style="font: 12.0px Tahoma; font-kerning: none; background-color: #f7fcff; -webkit-text-stroke: 0px #000000">资讯正文</span></p>
+<div>
+
+<p><span style="font-family: Tahoma;"><span style="color: rgb(68, 68, 68);">一. 使用 su 命令临时切换用户身份 1、su<br>的适用条件和威力<br>　　su命令就是切换用户的工具，怎么理解呢？比如我们以普通用户beinan登录的，但要添加用户任务，执行useradd<br>，beinan用户没有这个权限，而这个权限恰恰由root所拥有。解决办法无法有两个，一是退出beinan用户</span></span></p>
+</div>
+
+<div>
+
+
+<p>\</p>
+</div>
+
+<p><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444"><strong>一.<br>使用 su 命令临时切换用户身份</strong></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">1、su<br>的适用条件和威力</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　su命令就是切换用户的工具，怎么理解呢？比如我们以普通用户beinan登录的，但要添加用户任务，执行useradd<br>，beinan用户没有这个权限，而这个权限恰恰由root所拥有。解决办法无法有两个，一是退出beinan用户，重新以root用户登录，但这种办法并不是最好的；二是我们没有必要退出beinan用户，可以用su来切换到root下进行添加用户的工作，等任务完成后再退出root。我们可以看到当然通过su<br>切换是一种比较好的办法；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　通过su可以在用户之间切换，如果超级权限用户root向普通或虚拟用户切换不需要密码，什么是权力？这就是！而普通用户切换到其它任何用户都需要密码验证；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　2、su<br>的用法：</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　su<br>[OPTION选项参数] [用户]</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　-,<br>-l, ——login 登录并改变到所切换的用户环境；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　-c,<br>——commmand=COMMAND<br>执行一个命令，然后退出所切换到的用户环境；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　至于更详细的，请参看man<br>su ；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　3、su<br>的范例：</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　su<br>在不加任何参数，默认为切换到root用户，但没有转到root用户家目录下，也就是说这时虽然是切换为root用户了，但并没有改变root登录环境；用户默认的登录环境，可以在/etc/passwd<br>中查得到，包括家目录，SHELL定义等；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ suPassword:[root localhost beinan]#<br>pwd/home/beinan</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　su<br>加参数 -<br>，表示默认切换到root用户，并且改变到root用户的环境；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ pwd/home/beinan[beinan localhost ~]?$ su<br>-Password:[root localhost ~]# pwd/root</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　su<br>参数 - 用户名</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ su - root 注：这个和su - 是一样的功能；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　Password:</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[root localhost<br>~]# pwd</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　/root</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ su - linuxsir 注：这是切换到 linuxsir用户</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　Password:<br>注：在这里输入密码；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[linuxsir localhost<br>~]?$ pwd 注：查看用户当前所处的位置；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　/home/linuxsir</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[linuxsir localhost<br>~]?$ id<br>注：查看用户的UID和GID信息，主要是看是否切换过来了；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　uid=505(linuxsir)<br>gid=502(linuxsir) groups=0(root),500(beinan),502(linuxsir)</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[linuxsir localhost<br>~]?$</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ su - -c ls<br>注：这是su的参数组合，表示切换到root用户，并且改变到root环境，然后列出root家目录的文件，然后退出root用户；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　Password:<br>注：在这里输入root的密码；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　anaconda-ks.cfg<br>Desktop install.log install.log.syslog testgroup testgroupbeinan<br>testgrouproot</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ pwd 注：查看当前用户所处的位置；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　/home/beinan</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ id 注：查看当前用户信息；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　uid=500(beinan)<br>gid=500(beinan) groups=500(beinan)</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　4、su的优缺点；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　su<br>的确为管理带来方便，通过切换到root下，能完成所有系统管理工具，只要把root的密码交给任何一个普通用户，他都能切换到root来完成所有的系统管理工作；但通过su切换到root后，也有不安全因素；比如系统有10个用户，而且都参与管理。如果这10个用户都涉及到超级权限的运用，做为管理员如果想让其它用户通过su来切换到超级权限的root，必须把root权限密码都告诉这10个用户；如果这10个用户都有root权限，通过root权限可以做任何事，这在一定程度上就对系统的安全造成了威协；想想Windows吧，简直就是恶梦；“没有不安全的系统，只有不安全的人”，我们绝对不能保证这<br>10个用户都能按正常操作流程来管理系统，其中任何一人对系统操作的重大失误，都可能导致系统崩溃或数据损失；所以su<br>工具在多人参与的系统管理中，并不是最好的选择，su只适用于一两个人参与管理的系统，毕竟su并不能让普通用户受限的使用；超级用户root密码应该掌握在少数用户手中，这绝对是真理！所以集权而治的存在还是有一定道理的；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444"><strong>二.<br>sudo 授权许可使用的su，也是受限制的su</strong></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　1.<br>sudo 的适用条件</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　由于su<br>对切换到超级权限用户root后，权限的无限制性，所以su并不能担任多个管理员所管理的系统。如果用su<br>来切换到超级用户来管理系统，也不能明确哪些工作是由哪个管理员进行的操作。特别是对于服务器的管理有多人参与管理时，最好是针对每个管理员的技术特长和管理范围，并且有针对性的下放给权限，并且约定其使用哪些工具来完成与其相关的工作，这时我们就有必要用到<br>sudo。</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　通过sudo，我们能把某些超级权限有针对性的下放，并且不需要普通用户知道root密码，所以sudo<br>相对于权限无限制性的su来说，还是比较安全的，所以sudo<br>也能被称为受限制的su ；另外sudo<br>是需要授权许可的，所以也被称为授权许可的su；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　sudo<br>执行命令的流程是当前用户切换到root（或其它指定切换到的用户），然后以root（或其它指定的切换到的用户）身份执行命令，执行完成后，直接退回到当前用户；而这些的前提是要通过sudo的配置文件/etc/sudoers来进行授权；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">比如我们想用beinan普通用户通过more<br>/etc/shadow文件的内容时，可能会出现下面的情况；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ more /etc/shadow/etc/shadow: 权限不够</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　这时我们可以用sudo<br>more /etc/shadow<br>来读取文件的内容；就就需要在/etc/soduers中给beinan授权</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　于是我们就可以先su<br>到root用户下通过visudo 来改/etc/sudoers<br>；（比如我们是以beinan用户登录系统的）</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ su</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　Password:<br>注：在这里输入root密码</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　下面运行visodu；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[root localhost<br>beinan]# visudo 注：运行visudo 来改 /etc/sudoers</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　加入如下一行，退出保存；退出保存，在这里要会用vi，visudo也是用的vi编辑器；至于vi的用法不多说了；beinan<br>ALL=/bin/more 表示beinan可以切换到root下执行more<br>来查看文件；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　退回到beinan用户下，用exit命令；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[root localhost<br>beinan]# exit</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　exit</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　查看beinan的通过sudo能执行哪些命令？</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ sudo -l</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　Password:<br>注：在这里输入beinan用户的密码</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　User<br>beinan may run the following commands on this host:<br>注：在这里清晰的说明在本台主机上，beinan用户可以以root权限运行more<br>；在root权限下的more ，可以查看任何文本文件的内容的；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　(root)<br>/bin/more</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　最后，我们看看是不是beinan用户有能力看到/etc/shadow文件的内容；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ sudo more /etc/shadow</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　beinan<br>不但能看到<br>/etc/shadow文件的内容，还能看到只有root权限下才能看到的其它文件的内容，比如；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ sudo more /etc/gshadow</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　对于beinan用户查看和读取所有系统文件中，我只想把/etc/shadow<br>的内容可以让他查看；可以加入下面的一行；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　beinan<br>ALL=/bin/more /etc/shadow</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　题外话：有的弟兄会说，我通过su<br>切换到root用户就能看到所有想看的内容了，哈哈，对啊。但咱们现在不是在讲述sudo的用法吗？如果主机上有多个用户并且不知道root用户的密码，但又想查看某些他们看不到的文件，这时就需要管理员授权了；这就是sudo的好处；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　实例五：练习用户组在/etc/sudoers中写法；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　如果用户组出现在/etc/sudoers<br>中，前面要加%号，比如%beinan ，中间不能有空格；%beinan<br>ALL=/usr/sbin/*,/sbin/*</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　如果我们在<br>/etc/sudoers<br>中加上如上一行，表示beinan用户组下的所有成员，在所有可能的出现的主机名下，都能切换到root用户下运行<br>/usr/sbin和/sbin目录下的所有命令；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　实例六：练习取消某类程序的执行：</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　取消程序某类程序的执行，要在命令动作前面加上!号；<br>在本例中也出现了通配符的*的用法；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　beinan<br>ALL=/usr/sbin/*,/sbin/*,!/usr/sbin/fdisk<br>注：把这行规则加入到/etc/sudoers中；但您得有beinan这个用户组，并且beinan也是这个组中的才行；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　本规则表示beinan用户在所有可能存在的主机名的主机上运行/usr/sbin和/sbin下所有的程序，但fdisk<br>程序除外；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　[beinan localhost<br>~]?$ sudo -l</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　Password:<br>注：在这里输入beinan用户的密码；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　User<br>beinan may run the following commands on this host:(root)<br>/usr/sbin/*(root) /sbin/*(root) !/sbin/fdisk[beinan localhost ~]?$<br>sudo /sbin/fdisk -lSorry, user beinan is not allowed to execute<br>‘/sbin/fdisk -l’ as root on localhost.</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; background-color: #f7fcff; -webkit-text-stroke: 0px #444444">　　注：不能切换到root用户下运行fdisk<br>程序；</span><span style="font: 14.0px Tahoma; font-kerning: none; color: #444444; -webkit-text-stroke: 0px #444444"><br></span><span style="font: 14.0px Tahoma; font-kerning: none; color: #ff2500; background-color: #f7fcff; -webkit-text-stroke: 0px #ff2500">如果有sudo<br>的权限而没有su的权限: sudo su;</span></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E4%B8%93%E4%B8%9A%E6%8A%80%E6%9C%AF-%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2020/04/29/linux%20su%E5%92%8Csudo%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8C%BA%E5%88%AB/" data-title="linux su和sudo命令的区别 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/jenkins 重复执行job/" title="jenkins 重复执行job">
+  <strong>上一篇：</strong><br/>
+  <span>
+  jenkins 重复执行job</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/linux 查看 和 修改系统编码/"  title="linux 查看 和 修改系统编码">
+ <strong>下一篇：</strong><br/> 
+ <span>linux 查看 和 修改系统编码
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/linux su和sudo命令的区别/" data-title="linux su和sudo命令的区别" data-url="http://clockcoder.com/2020/04/29/linux%20su%E5%92%8Csudo%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8C%BA%E5%88%AB/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#linux-su%E5%92%8Csudo%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">linux su和sudo命令的区别</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

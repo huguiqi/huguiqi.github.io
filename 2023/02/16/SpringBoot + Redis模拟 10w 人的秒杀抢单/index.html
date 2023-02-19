@@ -1,0 +1,1027 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>SpringBoot + Redis：模拟 10w 人的秒杀抢单！ | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="SpringBoot + Redis模拟 10w 人的秒杀抢单！本篇内容主要讲解的是redis分布式锁，这个在各大厂面试几乎都是必备的，下面结合模拟抢单的场景来使用她；本篇不涉及到的redis环境搭建，快速搭建个人测试环境，这里建议使用docker；本篇内容节点如下： Jedis的nx生成锁如何删除锁模拟抢单动作(10w个人开抢)jedis的nx生成锁对于java中想操作redis，好的方式是使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot + Redis：模拟 10w 人的秒杀抢单！">
+<meta property="og:url" content="http://clockcoder.com/2023/02/16/SpringBoot%20+%20Redis%E6%A8%A1%E6%8B%9F%2010w%20%E4%BA%BA%E7%9A%84%E7%A7%92%E6%9D%80%E6%8A%A2%E5%8D%95/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="SpringBoot + Redis模拟 10w 人的秒杀抢单！本篇内容主要讲解的是redis分布式锁，这个在各大厂面试几乎都是必备的，下面结合模拟抢单的场景来使用她；本篇不涉及到的redis环境搭建，快速搭建个人测试环境，这里建议使用docker；本篇内容节点如下： Jedis的nx生成锁如何删除锁模拟抢单动作(10w个人开抢)jedis的nx生成锁对于java中想操作redis，好的方式是使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/images/008i3skNly1gz68prkhjwj30il055q3m.png">
+<meta property="og:image" content="http://clockcoder.com/images/008i3skNly1gz68sbgcmcj30je0c7aba.png">
+<meta property="og:image" content="http://clockcoder.com/images/008i3skNgy1gz68tch07vj30jl01qmxc.png">
+<meta property="article:published_time" content="2023-02-16T11:41:07.228Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:07.229Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="redis">
+<meta property="article:tag" content="分布式锁">
+<meta property="article:tag" content="jedis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/images/008i3skNly1gz68prkhjwj30il055q3m.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2023/02/16/SpringBoot + Redis模拟 10w 人的秒杀抢单/" title="SpringBoot + Redis：模拟 10w 人的秒杀抢单！" itemprop="url">SpringBoot + Redis：模拟 10w 人的秒杀抢单！</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2023-02-16T11:41:07.228Z" itemprop="datePublished"> 发表于 2023-02-16</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringBoot-Redis%E6%A8%A1%E6%8B%9F-10w-%E4%BA%BA%E7%9A%84%E7%A7%92%E6%9D%80%E6%8A%A2%E5%8D%95%EF%BC%81"><span class="toc-number">1.</span> <span class="toc-text">SpringBoot + Redis模拟 10w 人的秒杀抢单！</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jedis%E7%9A%84nx%E7%94%9F%E6%88%90%E9%94%81"><span class="toc-number">1.1.</span> <span class="toc-text">Jedis的nx生成锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%94%81"><span class="toc-number">1.2.</span> <span class="toc-text">如何删除锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E6%8A%A2%E5%8D%95%E5%8A%A8%E4%BD%9C%EF%BC%8810w%E4%B8%AA%E4%BA%BA%E5%BC%80%E6%8A%A2%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">[模拟抢单动作（10w个人开抢）]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90jedis%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">集成jedis遇到的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%87%E7%BA%A7springboot%E5%92%8Cjedis%E7%89%88%E6%9C%AC"><span class="toc-number">1.5.</span> <span class="toc-text">升级springboot和jedis版本</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="SpringBoot-Redis模拟-10w-人的秒杀抢单！"><a title="SpringBoot + Redis模拟 10w 人的秒杀抢单！" class="headerlink" href="#SpringBoot-Redis模拟-10w-人的秒杀抢单！"></a>SpringBoot + Redis模拟 10w 人的秒杀抢单！</h1><p>本篇内容主要讲解的是redis分布式锁，这个在各大厂面试几乎都是必备的，下面结合模拟抢单的场景来使用她；本篇不涉及到的redis环境搭建，快速搭建个人测试环境，这里建议使用docker；本篇内容节点如下：</p>
+<h2 id="Jedis的nx生成锁"><a title="Jedis的nx生成锁" class="headerlink" href="#Jedis的nx生成锁"></a>Jedis的nx生成锁</h2><p>如何删除锁<br>模拟抢单动作(10w个人开抢)<br>jedis的nx生成锁<br>对于java中想操作redis，好的方式是使用jedis，首先pom中引入依赖：</p>
+
+
+
+
+<p>因为我用的是：</p>
+
+
+<p>它包含了jedis客户端依赖包。</p>
+<p>对于分布式锁的生成通常需要注意如下几个方面：</p>
+<ul>
+<li><p>创建锁的策略：</p>
+<p> redis的普通key一般都允许覆盖，A用户set某个key后，B在set相同的key时同样能成功，如果是锁场景，那就无法知道到底是哪个用户set成功的；这里jedis的setnx方式为我们解决了这个问题，简单原理是：当A用户先set成功了，那B用户set的时候就返回失败，满足了某个时间点只允许一个用户拿到锁。</p>
+</li>
+<li><p>锁过期时间： </p>
+<p>某个抢购场景时候，如果没有过期的概念，当A用户生成了锁，但是后面的流程被阻塞了一直无法释放锁，那其他用户此时获取锁就会一直失败，无法完成抢购的活动；当然正常情况一般都不会阻塞，A用户流程会正常释放锁；过期时间只是为了更有保障。</p>
+</li>
+</ul>
+<p>下面来上段setnx操作的代码：</p>
+
+
+
+
+
+
+<p>这里注意点在于jedis的set方法，其参数的说明如：</p>
+<ul>
+<li>NX：是否存在key，存在就不set成功</li>
+<li>PX：key过期时间单位设置为毫秒（EX：单位秒）</li>
+</ul>
+<p>setnx如果失败直接封装返回false即可，下面我们通过一个get方式的api来调用下这个setnx方法：</p>
+
+
+
+
+<p>访问如下测试url，正常来说第一次返回了true，第二次返回了false，由于第二次请求的时候redis的key已存在，所以无法set成功</p>
+<p><img alt="图片" src="/images/008i3skNly1gz68prkhjwj30il055q3m.png"></p>
+<p>由上图能够看到只有一次set成功，并key具有一个有效时间，此时已到达了分布式锁的条件。</p>
+<h2 id="如何删除锁"><a title="如何删除锁" class="headerlink" href="#如何删除锁"></a>如何删除锁</h2><p>上面是创建锁，同样的具有有效时间，但是我们不能完全依赖这个有效时间，场景如：有效时间设置1分钟，本身用户A获取锁后，没遇到什么特殊情况正常生成了抢购订单后，此时其他用户应该能正常下单了才对，但是由于有个1分钟后锁才能自动释放，那其他用户在这1分钟无法正常下单（因为锁还是A用户的），因此我们需要A用户操作完后，主动去解锁：</p>
+
+
+
+
+<p>这里也使用了jedis方式，直接执行lua脚本：根据val判断其是否存在，如果存在就del；<br>其实个人认为通过jedis的get方式获取val后，然后再比较value是否是当前持有锁的用户，如果是那最后再删除，效果其实相当；只不过直接通过eval执行脚本，这样避免多一次操作了redis而已，缩短了原子操作的间隔。(如有不同见解请留言探讨)；同样这里创建个get方式的api来测试：</p>
+
+
+
+
+
+
+<p>注意的是delnx时，需要传递创建锁时的value，因为通过et的value与delnx的value来判断是否是持有锁的操作请求，只有value一样才允许del；</p>
+<h2 id="模拟抢单动作（10w个人开抢）"><a title="[模拟抢单动作（10w个人开抢）]" class="headerlink" href="#模拟抢单动作（10w个人开抢）"></a>[模拟抢单动作（10w个人开抢）]</h2><p>有了上面对分布式锁的粗略基础，我们模拟下10w人抢单的场景，其实就是一个并发操作请求而已，由于环境有限，只能如此测试；如下初始化10w个用户，并初始化库存，商品等信息，如下代码：</p>
+
+
+<p>有了上面10w个不同用户，我们设定商品只有10个库存，然后通过并行流的方式来模拟抢购，如下抢购的实现：</p>
+
+
+<p>这里实现的逻辑是：</p>
+<p>1、parallelStream()：并行流模拟多用户抢购</p>
+<p>2、(startTime + timeout) &gt;= System.currentTimeMillis()：判断未抢成功的用户，timeout秒内继续获取锁</p>
+<p>3、获取锁前和后都判断库存是否还足够</p>
+<p>4、jedisCom.setnx(shangpingKey, b)：用户获取抢购锁</p>
+<p>5、获取锁后并下单成功，最后释放锁：jedisCom.delnx(shangpingKey, b)</p>
+<p>再来看下记录的日志结果：</p>
+<p><img alt="图片" src="/images/008i3skNly1gz68sbgcmcj30je0c7aba.png"></p>
+<p>最终返回抢购成功的用户：</p>
+<p><img alt="图片" src="/images/008i3skNgy1gz68tch07vj30jl01qmxc.png"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/huguiqi/springboot-jedis-sample">实现代码地址</a></p>
+<h2 id="集成jedis遇到的问题"><a title="集成jedis遇到的问题" class="headerlink" href="#集成jedis遇到的问题"></a>集成jedis遇到的问题</h2><p>在模拟测试10万人秒杀时，遇到一个jedis关闭时的连接池报错：</p>
+<pre><code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JedisException:Could not return the resource to the pool 。。。IllegalStateException: Invalidated object not currently part of this pool</span><br></pre></td></tr></table></figure>
+</code></pre>
+<p>我 <a target="_blank" rel="noopener" href="https://blog.csdn.net/beguile/article/details/80614651">参考此文章</a> ，表示需要显示的将jedisPool进行资源回收处理，但是根据我的实践，并未起效果，所以根本原因并不是线程池未回收导致</p>
+<p>所以继续找了下原因，感觉还是jedis里的连接状态与实际不一致导致的。</p>
+<p><a target="_blank" rel="noopener" href="https://mistray.github.io/2020/08/21/Jedis%E8%BF%9E%E6%8E%A5%E6%B1%A0%E7%AB%9F%E7%84%B6%E4%BC%9A%E8%B5%84%E6%BA%90%E6%B3%84%E9%9C%B2/">参考这篇文章</a></p>
+<p>最终原因终于找到了, 查看源码<code>Jedis 2.9.0</code> 的Jedis.class:</p>
+<pre><code>public void close() &#123;
+    if (this.dataSource != null) &#123;
+        JedisPoolAbstract pool = this.dataSource;
+        if (this.client.isBroken()) &#123;
+            pool.returnBrokenResource(this);
+        &#125; else &#123;
+            pool.returnResource(this);
+        &#125;
+    &#125; else &#123;
+        super.close();
+    &#125;
+
+&#125;
+</code></pre>
+<p>通过断点进行发现, this.dataSource永远都是空的，也就是主逻辑永远进不来,结合上面参考的文章，结合我的问题，分析如下：</p>
+<ol>
+<li>因为jedis我之前是设置为静态共享的，所以当下个线程继续使用jedis时，有线程将socket关闭了，就会导致连接失败</li>
+<li>多线程问题导致jedis中的datasource被提前回收，另一线程发现没有了datasource，就把socket给关闭了</li>
+<li>未设置jedis客户端线程池参数, 最大可用线程池数量太少，有可能导致获取线程失败</li>
+<li>由于使用springboot 1.5.6.RELEASE 版本，而我的jedis是通过spring-boot-starter-data-redis引入的，它所使用的jedis版本是: <code>2.9.0</code>,而 <code>jedis 2.10.2</code> 以下版本都有此问题，属于bug</li>
+</ol>
+<p>根据这四个问题，我是不是只要将jedis升级到2.10.2以后，还是使用静态共享的jedis变量，就可以解决这个问题了呢？<br>其实1，2是表象，最有可能的就是版本问题导致的，那么我就将jedis进行升级。</p>
+<h2 id="升级springboot和jedis版本"><a title="升级springboot和jedis版本" class="headerlink" href="#升级springboot和jedis版本"></a>升级springboot和jedis版本</h2><p>pom.xml:</p>
+<pre><code>&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;2.3.5.RELEASE&lt;/version&gt;
+    &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+&lt;/parent&gt;
+
+&lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;io.lettuce&lt;/groupId&gt;
+                    &lt;artifactId&gt;lettuce-core&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+            &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+            &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+            &lt;version&gt;3.3.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<ul>
+<li>ps: 由于springboot 2.x 就默认将lettuce替换了jedis，为了防止包冲突，将lettuce exclude掉 *</li>
+</ul>
+<p>然后再将RedisConfig.java进行改造：</p>
+
+
+<p>JedisCommand.java中将jedis.set方法改成:</p>
+<pre><code>SetParams setParams = SetParams.setParams().nx().px(1000 * 60);
+String ret = jedis.set(key, val, setParams);
+</code></pre>
+<p>Jedis变量设置为静态变量，作为线程共享：</p>
+<pre><code>private static Jedis jedis;
+
+ private Jedis getJedis() &#123;
+    if(jedis == null)&#123;
+        JedisConnection  jedisConnection = (JedisConnection)jedisConnectionFactory.getConnection();
+        this.jedis = jedisConnection.getNativeConnection();
+        return this.jedis;
+    &#125;
+   return jedis;     
+ &#125;
+</code></pre>
+<p>再次启动并执行后，发现并没有解决这个问题，那看来jedis的socket关闭后，无法重新进行连接了。<br>我看了jedis 3.3的close方法，和jedis 9.3.0的没有什么区别，并不是那位大哥说的那样。<br>我将jedis改成方法级别变量后，就不再出现这个问题了。</p>
+<p>那还有种办法，是不是可以将jedis里的datasource生成，让它走主逻辑，就可以重新建立连接呢?<br>看源码，jedis里的datasource就是：Pool 类型，也就是个线程池，这说明我配置的线程池没起效？<br>原因：<br>由于我在JedisCommand类中使用的<code>JedisConnectionFactory</code> 类去获取Jedis实例的，而<code>JedisConnectionFactory</code>本身就不是线程池，是连接工厂类，所以我一直拿的是连接，并不是连接池</p>
+<p>解决，RedisConfig.java中加入：</p>
+
+
+<p>JedisCommand.java修改：</p>
+
+<p>将Jedis实例从池中获取，作为共享静态变量经测试还是会报错，至此，得出结论，不能将Jedis作为共享实例来使用，因为调用<code>jedis.close()</code>后，client的socket的就断了，而且在关闭socket之前已经将线程连接还给了线程池。</p>
+<p>正确使用jedis：<br>       1. jedis即用即取,用完就关<br>       2. jedis实例不可作为共享变量来使用,调用close后，无法重连获取连接<br>       3. jedis实例其实就是JedisPool中的客户端连接，不应该为作共享变量来使用</p>
+<p>总结下来解决方案：</p>
+<p>  将jedis变量的作用域放到方法级别，方法执行完就回收掉<br>  本代码是使用的这种方式解决的，经过<code>jedis2.9.0</code>版本到<code>jedis 3.3.0</code>的升级与测试，最终得出结论：设置为方法级变量后，就不再出现那个报错了(即用即取，用完还掉，并关掉socket连接)。</p>
+<p> <a target="_blank" rel="noopener" href="https://github.com/huguiqi/springboot-jedis-sample">实现代码地址</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/redis/">redis</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/redis/">redis</a><a href="/tags/分布式锁/">分布式锁</a><a href="/tags/jedis/">jedis</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2023/02/16/SpringBoot%20+%20Redis%E6%A8%A1%E6%8B%9F%2010w%20%E4%BA%BA%E7%9A%84%E7%A7%92%E6%9D%80%E6%8A%A2%E5%8D%95/" data-title="SpringBoot + Redis：模拟 10w 人的秒杀抢单！ | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2023/02/16/SpringBoot + Redis模拟秒杀抢单！(lettuce实现)/" title="SpringBoot + Redis：SpringBoot + Redis模拟秒杀抢单！(lettuce实现)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  SpringBoot + Redis：SpringBoot + Redis模拟秒杀抢单！(lettuce实现)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2023/02/16/2022年2月interView/"  title="2022年2月interView">
+ <strong>下一篇：</strong><br/> 
+ <span>2022年2月interView
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2023/02/16/SpringBoot + Redis模拟 10w 人的秒杀抢单/" data-title="SpringBoot + Redis：模拟 10w 人的秒杀抢单！" data-url="http://clockcoder.com/2023/02/16/SpringBoot%20+%20Redis%E6%A8%A1%E6%8B%9F%2010w%20%E4%BA%BA%E7%9A%84%E7%A7%92%E6%9D%80%E6%8A%A2%E5%8D%95/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringBoot-Redis%E6%A8%A1%E6%8B%9F-10w-%E4%BA%BA%E7%9A%84%E7%A7%92%E6%9D%80%E6%8A%A2%E5%8D%95%EF%BC%81"><span class="toc-number">1.</span> <span class="toc-text">SpringBoot + Redis模拟 10w 人的秒杀抢单！</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jedis%E7%9A%84nx%E7%94%9F%E6%88%90%E9%94%81"><span class="toc-number">1.1.</span> <span class="toc-text">Jedis的nx生成锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E9%94%81"><span class="toc-number">1.2.</span> <span class="toc-text">如何删除锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E6%8A%A2%E5%8D%95%E5%8A%A8%E4%BD%9C%EF%BC%8810w%E4%B8%AA%E4%BA%BA%E5%BC%80%E6%8A%A2%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">[模拟抢单动作（10w个人开抢）]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E6%88%90jedis%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.4.</span> <span class="toc-text">集成jedis遇到的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%87%E7%BA%A7springboot%E5%92%8Cjedis%E7%89%88%E6%9C%AC"><span class="toc-number">1.5.</span> <span class="toc-text">升级springboot和jedis版本</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

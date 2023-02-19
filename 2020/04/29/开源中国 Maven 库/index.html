@@ -1,0 +1,1629 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>开源中国 Maven 库 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="开源中国&amp;nbsp;Maven&amp;nbsp;库\         开源中国 Maven 库使用帮助            亲爱的小伙伴们，开源中国的&amp;nbsp;Maven&amp;nbsp;库上线咯！为了方便广大开发同学，开源中国特别推出国内的&amp;nbsp;Maven&amp;nbsp;中央库，提供高速稳定的网络和服务，为国内&amp;nbsp;Maven&amp;nbsp;使用者提供便捷服务。本&amp;nbsp;Maven&amp;nbsp;库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开源中国 Maven 库">
+<meta property="og:url" content="http://clockcoder.com/2020/04/29/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="开源中国&amp;nbsp;Maven&amp;nbsp;库\         开源中国 Maven 库使用帮助            亲爱的小伙伴们，开源中国的&amp;nbsp;Maven&amp;nbsp;库上线咯！为了方便广大开发同学，开源中国特别推出国内的&amp;nbsp;Maven&amp;nbsp;中央库，提供高速稳定的网络和服务，为国内&amp;nbsp;Maven&amp;nbsp;使用者提供便捷服务。本&amp;nbsp;Maven&amp;nbsp;库">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/142441_b8hX_146430.png">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/151847_6QDI_146430.png">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/151859_Ce32_146430.png">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/153523_erBE_146430.png">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/161306_LjJa_146430.png">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/161328_ia6t_146430.png">
+<meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:08.141Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="从印象笔记导入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/142441_b8hX_146430.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/开源中国 Maven 库/" title="开源中国 Maven 库" itemprop="url">开源中国 Maven 库</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD-Maven-%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">开源中国 Maven 库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD-Maven-%E5%BA%93%E4%BD%BF%E7%94%A8%E5%B8%AE%E5%8A%A9"><span class="toc-number">2.</span> <span class="toc-text">开源中国 Maven 库使用帮助</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-Maven"><span class="toc-number">2.0.0.0.1.</span> <span class="toc-text">1.安装 Maven</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%BF%AE%E6%94%B9-settings-xml"><span class="toc-number">2.0.0.0.2.</span> <span class="toc-text">2.修改 settings.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-Maven-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.0.0.0.3.</span> <span class="toc-text">3.使用 Maven 创建项目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E6%B7%BB%E5%8A%A0%E5%8C%85%E4%BE%9D%E8%B5%96"><span class="toc-number">2.0.0.0.4.</span> <span class="toc-text">4.添加包依赖</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E5%B0%86%E9%A1%B9%E7%9B%AE%E5%AE%89%E8%A3%85%E5%88%B0%E6%9C%AC%E5%9C%B0-repository"><span class="toc-number">2.0.0.0.5.</span> <span class="toc-text">5.将项目安装到本地 repository</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E4%B8%8A%E4%BC%A0%E8%AF%B4%E6%98%8E"><span class="toc-number">2.0.1.</span> <span class="toc-text">项目上传说明</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="开源中国-Maven-库"><a title="开源中国&nbsp;Maven&nbsp;库" class="headerlink" href="#开源中国-Maven-库"></a>开源中国&nbsp;Maven&nbsp;库</h1><p>\</p>
+<div>
+
+<div>
+
+<div>
+
+<div>
+
+<h1 id="开源中国-Maven-库使用帮助"><a title="开源中国 Maven 库使用帮助" class="headerlink" href="#开源中国-Maven-库使用帮助"></a>开源中国 Maven 库使用帮助</h1><div>
+
+<div>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<p>亲爱的小伙伴们，开源中国的&nbsp;Maven&nbsp;库上线咯！为了方便广大开发同学，开源中国特别推出国内的&nbsp;Maven&nbsp;中央库，提供高速稳定的网络和服务，为国内&nbsp;Maven&nbsp;使用者提供便捷服务。本&nbsp;Maven&nbsp;库是从&nbsp;<a target="_blank" rel="noopener" href="http://mirrors.ibiblio.org/maven2/">ibiblio</a>&nbsp;同步过来的，因为网络等原因，保持每天一次更新。本&nbsp;Maven&nbsp;库使用开源软件&nbsp;<a target="_blank" rel="noopener" href="http://www.oschina.net/p/nexus">Nexus</a>&nbsp;搭建，对外镜像链接地址为：<a target="_blank" rel="noopener" href="http://maven.oschina.net/content/groups/public/">&nbsp;&nbsp;http://maven.oschina.net/content/groups/public/&nbsp;&nbsp;</a>。</p>
+</div>
+
+<div>
+
+<p>接下来将简单介绍如何在您的项目中使用&nbsp;Maven，以及使用&nbsp;<a target="_blank" rel="noopener" href="http://www.oschina.net/">OSChina</a>&nbsp;提供的&nbsp;Maven&nbsp;服务。</p>
+<h5 id="1-安装-Maven"><a title="1.安装&nbsp;Maven" class="headerlink" href="#1-安装-Maven"></a>1.安装&nbsp;Maven</h5>
+
+<p>如果需要使用到&nbsp;Maven&nbsp;，必须首先安装&nbsp;Maven&nbsp;，&nbsp;Maven&nbsp;的下载地址在&nbsp;<a target="_blank" rel="noopener" href="http://maven.apache.org/">Apache<br>Maven</a>&nbsp;中有，您也可以<a target="_blank" rel="noopener" href="http://mirror.bit.edu.cn/apache/maven/maven-3/3.1.0/binaries/apache-maven-3.1.0-bin.zip">点击</a>这里下载&nbsp;<a target="_blank" rel="noopener" href="http://mirror.bit.edu.cn/apache/maven/maven-3/3.1.0/binaries/apache-maven-3.1.0-bin.zip">zip</a>&nbsp;,<a target="_blank" rel="noopener" href="http://mirror.bit.edu.cn/apache/maven/maven-3/3.1.0/binaries/apache-maven-3.1.0-bin.tar.gz">tar.gz</a>。</p>
+<p>下载好&nbsp;Maven&nbsp;后，需要简单安装下。将下载的&nbsp;&nbsp;zip&nbsp;&nbsp;或者&nbsp;&nbsp;tar.gz&nbsp;&nbsp;包解压到需要安装到的目录。<br>接下简单配置下环境变量：</p>
+<p>1、新建环境变量&nbsp;&nbsp;M2_HOME&nbsp;&nbsp;,输入值为&nbsp;Maven&nbsp;的安装目录。</p>
+<p>2、新建环境变量&nbsp;&nbsp;M2&nbsp;&nbsp;，输入值为:&nbsp;&nbsp;%M2_HOME%\bin&nbsp;&nbsp;。</p>
+<p>3、将&nbsp;M2&nbsp;环境变量加入&nbsp;&nbsp;Path&nbsp;&nbsp;的最后，如：&nbsp;&nbsp;;%M2%&nbsp;&nbsp;;。</p>
+<p>环境变量就这么简单配置下就可以了。打开命令行窗口输入&nbsp;&nbsp;mvn<br>-version&nbsp;&nbsp;。可以看到如下输出：</p>
+<div>
+
+<p><img src="/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/142441_b8hX_146430.png"></p>
+</div>
+
+<p>看到以上输出，您的&nbsp;Maven&nbsp;环境就已经搭建好了。</p>
+<h5 id="2-修改-settings-xml"><a title="2.修改&nbsp;settings.xml" class="headerlink" href="#2-修改-settings-xml"></a>2.修改&nbsp;settings.xml</h5><p>在&nbsp;Maven&nbsp;中使用&nbsp;<a target="_blank" rel="noopener" href="http://www.oschina.net/">OSChina</a>&nbsp;的&nbsp;Maven&nbsp;服务还需要简单配置一下&nbsp;Maven，在&nbsp;Maven&nbsp;的安装目录下的&nbsp;conf&nbsp;文件下有个&nbsp;&nbsp;settings.xml&nbsp;&nbsp;文件，接下来我们需要对这个文件做简单的修改，修改前您可以简单备份下该文件。<br>打开&nbsp;&nbsp;settings.xml&nbsp;&nbsp;文件,按下面内容修改。或者点击&nbsp;<a target="_blank" rel="noopener" href="http://maven.oschina.net/static/xml/settings.xml">settings.xml</a>&nbsp;下载</p>
+<div>
+
+<div>
+
+<div>
+
+<hr>
+<p>  <code>01</code>   <code>&lt;``mirrors``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>02</code>   <code>&lt;!-- mirror | Specifies a repository mirror site to use instead of a given </code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>03</code>   <code>repository. The repository that | this mirror serves has an ID that matches </code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>04</code>   <code>the mirrorOf element of this mirror. IDs are used | for inheritance and direct </code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>05</code>   <code>lookup purposes, and must be unique across the set of mirrors. | --&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>06</code>   <code>&lt;``mirror``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>07</code>   <code>&lt;``id``&gt;nexus-osc&lt;/``id``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>08</code>   <code>&lt;``mirrorOf``&gt;*&lt;/``mirrorOf``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>09</code>   <code>&lt;``name``&gt;Nexus osc&lt;/``name``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>10</code>   <code>&lt;``url``&gt;http://maven.oschina.net/content/groups/public/&lt;/``url``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>11</code>   <code>&lt;/``mirror``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>12</code>   <code>&lt;/``mirrors``&gt;</code></p>
+<hr>
+</div>
+
+</div>
+
+</div>
+
+<p><strong>补充：</strong><br><strong>如果还需要osc的thirdparty仓库或多个仓库，需要如下修改：<a target="_blank" rel="noopener" href="http://my.oschina.net/huangyong/blog/195559">详情</a></strong></p>
+<div>
+
+<div>
+
+<div>
+
+<hr>
+<p>  <code>01</code>   <code>&lt;``mirrors``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>02</code>   <code>&lt;!-- mirror | Specifies a repository mirror site to use instead of a given </code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>03</code>   <code>repository. The repository that | this mirror serves has an ID that matches </code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>04</code>   <code>the mirrorOf element of this mirror. IDs are used | for inheritance and direct </code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>05</code>   <code>lookup purposes, and must be unique across the set of mirrors. | --&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>06</code>   <code>&lt;``mirror``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>07</code>   <code>&lt;``id``&gt;nexus-osc&lt;/``id``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>08</code>   <code>&lt;``mirrorOf``&gt;central&lt;/``mirrorOf``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>09</code>   <code>&lt;``name``&gt;Nexus osc&lt;/``name``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>10</code>   <code>&lt;``url``&gt;http://maven.oschina.net/content/groups/public/&lt;/``url``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>11</code>   <code>&lt;/``mirror``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>12</code>   <code>&lt;``mirror``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>13</code>   <code>&lt;``id``&gt;nexus-osc-thirdparty&lt;/``id``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>14</code>   <code>&lt;``mirrorOf``&gt;thirdparty&lt;/``mirrorOf``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>15</code>   <code>&lt;``name``&gt;Nexus osc thirdparty&lt;/``name``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>16</code>   <code>&lt;``url``&gt;http://maven.oschina.net/content/repositories/thirdparty/&lt;/``url``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>17</code>   <code>&lt;/``mirror``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>18</code>   <code>&lt;/``mirrors``&gt;</code></p>
+<hr>
+</div>
+
+</div>
+
+</div>
+
+<p>这里是配置&nbsp;Maven&nbsp;的&nbsp;mirror&nbsp;地址指向<a target="_blank" rel="noopener" href="http://www.oschina.net/">OSChina</a>&nbsp;的&nbsp;Maven&nbsp;镜像地址。<br>在执行&nbsp;Maven&nbsp;命令的时候，&nbsp;Maven&nbsp;还需要安装一些插件包，这些插件包的下载地址也让其指向&nbsp;OSChina&nbsp;的&nbsp;Maven&nbsp;地址。修改如下内容。</p>
+<div>
+
+<div>
+
+<div>
+
+<hr>
+<p>  <code>01</code>   <code>&lt;``profile``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>02</code>   <code>&lt;``id``&gt;jdk-1.4&lt;/``id``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>03</code>   &nbsp;</p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>04</code>   <code>&lt;``activation``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>05</code>   <code>&lt;``jdk``&gt;1.4&lt;/``jdk``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>06</code>   <code>&lt;/``activation``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>07</code>   &nbsp;</p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>08</code>   <code>&lt;``repositories``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>09</code>   <code>&lt;``repository``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>10</code>   <code>&lt;``id``&gt;nexus&lt;/``id``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>11</code>   <code>&lt;``name``&gt;local private nexus&lt;/``name``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>12</code>   <code>&lt;``url``&gt;http://maven.oschina.net/content/groups/public/&lt;/``url``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>13</code>   <code>&lt;``releases``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>14</code>   <code>&lt;``enabled``&gt;true&lt;/``enabled``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>15</code>   <code>&lt;/``releases``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>16</code>   <code>&lt;``snapshots``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>17</code>   <code>&lt;``enabled``&gt;false&lt;/``enabled``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>18</code>   <code>&lt;/``snapshots``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>19</code>   <code>&lt;/``repository``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>20</code>   <code>&lt;/``repositories``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>21</code>   <code>&lt;``pluginRepositories``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>22</code>   <code>&lt;``pluginRepository``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>23</code>   <code>&lt;``id``&gt;nexus&lt;/``id``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>24</code>   <code>&lt;``name``&gt;local private nexus&lt;/``name``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>25</code>   <code>&lt;``url``&gt;http://maven.oschina.net/content/groups/public/&lt;/``url``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>26</code>   <code>&lt;``releases``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>27</code>   <code>&lt;``enabled``&gt;true&lt;/``enabled``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>28</code>   <code>&lt;/``releases``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>29</code>   <code>&lt;``snapshots``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>30</code>   <code>&lt;``enabled``&gt;false&lt;/``enabled``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>31</code>   <code>&lt;/``snapshots``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>32</code>   <code>&lt;/``pluginRepository``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>33</code>   <code>&lt;/``pluginRepositories``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>34</code>   <code>&lt;/``profile``&gt;</code></p>
+<hr>
+</div>
+
+</div>
+
+</div>
+
+<p>如果您需要修改&nbsp;Maven&nbsp;的默认文件保存路径，需要在&nbsp;settings.xml&nbsp;文件中修改如下地方。</p>
+<div>
+
+<div>
+
+<div>
+
+<hr>
+<p>  <code>1</code>   <code>&lt;``localRepository``&gt;F:/Maven/repo/m2/&lt;/``localRepository``&gt;</code></p>
+<hr>
+</div>
+
+</div>
+
+</div>
+
+<p>按照如上修改&nbsp;&nbsp;settings.xml&nbsp;&nbsp;之后，您就可以在自己的&nbsp;Maven&nbsp;中使用&nbsp;<a target="_blank" rel="noopener" href="http://www.oschina.net/">OSChina</a>&nbsp;为您提供的&nbsp;Maven&nbsp;服务了。</p>
+<h5 id="3-使用-Maven-创建项目"><a title="3.使用&nbsp;Maven&nbsp;创建项目" class="headerlink" href="#3-使用-Maven-创建项目"></a>3.使用&nbsp;Maven&nbsp;创建项目</h5><p>您可以创建一个属于自己的&nbsp;Maven&nbsp;项目来简单测试一下&nbsp;<a target="_blank" rel="noopener" href="http://www.oschina.net/">OSChina</a>&nbsp;的&nbsp;Maven&nbsp;库。创建&nbsp;Maven&nbsp;项目很简单，只需要简单一行命令就可以搞定。<br> 下面是创建&nbsp;Maven&nbsp;项目的命令：</p>
+<div>
+
+<div>
+
+<div>
+
+<hr>
+<p>  <code>1</code>   <code>mvn archetype:create -DgroupId=oschina -DartifactId=simple -DpackageName=net.oschina.simple&nbsp; -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=``false</code></p>
+<hr>
+</div>
+
+</div>
+
+</div>
+
+<p>&nbsp;。<br>其中 &nbsp;&nbsp;-DarchetypeArtifactId=maven-archetype-webapp<br>&nbsp;&nbsp;代表创建一个简单的&nbsp;webapp&nbsp;项目。至于其他参数的意思，您可以查看下&nbsp;Maven&nbsp;的相关<a target="_blank" rel="noopener" href="http://docs.codehaus.org/display/MAVENUSER/Home">文档</a>。<br>在您需要创建&nbsp;Maven&nbsp;项目的文件夹下用命令行执行以上命令。可以看到如下输出：</p>
+<div>
+
+<p><img src="/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/151847_6QDI_146430.png"></p>
+</div>
+
+<p>如果顺利创建成功的话，你会看到如下输出:</p>
+<div>
+
+<p><img src="/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/151859_Ce32_146430.png"></p>
+</div>
+
+<p>如果创建失败，就可能需要您去&nbsp;Google&nbsp;一下了。创建项目的时候，Maven&nbsp;会下载一些需要用到的&nbsp;Maven&nbsp;插件。</p>
+<h5 id="4-添加包依赖"><a title="4.添加包依赖" class="headerlink" href="#4-添加包依赖"></a>4.添加包依赖</h5><p>因为只是简单介绍下使用&nbsp;<a target="_blank" rel="noopener" href="http://www.oschina.net/">OSChina</a>&nbsp;的&nbsp;Maven&nbsp;库，关于&nbsp;Maven&nbsp;的项目编译，打包，测试，发布等具体细节就不多介绍了，您可以去查看&nbsp;Maven&nbsp;的相关文档。\</p>
+<p>跟ant一样，Maven&nbsp;也需要通过&nbsp;xml&nbsp;来配置。在项目的根目录下有一个&nbsp;&nbsp;pom.xml&nbsp;&nbsp;文件。</p>
+<div>
+
+<div>
+
+<div>
+
+<hr>
+<p>  <code>01</code>   <code>&lt;``project</code> <code>xmlns``=``"http://maven.apache.org/POM/4.0.0"</code> <code>xmlns:xsi``=``"http://www.w3.org/2001/XMLSchema-instance"</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>02</code>   <code>xsi:schemaLocation``=``"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>03</code>   <code>&lt;``modelVersion``&gt;4.0.0&lt;/``modelVersion``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>04</code>   <code>&lt;``groupId``&gt;oschina&lt;/``groupId``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>05</code>   <code>&lt;``artifactId``&gt;oschina.simple&lt;/``artifactId``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>06</code>   <code>&lt;``packaging``&gt;war&lt;/``packaging``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>07</code>   <code>&lt;``version``&gt;1.0&lt;/``version``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>08</code>   <code>&lt;``name``&gt;oschina.simple Maven Webapp&lt;/``name``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>09</code>   <code>&lt;``url``&gt;http://maven.apache.org&lt;/``url``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>10</code>   <code>&lt;``dependencies``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>11</code>   <code>&lt;``dependency``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>12</code>   <code>&lt;``groupId``&gt;junit&lt;/``groupId``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>13</code>   <code>&lt;``artifactId``&gt;junit&lt;/``artifactId``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>14</code>   <code>&lt;``version``&gt;3.8.1&lt;/``version``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>15</code>   <code>&lt;``scope``&gt;test&lt;/``scope``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>16</code>   <code>&lt;/``dependency``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>17</code>   <code>&lt;/``dependencies``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>18</code>   <code>&lt;``build``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>19</code>   <code>&lt;``finalName``&gt;oschina.simple&lt;/``finalName``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>20</code>   <code>&lt;/``build``&gt;</code></p>
+<hr>
+</div>
+
+<div>
+
+<hr>
+<p>  <code>21</code>   <code>&lt;/``project``&gt;</code></p>
+<hr>
+</div>
+
+</div>
+
+</div>
+
+<p>在&nbsp;pom.xml&nbsp;中加入您需要添加的包，如果您需要查找依赖包有哪些版本，可以在&nbsp;<a target="_blank" rel="noopener" href="http://maven.oschina.net/">OSChina<br>Maven</a>&nbsp;搜索。比如输入&nbsp;jedis&nbsp;的结果会如下：</p>
+<div>
+
+<p><img src="/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/153523_erBE_146430.png"></p>
+</div>
+
+<p>在右下角的&nbsp;Maven&nbsp;标签下可以看到当前选中的版本的依赖&nbsp;xml，copy&nbsp;该依赖&nbsp;xml&nbsp;到&nbsp;&nbsp;pom.xml&nbsp;&nbsp;的&nbsp;&nbsp;dependencies&nbsp;&nbsp;结点下。如果需要其他依赖包，您也继续搜索。当然，有些偏门的&nbsp;jar&nbsp;可能没有，这主要可能是它没有提交到&nbsp;Maven&nbsp;的中央库中。</p>
+<h5 id="5-将项目安装到本地-repository"><a title="5.将项目安装到本地&nbsp;repository" class="headerlink" href="#5-将项目安装到本地-repository"></a>5.将项目安装到本地&nbsp;repository</h5><p>添加好包的依赖之后，您就可以开始在您的&nbsp;Maven&nbsp;项目下开始工作了。如果一切准备就绪，您可能需要将项目安装到本地&nbsp;&nbsp;repository&nbsp;&nbsp;。<br> 执行命令：&nbsp;mvn clean &amp; mvn install<br>就可以把项目安装到您配置的本地镜像地址&nbsp;&nbsp;.m2/repository&nbsp;&nbsp;下了。<br>执行命令可以看到如下输出：</p>
+<div>
+
+<p><img src="/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/161306_LjJa_146430.png"></p>
+</div>
+
+<p>执行完之后，如果安装成功会出现如下结果：</p>
+<div>
+
+<p><img src="/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93.resources/161328_ia6t_146430.png"></p>
+</div>
+
+<p>如果失败了，就根据失败结果&nbsp;Google&nbsp;一下吧！<br>接下来打开您配置的本地&nbsp;&nbsp;repository&nbsp;&nbsp;地址，可以看到您配置的各种依赖包都下载到您本地文件夹了，下次您再使用这些包的时候就不需要再次下载了，项目构建速度也会提高很多。</p>
+</div>
+
+<div>
+
+<h3 id="项目上传说明"><a title="项目上传说明" class="headerlink" href="#项目上传说明"></a>项目上传说明</h3><p>开源中国&nbsp;Maven&nbsp;库的第三方库中上传的构件信息仅仅存在于本库中，我们不向&nbsp;Maven&nbsp;中央库推送任何有关您上传的构件。如果有需要将您的构件上传到&nbsp;Maven&nbsp;中央库，请前往&nbsp;<a target="_blank" rel="noopener" href="http://search.maven.org/#browse">Maven中央库</a>，如果您的构件在中央库中申请通过，并且在本库中存在版本，请通知&nbsp;<a target="_blank" rel="noopener" href="http://my.oschina.net/ijustdoit"> 卜祥龙</a>&nbsp;处理。鉴于上传到本&nbsp;Maven&nbsp;库中的构件信息直接放在对外开放的&nbsp;public<br>group&nbsp;中会误导用户，此第三方库未配置到&nbsp;public<br>group&nbsp;，如果您的项目中有需要用到其中的构件，请在项目中单独配置此地址：<a target="_blank" rel="noopener" href="http://maven.oschina.net/content/repositories/thirdparty/">http://maven.oschina.net/content/repositories/thirdparty/</a><br>。</p>
+</div>
+
+<div>
+
+<p>以上就是关于&nbsp;<a target="_blank" rel="noopener" href="http://maven.oschina.net/">OSChina<br>Maven</a>&nbsp;的简单使用说明，多谢您的使用，您的支持就是我们最大的动力，同时也感谢<a target="_blank" rel="noopener" href="http://www.ctyun.cn/">天翼云</a>的服务支持。</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<p>\</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E4%B8%93%E4%B8%9A%E6%8A%80%E6%9C%AF-%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2020/04/29/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93/" data-title="开源中国 Maven 库 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/建立你自己的本地仓库(Maven仓库管理-Nexus)/" title="建立你自己的本地仓库(Maven仓库管理-Nexus)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  建立你自己的本地仓库(Maven仓库管理-Nexus)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/数据类型和Json格式/"  title="数据类型和Json格式">
+ <strong>下一篇：</strong><br/> 
+ <span>数据类型和Json格式
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/开源中国 Maven 库/" data-title="开源中国 Maven 库" data-url="http://clockcoder.com/2020/04/29/%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD%C2%A0Maven%C2%A0%E5%BA%93/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD-Maven-%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">开源中国 Maven 库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E6%BA%90%E4%B8%AD%E5%9B%BD-Maven-%E5%BA%93%E4%BD%BF%E7%94%A8%E5%B8%AE%E5%8A%A9"><span class="toc-number">2.</span> <span class="toc-text">开源中国 Maven 库使用帮助</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85-Maven"><span class="toc-number">2.0.0.0.1.</span> <span class="toc-text">1.安装 Maven</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%BF%AE%E6%94%B9-settings-xml"><span class="toc-number">2.0.0.0.2.</span> <span class="toc-text">2.修改 settings.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8-Maven-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.0.0.0.3.</span> <span class="toc-text">3.使用 Maven 创建项目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E6%B7%BB%E5%8A%A0%E5%8C%85%E4%BE%9D%E8%B5%96"><span class="toc-number">2.0.0.0.4.</span> <span class="toc-text">4.添加包依赖</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E5%B0%86%E9%A1%B9%E7%9B%AE%E5%AE%89%E8%A3%85%E5%88%B0%E6%9C%AC%E5%9C%B0-repository"><span class="toc-number">2.0.0.0.5.</span> <span class="toc-text">5.将项目安装到本地 repository</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E4%B8%8A%E4%BC%A0%E8%AF%B4%E6%98%8E"><span class="toc-number">2.0.1.</span> <span class="toc-text">项目上传说明</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

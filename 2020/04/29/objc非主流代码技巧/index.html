@@ -1,0 +1,1092 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>objc非主流代码技巧 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="objc非主流代码技巧obj-c非主流写法  \         objc非主流代码技巧            看开源代码时，总会看到一些大神级别的代码，给人眼前一亮的感觉，多数都是被淡忘的C语言语法，总结下objc写码中遇到的各类非主流代码技巧和一些妙用：  [娱乐向]objc最短的方法声明 [C]结构体的初始化 [C]三元条件表达式的两元使用 [C]数组的下标初始化 [objc]可变参数类型的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="objc非主流代码技巧">
+<meta property="og:url" content="http://clockcoder.com/2020/04/29/objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="objc非主流代码技巧obj-c非主流写法  \         objc非主流代码技巧            看开源代码时，总会看到一些大神级别的代码，给人眼前一亮的感觉，多数都是被淡忘的C语言语法，总结下objc写码中遇到的各类非主流代码技巧和一些妙用：  [娱乐向]objc最短的方法声明 [C]结构体的初始化 [C]三元条件表达式的两元使用 [C]数组的下标初始化 [objc]可变参数类型的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7.resources/51530583jw1ejz2wnbt01j20by0by0tl.png">
+<meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:07.735Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="从印象笔记导入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7.resources/51530583jw1ejz2wnbt01j20by0by0tl.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/objc非主流代码技巧/" title="objc非主流代码技巧" itemprop="url">objc非主流代码技巧</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7"><span class="toc-number">1.</span> <span class="toc-text">objc非主流代码技巧</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7-1"><span class="toc-number">2.</span> <span class="toc-text">objc非主流代码技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A8%B1%E4%B9%90%E5%90%91-objc%E6%9C%80%E7%9F%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%A3%B0%E6%98%8E"><span class="toc-number">2.1.</span> <span class="toc-text">[娱乐向]objc最短的方法声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.2.</span> <span class="toc-text">[C]结构体的初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E4%B8%89%E5%85%83%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E4%B8%A4%E5%85%83%E4%BD%BF%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">[C]三元条件表达式的两元使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%8B%E6%A0%87%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.4.</span> <span class="toc-text">[C]数组的下标初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc-%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84block"><span class="toc-number">2.5.</span> <span class="toc-text">[objc]可变参数类型的block</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc-readonly%E5%B1%9E%E6%80%A7%E6%94%AF%E6%8C%81%E6%89%A9%E5%B1%95%E7%9A%84%E5%86%99%E6%B3%95"><span class="toc-number">2.6.</span> <span class="toc-text">[objc]readonly属性支持扩展的写法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="objc非主流代码技巧"><a title="objc非主流代码技巧" class="headerlink" href="#objc非主流代码技巧"></a>objc非主流代码技巧</h1><p>obj-c非主流写法</p>
+<hr>
+<p>\</p>
+<div>
+
+<div>
+
+<div>
+
+<div>
+
+<h1 id="objc非主流代码技巧-1"><a title="objc非主流代码技巧" class="headerlink" href="#objc非主流代码技巧-1"></a>objc非主流代码技巧</h1><div>
+
+<div>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<p>看开源代码时，总会看到一些大神级别的代码，给人眼前一亮的感觉，多数都是被淡忘的C语言语法，总结下objc写码中遇到的各类<code>非主流</code>代码技巧和一些妙用：</p>
+<ul>
+<li>[娱乐向]objc最短的方法声明</li>
+<li>[C]结构体的初始化</li>
+<li>[C]三元条件表达式的两元使用</li>
+<li>[C]数组的下标初始化</li>
+<li>[objc]可变参数类型的block</li>
+<li>[objc]readonly属性支持扩展的写法</li>
+<li>[C]小括号内联复合表达式</li>
+<li>[娱乐向]奇葩的C函数写法</li>
+<li>[Macro]预处理时计算可变参数个数</li>
+<li>[Macro]预处理断言</li>
+<li>[多重]带自动提示的keypath宏</li>
+</ul>
+<hr>
+<h2 id="娱乐向-objc最短的方法声明"><a title="[娱乐向]objc最短的方法声明" class="headerlink" href="#娱乐向-objc最短的方法声明"></a>[娱乐向]objc最短的方法声明</h2><p>先来个娱乐向的。<br>方法声明时有一下几个trick：</p>
+<p>返回值的<code>- (TYPE)</code>如果不写括号，编译器默认认为是<code>- (id)</code>类型:</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     - init;                          |<br>|                                      |     - (id)init;  等价于              |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>同理，参数如果不写类型默认也是<code>id</code>类型:</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     - ()arg;                         |<br>|                                      |     - ()(id)arg; // 等价于           |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>还有，有多参数时<code>方法名</code>和<code>参数提示语</code>可以为空</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     - (void):ar :ar;                 |<br>|                                      |     - (void)foo:ar bar:ar; // 省略前 |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>综上，最短的函数可以写成这样：</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     - ;    没错，这是一个oc方法声明  |<br>|                                      |     - ;   这是一个带一个参数的oc方法声明 |<br>|                                      |                                      |<br>|                                      |     // 等价于                        |<br>|                                      |     - (id);                          |<br>|                                      |     - (id) (id);                     |<br>+————————————–+————————————–+</p>
+</div>
+
+<p><em>PS: 方法名都没的方法只能靠<code>performSelector</code>来调用了，<code>selector</code>是<code>":"</code></em></p>
+<hr>
+<h2 id="C-结构体的初始化"><a title="[C]结构体的初始化" class="headerlink" href="#C-结构体的初始化"></a>[C]结构体的初始化</h2><div>
+
+<p>+————————————–+————————————–+<br>|                                      |     // 不加(CGRect)强转也不会warning |<br>|                                      |     CGRect rect1 = {, , , };         |<br>|                                      |     CGRect rect2 = {.origin.x=, .siz |<br>|                                      | e={, }}; // {5, 0, 10, 10}           |<br>|                                      |     CGRect rect3 = {, }; // {1, 2, 0 |<br>|                                      | , 0}                                 |<br>+————————————–+————————————–+</p>
+</div>
+
+<h2 id="C-三元条件表达式的两元使用"><a title="[C]三元条件表达式的两元使用" class="headerlink" href="#C-三元条件表达式的两元使用"></a>[C]三元条件表达式的两元使用</h2><p>三元条件表达式<code>?:</code>是C中唯一一个三目运算符，用来替代简单的<code>if-else</code>语句，同时也是可以<strong>两元</strong>使用的：</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     NSString *string = inputString ? |<br>|                                      | :  “default”;                        |<br>|                                      |     NSString *string = inputString ? |<br>|                                      |  inputString :  “default”;           |<br>+————————————–+————————————–+</p>
+</div>
+
+<h2 id="C-数组的下标初始化"><a title="[C]数组的下标初始化" class="headerlink" href="#C-数组的下标初始化"></a>[C]数组的下标初始化</h2><div>
+
+<p>+————————————–+————————————–+<br>|                                      |     const  numbers[] = {             |<br>|                                      |                                      |<br>|                                      |     [] = 12306                       |<br>|                                      |                                      |<br>|                                      |     // {0, 3, 2, 1, 0, 12306}        |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>这个特性可以用来做<code>枚举值和字符串的映射</code></p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     typedef NS_ENUM(NSInteger, XXTyp |<br>|                                      | e){                                  |<br>|                                      |         XXType1,                     |<br>|                                      |         XXType2                      |<br>|                                      |                                      |<br>|                                      |     const NSString *XXTypeNameMappin |<br>|                                      | g[] = {                              |<br>|                                      |         [XXType1] =  “Type1”,        |<br>|                                      |         [XXType2] =  “Type2”         |<br>+————————————–+————————————–+</p>
+</div>
+
+<hr>
+<h2 id="objc-可变参数类型的block"><a title="[objc]可变参数类型的block" class="headerlink" href="#objc-可变参数类型的block"></a>[objc]可变参数类型的block</h2><p>一个block像下面一样声明：</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     void(^block1)                    |<br>|                                      |     void(^block2)                    |<br>|                                      |     void(^block3)(NSNumber *a, NSStr |<br>|                                      | ing *b)                              |<br>+————————————–+————————————–+</p>
+</div>
+
+<p><strong>如果block的参数列表为空的话，相当于可变参数（不是void）</strong></p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     void(^block)();  返回值为void，参数可变的b |<br>|                                      | lock                                 |<br>|                                      |     block = block1;  正常            |<br>|                                      |     block = block2;  正常            |<br>|                                      |     block = block3;  正常            |<br>|                                      |     block(,  “string”);   对应上面的block |<br>|                                      | 3                                    |<br>|                                      |     block();  block3的第一个参数为，第二个为 |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>这样，block的主调和回调之间可以通过<code>约定</code>来决定block回传回来的参数是什么，有几个。如一个对网络层的调用：</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     - ()requestDataWithApi:(NSIntege |<br>|                                      | r)api block:((^)())block             |<br>|                                      |                                      |<br>|                                      |     (api == ) {                      |<br>|                                      |             block(, );               |<br>|                                      |                                      |<br>|                                      |     (api == ) {                      |<br>|                                      |             block( ,  ,  [ ,  ,  ]); |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>主调者知道自己请求的是哪个Api，那么根据<code>约定</code>，他就知道block里面应该接受哪几个参数：</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     [server requestDataWithApi:0 blo |<br>|                                      | ck:^(NSInteger a, NSInteger b)       |<br>|                                      |         // …                       |<br>|                                      |     ]                                |<br>|                                      |     [server requestDataWithApi:1 blo |<br>|                                      | ck:^(NSString *s, NSNumber *n, NSArr |<br>|                                      | ay *a)                               |<br>|                                      |         // …                       |<br>|                                      |     ]                                |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>这个特性在<code>Reactive Cocoa</code>的<code>-combineLatest:reduce:</code>等类似方法中已经使用的相当好了。</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     + (RACSignal *)combineLatest:(id |<br>|                                      | )signals reduce:( |<br>|                                      | id (^)())reduceBlock;                |<br>+————————————–+————————————–+</p>
+</div>
+
+<h2 id="objc-readonly属性支持扩展的写法"><a title="[objc]readonly属性支持扩展的写法" class="headerlink" href="#objc-readonly属性支持扩展的写法"></a>[objc]readonly属性支持扩展的写法</h2><p>假如一个类有一个<code>readonly</code>属性：</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |      interface : NSObject            |<br>|                                      |      property (nonatomic, readonly)  |<br>|                                      | NSArray *friends;                    |<br>+————————————–+————————————–+</p>
+</div>
+
+<p><code>.m</code>中可以使用<code>_friends</code>来使用自动合成的这个变量，但假如：</p>
+<ul>
+<li>习惯使用<code>self.</code>来set实例变量时（只合成了getter）</li>
+<li>希望重写getter进行懒加载时（重写getter时则不会生成下划线的变量，除非手动<code> synthesize</code>）</li>
+<li>允许子类重载这个属性来修改它时（编译报错属性修饰符不匹配）</li>
+</ul>
+<p>这种<code>readonly</code>声明方法就行不通了，所以下面的写法更有通用性：</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |      interface : NSObject            |<br>|                                      |      property (nonatomic, readonly,  |<br>|                                      | copy/<em>加上setter属性修饰符</em>/) NSArray *frie |<br>|                                      | nds;                                 |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>如想在<code>.m</code>中像正常属性一样使用：</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |      interface Sark ()               |<br>|                                      |      property (nonatomic, copy) NSAr |<br>|                                      | ray *friends;                        |<br>|                                      |                                      |<br>|                                      |     子类化时同理。iOS SDK中很多地方都用到了这个特性。   |<br>|                                      |                                      |<br>|                                      |                                      |<br>|                                      |     —–                            |<br>|                                      |                                      |<br>|                                      |     ## [C]小括号内联复合表达式       |<br>|                                      |                                      |<br>|                                      |     A compound statement enclosed in |<br>|                                      |  parentheses`原谅我的渣翻译- -，来自[《gcc官方对此的 |<br>|                                      | 说明》](<a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/">https://gcc.gnu.org/onlinedocs/</a> |<br>|                                      | gcc/Statement-Exprs.html)，源自gcc对c的扩展 |<br>|                                      | ，如今被clang继承。                  |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>RETURN_VALUE_RECEIVER = {(<br> // Do whatever you want<br> RETURN_VALUE; // 返回值<br>)};</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     于是乎可以发挥想象力了：         |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>self.backgroundView = ({<br> UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];<br> view.backgroundColor = [UIColor redColor];<br> view.alpha = 0.8f;<br> view;<br>});</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     有点像block和内联函数的结合体，它最大的意义在于将代码理分块 |<br>|                                      | 将同一个逻辑层级的代码包在一起；同时对于一个无需复用小段逻辑，也免去了重 |<br>|                                      | 量级的调用函数，如：                 |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>self.result = ({<br> double result = 0;<br> for (int i = 0; i &lt;= M_2_PI; i+= M_PI_4) {<br> result += sin(i);<br> }<br> result;<br>});</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     这样使得代码量增大时层次仍然能比较明确。   |<br>|                                      |                                      |<br>|                                      |                                      |<br>|                                      |     返回值和代码块结束点必须在结尾_  |<br>|                                      |                                      |<br>|                                      |                                      |<br>|                                      |     ## [娱乐向]奇葩的C函数写法       |<br>|                                      |                                      |<br>|                                      |     正常编译执行：                   |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>int sum(a,b)<br>int a; int b;<br>{<br> return a + b;<br>}</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     ## [Macro]预处理时计算可变参数个数 |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>#define COUNT_PARMS2(_a1, _a2, _a3, _a4, _a5, RESULT, …) RESULT</p>
+<p>#define COUNT_PARMS(…) COUNT_PARMS2(<strong>VA_ARGS</strong>, 5, 4, 3, 2, 1)<br>int count = COUNT_PARMS(1,2,3); // 预处理时count==3</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     ## [Macro]预处理断言             |<br>|                                      |                                      |<br>|                                      |     下面的断言在编译前就生效         |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>#define C_ASSERT(test) \<br> switch(0) {\<br> case 0:\<br> case test:;\<br> }</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     如断言上面预处理时计算可变参数个数： |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>C_ASSERT(COUNT_PARMS(1,2,3) == 2);</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     如果断言失败，相当于<code>switch-</code>中出现了两个``，则编译报 |<br>|                                      | 错。                                 |<br>|                                      |                                      |<br>|                                      |                                      |<br>|                                      |     ## [多重]带自动提示的keypath宏   |<br>|                                      |                                      |<br>|                                      |     源自<code>Reactive Cocoa</code>中的宏：     |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>#define keypath2(OBJ, PATH) \<br> (((void)(NO &amp;&amp; ((void)OBJ.PATH, NO)), # PATH))</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     原来写过一篇[《介绍RAC宏的文章》](<a target="_blank" rel="noopener" href="http://blog/">http://blog</a>. |<br>|                                      | sunnyxx.com/2014/03/06/rac_1_macros/ |<br>|                                      | )中曾经写过。这个宏在写PATH参数的同时是带自动提示的：   |<br>|                                      |                                      |<br>|                                      |     ![](<a target="_blank" rel="noopener" href="http://images.cnitblog.com/b">http://images.cnitblog.com/b</a> |<br>|                                      | log/401798/201402/112147518936541.pn |<br>|                                      | g)                                   |<br>|                                      |                                      |<br>|                                      |     ### 逗号表达式                   |<br>|                                      |     逗号表达式取后值，但前值的表达式参与运算，可用void忽略编译器 |<br>|                                      | 警告                                 |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>int a = ((void)(1+2), 2); // a == 2</p>
+<div>
+
+<p>+————————————–+————————————–+<br>|                                      |     于是上面的keypath宏的输出结果是PATH就是一个c字符串 |<br>|                                      |                                      |<br>|                                      |                                      |<br>|                                      |     ### 逻辑最短路径                 |<br>|                                      |                                      |<br>|                                      |     之前的文章没有弄清上面宏中O&amp;&amp;NO含义，其实这用到了编译器优化 |<br>|                                      | 的特性：                             |<br>+————————————–+————————————–+</p>
+</div>
+
+<p>if (NO &amp;&amp; [self shouldDo]/<em>不执行</em>/) {<br> // 不执行<br>}<br>```</p>
+<p>编译器知道在NO后且什么的结果都是NO，于是后面的语句被优化掉了。也就是说keypath宏中这个<code>NO &amp;&amp; ((void)OBJ.PATH, NO)</code>就使得在编译后后面的部分不出现在最后的代码中，于是乎既实现了keypath的自动提示功能，又保证编译后不执行多余的代码。</p>
+<hr>
+<h1 id="References"><a title="References" class="headerlink" href="#References"></a>References</h1><p><a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html">https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html</a></p>
+</div>
+
+<div>
+
+<p>\</p>
+<p>原创文章，转载请注明原地址：<a target="_blank" rel="noopener" href="http://blog.sunnyxx.com/">blog.sunnyxx.com</a>\</p>
+<p>对博主有意思？新浪微博<a target="_blank" rel="noopener" href="http://weibo.com/u/1364395395"> 我就叫Sunny怎么了</a><br> or 微信搜索订阅号<strong>sunnyxx</strong>或扫下面的逗比狗\</p>
+<p><img src="/objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7.resources/51530583jw1ejz2wnbt01j20by0by0tl.png"></p>
+</div>
+
+<div>
+
+<p>Share</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://blog.sunnyxx.com/tags/ios%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">ios最佳实践</a></li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<p>\</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E4%B8%93%E4%B8%9A%E6%8A%80%E6%9C%AF-%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2020/04/29/objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7/" data-title="objc非主流代码技巧 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/obj-c 常用字符串处理方法/" title="obj-c 常用字符串处理方法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  obj-c 常用字符串处理方法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/一本禁书的笔记/"  title="读一本禁书的笔记">
+ <strong>下一篇：</strong><br/> 
+ <span>读一本禁书的笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/objc非主流代码技巧/" data-title="objc非主流代码技巧" data-url="http://clockcoder.com/2020/04/29/objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7"><span class="toc-number">1.</span> <span class="toc-text">objc非主流代码技巧</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#objc%E9%9D%9E%E4%B8%BB%E6%B5%81%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7-1"><span class="toc-number">2.</span> <span class="toc-text">objc非主流代码技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A8%B1%E4%B9%90%E5%90%91-objc%E6%9C%80%E7%9F%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%A3%B0%E6%98%8E"><span class="toc-number">2.1.</span> <span class="toc-text">[娱乐向]objc最短的方法声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.2.</span> <span class="toc-text">[C]结构体的初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E4%B8%89%E5%85%83%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E4%B8%A4%E5%85%83%E4%BD%BF%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">[C]三元条件表达式的两元使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%8B%E6%A0%87%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.4.</span> <span class="toc-text">[C]数组的下标初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc-%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B%E7%9A%84block"><span class="toc-number">2.5.</span> <span class="toc-text">[objc]可变参数类型的block</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objc-readonly%E5%B1%9E%E6%80%A7%E6%94%AF%E6%8C%81%E6%89%A9%E5%B1%95%E7%9A%84%E5%86%99%E6%B3%95"><span class="toc-number">2.6.</span> <span class="toc-text">[objc]readonly属性支持扩展的写法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#References"><span class="toc-number">3.</span> <span class="toc-text">References</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

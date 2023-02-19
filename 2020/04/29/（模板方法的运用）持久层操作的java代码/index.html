@@ -1,0 +1,1473 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>（模板方法的运用）持久层操作的java代码 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="（模板方法的运用）持久层操作的java代码       第一个是操作数据库方法的抽象接口， 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。 为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。     Java代码 &amp;nbsp;  package&amp;nbsp;&amp;nbsp;com.yd.idao;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（模板方法的运用）持久层操作的java代码">
+<meta property="og:url" content="http://clockcoder.com/2020/04/29/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="（模板方法的运用）持久层操作的java代码       第一个是操作数据库方法的抽象接口， 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。 为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。     Java代码 &amp;nbsp;  package&amp;nbsp;&amp;nbsp;com.yd.idao;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://clockcoder.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://clockcoder.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="og:image" content="http://clockcoder.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:08.336Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="从印象笔记导入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/（模板方法的运用）持久层操作的java代码/" title="（模板方法的运用）持久层操作的java代码" itemprop="url">（模板方法的运用）持久层操作的java代码</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">（模板方法的运用）持久层操作的java代码</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="（模板方法的运用）持久层操作的java代码"><a title="（模板方法的运用）持久层操作的java代码" class="headerlink" href="#（模板方法的运用）持久层操作的java代码"></a>（模板方法的运用）持久层操作的java代码</h1><div>
+
+<p><span style="font-size: large"><span style="color: red"><br></span></span></p>
+</div>
+
+<div>
+
+<p><span style="font-size: large"><span style="color: red">第一个是操作数据库方法的抽象接口，<br> 其实这个接口也很简单，定义了那么几个方法，说白了就是操作数据库的。</span></span></p>
+<p>为什么要写成泛型的接口，为了就是后面大家的业务有针对性，一个实体一个业务功能类。<br></p>
+<div>
+
+<div>
+
+<p>Java代码
+&nbsp;</p>
+<ol>
+<li><span>package</span><span>&nbsp;&nbsp;com.yd.idao;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;java.util.List;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;java.sql.Connection;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;java.sql.ResultSet;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;java.sql.SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;com.yd.support.JDataSet;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span><span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;*&nbsp;&nbsp;一个定义了所有我所需要的数据库操作的方法接口，</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;*&nbsp;&nbsp;为什么定义为抽象，我自己都搞不清楚，</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;*&nbsp;&nbsp;这里定义了泛型，这个很关键，你会看到泛型在这里的使用</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;*&nbsp;&nbsp;@author&nbsp;&nbsp;kanny</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;*</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>public</span><span>&nbsp;&nbsp;</span><span>abstract</span><span>&nbsp;&nbsp;</span><span>interface</span><span>&nbsp;&nbsp;ISqlHelper&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;执行sql语句，大多为单句插入语句</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;sql&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单句的sql语句</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;params&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;插入的参数</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;only&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但为true时，sql语句为查询数量的查询语句</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;execute(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;only)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;执行sql的批处理</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;sqlBatch&nbsp;&nbsp;&nbsp;&nbsp;多条sql语句</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeBatch(String[]&nbsp;&nbsp;sqlBatch)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;执行存储过程</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;procName&nbsp;&nbsp;&nbsp;&nbsp;存储过程名称</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;params&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存储过程说需要的参数</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall(String&nbsp;&nbsp;procName,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;查询一行数据封装成java的实体</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;sql&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql语句</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;params&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql条件参数</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;viewName&nbsp;&nbsp;&nbsp;&nbsp;视图名字，在查询多表关联的数据时用于区分</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;executeCall&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否是存储过程，如果为true，第一个sql的参数为存储过程名称</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;T&nbsp;&nbsp;find(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;String&nbsp;&nbsp;viewName,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;查询多行数据封装成java的实体加入一个List里</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;sql&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql语句</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;params&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sql条件参数</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;viewName&nbsp;&nbsp;&nbsp;&nbsp;视图名字，在查询多表关联的数据时用于区分，循环封装实体比单一的石头封装要复杂</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;executeCall&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否是存储过程，如果为true，第一个sql的参数为存储过程名称</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;List&nbsp;&nbsp;findList(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;String&nbsp;&nbsp;viewName,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;为了方便操作，我还特意写定义了这个返回ResultSet的方法，便于直接操作</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;sql</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;params</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;executeCall</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;ResultSet&nbsp;&nbsp;returnResultSet(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;我的底层分页方法，我会给出具体代码，但这里用的只是sql&nbsp;&nbsp;server&nbsp;&nbsp;2008的数据库分页</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;sql&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;orderby&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排序列</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;currentPage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前页</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;pageSize&nbsp;&nbsp;&nbsp;&nbsp;每页多少行</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;List&nbsp;&nbsp;findListAsPager(String&nbsp;&nbsp;sql,&nbsp;&nbsp;String&nbsp;&nbsp;orderby,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;currentPage,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;pageSize)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;后来为了方便操作，想朋友要来了这个JDataSet类，类似.net的DataTable的作用</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;sql</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;params</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;fillColumnNames&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否填充类名，请看方法代码</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;executeCall</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;JDataSet&nbsp;&nbsp;getJDataSet(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;fillColumnNames,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;由于有了JDataSet这个类，于是我有写了调用这个类的分页方法</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;sql</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;orderby</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;currentPage</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;pageSize</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;JDataSet&nbsp;&nbsp;getJDataSetAsPager(String&nbsp;&nbsp;sql,&nbsp;&nbsp;String&nbsp;&nbsp;orderby,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;currentPage,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;pageSize)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;为了方便起见，我多写了一个直接传入ResultSet而封装JDataSet的多余方法</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;rs</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;fillColumnNames</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;JDataSet&nbsp;&nbsp;loadJDataSet(ResultSet&nbsp;&nbsp;rs,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;fillColumnNames)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;得到查询数据的行数</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;sql</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;getRowCount(String&nbsp;&nbsp;sql)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;请看源码</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;rs</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@param&nbsp;&nbsp;column</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;String&nbsp;&nbsp;changeFont(ResultSet&nbsp;&nbsp;rs,&nbsp;&nbsp;String&nbsp;&nbsp;column)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;得到连接</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@return</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;Connection&nbsp;&nbsp;returnConn()&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>/**</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;清楚所有数据库操作对象</span>&nbsp;&nbsp;</span></li>
+<li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;@throws&nbsp;&nbsp;SQLException</span>&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>void</span><span>&nbsp;&nbsp;clearAllsql()&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+</ol>
+</div>
+
+<p><br><br><br><span style="font-size: large"><span style="color: red"><br> 第2个类是实现这个抽象接口的抽象模版方法类<br> 这个类最为关键，它肯定是实现了ISqlHepler.java里面的所有的方法。<br><br> 其中：<br><br> protected abstract T loadDataBean(ResultSet rs, String viewName) throws<br>SQLException;<br><br> protected abstract T loadDataBeanSelf(ResultSet rs) throws<br>SQLException;<br>\</span></span></p>
+<p>这2个方法是SqlHelper.java里留出来了，就是为了大家可以自己封装实体javabean来用<br>\</p>
+<div>
+
+<div>
+
+<p>Java代码<br>&nbsp;&nbsp;<img src="/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png"></p>
+</div>
+
+<ol>
+<li><span>package</span><span>&nbsp;&nbsp;com.yd.dao;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;java.sql.*;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;java.util.*;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;com.yd.db.DBConnPoolMgr;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;com.yd.idao.ISqlHelper;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>import</span><span>&nbsp;&nbsp;com.yd.support.JDataSet;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>public</span><span>&nbsp;&nbsp;</span><span>abstract</span><span>&nbsp;&nbsp;</span><span>class</span><span>&nbsp;&nbsp;SqlHelper&nbsp;&nbsp;</span><span>implements</span><span>&nbsp;&nbsp;ISqlHelper&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;java.sql.Connection&nbsp;&nbsp;conn&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;java.sql.PreparedStatement&nbsp;&nbsp;pst&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;java.sql.Statement&nbsp;&nbsp;st&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;java.sql.CallableStatement&nbsp;&nbsp;cs&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;java.sql.ResultSet&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;java.sql.ResultSetMetaData&nbsp;&nbsp;rm&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;Connection&nbsp;&nbsp;returnConn()&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>//DBConnPoolMgr是自己写的一个简单连接池类，用来得到连接，我后面会给出这个类的代码</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;(conn&nbsp;&nbsp;=&nbsp;&nbsp;DBConnPoolMgr.getInctence().getConnect());&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span><span>&nbsp;&nbsp;PreparedStatement&nbsp;&nbsp;returnPst(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(conn&nbsp;&nbsp;==&nbsp;&nbsp;</span><span>null</span><span>&nbsp;&nbsp;||&nbsp;&nbsp;conn.isClosed())&nbsp;&nbsp;conn&nbsp;&nbsp;=&nbsp;&nbsp;returnConn();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pst&nbsp;&nbsp;=&nbsp;&nbsp;conn.prepareStatement(sql);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(params&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>for</span><span>&nbsp;&nbsp;(</span><span>int</span><span>&nbsp;&nbsp;i&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>0</span><span>;&nbsp;&nbsp;i&nbsp;&nbsp;&lt;&nbsp;&nbsp;params.length;&nbsp;&nbsp;i++)&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pst.setObject(i&nbsp;&nbsp;+&nbsp;&nbsp;<span>1</span><span>,&nbsp;&nbsp;params[i]);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;pst;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;CallableStatement&nbsp;&nbsp;returnCs(String&nbsp;&nbsp;procName,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(conn&nbsp;&nbsp;==&nbsp;&nbsp;</span><span>null</span><span>&nbsp;&nbsp;||&nbsp;&nbsp;conn.isClosed())&nbsp;&nbsp;conn&nbsp;&nbsp;=&nbsp;&nbsp;returnConn();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;call&nbsp;&nbsp;=&nbsp;&nbsp;<span>“”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(params&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;=&nbsp;&nbsp;<span>“{call&nbsp;&nbsp;“</span><span>&nbsp;&nbsp;+&nbsp;&nbsp;procName&nbsp;&nbsp;+&nbsp;&nbsp;</span><span>“(“</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>for</span><span>&nbsp;&nbsp;(</span><span>int</span><span>&nbsp;&nbsp;c&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>0</span><span>;&nbsp;&nbsp;c&nbsp;&nbsp;&lt;&nbsp;&nbsp;params.length&nbsp;&nbsp;-&nbsp;&nbsp;</span><span>1</span><span>;&nbsp;&nbsp;c++)&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;+=&nbsp;&nbsp;<span>“?,”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;+=&nbsp;&nbsp;<span>“?)}”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;<span>else</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;&nbsp;=&nbsp;&nbsp;<span>“{call&nbsp;&nbsp;“</span><span>&nbsp;&nbsp;+&nbsp;&nbsp;procName&nbsp;&nbsp;+&nbsp;&nbsp;</span><span>“()}”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cs&nbsp;&nbsp;=&nbsp;&nbsp;conn.prepareCall(call);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(params&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>for</span><span>&nbsp;&nbsp;(</span><span>int</span><span>&nbsp;&nbsp;i&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>0</span><span>;&nbsp;&nbsp;i&nbsp;&nbsp;&lt;&nbsp;&nbsp;params.length;&nbsp;&nbsp;i++)&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cs.setObject(i&nbsp;&nbsp;+&nbsp;&nbsp;<span>1</span><span>,&nbsp;&nbsp;params[i]);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;cs;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>void</span><span>&nbsp;&nbsp;clearAllsql()&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(rs&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;rs.close();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(cs&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;cs.close();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(st&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;st.close();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(pst&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;pst.close();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(conn&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DBConnPoolMgr.getInctence().returnConnect(conn);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;<span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cs&nbsp;&nbsp;=&nbsp;&nbsp;<span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st&nbsp;&nbsp;=&nbsp;&nbsp;<span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pst&nbsp;&nbsp;=&nbsp;&nbsp;<span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(SQLException&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;execute(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;only)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>boolean</span><span>&nbsp;&nbsp;bVal&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>false</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(only)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnPst(sql,&nbsp;&nbsp;params).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>while</span><span>&nbsp;&nbsp;(rs.next())&nbsp;&nbsp;bVal&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>true</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;<span>else</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returnPst(sql,&nbsp;&nbsp;params).executeUpdate();&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bVal&nbsp;&nbsp;=&nbsp;&nbsp;<span>true</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(SQLException&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>finally</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;clearAllsql();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;bVal;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeBatch(String[]&nbsp;&nbsp;sqlBatch)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>boolean</span><span>&nbsp;&nbsp;bVal&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>false</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conn&nbsp;&nbsp;=&nbsp;&nbsp;returnConn();&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st&nbsp;&nbsp;=&nbsp;&nbsp;conn.createStatement();&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>boolean</span><span>&nbsp;&nbsp;autoCommit&nbsp;&nbsp;=&nbsp;&nbsp;conn.getAutoCommit();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>for</span><span>&nbsp;&nbsp;(</span><span>int</span><span>&nbsp;&nbsp;i&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>0</span><span>;&nbsp;&nbsp;i&nbsp;&nbsp;&lt;&nbsp;&nbsp;sqlBatch.length;&nbsp;&nbsp;i++)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(sqlBatch[i]&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>&nbsp;&nbsp;&amp;&amp;&nbsp;&nbsp;!sqlBatch[i].equals(</span><span>“”</span><span>))&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st.addBatch(sqlBatch[i]&nbsp;&nbsp;+&nbsp;&nbsp;<span>“;”</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conn.setAutoCommit(<span>false</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;st.executeBatch();&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conn.commit();&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conn.setAutoCommit(autoCommit);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bVal&nbsp;&nbsp;=&nbsp;&nbsp;<span>true</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(SQLException&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;conn.rollback();&nbsp;&nbsp;}&nbsp;&nbsp;</span><span>catch</span><span>&nbsp;&nbsp;(SQLException&nbsp;&nbsp;e)&nbsp;&nbsp;{&nbsp;&nbsp;e.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;<span>finally</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;clearAllsql();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;bVal;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall(String&nbsp;&nbsp;procName,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>boolean</span><span>&nbsp;&nbsp;bVal&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>false</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;returnCs(procName,&nbsp;&nbsp;params).executeUpdate();&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bVal&nbsp;&nbsp;=&nbsp;&nbsp;<span>true</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(Exception&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>finally</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;clearAllsql();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;bVal;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;T&nbsp;&nbsp;find(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;String&nbsp;&nbsp;viewName,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;t&nbsp;&nbsp;=&nbsp;&nbsp;<span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(executeCall)&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnCs(sql,&nbsp;&nbsp;params).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>else</span><span>&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnPst(sql,&nbsp;&nbsp;params).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;&nbsp;=&nbsp;&nbsp;loadResultSet(rs,&nbsp;&nbsp;viewName);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(Exception&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>finally</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;clearAllsql();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;t;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;List&nbsp;&nbsp;findList(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;String&nbsp;&nbsp;viewName,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;&nbsp;lt&nbsp;&nbsp;=&nbsp;&nbsp;<span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(executeCall)&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnCs(sql,&nbsp;&nbsp;params).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>else</span><span>&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnPst(sql,&nbsp;&nbsp;params).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt&nbsp;&nbsp;=&nbsp;&nbsp;loadList(rs,&nbsp;&nbsp;viewName);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(Exception&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>finally</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;clearAllsql();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;lt;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;ResultSet&nbsp;&nbsp;returnResultSet(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(executeCall)&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnCs(sql,&nbsp;&nbsp;params).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>else</span><span>&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnPst(sql,&nbsp;&nbsp;params).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(Exception&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;rs;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span><span>&nbsp;&nbsp;T&nbsp;&nbsp;loadResultSet(ResultSet&nbsp;&nbsp;rs,&nbsp;&nbsp;String&nbsp;&nbsp;viewName)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;t&nbsp;&nbsp;=&nbsp;&nbsp;<span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(rs&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;</span><span>while</span><span>&nbsp;&nbsp;(rs.next())&nbsp;&nbsp;t&nbsp;&nbsp;=&nbsp;&nbsp;loadDataBean(rs,&nbsp;&nbsp;viewName);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;t;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span><span>&nbsp;&nbsp;List&nbsp;&nbsp;loadList(ResultSet&nbsp;&nbsp;rs,&nbsp;&nbsp;String&nbsp;&nbsp;viewName)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;&nbsp;tlist&nbsp;&nbsp;=&nbsp;&nbsp;<span>new</span><span>&nbsp;&nbsp;ArrayList();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(rs&nbsp;&nbsp;!=&nbsp;&nbsp;</span><span>null</span><span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>while</span><span>&nbsp;&nbsp;(rs.next())&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tlist.add(loadDataBean(rs,&nbsp;&nbsp;viewName));&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;tlist;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;String&nbsp;&nbsp;changeFont(ResultSet&nbsp;&nbsp;rs,&nbsp;&nbsp;String&nbsp;&nbsp;column)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;rs.getString(column)&nbsp;&nbsp;==&nbsp;&nbsp;</span><span>null</span><span>&nbsp;&nbsp;?&nbsp;&nbsp;</span><span>“”</span><span>&nbsp;&nbsp;:&nbsp;&nbsp;rs.getString(column);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;returnColumnCount(ResultSet&nbsp;&nbsp;rs)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;rs.getMetaData().getColumnCount();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>//两个非常关键的模版方法，继承此类的操作类都要实现这2个方法，我到时候会给出操作类</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;</span><span>abstract</span><span>&nbsp;&nbsp;T&nbsp;&nbsp;loadDataBean(ResultSet&nbsp;&nbsp;rs,&nbsp;&nbsp;String&nbsp;&nbsp;viewName)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;</span><span>abstract</span><span>&nbsp;&nbsp;T&nbsp;&nbsp;loadDataBeanSelf(ResultSet&nbsp;&nbsp;rs)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;List&nbsp;&nbsp;findListAsPager(String&nbsp;&nbsp;sql,&nbsp;&nbsp;String&nbsp;&nbsp;orderby,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;currentPage,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;pageSize)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;&nbsp;lt&nbsp;&nbsp;=&nbsp;&nbsp;<span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;strVal&nbsp;&nbsp;=&nbsp;&nbsp;strPager(sql,&nbsp;&nbsp;orderby,&nbsp;&nbsp;currentPage,&nbsp;&nbsp;pageSize);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnPst(strVal,&nbsp;&nbsp;<span>null</span><span>).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt&nbsp;&nbsp;=&nbsp;&nbsp;loadList(rs,&nbsp;&nbsp;<span>“”</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(SQLException&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>finally</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;clearAllsql();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;lt;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>//因为用的sql&nbsp;&nbsp;server&nbsp;&nbsp;2008所以只写了这个数据库的分页</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span><span>&nbsp;&nbsp;String&nbsp;&nbsp;strPager(String&nbsp;&nbsp;sql,&nbsp;&nbsp;String&nbsp;&nbsp;orderby,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;currentPage,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;pageSize)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>int</span><span>&nbsp;&nbsp;start&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>1</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(currentPage&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span><span>1</span><span>)&nbsp;&nbsp;start&nbsp;&nbsp;=&nbsp;&nbsp;(currentPage&nbsp;&nbsp;-&nbsp;&nbsp;</span><span>1</span><span>)&nbsp;&nbsp;*&nbsp;&nbsp;pageSize&nbsp;&nbsp;+&nbsp;&nbsp;</span><span>1</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>int</span><span>&nbsp;&nbsp;end&nbsp;&nbsp;=&nbsp;&nbsp;start&nbsp;&nbsp;+&nbsp;&nbsp;pageSize&nbsp;&nbsp;-&nbsp;&nbsp;</span><span>1</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;sqlColumn&nbsp;&nbsp;=&nbsp;&nbsp;<span>“*“</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;sqlDo&nbsp;&nbsp;=&nbsp;&nbsp;<span>“”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>(sql.indexOf(</span><span>“@#“</span><span>)&nbsp;&nbsp;!=&nbsp;&nbsp;-</span><span>1</span><span>)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;[]sqlArr&nbsp;&nbsp;=&nbsp;&nbsp;sql.split(<span>“@#“</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sqlColumn&nbsp;&nbsp;=&nbsp;&nbsp;sqlArr[<span>0</span><span>];&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sqlDo&nbsp;&nbsp;=&nbsp;&nbsp;sqlArr[<span>1</span><span>];&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;<span>else</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sqlColumn&nbsp;&nbsp;=&nbsp;&nbsp;<span>“*“</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sqlDo&nbsp;&nbsp;=&nbsp;&nbsp;sql;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;strVal&nbsp;&nbsp;=&nbsp;&nbsp;<span>“select&nbsp;&nbsp;*&nbsp;&nbsp;from&nbsp;&nbsp;(select&nbsp;&nbsp;“</span><span>&nbsp;&nbsp;+&nbsp;&nbsp;sqlColumn&nbsp;&nbsp;+&nbsp;&nbsp;</span><span>“,ROW_NUMBER()”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strVal&nbsp;&nbsp;+=&nbsp;&nbsp;<span>“&nbsp;&nbsp;Over(order&nbsp;&nbsp;by&nbsp;&nbsp;“</span><span>&nbsp;&nbsp;+&nbsp;&nbsp;orderby&nbsp;&nbsp;+&nbsp;&nbsp;</span><span>“)”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strVal&nbsp;&nbsp;+=&nbsp;&nbsp;<span>“&nbsp;&nbsp;as&nbsp;&nbsp;rowNum&nbsp;&nbsp;“</span><span>&nbsp;&nbsp;+&nbsp;&nbsp;sqlDo&nbsp;&nbsp;+&nbsp;&nbsp;</span><span>“)”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strVal&nbsp;&nbsp;+=&nbsp;&nbsp;<span>“&nbsp;&nbsp;as&nbsp;&nbsp;myTable&nbsp;&nbsp;where&nbsp;&nbsp;rowNum&nbsp;&nbsp;between&nbsp;&nbsp;“</span><span>&nbsp;&nbsp;+&nbsp;&nbsp;start&nbsp;&nbsp;+&nbsp;&nbsp;</span><span>“&nbsp;&nbsp;and&nbsp;&nbsp;“</span><span>&nbsp;&nbsp;+&nbsp;&nbsp;end;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;strVal;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;getRowCount(String&nbsp;&nbsp;sql)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;sqlDo&nbsp;&nbsp;=&nbsp;&nbsp;<span>“”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>(sql.indexOf(</span><span>“@#“</span><span>)&nbsp;&nbsp;!=&nbsp;&nbsp;-</span><span>1</span><span>)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;[]sqlArr&nbsp;&nbsp;=&nbsp;&nbsp;sql.split(<span>“@#“</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sqlDo&nbsp;&nbsp;=&nbsp;&nbsp;sqlArr[<span>1</span><span>];&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;<span>else</span><span>&nbsp;&nbsp;sqlDo&nbsp;&nbsp;=&nbsp;&nbsp;sql;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>int</span><span>&nbsp;&nbsp;count&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>0</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;<span>this</span><span>.returnResultSet(</span><span>“select&nbsp;&nbsp;count(*)&nbsp;&nbsp;“</span><span>&nbsp;&nbsp;+&nbsp;&nbsp;sqlDo,&nbsp;&nbsp;</span><span>null</span><span>,&nbsp;&nbsp;</span><span>false</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>while</span><span>&nbsp;&nbsp;(rs.next())&nbsp;&nbsp;count&nbsp;&nbsp;=&nbsp;&nbsp;rs.getInt(</span><span>1</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(Exception&nbsp;&nbsp;ce)&nbsp;&nbsp;{&nbsp;&nbsp;ce.printStackTrace();}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>finally</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;clearAllsql();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;count;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;JDataSet&nbsp;&nbsp;getJDataSetAsPager(String&nbsp;&nbsp;sql,&nbsp;&nbsp;String&nbsp;&nbsp;orderby,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;currentPage,&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;pageSize)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;strVal&nbsp;&nbsp;=&nbsp;&nbsp;strPager(sql,&nbsp;&nbsp;orderby,&nbsp;&nbsp;currentPage,&nbsp;&nbsp;pageSize);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;getJDataSet(strVal,&nbsp;&nbsp;</span><span>null</span><span>,&nbsp;&nbsp;</span><span>true</span><span>,&nbsp;&nbsp;</span><span>false</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;JDataSet&nbsp;&nbsp;getJDataSet(String&nbsp;&nbsp;sql,&nbsp;&nbsp;Object[]&nbsp;&nbsp;params,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;fillColumnNames,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;executeCall)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JDataSet&nbsp;&nbsp;jds&nbsp;&nbsp;=&nbsp;&nbsp;<span>null</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(executeCall)&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnCs(sql,&nbsp;&nbsp;params).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>else</span><span>&nbsp;&nbsp;rs&nbsp;&nbsp;=&nbsp;&nbsp;returnPst(sql,&nbsp;&nbsp;params).executeQuery();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jds&nbsp;&nbsp;=&nbsp;&nbsp;loadJDataSet(rs,&nbsp;&nbsp;fillColumnNames);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(Exception&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>finally</span><span>&nbsp;&nbsp;{&nbsp;&nbsp;clearAllsql();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;jds;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;JDataSet&nbsp;&nbsp;loadJDataSet(ResultSet&nbsp;&nbsp;rs,&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;fillColumnNames)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JDataSet&nbsp;&nbsp;jds&nbsp;&nbsp;=&nbsp;&nbsp;<span>new</span><span>&nbsp;&nbsp;JDataSet();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>try</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>int</span><span>&nbsp;&nbsp;columnCount&nbsp;&nbsp;=&nbsp;&nbsp;returnColumnCount(rs);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>if</span><span>&nbsp;&nbsp;(fillColumnNames)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[]&nbsp;&nbsp;columnNames&nbsp;&nbsp;=&nbsp;&nbsp;<span>new</span><span>&nbsp;&nbsp;String[columnCount];&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[]&nbsp;&nbsp;columnTypeNames&nbsp;&nbsp;=&nbsp;&nbsp;<span>new</span><span>&nbsp;&nbsp;String[columnCount];&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>for</span><span>&nbsp;&nbsp;(</span><span>int</span><span>&nbsp;&nbsp;i&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>0</span><span>;&nbsp;&nbsp;i&nbsp;&nbsp;&lt;&nbsp;&nbsp;columnCount;&nbsp;&nbsp;i++)&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnNames[i]&nbsp;&nbsp;=&nbsp;&nbsp;rs.getMetaData().getColumnName(i&nbsp;&nbsp;+&nbsp;&nbsp;<span>1</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnTypeNames[i]&nbsp;&nbsp;=&nbsp;&nbsp;rs.getMetaData().getColumnTypeName(i&nbsp;&nbsp;+&nbsp;&nbsp;<span>1</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jds.setColumnNames(columnNames);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jds.setColumnTypeNames(columnTypeNames);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>while</span><span>&nbsp;&nbsp;(rs.next())&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[]&nbsp;&nbsp;row&nbsp;&nbsp;=&nbsp;&nbsp;<span>new</span><span>&nbsp;&nbsp;String[columnCount];&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>for</span><span>&nbsp;&nbsp;(</span><span>int</span><span>&nbsp;&nbsp;i&nbsp;&nbsp;=&nbsp;&nbsp;</span><span>0</span><span>;&nbsp;&nbsp;i&nbsp;&nbsp;&lt;&nbsp;&nbsp;columnCount;&nbsp;&nbsp;i++)&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row[i]&nbsp;&nbsp;=&nbsp;&nbsp;rs.getString(i&nbsp;&nbsp;+&nbsp;&nbsp;<span>1</span><span>)&nbsp;&nbsp;==&nbsp;&nbsp;</span><span>null</span><span>&nbsp;&nbsp;?&nbsp;&nbsp;</span><span>“”</span><span>&nbsp;&nbsp;:&nbsp;&nbsp;rs.getString(i&nbsp;&nbsp;+&nbsp;&nbsp;</span><span>1</span><span>).trim();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jds.addRow(row);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>catch</span><span>&nbsp;&nbsp;(Exception&nbsp;&nbsp;ex)&nbsp;&nbsp;{&nbsp;&nbsp;ex.printStackTrace();&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;jds;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+</ol>
+</div>
+
+<p><br><br><br><span style="font-size: large"><span style="color: red">现在来说下怎么用这个类<br> 比如，你有一个学生类Student.java里面有id,name,age3个属性</span></span><br>\</p>
+<div>
+
+<div>
+
+<p>Java代码<br>&nbsp;&nbsp;<img src="/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png"></p>
+</div>
+
+<ol>
+<li><span>public</span><span>&nbsp;&nbsp;Class&nbsp;&nbsp;Student&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span><span>&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;id;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span><span>&nbsp;&nbsp;String&nbsp;&nbsp;name;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>private</span><span>&nbsp;&nbsp;</span><span>int</span><span>&nbsp;&nbsp;age;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下get和set方法省略…&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+</ol>
+</div>
+
+<p><br><br><span style="font-size: large"><span style="color: red">\</span></span></p>
+<p>你要封装它，你就可以自己定义一个IStudent.java接口extends那个ISqlHelper.java接口<br> 然后来里面定义插入，查询全部，和按id查的功能函数，象如下写的一样<br> &lt;<br>\</p>
+<p>当然这样定义很死，最好的方法，就是整理抽象出所有业务类的公用方法，比如，插入，修改，删除。\</p>
+<p>然后把这些方法在一个公用的操作接口中定义，这个公用的操作接口可以继承ISqlHelper.java接口<br> 然后以后业务类或是数据实体操作类都可以实现这个公用的操作接口。<br><br> &gt;<br>\</p>
+<div>
+
+<div>
+
+<p>Java代码<br>&nbsp;&nbsp;<img src="/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png"></p>
+</div>
+
+<ol>
+<li><span>public</span><span>&nbsp;&nbsp;</span><span>interface</span><span>&nbsp;&nbsp;IStudent&nbsp;&nbsp;</span><span>extends</span><span>&nbsp;&nbsp;ISqlHelper&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>//插入Student</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;insertStudent(Student&nbsp;&nbsp;stu);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>//查询全部Student</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;List&nbsp;&nbsp;findStudent();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>//按id查询某一个Student</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;Student&nbsp;&nbsp;findStudentAsId(</span><span>int</span><span>&nbsp;&nbsp;stuid);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+</ol>
+</div>
+
+<p><br><br><br><span style="font-size: large"><span style="color: red">并写一个StudentBO.java业务类extends那个SqlHelper和自己定义的IStudent接口<br> 象如下写的一样：</span></span><br>\</p>
+<div>
+
+<div>
+
+<p>Java代码<br>&nbsp;&nbsp;<img src="/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81.resources/11F934B9-515A-47F9-992D-555E6700C100.png"></p>
+</div>
+
+<ol>
+<li><span>public</span><span>&nbsp;&nbsp;Class&nbsp;&nbsp;StudentBO&nbsp;&nbsp;</span><span>extends</span><span>&nbsp;&nbsp;SqlHelper&nbsp;&nbsp;</span><span>implements</span><span>&nbsp;&nbsp;IStudent&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;Student&nbsp;&nbsp;loadDataBean(ResultSet&nbsp;&nbsp;rs,&nbsp;&nbsp;String&nbsp;&nbsp;viewName)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student&nbsp;&nbsp;stu&nbsp;&nbsp;=&nbsp;&nbsp;loadDataBeanSelf(ResultSet&nbsp;&nbsp;rs);&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;stu;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>protected</span><span>&nbsp;&nbsp;Student&nbsp;&nbsp;loadDataBeanSelf(ResultSet&nbsp;&nbsp;rs)&nbsp;&nbsp;</span><span>throws</span><span>&nbsp;&nbsp;SQLException;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student&nbsp;&nbsp;stu&nbsp;&nbsp;=&nbsp;&nbsp;<span>new</span><span>&nbsp;&nbsp;Student();&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stu.setId(rs.getInt(<span>“id”</span><span>));&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stu.setName(rs.changeFont(rs,<span>“name”</span><span>));&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stu.setAge(rs.getInt(<span>“age”</span><span>));&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;stu;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>//实现：插入Student的函数</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;</span><span>boolean</span><span>&nbsp;&nbsp;insertStudent(Student&nbsp;&nbsp;stu)&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;sql&nbsp;&nbsp;=&nbsp;&nbsp;<span>“insert&nbsp;&nbsp;into&nbsp;&nbsp;Student(id,name,age)&nbsp;&nbsp;values(?,?,?)”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object&nbsp;&nbsp;[]&nbsp;&nbsp;params&nbsp;&nbsp;=&nbsp;&nbsp;<span>new</span><span>&nbsp;&nbsp;Object[]{stu.getId(),stu.getName,stu.getAge};&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;</span><span>this</span><span>.execute(sql,&nbsp;&nbsp;params,&nbsp;&nbsp;</span><span>false</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>//实现：查询全部Student</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;List&nbsp;&nbsp;findStudent()&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;sql&nbsp;&nbsp;=&nbsp;&nbsp;<span>“select&nbsp;&nbsp;*&nbsp;&nbsp;from&nbsp;&nbsp;Student”</span><span>;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;</span><span>this</span><span>.findList(sql,&nbsp;&nbsp;</span><span>null</span><span>,&nbsp;&nbsp;</span><span>“”</span><span>,</span><span>false</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>//实现：按id查询某一个Student</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>public</span><span>&nbsp;&nbsp;Student&nbsp;&nbsp;findStudentAsId(</span><span>int</span><span>&nbsp;&nbsp;stuid)&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;sql&nbsp;&nbsp;=&nbsp;&nbsp;<span>“select&nbsp;&nbsp;*&nbsp;&nbsp;from&nbsp;&nbsp;Student&nbsp;&nbsp;where&nbsp;&nbsp;id=”</span><span>&nbsp;&nbsp;+&nbsp;&nbsp;stuid;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>return</span><span>&nbsp;&nbsp;</span><span>this</span><span>.find(sql,&nbsp;&nbsp;</span><span>null</span><span>,&nbsp;&nbsp;</span><span>“”</span><span>,</span><span>false</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li>
+<li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span>}&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+</ol>
+</div>
+
+<p><br><br><span style="font-size: large">loadDataBean，loadDataBeanSelf是从SqlHelper里继承下来的抽象方法。<br> 必须实现。这就是利用了模版方法模式写出来的。<br> 也就是说，以后你自己写函数的时候，只要在接口里定义，\</span></p>
+<p>然后在这样的BO类里写实现它，而且就写那么一点语句就完成了。大大省时省力。<br>\</p>
+<p>好了这样就完成了，代码是不是看上去又清楚又整洁，如果查找和维护。而且大大减少了那些功能代码和封装象Student.java这样数据实体的代码。一次封装无须在写。<br><br> 大家肯定有疑问，那就是<br> this.execute<br> this.findList<br> this.find<br> 三个函数哪来的，里面都做了些什么<br> 首先要说他们3个肯定是SqlHelper里被实现过的函数<br> 至于他们怎么实现的，你仔细看下就全明白了。<br><br>\</p>
+<p>为什么要多出一个loadDataBean来，大家都看到了，他有一个参数viewName，这里就是用到这个参数的地方，因为大家操作数据库不<br>可能就是那么一张表的操作，有时候会有2到3张表联查，那么用这个参数来判断是哪个函数查出不一样的结果，那么你在这个函数里利用这个参数引进别的<br>xxxBO的loadDataBeanSelf函数，不就可以不用再次重新写那些讨厌的实体封装代码了吗。重用性大大提升。<br><br><span style="color: red">注意一点，这里的查询是只能全查，如果只需要几个字段，就只能手动自己写咯，其实我是想写一个通用的想查几个字段就几个字段的封装方法，但我懒，所以到现在都没去写</span><br><br> 其实还有很多应用和问题，这些我在这里也说不完，希望大家多多交流。<br><br>\</p>
+<p>我还会给出我自己当初写的数据库连接池类，希望这些简单的代码能给java新手以帮助。<br> 而且如果大家觉得有问题有意义，一定要发帖指出。哪里好哪里不好<br> 希望大家多多给出看法，多多益善。<br><br><span style="color: red">在这里还要感谢论坛中yangguo兄，其实我当时写这段代码的主要目的<br> 就是dbutils框架所实现的一个最重要功能\</span></p>
+<p>只提交sql语句，然后的数据自动填充到所需要的实体中。而不要在写那么多繁琐的实体封装代码。<br><br> 这个是源码例子，希望大家能明白这样写的用意，值得探讨。<br></p>
+</div>
+
+<div>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="http://dl.iteye.com/topics/download/0dc6a22e-87a1-3180-b026-a9612f17eec5">Demo.rar</a><br>(341.4 KB)</li>
+<li>下载次数: 438</li>
+</ul>
+</div>
+</div>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E4%B8%93%E4%B8%9A%E6%8A%80%E6%9C%AF-%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2020/04/29/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81/" data-title="（模板方法的运用）持久层操作的java代码 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/maven生成war包的两种方式/" title="maven生成war包的两种方式">
+  <strong>上一篇：</strong><br/>
+  <span>
+  maven生成war包的两种方式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/Linux下的Vsftpd配置篇/"  title="Linux下的Vsftpd配置篇">
+ <strong>下一篇：</strong><br/> 
+ <span>Linux下的Vsftpd配置篇
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/（模板方法的运用）持久层操作的java代码/" data-title="（模板方法的运用）持久层操作的java代码" data-url="http://clockcoder.com/2020/04/29/%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%88%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E7%9A%84%E8%BF%90%E7%94%A8%EF%BC%89%E6%8C%81%E4%B9%85%E5%B1%82%E6%93%8D%E4%BD%9C%E7%9A%84java%E4%BB%A3%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">（模板方法的运用）持久层操作的java代码</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

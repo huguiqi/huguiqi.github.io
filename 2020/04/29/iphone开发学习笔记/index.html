@@ -1,0 +1,1499 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>iphone开发学习笔记 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="iphone开发学习笔记iOS学习问题与笔记   1，类的实例化，new,alloc     用new 的方式创建实例，相当于[[a alloc] init]     而alloc则只需要创建实例，不需要调用init方法     2，NSString 是Foundation框架中的：     &amp;nbsp;1)NSString 是不可变字符串，是对象，相当于java的String对象；      它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iphone开发学习笔记">
+<meta property="og:url" content="http://clockcoder.com/2020/04/29/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="iphone开发学习笔记iOS学习问题与笔记   1，类的实例化，new,alloc     用new 的方式创建实例，相当于[[a alloc] init]     而alloc则只需要创建实例，不需要调用init方法     2，NSString 是Foundation框架中的：     &amp;nbsp;1)NSString 是不可变字符串，是对象，相当于java的String对象；      它">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/B82E597E-1A65-4427-AA05-E156C4BF46D7.tiff">
+<meta property="og:image" content="http://clockcoder.com/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/53A5749D-55EC-4117-B27B-EE4978DDEB55.tiff">
+<meta property="og:image" content="http://clockcoder.com/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/0D02BF7F-AAFC-4586-82F1-22C7CA742551.png">
+<meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:07.512Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="从印象笔记导入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/B82E597E-1A65-4427-AA05-E156C4BF46D7.tiff">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/iphone开发学习笔记/" title="iphone开发学习笔记" itemprop="url">iphone开发学习笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">iphone开发学习笔记</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="iphone开发学习笔记"><a title="iphone开发学习笔记" class="headerlink" href="#iphone开发学习笔记"></a>iphone开发学习笔记</h1><p><span style="font-family: STHeitiSC-Medium; font-size: 15px; line-height: 22px;">iOS学习问题与笔记</span></p>
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>1，类的实例化，new,alloc</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>用new 的方式创建实例，相当于[[a alloc] init]</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>而alloc则只需要创建实例，不需要调用init方法</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>2，NSString 是Foundation框架中的：</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>&nbsp;1)NSString 是不可变字符串，是对象，相当于java的String对象；</p>
+</div>
+
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>它有个子类是NSMutableString，为可变字符串，也有appendString方法，相当于java的StringBuffer类；</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>2)比较两个字符串的内容是否相等，应该用isEqualString方法或者compare方法，而比较两个字符串是否为同一个对象则用==；</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>3，NSArray是cocoa类，存储对象有序列表。</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>1）它只能存储Objcect-C的对象，而不能存储如int,float,enum,struct,或者NSArray的随机指针。</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>2）不能存储nil（对象的零值或者NULL值），其实它不是不能存，而是当在后面添加了一个nil时，就代表列表结束；</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>读取unix系统下所以图片路径小例子:</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>int&nbsp;main(int&nbsp;argc,&nbsp;char&nbsp;*argv[])</p>
+<p>{</p>
+<p>//可以暂时不需要这个池</p>
+<p>&nbsp;&nbsp;&nbsp; //NSAutoreleasePool&nbsp;*pool;</p>
+<p>&nbsp;&nbsp;&nbsp; //pool = [[NSAutoreleasePool&nbsp;alloc]&nbsp;init];</p>
+<p>\</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSFileManager&nbsp;* fileManager;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;//single model</p>
+<p>&nbsp;&nbsp;&nbsp; fileManager = [NSFileManager&nbsp;defaultManager];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;//指定主目录，在unix系统中有一个代表主目录的速记符号:～,而字符串类方法stringByExpandingTildeInPath可以将其转为具体目录</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*home;</p>
+<p>&nbsp;&nbsp;&nbsp; home=[ “~“&nbsp;stringByExpandingTildeInPath];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSLog( “homePath is % “,home);</p>
+<p>//装入文件管理器</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSDirectoryEnumerator&nbsp;*direnum;</p>
+<p>&nbsp;&nbsp;&nbsp; direnum = [fileManager&nbsp;enumeratorAtPath:home];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;//声明定义容量为42,在任何情况下都可以这样写，因为容量是不会限制这个数组的大小的</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSMutableArray&nbsp;*filePathes;</p>
+<p>&nbsp;&nbsp;&nbsp; filePathes = [NSMutableArray&nbsp;arrayWithCapacity:42];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*fileName;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(fileName = [direnum&nbsp;nextObject]) {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if([[fileName&nbsp;pathExtension]&nbsp;isEqualTo: .png”]){</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [filePathes&nbsp;addObject:fileName];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSEnumerator&nbsp;*enumFile;</p>
+<p>&nbsp;&nbsp;&nbsp; enumFile=[filePathes&nbsp;objectEnumerator];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*outFilePath;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(outFilePath=[enumFile&nbsp;nextObject]) {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NSLog( “outFileName is % “,outFilePath);</p>
+<p>&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;(0);</p>
+<p>}</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>其实完全可以不需要再设置一个枚举器类去接收遍历，完全可以直接用filePathes这个数组去遍历。</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>看如下：</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>int&nbsp;main(int&nbsp;argc,&nbsp;char&nbsp;*argv[])</p>
+<p>{</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSFileManager&nbsp;* fileManager;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;//single model</p>
+<p>&nbsp;&nbsp;&nbsp; fileManager = [NSFileManager&nbsp;defaultManager];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;//指定主目录，在unix系统中有一个代表主目录的速记符号:～,而字符串类方法stringByExpandingTildeInPath可以将其转为具体目录</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*home;</p>
+<p>&nbsp;&nbsp;&nbsp; home=[ “~“&nbsp;stringByExpandingTildeInPath];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSLog( “homePath is % “,home);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSDirectoryEnumerator&nbsp;*direnum;</p>
+<p>&nbsp;&nbsp;&nbsp; direnum = [fileManager&nbsp;enumeratorAtPath:home];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;//声明定义容量为42,在任何情况下都可以这样写，因为容量是不会限制这个数组的大小的</p>
+<p><span style="color: rgb(108, 108, 108);">int</span>&nbsp;main(<span style="color: rgb(108, 108, 108);">int</span>&nbsp;argc,&nbsp;<span style="color: rgb(108, 108, 108);">char</span>&nbsp;*argv[])</p>
+<p><span style="font-family: Menlo; font-size: 11px;">{</span>&nbsp;&nbsp;</p>
+<p>NSMutableArray&nbsp;*filePathes;</p>
+<p>&nbsp;&nbsp;&nbsp; filePathes = [NSMutableArray&nbsp;arrayWithCapacity:42];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*fileName;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(fileName = [direnum&nbsp;nextObject]) {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if([[fileName&nbsp;pathExtension]&nbsp;isEqualTo: .png”]){</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [filePathes&nbsp;addObject:fileName];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;NSString&nbsp;*outFilePath;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(outFilePath&nbsp;in&nbsp;filePathes) {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NSLog( “outFileName is % “,outFilePath);</p>
+<p>&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;(0);</p>
+<p>}</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>iphone开发相关知识:</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>一，重要基础</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>cocoa touch是以接口的形式组建类，可以说叫Controler</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>xib文件：相当于画面文件，在这里可以随意设计界面，放上想要的控件。</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>每个控制器类都是成对出现的，有a.h就有a.m,一个接口，一个实现。</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>1，xib,a.h,a.m是如何通信联接的呢？</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>入口main.m文件的main方法进行设置delegate,而delegate用来帮助传输iphone唯一的应用程序实例UIApplication实例。</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>而在delegate文件里设置传入了具体的UIViewController实例，可以将此展示给rootView.</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>而在具体的ViewController中定义了输出口，如下声明：</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p> property(nonatomic,retain)&nbsp;IBOutlet&nbsp;UITextField&nbsp;*userNameField;</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>然后再到xib文件中去进行输出口的联接。</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>而面板中的按扭点击事件也是通过在xib的inter builder中进行联接。</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>2，在textField中输完以后如何让键盘消失？</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>有两种方式：</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>1）在textField的did end on exit事件上联接一个方法如下：</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>-(IBAction)textFieldDoneEditing:(id)sender{</p>
+</div>
+
+<p>&nbsp;&nbsp;&nbsp; [sender&nbsp;resignFirstResponder];</p>
+<p>}</p>
+<p>这种方法只有在用户点了键盘的done(确认)键以后才会关闭键盘，体验不是特别好；</p>
+<p>\</p>
+<p>2)第二种方法是苹果公司要求的点击应用没有活动控件的任何地方都应导致键盘消失，这才是用户体验比较好的一种方式；</p>
+<p>怎么实现呢？其实答案非常简单。我们的视图控制器有一个view属性，它继承自UIViewController，而这个view属性对应于xib文件中的view图标，这个view指向了xib文件的UIView实例，而这个实例涵盖了整个iphone窗口。所以，如果能够将这个view进行控制，那么就可以为所欲为了。</p>
+<p>我们打开interface<br>builder，我们可以看到其属性栏的第二个子栏下面，有一个Customer<br>class,可以更改的(UIController是UIView的子类)。</p>
+<p>\</p>
+<p><img src="/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/B82E597E-1A65-4427-AA05-E156C4BF46D7.tiff"></p>
+<p>\</p>
+<p>所以我们可以将其改为UIController类。如下：</p>
+<p><img src="/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/53A5749D-55EC-4117-B27B-EE4978DDEB55.tiff"></p>
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>然后我们可以打开它的事件连接，对touch down事件进行连接，连接方法如下:</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>-(IBAction)backgroupTap:(id)sender{</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;//在非第一响应者的控件上调用第一响应者方法是绝对安全的</p>
+<p>&nbsp;&nbsp;&nbsp; [userNameField&nbsp;resignFirstResponder];</p>
+<p>&nbsp;&nbsp;&nbsp; [passwordFiled&nbsp;resignFirstResponder];</p>
+<p>}</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>3，对textField的keyboard属性可以设置键盘显示格式(是全数字还是全英文，还是带特殊字符的键盘)</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><img src="/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.resources/0D02BF7F-AAFC-4586-82F1-22C7CA742551.png">\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>4，实现在当前的view页面添加子view，并显示在当前的view上</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>示例代码:</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>WFCityListViewController <span style="color: #000000">*cityListController=[[[</span>WFCityListViewController<span style="color: #000000"><span style="color: #323333">alloc</span>] <span style="color: #323333">initWithNibName</span>:<span style="color: #707070"> “WFCityListViewController”</span><span style="color: #323333">bundle</span>:<span style="color: #6c6c6c">nil</span>] <span style="color: #323333">autorelease</span>];</span></p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><span style="font-family: Menlo; font-size: 11px;">//self.cityListView是当前controllerView中的一个空view，用以存放待添加的subView</span></p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><span style="font-family: Menlo; font-size: 11px;">[</span><span style="font-family: Menlo; font-size: 11px; color: rgb(108, 108, 108);">self</span><span style="font-family: Menlo; font-size: 11px;">.</span><span style="font-family: Menlo; font-size: 11px; color: rgb(120, 120, 120);">cityListView&nbsp;</span><span style="font-family: Menlo; font-size: 11px; color: rgb(50, 51, 51);">addSubview</span><span style="font-family: Menlo; font-size: 11px;">:[cityListController</span><br><span style="font-family: Menlo; font-size: 11px; color: rgb(50, 51, 51);">view</span><span style="font-family: Menlo; font-size: 11px;">]];</span>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><span style="font-family: Menlo; font-size: 11px;"><br></span></p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><span style="font-family: Menlo; font-size: 11px;">5，实现view的拖动event(因view本身没有拖动的这个event)</span></p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><span style="font-family: Menlo; font-size: 11px;">实现view有event方法有两种方式,第一种:</span></p>
+</div>
+
+<div>
+
+<p><span style="font-size: 11px;">1)//一般情况下这段代码放在init或者viewDidload方法下，这段代码用来绑定一个方法</span></p>
+</div>
+
+<p>UISwipeGestureRecognizer <span style="color: #000000">*tapGR =<br>[[</span>UISwipeGestureRecognizer<span style="color: #000000"><span style="color: #323333">alloc</span>] <span style="color: #323333">initWithTarget</span>:<span style="color: #6c6c6c">self</span><span style="color: #323333">action</span>:<span style="color: #6c6c6c"> selector</span>(handleTap:)];</span></p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; tapGR.</span><span style="color: #575757">direction</span> <span style="color: #000000">=</span><br>UISwipeGestureRecognizerDirectionRight<span style="color: #000000">;</span></p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp;</span> //&nbsp;&nbsp;&nbsp; tapGR.delegate = self;</p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #6c6c6c">self</span><span style="color: #000000">.</span><span style="color: #787878">cityListView</span><span style="color: #000000">addGestureRecognizer:tapGR];</span></p>
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><span style="font-family: Menlo; font-size: 11px;">&nbsp; &nbsp; [tapGR</span><br><span style="font-family: Menlo; font-size: 11px; color: rgb(50, 51, 51);">release</span><span style="font-family: Menlo; font-size: 11px;">];</span>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><span style="font-family: Menlo; font-size: 11px;"><br></span></p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><span style="font-family: Menlo; font-size: 11px;">2)//对应的绑定方法必须具有固定的参数，这个方法用于做移动view的操作</span></p>
+</div>
+
+<ul>
+<li>(<span style="color: #6c6c6c">void</span>) handleTap:(<span style="color: #575757">UISwipeGestureRecognizer</span>*)swipeRecognizer{</li>
+</ul>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">beginAnimations:<span style="color: #707070"> “showCityList”</span>context:<span style="color: #6c6c6c">nil</span>];</span></p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">setAnimationRepeatCount:<span style="color: #474747">1</span>];</span></p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">setAnimationDuration:<span style="color: #474747">0.3</span>];</span></p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">setAnimationCurve:UIViewAnimationCurveEaseIn];</span></p>
+<p>&nbsp;&nbsp;&nbsp; <span style="color: #6c6c6c">self</span>.<span style="color: #787878">cityListView</span>.<span style="color: #575757">frame</span> = <span style="color: #323333">CGRectMake</span>(<span style="color: #474747">320.0</span>, <span style="color: #474747">0.0</span>, <span style="color: #474747">285.0</span>, <span style="color: #474747">460.0</span>);</p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">commitAnimations];</span></p>
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p><span style="font-family: Menlo; font-size: 11px;">}</span><span style="font-family: Menlo; font-size: 11px;"><br></span></p>
+</div>
+
+<div>
+
+<p><span style="font-size: 11px;">第二种，直接在view的.m文件里重写</span><span style="color: rgb(112, 112, 112); font-family: Menlo; font-size: 11px;">touchesBegan，</span><span style="color: rgb(112, 112, 112); font-family: Menlo; font-size: 11px;">touchesMoved<br>方法SIAM</span><span style="font-family: Menlo; font-size: 11px;">:</span></p>
+</div>
+
+<div>
+
+<p><span style="font-size: 11px;"><br></span></p>
+</div>
+
+<ul>
+<li>(<span style="color: #6c6c6c">void</span>) touchesBegan:(<span style="color: #575757">NSSet</span> *)touches withEvent:(<span style="color: #575757">UIEvent</span> *)event {</li>
+</ul>
+<p>&nbsp;&nbsp;&nbsp; <span style="color: #575757">CGPoint</span> pt = [[touches <span style="color: #323333">anyObject</span>] <span style="color: #323333">locationInView</span>:<span style="color: #6c6c6c">self</span>.<span style="color: #787878">cityListView</span>];</p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp;</span> startLocation <span style="color: #000000">= pt;</span></p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [[</span><span style="color: #6c6c6c">self</span><span style="color: #000000">.</span><span style="color: #787878">cityListView&nbsp;</span><span style="color: #000000">superview] bringSubviewToFront:<span style="color: #6c6c6c">self</span>.<span style="color: #787878">cityListView</span>];</span></p>
+<p>}</p>
+<p>\</p>
+<ul>
+<li>(<span style="color: #6c6c6c">void</span>) touchesMoved:(<span style="color: #575757">NSSet</span> *)touches withEvent:(<span style="color: #575757">UIEvent</span> *)event</li>
+</ul>
+<p>{</p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">beginAnimations:<span style="color: #707070"> “showPromotion”</span>context:<span style="color: #6c6c6c">nil</span>];</span></p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">setAnimationRepeatCount:<span style="color: #474747">1</span>];</span></p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">setAnimationDuration:<span style="color: #474747">0.3</span>];</span></p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">setAnimationCurve:UIViewAnimationCurveEaseIn];</span></p>
+<p>&nbsp;&nbsp;&nbsp; <span style="color: #6c6c6c">self</span>.<span style="color: #787878">cityListView</span>.<span style="color: #575757">frame</span> = <span style="color: #323333">CGRectMake</span>(<span style="color: #474747">320</span>, <span style="color: #474747">0.0</span>, <span style="color: #474747">285.0</span>, <span style="color: #474747">460.0</span>);</p>
+<p><span style="color: #000000">&nbsp;&nbsp;&nbsp; [</span><span style="color: #575757">UIView</span><span style="color: #000000">commitAnimations];</span></p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p>}</p>
+<div>
+
+<p><span style="font-size: 11px;"><br></span></p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>\</p>
+</div>
+
+<div style="font-family: STHeitiSC-Medium; font-size: 15px;">
+
+<p>二，下节，添加滑块与标签、实现开关，按扭和分段控件、实现操作表和警报、美化按钮、管理内存</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>三，tabelView的用法</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>1，设置自动换行及自适应文字与label，让文字顶格显示</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; UILabel *lineLabel = [[UILabel alloc]<br>initWithFrame:CGRectMake(65, 0, 90,80)];</p>
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; lineLabel.font = [UIFont systemFontOfSize:11];</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; lineLabel.backgroundColor = [[UIColor alloc] initWithRed:184<br>green:0 blue:46 alpha:1];</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; //默认情况下不设置它会在有空格的字符后自动换行,设置了就不自动换行</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; lineLabel.lineBreakMode = UILineBreakModeCharacterWrap;</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; //设置自动换行</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; lineLabel.numberOfLines=0;</p>
+</div>
+
+<div>
+
+<p>//设置文字顶格自适应</p>
+</div>
+
+<div>
+
+<p>&nbsp;&nbsp;&nbsp; UILabel *lineLabel = [[UILabel alloc]<br>initWithFrame:CGRectMake(0,0,0,0)];</p>
+</div>
+
+<div>
+
+<p>&nbsp;&nbsp;&nbsp; [lineLabel setNumberOfLines:0];</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; lineLabel.font = [UIFont fontWithName: “Arial” size:11];</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; UIFont *font = [UIFont systemFontOfSize:11];</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; CGSize size = CGSizeMake(90,80);</p>
+</div>
+
+<div>
+
+<p>&nbsp;&nbsp;&nbsp; NSString *s = course.courseName;</p>
+</div>
+
+<div>
+
+<p>&nbsp;&nbsp;&nbsp;<br>//使用这个就代表文字与label大小自动适应,这个必须依靠字体大小，如果设置小了，照样不会顶格</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; CGSize labelsize = [s sizeWithFon:font constrainedToSize:size<br>lineBreakMode:UILineBreakModeWordWrap];</p>
+</div>
+
+<div>
+
+<p>//&nbsp;&nbsp;&nbsp; [lineLabel setFrame:CGRectMake(65,10, labelsize.width,<br>labelsize.height)];</p>
+</div>
+
+<p>[cell.contentView addSubview:lineLabel];</p>
+<div>
+
+<p>&nbsp;&nbsp;&nbsp; cell.imageView.image = [UIImage imageNamed: “Icon-Small-50.png”];</p>
+</div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E4%B8%93%E4%B8%9A%E6%8A%80%E6%9C%AF-%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2020/04/29/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-title="iphone开发学习笔记 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/iOS下载文件的几种简单有效的方式/" title="iOS下载文件的几种简单有效的方式">
+  <strong>上一篇：</strong><br/>
+  <span>
+  iOS下载文件的几种简单有效的方式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/javascript 原型编程详解/"  title="javascript 原型编程详解">
+ <strong>下一篇：</strong><br/> 
+ <span>javascript 原型编程详解
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/iphone开发学习笔记/" data-title="iphone开发学习笔记" data-url="http://clockcoder.com/2020/04/29/iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iphone%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">iphone开发学习笔记</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

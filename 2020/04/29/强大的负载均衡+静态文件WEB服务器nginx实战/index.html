@@ -1,0 +1,901 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>强大的负载均衡+静态文件WEB服务器nginx实战 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="强大的负载均衡+静态文件WEB服务器nginx实战强大的负载均衡+静态文件WEB服务器nginx实战   \     \     &amp;nbsp; &amp;nbsp;&amp;nbsp;   模块依赖： 1 gzip支持，需要zlib http:&#x2F;&#x2F;www.zlib.net&#x2F; 下载最新版即可 2 rewrite module requires pcre library http:&#x2F;&#x2F;www.pcre.org&#x2F;下载最">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强大的负载均衡+静态文件WEB服务器nginx实战">
+<meta property="og:url" content="http://clockcoder.com/2020/04/29/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="强大的负载均衡+静态文件WEB服务器nginx实战强大的负载均衡+静态文件WEB服务器nginx实战   \     \     &amp;nbsp; &amp;nbsp;&amp;nbsp;   模块依赖： 1 gzip支持，需要zlib http:&#x2F;&#x2F;www.zlib.net&#x2F; 下载最新版即可 2 rewrite module requires pcre library http:&#x2F;&#x2F;www.pcre.org&#x2F;下载最">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png">
+<meta property="og:image" content="http://clockcoder.com/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png">
+<meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:08.203Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="从印象笔记导入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/29/强大的负载均衡+静态文件WEB服务器nginx实战/" title="强大的负载均衡+静态文件WEB服务器nginx实战" itemprop="url">强大的负载均衡+静态文件WEB服务器nginx实战</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-28T16:00:00.000Z" itemprop="datePublished"> 发表于 2020-04-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1-%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98"><span class="toc-number">1.</span> <span class="toc-text">强大的负载均衡+静态文件WEB服务器nginx实战</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="强大的负载均衡-静态文件WEB服务器nginx实战"><a title="强大的负载均衡+静态文件WEB服务器nginx实战" class="headerlink" href="#强大的负载均衡-静态文件WEB服务器nginx实战"></a>强大的负载均衡+静态文件WEB服务器nginx实战</h1><p><span style="font: 16.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000"><strong>强大的负载均衡+静态文件WEB服务器nginx实战</strong></span></p>
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p>\</p>
+</div>
+
+<div>
+
+<p><span style="font-family: Helvetica;">&nbsp; &nbsp;&nbsp;</span></p>
+</div>
+
+<p><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">模块依赖：<br> 1 gzip支持，需要zlib <a target="_blank" rel="noopener" href="http://www.zlib.net/">http://www.zlib.net/</a> 下载最新版即可<br> 2 rewrite module requires pcre library <a target="_blank" rel="noopener" href="http://www.pcre.org/">http://www.pcre.org/</a><br>下载最新版即可<br> 3 ssl 功能需要 openssl 库 <a target="_blank" rel="noopener" href="http://www.openssl.org/">http://www.openssl.org/</a> =&gt;<br><a target="_blank" rel="noopener" href="http://www.openssl.org/source/">http://www.openssl.org/source/</a> LASTEST版本即可<br> &nbsp;<br> 安装过程：\</span></p>
+<p>#下载以上source到/usr/local/src/nginx/目录下，解压，则该目录下情况如下：<br> [root s16 nginx]# ls<br> nginx-0.6.32&nbsp; nginx-0.6.32.tar.gz&nbsp; openssl-0.9.8i&nbsp;</p>
+
+<p>openssl-0.9.8i.tar.gz&nbsp; pcre-7.8&nbsp; pcre-7.8.tar.gz&nbsp; zlib-1.2.3&nbsp;<br>zlib-1.2.3.tar.gz<br><br> cd nginx-0.6.32<br> ./configure –with-pcre=../pcre-7.8 –with-zlib=../zlib-1.2.3<br>–with-openssl=../openssl-0.9.8i<br> make<br> make install<br> &nbsp;<br> #OK，安装完成<br> #修改配置：<br> cd /usr/local/nginx<br> vi conf/nginx.conf<br> #例如，去掉例子中的8000端口的服务器配置的注释<br> sbin/nginx -t -c conf/nginx.conf （测试配置文件是否正确）<br> [root s16 nginx]# sbin/nginx -t -c conf/nginx.conf&nbsp;&nbsp;<br> 2008/09/17 15:26:55 [info] 15879#0: the configuration file<br>conf/nginx.conf syntax is ok<br> 2008/09/17 15:26:55 [info] 15879#0: the configuration file<br>conf/nginx.conf was tested successfully<br> &nbsp;<br> sbin/nginx&nbsp; （启动）<br> ps aux | grep nginx | grep -v grep （查看是否正常启动了）\</p>
+<p>#如果没有正常启动，查看errorlog，默认位置：/usr/local/nginx/logs/error.log<br> &nbsp;<br> #经过apache bench测试，nginx在serve静态文件方面性能不比apache(with<br>mod_perl)好多少，基本上，以65K为分界点，小文件时nginx性能好（最高可以达到3倍左右速度），大文件时apache性能好（不过差别有限），所以纯从速度上来讲，nginx并不比apache强，不过nginx小巧，消耗资源少，如果你有很多静态小文件需要serve，的确是个不错的选择哦。<br> &nbsp;&nbsp;&nbsp;&nbsp; 这里推荐一种架构：<br> &nbsp;&nbsp;&nbsp;&nbsp; 1<br>前端nginx，并serve静态文件，如图片，js，css等，nginx是支持gzip压缩的<br> &nbsp;&nbsp;&nbsp;&nbsp; 2<br>后端动态程序用fastcgi（lighttpd的spawn_fcgi即可），可以支持php，perl等多种脚本语言了<br> &nbsp;<br> &nbsp;&nbsp;&nbsp;&nbsp; 下面介绍一下nginx的常用配置：<br> <span style="font: 14.0px Helvetica; -webkit-text-stroke: 0px #000000">1<br></span><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">静态文件用nginx直接serve：<br></span><span style="font: 12.0px Monaco; font-kerning: none; -webkit-text-stroke: 0px #000000">Nginx代码&nbsp;&nbsp;<span style="font-kerning: none"><img src="/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png"></span><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">1<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#css|js|ico|gif.png|jpeg|png|txt|html|htm|xml|swf|wav这些都是静态文件，但应分辨，js、css可能经常会变，过期时间应小一些，图片、html基本不变，过期时间可以设长一些&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">2<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">location&nbsp;~*&nbsp;^.+\.(ico|gif.png|jpeg|png|html|htm)$&nbsp;{&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">3<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/var/www/poseidon/root/static;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">4<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;access_log&nbsp;&nbsp;&nbsp;off;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">5<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;expires&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30d;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">6<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">}&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">7<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">location&nbsp;~*&nbsp;^.+\.(css|js|txt|xml|swf|wav)$&nbsp;{&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">8<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/var/www/poseidon/root/static;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">9<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;access_log&nbsp;&nbsp;&nbsp;off;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">10<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;expires&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24h;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">11<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">}&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">12<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#注：location不包括?后面带的参数，所以以上正则可以匹配http://</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">192.168</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">.</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">1.16</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">/image/sxxx.png?a=xxx&nbsp;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 14.0px Helvetica; -webkit-text-stroke: 0px #2c91af">1<br></span><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">打开gzip，压缩传输</span><br><span style="font: 12.0px Monaco; font-kerning: none; -webkit-text-stroke: 0px #000000">Nginx代码&nbsp;&nbsp;<span style="font-kerning: none"><img src="/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png"></span><br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">1<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">gzip&nbsp;on;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">2<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">gzip_comp_level&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">7</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">3<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">gzip_min_length&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">1100</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;&nbsp;#需要压缩的最小长度&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">4<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">gzip_buffers&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">4</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;8k;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">5<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">gzip_types&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text/plain&nbsp;application/javascript&nbsp;text/css&nbsp;text/xml&nbsp;application/x-httpd-php;&nbsp;#指定需要压缩的文件类型&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">6<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">output_buffers&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">1</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;32k;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">7<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">postpone_output&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">1460</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; -webkit-text-stroke: 0px #2c91af">2<br></span><span style="font: 12.0px Monaco; font-kerning: none; -webkit-text-stroke: 0px #000000"><br></span><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">&nbsp;<br></span> <span style="font: 14.0px Helvetica; -webkit-text-stroke: 0px #000000">1<br></span><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">查看nginx的状态</span><br><span style="font: 12.0px Monaco; font-kerning: none; -webkit-text-stroke: 0px #000000">Nginx代码&nbsp;&nbsp;<span style="font-kerning: none"><img src="/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png"></span><br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">1<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#设定查看Nginx状态的地址(非默认安装模块，需要在编译时加上–with-http_stub_status_module)&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">2<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">location&nbsp;/NginxStatus&nbsp;{&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">3<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;stub_status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">4<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;access_log&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">5<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;auth_basic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“NginxStatus”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">6<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;auth_basic_user_file&nbsp;&nbsp;&nbsp;/var/www/poseidon/root/passwd;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">7<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">}&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; -webkit-text-stroke: 0px #2c91af">2<br></span><span style="font: 12.0px Monaco; font-kerning: none; -webkit-text-stroke: 0px #000000"><br></span><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">&nbsp;<br></span> <span style="font: 14.0px Helvetica; -webkit-text-stroke: 0px #000000">3<br></span><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">使用nginx的rewrite模块</span><br><span style="font: 12.0px Monaco; font-kerning: none; -webkit-text-stroke: 0px #000000">Nginx代码&nbsp;&nbsp;<span style="font-kerning: none"><img src="/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png"></span><br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">1<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#强大的rewrite模块：&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">2<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#文档：<a href="http://wiki.[codemongers.com/NginxHttpRewriteModule](http://codemongers.com/NginxHttpRewriteModule)">http://wiki.[codemongers.com/NginxHttpRewriteModule](http://codemongers.com/NginxHttpRewriteModule)</a>&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">3<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#经典示例：rewrites&nbsp;<a target="_blank" rel="noopener" href="http://www.mydomain.nl/foo">http://www.mydomain.nl/foo</a>&nbsp;=&gt;&nbsp;<a target="_blank" rel="noopener" href="http://mydomain.nl/foo">http://mydomain.nl/foo</a>&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">4<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">if&nbsp;($host&nbsp;~*&nbsp;www\.(.*))&nbsp;{&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">5<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;set&nbsp;$host_without_www&nbsp;$</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">1</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">6<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;rewrite&nbsp;^(.*)$&nbsp;http://$host_without_www$</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">1</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;permanent;&nbsp;#&nbsp;$</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">1</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;contains&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">‘/foo’</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">,&nbsp;not&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">‘<a target="_blank" rel="noopener" href="http://www.mydomain.nl/foo">www.mydomain.nl/foo</a>‘</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">7<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">}&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">8<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">9<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#我们的应用：rewrites&nbsp;所有非<a target="_blank" rel="noopener" href="http://www.popovivi.com的访问/">www.popovivi.com的访问</a>&nbsp;=&gt;&nbsp;<a target="_blank" rel="noopener" href="http://www.popovivi.com/xxx">http://www.popovivi.com/xxx</a>&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">10<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">if&nbsp;($host&nbsp;!=&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“<a target="_blank" rel="noopener" href="http://www.popovivi.com/">www.popovivi.com</a>“</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">)&nbsp;{&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">11<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;^(.*)$&nbsp;<a target="_blank" rel="noopener" href="http://www.popovivi.com/$">http://www.popovivi.com\$</a></span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">1</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;permanent;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">12<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">}&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; -webkit-text-stroke: 0px #2c91af">4<br></span><span style="font: 12.0px Monaco; font-kerning: none; -webkit-text-stroke: 0px #000000"><br></span><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">&nbsp;</span></p>
+<div>
+
+<p>\</p>
+</div>
+
+<p><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">&nbsp;<br> &nbsp;&nbsp;&nbsp;&nbsp;<br>最后，因为nginx没有方便的控制命令可用，经常要ps，kill等直接控制，比较麻烦，可以为它写一个启动脚本，例子如下：<br></span><span style="font: 12.0px Monaco; font-kerning: none; -webkit-text-stroke: 0px #000000">Shell代码&nbsp;&nbsp;<span style="font-kerning: none"><img src="/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98.resources/1525CA5E-C477-435A-AA10-32950B255404.png"></span><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">1<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#!/bin/sh&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">2<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">3<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#&nbsp;description:&nbsp;Starts,&nbsp;stops&nbsp;nginx&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">4<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">5<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#chkconfig:&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">2345</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">20</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">80</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">6<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#dscription:&nbsp;Startup&nbsp;script&nbsp;for&nbsp;nginx&nbsp;webserver&nbsp;on&nbsp;CentOS.&nbsp;Place&nbsp;in&nbsp;/etc/init.d&nbsp;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">7<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">8<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#&nbsp;Author:&nbsp;Touya&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">9<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">set&nbsp;-e&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">10<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">11<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">12<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">DESC=</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“nginx&nbsp;daemon”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">13<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">NAME=nginx&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">14<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">DAEMON=/usr/local/nginx/sbin/$NAME&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">15<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">CONFIGFILE=/var/www/poseidon/root/nginx.conf&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">16<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">PIDFILE=/var/run/$NAME.pid&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">17<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">SCRIPTNAME=/etc/init.d/$NAME&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">18<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">19<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">#&nbsp;Gracefully&nbsp;exit&nbsp;if&nbsp;the&nbsp;package&nbsp;has&nbsp;been&nbsp;removed.&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">20<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">test&nbsp;-x&nbsp;$DAEMON&nbsp;||&nbsp;exit&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">0</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">21<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">22<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">d_start()&nbsp;{&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">23<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“Starting&nbsp;$DESC:&nbsp;$NAME”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">24<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">$DAEMON&nbsp;-c&nbsp;$CONFIGFILE&nbsp;||&nbsp;echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“already&nbsp;running”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">25<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">}&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">26<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">27<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">d_stop()&nbsp;{&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">28<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“Stopping&nbsp;$DESC:&nbsp;$NAME”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">29<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">test&nbsp;-f&nbsp;$PIDFILE&nbsp;&amp;&amp;&nbsp;kill&nbsp;-QUIT&nbsp;`cat&nbsp;$PIDFILE`&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">30<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">}&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">31<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">32<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">d_reload()&nbsp;{&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">33<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“Reloading&nbsp;$DESC&nbsp;configuration…”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">34<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">kill&nbsp;-HUP&nbsp;`cat&nbsp;$PIDFILE`&nbsp;||&nbsp;echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“can’t&nbsp;reload”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">35<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">}&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">36<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">case&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“$1”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;in&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">37<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">‘start’</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">)&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">38<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;d_start&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">39<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“started.”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">40<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">41<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">‘stop’</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">)&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">42<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;d_stop&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">43<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“stoped.”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">44<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">45<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">‘reload’</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">)&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">46<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;d_reload&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">47<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“reloaded.”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">48<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">49<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">‘restart’</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">)&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">50<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“Restarting&nbsp;$DESC:&nbsp;$NAME&nbsp;…”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">51<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;d_stop&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">52<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;One&nbsp;second&nbsp;might&nbsp;not&nbsp;be&nbsp;time&nbsp;enough&nbsp;for&nbsp;a&nbsp;daemon&nbsp;to&nbsp;stop,&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">53<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;if&nbsp;this&nbsp;happens,&nbsp;d_start&nbsp;will&nbsp;fail&nbsp;(and&nbsp;dpkg&nbsp;will&nbsp;break&nbsp;if&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">54<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;the&nbsp;package&nbsp;is&nbsp;being&nbsp;upgraded).&nbsp;Change&nbsp;the&nbsp;timeout&nbsp;if&nbsp;needed&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">55<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;be,&nbsp;or&nbsp;change&nbsp;d_stop&nbsp;to&nbsp;have&nbsp;start-stop-daemon&nbsp;use&nbsp;–retry.&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">56<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Notice&nbsp;that&nbsp;using&nbsp;–retry&nbsp;slows&nbsp;down&nbsp;the&nbsp;shutdown&nbsp;process&nbsp;somewhat.&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">57<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;sleep&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">3</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">58<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;d_start&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">59<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“done.”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">60<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">61<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">‘list’</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">)&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">62<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;ps&nbsp;auxf&nbsp;|&nbsp;egrep&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">‘(PID|nginx)’</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;|&nbsp;grep&nbsp;-v&nbsp;grep&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">63<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">64<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">‘test’</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">)&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">65<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;&nbsp;&nbsp;$DAEMON&nbsp;-t&nbsp;-c&nbsp;$CONFIGFILE&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">66<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">67<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">*)&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">68<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">echo&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #0433ff; background-color: #fafafa; -webkit-text-stroke: 0px #0433ff">“Usage:&nbsp;$SCRIPTNAME&nbsp;{reload|list|test|start|stop|restart}”</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&gt;&amp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">2</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">69<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">exit&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">3</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">70<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">;;&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">71<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">esac&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span> <span style="font: 12.0px Monaco; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af">72<br></span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">exit&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #c01900; background-color: #fafafa; -webkit-text-stroke: 0px #c01900">0</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #000000">&nbsp;&nbsp;</span><span style="font: 12.0px Monaco; font-kerning: none; color: #2c91af; background-color: #fafafa; -webkit-text-stroke: 0px #2c91af"><br></span><span style="font: 14.0px Helvetica; font-kerning: none; -webkit-text-stroke: 0px #000000">保存文件,并chmod<br>755 /etc/init.d/nginx<br> 用chkconfig –list<br>nginx查看是否是一个可用后台启动服务,如果是的话，可以直接执行chkconfig<br>–add nginx，这个后台服务搞定（代码中不可省略：#chkconfig: 2345 20<br>80）<br> 接下可以用service nginx<br>start|restart|stop来操作你的nginx服务器（restart时重新读入config）</span></p>
+<div>
+
+<p>\</p>
+</div>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E4%B8%93%E4%B8%9A%E6%8A%80%E6%9C%AF-%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0/">专业技术(印象笔记)</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/从印象笔记导入/">从印象笔记导入</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2020/04/29/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98/" data-title="强大的负载均衡+静态文件WEB服务器nginx实战 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/29/Linux下的Vsftpd配置篇/" title="Linux下的Vsftpd配置篇">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Linux下的Vsftpd配置篇</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/29/GCD 深入理解（一）/"  title="GCD 深入理解（一）">
+ <strong>下一篇：</strong><br/> 
+ <span>GCD 深入理解（一）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/04/29/强大的负载均衡+静态文件WEB服务器nginx实战/" data-title="强大的负载均衡+静态文件WEB服务器nginx实战" data-url="http://clockcoder.com/2020/04/29/%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1+%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1-%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6WEB%E6%9C%8D%E5%8A%A1%E5%99%A8nginx%E5%AE%9E%E6%88%98"><span class="toc-number">1.</span> <span class="toc-text">强大的负载均衡+静态文件WEB服务器nginx实战</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

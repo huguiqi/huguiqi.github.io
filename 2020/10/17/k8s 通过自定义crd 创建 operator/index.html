@@ -1,0 +1,969 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>k8s 自定义crd(一) | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="k8s 创建自定义crd(一)我是先了解operator sdk才回过头来看k8s 的crd的，所以今天我就先通过k8s原生的crd创建与k8s api创建operator 1、K8S CRD简明及简用CustomResourceDefinition简介： 在 Kubernetes 中一切都可视为资源，Kubernetes 1.7 之后增加了对 CRD 自定义资源二次开发能力来扩展 Kuberne">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s 自定义crd(一)">
+<meta property="og:url" content="http://clockcoder.com/2020/10/17/k8s%20%E9%80%9A%E8%BF%87%E8%87%AA%E5%AE%9A%E4%B9%89crd%20%E5%88%9B%E5%BB%BA%20operator/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="k8s 创建自定义crd(一)我是先了解operator sdk才回过头来看k8s 的crd的，所以今天我就先通过k8s原生的crd创建与k8s api创建operator 1、K8S CRD简明及简用CustomResourceDefinition简介： 在 Kubernetes 中一切都可视为资源，Kubernetes 1.7 之后增加了对 CRD 自定义资源二次开发能力来扩展 Kuberne">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1gj8oxera5bj310q08gta3.png">
+<meta property="og:image" content="http://clockcoder.com/images/007S8ZIlgy1gj8paeoxxej30oe04omxk.png">
+<meta property="article:published_time" content="2020-10-17T07:37:00.000Z">
+<meta property="article:modified_time" content="2023-02-16T11:41:07.577Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="CRD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/images/007S8ZIlgy1gj8oxera5bj310q08gta3.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/10/17/k8s 通过自定义crd 创建 operator/" title="k8s 自定义crd(一)" itemprop="url">k8s 自定义crd(一)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2020-10-17T07:37:00.000Z" itemprop="datePublished"> 发表于 2020-10-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k8s-%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89crd-%E4%B8%80"><span class="toc-number">1.</span> <span class="toc-text">k8s 创建自定义crd(一)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81K8S-CRD%E7%AE%80%E6%98%8E%E5%8F%8A%E7%AE%80%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">1、K8S CRD简明及简用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81-k8s-api"><span class="toc-number">2.1.</span> <span class="toc-text">2、 k8s api</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86-API-%E6%9C%AF%E8%AF%AD"><span class="toc-number">2.1.1.</span> <span class="toc-text">标准 API 术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#k8s-api%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8"><span class="toc-number">2.1.2.</span> <span class="toc-text">k8s api如何调用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAcrd"><span class="toc-number">2.2.</span> <span class="toc-text">创建crd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAcrd%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.3.</span> <span class="toc-text">创建crd对象</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="k8s-创建自定义crd-一"><a title="k8s 创建自定义crd(一)" class="headerlink" href="#k8s-创建自定义crd-一"></a>k8s 创建自定义crd(一)</h1><p>我是先了解operator sdk才回过头来看k8s 的crd的，所以今天我就先通过k8s原生的crd创建与k8s api创建operator</p>
+<h1 id="1、K8S-CRD简明及简用"><a title="1、K8S CRD简明及简用" class="headerlink" href="#1、K8S-CRD简明及简用"></a>1、K8S CRD简明及简用</h1><p><strong>CustomResourceDefinition简介：</strong><br> 在 Kubernetes 中一切都可视为资源，Kubernetes 1.7 之后增加了对 CRD 自定义资源二次开发能力来扩展 Kubernetes API，通过 CRD 我们可以向 Kubernetes API 中增加新资源类型，而不需要修改 Kubernetes 源码来创建自定义的 API server，该功能大大提高了 Kubernetes 的扩展能力。<br> 当你创建一个新的CustomResourceDefinition (CRD)时，Kubernetes API服务器将为你指定的每个版本创建一个新的RESTful资源路径，我们可以根据该api路径来创建一些我们自己定义的类型资源。CRD可以是命名空间的，也可以是集群范围的，由CRD的作用域(scpoe)字段中所指定的，与现有的内置对象一样，删除名称空间将删除该名称空间中的所有自定义对象。customresourcedefinition本身没有名称空间，所有名称空间都可以使用。</p>
+<p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/">Kuberneters 官方文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/reference/using-api/api-concepts/#efficient-detection-of-changes">k8s官方api概览</a></p>
+<h2 id="2、-k8s-api"><a title="2、 k8s api" class="headerlink" href="#2、-k8s-api"></a>2、 k8s api</h2><p>Kubernetes API 是基于资源的（RESTful）、通过 HTTP 提供的编程接口。 API 支持通过标准的 HTTP 动词（POST、PUT、PATCH、DELETE 和 GET） 检视、创建、更新和删除主要资源，为很多允许细粒度权限控制的对象提供子资源 （如将 Pod 绑定到节点上），并且出于便利性或效率考虑，支持并提供这些资源的 不同表示形式。 Kubernetes API 还通过 “watch” 和一致性的列表支持高效的资源变更通知， 从而允许其他组件对资源的状态进行高效的缓存和同步。</p>
+<h3 id="标准-API-术语"><a title="标准 API 术语" class="headerlink" href="#标准-API-术语"></a>标准 API 术语</h3><p>大多数 Kubernetes API 资源类型都是 <a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/concepts/overview/working-with-objects/kubernetes-objects/#kubernetes-objects">对象</a>： 它们代表的是集群中某一概念的具体实例，例如一个 Pod 或名字空间。 为数不多的几个 API 资源类型是“虚拟的” - 它们通常代表的是操作而非对象本身， 例如访问权限检查（使用 POST 请求发送一个 JSON 编码的 <code>SubjectAccessReview</code> 负载到 <code>subjectaccessreviews</code> 资源）。 所有对象都有一个唯一的名字，以便支持幂等的创建和检视操作，不过如果虚拟资源类型 不可检视或者不要求幂等，可以不具有唯一的名字。</p>
+<p>Kubernetes 一般会利用标准的 RESTful 术语来描述 API 概念：</p>
+<ul>
+<li><strong>资源类型（Resource Type）</strong> 是在 URL 中使用的名称（<code>pods</code>、<code>namespaces</code>、<code>services</code>）</li>
+<li>所有资源类型都有具有一个 JSON 形式（其对象的模式定义）的具体表示，称作<strong>类别（Kind）</strong></li>
+<li>某资源类型的实例的列表称作 <strong>集合（Collection）</strong></li>
+<li>资源类型的单个实例被称作 <strong>资源（Resource）</strong></li>
+</ul>
+<h3 id="k8s-api如何调用"><a title="k8s api如何调用" class="headerlink" href="#k8s-api如何调用"></a>k8s api如何调用</h3><p>所有资源类型要么是集群作用域的（<code>/apis/GROUP/VERSION/*</code>），要么是名字空间 作用域的（<code>/apis/GROUP/VERSION/namespaces/NAMESPACE/*</code>）。</p>
+<p> 名字空间作用域的资源类型会在其名字空间被删除时也被删除，并且对该资源类型的 访问是由定义在名字空间域中的授权检查来控制的。</p>
+<table>
+<thead>
+<tr>
+<th align="left">描述</th>
+<th>restful api url</th>
+<th>请求类型</th>
+<th>作用域</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">返回、创建、更新、删除指定资源类型的资源的集合</td>
+<td>/apis/${GROUP}/${VERSION}/${RESOURCETYPE}</td>
+<td>GET/POST/PUT/DELETE</td>
+<td>集群</td>
+</tr>
+<tr>
+<td align="left">返回、创建、更新、删除指定资源类型下名称为 NAME 的资源</td>
+<td>/apis/${GROUP}/${VERSION}/${RESOURCETYPE}/NAME</td>
+<td>GET/POST/PUT/DELETE</td>
+<td>集群</td>
+</tr>
+<tr>
+<td align="left">返回、创建、更新、删除所有名字空间中指定资源类型的全部实例的集合</td>
+<td>/apis/${GROUP}/${VERSION}/${RESOURCETYPE}</td>
+<td>GET/POST/PUT/DELETE</td>
+<td>名字空间</td>
+</tr>
+<tr>
+<td align="left">返回、创建、更新、删除名字空间NAMESPACE 内给定资源类型的全部实例的集合</td>
+<td>/apis/${GROUP}/${VERSION}/namespaces/${NAMESPACE}/${RESOURCETYPE}</td>
+<td>GET/POST/PUT/DELETE</td>
+<td>名字空间</td>
+</tr>
+<tr>
+<td align="left">返回、创建、更新、删除名字空间 NAMESPACE 中给定资源类型的名称为 NAME 的实例</td>
+<td>/apis/${GROUP}/${VERSION}/namespaces/${NAMESPACE}/${RESOURCETYPE}/${NAME}</td>
+<td>GET/POST/PUT/DELETE</td>
+<td>名字空间</td>
+</tr>
+</tbody></table>
+<p>以上api接口post/put 方法都需要传一个 JSON 编码格式的内容。</p>
+<h2 id="创建crd"><a title="创建crd" class="headerlink" href="#创建crd"></a>创建crd</h2><ul>
+<li>创建一个自定义crd，生成k8s自定义api</li>
+<li>创建自定义crd的对象</li>
+<li>查看自定义对象是否创建成功</li>
+</ul>
+<p>环境：</p>
+<pre><code>* k8s client v1.17.3
+* k8s server v1.18.3
+* docker 19.03.12
+</code></pre>
+<ul>
+<li>linux-unbutun 18</li>
+</ul>
+<p>crd_xiaohei.yaml:</p>
+
+
+
+
+<ul>
+<li>创建crd到etcdctl</li>
+</ul>
+<p>​	kubectl apply -f crd_xiaohei.yaml -n hgq</p>
+<p>如果本地额外安装了etcdctl ,则可以通过如下命令查看：</p>
+
+
+
+
+<p>如果没有额外安装，可以通过k8s的命令行验证：</p>
+<p>​			</p>
+<p>​			kubectl get crd</p>
+<p><img alt="image-20200930150553978" src="/images/007S8ZIlgy1gj8oxera5bj310q08gta3.png"></p>
+<p>发现已经安装好了。</p>
+<h2 id="创建crd对象"><a title="创建crd对象" class="headerlink" href="#创建crd对象"></a>创建crd对象</h2><p>object-xiaohei.yaml:</p>
+
+
+
+
+<p>创建crd对象：</p>
+<p>​	</p>
+<p>​		kubectl apply -f object-xiaohei.yaml -n hgq</p>
+<p>查看是否资源对象创建成功：</p>
+<p>​	    	 kubectl get hxh -n hgq</p>
+<p><img alt="image-20200930151825924" src="/images/007S8ZIlgy1gj8paeoxxej30oe04omxk.png"></p>
+<p>发现已经创建成功。</p>
+<p>下一节，看如何通过自定义的crd资源对象去自定义controller,来控制业务逻辑。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/k8s/">k8s</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/k8s/">k8s</a><a href="/tags/CRD/">CRD</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2020/10/17/k8s%20%E9%80%9A%E8%BF%87%E8%87%AA%E5%AE%9A%E4%B9%89crd%20%E5%88%9B%E5%BB%BA%20operator/" data-title="k8s 自定义crd(一) | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/10/20/rabbitmq 之 shovel插件使用介绍/" title="RabbitMQ之shovel插件使用介绍">
+  <strong>上一篇：</strong><br/>
+  <span>
+  RabbitMQ之shovel插件使用介绍</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/10/17/k8s-operator/"  title="k8s operator">
+ <strong>下一篇：</strong><br/> 
+ <span>k8s operator
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/10/17/k8s 通过自定义crd 创建 operator/" data-title="k8s 自定义crd(一)" data-url="http://clockcoder.com/2020/10/17/k8s%20%E9%80%9A%E8%BF%87%E8%87%AA%E5%AE%9A%E4%B9%89crd%20%E5%88%9B%E5%BB%BA%20operator/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k8s-%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89crd-%E4%B8%80"><span class="toc-number">1.</span> <span class="toc-text">k8s 创建自定义crd(一)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81K8S-CRD%E7%AE%80%E6%98%8E%E5%8F%8A%E7%AE%80%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">1、K8S CRD简明及简用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81-k8s-api"><span class="toc-number">2.1.</span> <span class="toc-text">2、 k8s api</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86-API-%E6%9C%AF%E8%AF%AD"><span class="toc-number">2.1.1.</span> <span class="toc-text">标准 API 术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#k8s-api%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8"><span class="toc-number">2.1.2.</span> <span class="toc-text">k8s api如何调用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAcrd"><span class="toc-number">2.2.</span> <span class="toc-text">创建crd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAcrd%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.3.</span> <span class="toc-text">创建crd对象</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>24</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-compose/" title="docker-compose">docker-compose<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker-国内镜像/" title="docker 国内镜像">docker 国内镜像<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
