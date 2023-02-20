@@ -188,7 +188,7 @@
 <p><img alt="图片" src="/images/008i3skNgy1gz68tch07vj30jl01qmxc.png"></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/huguiqi/springboot-jedis-sample">实现代码地址</a></p>
 <h2 id="集成jedis遇到的问题"><a title="集成jedis遇到的问题" class="headerlink" href="#集成jedis遇到的问题"></a>集成jedis遇到的问题</h2><p>在模拟测试10万人秒杀时，遇到一个jedis关闭时的连接池报错：</p>
-<pre><code><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JedisException:Could not return the resource to the pool 。。。IllegalStateException: Invalidated object not currently part of this pool</span><br></pre></td></tr></table></figure>
+<pre><code><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JedisException:Could not return the resource to the pool 。。。IllegalStateException: Invalidated object not currently part of this pool</span><br></pre></td></tr></table></figure>
 </code></pre>
 <p>我 <a target="_blank" rel="noopener" href="https://blog.csdn.net/beguile/article/details/80614651">参考此文章</a> ，表示需要显示的将jedisPool进行资源回收处理，但是根据我的实践，并未起效果，所以根本原因并不是线程池未回收导致</p>
 <p>所以继续找了下原因，感觉还是jedis里的连接状态与实际不一致导致的。</p>
