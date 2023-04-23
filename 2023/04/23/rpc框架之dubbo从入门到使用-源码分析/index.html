@@ -1,0 +1,1065 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>rpc框架之dubbo从入门到使用-源码分析 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="rpc框架之dubbo从入门到使用-源码分析 了解 Dubbo 核心概念和架构 以上是 Dubbo 的工作原理图，从抽象架构上分为两层：服务治理抽象控制面 和 Dubbo 数据面 。  服务治理控制面。服务治理控制面不是特指如注册中心类的单个具体组件，而是对 Dubbo 治理体系的抽象表达。控制面包含协调服务发现的注册中心、流量管控策略、Dubbo Admin 控制台等，如果采用了 Service">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rpc框架之dubbo从入门到使用-源码分析">
+<meta property="og:url" content="http://clockcoder.com/2023/04/23/rpc%E6%A1%86%E6%9E%B6%E4%B9%8Bdubbo%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E4%BD%BF%E7%94%A8-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="rpc框架之dubbo从入门到使用-源码分析 了解 Dubbo 核心概念和架构 以上是 Dubbo 的工作原理图，从抽象架构上分为两层：服务治理抽象控制面 和 Dubbo 数据面 。  服务治理控制面。服务治理控制面不是特指如注册中心类的单个具体组件，而是对 Dubbo 治理体系的抽象表达。控制面包含协调服务发现的注册中心、流量管控策略、Dubbo Admin 控制台等，如果采用了 Service">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/images/1681803160577-1923842c-abbd-4243-888f-9f9078c2e77a.png">
+<meta property="og:image" content="http://clockcoder.com/images/1681803695395-88fc63a0-d5f5-43d1-986f-9afdead4bec8.png">
+<meta property="og:image" content="http://clockcoder.com/images/1681804179462-8f75c97e-a24b-4c68-a08f-a8612ffc82a9.png">
+<meta property="og:image" content="http://clockcoder.com/images/1681804493997-0c46f7ce-7e5a-45e2-a48d-bef0466807eb.png">
+<meta property="og:image" content="http://clockcoder.com/images/1681804662125-e2fe926c-640c-4591-997c-93c6694a6c2b.png">
+<meta property="og:image" content="http://clockcoder.com/images/1681804908444-d9820cce-f3ac-4997-a1dd-e593ab781dfa.png">
+<meta property="og:image" content="http://clockcoder.com/images/1681805961476-7beaa91f-2f00-445b-a667-3cdd9f155516.png">
+<meta property="og:image" content="http://clockcoder.com/images/1682241560101-ebd7bf04-2b6a-4e7a-8328-129222a396a6.png">
+<meta property="og:image" content="http://clockcoder.com/images/1682242484220-513127a8-23a4-4259-aedc-5f316be1d453.png">
+<meta property="og:image" content="http://clockcoder.com/images/1682244844479-e97e81c9-1118-4bae-8a32-de9c93270006.png">
+<meta property="article:published_time" content="2023-04-23T10:35:01.320Z">
+<meta property="article:modified_time" content="2023-04-23T10:44:06.167Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="rpc">
+<meta property="article:tag" content="dubbo">
+<meta property="article:tag" content="netty">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/images/1681803160577-1923842c-abbd-4243-888f-9f9078c2e77a.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7265659350794760"
+     crossorigin="anonymous"></script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2023/04/23/rpc框架之dubbo从入门到使用-源码分析/" title="rpc框架之dubbo从入门到使用-源码分析" itemprop="url">rpc框架之dubbo从入门到使用-源码分析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2023-04-23T10:35:01.320Z" itemprop="datePublished"> 发表于 2023-04-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#rpc%E6%A1%86%E6%9E%B6%E4%B9%8Bdubbo%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E4%BD%BF%E7%94%A8-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">rpc框架之dubbo从入门到使用-源码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%86%E8%A7%A3-Dubbo-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%92%8C%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">了解 Dubbo 核心概念和架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo-%E6%95%B0%E6%8D%AE%E9%9D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">Dubbo 数据面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">dubbo框架总体架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2%E8%AF%B4%E6%98%8E"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">节点角色说明</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="toc-number">2.3.</span> <span class="toc-text">代码架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E5%B1%82%E8%AF%B4%E6%98%8E"><span class="toc-number">2.4.</span> <span class="toc-text">各层说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%AF%B4%E6%98%8E"><span class="toc-number">2.5.</span> <span class="toc-text">关系说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%88%86%E5%8C%85"><span class="toc-number">2.6.</span> <span class="toc-text">模块分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="toc-number">2.7.</span> <span class="toc-text">依赖关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">2.8.</span> <span class="toc-text">调用链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.9.</span> <span class="toc-text">领域模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RPC%E4%BC%A0%E8%BE%93%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">2.10.</span> <span class="toc-text">RPC传输层实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%AB%AF-provide"><span class="toc-number">2.10.1.</span> <span class="toc-text">启动一个服务端(provide)</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="rpc框架之dubbo从入门到使用-源码分析"><a title="rpc框架之dubbo从入门到使用-源码分析" class="headerlink" href="#rpc框架之dubbo从入门到使用-源码分析"></a>rpc框架之dubbo从入门到使用-源码分析</h1><p><a name="Core6"></a></p>
+<h1 id="了解-Dubbo-核心概念和架构"><a title="了解 Dubbo 核心概念和架构" class="headerlink" href="#了解-Dubbo-核心概念和架构"></a>了解 Dubbo 核心概念和架构</h1><p><img alt="image.png" src="/images/1681803160577-1923842c-abbd-4243-888f-9f9078c2e77a.png"></p>
+<p>以上是 Dubbo 的工作原理图，从抽象架构上分为两层：<strong>服务治理抽象控制面</strong> 和 <strong>Dubbo 数据面</strong> 。</p>
+<ul>
+<li><strong>服务治理控制面</strong>。服务治理控制面不是特指如注册中心类的单个具体组件，而是对 Dubbo 治理体系的抽象表达。控制面包含协调服务发现的注册中心、流量管控策略、Dubbo Admin 控制台等，如果采用了 Service Mesh 架构则还包含 Istio 等服务网格控制面。</li>
+<li><strong>Dubbo 数据面</strong>。数据面代表集群部署的所有 Dubbo 进程，进程之间通过 RPC 协议实现数据交换，Dubbo 定义了微服务应用开发与调用规范并负责完成数据传输的编解码工作。<ul>
+<li>服务消费者 (Dubbo Consumer)，发起业务调用或 RPC 通信的 Dubbo 进程</li>
+<li>服务提供者 (Dubbo Provider)，接收业务调用或 RPC 通信的 Dubbo 进程</li>
+</ul>
+</li>
+</ul>
+<p><a name="o5WJE"></a></p>
+<h2 id="Dubbo-数据面"><a title="Dubbo 数据面" class="headerlink" href="#Dubbo-数据面"></a>Dubbo 数据面</h2><p>从数据面视角，Dubbo 帮助解决了微服务实践中的以下问题：</p>
+<ul>
+<li>Dubbo 作为 <strong>服务开发框架</strong> 约束了微服务定义、开发与调用的规范，定义了服务治理流程及适配模式</li>
+<li>Dubbo 作为 <strong>RPC 通信协议实现</strong> 解决服务间数据传输的编解码问题</li>
+</ul>
+<p><img alt="image.png" src="/images/1681803695395-88fc63a0-d5f5-43d1-986f-9afdead4bec8.png"></p>
+<p><a target="_blank" rel="noopener" href="https://cn.dubbo.apache.org/zh-cn/overview/what/overview/">参考官网介绍</a></p>
+<p><a name="VPbIT"></a></p>
+<h2 id="dubbo框架总体架构"><a title="dubbo框架总体架构" class="headerlink" href="#dubbo框架总体架构"></a>dubbo框架总体架构</h2><p><img alt="image.png" src="/images/1681804179462-8f75c97e-a24b-4c68-a08f-a8612ffc82a9.png"></p>
+<p><a name="gLAdv"></a></p>
+<h5 id="节点角色说明"><a title="节点角色说明" class="headerlink" href="#节点角色说明"></a>节点角色说明</h5><table>
+<thead>
+<tr>
+<th>节点</th>
+<th>角色说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Provider</td>
+<td>暴露服务的服务提供方</td>
+</tr>
+<tr>
+<td>Consumer</td>
+<td>调用远程服务的服务消费方</td>
+</tr>
+<tr>
+<td>Registry</td>
+<td>服务注册与发现的注册中心</td>
+</tr>
+<tr>
+<td>Monitor</td>
+<td>统计服务的调用次数和调用时间的监控中心</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>服务运行容器</td>
+</tr>
+</tbody></table>
+<p><a target="_blank" rel="noopener" href="https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/concepts-and-architecture/overall-architecture/">官网介绍架构页面</a></p>
+<p><a name="kkETu"></a></p>
+<h2 id="代码架构"><a title="代码架构" class="headerlink" href="#代码架构"></a>代码架构</h2><p><img alt="image.png" src="/images/1681804493997-0c46f7ce-7e5a-45e2-a48d-bef0466807eb.png"></p>
+<p>图例说明：</p>
+<ul>
+<li>图中左边淡蓝背景的为服务消费方使用的接口，右边淡绿色背景的为服务提供方使用的接口，位于中轴线上的为双方都用到的接口。</li>
+<li>图中从下至上分为十层，各层均为单向依赖，右边的黑色箭头代表层之间的依赖关系，每一层都可以剥离上层被复用，其中，Service 和 Config 层为 API，其它各层均为 SPI。</li>
+<li>图中绿色小块的为扩展接口，蓝色小块为实现类，图中只显示用于关联各层的实现类。</li>
+<li>图中蓝色虚线为初始化过程，即启动时组装链，红色实线为方法调用过程，即运行时调用链，紫色三角箭头为继承，可以把子类看作父类的同一个节点，线上的文字为调用的方法。<br><a name="z8JtN"></a></li>
+</ul>
+<h2 id="各层说明"><a title="各层说明" class="headerlink" href="#各层说明"></a>各层说明</h2><ul>
+<li><strong>Config 配置层</strong>：对外配置接口，以 ServiceConfig, ReferenceConfig 为中心，可以直接初始化配置类，也可以通过 spring 解析配置生成配置类</li>
+<li><strong>Proxy 服务代理层</strong>：服务接口透明代理，生成服务的客户端 Stub 和服务器端 Skeleton, 以 ServiceProxy 为中心，扩展接口为 ProxyFactory</li>
+<li><strong>Registry 注册中心层</strong>：封装服务地址的注册与发现，以服务 URL 为中心，扩展接口为 RegistryFactory, Registry, RegistryService</li>
+<li><strong>Cluster 路由层</strong>：封装多个提供者的路由及负载均衡，并桥接注册中心，以 Invoker 为中心，扩展接口为 Cluster, Directory, Router, LoadBalance</li>
+<li><strong>Monitor 监控层</strong>：RPC 调用次数和调用时间监控，以 Statistics 为中心，扩展接口为 MonitorFactory, Monitor, MonitorService</li>
+<li><strong>Protocol 远程调用层</strong>：封装 RPC 调用，以 Invocation, Result 为中心，扩展接口为 Protocol, Invoker, Exporter</li>
+<li><strong>Exchange 信息交换层</strong>：封装请求响应模式，同步转异步，以 Request, Response 为中心，扩展接口为 Exchanger, ExchangeChannel, ExchangeClient, ExchangeServer</li>
+<li><strong>Transport 网络传输层</strong>：抽象 mina 和 netty 为统一接口，以 Message 为中心，扩展接口为 Channel, Transporter, Client, Server, Codec</li>
+<li><strong>Serialize 数据序列化层</strong>：可复用的一些工具，扩展接口为 Serialization, ObjectInput, ObjectOutput, ThreadPool</li>
+</ul>
+<p><a name="YzIB2"></a></p>
+<h2 id="关系说明"><a title="关系说明" class="headerlink" href="#关系说明"></a>关系说明</h2><ul>
+<li>在 RPC 中，Protocol 是核心层，也就是只要有 Protocol + Invoker + Exporter 就可以完成非透明的 RPC 调用，然后在 Invoker 的主过程上 Filter 拦截点。</li>
+<li>图中的 Consumer 和 Provider 是抽象概念，只是想让看图者更直观的了解哪些类分属于客户端与服务器端，不用 Client 和 Server 的原因是 Dubbo 在很多场景下都使用 Provider, Consumer, Registry, Monitor 划分逻辑拓扑节点，保持统一概念。</li>
+<li>而 Cluster 是外围概念，所以 Cluster 的目的是将多个 Invoker 伪装成一个 Invoker，这样其它人只要关注 Protocol 层 Invoker 即可，加上 Cluster 或者去掉 Cluster 对其它层都不会造成影响，因为只有一个提供者时，是不需要 Cluster 的。</li>
+<li>Proxy 层封装了所有接口的透明化代理，而在其它层都以 Invoker 为中心，只有到了暴露给用户使用时，才用 Proxy 将 Invoker 转成接口，或将接口实现转成 Invoker，也就是去掉 Proxy 层 RPC 是可以 Run 的，只是不那么透明，不那么看起来像调本地服务一样调远程服务。</li>
+<li>而 Remoting 实现是 Dubbo 协议的实现，如果你选择 RMI 协议，整个 Remoting 都不会用上，Remoting 内部再划为 Transport 传输层和 Exchange 信息交换层，Transport 层只负责单向消息传输，是对 Mina, Netty, Grizzly 的抽象，它也可以扩展 UDP 传输，而 Exchange 层是在传输层之上封装了 Request-Response 语义。</li>
+<li>Registry 和 Monitor 实际上不算一层，而是一个独立的节点，只是为了全局概览，用层的方式画在一起。</li>
+</ul>
+<p><a name="PLbEb"></a></p>
+<h2 id="模块分包"><a title="模块分包" class="headerlink" href="#模块分包"></a>模块分包</h2><p><img alt="image.png" src="/images/1681804662125-e2fe926c-640c-4591-997c-93c6694a6c2b.png"></p>
+<p>模块说明：</p>
+<ul>
+<li><strong>dubbo-common 公共逻辑模块</strong>：包括 Util 类和通用模型。</li>
+<li><strong>dubbo-remoting 远程通讯模块</strong>：相当于 Dubbo 协议的实现，如果 RPC 用 RMI协议则不需要使用此包。</li>
+<li><strong>dubbo-rpc 远程调用模块</strong>：抽象各种协议，以及动态代理，只包含一对一的调用，不关心集群的管理。</li>
+<li><strong>dubbo-cluster 集群模块</strong>：将多个服务提供方伪装为一个提供方，包括：负载均衡, 容错，路由等，集群的地址列表可以是静态配置的，也可以是由注册中心下发。</li>
+<li><strong>dubbo-registry 注册中心模块</strong>：基于注册中心下发地址的集群方式，以及对各种注册中心的抽象。</li>
+<li><strong>dubbo-monitor 监控模块</strong>：统计服务调用次数，调用时间的，调用链跟踪的服务。</li>
+<li><strong>dubbo-config 配置模块</strong>：是 Dubbo 对外的 API，用户通过 Config 使用Dubbo，隐藏 Dubbo 所有细节。</li>
+<li><strong>dubbo-container 容器模块</strong>：是一个 Standlone 的容器，以简单的 Main 加载 Spring 启动，因为服务通常不需要 Tomcat/JBoss 等 Web 容器的特性，没必要用 Web 容器去加载服务。</li>
+</ul>
+<p>整体上按照分层结构进行分包，与分层的不同点在于：</p>
+<ul>
+<li>Container 为服务容器，用于部署运行服务，没有在层中画出。</li>
+<li>Protocol 层和 Proxy 层都放在 rpc 模块中，这两层是 rpc 的核心，在不需要集群也就是只有一个提供者时，可以只使用这两层完成 rpc 调用。</li>
+<li>Transport 层和 Exchange 层都放在 remoting 模块中，为 rpc 调用的通讯基础。</li>
+<li>Serialize 层放在 common 模块中，以便更大程度复用。</li>
+</ul>
+<p><a name="HuIGL"></a></p>
+<h2 id="依赖关系"><a title="依赖关系" class="headerlink" href="#依赖关系"></a>依赖关系</h2><p><img alt="image.png" src="/images/1681804908444-d9820cce-f3ac-4997-a1dd-e593ab781dfa.png"></p>
+<p>图例说明：</p>
+<ul>
+<li>图中小方块 Protocol, Cluster, Proxy, Service, Container, Registry, Monitor 代表层或模块，蓝色的表示与业务有交互，绿色的表示只对 Dubbo 内部交互。</li>
+<li>图中背景方块 Consumer, Provider, Registry, Monitor 代表部署逻辑拓扑节点。</li>
+<li>图中蓝色虚线为初始化时调用，红色虚线为运行时异步调用，红色实线为运行时同步调用。</li>
+<li>图中只包含 RPC 的层，不包含 Remoting 的层，Remoting 整体都隐含在 Protocol 中。</li>
+</ul>
+<p><a name="zXgJE"></a></p>
+<h2 id="调用链"><a title="调用链" class="headerlink" href="#调用链"></a>调用链</h2><p><img alt="image.png" src="/images/1681805961476-7beaa91f-2f00-445b-a667-3cdd9f155516.png"></p>
+<p><a name="AK46A"></a></p>
+<h2 id="领域模型"><a title="领域模型" class="headerlink" href="#领域模型"></a>领域模型</h2><p>在 Dubbo 的核心领域模型中：</p>
+<ul>
+<li>Protocol 是服务域，它是 Invoker 暴露和引用的主功能入口，它负责 Invoker 的生命周期管理。</li>
+<li>Invoker 是实体域，它是 Dubbo 的核心模型，其它模型都向它靠拢，或转换成它，它代表一个可执行体，可向它发起 invoke 调用，它有可能是一个本地的实现，也可能是一个远程的实现，也可能一个集群实现。</li>
+<li>Invocation 是会话域，它持有调用过程中的变量，比如方法名，参数等。</li>
+</ul>
+<p><a name="vTcTE"></a></p>
+<h2 id="RPC传输层实现原理"><a title="RPC传输层实现原理" class="headerlink" href="#RPC传输层实现原理"></a>RPC传输层实现原理</h2><p>RPC中Protocol 远程调用层是核心层，封装 RPC 调用。<br>所以，只要搞清楚Protocol的底层实现就可以了。<br>上面介绍说， Protocol + Invoker + Exporter 就可以完成非透明的 RPC 调用，那具体是怎么实现的呢？</p>
+<p>从dubbo给出的官方例子入手</p>
+<p><a name="Ya8vO"></a></p>
+<h3 id="启动一个服务端-provide"><a title="启动一个服务端(provide)" class="headerlink" href="#启动一个服务端-provide"></a>启动一个服务端(provide)</h3><p>GreetingsService.java:</p>
+
+
+<p>GreetingsServiceImpl.java:</p>
+
+
+<p><br></p>
+<p>启动一个Provide<br>MainAppllication.java：</p>
+
+
+
+<p>根据启动dubbo服务端的代码，整理了调用时序图如下：</p>
+<p><img alt="dubbo-explor.drawio.png" src="/images/1682241560101-ebd7bf04-2b6a-4e7a-8328-129222a396a6.png"></p>
+<p>所以从上图可看出，暴露服务的工作其实主要集中在ServiceConfig.doExportUrl(local,false)这个方法上。</p>
+<p>Protocol是服务域，也就是Invoker的入口，是门面。<br>所以，this.protocolSPI.export((Invoker)invoker);才是真正执行暴露服务的底层方法。</p>
+<p>我们再进入到里面的实现看看，做了些什么：</p>
+<p><img alt="image.png" src="/images/1682242484220-513127a8-23a4-4259-aedc-5f316be1d453.png"></p>
+<p>进入实现层，AbstractProxyProtocol.java 是个抽象类：</p>
+
+
+<blockquote>
+<p>代码分析</p>
+</blockquote>
+<ol>
+<li>final String uri = serviceKey(invoker.getUrl()); //从Map中取URL信息，用于配置客户端请求的协议信息(调用的类，方法，参数、协议等)</li>
+<li>final Runnable runnable = this.doExport(this.proxyFactory.getProxy(…)</li>
+</ol>
+<p>这个方法是构建一个线程任务，通过调用AbstractProxyProtocol类的实例方法<code>doExport(...)</code>得到，它的实现类默认是：GrpcProtocol.java<br><br><img alt="image.png" src="/images/1682244844479-e97e81c9-1118-4bae-8a32-de9c93270006.png"></p>
+<p>进入GrpcProtocol.java实现类：</p>
+
+<p>可以看到，暴露服务的最底层实现是通过Netty实现的，这里先不讨论Netty服务的原理。<br><br>回来到抽象类的export方法，看这行代码：</p>
+<p>生成代理，并实现一个Invoker实现，定义了invoke方法的调用（反射）：</p>
+
+
+<p><strong>那基本上就了然了，就是说，dubbo通过netty作为底层服务通信，然后从netty服务中取得client端发起的请求信息后，再通过proxy进行反射调用Provide端的实现类。</strong><br></p>
+<blockquote>
+<p>javassist来说执行动态生成的Wrapper#invokeMethod</p>
+</blockquote>
+<p>通讯层是netty</p>
+<p><a target="_blank" rel="noopener" href="https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/concepts-and-architecture/code-architecture/#%E8%B0%83%E7%94%A8%E9%93%BE">官方文档</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7213211041764425788">参考文章</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/382200101">参考文章2</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/rpc/">rpc</a>►<a class="article-category-link" href="/categories/rpc/dubbo/">dubbo</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/rpc/">rpc</a><a href="/tags/dubbo/">dubbo</a><a href="/tags/netty/">netty</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2023/04/23/rpc%E6%A1%86%E6%9E%B6%E4%B9%8Bdubbo%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E4%BD%BF%E7%94%A8-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" data-title="rpc框架之dubbo从入门到使用-源码分析 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2023/04/10/区块链技术学习与分享/"  title="区块链技术学习与分享">
+ <strong>下一篇：</strong><br/> 
+ <span>区块链技术学习与分享
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2023/04/23/rpc框架之dubbo从入门到使用-源码分析/" data-title="rpc框架之dubbo从入门到使用-源码分析" data-url="http://clockcoder.com/2023/04/23/rpc%E6%A1%86%E6%9E%B6%E4%B9%8Bdubbo%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E4%BD%BF%E7%94%A8-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#rpc%E6%A1%86%E6%9E%B6%E4%B9%8Bdubbo%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E4%BD%BF%E7%94%A8-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">rpc框架之dubbo从入门到使用-源码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%86%E8%A7%A3-Dubbo-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%92%8C%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">了解 Dubbo 核心概念和架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo-%E6%95%B0%E6%8D%AE%E9%9D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">Dubbo 数据面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">dubbo框架总体架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2%E8%AF%B4%E6%98%8E"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">节点角色说明</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="toc-number">2.3.</span> <span class="toc-text">代码架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E5%B1%82%E8%AF%B4%E6%98%8E"><span class="toc-number">2.4.</span> <span class="toc-text">各层说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%AF%B4%E6%98%8E"><span class="toc-number">2.5.</span> <span class="toc-text">关系说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%88%86%E5%8C%85"><span class="toc-number">2.6.</span> <span class="toc-text">模块分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="toc-number">2.7.</span> <span class="toc-text">依赖关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">2.8.</span> <span class="toc-text">调用链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.9.</span> <span class="toc-text">领域模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RPC%E4%BC%A0%E8%BE%93%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">2.10.</span> <span class="toc-text">RPC传输层实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%AB%AF-provide"><span class="toc-number">2.10.1.</span> <span class="toc-text">启动一个服务端(provide)</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rpc/dubbo/" title="dubbo">dubbo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rpc/" title="rpc">rpc<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密解密/" title="加密解密">加密解密<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/区块链/加密货币/" title="加密货币">加密货币<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/区块链/" title="区块链">区块链<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/破解/" title="破解">破解<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>33</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jdk/" title="jdk">jdk<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/分布式锁/" title="分布式锁">分布式锁<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ios-developer-upload/" title="ios developer upload">ios developer upload<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
