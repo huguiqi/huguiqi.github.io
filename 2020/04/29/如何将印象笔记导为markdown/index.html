@@ -127,9 +127,24 @@
 <p>Pandoc真的是个好东西！能迅速在很多种文件格式之间转来转去！超级方便！转换速度超级快！超级漂亮！</p>
 <p>然而我只用到了Markdown转html和markdown而已……</p>
 <p>好像Pandoc并不支持批量转换啊，一直敲命令我也受不了。那就现学现卖写了个sh文件来玩。</p>
+<pre><code>#!/bin/sh
+function ergodic()&#123;
+  for fullname in `ls $1`
+  do
+    name=$&#123;fullname%.*&#125;
+    ext=$&#123;fullname##*.&#125;
+    if [ "$ext"x = "html"x ]
+    then
+      echo $name
+      pandoc $name.html -o $name.md
+    fi
+  done
+&#125;
 
-
-
+IFS=$'\n'
+INIT_PATH=".";
+ergodic $INIT_PATH
+</code></pre>
 <p> 想学bash编程，<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/4af01a79c0d4">可以参考这里</a>，有比较全的bash语法 <br><br> 如果只是想和我一样，想速学速用，<a target="_blank" rel="noopener" href="http://linux.vbird.org/linux_basic/0340bashshell-scripts.php">那就看这里吧</a> <br>  </p>
 <p><strong>逻辑是这样的：首先用ls命令找出文件夹下所有文件名，获取文件名部分和后缀名部分。如果后缀名为html，就让pandoc进行转换去。</strong></p>
 <p><em>其他的么……sh语法我也不会啊……</em></p>
@@ -144,10 +159,13 @@
 <li><p>   我的博客对md文件内容需要一些标记描述来作为分类、标签、标题等显示，格式是这样的:</p>
 </li>
 </ul>
-
-
-
-
+<pre><code>---
+title: 如何将印象笔记导为markdown
+date: 2020-04-29
+categories: 专业技术(印象笔记)
+tags: 从印象笔记导入
+---
+</code></pre>
 <p>我的解决方案是用<a target="_blank" rel="noopener" href="http://www.1987.name/306.html">sed工具</a></p>
 <p><strong>这个工具在linux和unix环境上的用法是有些差异的，稍后会说明</strong></p>
 <p>再次用bash解决:</p>
@@ -233,18 +251,18 @@ ergodic $INIT_PATH
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/字符，字节和编码/" title="字符，字节和编码">
+ <a href="/2020/04/29/大数据时代笔记/" title="大数据时代笔记">
   <strong>上一篇：</strong><br/>
   <span>
-  字符，字节和编码</span>
+  大数据时代笔记</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/安装服务器nodejs环境/"  title="docker 换国内镜像">
+<a href="/2020/04/29/如何在UIAlertView中显示进度条/"  title="如何在UIAlertView中显示进度条">
  <strong>下一篇：</strong><br/> 
- <span>docker 换国内镜像
+ <span>如何在UIAlertView中显示进度条
 </span>
 </a>
 </div>
@@ -521,11 +539,11 @@ ergodic $INIT_PATH
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -618,15 +636,15 @@ ergodic $INIT_PATH
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

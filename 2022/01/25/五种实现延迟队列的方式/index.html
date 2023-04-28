@@ -130,32 +130,168 @@
 <p>DelayQueue 是JDK中提供的延时队列，内部封装优先级队列，并且提供空阻塞功能。DelayQueue中所有元素必须实现Delayed接口getDelay方法，此方法返回剩余有效时间。</p>
 </blockquote>
 <p><strong>DelayQueue 类</strong></p>
+<pre><code>public class DelayQueue&lt;E extends Delayed&gt; extends AbstractQueue&lt;E&gt;
 
-
+implements BlockingQueue&lt;E&gt;
+</code></pre>
 <p>DelayQueue 继承AbstractQueue抽象类，实现BlockingQueue接口，元素必须实现实现Delayed接口。</p>
 <p><strong>Delayed 接口</strong></p>
-
-
+<pre><code class="text">public interface Delayed extends Comparable&lt;Delayed&gt;
+</code></pre>
 <p>Delayed 接口继承Comparable接口，所有子类都具有比较功能</p>
 <p><strong>Delayed 方法</strong></p>
-
-
+<pre><code class="java">// 返回剩余到期时间
+long getDelay(TimeUnit unit);
+</code></pre>
 <p><strong>DelayQueue 属性</strong></p>
-
-
+<pre><code class="java">// 锁对象
+private final transient ReentrantLock lock = new ReentrantLock();
+// 优先级队列
+private final PriorityQueue&lt;E&gt; q = new PriorityQueue&lt;E&gt;();
+// 头线程
+private Thread leader = null;
+// 条件
+private final Condition available = lock.newCondition();
+</code></pre>
 <p>通过属性就能看出，他是通过优先级队列实现，快到期的排前面，每次取优先级队列头，看先是否到期。顺便说一下，优先级队列我们是当无界队列的，所以延时队列也可以称为无界队列。</p>
 <p>**DelayQueue 出队 **</p>
 <p>出队，为空返回null</p>
-
-
+<pre><code class="java">public E poll() &#123;
+    // 获取锁
+    final ReentrantLock lock = this.lock;
+    lock.lock();
+    try &#123;
+        // 获取优先级队列头节点
+        E first = q.peek();
+        // 判断头节点是否为空，不为空判断剩余过期时间
+        if (first == null || first.getDelay(NANOSECONDS) &gt; 0)
+            return null;
+        else
+            // 剩余过期时间小于0，优先级队列出队
+            return q.poll();
+    &#125; finally &#123;
+        // 解锁
+        lock.unlock();
+    &#125;
+&#125;
+</code></pre>
 <p>出队，为空阻塞</p>
-
-
+<pre><code class="java">public E take() throws InterruptedException &#123;
+    // 获取锁
+    final ReentrantLock lock = this.lock;
+    lock.lockInterruptibly();
+    try &#123;
+        // 自旋
+        for (;;) &#123;
+            // 获取优先级队列头节点
+            E first = q.peek();
+            // 优先级队列为空
+            if (first == null)
+                // 阻塞
+                available.await();
+            else &#123;
+                // 判断头元素剩余时间是否小于等于0
+                long delay = first.getDelay(NANOSECONDS);
+                if (delay &lt;= 0)
+                    // 优先级队列出队
+                    return q.poll();
+                // 到这，说明剩余时间大于0
+                // 头引用置空
+                first = null;
+                // leader线程是否为空，不为空就等待
+                if (leader != null)
+                    available.await();
+                else &#123;
+                    // 设置leader线程为当前线程
+                    Thread thisThread = Thread.currentThread();
+                    leader = thisThread;
+                    try &#123;
+                        // 休眠剩余秒
+                        available.awaitNanos(delay);
+                    &#125; finally &#123;
+                        // 休眠结束，leader线程还是当前线程
+                        // 置空leader
+                        if (leader == thisThread)
+                            leader = null;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125; finally &#123;
+        // leader线程为空，并且first不为空
+        // 唤醒阻塞的leader，让它再去试一次
+        if (leader == null &amp;&amp; q.peek() != null)
+            available.signal();
+        // 解锁
+        lock.unlock();
+    &#125;
+&#125;
+</code></pre>
 <p>出队，空时阻塞，超时退出</p>
-
-
-
-
+<pre><code class="java">public E poll(long timeout, TimeUnit unit) 
+        throws InterruptedException &#123;
+    // 获取剩余时间
+    long nanos = unit.toNanos(timeout);
+    // 获取锁
+    final ReentrantLock lock = this.lock;
+    lock.lockInterruptibly();
+    try &#123;
+        // 自旋
+        for (;;) &#123;
+            // 获取优先级队列头
+            E first = q.peek();
+            // 头为空
+            if (first == null) &#123;
+                // 剩余时间小于等于0返回空
+                // 否则继续等待
+                if (nanos &lt;= 0)
+                    return null;
+                else
+                    nanos = available.awaitNanos(nanos);
+            &#125; else &#123;
+                // 获取头剩余过期时间
+                long delay = first.getDelay(NANOSECONDS);
+                // 剩余时间小于等于0，优先级队列出队
+                if (delay &lt;= 0)
+                    return q.poll();
+                // 等待时间小于等于0，返回null
+                if (nanos &lt;= 0)
+                    return null;
+                // 到这，说明头元素过期时间大于0
+                // 头引用置空
+                first = null;
+                // leader不为空，等待时间短的
+                if (nanos &lt; delay || leader != null)
+                    nanos = available.awaitNanos(nanos);
+                else &#123;
+                    // 设置leader为当前线程
+                    Thread thisThread = Thread.currentThread();
+                    leader = thisThread;
+                    try &#123;
+                        // 等待剩余时间
+                        long timeLeft = available.awaitNanos(delay);
+                        // 计算剩余超时间（防止恶意唤醒）
+                        // (delay - timeLeft)计算等待了多长时间
+                        nanos -= delay - timeLeft;
+                    &#125; finally &#123;
+                        // 休眠结束，leader线程还是当前线程
+                        // 置空leader
+                        if (leader == thisThread)
+                            leader = null;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125; finally &#123;
+        // leader线程为空，并且first不为空
+        // 唤醒阻塞的leader，让它再去试一次
+        if (leader == null &amp;&amp; q.peek() != null)
+            available.signal();
+        // 解锁
+        lock.unlock();
+    &#125;
+&#125;
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/134649973#:~:text=DelayQueue,%E6%98%AFJDK%E4%B8%AD%E6%8F%90%E4%BE%9B%E7%9A%84%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97%EF%BC%8C%E5%86%85%E9%83%A8%E5%B0%81%E8%A3%85%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%EF%BC%8C%E5%B9%B6%E4%B8%94%E6%8F%90%E4%BE%9B%E7%A9%BA%E9%98%BB%E5%A1%9E%E5%8A%9F%E8%83%BD%E3%80%82%20DelayQueue%E4%B8%AD%E6%89%80%E6%9C%89%E5%85%83%E7%B4%A0%E5%BF%85%E9%A1%BB%E5%AE%9E%E7%8E%B0Delayed%E6%8E%A5%E5%8F%A3getDelay%E6%96%B9%E6%B3%95%EF%BC%8C%E6%AD%A4%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9E%E5%89%A9%E4%BD%99%E6%9C%89%E6%95%88%E6%97%B6%E9%97%B4%E3%80%82">参考文章</a></p>
 <h2 id="redis的zset实现延迟队列"><a title="redis的zset实现延迟队列" class="headerlink" href="#redis的zset实现延迟队列"></a>redis的zset实现延迟队列</h2><blockquote>
 <p>zset是set的一个升级版本，他在set的基础上增加了一个顺序属性，这一属性在添加修改元素的时候可以指定，每次指定后，zset会自动重新按新的值调整顺序。 可以对指定键的值进行排序权重的设定，它应用排名模块比较多。<br> 比如一个存储全班同学成绩的 Sorted Sets，其集合 value 可以是同学的学号，而 score 就可以是其考试得分，这样在数据插入集合的时候，就已经进行了天然的排序。另外还可以用 Sorted Sets 来做带权重的队列，比如普通消息的 score 为1，重要消息的 score 为2，然后工作线程可以选择按 score 的倒序来获取工作任务，让重要的任务优先执行。<br> zset集合可以完成有序执行、按照优先级执行的情况；</p>
@@ -176,20 +312,33 @@
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sdgf/p/6244937.html">redis数据类型参考文章</a></p>
 <h3 id="什么是跳表"><a title="什么是跳表" class="headerlink" href="#什么是跳表"></a>什么是跳表</h3><p>在讲zset数据结构时，先学习下跳表数据结构。</p>
 <p>我们知道二叉搜索算法能够高效的查询数据，但是需要一块连续的内存，而且增删改效率很低。<br>跳表，是基于链表实现的一种类似“二分”的算法。它可以快速的实现增，删，改，查操作。<br>我们先来看一下单向链表如何实现查找</p>
-<p><img alt="img" src="/images/008i3skNly1gys87sfuo1j30tn04h0t1.png"></p>
+<p><img loading="lazy" alt="img" src="/images/008i3skNly1gys87sfuo1j30tn04h0t1.png"></p>
 <p>当我们要在该单链表中查找某个数据的时候需要的时间复杂度为O(n). 即需要循环一层，挨个比较下。<br>怎么提高查询效率呢？如果我们给该单链表加一级索引，将会改善查询效率：</p>
-<p><img alt="跳表的实现原理" src="/images/008i3skNgy1gys8a5wom5j30th0fcgmd.png"></p>
+<p><img loading="lazy" alt="跳表的实现原理" src="/images/008i3skNgy1gys8a5wom5j30th0fcgmd.png"></p>
 <p>如图所示，当我们每隔一个节点就提取出来一个元素到上一层，把这一层称作索引，其中的down指针指向原始链表。<br>当我们查找元素16的时候，单链表需要比较10次，而加过索引的两级链表只需要比较7次。当数据量增大到一定程度的时候，效率将会有显著的提升。<br>如果我们再加多几级索引的话，效率将会进一步提升。<strong>这种链表加多级索引的结构，就叫做跳表</strong>。</p>
 <p>实现跳表的java代码在demo项目中</p>
 <h3 id="zset数据结构的实现"><a title="zset数据结构的实现" class="headerlink" href="#zset数据结构的实现"></a>zset数据结构的实现</h3><p>zset 结构中，既支持按单个元素查询，又支持范围查询，是如何实现的呢？我们深入代码分析，在 Redis 的 t_zset.c 的注释中，提到：</p>
-
-
+<pre><code class="text">/* ZSETs are ordered sets using two data structures to hold the same elements
+ * in order to get O(log(N)) INSERT and REMOVE operations into a sorted
+ * data structure.
+ *
+ * The elements are added to a hash table mapping Redis objects to scores.
+ * At the same time the elements are added to a skip list mapping scores
+ * to Redis objects (so objects are sorted by scores in this "view").
+</code></pre>
 <p>翻译过来是 Redis 中有两种数据结构来支持 zset 的功能，一个是 hash table ，一个是 skip list。先来看一下 zset 在代码中的定义：</p>
-
-
+<pre><code class="cpp">typedef struct zset &#123;
+    dict *dict;
+    zskiplist *zsl;
+&#125; zset;
+</code></pre>
 <p>dict 是一个hash table ，各种编程语言中都有实现。可以保证 O(1) 的时间复杂度，不做过多解释。我们继续看 zskiplist 的定义：</p>
-
-
+<pre><code class="cpp">typedef struct zskiplist &#123;
+    struct zskiplistNode *header, *tail;
+    unsigned long length;
+    int level;
+&#125; zskiplist;
+</code></pre>
 <p>zskiplist 是 Redis 对 skiplist 做了变种，skiplist 就是我们常说的跳表。</p>
 <h4 id="加强版跳表"><a title="加强版跳表" class="headerlink" href="#加强版跳表"></a>加强版跳表</h4><p>Redis 中的对 skiplist 做了些改造：</p>
 <ul>
@@ -198,10 +347,18 @@
 <li>第一层维护了双向链表</li>
 </ul>
 <p>zset 结构整个类图如下：</p>
-<p><img alt="image-20220127143956843" src="/images/008i3skNly1gys83la2cmj31se0ou76w.png"></p>
+<p><img loading="lazy" alt="image-20220127143956843" src="/images/008i3skNly1gys83la2cmj31se0ou76w.png"></p>
 <p>zskiplist 中保存的 zskiplistNode 节点定义：</p>
-
-
+<pre><code class="cpp">typedef struct zskiplistNode &#123;
+    sds ele;
+    double score;
+    struct zskiplistNode *backward; //  指向上一个节点
+    struct zskiplistLevel &#123;
+        struct zskiplistNode *forward;  // 指向下一个节点
+        unsigned long span; // 节点之前的跨度
+    &#125; level[];  // 该节点的各层信息
+&#125; zskiplistNode;
+</code></pre>
 <p>zskiplistNode 中定义了 zskiplistLevel 的数组，用来保存该 node 在每一层的指针。</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/347062710">参考文章</a></p>
 <h3 id="redis延迟队列使用场景"><a title="redis延迟队列使用场景" class="headerlink" href="#redis延迟队列使用场景"></a>redis延迟队列使用场景</h3><ol>
@@ -216,15 +373,56 @@
 </li>
 </ol>
 <h3 id="java代码实现redis延迟队列"><a title="java代码实现redis延迟队列" class="headerlink" href="#java代码实现redis延迟队列"></a>java代码实现redis延迟队列</h3><p>将任务加入队列中，作为生产者，TaskProducer.java:</p>
+<pre><code class="java">@Component
+public class TaskProducer &#123;
 
+    @Autowired
+    private RedisTemplate&lt;String,String&gt; redisTemplate;
 
+    public void produce(Integer taskId, long exeTime) &#123;
+        System.out.println("加入任务， taskId: " + taskId + ", exeTime: " + exeTime + ", 当前时间：" + System.currentTimeMillis());
+        redisTemplate.opsForZSet().add(RedisConst.DELAY_ZSET_KEY, String.valueOf(taskId),exeTime);
+    &#125;
 
-
+&#125;
+</code></pre>
 <p>消费者，TaskConsumer.java:</p>
+<pre><code class="java">@Component
+public class TaskConsumer &#123;
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
+    public void consumer() &#123;
 
+        Executors.newSingleThreadExecutor().submit(new Runnable() &#123;
+            @Override
+            public void run() &#123;
+                while (true) &#123;
+                    //取最小的score(时间戳最小代表最早过期，则最先出列),并查询出score大于0小于等于当前时间的队列
+                    Set&lt;String&gt; taskIdSet = redisTemplate.opsForZSet().rangeByScore(RedisConst.DELAY_ZSET_KEY, 0, System.currentTimeMillis(), 0, 1);
+                    if (taskIdSet == null || taskIdSet.isEmpty()) &#123;
+                        System.out.println("没有任务");
+                    &#125; else &#123;
+                        taskIdSet.forEach(id -&gt; &#123;
+                            long result = redisTemplate.opsForZSet().remove(RedisConst.DELAY_ZSET_KEY, id);
+                            if (result == 1L) &#123;
+                                System.out.println("从延时队列中获取到任务，taskId:" + id + " , 当前时间：" + System.currentTimeMillis());
+                            &#125;
+                        &#125;);
+                    &#125;
+                    try &#123;
+                        TimeUnit.MILLISECONDS.sleep(100);
+                    &#125; catch (InterruptedException e) &#123;
+                        e.printStackTrace();
+                    &#125;
+                &#125;
+            &#125;
+        &#125;);
+    &#125;
 
+&#125;
+</code></pre>
 <p>消费者就是实现了延迟队列的算法：<code>rangeByScore(RedisConst.DELAY_ZSET_KEY, 0, System.currentTimeMillis(), 0, 1)</code></p>
 <p>满足了：</p>
 <ul>
@@ -234,14 +432,40 @@
 <li>如果最小的score小于等于当前时间戳，就将该任务取出来执行，否则休眠一段时间后再查询</li>
 </ul>
 <p>写个单元测试模拟触发:</p>
+<pre><code class="java">@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Demo1Application.class)
+public class DelayQueenTests &#123;
+
+   @Autowired
+   private TaskProducer taskProducer;
+
+   @Autowired
+   private TaskConsumer taskConsumer;
 
 
+   @Test
+   public void testDelayQueen_query()&#123;
+      //创建 3个任务，并设置超时间为 10s 5s 20s
+      taskProducer.produce(1, System.currentTimeMillis() + 10000);
+      taskProducer.produce(2, System.currentTimeMillis() + 5000);
+      taskProducer.produce(3, System.currentTimeMillis() + 20000);
+
+      System.out.println("等待任务执行===========");
+
+      //消费端从redis中消费任务
+      taskConsumer.consumer();
+
+      try &#123;
+         TimeUnit.MILLISECONDS.sleep(50000);
+      &#125; catch (InterruptedException e) &#123;
+         e.printStackTrace();
+      &#125;
 
 
+   &#125;
 
-
-
-
+&#125;
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://github.com/huguiqi/springboot-redis">demo</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148667260">参考文章</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.runoob.com/redis/sorted-sets-zrangebyscore.html">redis命令行中文教程</a></p>
@@ -256,10 +480,12 @@
 <li>什么情况会变成死信队列</li>
 </ol>
 <p>消息变成死信的原因有:</p>
+<pre><code>1.消息被拒绝 (basic.reject / basic.nack) 并且 reQueue=false
 
+2.消息 TTL 过期
 
-
-
+3.队列达到最大长度了
+</code></pre>
 <ol start="3">
 <li>实现死信的两种方式</li>
 </ol>
@@ -280,29 +506,36 @@
 <li>多消费者不能重复消费</li>
 </ul>
 <p>以下是基本的流程：</p>
-<p><img alt="image-20220128151417677" src="/images/008i3skNgy1gytepkhvlaj312e0jk751.png"></p>
+<p><img loading="lazy" alt="image-20220128151417677" src="/images/008i3skNgy1gytepkhvlaj312e0jk751.png"></p>
 <ol>
 <li>MQ的交换机与队列配置如下：</li>
 </ol>
-<p><img alt="image-20220128151627768" src="/images/008i3skNgy1gyteru1xn8j31aq0eagn7.png"></p>
+<p><img loading="lazy" alt="image-20220128151627768" src="/images/008i3skNgy1gyteru1xn8j31aq0eagn7.png"></p>
 <ol>
 <li>IM在MQ的这个配置中的请求流程</li>
 </ol>
-<p><img alt="image-20220128151720632" src="/images/008i3skNgy1gytesqf37gj31b409emy5.png"></p>
+<p><img loading="lazy" alt="image-20220128151720632" src="/images/008i3skNgy1gytesqf37gj31b409emy5.png"></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/11184929.html">参考文章</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/huguiqi/springboot-rabbitmq-sample.git">代码实现在这里</a></p>
-<h2 id="时间片轮询"><a title="时间片轮询" class="headerlink" href="#时间片轮询"></a>时间片轮询</h2><p><img alt="img" src="https://static001.infoq.cn/resource/image/e4/52/e44bbaae05ff8f204f491dc21aa9a252.png"></p>
-<p><img alt="img" src="https://static001.infoq.cn/resource/image/7f/5e/7f40f79963ec22fba09757b64cbb5e5e.png"></p>
+<h2 id="时间片轮询"><a title="时间片轮询" class="headerlink" href="#时间片轮询"></a>时间片轮询</h2><p><img loading="lazy" alt="img" src="https://static001.infoq.cn/resource/image/e4/52/e44bbaae05ff8f204f491dc21aa9a252.png"></p>
+<p><img loading="lazy" alt="img" src="https://static001.infoq.cn/resource/image/7f/5e/7f40f79963ec22fba09757b64cbb5e5e.png"></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/121483218">原理</a></p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6961633277199253534">实现1</a></p>
 <p>时间轮是通过代码实现的消费者的实现，并利用kafka的暂停和恢复功能来实现延时消费，不适用跨度比较长的延时消息，无法持久轮询状态，且执行时间误差较大，在实际的生产应用中很少使用。</p>
 <blockquote>
 <p>延时消息队列最优的中间件实现是rocketMQ, rocketMQ显示的支持设置40天以内的任何时刻(单位为毫秒)，并且支持延时消息持久化, 容灾能力强。</p>
 </blockquote>
-
-
-
-
+<pre><code class="java">/*发送延时消息，需要设置延时时间，单位毫秒（ms），消息将在指定延时时间后投递，例如消息将在3秒后投递。*/
+                long delayTime = System.currentTimeMillis() + 3000;
+                msg.putUserProperty("__STARTDELIVERTIME", String.valueOf(delayTime));
+      
+                /**
+                *若需要发送定时消息，则需要设置定时时间，消息将在指定时间进行投递，例如消息将在2021-08-10 18:45:00投递。
+                *定时时间格式为：yyyy-MM-dd HH:mm:ss，若设置的时间戳在当前时间之前，则消息将被立即投递给Consumer。
+                * long timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2021-08-10 18:45:00").getTime();
+                * msg.putUserProperty("__STARTDELIVERTIME", String.valueOf(timeStamp));
+                */
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://github.com/dushixiang/kafka-map/blob/master/src/test/java/cn/typesafe/km/DelayQueueTest.java">代码实现</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b73ebc49931f">参考文章</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/142441996#:~:text=RocketMQ%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E8%B7%AF%E6%98%AF%EF%BC%9A%E6%89%80%E6%9C%89%E7%9A%84%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF%E7%94%B1producer%E5%8F%91%E5%87%BA%E4%B9%8B%E5%90%8E%EF%BC%8C%E9%83%BD%E4%BC%9A%E5%AD%98%E6%94%BE%E5%88%B0%E5%90%8C%E4%B8%80%E4%B8%AAtopic%EF%BC%88SCHEDULE_TOPIC_XXXX%EF%BC%89%E4%B8%8B%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BB%B6%E8%BF%9F%E7%BA%A7%E5%88%AB%E4%BC%9A%E5%AF%B9%E5%BA%94%E4%B8%8D%E5%90%8C%E7%9A%84%E9%98%9F%E5%88%97%E5%BA%8F%E5%8F%B7%EF%BC%8C%E5%BD%93%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4%E5%88%B0%E4%B9%8B%E5%90%8E%EF%BC%8C%E7%94%B1%E5%AE%9A%E6%97%B6%E7%BA%BF%E7%A8%8B%E8%AF%BB%E5%8F%96%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%99%AE%E9%80%9A%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%8C%87%E5%AE%9A%E7%9A%84topic%E4%B8%8B%EF%BC%8C%E6%AD%A4%E6%97%B6%E5%AF%B9%E4%BA%8Econsumer%E7%AB%AF%E6%AD%A4%E6%B6%88%E6%81%AF%E6%89%8D%E5%8F%AF%E8%A7%81%EF%BC%8C%E4%BB%8E%E8%80%8C%E8%A2%ABconsumer%E6%B6%88%E8%B4%B9%E3%80%82.%20%E6%B3%A8%E6%84%8F%EF%BC%9ARocketMQ%E4%B8%8D%E6%94%AF%E6%8C%81%E4%BB%BB%E6%84%8F%E6%97%B6%E9%97%B4%E7%9A%84%E5%BB%B6%E6%97%B6%EF%BC%8C%E5%8F%AA%E6%94%AF%E6%8C%81%E4%BB%A5%E4%B8%8B%E5%87%A0%E4%B8%AA%E5%9B%BA%E5%AE%9A%E7%9A%84%E5%BB%B6%E6%97%B6%E7%AD%89%E7%BA%A7.%20private%20String%20messageDelayLevel%20%3D%20%221s%205s,7m%208m%209m%2010m%2020m%2030m%201h%202h%22%3B">参考文章2</a></p>
@@ -665,11 +898,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -762,15 +995,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

@@ -150,49 +150,93 @@
 
 
 <p>最终能走向迁移的正途，还是在sonarqube官方发现的：</p>
-<p><img alt="image-20211230215034245" src="/images/008i3skNly1gxw76zw9ejj316d0u078g.png"></p>
+<p><img loading="lazy" alt="image-20211230215034245" src="/images/008i3skNly1gxw76zw9ejj316d0u078g.png"></p>
 <p>官方说，你不能直接从7.0升级到8.9.5, 那我现在要升级到8.9.6不也不一样吗</p>
 <p>然后官方就列出了三个升级的例子，我这边好像比较符合第3个例子，而我是7.0，我是不是得回退到6.7.7呢？后面经过反复操作，发现是不需要回退到6.7.7的。</p>
 <p><a target="_blank" rel="noopener" href="https://community.sonarsource.com/t/unable-to-upgrade-from-version-7-0-to-8-9-5/55297">https://community.sonarsource.com/t/unable-to-upgrade-from-version-7-0-to-8-9-5/55297</a></p>
 <p>每个sonarqube版本对应的数据库支持版本在官方文档上都有列出：</p>
-<p><img alt="image-20211230215804292" src="/images/008i3skNly1gxw7erot6zj31480u0tbw.png"></p>
+<p><img loading="lazy" alt="image-20211230215804292" src="/images/008i3skNly1gxw7erot6zj31480u0tbw.png"></p>
 <p><a target="_blank" rel="noopener" href="https://docs.sonarqube.org/7.4/requirements/requirements/">https://docs.sonarqube.org/7.4/requirements/requirements/</a></p>
 <h2 id="操作步骤"><a title="操作步骤" class="headerlink" href="#操作步骤"></a>操作步骤</h2><h3 id="迁移mysql数据"><a title="迁移mysql数据" class="headerlink" href="#迁移mysql数据"></a>迁移mysql数据</h3><ol>
 <li>备份导出</li>
 </ol>
 <p>通过navigate mysql工具将线上跑的sonarqube7.0的mysql数据备份导出，大小为7.8G：</p>
-<p><img alt="image-20211231103509224" src="/images/008i3skNgy1gxwtaisyguj30r20k8dgn.png"></p>
+<p><img loading="lazy" alt="image-20211231103509224" src="/images/008i3skNgy1gxwtaisyguj30r20k8dgn.png"></p>
 <ol start="2">
 <li>准备用于测试升级的mysql</li>
 </ol>
 <p>由于源数据库用的mysql版本是5.6，目标数据库我不能用的太高，就用5.7，使用docker能安装：</p>
 <p>docker-compose.yml:</p>
+<pre><code class="yaml">version: '3'
 
+volumes:
+  mysql_data:
+      driver: local
 
-
-
+services:
+  mysql:
+      image: mysql:5.7
+      volumes:
+        - mysql_data:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: sonarqube
+        MYSQL_USER: sonar
+        MYSQL_PASSWORD: sonar
+      ports:
+         - 6666:3306
+  adminer:
+      image: registry.cn-shanghai.aliyuncs.com/hgq/phpmyadmin-5.0.4
+      restart: always
+      ports:
+         - 9000:80
+      environment:
+        PMA_HOST: mysql
+        PMA_PORT: 3306
+        PMA_USER: sonar
+        PMA_PASSWORD: sonar
+</code></pre>
 <p>启动：</p>
 <p><code>docker up -d</code></p>
 <p>访问mysql的phpAdmin后台：</p>
-<p><img alt="image-20220104101254442" src="/images/008i3skNly1gy1f4mytegj31c00nediw.png"></p>
+<p><img loading="lazy" alt="image-20220104101254442" src="/images/008i3skNly1gy1f4mytegj31c00nediw.png"></p>
 <p>通过此后台新建sonarqube空数据库，并准备还原数据。</p>
 <h3 id="恢复数据到新数据库"><a title="恢复数据到新数据库" class="headerlink" href="#恢复数据到新数据库"></a>恢复数据到新数据库</h3><p>导入从待升级的mysql数据库的数据：</p>
-<p><img alt="image-20220104101528157" src="/images/008i3skNly1gy1f792j1fj30yd0u0whh.png"></p>
+<p><img loading="lazy" alt="image-20220104101528157" src="/images/008i3skNly1gy1f792j1fj30yd0u0whh.png"></p>
 <p>由于数据较大，等了一个小时左右，终于导入成功。</p>
 <p>或者使用navigate for mysql工具进行数据恢复也行。</p>
-<p><img alt="image-20220104103835103" src="/images/008i3skNly1gy1fvb6jmkj30t60myjt3.png"></p>
+<p><img loading="lazy" alt="image-20220104103835103" src="/images/008i3skNly1gy1fvb6jmkj30t60myjt3.png"></p>
 <h3 id="使用新数据库启动sonarqube"><a title="使用新数据库启动sonarqube" class="headerlink" href="#使用新数据库启动sonarqube"></a>使用新数据库启动sonarqube</h3><p>sonarqube-mysql.sh :</p>
+<pre><code class="sh">#!/bin/bash
+HOST_NAME=$1.rios.com
+MAP_DIR=~/docker_map/$1
+echo "start $MAP_DIR $HOST_NAME"
+docker stop $1
+docker rm $1
+rm -rf $MAP_DIR/data/*
+## 创建数据目录
+mkdir -p $MAP_DIR/data/$1/sonarqube_conf $MAP_DIR/data/$1/sonarqube_extensions $MAP_DIR/data/$1/sonarqube_logs $MAP_DIR/data/$1/sonarqube_data
+chmod 777 -R $MAP_DIR/data/$1/
 
-
-
-
+## 运行
+docker run  -itd  --name $1 \
+    -p 9001:9000 \
+    -e SONARQUBE_JDBC_URL=jdbc:mysql://127.0.0.1:6666/sonarqube?useUnicode=true\&amp;characterEncoding=utf8 \
+    -e SONARQUBE_JDBC_USERNAME=sonar \
+    -e SONARQUBE_JDBC_PASSWORD=sonar \
+    -v $MAP_DIR/data/$1/sonarqube_conf:/opt/sonarqube/conf \
+    -v $MAP_DIR/data/$1/sonarqube_extensions:/opt/sonarqube/extensions \
+    -v $MAP_DIR/data/$1/sonarqube_logs:/opt/sonarqube/logs \
+    -v $MAP_DIR/data/$1/sonarqube_data:/opt/sonarqube/data \
+    sonarqube:$2
+## 验证
+docker logs -f $1
+</code></pre>
 <p>启动sonarqube7.0 连接新mysql数据库:</p>
-
-
-
-
+<pre><code class="sh">sh ./sonarqube-mysql.sh sonarqube-mysql  7.0
+</code></pre>
 <p>启动成功，并登陆进去能看到原项目数据：</p>
-<p><img alt="image-20220104104751377" src="/images/008i3skNgy1gy1g4y3ookj31dv0u0wiw.png"></p>
+<p><img loading="lazy" alt="image-20220104104751377" src="/images/008i3skNgy1gy1g4y3ookj31dv0u0wiw.png"></p>
 <h3 id="将mysql数据库转成pgsql"><a title="将mysql数据库转成pgsql" class="headerlink" href="#将mysql数据库转成pgsql"></a>将mysql数据库转成pgsql</h3><p>由于工作正确的mysql数据库版本是5.7, 在转pgsql之前，需要建pgsql版本的数据库。</p>
 <ul>
 <li><p>进入pgsql的docker容器中，建立数据库sonarqube</p>
@@ -214,6 +258,20 @@
 <ul>
 <li><p>MySQL Migrator工具</p>
 <p>项目信息：<a target="_blank" rel="noopener" href="https://github.com/SonarSource/mysql-migrator">https://github.com/SonarSource/mysql-migrator</a></p>
+<pre><code class="properties">#解压
+wget https://binaries.sonarsource.com/Distribution/mysql-migrator/mysql-migrator-1.1.0.119.zip
+unzip mysql-migrator-1.1.0.119.zip &amp;&amp; cd bin
+
+#source.properties
+sonar.jdbc.username=sonar
+sonar.jdbc.password=sonar
+sonar.jdbc.url=jdbc:mysql://localhost:6666/sonarqube?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true&amp;useConfigs=maxPerformance&amp;useSSL=false
+
+#target.properties
+sonar.jdbc.username=sonar
+sonar.jdbc.password=sonar
+sonar.jdbc.url=jdbc:postgresql://127.0.0.1:55432/sonarqube
+</code></pre>
 </li>
 </ul>
 <p><strong>注意，pgsql版本是9.6.24</strong></p>
@@ -222,23 +280,159 @@
 <p><code>./mysql-migrator -source source.properties  -target target.properties</code></p>
 </li>
 </ul>
+<pre><code>
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table organizations ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table organization_members ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table groups_users ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table rules_parameters ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table rules_profiles ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table org_qprofiles ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table default_qprofiles ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table project_qprofiles ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table qprofile_edit_users ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table qprofile_edit_groups ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table groups ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table snapshots ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table group_roles ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table rule_repositories ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table rules ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table rules_metadata ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table events ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table quality_gates ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table quality_gate_conditions ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table properties ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table project_links ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table duplications_index ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table project_measures ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table internal_properties ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table projects ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table manual_measures ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table active_rules ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table notifications ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table user_roles ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table active_rule_parameters ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table users ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table metrics ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table loaded_templates ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table issues ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table issue_changes ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table permission_templates ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table perm_tpl_characteristics ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table perm_templates_users ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table perm_templates_groups ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table qprofile_changes ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table file_sources ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table ce_queue ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table ce_activity ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table ce_task_characteristics ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table ce_task_input ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table ce_scanner_context ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table user_tokens ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table webhook_deliveries ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table es_queue ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table plugins ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table project_branches ...
+[main] INFO org.sonarsource.sqdbmigrator.migrator.ContentCopier - copying table analysis_properties ...
+Tables                    Records  Seconds
+------------------------  -------  -------
+organizations                   1      0.1
+organization_members            4      0.0
+groups_users                    5      0.0
+rules_parameters              686      0.1
+rules_profiles                 18      0.0
+org_qprofiles                  18      0.0
+default_qprofiles               9      0.1
+project_qprofiles               0      0.0
+qprofile_edit_users             0      0.0
+qprofile_edit_groups            0      0.0
+groups                          2      0.0
+snapshots                      22      0.0
+group_roles                    28      0.0
+rule_repositories              25      0.0
+rules                        2888      0.3
+rules_metadata                  0      0.0
+events                         21      0.0
+quality_gates                   1      0.0
+quality_gate_conditions         5      0.0
+properties                      4      0.0
+project_links                  11      0.0
+duplications_index              0      0.0
+project_measures             3839      0.3
+internal_properties             3      0.0
+projects                       55      0.1
+manual_measures                 0      0.0
+active_rules                 2957      0.1
+notifications                   0      0.0
+user_roles                      0      0.0
+active_rule_parameters        167      0.0
+users                           4      0.0
+metrics                       145      0.0
+loaded_templates                2      0.0
+issues                        473      0.1
+issue_changes                   0      0.0
+permission_templates            1      0.0
+perm_tpl_characteristics        0      0.0
+perm_templates_users            0      0.0
+perm_templates_groups           4      0.0
+qprofile_changes             6543      0.3
+file_sources                   22      0.0
+ce_queue                        0      0.0
+ce_activity                    22      0.0
+ce_task_characteristics         0      0.0
+ce_task_input                   0      0.0
+ce_scanner_context             22      0.0
+user_tokens                     0      0.0
+webhook_deliveries              0      0.0
+es_queue                        0      0.0
+plugins                        14      0.0
+project_branches               11      0.0
+analysis_properties             0      0.0
+
+Migration successful in 2.7 seconds
 
 
+#检查pg中的数据
+\c sonarqube
+\dt
+select * from projects;
 
 
-
-
+</code></pre>
 <p>转换成功。。。。。</p>
 <p><strong>ps: 由于mysql6.7版本转pgsql时，pgsql版本不能高于10.0，低于9.0</strong></p>
 <h3 id="用转后的pgsql库启动sonrqube7-0"><a title="用转后的pgsql库启动sonrqube7.0" class="headerlink" href="#用转后的pgsql库启动sonrqube7-0"></a>用转后的pgsql库启动sonrqube7.0</h3><p>这个就是将上面的mysql版本的sonrqube7.0改成连接pgsql 9.6.4版本的数据库</p>
 <p>sonarqube.sh:</p>
+<pre><code class="sh">#!/bin/bash
+HOST_NAME=$1.rios.com
+MAP_DIR=~/docker_map/$1
+echo "start $MAP_DIR $HOST_NAME"
+docker stop $1
+docker rm $1
+mkdir -p $MAP_DIR/data
+rm -rf $MAP_DIR/data/*
+## 创建数据目录
+mkdir -p $MAP_DIR/data/$1/sonarqube_conf $MAP_DIR/data/$1/sonarqube_extensions $MAP_DIR/data/$1/sonarqube_logs $MAP_DIR/data/$1/sonarqube_data
+chmod 777 -R $MAP_DIR/data/$1/
 
-
-
-
+## 运行
+docker run  -itd  --name $1 \
+    --link postgresql \
+    -p 9002:9000 \
+    -e SONARQUBE_JDBC_URL=jdbc:postgresql://postgresql:5432/sonarqube?currentSchema=public \
+    -e SONARQUBE_JDBC_USERNAME=sonar \
+    -e SONARQUBE_JDBC_PASSWORD=sonar \
+    -e TZ=Asia/Shanghai \
+    -v $MAP_DIR/data/$1/sonarqube_conf:/opt/sonarqube/conf \
+    -v $MAP_DIR/data/$1/sonarqube_extensions:/opt/sonarqube/extensions \
+    -v $MAP_DIR/data/$1/sonarqube_logs:/opt/sonarqube/logs \
+    -v $MAP_DIR/data/$1/sonarqube_data:/opt/sonarqube/data \
+    sonarqube:$2
+## 验证
+docker logs -f $1
+</code></pre>
 <p>启动成功，并更新了好多index:</p>
-<p><img alt="image-20220104162733498" src="/images/008i3skNgy1gy1pyf9sldj31ih0u0wpt.png"></p>
-<p><img alt="image-20220104162850001" src="/images/008i3skNly1gy1pzqhtkaj322r0u0qh2.png"></p>
+<p><img loading="lazy" alt="image-20220104162733498" src="/images/008i3skNgy1gy1pyf9sldj31ih0u0wpt.png"></p>
+<p><img loading="lazy" alt="image-20220104162850001" src="/images/008i3skNly1gy1pzqhtkaj322r0u0qh2.png"></p>
 <p>看到:</p>
 <p>​		Compute Engine starting up…..</p>
 <p>​		Process[ce] is up</p>
@@ -254,20 +448,41 @@
 <p>具体使用方法可以参考：</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/400282089">https://zhuanlan.zhihu.com/p/400282089</a></p>
 <p>安装好PGLoader以后，编写pgload-pg.load：</p>
+<pre><code>LOAD DATABASE
+ FROM pgsql://postgres:sonar@localhost:55432/sonarqube
+ INTO pgsql://sonar:sonar@127.0.0.1:55433/sonarqube
 
+ WITH include drop, create tables, create indexes, workers = 8, concurrency = 1
 
-
-
+ALTER SCHEMA 'sonarqube' RENAME TO 'public';
+</code></pre>
 <p>postgresql10 我用的是docker, postgresql10.sh：</p>
+<pre><code class="sh">#!/bin/bash
+HOST_NAME=$1.rios.com
+MAP_DIR=~/docker_map/$1
+echo "start $MAP_DIR $HOST_NAME"
+docker stop $1
+docker rm $1
 
+## 创建数据目录
+mkdir -p $MAP_DIR/data
+chmod 777 -R $MAP_DIR/data
 
+## 运行
 
-
+docker run -itd  --name $1 --restart always \
+    -p 55433:5432 \
+    -v $MAP_DIR/data:/var/lib/postgresql/data \
+    -e POSTGRES_USER=sonar \
+        -e POSTGRES_PASSWORD=sonar \
+        -e ALLOW_IP_RANGE=0.0.0.0/0 \
+       postgres:10
+## 验证
+docker logs -f $1
+</code></pre>
 <p>执行：</p>
-
-
-
-
+<pre><code class="sh">sh ./postgresql10.sh postgresql10
+</code></pre>
 <p>进入postgresql10容器中，并创建sonarqube空数据库:</p>
 <ol>
 <li>su - postgresql</li>
@@ -285,95 +500,77 @@
 <ul>
 <li>开始执行</li>
 </ul>
-
-
-
-
+<pre><code class="sh">pgloader ./pgload-pg.load
+</code></pre>
 <p>执行一段时间后，成功完成。</p>
 <h3 id="使用pgsql10的库启动sonarqube7-0"><a title="使用pgsql10的库启动sonarqube7.0" class="headerlink" href="#使用pgsql10的库启动sonarqube7-0"></a>使用pgsql10的库启动sonarqube7.0</h3><p>sonarqube.sh:</p>
+<pre><code class="shell">#!/bin/bash
+HOST_NAME=$1.rios.com
+MAP_DIR=~/docker_map/$1
+echo "start $MAP_DIR $HOST_NAME"
+docker stop $1
+docker rm $1
+mkdir -p $MAP_DIR/data
+rm -rf $MAP_DIR/data/*
+## 创建数据目录
+mkdir -p $MAP_DIR/data/$1/sonarqube_conf $MAP_DIR/data/$1/sonarqube_extensions $MAP_DIR/data/$1/sonarqube_logs $MAP_DIR/data/$1/sonarqube_data
+chmod 777 -R $MAP_DIR/data/$1/
 
-
-
-
+## 运行
+docker run  -itd  --name $1 \
+    --link postgresql10 \
+    -p 9003:9000 \
+    -e SONARQUBE_JDBC_URL=jdbc:postgresql://postgresql10:5432/sonarqube?currentSchema=public \
+    -e SONARQUBE_JDBC_USERNAME=sonar \
+    -e SONARQUBE_JDBC_PASSWORD=sonar \
+    -e TZ=Asia/Shanghai \
+    -v $MAP_DIR/data/$1/sonarqube_conf:/opt/sonarqube/conf \
+    -v $MAP_DIR/data/$1/sonarqube_extensions:/opt/sonarqube/extensions \
+    -v $MAP_DIR/data/$1/sonarqube_logs:/opt/sonarqube/logs \
+    -v $MAP_DIR/data/$1/sonarqube_data:/opt/sonarqube/data \
+    sonarqube:$2
+## 验证
+docker logs -f $1
+</code></pre>
 <blockquote>
 <p>为什么要用postgresql10.0去连sonrqube7.0？</p>
 </blockquote>
 <p><strong>因为我要将postgresql升级到10，才能连sonrqube7.4以后的版本，否则直接用postgresql9.6是升不上去的!!!!</strong></p>
 <p>启动一下：</p>
-
-
-
-
+<pre><code class="sh">sh ./sonarqube.sh sonarqube-7.0 7.0
+</code></pre>
 <p>启动后，一样更新了一堆index，但之后报出了需要手动升级的一个提示。</p>
 <p>按照提示找到官网的说法：</p>
-<p><img alt="image-20220104174326248" src="/images/008i3skNgy1gy1s5d1ea5j30vo0u0420.png"></p>
+<p><img loading="lazy" alt="image-20220104174326248" src="/images/008i3skNgy1gy1s5d1ea5j30vo0u0420.png"></p>
 <p>那就手动执行下setup接口: <a target="_blank" rel="noopener" href="http://127.0.0.1:9003/setup">http://127.0.0.1:9003/setup</a></p>
 <p>按照指引继续upgrade,等了好久，终于成功了:</p>
-<h3 id="使用升级后的pgsql10的库启动sonarqube7-4"><a title="使用升级后的pgsql10的库启动sonarqube7.4" class="headerlink" href="#使用升级后的pgsql10的库启动sonarqube7-4"></a>使用升级后的pgsql10的库启动sonarqube7.4</h3>
-
-
-
+<h3 id="使用升级后的pgsql10的库启动sonarqube7-4"><a title="使用升级后的pgsql10的库启动sonarqube7.4" class="headerlink" href="#使用升级后的pgsql10的库启动sonarqube7-4"></a>使用升级后的pgsql10的库启动sonarqube7.4</h3><pre><code class="sh">sh ./sonarqube sonarqube-7.4 7.4
+</code></pre>
 <p>启动成功后，继续上次升级的步骤。</p>
 <p>这一步的成功是里程碑式的，所以需要将pgsql10的sonarqube库备份一下:</p>
-
-
-
-
-
-
-
-
-<h3 id="使用升级后的7-4的pgsql10的库启动sonrqube7-9-1"><a title="使用升级后的7.4的pgsql10的库启动sonrqube7.9.1" class="headerlink" href="#使用升级后的7-4的pgsql10的库启动sonrqube7-9-1"></a>使用升级后的7.4的pgsql10的库启动sonrqube7.9.1</h3>
-
-
-
+<pre><code class="sh"> pg_dump -U sonarqube ./sonarqube-7.4.sql
+</code></pre>
+<h3 id="使用升级后的7-4的pgsql10的库启动sonrqube7-9-1"><a title="使用升级后的7.4的pgsql10的库启动sonrqube7.9.1" class="headerlink" href="#使用升级后的7-4的pgsql10的库启动sonrqube7-9-1"></a>使用升级后的7.4的pgsql10的库启动sonrqube7.9.1</h3><pre><code class="sh">sh ./sonarqube sonarqube-7.9.1 7.9.1-community
+</code></pre>
 <p>启动成功后，再次重复升级动作,最后成功后，再将数据库备份一下：</p>
-
-
-
-
-
-
-<h3 id="使用升级后的7-9-1的pgsql10的库启动sonrqube7-9-6"><a title="使用升级后的7.9.1的pgsql10的库启动sonrqube7.9.6" class="headerlink" href="#使用升级后的7-9-1的pgsql10的库启动sonrqube7-9-6"></a>使用升级后的7.9.1的pgsql10的库启动sonrqube7.9.6</h3>
-
-
-
+<pre><code class="sh">pg_dump -U sonarqube ./sonarqube-7.9.1.sql
+</code></pre>
+<h3 id="使用升级后的7-9-1的pgsql10的库启动sonrqube7-9-6"><a title="使用升级后的7.9.1的pgsql10的库启动sonrqube7.9.6" class="headerlink" href="#使用升级后的7-9-1的pgsql10的库启动sonrqube7-9-6"></a>使用升级后的7.9.1的pgsql10的库启动sonrqube7.9.6</h3><pre><code class="sh">sh ./sonarqube sonarqube-7.9.6 7.9.6-community
+</code></pre>
 <p>启动成功后，再次重复升级动作,最后成功后，7.9.6的升级成功也是一个里程碑，代表升级已经步入正轨，再将数据库备份一下：</p>
-
-
-
-
-
-
-
-
-
-
+<pre><code class="sh">pg_dump -U sonarqube ./sonarqube-7.9.6.sql
+</code></pre>
 <h3 id="使用升级后的7-9-6的pgsql10的库启动sonrqube8-9-1"><a title="使用升级后的7.9.6的pgsql10的库启动sonrqube8.9.1" class="headerlink" href="#使用升级后的7-9-6的pgsql10的库启动sonrqube8-9-1"></a>使用升级后的7.9.6的pgsql10的库启动sonrqube8.9.1</h3><p>不要着急直接升到8.9.6,因为你也不知道跨这么大步子有没有什么坑，就先升到8.9.1:</p>
-
-
-
-
+<pre><code class="sh">sh ./sonarqube sonarqube-8.9.1 8.9.1-community
+</code></pre>
 <p>启动成功后，再次重复升级动作,最后成功后，再将数据库备份一下：</p>
-
-
-
-
-
-
-
-
-
-
-<h3 id="使用升级后的8-9-1的pgsql10的库启动sonrqube8-9-6"><a title="使用升级后的8.9.1的pgsql10的库启动sonrqube8.9.6" class="headerlink" href="#使用升级后的8-9-1的pgsql10的库启动sonrqube8-9-6"></a>使用升级后的8.9.1的pgsql10的库启动sonrqube8.9.6</h3>
-
-
-
+<pre><code class="sh">pg_dump -U sonarqube ./sonarqube-8.9.1.sql
+</code></pre>
+<h3 id="使用升级后的8-9-1的pgsql10的库启动sonrqube8-9-6"><a title="使用升级后的8.9.1的pgsql10的库启动sonrqube8.9.6" class="headerlink" href="#使用升级后的8-9-1的pgsql10的库启动sonrqube8-9-6"></a>使用升级后的8.9.1的pgsql10的库启动sonrqube8.9.6</h3><pre><code class="sh">sh ./sonarqube sonarqube-8.9.6 8.9.6-community
+</code></pre>
 <p>启动成功后，再次重复升级动作,最后成功后，再将数据库备份一下：</p>
-
-
-
-
+<pre><code class="sh">pg_dump -U sonarqube ./sonarqube-8.9.6.sql
+</code></pre>
 <p>哈哈，最后终于给升级成功了，艹!!!!!</p>
 <p>参考文章：</p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mascot1/p/11295048.html">https://www.cnblogs.com/mascot1/p/11295048.html</a></p>
@@ -705,11 +902,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -802,15 +999,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

@@ -118,7 +118,7 @@
 		
 		</div>
 		
-		<h1 id="nginx反向代理做cache配置"><a title="nginx反向代理做cache配置" class="headerlink" href="#nginx反向代理做cache配置"></a>nginx反向代理做cache配置</h1><p><span style="font: 18.0px Times; font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">nginx反向代理做cache配置</span><br><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><img src="/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif"></span><br><span style="font: 10.0px Arial; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">(2010-02-01<br>17:26:24)</span><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><br> <span style="font-kerning: none"><img src="/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif"></span></span></p>
+		<h1 id="nginx反向代理做cache配置"><a title="nginx反向代理做cache配置" class="headerlink" href="#nginx反向代理做cache配置"></a>nginx反向代理做cache配置</h1><p><span style="font: 18.0px Times; font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a">nginx反向代理做cache配置</span><br><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><img loading="lazy" src="/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif"></span><br><span style="font: 10.0px Arial; font-kerning: none; color: #637160; -webkit-text-stroke: 0px #637160">(2010-02-01<br>17:26:24)</span><span style="font: 12.0px Verdana; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><br> <span style="font-kerning: none"><img loading="lazy" src="/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/9C3A176B-467F-4185-A0CF-4EA3B23F19BF.gif"></span></span></p>
 <div>
 
 <p>\</p>
@@ -136,7 +136,7 @@
 <p>问题二解决：这段解释来自于：<a href="http://raocl.[spaces.live.com/blog/cns!3F6CFF93FD0E3B79!825.entry](http://spaces.live.com/blog/cns!3F6CFF93FD0E3B79!825.entry)\">http://raocl.[spaces.live.com/blog/cns!3F6CFF93FD0E3B79!825.entry](http://spaces.live.com/blog/cns!3F6CFF93FD0E3B79!825.entry)\</a></p>
 <p>因为nginx提供的过期控制是针对http_status_code的，我本想通过location中限定类型的方法完成曲线救国，结果发现：一旦location中限定了文件类型，缓存过期的定义就失效！！\</p>
 <p>#也就是说，限定文件类型后的哈希缓存，是绝绝对对的强制永久缓存——不单过期失效，下面的purge也失效——或许换一个场景，这个刚好有用。<br> 所以换了一个配置：<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; server {<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; listen 80;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; server_name&nbsp; <a target="_blank" rel="noopener" href="http://testa.domian.com/">testA.domian.com</a><br><a target="_blank" rel="noopener" href="http://testb.domian.com/">testB.domian.com</a>&nbsp;<br><a target="_blank" rel="noopener" href="http://testc.domian.com/">testC.domian.com</a><br><a target="_blank" rel="noopener" href="http://testd.domian.com/">testD.domian.com</a>;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; access_log logs/access.log;<br><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location / {<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_next_upstream http_502 http_504 error timeout<br>invalid_header;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache cache_one;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache_valid 200 304 12h;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache_valid 301 302 1m;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache_valid any 1m;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache_key $host$uri$is_args$args;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header&nbsp; Host $host;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header&nbsp; X-Real-IP&nbsp; $remote_addr;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header&nbsp; X-Forwarded-For<br>$proxy_add_x_forwarded_for;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header X-Forwarded-For $remote_addr;<br><span style="font: 14.0px SimSun; font-kerning: none; color: #fd5c0c; -webkit-text-stroke: 0px #fd5c0c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>proxy_set_header Accept-Encoding “”;</span><span style="font: 14.0px SimSun; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_pass <a target="_blank" rel="noopener" href="http://my_server_pool/">http://my_server_pool</a>;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; expires 12h;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br><br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location ~ .*\.(html|gif.png|jpeg|png|bmp|swf|js|css)$<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache cache_one;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache_valid 200 304 12h;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache_valid 301 302 1m;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache_valid any 1m;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_cache_key $host$uri$is_args$args;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header&nbsp; Host $host;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header&nbsp; X-Real-IP&nbsp; $remote_addr;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header X-Forwarded-For $remote_addr;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header Accept-Encoding “”;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_pass <a target="_blank" rel="noopener" href="http://my_server_pool/">http://my_server_pool</a>;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; expires&nbsp; 1h;<br> #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br> &nbsp;<br></span><span style="font: 12.0px SimSun; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32">#这部分定义不缓存而是透传的请求类型。介于无法通过类型来控制缓存，那么这里不缓存的控制就必须确保严格正确了</span><span style="font: 14.0px SimSun; font-kerning: none; color: #323e32; -webkit-text-stroke: 0px #323e32"><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location ~ .*\.(php|jsp|cgi)?$&nbsp; {<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header&nbsp; Host $host;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_set_header X-Forwarded-For $remote_addr;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; proxy_pass <a target="_blank" rel="noopener" href="http://my_server_pool/">http://my_server_pool</a>;<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }\</span></p>
-<p>这样一来的意思就是说缓存所有，除了我定义的php，jsp，cgi，当然能不能被缓存还要决定web服务器的header头了，至此。终于见到了久违的页面：<br> <a target="_blank" rel="noopener" href="http://photo.blog.sina.com.cn/showpic.html#blogid=5dc960cd0100gvk2&amp;url=http://s14.sinaimg.cn/orignal/5dc960cdg84a281f01b0d"><span style="font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a"><img src="/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/FD6C9F5F-E79D-4646-BF95-88D5286B2FEB.png"></span></a><br></p>
+<p>这样一来的意思就是说缓存所有，除了我定义的php，jsp，cgi，当然能不能被缓存还要决定web服务器的header头了，至此。终于见到了久违的页面：<br> <a target="_blank" rel="noopener" href="http://photo.blog.sina.com.cn/showpic.html#blogid=5dc960cd0100gvk2&amp;url=http://s14.sinaimg.cn/orignal/5dc960cdg84a281f01b0d"><span style="font-kerning: none; color: #008e7a; -webkit-text-stroke: 0px #008e7a"><img loading="lazy" src="/nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%81%9Acache%E9%85%8D%E7%BD%AE.resources/FD6C9F5F-E79D-4646-BF95-88D5286B2FEB.png"></span></a><br></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -173,18 +173,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/mysql相关命令行/" title="mysql相关命令行">
+ <a href="/2020/04/29/maven生成war包的两种方式/" title="maven生成war包的两种方式">
   <strong>上一篇：</strong><br/>
   <span>
-  mysql相关命令行</span>
+  maven生成war包的两种方式</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/node.js学习(上)/"  title="node.js学习(上)">
+<a href="/2020/04/29/mysql相关命令行/"  title="mysql相关命令行">
  <strong>下一篇：</strong><br/> 
- <span>node.js学习(上)
+ <span>mysql相关命令行
 </span>
 </a>
 </div>
@@ -461,11 +461,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -558,15 +558,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

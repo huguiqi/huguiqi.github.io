@@ -29,8 +29,8 @@
 <meta property="article:modified_time" content="2023-02-16T11:41:07.233Z">
 <meta property="article:author" content="sam">
 <meta property="article:tag" content="redis">
-<meta property="article:tag" content="lettuce">
 <meta property="article:tag" content="分布式锁">
+<meta property="article:tag" content="lettuce">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://clockcoder.com/images/e6c9d24egy1gzga4ypkj3j21700mwq6i.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
@@ -126,20 +126,20 @@
 <p>原理</p>
 </blockquote>
 <p><strong>setnx</strong> 命令是redis的一条原生命令<br> 大意为 <strong>set if not exists</strong>， 在指定的key不存在的情况下，为key设置值<br> 使用如下</p>
-
-
-
-
-
-
+<pre><code class="shell">redis 127.0.0.1:6379&gt; SETNX KEY_NAME VALUE
+</code></pre>
 <p>如何删除锁<br>模拟抢单动作(10w个人开抢)<br>调用 redis的nx生成锁<br>对于java中想操作redis，好的方式是使用jedis，首先pom中引入依赖：</p>
-
-
-
-
+<pre><code class="xml">&lt;dependency&gt;
+  &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+  &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
 <p>因为我用的是：</p>
-
-
+<pre><code class="xml">&lt;dependency&gt;
+   &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+   &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
 <p>它默认使用lettuce作为client实现redis连接，包含了lettuce客户端依赖包。</p>
 <p>对于分布式锁的生成通常需要注意如下几个方面：</p>
 <ul>
@@ -151,52 +151,194 @@
 </li>
 </ul>
 <p>由于lettuce客户端本身并不提供<code>setnx</code>的接口实现，只能通过spring-data-redis的底层来实现<code>setnx</code>操作，下面来上段setnx操作的代码：</p>
+<pre><code class="java">    @Autowired
+    private RedisTemplate redisTemplate;
 
-
+    public boolean setnx(String key, String val) &#123;
+        try &#123;
+            int timemout = 60;
+            boolean ret = redisTemplate.opsForValue().setIfAbsent(key,val,timemout, TimeUnit.SECONDS);
+            return ret;
+        &#125; catch (Exception ex) &#123;
+            log.error("setnx error!!,key=&#123;&#125;,val=&#123;&#125;",key,val,ex);
+        &#125;
+        return false;
+    &#125;
+</code></pre>
 <p>为什么这段代码就实现了<code>setnx</code>的操作呢？这段代码主要看<code>setIfAbsent(args...)</code>方法,我们点进去源码看看:</p>
-
+<pre><code>public Boolean setIfAbsent(K key, V value, long timeout, TimeUnit unit) &#123;
+        byte[] rawKey = this.rawKey(key);
+        byte[] rawValue = this.rawValue(value);
+        Expiration expiration = Expiration.from(timeout, unit);
+        return (Boolean)this.execute((connection) -&gt; &#123;
+            return connection.set(rawKey, rawValue, expiration, SetOption.ifAbsent());
+        &#125;, true);
+    &#125;
+</code></pre>
 <p>源码分析：</p>
 <ol>
 <li><p>调用了这个AbstractOperations类的execute方法：</p>
- 
+<pre><code>    @Nullable
+   &lt;T&gt; T execute(RedisCallback&lt;T&gt; callback, boolean exposeConnection) &#123;
+       return this.template.execute(callback, exposeConnection);
+   &#125;
+</code></pre>
 </li>
 <li><p><code>RedisCallback</code> 中使用RedisConnection去执行redis</p>
 <p>在它实现的callback中，发现connection.set有个参数：<code>SetOption.ifAbsent()</code></p>
 </li>
 </ol>
 <p>文档中看到<code>RedisStringCommands.SetOption</code>的api说明:</p>
-
-
-<p><img alt="image-20220216155748958" src="/images/e6c9d24egy1gzga4ypkj3j21700mwq6i.png"></p>
+<pre><code class="java">public static enum RedisStringCommands.SetOption
+extends Enum&lt;RedisStringCommands.SetOption&gt;
+SET command arguments for NX, XX.
+Since:
+1.7
+Author:
+Christoph Strobl
+Enum Constant Summary
+Enum Constants
+Enum Constant and Description
+SET_IF_ABSENT
+NX
+SET_IF_PRESENT
+XX
+UPSERT
+Do not set any additional command argument.
+</code></pre>
+<p><img loading="lazy" alt="image-20220216155748958" src="/images/e6c9d24egy1gzga4ypkj3j21700mwq6i.png"></p>
 <p>就是说<code>ifAbsent</code>方法就是<code>setnx</code>支持</p>
 <p>setnx如果失败直接封装返回false即可，下面我们通过一个get方式的api来调用下这个setnx方法：</p>
-
-
-
-
+<pre><code class="java">@GetMapping("/setnx/&#123;key&#125;/&#123;val&#125;")
+public boolean setnx(@PathVariable String key, @PathVariable String val) &#123;
+   return lettuceCommand.setnx(key, val);
+&#125;
+</code></pre>
 <p>访问如下测试url，正常来说第一次返回了true，第二次返回了false，由于第二次请求的时候redis的key已存在，所以无法set成功</p>
-<p><img alt="图片" src="/images/008i3skNly1gz68prkhjwj30il055q3m.png"></p>
+<p><img loading="lazy" alt="图片" src="/images/008i3skNly1gz68prkhjwj30il055q3m.png"></p>
 <p>由上图能够看到只有一次set成功，并key具有一个有效时间，此时已到达了分布式锁的条件。</p>
 <h2 id="如何删除锁"><a title="如何删除锁" class="headerlink" href="#如何删除锁"></a>如何删除锁</h2><p>上面是创建锁，同样的具有有效时间，但是我们不能完全依赖这个有效时间，场景如：有效时间设置1分钟，本身用户A获取锁后，没遇到什么特殊情况正常生成了抢购订单后，此时其他用户应该能正常下单了才对，但是由于有个1分钟后锁才能自动释放，那其他用户在这1分钟无法正常下单（因为锁还是A用户的），因此我们需要A用户操作完后，主动去解锁。</p>
 <p>需要借助lua脚本去删除key，来达到解除锁的目的，而且必须是同一个用户才能解锁：</p>
+<pre><code class="java">    public int delnx(String key, String val) &#123;
+        try &#123;
+            //if redis.call('get','orderkey')=='1111' then return redis.call('del','orderkey') else return 0 end
+            StringBuilder sbScript = new StringBuilder();
+            sbScript.append("if redis.call('get',KEYS[1])").append("==ARGV[1]").
+                    append(" then ").
+                    append("    return redis.call('del',KEYS[1])").
+                    append(" else ").
+                    append("    return 0").
+                    append(" end");
 
-
-
-
+            DefaultRedisScript&lt;Long&gt; redisScript = new DefaultRedisScript&lt;&gt;(sbScript.toString(),Long.class);
+            Long ret = (Long) redisTemplate.execute(redisScript, Collections.singletonList(key),val);
+            Integer result = 0;
+            if (null != ret) &#123;
+                result = Integer.valueOf(ret.intValue());
+            &#125;
+            return result;
+        &#125; catch (Exception ex) &#123;
+            log.error("delnx error!!,key=&#123;&#125;,value=&#123;&#125;", key, val, ex);
+        &#125;
+        return 0;
+    &#125;
+</code></pre>
 <p>这里不能像jedis的方式一样，必须通过设置变量取值来设置lua脚本：根据key和val判断其是否存在，如果存在就del；<br>其实个人认为通过redis的get方式获取val后，然后再比较value是否是当前持有锁的用户，如果是那最后再删除，效果其实相当；只不过直接通过eval执行脚本，这样避免多一次操作了redis而已，缩短了原子操作的间隔。(如有不同见解请留言探讨)；同样这里创建个get方式的api来测试：</p>
-
-
-
-
-
-
+<pre><code class="java">@GetMapping("/delnx/&#123;key&#125;/&#123;val&#125;")
+public int delnx(@PathVariable String key, @PathVariable String val) &#123;
+   return lettuceCommand.delnx(key, val);
+&#125;
+</code></pre>
 <p>注意的是delnx时，需要传递创建锁时的value，因为通过et的value与delnx的value来判断是否是持有锁的操作请求，只有value一样才允许del；</p>
 <h2 id="模拟抢单动作（10w个人开抢）"><a title="[模拟抢单动作（10w个人开抢）]" class="headerlink" href="#模拟抢单动作（10w个人开抢）"></a>[模拟抢单动作（10w个人开抢）]</h2><p>有了上面对分布式锁的粗略基础，我们模拟下10w人抢单的场景，其实就是一个并发操作请求而已，由于环境有限，只能如此测试；如下初始化10w个用户，并初始化库存，商品等信息，如下代码：</p>
+<pre><code>//总库存
+    private long nKuCuen = 0;
+    //商品key名字
+    private String shangpingKey = "computer_key";
+    //获取锁的超时时间 秒
+    private int timeout = 30 * 1000;
 
+    @GetMapping("/qiangdan")
+    public List&lt;String&gt; qiangdan() &#123;
 
+        //抢到商品的用户
+        List&lt;String&gt; shopUsers = new ArrayList&lt;&gt;();
+
+        //构造很多用户
+        List&lt;String&gt; users = new ArrayList&lt;&gt;(100000);
+        IntStream.range(0, 100000).parallel().forEach(b -&gt; &#123;
+            users.add("神牛-" + b);
+        &#125;);
+
+        //初始化库存
+        nKuCuen = 10;
+
+        //模拟开抢
+        users.parallelStream().forEach(b -&gt; &#123;
+            String shopUser = qiang(b);
+            if (!StringUtils.isEmpty(shopUser)) &#123;
+                shopUsers.add(shopUser);
+            &#125;
+        &#125;);
+
+        return shopUsers;
+    &#125;
+</code></pre>
 <p>有了上面10w个不同用户，我们设定商品只有10个库存，然后通过并行流的方式来模拟抢购，如下抢购的实现：</p>
+<pre><code>/**
+     * 模拟抢单动作
+     *
+     * @param b
+     * @return
+     */
+    private String qiang(String b) &#123;
+        //用户开抢时间
+        long startTime = System.currentTimeMillis();
 
+        //未抢到的情况下，30秒内继续获取锁
+        while ((startTime + timeout) &gt;= System.currentTimeMillis()) &#123;
+            //商品是否剩余
+            if (nKuCuen &lt;= 0) &#123;
+                break;
+            &#125;
+            if (lettuceCommand.setnx(shangpingKey, b)) &#123;
+                //用户b拿到锁
+                logger.info("用户&#123;&#125;拿到锁...", b);
+                try &#123;
+                    //商品是否剩余
+                    if (nKuCuen &lt;= 0) &#123;
+                        break;
+                    &#125;
 
+                    //模拟生成订单耗时操作，方便查看：神牛-50 多次获取锁记录
+                    try &#123;
+                        TimeUnit.SECONDS.sleep(1);
+                    &#125; catch (InterruptedException e) &#123;
+                        e.printStackTrace();
+                    &#125;
+
+                    //抢购成功，商品递减，记录用户
+                    nKuCuen -= 1;
+
+                    //抢单成功跳出
+                    logger.info("用户&#123;&#125;抢单成功跳出...所剩库存：&#123;&#125;", b, nKuCuen);
+
+                    return b + "抢单成功，所剩库存：" + nKuCuen;
+                &#125; finally &#123;
+                    logger.info("用户&#123;&#125;释放锁...", b);
+                    //释放锁
+                    lettuceCommand.delnx(shangpingKey, b);
+                &#125;
+            &#125; else &#123;
+                //用户b没拿到锁，在超时范围内继续请求锁，不需要处理
+//                if (b.equals("神牛-50") || b.equals("神牛-69")) &#123;
+//                    logger.info("用户&#123;&#125;等待获取锁...", b);
+//                &#125;
+            &#125;
+        &#125;
+        return "";
+    &#125;
+</code></pre>
 <p>这里实现的逻辑是：</p>
 <p>1、parallelStream()：并行流模拟多用户抢购</p>
 <p>2、(startTime + timeout) &gt;= System.currentTimeMillis()：判断未抢成功的用户，timeout秒内继续获取锁</p>
@@ -204,9 +346,9 @@
 <p>4、lettuceCommand.setnx(shangpingKey, b)：用户获取抢购锁</p>
 <p>5、获取锁后并下单成功，最后释放锁：lettuceCommand.delnx(shangpingKey, b)</p>
 <p>再来看下记录的日志结果：</p>
-<p><img alt="图片" src="/images/008i3skNly1gz68sbgcmcj30je0c7aba.png"></p>
+<p><img loading="lazy" alt="图片" src="/images/008i3skNly1gz68sbgcmcj30je0c7aba.png"></p>
 <p>最终返回抢购成功的用户：</p>
-<p><img alt="图片" src="/images/008i3skNgy1gz68tch07vj30jl01qmxc.png"></p>
+<p><img loading="lazy" alt="图片" src="/images/008i3skNgy1gz68tch07vj30jl01qmxc.png"></p>
 <h2 id="jedis和lettuce性能比较"><a title="jedis和lettuce性能比较" class="headerlink" href="#jedis和lettuce性能比较"></a>jedis和lettuce性能比较</h2><p>抢单jedis实现耗时：<br>   第一次：10736ms<br>   第二次：10218ms<br>   第三次：10330ms<br>   第四次：10660ms<br>   第五次：10177ms<br>   平均：10424.2ms</p>
 <p>lettuce实现耗时：<br>    第一次: 10186ms<br>    第二次：10240ms<br>    第三次：10307ms<br>    第四次：10518ms<br>    第五次：10187ms<br>    平均: 10287.6ms   </p>
 <p>综合下来，lettuce的响应要稍微快些。</p>
@@ -257,7 +399,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/redis/">redis</a><a href="/tags/lettuce/">lettuce</a><a href="/tags/分布式锁/">分布式锁</a>
+  <span></span> <a href="/tags/redis/">redis</a><a href="/tags/分布式锁/">分布式锁</a><a href="/tags/lettuce/">lettuce</a>
   </div>
 
 </div>
@@ -568,11 +710,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -665,15 +807,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

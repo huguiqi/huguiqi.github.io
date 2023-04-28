@@ -133,10 +133,41 @@
 <p>   加密算法：SCRAM-SHA-256</p>
 <h2 id="收集容器日志输出到kafka"><a title="收集容器日志输出到kafka" class="headerlink" href="#收集容器日志输出到kafka"></a>收集容器日志输出到kafka</h2><p>使用阿里开源的log-ploit来收集容器日志，然后输出到kafka</p>
 <p>docker-compose:</p>
+<pre><code>version: '3.2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  pilot:
+    image: hz-log-pilot:1.0.3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /:/host
+    privileged: true
+    environment:
+      - LOGGING_OUTPUT=kafka
+      - KAFKA_BROKERS=test-kafka-idc-1.xxx.com:9092
+      - KAFKA_VERSION=0.11.0
+      - KAFKA_USERNAME=admin
+      - KAFKA_PASSWORD=xxx
+      - KAFKA_MECHANISM=SCRAM-SHA-256
+      - KAFKA_SSL=true
+      - KAFKA_PROTOCOL=PLAIN
+    labels:
+      aliyun.global: true
 
+  hello-node:
+    image: hello-node:1.0
+    ports:
 
+   - "9003:8888"
+     vironment:
+        - aliyun_logs_topic-devops=stdout
+          aliyun_logs_topic-devops_format=json
+             - aliyun_logs_topic-devops_tags=appId=backend,appName=test-app
 
-
+</code></pre>
 <p>经过测试发现这个在我厂的kafka服务端的配置中，是无法将日志发送过去的，但在我自己搭建的kafka服务器上可以正常输出到kafka。</p>
 <p>后面经过一通查找，发现ploit这个组件底层使用的filebeat是不支持SCRAM-SHA-256的加密的，气死。。。。。</p>
 <h2 id="写代码方案-选组件"><a title="写代码方案-选组件" class="headerlink" href="#写代码方案-选组件"></a>写代码方案-选组件</h2><p>必应了一下，关键字: nodejs kafka</p>
@@ -145,12 +176,55 @@
 <p><a target="_blank" rel="noopener" href="https://github.com/tulios/kafkajs">https://github.com/tulios/kafkajs</a></p>
 <p>然后写了个test:</p>
 <h3 id="kafkajs"><a title="kafkajs" class="headerlink" href="#kafkajs"></a>kafkajs</h3><p>kafka.test-spec.ts:</p>
+<pre><code class="nodejs">const &#123; Kafka &#125; = require('kafkajs')
+
+const kafka = new Kafka(&#123;
+    // clientId: 'devops',
+    logLevel: 5,
+    brokers: ['10.105.141.164:49171'],
+    authenticationTimeout: 1000,
+    reauthenticationThreshold: 10000,
+    sasl: &#123;
+        mechanism: "SCRAM-SHA-256",
+        username: "admin",
+        password: "xxxx"
+    &#125;
+&#125;);
+
+const topic = 'test1'
+const producer = kafka.producer()
+
+
+const sendMessage = async () =&gt; &#123;
+    await producer.connect()
+    return producer
+        .send(&#123;
+            topic,
+            compression: Kafka.CompressionTypes.None,
+            messages: [
+                &#123;topic:"test",messages:JSON.stringify(&#123;"name":"jack","age":"120"&#125;),partition:0&#125;
+            ],
+        &#125;)
+        .then(console.log)
+        .catch(e =&gt; console.error(`[example/producer] $&#123;e.message&#125;`, e))
+&#125;
 
 
 
+describe('kafka tests', function() &#123;
+    describe('send Tests', function() &#123;
+        this.timeout(15000);
+        it('should connection success', async function (done) &#123;
+                await sendMessage();
+            done();
 
+        &#125;,4000);
+
+    &#125;);
+&#125;);
+</code></pre>
 <p>webstorm(集成nodejs单元测试)运行一下，发现无法连接:</p>
-<p><img alt="image-20210811175832351" src="/images/008i3skNly1gtd044e5bkj61hv0u0ao902.png"></p>
+<p><img loading="lazy" alt="image-20210811175832351" src="/images/008i3skNly1gtd044e5bkj61hv0u0ao902.png"></p>
 <p>原因是，因为kafka-server端使用的加密协议是：<code>SASL_PLAINTEXT</code>，但kafkajs只支持plain协议，所有无法连接。</p>
 <p>再加上kafka-server端使用的版本是：2.3.0，虽然kafkajs说支持kafka的版本是0.11+，有可能2.x还不支持。</p>
 <p>后面又看到说kafka-node也挻火，所以又写了个test。</p>
@@ -160,26 +234,183 @@
 </blockquote>
 <p><a target="_blank" rel="noopener" href="https://github.com/SOHU-Co/kafka-node">https://github.com/SOHU-Co/kafka-node</a></p>
 <p>是soho的库，说是支持0.9之后的版本，上代码：</p>
+<pre><code class="nodejs">var assert = require('assert');
+
+var expect = require('chai').expect;
+
+var kafka = require('kafka-node'),
+    Producer = kafka.Producer,
+    KeyedMessage = kafka.KeyedMessage,
+    client = new kafka.KafkaClient(&#123;kafkaHost: 'test-kafka-idc-1.xxx.com:9092', connectTimeout: 3000, sasl:&#123;mechanism: 'scram-sha-256', username: 'admin', password: 'xxx'&#125; &#125;),
+    producer = new Producer(client),
+    km = new KeyedMessage('key', 'message');
 
 
 
+var producerOption = &#123;
+    requireAcks: 1,
+    ackTimeoutMs: 100,
+    partitionerType: 0 //默认为第一个分区
+&#125;;
+ producer = new Producer(client,producerOption);
 
+
+function getPayloads()&#123;
+    return [
+        &#123;topic:"test",messages:JSON.stringify(&#123;"name":"jack","age":"120"&#125;),partition:0&#125;
+    ];
+&#125;
+
+describe('kafka tests', function() &#123;
+    describe('send Tests', function() &#123;
+        this.timeout(15000);
+        it('should connection success',  function (done) &#123;
+            producer.on('ready', async function () &#123;
+                producer.send(getPayloads(), function (err, data) &#123;
+                    if (err) &#123;
+                        console.log('[kafka-producer -&gt; test1]: broker update failed');
+                    &#125; else &#123;
+                        console.log('[kafka-producer -&gt; test1]: broker update success');
+                    &#125;
+                    done();
+                &#125;);
+            &#125;);
+            producer.on('error', function (err) &#123;
+                console.log('error:'+err.toString());
+                done();
+            &#125;)
+
+        &#125;,6000);
+
+    &#125;);
+&#125;);
+
+
+// 函数实现，参数单位 秒 ；
+function wait(second) &#123;
+    // execSync 属于同步方法；异步方式请根据需要自行查询 node.js 的 child_process 相关方法；
+    let ChildProcess_ExecSync = require('child_process').execSync;
+    ChildProcess_ExecSync('sleep ' + second);
+&#125;;
+</code></pre>
 <p>还是无法连接，报连接超时：</p>
-<p><img alt="image-20210811183231115" src="/images/008i3skNly1gtd13fg1soj61ns0bcmyi02.png"></p>
+<p><img loading="lazy" alt="image-20210811183231115" src="/images/008i3skNly1gtd13fg1soj61ns0bcmyi02.png"></p>
 <p>在他github上发现，已经两年没更新了，看来是不维护了，估计还是不支持那个协议，或者是客户端版本不匹配问题。</p>
 <p>还是上kafka官网看看吧，在官网上看到kafka client端支持：</p>
 <p><a target="_blank" rel="noopener" href="https://cwiki.apache.org/confluence/display/KAFKA/Clients">https://cwiki.apache.org/confluence/display/KAFKA/Clients</a></p>
 <p>发现了nodejs的支持的库，官方推荐排在第一的是：node-rdkafka</p>
-<p><img alt="image-20210811183700339" src="/images/008i3skNgy1gtd183uv2tj60u00w8dj602.png"></p>
+<p><img loading="lazy" alt="image-20210811183700339" src="/images/008i3skNgy1gtd183uv2tj60u00w8dj602.png"></p>
 <p>虽然kafka-node排第二，但是貌似不支持我厂kafka服务端的协议配置。</p>
 <h3 id="node-rdkafka"><a title="node-rdkafka" class="headerlink" href="#node-rdkafka"></a>node-rdkafka</h3><p><a target="_blank" rel="noopener" href="https://github.com/Blizzard/node-rdkafka">https://github.com/Blizzard/node-rdkafka</a></p>
 <p>同样写个test, rd-kafka.test-spec.ts:</p>
+<pre><code class="nodejs">var assert = require('assert');
+
+var expect = require('chai').expect;
+const Kafka = require('node-rdkafka')
+const ERR_TOPIC_ALREADY_EXISTS = 36;
+const config = &#123;
+    'bootstrap.servers': 'test-kafka-idc-1.xxx.com:9092',
+    'sasl.username': 'admin',
+    'sasl.password': 'xxx',
+    'security.protocol': 'SASL_PLAINTEXT',
+    'sasl.mechanisms': 'SCRAM-SHA-256'
+&#125;;
+
+const topic = 'topic-devops';
+
+function getPayloads()&#123;
+    return [
+        &#123;topic:topic,messages:JSON.stringify(&#123;"name":"jack","age":"120"&#125;),partition:0&#125;
+    ];
+&#125;
+
+describe('kafka tests', function() &#123;
+    describe('send Tests', function() &#123;
+        this.timeout(15000);
+        it('should connection success', async function (done) &#123;
+            await produceExample();
+        &#125;,6000);
+
+    &#125;);
+&#125;);
+
+function ensureTopicExists() &#123;
+    const adminClient = Kafka.AdminClient.create(config);
+
+    return new Promise((resolve, reject) =&gt; &#123;
+        adminClient.createTopic(&#123;
+            topic: topic,
+            num_partitions: 1,
+            replication_factor: 3
+        &#125;, (err) =&gt; &#123;
+            if (!err) &#123;
+                console.log(`Created topic $&#123;config.topic&#125;`);
+                return resolve();
+            &#125;
+
+            if (err.code === ERR_TOPIC_ALREADY_EXISTS) &#123;
+                return resolve();
+            &#125;
+
+            return reject(err);
+        &#125;);
+    &#125;);
+&#125;
+
+async function produceExample() &#123;
 
 
+    // await ensureTopicExists();
+
+    const producer = await createProducer((err, report) =&gt; &#123;
+        if (err) &#123;
+            console.warn('Error producing', err)
+        &#125; else &#123;
+            const &#123;topic, partition, value&#125; = report;
+            console.log(`Successfully produced record to topic "$&#123;topic&#125;" partition $&#123;partition&#125; $&#123;value&#125;`);
+        &#125;
+    &#125;);
+
+    for (let idx = 0; idx &lt; 10; ++idx) &#123;
+        const key = 'alice';
+        const value = Buffer.from(JSON.stringify(&#123; name:key+idx,count: idx &#125;));
+
+        console.log(`Producing record $&#123;key&#125;\t$&#123;value&#125;`);
+
+        producer.produce(topic, -1, value, key);
+    &#125;
+
+    producer.flush(10000, () =&gt; &#123;
+        producer.disconnect();
+    &#125;);
+&#125;
+
+produceExample()
+    .catch((err) =&gt; &#123;
+        console.error(`Something went wrong:\n$&#123;err&#125;`);
+        process.exit(1);
+    &#125;);
 
 
+function createProducer(onDeliveryReport) &#123;
+    let proConfig = config;
+    proConfig['dr_msg_cb']=true;
+    const producer = new Kafka.Producer(proConfig);
+
+    return new Promise((resolve, reject) =&gt; &#123;
+        producer
+            .on('ready', () =&gt; resolve(producer))
+            .on('delivery-report', onDeliveryReport)
+            .on('event.error', (err) =&gt; &#123;
+                console.warn('event.error', err);
+                reject(err);
+            &#125;);
+        producer.connect();
+    &#125;);
+&#125;
+</code></pre>
 <p>webstorm执行一下：</p>
-<p><img alt="image-20210811184052421" src="/images/008i3skNgy1gtd1c4f6glj61ku0togwy02.png"></p>
+<p><img loading="lazy" alt="image-20210811184052421" src="/images/008i3skNgy1gtd1c4f6glj61ku0togwy02.png"></p>
 <p>发现已经发送成功，到后台查下，发现已经发过去了，太棒了。。。。。。</p>
 <p>这个问题之前已经困扰了我差不多一周时间了，特此记录下来，方便后面的同学参考。。。。。。</p>
 <p><a target="_blank" rel="noopener" href="https://docs.confluent.io/platform/current/tutorials/examples/clients/docs/nodejs.html">https://docs.confluent.io/platform/current/tutorials/examples/clients/docs/nodejs.html</a></p>
@@ -508,11 +739,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -605,15 +836,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

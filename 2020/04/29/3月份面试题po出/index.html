@@ -14,12 +14,12 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="3月份面试题PO出上周去面试了，本来应该上周未就应该把这些题目都研究下的，但是我落魄了我面试的是全栈工程师，结果是扑街了。。。。。可能是因为聊天时没发挥好，下次要注意了，要有激情。。。。。 面试内容： 一，浏览器跨域问题怎么解决先来说说，什么是跨域问题？ 什么是跨域？概念：只要协议、域名、端口有任何一个不同，都被当作是不同的域。 言简意骇吧来看例子：  ps:对于端口和协议的不同，只能通过后台来解">
+    <meta name="description" content="3月份面试题PO出上周去面试了，本来应该上周未就应该把这些题目都研究下的，但是我落魄了我面试的是全栈工程师，结果是扑街了。。。。。可能是因为聊天时没发挥好，下次要注意了，要有激情。。。。。 面试内容： 一，浏览器跨域问题怎么解决先来说说，什么是跨域问题？ 什么是跨域？概念：只要协议、域名、端口有任何一个不同，都被当作是不同的域。 言简意骇吧来看例子： URL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="三月份的面试题目">
 <meta property="og:url" content="http://clockcoder.com/2020/04/29/3%E6%9C%88%E4%BB%BD%E9%9D%A2%E8%AF%95%E9%A2%98po%E5%87%BA/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="3月份面试题PO出上周去面试了，本来应该上周未就应该把这些题目都研究下的，但是我落魄了我面试的是全栈工程师，结果是扑街了。。。。。可能是因为聊天时没发挥好，下次要注意了，要有激情。。。。。 面试内容： 一，浏览器跨域问题怎么解决先来说说，什么是跨域问题？ 什么是跨域？概念：只要协议、域名、端口有任何一个不同，都被当作是不同的域。 言简意骇吧来看例子：  ps:对于端口和协议的不同，只能通过后台来解">
+<meta property="og:description" content="3月份面试题PO出上周去面试了，本来应该上周未就应该把这些题目都研究下的，但是我落魄了我面试的是全栈工程师，结果是扑街了。。。。。可能是因为聊天时没发挥好，下次要注意了，要有激情。。。。。 面试内容： 一，浏览器跨域问题怎么解决先来说说，什么是跨域问题？ 什么是跨域？概念：只要协议、域名、端口有任何一个不同，都被当作是不同的域。 言简意骇吧来看例子： URL">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
 <meta property="article:modified_time" content="2023-02-16T11:41:06.931Z">
@@ -119,7 +119,24 @@
 <h2 id="一，浏览器跨域问题怎么解决"><a title="一，浏览器跨域问题怎么解决" class="headerlink" href="#一，浏览器跨域问题怎么解决"></a>一，浏览器跨域问题怎么解决</h2><p>先来说说，什么是跨域问题？</p>
 <h3 id="什么是跨域？"><a title="什么是跨域？" class="headerlink" href="#什么是跨域？"></a>什么是跨域？</h3><p>概念：只要协议、域名、端口有任何一个不同，都被当作是不同的域。</p>
 <p>言简意骇吧<br>来看例子：</p>
-
+<pre><code>URL                      说明       是否允许通信
+http://www.a.com/a.js
+http://www.a.com/b.js     同一域名下   允许
+http://www.a.com/lab/a.js
+http://www.a.com/script/b.js 同一域名下不同文件夹 允许
+http://www.a.com:8000/a.js
+http://www.a.com/b.js     同一域名，不同端口  不允许
+http://www.a.com/a.js
+https://www.a.com/b.js 同一域名，不同协议 不允许
+http://www.a.com/a.js
+http://70.32.92.74/b.js 域名和域名对应ip 不允许
+http://www.a.com/a.js
+http://script.a.com/b.js 主域相同，子域不同 不允许
+http://www.a.com/a.js
+http://a.com/b.js 同一域名，不同二级域名（同上） 不允许（cookie这种情况下也不允许访问）
+http://www.cnblogs.com/a.js
+http://www.a.com/b.js 不同域名 不允许
+</code></pre>
 <p><em>ps:对于端口和协议的不同，只能通过后台来解决。</em></p>
 
 
@@ -207,7 +224,11 @@ function test()&#123;
 </code></pre>
 </li>
 <li><p>在页面 <a target="_blank" rel="noopener" href="http://example.com/b.html">http://example.com/b.html</a> 中也设置document.domain:</p>
- </li>
+<pre><code>&lt;script type="text/javascript"&gt;
+  document.domain = 'example.com';//在iframe载入这个页面也设置document.domain，使之与主页面的document.domain相同
+&lt;/script&gt;
+</code></pre>
+</li>
 </ol>
 <p>修改document.domain的方法只适用于不同子域的框架间的交互。</p>
 <h3 id="使用window-name来进行跨域"><a title="使用window.name来进行跨域" class="headerlink" href="#使用window-name来进行跨域"></a>使用window.name来进行跨域</h3><p>window对象有个name属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个window.name的，每个页面对window.name都有读写的权限，window.name是持久存在一个窗口载入过的所有页面中的，可以将跨域的数据共享在这个name属性里。但是肯定无法放入太多数据。</p>
@@ -444,9 +465,9 @@ function test()&#123;
 
 
 <div class="next">
-<a href="/2020/04/29/@synthesize和@dynamic区别/"  title="synthesize和 dynamic区别">
+<a href="/2020/04/29/3d_touch例子一个/"  title="根据apple官方3D touch的例子写个3D Touch功能">
  <strong>下一篇：</strong><br/> 
- <span>synthesize和 dynamic区别
+ <span>根据apple官方3D touch的例子写个3D Touch功能
 </span>
 </a>
 </div>
@@ -723,11 +744,11 @@ function test()&#123;
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -820,15 +841,15 @@ function test()&#123;
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

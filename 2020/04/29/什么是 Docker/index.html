@@ -125,7 +125,7 @@
 
 <p>在 LXC 的基础上 Docker 进行了进一步的封装，让用户不需要去关心容器的管理，使得操作更为简便。用户操作 Docker 的容器就像操作一个快速轻量级的虚拟机一样简单。</p>
 <p>下面的图片比较了 Docker 和传统虚拟化方式的不同之处，可见容器是在操作系统层面上实现虚拟化，直接复用本地主机的操作系统，而传统方式则是在硬件层面实现。</p>
-<p><img alt="对比" src="http://dockerpool.com/static/books/docker_practice/_images/virtualization.png"></p>
+<p><img loading="lazy" alt="对比" src="http://dockerpool.com/static/books/docker_practice/_images/virtualization.png"></p>
 <h3 id="二-什么是boot2docker"><a title="二.什么是boot2docker?" class="headerlink" href="#二-什么是boot2docker"></a>二.什么是boot2docker?</h3><p>因为docker是运行在linux操作系统上的容器软件，不支持windows、unix（macos）,所以要想在windows电脑上或者mac电脑上安装doker,就要有linux环境，那么这需要一个基于linux的docker运行环境  </p>
 <ul>
 <li><p><em>boot2docker就是一个基于linux内核的docker容器环境</em></p>
@@ -139,7 +139,7 @@
 <li>   打开命令行，输入：boot2docker start</li>
 <li>   检查容器是否启动：boot2docker status</li>
 <li>   登陆连接docker容器：boot2docker ssh</li>
-<li>   成功进入后会有出现如下画面：<br><img alt="docker" src="/"></li>
+<li>   成功进入后会有出现如下画面：<br><img loading="lazy" alt="docker" src="/"></li>
 </ol>
 <h3 id="2-下载centos并制作os镜像"><a title="2. 下载centos并制作os镜像" class="headerlink" href="#2-下载centos并制作os镜像"></a>2. 下载centos并制作os镜像</h3><ol>
 <li>docker pull centos:6.7</li>
@@ -168,12 +168,34 @@
 <p>准备好dockerfile:</p>
 <pre><code>touch dockerfile 或者 vi dockerfile都可以
 </code></pre>
+<pre><code># The FROM instruction sets the Base Image for subsequent instructions.
+# Using Nginx as Base Image
+FROM node:4.2.2
 
 
+RUN \
+  mkdir -p /usr/src/app/blog &amp;&amp; cd /usr/src/app/blog &amp;&amp; \
+  # install hexo
+  npm install hexo-cli -g &amp;&amp; \
+  hexo init &amp;&amp; npm install &amp;&amp; \
+  # install plugins for hexo
+  npm install hexo-generator-sitemap --save &amp;&amp; \
+  npm install hexo-generator-baidu-sitemap --save
+ 
+COPY . /usr/src/app/blog
+
+VOLUME ["/usr/src/app/blog/source"]
+VOLUME ["/usr/src/app/blog/themes"]
+
+WORKDIR /usr/src/app/blog/
+
+# The EXPOSE instruction informs Docker that the container listens on the specified network ports at runtime
+EXPOSE 80
+</code></pre>
 <p>具体语法请看这里：<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/examples/nodejs_web_app/">dockerfile语法</a></p>
 <h4 id="构建代码生成镜像"><a title="构建代码生成镜像" class="headerlink" href="#构建代码生成镜像"></a>构建代码生成镜像</h4><p>由于我是用github帐号登陆的，所以daocloud可以直接获取我的代码：</p>
-<p><img alt="image" src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/AB9680CF-AF2D-42FF-BB71-948C9C26B032.png"></p>
-<h4 id="部署博客"><a title="部署博客" class="headerlink" href="#部署博客"></a>部署博客</h4><p><img alt="image" src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/247FB92A-0994-4E84-A23F-9EB4AD586F77.png"></p>
+<p><img loading="lazy" alt="image" src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/AB9680CF-AF2D-42FF-BB71-948C9C26B032.png"></p>
+<h4 id="部署博客"><a title="部署博客" class="headerlink" href="#部署博客"></a>部署博客</h4><p><img loading="lazy" alt="image" src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/247FB92A-0994-4E84-A23F-9EB4AD586F77.png"></p>
 <p>点击部署，部署完了以后可以设置自有域名，如果你没有域名，就直接域名daocloud提供的默认域名</p>
 <p><strong>参考学习:</strong><br><br></p>
 <ol>
@@ -222,18 +244,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/什么是 Docker | Docker —— 从入门到实践/" title="什么是 Docker | Docker —— 从入门到实践">
+ <a href="/2020/04/29/什么是SQL注入式攻击？/" title="什么是SQL注入式攻击？">
   <strong>上一篇：</strong><br/>
   <span>
-  什么是 Docker | Docker —— 从入门到实践</span>
+  什么是SQL注入式攻击？</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/什么是SQL注入式攻击？/"  title="什么是SQL注入式攻击？">
+<a href="/2020/04/29/从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)/"  title="从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)">
  <strong>下一篇：</strong><br/> 
- <span>什么是SQL注入式攻击？
+ <span>从用户友好性看中文长度的校验(页面与数据库对字符长度的不同表示)
 </span>
 </a>
 </div>
@@ -510,11 +532,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -607,15 +629,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

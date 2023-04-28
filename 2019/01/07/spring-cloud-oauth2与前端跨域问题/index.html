@@ -150,7 +150,7 @@ public class BackGatewayApplication &#123;
 </code></pre>
 <p>看着像是说跨域问题。</p>
 <p>但是，我们之前遇到的跨域大部分是浏览器的行为，将请求拦截了，但是这个不同的是他的请求发出去了，服务端也接收到了请求，并返回了，返回的失效token的提示，通过postman或者curl工具能正常返回，并且还有状态码：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1546866135627qlw7n1a0.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1546866135627qlw7n1a0.png?imageslim"></p>
 <p>但是通过ajax请求浏览器访问，却总是出现error,以下是用jquery的ajax请求：</p>
 <pre><code>$(document).ready(function()&#123;
     $("button").click(function()&#123;
@@ -187,7 +187,7 @@ public class BackGatewayApplication &#123;
 &#125;);
 </code></pre>
 <p>调用ajax请求后，总是直接调用了error的回调方法，并在控制台打印：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1546874949672jvi5ks3f.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1546874949672jvi5ks3f.png?imageslim"></p>
 <p>打印的xhr是：</p>
 <pre><code>&#123;"readyState":0,"responseText":"","status":0,"statusText":"error"&#125;
 </code></pre>
@@ -234,14 +234,14 @@ public class BackGatewayApplication &#123;
 <pre><code>httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
 </code></pre>
 <p>再次访问，就得到了状态码：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/15468766676916dme9nbx.png?imageslim">![paste image]</p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/15468766676916dme9nbx.png?imageslim">![paste image]</p>
 <p>而这次是在complete方法里取得了xhr:</p>
 <pre><code>&#123;"readyState":4,"responseText":"&#123;\"msg\":\"无效的token\",\"code\":401&#125;","responseJSON":&#123;"msg":"无效的token","code":401&#125;,"status":403,"statusText":"error"&#125;
 </code></pre>
 <p>得到的状态值是4，status值是403。</p>
 <p>在这里还没完，因为我用的是security+oauth2,在gateway处理所有资源请求的权限认证的，而在oauth2这里，确有个头疼的问题，在token失效的时候，我就拿不到readyState，也一直是0，说这个问题的之前，先来说下我的架构。</p>
 <h2 id="系统架构"><a title="系统架构" class="headerlink" href="#系统架构"></a>系统架构</h2><p>目前我的服务请求流程大致是这样：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1546865302940pgu0d42v.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1546865302940pgu0d42v.png?imageslim"></p>
 <p>所有的资源请求都经过gateway转发并在gateway认证(在oauth2里把gateway作为一个总的资源服务器配置来校验各资源服务器的权限)，调用认证服务器去校验token的正确性。</p>
 <p>而oauth2的工作流程大致是：</p>
 <p>OAuth2AuthenticationProcessingFilter：</p>
@@ -325,7 +325,7 @@ public class BackGatewayApplication &#123;
     &#125;
 </code></pre>
 <p>再次访问，完美解决。。。。。</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1546878109010bsidige0.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1546878109010bsidige0.png?imageslim"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -640,11 +640,11 @@ public class BackGatewayApplication &#123;
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -737,15 +737,15 @@ public class BackGatewayApplication &#123;
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

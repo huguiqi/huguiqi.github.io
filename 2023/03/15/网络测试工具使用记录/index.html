@@ -123,10 +123,11 @@
 <h2 id="networkQuality使用教程"><a title="networkQuality使用教程" class="headerlink" href="#networkQuality使用教程"></a>networkQuality使用教程</h2><p>1.打开终端：点按「程序坞」中的「启动台」，在搜索栏中键入「终端」，然后点按「终端」图标。</p>
 <p>2.在打开的终端窗口中，输入 networkQuality，然后回车。</p>
 <p>此时就会自动进行检测，大约30秒出结果。</p>
-
-
-
-
+<pre><code class="====">    Uplink capacity: 0.000 bps
+    Downlink capacity: 28.640 Mbps
+    Responsiveness: Low (10 RPM)
+    Idle Latency: 48.792 milli-seconds
+</code></pre>
 <h2 id="做成workflow"><a title="做成workflow" class="headerlink" href="#做成workflow"></a>做成workflow</h2><ol>
 <li><p>打开workflow设置，找到Workflows, 点+号添加</p>
 </li>
@@ -134,13 +135,35 @@
 </li>
 </ol>
 <p>定义好关键字，然后在Run Script的内容里加入以下：</p>
-<pre><code><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">exec osascript &lt;&lt;EOF</span><br><span class="line"></span><br><span class="line">  tell application &quot;System Events&quot;</span><br><span class="line">    -- some versions might identify as &quot;iTerm2&quot; instead of &quot;iTerm&quot;</span><br><span class="line">    set isRunning to (exists (processes where name is &quot;iTerm&quot;)) or (exists (processes where name is &quot;iTerm2&quot;))</span><br><span class="line">  end tell</span><br><span class="line"></span><br><span class="line">  tell application &quot;iTerm&quot;</span><br><span class="line">    activate</span><br><span class="line">    set hasNoWindows to ((count of windows) is 0)</span><br><span class="line">    if isRunning and hasNoWindows then</span><br><span class="line">      create window with default profile</span><br><span class="line">      tell current session  of current window to write text &quot;networkQuality&quot;</span><br><span class="line">    end if</span><br><span class="line">    select first window</span><br><span class="line">    tell current session  of current window to write text &quot;networkQuality&quot;</span><br><span class="line">  end tell</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">EOF</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>``` shell
+exec osascript &lt;&lt;EOF
+
+  tell application "System Events"
+    -- some versions might identify as "iTerm2" instead of "iTerm"
+    set isRunning to (exists (processes where name is "iTerm")) or (exists (processes where name is "iTerm2"))
+  end tell
+
+  tell application "iTerm"
+    activate
+    set hasNoWindows to ((count of windows) is 0)
+    if isRunning and hasNoWindows then
+      create window with default profile
+      tell current session  of current window to write text "networkQuality"
+    end if
+    select first window
+    tell current session  of current window to write text "networkQuality"
+  end tell
+
+
+EOF
+
+```
 </code></pre>
 <p>点保存，就可以使用了。。。。。</p>
 <p>调出alfred, 输入：<code>nettest</code>:</p>
-<p><img alt="image-20230316101851638" src="/images/image-20230316101851638.png"></p>
+<p><img loading="lazy" alt="image-20230316101851638" src="/images/image-20230316101851638.png"></p>
 <p>回车:</p>
-<p><img alt="image-20230316104608463" src="/images/image-20230316104608463.png"></p>
+<p><img loading="lazy" alt="image-20230316104608463" src="/images/image-20230316104608463.png"></p>
 <h2 id="使用fast测试网速"><a title="使用fast测试网速" class="headerlink" href="#使用fast测试网速"></a>使用fast测试网速</h2><p>Fast 是 Netflix 提供的服务。它的网址是 <a target="_blank" rel="noopener" href="https://fast.com/">Fast.com</a>，同时它有一个可通过 npm 安装的命令行工具：</p>
 <pre><code>npm install --global fast-cli
 </code></pre>
@@ -159,7 +182,7 @@ bwi speedtest-cli
 <pre><code>speedtest
 </code></pre>
 <p>返回：</p>
-<p><img alt="image-20230316110740775" src="/images/image-20230316110740775.png"></p>
+<p><img loading="lazy" alt="image-20230316110740775" src="/images/image-20230316110740775.png"></p>
 <h2 id="测试局域网网络性能"><a title="测试局域网网络性能" class="headerlink" href="#测试局域网网络性能"></a>测试局域网网络性能</h2><h2 id="iPerf"><a title="iPerf" class="headerlink" href="#iPerf"></a>iPerf</h2><p><a target="_blank" rel="noopener" href="https://iperf.fr/">iPerf</a> 测试的是局域网速度（而不是像前两个工具一样测试互联网速度）的好方法</p>
 <p>安装完成后，你需要在同一网络上的两台计算机上使用它（两台都必须安装 iPerf）。指定其中一台作为服务器。</p>
 <p>获取服务端计算机的 IP 地址：</p>
@@ -525,11 +548,11 @@ bwi speedtest-cli
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -622,15 +645,15 @@ bwi speedtest-cli
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

@@ -14,12 +14,12 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="给hexo博客添加站内搜索本来想用swiftype来做站内搜索，但是，因为GWF的缘故，只好放弃，使用百度来做站内搜索先放一下演示：swiftype搜索演示 一，注册百度站长帐号点击注册如果你是新用户，你首先应该在我的网站&#x2F;站点管理里先添加网站. 给你的hexo站点添加sitemap网站地图 安装hexo的sitemap网站地图生成插件     在你的hexo站点的_config.yml添加下面的">
+    <meta name="description" content="给hexo博客添加站内搜索本来想用swiftype来做站内搜索，但是，因为GWF的缘故，只好放弃，使用百度来做站内搜索先放一下演示：swiftype搜索演示 一，注册百度站长帐号点击注册如果你是新用户，你首先应该在我的网站&#x2F;站点管理里先添加网站. 给你的hexo站点添加sitemap网站地图 安装hexo的sitemap网站地图生成插件  npm install hexo-generator-si">
 <meta property="og:type" content="article">
 <meta property="og:title" content="给hexo博客添加站内搜索(折腾死了)">
 <meta property="og:url" content="http://clockcoder.com/2020/04/29/%E7%BB%99hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="给hexo博客添加站内搜索本来想用swiftype来做站内搜索，但是，因为GWF的缘故，只好放弃，使用百度来做站内搜索先放一下演示：swiftype搜索演示 一，注册百度站长帐号点击注册如果你是新用户，你首先应该在我的网站&#x2F;站点管理里先添加网站. 给你的hexo站点添加sitemap网站地图 安装hexo的sitemap网站地图生成插件     在你的hexo站点的_config.yml添加下面的">
+<meta property="og:description" content="给hexo博客添加站内搜索本来想用swiftype来做站内搜索，但是，因为GWF的缘故，只好放弃，使用百度来做站内搜索先放一下演示：swiftype搜索演示 一，注册百度站长帐号点击注册如果你是新用户，你首先应该在我的网站&#x2F;站点管理里先添加网站. 给你的hexo站点添加sitemap网站地图 安装hexo的sitemap网站地图生成插件  npm install hexo-generator-si">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://gengbiao.me/img/baidu/baidu_add_site.png">
 <meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
@@ -117,17 +117,22 @@
 		</div>
 		
 		<h1 id="给hexo博客添加站内搜索"><a title="给hexo博客添加站内搜索" class="headerlink" href="#给hexo博客添加站内搜索"></a>给hexo博客添加站内搜索</h1><p>本来想用swiftype来做站内搜索，但是，因为GWF的缘故，只好放弃，使用百度来做站内搜索<br>先放一下演示：<a target="_blank" rel="noopener" href="http://huguiqi.com/">swiftype搜索演示</a></p>
-<h2 id="一，注册百度站长帐号"><a title="一，注册百度站长帐号" class="headerlink" href="#一，注册百度站长帐号"></a>一，注册百度站长帐号</h2><p><a target="_blank" rel="noopener" href="http://zhanzhang.baidu.com/">点击注册</a><br>如果你是新用户，你首先应该在我的网站/站点管理里先添加网站.<br><img alt="注册" src="http://gengbiao.me/img/baidu/baidu_add_site.png"></p>
+<h2 id="一，注册百度站长帐号"><a title="一，注册百度站长帐号" class="headerlink" href="#一，注册百度站长帐号"></a>一，注册百度站长帐号</h2><p><a target="_blank" rel="noopener" href="http://zhanzhang.baidu.com/">点击注册</a><br>如果你是新用户，你首先应该在我的网站/站点管理里先添加网站.<br><img loading="lazy" alt="注册" src="http://gengbiao.me/img/baidu/baidu_add_site.png"></p>
 <h3 id="给你的hexo站点添加sitemap网站地图"><a title="给你的hexo站点添加sitemap网站地图" class="headerlink" href="#给你的hexo站点添加sitemap网站地图"></a>给你的hexo站点添加sitemap网站地图</h3><ol>
 <li>安装hexo的sitemap网站地图生成插件</li>
 </ol>
-
-
+<pre><code>npm install hexo-generator-sitemap --save
+npm install hexo-generator-baidu-sitemap --save
+</code></pre>
 <ol start="2">
 <li>在你的hexo站点的_config.yml添加下面的代码</li>
 </ol>
-
-
+<pre><code># hexo sitemap网站地图
+sitemap:
+path: sitemap.xml
+baidusitemap:
+path: baidusitemap.xml
+</code></pre>
 <p>虽然很多人说可以通过添加sitemap的方式向网站爬网站内容，但通过实践，我是没有成功的，去更新数据时，总是抓取失败，原因是服务器<strong>拒绝访问</strong>，根据百度的异常信息解释，可能是由于我的网站是托管在github上的，用gitpage的方式提供的空间，所以可能是拒绝百度这种方式爬的。</p>
 <p>我是参考其它人的一篇文章去做的<br><a target="_blank" rel="noopener" href="http://gengbiao.me/hexo/hexo%E6%B7%BB%E5%8A%A0%E7%99%BE%E5%BA%A6%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2/">给hexo添加百度站内搜索</a></p>
 <p>由于swiftype我一直没打开，所以就又转向了tinysou（这个是国内做的微搜索，速度什么的都还不错）,我参照了这篇文章进行添加：<br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/85cd68408f81">hexo添加tinysou站内搜索</a></p>
@@ -170,18 +175,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/羊皮卷/" title="羊皮卷">
+ <a href="/2020/04/29/管理者的自省/" title="如何准确清楚认识自己">
   <strong>上一篇：</strong><br/>
   <span>
-  羊皮卷</span>
+  如何准确清楚认识自己</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/美栈第一个迭代完成情况/"  title="美栈第一个迭代完成情况">
+<a href="/2020/04/29/精益创业/"  title="精益创业">
  <strong>下一篇：</strong><br/> 
- <span>美栈第一个迭代完成情况
+ <span>精益创业
 </span>
 </a>
 </div>
@@ -458,11 +463,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -555,15 +560,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

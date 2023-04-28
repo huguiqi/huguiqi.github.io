@@ -173,29 +173,38 @@ style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; 
 <li>Red Hat/Oracle Enterprise Linux ver. 6 (x86, 64-bit), RPM Package –<br>Client Utilities : MySQL-client-5.6.14-1.el6.x86_64.rpm</li>
 </ol>
 <p>To download on command line [Make sure that you have wget utility<br>installed, if not install it :</p>
-
-
+<pre><code class="&#123;style=&quot;box-sizing:">yum install wget
+</code></pre>
 <p>Now download the rpm’s with wget utility:</p>
+<pre><code class="&#123;style=&quot;box-sizing:">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/
 
+wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-client-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/
 
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-001.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/BC128684-5931-41F9-BFE1-895765AF6680.png"></a></p>
+wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-server-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/
+</code></pre>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-001.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/BC128684-5931-41F9-BFE1-895765AF6680.png"></a></p>
 <p>Now start installing rpms onto your server:</p>
 <p>Make sure that Perl is installed on your server before you install<br>MySQL, if not MySQL server rpm will complain that it cannot be<br>installed. So its kind of pre-requisite.</p>
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-002.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/433C6E4B-183D-4296-AEA5-854621C0874C.png"></a></p>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-002.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/433C6E4B-183D-4296-AEA5-854621C0874C.png"></a></p>
 <p>To Install perl run :</p>
-
-
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-003.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/A551A323-47EB-4EC8-9B4E-313A4A0CBBF5.png"></a></p>
+<pre><code class="&#123;style=&quot;box-sizing:">yum install perl
+</code></pre>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-003.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/A551A323-47EB-4EC8-9B4E-313A4A0CBBF5.png"></a></p>
 <p>Install MySQL 5.6 rpms now :</p>
 <p>Start with shared libraries first and then work towards installing<br>server and client utilities at the very end.</p>
+<pre><code class="&#123;style=&quot;box-sizing:">rpm -ivh MySQL-shared-5.6.14-1.el6.x86_64.rpm
 
+rpm -ivh MySQL-server-5.6.14-1.el6.x86_64.rpm
 
+rpm -ivh MySQL-client-5.6.14-1.el6.x86_64.rpm
+</code></pre>
 <p>If you have conflicts with existing libs(install of<br>MySQL-server-5.6.10-1.el6.x86_64 conflicts with file from package<br>mysql-libs-5.1.66-2.el6_3.x86_64), please download shared-compact<br>package and do the following (Once complete, please re-install as stated<br>above) :</p>
-
-
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-004.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/C42AF6A2-001A-4AF7-A5A0-A2CB61B7EFE9.png"></a></p>
+<pre><code class="&#123;style=&quot;box-sizing:">wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-shared-compat-5.6.14-1.el6.x86_64.rpm/from/http://cdn.mysql.com/
+rpm -UvhMySQL-shared-compat-5.6.10-1.el6.x86_64.rpm
+</code></pre>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-004.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/C42AF6A2-001A-4AF7-A5A0-A2CB61B7EFE9.png"></a></p>
 <p>&nbsp;</p>
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-005.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/489AAA32-29FC-4F60-9D57-DCD281701469.png"></a></p>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-005.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/489AAA32-29FC-4F60-9D57-DCD281701469.png"></a></p>
 <p>&nbsp;</p>
 <p>On a successful install you should be seeing the log below:</p>
 <p>&nbsp;</p>
@@ -221,54 +230,54 @@ style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; 
 <p><em>Support MySQL by buying support/licenses at <a target="_blank" rel="noopener" href="http://shop.mysql.com/">http://shop.mysql.com</a></em></p>
 <p><em>WARNING: Found existing config file /usr/my.cnf on the system. Because<br>this file might be in use, it was not replaced, but was used in<br>bootstrap (unless you used –defaults-file) and when you later start the<br>server. The new default config file was created as /usr/my-new.cnf,<br>please compare it with your file and take the changes you need.</em></p>
 <p>&nbsp;</p>
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-007.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/0251429D-A06A-4B5E-BA32-480C095C86A8.png"></a></p>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-007.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/0251429D-A06A-4B5E-BA32-480C095C86A8.png"></a></p>
 <p>&nbsp;Its all done, lets set some passwords, create user and grant access to<br>outside clients for accessing the database:</p>
 <p>&nbsp;In MySQL 5.6 root has a default password assigned and its located<br>at&nbsp;<strong>/root/.mysql_secret</strong>&nbsp;file as mention in MySQL server Installation<br>log.</p>
-<p>&nbsp;<a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-008.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/45816615-FC51-4876-91E6-0A0EDA0A25B9.png"></a></p>
+<p>&nbsp;<a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-008.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/45816615-FC51-4876-91E6-0A0EDA0A25B9.png"></a></p>
 <p>&nbsp;cat that file :</p>
-
-
+<pre><code class="&#123;style=&quot;box-sizing:">cat /root/.mysql_secret
+</code></pre>
 <p>to get the password that has been set for MySQL default root user</p>
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-009.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/7033909A-E5C0-444A-8BD7-D5CD904AFAAE.png"></a></p>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-009.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/7033909A-E5C0-444A-8BD7-D5CD904AFAAE.png"></a></p>
 <p>Now lets login to the database server for the first time and set<br>password. That’s the only first SQL command that works before you can<br>proceed any further. To do that we need to start our newly installed<br>database server.</p>
-
-
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-010.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/D28BF1D0-E822-4636-92C2-B39B7183DE3B.png"></a></p>
+<pre><code class="&#123;style=&quot;box-sizing:">service mysql start
+</code></pre>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-010.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/D28BF1D0-E822-4636-92C2-B39B7183DE3B.png"></a></p>
 <p>Now login into database server using MySQL client utility and change<br>password. To login into database server simply run command below and<br>provide with the password that installation generated for you in<br>/root/.mysql_secret file.</p>
-
-
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-011.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/1B793CBA-29E0-4694-9689-6BFCD1BC8501.png"></a></p>
+<pre><code class="&#123;style=&quot;box-sizing:">mysql -uroot -p
+</code></pre>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-011.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/1B793CBA-29E0-4694-9689-6BFCD1BC8501.png"></a></p>
 <p>Once you logged in, you have to change your root users default password.<br>You cannot run any others commands.</p>
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-012.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/9F48EC8F-558D-413D-B80A-BF8B7D507A57.png"></a></p>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-012.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/9F48EC8F-558D-413D-B80A-BF8B7D507A57.png"></a></p>
 <p>To change MySQL 5.6 database server root password simply run this<br>command :</p>
-
-
+<pre><code class="&#123;style=&quot;box-sizing:">SET PASSWORD FOR 'root' 'localhost'= PASSWORD('opensourcedbms');
+</code></pre>
 <p>Also there are other root users in MySQL if you are familiar with its<br>users table [<em>root 127.0.0.1 ; root ::1, root hostname</em>], once you<br>login with superuser you can update all of them later. Also once all<br>this is done you can remove /root/.mysql_secret file.</p>
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-013.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/F16661B7-0A03-417A-B9E4-FD0C2939EEBB.png"></a></p>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-013.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/F16661B7-0A03-417A-B9E4-FD0C2939EEBB.png"></a></p>
 <p>Now that you have set root user password, create a super user to access<br>database server from outside server. Its generally not a good practice<br>to grant root user access to outside world.</p>
-
-
-
-
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-014.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/B2855C09-D932-482F-A9BE-2D161DF347E4.png"></a></p>
+<pre><code class="&#123;style=&quot;box-sizing:">CREATE USER 'superadmin' '%' IDENTIFIED BY 'opensourcedbmsadmin';
+</code></pre>
+<pre><code class="&#123;style=&quot;box-sizing:">GRANT ALL ON *.* TO 'superadmin' '%' WITH GRANT OPTION;
+</code></pre>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-014.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/B2855C09-D932-482F-A9BE-2D161DF347E4.png"></a></p>
 <p>Now you can exit out of mysql command line client<br>[Type&nbsp;<strong>\q</strong>&nbsp;or&nbsp;<strong>quit</strong>&nbsp;to exit] and we can use this newly created<br>user to access this database server from outside world. Before you can<br>do that, make sure that your server firewall rules are updated for<br>granting this server to respond at port 3306 for outside world. First<br>get out of the mysql command line client and to add a new firewall rule<br>to your CentOS database server firewall rules and to do that edit</p>
-
-
+<pre><code class="&#123;style=&quot;box-sizing:">vi /etc/sysconfig/iptables
+</code></pre>
 <p>file and add the following line:</p>
-
-
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-015.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AAC3956C-4E4F-4149-89EB-EF1022AD3544.png"></a></p>
+<pre><code class="&#123;style=&quot;box-sizing:">-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306-j ACCEPT
+</code></pre>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-015.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AAC3956C-4E4F-4149-89EB-EF1022AD3544.png"></a></p>
 <p>Save and exit out of the file and restart iptables for the new rule to<br>take effect. To restart iptables, simply run the following command :</p>
-
-
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-017.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/897A1C95-59A7-4008-B6C8-3D692F36C6FF.png"></a></p>
+<pre><code class="&#123;style=&quot;box-sizing:">service iptables restart
+</code></pre>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-017.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/897A1C95-59A7-4008-B6C8-3D692F36C6FF.png"></a></p>
 <p>Last but not least make sure that this new MySQL server is enabled to<br>auto start when server restarts.</p>
-
-
+<pre><code class="&#123;style=&quot;box-sizing:">chkconfig mysql --level 2345 on
+</code></pre>
 <p>Now you are ready to connect to this database server from any host in<br>your network. Simply open a database client [MySQL Workbench / Navicat<br>/ SQLYog are few clients that you can use to access it from GUI side of<br>things] that you installed and provide the new super user/password that<br>you created and the host-name of this server and there you will be in<br>your new database server.</p>
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2012/07/Image-014.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AE614895-ABCD-4A2F-8FB9-279C8C3A7879.png"></a><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2012/07/Image-015.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/E0DF7E72-6ABA-429B-8D7E-E7F5F022EC3B.png"></a></p>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2012/07/Image-014.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/AE614895-ABCD-4A2F-8FB9-279C8C3A7879.png"></a><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2012/07/Image-015.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/E0DF7E72-6ABA-429B-8D7E-E7F5F022EC3B.png"></a></p>
 <p>If you are running this server in a virtual box environment, make sure<br>that you do port forwarding (NAT Only) to pass through 3306 database<br>port to guest VM which can be done by going to settings of your VM &gt;<br>Network &gt; Advanced &gt; Port forwarding. This is more specific to<br>Oracle Virtual Box.</p>
-<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-018.png"><img src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/4687B363-995A-4695-896E-2F5F8ED345F3.png"></a></p>
+<p><a title="How to Install MySQL 5.6 on CentOS 6.3/RedHat EL6/Fedora" target="_blank" rel="noopener" href="http://opensourcedbms.com/dbms/wp-content/uploads/2013/01/Image-018.png"><img loading="lazy" src="/HOW%20TO%20INSTALL%20MYSQL%205.6%20ON%20CENTOS%206.3_REDHAT%20EL6_FEDORA.resources/4687B363-995A-4695-896E-2F5F8ED345F3.png"></a></p>
 </div>
 
 </div>
@@ -314,18 +323,18 @@ style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; 
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/HTTP 304 错误的详细解释/" title="HTTP 304 错误的详细解释">
+ <a href="/2020/04/29/GCD 深入理解（二） - 已标注/" title="GCD 深入理解（二） - 已标注">
   <strong>上一篇：</strong><br/>
   <span>
-  HTTP 304 错误的详细解释</span>
+  GCD 深入理解（二） - 已标注</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/Export devices added in Apple's iOS Provision portal/"  title="Export devices added in Apple&#39;s iOS Provision portal">
+<a href="/2020/04/29/GCD 深入理解（一）/"  title="GCD 深入理解（一）">
  <strong>下一篇：</strong><br/> 
- <span>Export devices added in Apple&#39;s iOS Provision portal
+ <span>GCD 深入理解（一）
 </span>
 </a>
 </div>
@@ -602,11 +611,11 @@ style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; 
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -699,15 +708,15 @@ style="box-sizing: border-box; padding: 0px; border: 0px; font-family: inherit; 
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

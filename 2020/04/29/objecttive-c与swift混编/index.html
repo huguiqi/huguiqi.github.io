@@ -124,45 +124,82 @@
 		<h1 id="objecttive-c与swift混编"><a title="objecttive-c与swift混编" class="headerlink" href="#objecttive-c与swift混编"></a>objecttive-c与swift混编</h1><hr>
 <h2 id="title-objecttive-c与swift混编date-2020-04-29categories-swift-object-ctags-混编"><a title="title:  objecttive-c与swift混编date: 2020-04-29categories: swift object-ctags: 混编" class="headerlink" href="#title-objecttive-c与swift混编date-2020-04-29categories-swift-object-ctags-混编"></a>title:  objecttive-c与swift混编<br>date: 2020-04-29<br>categories: swift object-c<br>tags: 混编</h2><h3 id="objecttive-c与swift混编-1"><a title="objecttive-c与swift混编" class="headerlink" href="#objecttive-c与swift混编-1"></a>objecttive-c与swift混编</h3><h4 id="一-如何在objective-c的工程中使用swift"><a title="一. 如何在objective-c的工程中使用swift" class="headerlink" href="#一-如何在objective-c的工程中使用swift"></a>一. 如何在objective-c的工程中使用swift</h4><p>如果已经有了一个老的iOS应用，它是使用Objective-C编写的，而它的一些新功能需要采用Swift来编写，这时就可以从Objective-C调用Swift。</p>
 <p>Objective-C调用Swift时不需要桥接头文件，而是需要Xcode生成的头文件。这种文件由Xcode生成，不需要我们维护，对于开发人员也是不可见的。如图18-11所示，它能够将Swift中的类暴露给Objective-C，它的命名是：&lt;工程名&gt;-swift.h。我们需要将该头文件引入到Objective-C文件中，而且Swift中的类需要声明为 objc(凡是继承至NSObject的类不需要声明)。</p>
-<p>18-11:<br><img alt="18-11" src="http://7xqayq.com1.z0.glb.clouddn.com/image19.d18z.012.png"></p>
+<p>18-11:<br><img loading="lazy" alt="18-11" src="http://7xqayq.com1.z0.glb.clouddn.com/image19.d18z.012.png"></p>
 
 
 <ol>
 <li>建立一个SingleApp的工程，基于objecttive-c的</li>
 </ol>
-<p><img alt="18-12" src="http://7xqayq.com1.z0.glb.clouddn.com/image6AFB9B94-8C3C-4056-8971-90021C8B83A0.png"></p>
+<p><img loading="lazy" alt="18-12" src="http://7xqayq.com1.z0.glb.clouddn.com/image6AFB9B94-8C3C-4056-8971-90021C8B83A0.png"></p>
 <ol start="2">
 <li>新建一个swift类，继承自NSObject,写个简单的方法<ul>
 <li>SwiftClassDemo:</li>
 </ul>
 </li>
 </ol>
+<pre><code>    
+import Foundation
 
+class SwiftClassDemo: NSObject &#123;
+&lt;!--more--&gt;
 
+    func sayHello()-&gt;Void&#123;
+        print("hello");
+    &#125;
+    
+    func saygoodBye(greeting:String,withName:String)-&gt;String&#123;
+        return "say:\(greeting),my name is \(withName)";
+    &#125;
+&#125;
+</code></pre>
 <ol start="3">
-<li>调用Swift类中的方法<br><img alt="18-13" src="http://7xqayq.com1.z0.glb.clouddn.com/imageD0871092-502E-4EC9-B835-B347C6DAC55B.png"></li>
+<li>调用Swift类中的方法<br><img loading="lazy" alt="18-13" src="http://7xqayq.com1.z0.glb.clouddn.com/imageD0871092-502E-4EC9-B835-B347C6DAC55B.png"></li>
 </ol>
 <h4 id="二-swift工程中调用objective-c代码"><a title="二. swift工程中调用objective-c代码" class="headerlink" href="#二-swift工程中调用objective-c代码"></a>二. swift工程中调用objective-c代码</h4><ul>
 <li>在Swift工程中添加Objective-C类</li>
 </ul>
-<p> 我们刚刚创建了Swift的工程，还需要调用其他Objective-C类来实现某些功能，需要添加Objective-C类到Swift工程中。具体过程是，右键选择HelloWorld组，然后选择菜单中的“New File…”弹出新建文件模板对话框，如图18-6所示，选择“OS X→Source→Cocoa Class”。<br><img alt="18-6" src="http://www.ituring.com.cn/figures/2014/Swift/19.d18z.006.png"></p>
+<p> 我们刚刚创建了Swift的工程，还需要调用其他Objective-C类来实现某些功能，需要添加Objective-C类到Swift工程中。具体过程是，右键选择HelloWorld组，然后选择菜单中的“New File…”弹出新建文件模板对话框，如图18-6所示，选择“OS X→Source→Cocoa Class”。<br><img loading="lazy" alt="18-6" src="http://www.ituring.com.cn/figures/2014/Swift/19.d18z.006.png"></p>
 <p>图 18-6　新建文件模板</p>
 <p>接着单击“Next”按钮，随即出现如图18-7所示的界面。在Class中输入“ObjCObject”，在Language中选择Objective-C，其他的选项保持默认值就可以了。<br><br>  </p>
 <p>相关选项设置完成后，单击“Next”按钮，进入保存文件界面，根据提示选择存放文件的位置，然后单击“Create”按钮创建Objective-C类。如果是第一次创建Objective-C类，那么保存完成的时候，Xcode会提示我们是否添加桥接头文件，如图18-8所示，弹出一个对话框，我们应该选择“Yes”，之后会在工程中创建桥接头文件HelloWorld-Bridging-Header.h。  </p>
-<p><img alt="18-8" src="http://www.ituring.com.cn/figures/2014/Swift/19.d18z.008.png"></p>
+<p><img loading="lazy" alt="18-8" src="http://www.ituring.com.cn/figures/2014/Swift/19.d18z.008.png"></p>
 <ul>
 <li>调用代码<br>Objective-C的ObjCObject创建完成后，我们会在Xcode工程中看到新增加的两个文件ObjCObject.h和ObjCObject.m。本书并不打算过多地介绍Objective-C语言，但为了更好地理解Swift与Objective-C的互相调用，我们还是简单地解释一下Objective-C代码。</li>
 </ul>
 <p>ObjCObject.h代码如下：</p>
+<pre><code>
+ #import &lt;Foundation/Foundation.h&gt;                                        ①
 
+ interface ObjCObject : NSObject                                         ②
+
+-(NSString*)sayHello:(NSString*)greeting withName: (NSString*)name;      ③
+
+ end
+</code></pre>
 <p>ObjCObject.h文件是Objective-C的头文件，我们在这里定义类，声明类的成员变量和方法。第①行代码引入Foundation框架的头文件。第②行代码定义类ObjCObject，它继承自NSObject父类。NSObject类是所有Objective-C的根类。第③行代码声明了实例方法sayHello: withName:，它有两个参数greeting和name。</p>
 <p>ObjCObject.m代码如下：</p>
+<pre><code> #import "ObjCObject.h"                                                      ①
 
+ implementation ObjCObject
+
+-(NSString*)sayHello:(NSString*)greeting withName: (NSString*)name          ②
+&#123;
+NSString *string = [NSStringstringWithFormat: "Hi,%  % .",name,greeting];
+return string;
+&#125;
+
+ end
+</code></pre>
 <p>上述代码第①行引入ObjCObject.h头文件，第②行代码定义sayHello: withName:方法。</p>
 <p>下面我们再来看看Swift调用文件main.swift的代码：</p>
+<pre><code>import Foundation                                                ①
 
+var obj : ObjCObject = ObjCObject()                               ②
+var hello = obj.sayHello("Good morning", withName:"Tony")        ③
 
-<p><img alt="last" src="http://www.ituring.com.cn/figures/2014/Swift/19.d18z.009.png"></p>
+println(hello)                                                   ④
+</code></pre>
+<p><img loading="lazy" alt="last" src="http://www.ituring.com.cn/figures/2014/Swift/19.d18z.009.png"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -199,18 +236,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/objc非主流代码技巧/" title="objc非主流代码技巧">
+ <a href="/2020/04/29/pm2_deployment/" title="PM2 deployment">
   <strong>上一篇：</strong><br/>
   <span>
-  objc非主流代码技巧</span>
+  PM2 deployment</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/objective-c属性特性/"  title="objective-c属性特性">
+<a href="/2020/04/29/root重置密码/"  title="root重置密码">
  <strong>下一篇：</strong><br/> 
- <span>objective-c属性特性
+ <span>root重置密码
 </span>
 </a>
 </div>
@@ -487,11 +524,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -584,15 +621,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

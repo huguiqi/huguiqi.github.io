@@ -14,12 +14,12 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="git 回滚与回退命令行git resetgit reset 就像是时光机，可以将事物回退到某个时间点，可以改变这个时间点之后发生的事情。  将commit的代码回退到本地工作副本，以便修改后重新commit   如：git reset –soft HEAD^   注意：此方式不会回退已push的commit(commit和index不会丢失)，本地工作副本区的修改也不会丢失，重新push就是新的">
+    <meta name="description" content="git 回滚与回退命令行git resetgit reset 就像是时光机，可以将事物回退到某个时间点，可以改变这个时间点之后发生的事情。  将commit的代码回退到本地工作副本，以便修改后重新commit git reset --soft &lt;&lt;commitID&gt;&gt;  如：git reset –soft HEAD^   注意：此方式不会回退已push的commit(com">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git 回滚与回退命令行">
 <meta property="og:url" content="http://clockcoder.com/2020/10/23/git%20%E5%9B%9E%E6%BB%9A%E4%B8%8E%E5%9B%9E%E9%80%80/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="git 回滚与回退命令行git resetgit reset 就像是时光机，可以将事物回退到某个时间点，可以改变这个时间点之后发生的事情。  将commit的代码回退到本地工作副本，以便修改后重新commit   如：git reset –soft HEAD^   注意：此方式不会回退已push的commit(commit和index不会丢失)，本地工作副本区的修改也不会丢失，重新push就是新的">
+<meta property="og:description" content="git 回滚与回退命令行git resetgit reset 就像是时光机，可以将事物回退到某个时间点，可以改变这个时间点之后发生的事情。  将commit的代码回退到本地工作副本，以便修改后重新commit git reset --soft &lt;&lt;commitID&gt;&gt;  如：git reset –soft HEAD^   注意：此方式不会回退已push的commit(com">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-23T08:50:58.000Z">
 <meta property="article:modified_time" content="2023-02-16T11:41:07.401Z">
@@ -117,8 +117,8 @@
 		<h1 id="git-回滚与回退命令行"><a title="git 回滚与回退命令行" class="headerlink" href="#git-回滚与回退命令行"></a>git 回滚与回退命令行</h1><h2 id="git-reset"><a title="git reset" class="headerlink" href="#git-reset"></a>git reset</h2><p>git reset 就像是时光机，可以将事物回退到某个时间点，可以改变这个时间点之后发生的事情。</p>
 <ol>
 <li><p>将commit的代码回退到本地工作副本，以便修改后重新commit</p>
-
-
+<pre><code class="shell">git reset --soft &lt;&lt;commitID&gt;&gt;
+</code></pre>
 <p>如：git reset –soft HEAD^</p>
 </li>
 </ol>
@@ -126,26 +126,22 @@
 <ol start="2">
 <li>将本地的源码回退到某个版本，包括commit内容，和git自己对代码的索引都会回退到某个版本, 所有本地修改将丢失</li>
 </ol>
-
-
-
-
+<pre><code class="shell">git reset --hard &lt;&lt;commitID&gt;&gt;
+</code></pre>
 <p>如：git reset –hard HEAD~3 （回退3次提交）或 git reset –hard  afbd4fj</p>
 <p><strong>注意：此方式会在重新push之后丢失目标commitID之后push的内容与index，且还会丢失所有本地工作副本区修改内容</strong></p>
 <ol start="3">
 <li>将本地的源码都回退到某个版本, 但保留本地未提交的代码，已提交的commit和index回退到目标版本</li>
 </ol>
-
-
-
-
+<pre><code class="shell">git reset  --mixed &lt;&lt;commitID&gt;&gt;
+</code></pre>
 <p><strong>注意：此方式会在重新push之后丢失目标commitID之后push的内容与index，本地修改将会保留在工作副本区</strong></p>
 <h2 id="git-revert"><a title="git revert" class="headerlink" href="#git-revert"></a>git revert</h2><p>git revert 就像是小孩做错了事，大人可以纠正他，要求小孩按正确的方法重新做。时间不可以回退，但事情可以重做。</p>
 <ol>
 <li>将某次版本内容回退到本地副本工作区</li>
 </ol>
-
-
+<pre><code>git revert &lt;&lt;commitID&gt;&gt;
+</code></pre>
 <p>revert后再次提交</p>
   
 	</div>
@@ -466,11 +462,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -563,15 +559,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

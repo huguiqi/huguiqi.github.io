@@ -127,7 +127,7 @@
 <pre><code>df -h
 </code></pre>
 <p>发现docker相关的文件占用空间是100%：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1550319498360gfiveq9s.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1550319498360gfiveq9s.png?imageslim"></p>
 <p>有点不正常，我看看docker相关的文件占用情况，是镜像占用的还是容器占用的，或者是Volumes占用的，执行：</p>
 <pre><code>docker system df
 </code></pre>
@@ -152,9 +152,9 @@
     
 </code></pre>
 <p>发现<code>/tmp</code> 目录下有好多文件：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/15503217004152bmdcd14.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/15503217004152bmdcd14.png?imageslim"></p>
 <p>还有指向<code>/tmp/tomcat.*/*</code> 相关的目录：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1550321770403ggnsq3dy.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1550321770403ggnsq3dy.png?imageslim"></p>
 <p>我觉得八成就是这些东西占用的，/tmp 临时文件按道理讲系统会自动删除的，不知道为什么没有删除，这个后面再找原因。<br>我就把所有docker容器里的<code>/tmp</code>目录下的文件全部删除，反正是临时文件。</p>
 <pre><code>docker exec &lt;container&gt; rm -rf /tmp/*
 </code></pre>
@@ -166,21 +166,21 @@
 du -lbhs ./*
 </code></pre>
 <p>发现有几个contarins目录下的目录文件占用挻大的：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1550320388470wopcicty.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1550320388470wopcicty.png?imageslim"></p>
 <p>我就从最大的目录下手，占用空间7.4G的，是8972f…..这个目录，我进去看一眼：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1550320522538gmcr7qay.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1550320522538gmcr7qay.png?imageslim"></p>
 <p>我发现里面有个后缀为<code>xxxx-json.log</code>的这个文件占了198G，这个就是问题了，很兴奋，赶紧删除了：</p>
 <pre><code>rm -rf ./*/*.log
 </code></pre>
 <p>这个就把所有的contarner的控制台日志文件删除了。</p>
 <p>我们再看看docker的空间占用情况：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1550322418176dwe2uam6.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1550322418176dwe2uam6.png?imageslim"></p>
 <p>这里已经很好了，只有镜像占用了1个多G。</p>
 <p>我们再来看看宿主机的空间情况：</p>
 <pre><code>df -h
 </code></pre>
 <p>发现还是100%，见鬼了：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1550319498360gfiveq9s.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1550319498360gfiveq9s.png?imageslim"></p>
 <p>一般觉得见鬼了的时候，只有两种情况，一种是你操作错了别的东西，一种是缓存，我觉得是后者。</p>
 <p>我觉得肯定是docker还没有读到真实的容器占用硬盘空间的数据，那我只能重启docker了：</p>
 <pre><code>systemctl daemon-reload 
@@ -192,7 +192,7 @@ systemctl restart docker
  
 </code></pre>
 <p>ok，没有问题了，再执行 <code>df -h</code><br>很好：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1550322879853rhx6bckp.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1550322879853rhx6bckp.png?imageslim"></p>
 <p>已经只占用挂载磁盘 <code>/dev/vdbd1</code>总大小的2%。</p>
 <p>看来后面还是要写一个自动删除日志的脚本，来维持硬盘空间的大小。</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/moby/moby/issues/33775">参考文章1</a></p>
@@ -523,11 +523,11 @@ systemctl restart docker
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -620,15 +620,15 @@ systemctl restart docker
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

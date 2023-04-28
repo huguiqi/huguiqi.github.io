@@ -130,42 +130,32 @@
 </ul>
 <p>由于我只用过vm，比较熟，就先安装vm吧。</p>
 <h2 id="安装VirtualBox-6"><a title="安装VirtualBox  6" class="headerlink" href="#安装VirtualBox-6"></a>安装<a target="_blank" rel="noopener" href="https://minikube.sigs.k8s.io/docs/drivers/virtualbox/">VirtualBox</a>  6</h2><p>因为原来电脑上默认是vm5，所以先卸载了：</p>
-
-
+<pre><code class="shell">apt-get remove virtualbox
+</code></pre>
 <p>将原vm5.0的依赖也删除：</p>
-
-
-
-
+<pre><code class="shell">apt autoremove virtualbox
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Linux_Downloads">官网文档</a></p>
 <p>我公司台式电脑网络不太好，我是用我笔记本先把deb包下载下来，上传到我台式机上，然后安装：</p>
-
-
-
-
+<pre><code class="shell">sudo dpkg -i virtualbox-6.1_6.1.16-140961_Ubuntu_bionic_amd64.deb
+</code></pre>
 <h3 id="安装vm遇到的问题"><a title="安装vm遇到的问题" class="headerlink" href="#安装vm遇到的问题"></a>安装vm遇到的问题</h3><p>安装时包依赖包未安装，使用如下命令一键安装依赖：</p>
-
-
-
-
-
-
+<pre><code class="shell">sudo apt --fix-broken install
+</code></pre>
 <h2 id="查看kubectl-资源使用情况"><a title="查看kubectl 资源使用情况" class="headerlink" href="#查看kubectl-资源使用情况"></a>查看kubectl 资源使用情况</h2><p>kubectl top node</p>
 <p>kubectl top pods</p>
 <p>如果执行以上命令报错，说明没开启资源监控插件，需要开启</p>
-<p><img alt="image-20201023172656345" src="/images/0081Kckwgy1gjze9a3v8tj314204smxw.png"></p>
+<p><img loading="lazy" alt="image-20201023172656345" src="/images/0081Kckwgy1gjze9a3v8tj314204smxw.png"></p>
 <p>开启metrices-server:</p>
-
-
-
-
+<pre><code class="shell">minikube addons enable metrics-server
+</code></pre>
 <h2 id="指定cpu与内存启动minikube"><a title="指定cpu与内存启动minikube" class="headerlink" href="#指定cpu与内存启动minikube"></a>指定cpu与内存启动minikube</h2><p>方式一：</p>
-
-
-
+<pre><code class="shell">minikube start --vm-driver=virtualbox --cpus 20 --memory 6144MB --force
+</code></pre>
 <p>方式二：</p>
-
-
+<pre><code>$ minikube config set cpus N
+$ minikube config set memory N 
+</code></pre>
 <h2 id="其它参数在启动时的使用"><a title="其它参数在启动时的使用" class="headerlink" href="#其它参数在启动时的使用"></a>其它参数在启动时的使用</h2><p>启动时设置的节点数量：</p>
 <pre><code>minikube start -n X
 </code></pre>
@@ -507,11 +497,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -604,15 +594,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

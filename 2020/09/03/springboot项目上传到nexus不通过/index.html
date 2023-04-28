@@ -127,19 +127,19 @@
 <p>因为开发团队的包已经100M了，然后联系运维将nginx服务器的配置修改了，由原来的50M大小限制改成了200M。</p>
 <p>再次build上传，发现包是上传上去了，但是jar包不完整，本来100M的包，在nexus上只有15M，然后继续找原因。</p>
 <p>我将开发团队的jar包拿下来，用jd打开，发现无法解析里面的代码，显示的是空的：</p>
-<p><img alt="image-20200903134354357" src="/images/007S8ZIlgy1gidetsbg7vj30km0d6dgc.png"></p>
+<p><img loading="lazy" alt="image-20200903134354357" src="/images/007S8ZIlgy1gidetsbg7vj30km0d6dgc.png"></p>
 <p>而我试图使用解压缩软件进行解压，发现无法解压成功，而开发团队给出的反馈是jar包可以启动，启动程序也无任何问题。</p>
 <p>只能从开发团队的代码配置中找问题了。</p>
 <p>最终找到了问题。</p>
 <h2 id="原因"><a title="原因" class="headerlink" href="#原因"></a>原因</h2><p>由于业务团队代码里的pom.xml中的spring-boot-maven-plugin插件配置:</p>
-<p><img alt="image.png" src="https://user-gold-cdn.xitu.io/2019/1/24/1687d9a50259b805?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
+<p><img loading="lazy" alt="image.png" src="https://user-gold-cdn.xitu.io/2019/1/24/1687d9a50259b805?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
 <p>即，如果将这个配置设置为 <code>true</code>，打包出来的 <em><strong>jar/war</strong></em> 就是 <strong>可执行</strong> 的了，可以用如下方式执行：</p>
-<p><img alt="image.png" src="https://user-gold-cdn.xitu.io/2019/1/24/1687d9a502bbe00e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
+<p><img loading="lazy" alt="image.png" src="https://user-gold-cdn.xitu.io/2019/1/24/1687d9a502bbe00e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
 <p>为啥配置为false后解压WAR包的时候就会失败？ Spring Boot官网上面文档如是说：</p>
-<p><img alt="image.png" src="https://user-gold-cdn.xitu.io/2019/1/24/1687d9a529be6e32?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
+<p><img loading="lazy" alt="image.png" src="https://user-gold-cdn.xitu.io/2019/1/24/1687d9a529be6e32?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
 <p><strong>完全可执行</strong> 的 <em><strong>jar/war</strong></em> 在文件前面嵌入了个 <strong>额外的脚本</strong>，这就使得有些命令会执行失败，比如 <code>jar -xf</code> 等。 查看统一部署平台在构建镜像时的日志，如下图，发现就使用了这个命令，所以WAR包就会解压失败！！！</p>
 <p>大家将Spring Boot项目打包部署，如果使用 <code>jar -xf</code> 等解压命令，一定要注意 springboot的maven插件 <code>spring-boot-maven-plugin</code> 的 <code>executable</code> 配置一定要设置为 <code>false</code> ！！！ 不然会解压失败！</p>
-<p><img alt="image.png" src="https://user-gold-cdn.xitu.io/2019/1/24/1687d9a52ee14646?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
+<p><img loading="lazy" alt="image.png" src="https://user-gold-cdn.xitu.io/2019/1/24/1687d9a52ee14646?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -464,11 +464,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -561,15 +561,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

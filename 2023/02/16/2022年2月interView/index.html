@@ -220,30 +220,22 @@
 <p>num_acceptors.tcp tcp 接受TCP侦听器连接的Erlang进程数。</p>
 </blockquote>
 <p>一旦打开了一个使用tcp连接的套接字，它就始终保持打开状态，直至任何一方关闭它或因为一个错误而终止。在建立一个连接时，一般为每一次请求产生一个新进程，num_acceptors就是控制产生新进程的个数。假设有一个监听进程，其任务是等待传入的tcp请求。只要一个请求到达，响应该连接请求的进程就变成了接收进程。默认的配置为num_acceptors.tcp = 10。</p>
-
-
-
-
+<pre><code class="shell">num_acceptors.tcp = 10
+</code></pre>
 <blockquote>
 <p>handshake_timeout  </p>
 <p>Maximum time for AMQP 0-9-1 handshake (after socket connection and TLS handshake), in milliseconds.</p>
 </blockquote>
 <p>AMQP 0-9-1握手（socket连接和TLS握手之后）的最大时间，以毫秒为单位。<br>默认的配置为handshake_timeout = 10000。</p>
-
-
-
-
+<pre><code class="shell">handshake_timeout = 10000
+</code></pre>
 <blockquote>
 <p>channel_max</p>
 <p>Maximum permissible number of channels to negotiate with clients, not including a special channel number 0 used in the protocol. Setting to 0 means “unlimited”, a dangerous value since applications sometimes have channel leaks. Using more channels increases memory footprint of the broker.</p>
 </blockquote>
 <p>设置每个连接的最大允许通道数量。 0表示“没有限制”。默认的配置为channel_max = 2047。</p>
-
-
-
-
-
-
+<pre><code class="shell">channel_max = 2047
+</code></pre>
 <blockquote>
 <p>max_message_size</p>
 <p>The largest allowed message payload size in bytes. Messages of larger size will be rejected with a suitable channel exception</p>
@@ -275,10 +267,8 @@
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b7cc32b94d2a">集群方式</a></p>
 <h5 id="mirroring-sync-batch-size"><a title="mirroring_sync_batch_size" class="headerlink" href="#mirroring-sync-batch-size"></a>mirroring_sync_batch_size</h5><p>在消息中镜像同步批量大小。增加这将加快同步，但批量总大小（以字节为单位）不得超过2 GiB。该设置可用于RabbitMQ 3.6.0或更高版本。默认的配置为 mirroring_sync_batch_size = 4096(4k)。</p>
 <p>default:</p>
-
-
-
-
+<pre><code class="shell">mirroring_sync_batch_size = 4096
+</code></pre>
 <h5 id="rabbitMQ集群发现机制"><a title="rabbitMQ集群发现机制" class="headerlink" href="#rabbitMQ集群发现机制"></a>rabbitMQ集群发现机制</h5><ul>
 <li>Config file</li>
 <li>DNS</li>
@@ -348,25 +338,46 @@
 <p>限流的目的就是形成一种保护机制，让系统的入口流量和系统的负载达到一个平衡，保证系统在能力范围之内处理最多的请求。</p>
 <h3 id="有几种限流方式"><a title="有几种限流方式" class="headerlink" href="#有几种限流方式"></a>有几种限流方式</h3><h4 id="按请求IP限流"><a title="按请求IP限流" class="headerlink" href="#按请求IP限流"></a>按请求IP限流</h4><p>springcloud gateway + RedisRateLimter实现</p>
 <p>网关引入的redis-reactive，背压模式的redis：</p>
-
-
-
-
+<pre><code class="xml">&lt;!--基于 reactive stream 的redis --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis-reactive&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
 <p>配置gateway针对某一服务的限流配置文件：</p>
-
-
-
-
+<pre><code class="yaml">spring:
+  cloud:
+    gateway:
+      routes:
+      - id: requestratelimiter_route
+        uri: lb://upms
+        order: 10000
+        predicates:
+        - Path=/admin/**
+        filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 1  # 令牌桶的容积
+            redis-rate-limiter.burstCapacity: 3  # 流速 每秒
+            key-resolver: "#&#123;@remoteAddrKeyResolver&#125;" #SPEL表达式去的对应的bean
+        - StripPrefix=1
+</code></pre>
 <p>ps: 配置的<code>RequestRateLimiter</code>过滤器指的就是<code>RequestRateLimiterGatewayFilterFactory.java</code> </p>
 <p><a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-cloud-gateway/reference/html/#the-redis-ratelimiter">官方文档</a></p>
 <p>配置bean，多维度限流量的入口 对应上边key-resolver</p>
 <p>​	</p>
+<pre><code class="java">/**
 
-
-
-
+* 自定义限流标志的key，多个维度可以从这里入手
+* exchange对象中获取服务ID、请求信息，用户信息等
+  */
+  @Bean
+  KeyResolver remoteAddrKeyResolver() &#123;
+    return exchange -&gt; Mono.just(exchange.getRequest().getRemoteAddress().getHostName());
+  &#125;
+</code></pre>
 <p>Spring Cloud Gateway 默认实现 Redis限流，如果扩展只需要实现ratelimter接口即可。</p>
-<p><img alt="img" src="/images/e6c9d24ely1h04204eo2vj20yk0k0jrz.png"></p>
+<p><img loading="lazy" alt="img" src="/images/e6c9d24ely1h04204eo2vj20yk0k0jrz.png"></p>
 <p><a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-cloud-gateway/reference/html/#the-redis-ratelimiter">官方文档</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.yuque.com/pig4cloud/pig/oeyy8h">参考文章</a></p>
 <h4 id="按请求地址限流"><a title="按请求地址限流" class="headerlink" href="#按请求地址限流"></a>按请求地址限流</h4><p>同ip限流类似</p>
@@ -445,7 +456,7 @@
 <p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/694143#:~:text=MySQL%E5%88%86%E5%8C%BA%201.MySQL%E5%88%86%E5%8C%BA%E7%9A%84%E7%A7%8D%E7%B1%BB%20%E8%8C%83%E5%9B%B4%E5%88%86%E5%8C%BA%EF%BC%9A%20RANGE%20Partitioning%20%E5%88%97%E8%A1%A8%E5%88%86%E5%8C%BA%EF%BC%9ALIST%20Partitioning,%E5%88%97%E5%88%86%E5%8C%BA%EF%BC%9ACOLUMNS%20Partitioning%20HASH%E5%88%86%E5%8C%BA%EF%BC%9AHASH%20Partitioning%20KEY%E5%88%86%E5%8C%BA%EF%BC%9AKEY%20Partitioning%20%E5%AD%90%E5%88%86%E5%8C%BA%EF%BC%88%E5%A4%8D%E5%90%88%E5%88%86%E5%8C%BA%EF%BC%89%EF%BC%9ASubpartitioning%EF%BC%88%E4%B8%8D%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%EF%BC%89">关于分区</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/136963357">https://zhuanlan.zhihu.com/p/136963357</a></p>
 <h2 id="mysql数据库插入一条数据，具体做了什么事情"><a title="mysql数据库插入一条数据，具体做了什么事情" class="headerlink" href="#mysql数据库插入一条数据，具体做了什么事情"></a>mysql数据库插入一条数据，具体做了什么事情</h2><p>mysql数据库组成：</p>
-<p><img alt="img" src="/images/e6c9d24ely1gzwiv87544j20p40t6jt4.png"></p>
+<p><img loading="lazy" alt="img" src="/images/e6c9d24ely1gzwiv87544j20p40t6jt4.png"></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/354255965">https://zhuanlan.zhihu.com/p/354255965</a></p>
 <h2 id="mysql的ACID是怎么实现的"><a title="mysql的ACID是怎么实现的" class="headerlink" href="#mysql的ACID是怎么实现的"></a>mysql的ACID是怎么实现的</h2><blockquote>
 <p>事务具有 ACID 四个特性——原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。</p>
@@ -662,8 +673,17 @@
 <p>可见确实是消除了从内核空间到用户空间的来回复制，因此“zero-copy”这个词实际上是站在内核的角度来说的，并不是完全不会发生任何拷贝。</p>
 <p>在Java NIO包中提供了零拷贝机制对应的API，即FileChannel.transferTo()方法。不过FileChannel类是抽象类，transferTo()也是一个抽象方法，因此还要依赖于具体实现。FileChannel的实现类并不在JDK本身，而位于sun.nio.ch.FileChannelImpl类中，零拷贝的具体实现自然也都是native方法，看官如有兴趣可以自行查找源码来看，这里不再赘述。</p>
 <p>将传统方式的发送端逻辑改写一下，大致如下。</p>
+<pre><code>SocketAddress socketAddress = new InetSocketAddress(HOST, PORT);
+SocketChannel socketChannel = SocketChannel.open();
+socketChannel.connect(socketAddress);
 
+File file = new File(FILE_PATH);
+FileChannel fileChannel = new FileInputStream(file).getChannel();
+fileChannel.transferTo(0, file.length(), socketChannel);
 
+fileChannel.close();
+socketChannel.close();
+</code></pre>
 <p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1744444">https://cloud.tencent.com/developer/article/1744444</a></p>
 <h2 id="两个不同的网站，如何实现登陆状态同步"><a title="两个不同的网站，如何实现登陆状态同步" class="headerlink" href="#两个不同的网站，如何实现登陆状态同步"></a>两个不同的网站，如何实现登陆状态同步</h2><p>其实就是sso原理，oauth2</p>
 <h2 id="java8函数式编程用过哪些，举例说明"><a title="java8函数式编程用过哪些，举例说明" class="headerlink" href="#java8函数式编程用过哪些，举例说明"></a>java8函数式编程用过哪些，举例说明</h2><p>Function</p>
@@ -991,11 +1011,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1088,15 +1108,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

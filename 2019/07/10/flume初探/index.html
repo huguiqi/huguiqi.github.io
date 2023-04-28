@@ -142,7 +142,7 @@
 </blockquote>
 </blockquote>
 <p>以下是flume官方给出的flume架构图：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1562772504860hkflis2v.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1562772504860hkflis2v.png?imageslim"></p>
 <p>根据这个图，我猜的大概意思应该是，入口从web服务来。一个agen由source,sink,channel组成。</p>
 <p>source对应的是入口地址定义。<br>将从source获取的数据丢到channel管道中，然后输出到sink，sink定义与配置了具体是什么存储介质来接受数据。</p>
 <p>使用flume的基本系统要求：</p>
@@ -218,9 +218,9 @@
 <p>logstash简单来看，内部节构是这样的：</p>
 </li>
 </ul>
-<p><img alt="paste image" src="http://clockcoder.com/images/1563706062866z5jxwyg4.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1563706062866z5jxwyg4.png?imageslim"></p>
 <p>这样看的话，其实和flume的结构很像：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/15637061807761bucub3o.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/15637061807761bucub3o.png?imageslim"></p>
 <p>都是入口—&gt;中间件—-&gt;出口，看来设计思想是一样的。</p>
 <ul>
 <li>配置复杂度</li>
@@ -236,13 +236,13 @@
 </ul>
 <p>flume本身最初设计的目的是为了把数据传入HDFS中,并不是为了采集日志而设计，这和Logstash有根本的区别</p>
 <h2 id="Flume-Event"><a title="Flume Event" class="headerlink" href="#Flume-Event"></a>Flume Event</h2><p>在Flume内部传输的数据的基本单位就是Event。 它包含字节数组的PayLoad。可以通过Header将信息从输出源传输到目的地。 请参考下图的Flume Event结构。</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1563707939113kxlz92z6.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1563707939113kxlz92z6.png?imageslim"></p>
 <p>所以如果你的source是http类型，则client发送数据时，输入：</p>
 <pre><code>curl -X POST http://ip:8000 -d '[&#123;"headers":&#123;"h1":"v1","h2":"v2"&#125;,"body":"hello body"&#125;]'
 </code></pre>
 <p>就是说，如果你的source是http类型，发送的数据格式必须是包含：headers，和body的这种结构，否则默认是解析不了的。</p>
 <h2 id="Flume-Agent"><a title="Flume Agent" class="headerlink" href="#Flume-Agent"></a>Flume Agent</h2><p> 在Apache Flume中，Agent是一个独立的JVM守护进程。 它接收来自Client或其他Agent的Event。 之后，将它转发到下一个目标地点，如Sink或Agent。 注意，Flume可以有多个Agent。 参考下面的图片来了解Flume Agent。</p>
-<p> <img alt="paste image" src="http://clockcoder.com/images/15637081939873jfw6s5l.png?imageslim"></p>
+<p> <img loading="lazy" alt="paste image" src="http://clockcoder.com/images/15637081939873jfw6s5l.png?imageslim"></p>
 <p>Agent包含三个主要组件: Source，Channel和 Sink。</p>
 <h3 id="Flume-Source"><a title="Flume Source" class="headerlink" href="#Flume-Source"></a>Flume Source</h3><p>Flume Source从数据生成器接收数据。 然后将数据作为Flume Event传输到一个或多个Channel。</p>
 <p>Apache Flume支持各种类型的Source。每个source接收来自指定数据生成器的Event。</p>
@@ -264,7 +264,7 @@
 <h3 id="Sink-Processors"><a title="Sink Processors" class="headerlink" href="#Sink-Processors"></a>Sink Processors</h3><p>通常 Sink Processor 用来调用特定 Sink。此外，还可用来在sink中创建故障转移路径或负载平衡event等。</p>
 <h2 id="厂内应用点"><a title="厂内应用点" class="headerlink" href="#厂内应用点"></a>厂内应用点</h2><p>我厂前段时间有个需求，需要将与我厂合作的爬虫团队爬取的数据定时传送到我厂，我厂通过flume接收并存入mongodb中。</p>
 <p>我厂大概的流程如下：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1567931333082brr6c3l3.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1567931333082brr6c3l3.png?imageslim"></p>
 <p>本来两个flume都放在一台宿主机上，通知不同的端口号来区分，理论上好像是可以的，但是实际部署中遇到一个问题；<br>由于我是用的文件管道去传输本地的flume数据到mongo的，防止因为使用内存管道而导致数据丢失问题。</p>
 <p>flume1配置：</p>
 <pre><code>agent1.channels = channelCS
@@ -325,7 +325,7 @@ agent2.channels.channelH.checkpointDir = /data/point1
 <p>用两个端口区分不现的flume服务，但是当我只开一台flume的时候，是可以正常解析并存入到mongodb的，但是当我启动另外一台flume的时候，就会出现无法存入mongo的情况。</p>
 <p>经过反复测试与验证，发现是文件管道的问题。并且将不同的flume设置在不同的文件目录还不行，必须为不同的文件系统，也就是让flume觉得他们不在一个系统上。<br>在网络上有另外一个兄弟也提到过这个问题：</p>
 <p><a target="_blank" rel="noopener" href="https://www.doudianyun.com/2018/11/apache-flume%e4%b8%ad%e7%9a%84channel%e7%b1%bb%e5%9e%8b/">https://www.doudianyun.com/2018/11/apache-flume%e4%b8%ad%e7%9a%84channel%e7%b1%bb%e5%9e%8b/</a></p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1567932549264ms1jokui.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1567932549264ms1jokui.png?imageslim"></p>
 <p>好吧，那我没有两台服务器啊，怎么办？第一时间想到docker,是不是可以欺骗一下flume，说我是两个不同的文件系统。好吧，我开了两个flume试一下，由于现在的docker镜像市场没有我需要的自定义好的flume，所以我自制了支持mongodb的flume</p>
 <p>flume-mongo:</p>
 <pre><code>registry.cn-shanghai.aliyuncs.com/hgq/flume-mongo
@@ -658,11 +658,11 @@ sh ./run.sh flume2 8082 agentH 1
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -755,15 +755,15 @@ sh ./run.sh flume2 8082 agentH 1
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

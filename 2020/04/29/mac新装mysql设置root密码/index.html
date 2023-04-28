@@ -14,12 +14,12 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="mac新装mysql设置root密码默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误：  ps:mysql默认在安装后mysqladmin命令不是全局的，如果要设置为全部的，需要设置自启动(mysql的命令行默认在&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#x2F;下)">
+    <meta name="description" content="mac新装mysql设置root密码默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误： # mysqladmin -uroot -p password &#39;newpassword&#39; Enter password: mysqladmin: connect to server at &#39;localhost&#39; failed error:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mac系统新装mysql设置root密码">
 <meta property="og:url" content="http://clockcoder.com/2020/04/29/mac%E6%96%B0%E8%A3%85mysql%E8%AE%BE%E7%BD%AEroot%E5%AF%86%E7%A0%81/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="mac新装mysql设置root密码默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误：  ps:mysql默认在安装后mysqladmin命令不是全局的，如果要设置为全部的，需要设置自启动(mysql的命令行默认在&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#x2F;下)">
+<meta property="og:description" content="mac新装mysql设置root密码默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误： # mysqladmin -uroot -p password &#39;newpassword&#39; Enter password: mysqladmin: connect to server at &#39;localhost&#39; failed error:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
 <meta property="article:modified_time" content="2023-02-16T11:41:07.655Z">
@@ -115,11 +115,23 @@
 		</div>
 		
 		<h1 id="mac新装mysql设置root密码"><a title="mac新装mysql设置root密码" class="headerlink" href="#mac新装mysql设置root密码"></a>mac新装mysql设置root密码</h1><p>默认mac版的mysql安装后root没有密码，但直接在user表里对root添加密码时后，重新登陆，又报一个诡异的错误：</p>
-
+<pre><code># mysqladmin -uroot -p password 'newpassword'
+Enter password:
+mysqladmin: connect to server at 'localhost' failed
+error: 'Access denied for user 'root'@'localhost' (using password: YES)'
+</code></pre>
 <p><strong>ps:<br>mysql默认在安装后mysqladmin命令不是全局的，如果要设置为全部的，需要设置自启动(mysql的命令行默认在/usr/local/mysql/bin/下)</strong></p>
-
-
-
+<pre><code>
+# /etc/init.d/mysql stop
+# mysqld_safe --user=mysql --skip-grant-tables --skip-networking &amp;
+# mysql -u root mysql
+mysql&gt; UPDATE user SET Password=PASSWORD('newpassword') where USER='root';
+mysql&gt; FLUSH PRIVILEGES;
+mysql&gt; quit
+# /etc/init.d/mysql restart
+# mysql -uroot -p
+Enter password: &lt;输入新设的密码newpassword&gt;
+</code></pre>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -156,10 +168,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/mac OS忘记密码后的终极解决方案/" title="mac OS忘记密码后的终极解决方案">
+ <a href="/2020/04/29/mac安装nginx/" title="mac安装nginx">
   <strong>上一篇：</strong><br/>
   <span>
-  mac OS忘记密码后的终极解决方案</span>
+  mac安装nginx</span>
 </a>
 </div>
 
@@ -444,11 +456,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -541,15 +553,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

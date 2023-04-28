@@ -120,63 +120,157 @@
 <li>基本类型、声明语法</li>
 </ul>
 <h6 id="1-变量"><a title="1.变量" class="headerlink" href="#1-变量"></a>1.变量</h6><p>obj-c:<br></p>
-
+<pre><code>     Type *typeInstance;&lt;br/&gt;
+    NSString *str =  “”;&lt;br/&gt;
+     NSString *str2 = [NSString stringWithFormat: “aaaa% “, “bbb”];
+</code></pre>
 <p>swift:<br><br></p>
+<pre><code>    var a;//(直接这样声明变量是不允许的，必须要给一个初始值，以便来确定他的类型)
 
+&lt;!--more--&gt;
+var str = "Hello, playground"
+/** 
+* var声明与let声明变量的区别:
+* 1,var声明值可变的变量，let则声明不可变的常量用的居多
+*
+**/
+var myVarible = 42
+myVarible = 50;
+
+let myConstant = 42;
+//注释打开则会编译出错
+//myConstant = 50
+</code></pre>
 <p>swift 的变量类型可以在声明初始值中直接通过初始值类型来确定<br><br></p>
 <p>Type Annotations <br><br><strong>如果想声明一个变量或者常量，但又暂时没有赋予初始值(分配内存空间)，则用这种方式:</strong><br></p>
 
 <p>eg:<br></p>
-
-
+<pre><code>var welcomeMessage:String
+var typeName:Type
+</code></pre>
 <p>变量声明可以用任何的字符来进行声明：</p>
-
-
-<h6 id="2-常量"><a title="2.常量" class="headerlink" href="#2-常量"></a>2.常量<br></h6>
+<pre><code>let π = 3.14159
+let 你好 = "你好世界"
+let 🐶🐮 = "dogcow”
+</code></pre>
+<h6 id="2-常量"><a title="2.常量" class="headerlink" href="#2-常量"></a>2.常量<br></h6><pre><code>//obj-c:
+const  int a=10;
+//swift:
+let a= 10;
+</code></pre>
 <h6 id="3-String"><a title="3.String" class="headerlink" href="#3-String"></a>3.String <br></h6><p>String类型就比obj-c方便太多了，终于不用每次拼装字符串那么麻烦了</p>
 <p>obj-c对一个字符做拼接：<br>NSString *priceStr = [NSString stringWithFormat: “价格：%ld 元”,250];</p>
 <p>swift:</p>
+<pre><code>var greeting = "good bye !";
+var userName = "sam.hu";
 
+let youSays = "say:\(greeting),my name is \(userName)";
 
+//obj-c的例子可以这样写
+var price = 250;
+var priceStr = "价格：\(price) 元";
+</code></pre>
 <p>swfit 的String是架在foundation 的NSString类的上的<br>故如果在在使用foundation的NSString中使用swift的string类是可以的<br>比obj-c自定义String更方便</p>
 <p>字符串字面量的特殊字符 (Special Characters in String Literals)</p>
 <h6 id="4-字符串字面量可以包含以下特殊字符："><a title="4. 字符串字面量可以包含以下特殊字符：" class="headerlink" href="#4-字符串字面量可以包含以下特殊字符："></a>4. 字符串字面量可以包含以下特殊字符：</h6><p>转义字符\0(空字符)、\(反斜线)、\t(水平制表符)、\n(换行符)、\r(回车符)、"(双引号)、'(单引号)。<br><br>Unicode 标量，写成\u{n}(u为小写)，其中n为任意一到八位十六进制数且可用的 Unicode 位码。  </p>
 <p>下面的代码为各种特殊字符的使用示例。<br> wiseWords常量包含了两个双引号。<br>dollarSign、blackHeart和sparklingHeart常量演示了三种不同格式的 Unicode 标量：</p>
-
-
-
+<pre><code>let wiseWords = "\"Imagination is more important than knowledge\" - Einstein"
+// "Imageination is more important than knowledge" - Enistein
+let dollarSign = "\u&#123;24&#125;"             // $, Unicode 标量 U+0024
+let blackHeart = "\u&#123;2665&#125;"           // ♥, Unicode 标量 U+2665
+let sparklingHeart = "\u&#123;1F496&#125;"      // 💖, Unicode 标量 U+1F496
+</code></pre>
 <ul>
 <li>String可以将字符进行迭代：</li>
 </ul>
-
-
+<pre><code> for character in "Dog!🐶".characters &#123;
+            print(character)
+        &#125;
+        
+</code></pre>
 <h5 id="5-集合类"><a title="5. 集合类" class="headerlink" href="#5-集合类"></a>5. 集合类</h5><ul>
 <li>Array</li>
 </ul>
 <p>初始化：<br>obj-c:</p>
-
-
+<pre><code>    NSArray *array1 =  [ "aa", "bb", "cc"];
+    NSArray *array2 = [NSArray arrayWithObjects: "第一栏", "第二栏", "第三栏", nil];
+    NSArray *array3 = [NSArray alloc] init];//NSArray 是不可变数组，故需要初始化时分配空间大小，这样实例化一个array一般是没有意义的
+    
+    NSMutableArray *array4 = [[NSMutableArray alloc] init];
+    [array4 addObject: "sss"];
+</code></pre>
 <p>swift:</p>
+<pre><code>var shoppingList: [String] = ["Eggs", "Milk"] //Swift 2.1 官方教程上是var shoppingList:String[] 这种声明，发现在编译器里是错误的
+或者
+var shoppingList = ["Eggs", "Milk"]
 
+//在swift中没有可变和不可变数组的概念
+//        shoppingList += "Baking Powder" //这种方法添加数组是不行的
+        shoppingList += ["Baking Powder"]
+        //你还可以以数组的方式添加item
+        shoppingList += ["Chocolate Spread", "Cheese", "Butter"]
+        //把第5、6个元素内容分别替换成Bananas、Apples,第7个元素被切掉了
+        shoppingList[4...6] = ["Bananas", "Apples"]
+        //将会返回["Eggs", "Milk", "Flour", "Baking Powder", "Bananas", "Apples"]
+        
+  //遍历，for in
+  for item in shoppingList&#123;
+            print(item);
+  &#125;
+  
+  //如果需要下标值 for enumerate
+  for (index,value) in shoppingList.enumerate()&#123;
+            print("index:\(index) value:\(value)")
+        &#125;
+        
+   let apples = shoppingList.removeLast()
+        print(apples)
+        //oc的数组里的元素类型必须一样,而swift可以不同，用let初始化一个数组
+let arrays = ["cars",20,true]
 
+        print(arrays)    
+</code></pre>
 <h6 id="6，函数的定义"><a title="6，函数的定义" class="headerlink" href="#6，函数的定义"></a>6，函数的定义</h6><p>obj-c:</p>
+<pre><code>-(NSString *)testFunction:(NSString*)name with:(Integer)room&#123;
 
+&#125;
+</code></pre>
 <p>swift:</p>
+<pre><code>func testFunction(p1:int,p2:String)-&gt;int
+&#123;
+  return p1
+&#125;
 
+//return fun
 
+//调用：
+func(2,”B")
+</code></pre>
 <p>定义的函数还是返回函数</p>
 <p>obj-c:</p>
-
-
-
-
+<pre><code>-(int)testA:(NSString *)p1 param2: (int) p2
+&#123;
+     return 250;
+&#125;
+</code></pre>
 <p>5,类的定义<br>不再分头文件和m文件了<br>构造函数还是init </p>
 <p>obj-c:</p>
-
-
-
+<pre><code>    //TestClass.h
+     inteface TestClass:NSObject
+    
+     end
+    
+    //TestClass.m
+     implementation TestClass
+    
+     end
+</code></pre>
 <p>swift:</p>
+<pre><code>class TestClass: NSObject&#123;
 
+
+&#125;
+</code></pre>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -501,11 +595,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -598,15 +692,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

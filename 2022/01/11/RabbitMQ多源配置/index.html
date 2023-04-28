@@ -14,12 +14,12 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="RabbitMQ多源配置及ack相关使用pom.xml:     RabbitMQConfig.java:       application.yaml:      acknowledge-mode说明  1,  有ack模式（AcknowledgeMode.AUTO，AcknowledgeMode.MANUAL）  AcknowledgeMode.AUTO模式下，由spring-rabbit依据">
+    <meta name="description" content="RabbitMQ多源配置及ack相关使用pom.xml: &lt;!--RabbitMQ依赖--&gt; &lt;dependency&gt;     &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;spring-boot-starter-amqp&lt;&#x2F;artifactId&gt; &amp;l">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RabbitMQ多源配置及ack相关使用">
 <meta property="og:url" content="http://clockcoder.com/2022/01/11/RabbitMQ%E5%A4%9A%E6%BA%90%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="RabbitMQ多源配置及ack相关使用pom.xml:     RabbitMQConfig.java:       application.yaml:      acknowledge-mode说明  1,  有ack模式（AcknowledgeMode.AUTO，AcknowledgeMode.MANUAL）  AcknowledgeMode.AUTO模式下，由spring-rabbit依据">
+<meta property="og:description" content="RabbitMQ多源配置及ack相关使用pom.xml: &lt;!--RabbitMQ依赖--&gt; &lt;dependency&gt;     &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;     &lt;artifactId&gt;spring-boot-starter-amqp&lt;&#x2F;artifactId&gt; &amp;l">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-11T08:13:00.000Z">
 <meta property="article:modified_time" content="2023-02-16T11:41:07.204Z">
@@ -116,22 +116,183 @@
 		</div>
 		
 		<h1 id="RabbitMQ多源配置及ack相关使用"><a title="RabbitMQ多源配置及ack相关使用" class="headerlink" href="#RabbitMQ多源配置及ack相关使用"></a>RabbitMQ多源配置及ack相关使用</h1><p>pom.xml:</p>
-
-
-
-
+<pre><code class="xml">&lt;!--RabbitMQ依赖--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-amqp&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
 <p>RabbitMQConfig.java:</p>
+<pre><code>
+import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
+@Slf4j
+@Configuration
+public class RabbitMQConfig &#123;
+
+    // mq主连接
+    @Bean(name = "myConnectionFactory")
+    @Primary
+    public CachingConnectionFactory publicConnectionFactory(
+            @Value("$&#123;v1.my.spring.rabbitmq.host&#125;") String host,
+            @Value("$&#123;v1.my.spring.rabbitmq.port&#125;") int port,
+            @Value("$&#123;v1.my.spring.rabbitmq.username&#125;") String username,
+            @Value("$&#123;v1.my.spring.rabbitmq.password&#125;") String password,
+            @Value("$&#123;v1.my.spring.rabbitmq.virtual-host&#125;") String virtualHost,
+            @Value("$&#123;v1.my.spring.rabbitmq.publisher-confirms&#125;") Boolean publisherConfirms,
+            @Value("$&#123;v1.my.spring.rabbitmq.publisher-returns&#125;") Boolean publisherReturns) &#123;
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        connectionFactory.setHost(host);
+        connectionFactory.setPort(port);
+        connectionFactory.setUsername(username);
+        connectionFactory.setPassword(password);
+        connectionFactory.setVirtualHost(virtualHost);
+        connectionFactory.setPublisherConfirms(publisherConfirms);
+        connectionFactory.setPublisherReturns(publisherReturns);
+        return connectionFactory;
+    &#125;
+
+    @Bean(name = "myRabbitTemplate")
+    @Primary
+    public RabbitTemplate publicRabbitTemplate(
+            @Qualifier("myConnectionFactory") ConnectionFactory connectionFactory,
+            @Value("$&#123;v1.my.spring.rabbitmq.template.mandatory&#125;") Boolean mandatory) &#123;
+        RabbitTemplate myRabbitTemplate = new RabbitTemplate(connectionFactory);
+        myRabbitTemplate.setMandatory(mandatory);
+        myRabbitTemplate.setConfirmCallback((correlationData, ack, s) -&gt; &#123;
+            if (!ack) &#123;
+                    log.info("&#123;&#125; 发送RabbitMQ消息 ack确认 失败: [&#123;&#125;]", s, JSON.toJSONString(correlationData));
+            &#125; else &#123;
+                    log.info("&#123;&#125; 发送RabbitMQ消息 ack确认 成功: [&#123;&#125;]", s, JSON.toJSONString(correlationData));
+            &#125;
+        &#125;);
+        myRabbitTemplate.setReturnCallback((message, code, s, exchange, routingKey) -&gt; &#123;
+//                LOGGER.error("&#123;&#125; 发送RabbitMQ消息returnedMessage，出现异常，Exchange不存在或发送至Exchange却没有发送到Queue中，message：[&#123;&#125;], code[&#123;&#125;], s[&#123;&#125;], exchange[&#123;&#125;], routingKey[&#123;&#125;]", new Object[]&#123;this.name, JSON.toJSONString(message), JSON.toJSONString(code), JSON.toJSONString(s), JSON.toJSONString(exchange), JSON.toJSONString(routingKey)&#125;);
+        &#125;);
+        return myRabbitTemplate;
+    &#125;
+
+    @Bean(name = "myContainerFactory")
+    @Primary
+    public SimpleRabbitListenerContainerFactory insMessageListenerContainer(
+            @Qualifier("myConnectionFactory") ConnectionFactory connectionFactory,
+            @Value("$&#123;v1.my.spring.rabbitmq.listener.simple.acknowledge-mode&#125;") String acknowledge,
+            @Value("$&#123;v1.my.spring.rabbitmq.listener.simple.prefetch&#125;") Integer prefetch) &#123;
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setAcknowledgeMode(AcknowledgeMode.valueOf(acknowledge.toUpperCase()));
+        factory.setPrefetchCount(prefetch);
+        return factory;
+    &#125;
+
+    @Bean(name = "myRabbitAdmin")
+    @Primary
+    public RabbitAdmin publicRabbitAdmin(
+            @Qualifier("myConnectionFactory") ConnectionFactory connectionFactory) &#123;
+        RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
+        rabbitAdmin.setAutoStartup(true);
+        return rabbitAdmin;
+    &#125;
+    
+
+    //如果有多mq源，则把下面代码打开
+    
+//    @Bean(name = "v2ConnectionFactory")
+//    public CachingConnectionFactory hospSyncConnectionFactory(
+//            @Value("$&#123;v2.spring.rabbitmq.host&#125;") String host,
+//            @Value("$&#123;v2.spring.rabbitmq.port&#125;") int port,
+//            @Value("$&#123;v2.spring.rabbitmq.username&#125;") String username,
+//            @Value("$&#123;v2.spring.rabbitmq.password&#125;") String password,
+//            @Value("$&#123;v2.spring.rabbitmq.virtual-host&#125;") String virtualHost,
+//            @Value("$&#123;v2.spring.rabbitmq.publisher-confirms&#125;") Boolean publisherConfirms,
+//            @Value("$&#123;v2.spring.rabbitmq.publisher-returns&#125;") Boolean publisherReturns) &#123;
+//        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+//        connectionFactory.setHost(host);
+//        connectionFactory.setPort(port);
+//        connectionFactory.setUsername(username);
+//        connectionFactory.setPassword(password);
+//        connectionFactory.setVirtualHost(virtualHost);
+//        connectionFactory.setPublisherConfirms(publisherConfirms);
+//        connectionFactory.setPublisherReturns(publisherReturns);
+//        return connectionFactory;
+//    &#125;
+//
+//    @Bean(name = "v2RabbitTemplate")
+//    public RabbitTemplate firstRabbitTemplate(
+//            @Qualifier("v2ConnectionFactory") ConnectionFactory connectionFactory,
+//            @Value("$&#123;v2.spring.rabbitmq.template.mandatory&#125;") Boolean mandatory) &#123;
+//        RabbitTemplate v2RabbitTemplate = new RabbitTemplate(connectionFactory);
+//        v2RabbitTemplate.setMandatory(mandatory);
+//        v2RabbitTemplate.setConfirmCallback((correlationData, ack, s) -&gt; &#123;
+//            if (!ack) &#123;
+////                    LOGGER.info("&#123;&#125; 发送RabbitMQ消息 ack确认 失败: [&#123;&#125;]", this.name, JSON.toJSONString(object));
+//            &#125; else &#123;
+////                    LOGGER.info("&#123;&#125; 发送RabbitMQ消息 ack确认 成功: [&#123;&#125;]", this.name, JSON.toJSONString(object));
+//            &#125;
+//        &#125;);
+//        v2RabbitTemplate.setReturnCallback((message, code, s, exchange, routingKey) -&gt; &#123;
+////                LOGGER.error("&#123;&#125; 发送RabbitMQ消息returnedMessage，出现异常，Exchange不存在或发送至Exchange却没有发送到Queue中，message：[&#123;&#125;], code[&#123;&#125;], s[&#123;&#125;], exchange[&#123;&#125;], routingKey[&#123;&#125;]", new Object[]&#123;this.name, JSON.toJSONString(message), JSON.toJSONString(code), JSON.toJSONString(s), JSON.toJSONString(exchange), JSON.toJSONString(routingKey)&#125;);
+//        &#125;);
+//        return v2RabbitTemplate;
+//    &#125;
+//
+//    @Bean(name = "v2ContainerFactory")
+//    public SimpleRabbitListenerContainerFactory hospSyncFactory(
+//            @Qualifier("v2ConnectionFactory") ConnectionFactory connectionFactory,
+//            @Value("$&#123;v2.spring.rabbitmq.listener.simple.acknowledge-mode&#125;") String acknowledge,
+//            @Value("$&#123;v2.spring.rabbitmq.listener.simple.prefetch&#125;") Integer prefetch
+//    ) &#123;
+//        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+//        factory.setConnectionFactory(connectionFactory);
+//        factory.setAcknowledgeMode(AcknowledgeMode.valueOf(acknowledge.toUpperCase()));
+//        factory.setPrefetchCount(prefetch);
+//        return factory;
+//    &#125;
+//
+//    @Bean(name = "v2RabbitAdmin")
+//    public RabbitAdmin iqianzhanRabbitAdmin(
+//            @Qualifier("v2ConnectionFactory") ConnectionFactory connectionFactory) &#123;
+//        RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
+//        rabbitAdmin.setAutoStartup(true);
+//        return rabbitAdmin;
+//    &#125;
 
 
+    
 
-
-
-
+&#125;
+</code></pre>
 <p>application.yaml:</p>
-
-
-
-
+<pre><code class="yaml">v1:	
+    my:
+          spring:
+        rabbitmq:
+          host: xxx.com
+          port: 5672
+          username: xxx
+          password: xxx
+          virtual-host: xxx
+          publisher-confirms: true
+          publisher-returns: true
+          listener:
+            simple:
+              acknowledge-mode: auto
+              prefetch: 15
+          template:
+            mandatory: false
+</code></pre>
 <blockquote>
 <p>acknowledge-mode说明</p>
 </blockquote>
@@ -140,25 +301,77 @@
 <li><code>AcknowledgeMode.AUTO</code>模式下，由<code>spring-rabbit</code>依据消息处理逻辑是否抛出异常自动发送<code>ack</code>（无异常）或<code>nack</code>（异常）到<code>server</code>端。</li>
 </ul>
 <p>自动确认ack，消费者代码参考：</p>
+<pre><code class="java">@RabbitHandler
+    public void consumer(String message)&#123;
+        try &#123;
+            JSONObject messageJSON = JSON.parseObject(message);
+            EventIdentity eventId = EventIdentity.valueOf(messageJSON.getString("eventId"));
+            BaseEventMessageVO&lt;?&gt; eventMessageVO = eventId.parseJSONToVO(message);
+            if (eventMessageVO != null)
+                onMessage(eventMessageVO);
+            else
+                log.debug("解析message失败，无法取得合适的对象!!,message:&#123;&#125;",message);
+        &#125; catch (Exception e) &#123;
+            //捕获异常，保证ack消息正常确认,防止出现消息循环消费并堵塞队列
+            log.error("queens xxx 消费失败!!,message:&#123;&#125;",message,e);
+        &#125;
 
-
-
-
-
-
-
-
+    &#125;
+</code></pre>
 <ul>
 <li><code>AcknowledgeMode.MANUAL</code>模式需要人为地获取到<code>channel</code>之后调用方法向<code>server</code>发送<code>ack</code>（或消费失败时的<code>nack</code>）信息。</li>
 </ul>
 <p>手动确认ack，消费者代码参考:</p>
 <p>​	</p>
+<pre><code class="java">public void receive(Message message, Channel channel) throws IOException &#123;
+        log.info("BaseIMReceiver.receive,mq头信息：&#123;&#125;", message.getMessageProperties());
+        log.info("收到的mq消息：&#123;&#125;", message.getBody());
+        IMMQMessage immqMessage = null;
+        String msg = null;
 
+        try &#123;
+            String body = new String(message.getBody(), "utf-8");
+            immqMessage = JSON.parseObject(body, IMMQMessage.class);
+            msg = immqMessage.getBody();
+            log.info("接收转换的body消息：&#123;&#125;", msg);
+        &#125; catch (UnsupportedEncodingException e) &#123;
+            log.error("消息格式不正确，error msg:&#123;&#125;", message.getBody());
+        &#125;
 
+        if (!StringUtils.hasText(msg)) &#123;
+            //ack返回true，告诉服务器收到这条消息 已经被我消费了 可以在队列删掉 这样以后就不会再发了
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            log.warn("转换mq的message出问题，将错误格式的消息从队列中清除!!,message:&#123;&#125;", message.getBody());
+            return;
+        &#125;
 
+        boolean ack = true;
+        Exception exception = null;
+        if (immqMessage.getRetrySize() &lt; 3) &#123;
+            try &#123;
+                processing(msg);
+                ack = true;
+            &#125; catch (Exception e) &#123;
+                ack = false;
+                exception = e;
+            &#125;
+        &#125; else &#123;
+            log.warn("此消息重试3次仍然请求失败!!,message:&#123;&#125;", msg);
+            try &#123;
+                saveRetryFailMessage(msg);
+            &#125; catch (Exception e) &#123;
+                log.error("保存重试3次仍然失败的消息出错!!,message:&#123;&#125;", msg, e);
+            &#125;
+        &#125;
 
-
-
+        if (!ack) &#123;
+            log.error("消息消费发生异常，error msg:&#123;&#125;", exception.getMessage(), exception);
+            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+        &#125; else &#123;
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        &#125;
+    &#125;
+</code></pre>
 <h4 id="server端行为"><a title="server端行为" class="headerlink" href="#server端行为"></a>server端行为</h4><ul>
 <li>rabbitmq server推送给每个channel的消息数量有限制，会保证每个channel没有收到ack的消息数量不会超过prefetchCount。</li>
 <li>server端会暂存没有收到ack的消息，等消费端ack后才会丢掉；如果收到消费端的nack（消费失败的标识）或connection断开没收到反馈，会将消息放回到原队列头部。</li>
@@ -503,11 +716,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -600,15 +813,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

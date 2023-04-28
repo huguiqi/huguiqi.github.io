@@ -144,10 +144,39 @@
 <p>这个方法发现，以//开头的注释有36335-36064=271行。这里需要注意的是，注释行未必就以//作为开头，可能N个空格之后才开始的的//，所以匹配时需要加上上面的^\s*放在开头。</p>
 <p>以上的命令行只是针对当前目录的代码统计，那如果是真实的项目代码统计呢？</p>
 
-<h1 id="shell命令行统计java项目代码量"><a title="shell命令行统计java项目代码量" class="headerlink" href="#shell命令行统计java项目代码量"></a>shell命令行统计java项目代码量</h1>
-
-
-
+<h1 id="shell命令行统计java项目代码量"><a title="shell命令行统计java项目代码量" class="headerlink" href="#shell命令行统计java项目代码量"></a>shell命令行统计java项目代码量</h1><pre><code># !/bin/bash
+ 
+declare -i filenumber=0
+declare -i linenumber=0
+ 
+list\_alldir()&#123;
+        for file in `ls -a $1`
+                do
+                            if [ x"$file" != x"." -a x"$file" != x".." ];then
+                                            if [ -d "$1/$file" ];then
+                                                                list_alldir "$1/$file"
+                                                                        else
+                                                                                    if [ $file =~ \.java$ ]; then
+                                                                                                    echo "$1/$file"
+                                                                                                                filenumber=$filenumber+1
+                                                                                                                            linenumber=$linenumber+`cat "$1/$file"|wc -l`
+                                                                                                                                    fi
+                                                                                                                                                fi
+                                                                                                                                                        fi
+                                                                                                                                                            done
+                                                                                                                                                        &#125;
+    
+                                                                                                                                                        if [ "$1" = "" ];then
+                                                                                                                                                            arg="."
+                                                                                                                                                        else
+                                                                                                                                                            arg="./"$1
+                                                                                                                                                        fi
+    
+                                                                                                                                                        list_alldir $arg
+    
+                                                                                                                                                        echo "There are $filenumber java files under directory: $arg"
+                                                                                                                                                        echo "--total code lines are: $linenumber"
+</code></pre>
 <p>不会脚本？没关系，如果你是mac电脑，可以使用以下这个工具：</p>
 <p>这里介绍一个Mac系统统计代码行数的工具cloc。</p>
 <p> 1、 首先，安装homebrew，已安装的请跳过。</p>
@@ -166,13 +195,13 @@
 <pre><code>cloc ./ --exclude-dir=Pods
 </code></pre>
 <p>统计结果清晰明了，而且速度极快：        </p>
-<p><img alt="paste image" src="http://clockcoder.com/images/153226348102195sxknzr.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/153226348102195sxknzr.png?imageslim"></p>
 <p>4、高级用法</p>
 <p>如果我们要排除更多的文件夹该怎么处理呢？每个人的记忆能力是有限的，想知道更多的用法最好的方式就是查看cloc的使用文档，在terminal中输入：</p>
 <pre><code>cloc --help
 </code></pre>
 <p>结果出现了好几页的说明，根据关键词我们找到exclude选项，该选项是这么介绍的：</p>
-<p><img alt="paste image" src="http://clockcoder.com/images/1532263527480b51xmd0a.png?imageslim"></p>
+<p><img loading="lazy" alt="paste image" src="http://clockcoder.com/images/1532263527480b51xmd0a.png?imageslim"></p>
 <p>这样就简单了，于是我们敲出下列命令达到我们的目的：</p>
 <p>cloc ./ –exclude-dir=Pods,WuJieCaoJokeTest<br>此外，基于文档，我们还可以过滤掉特定的后缀(ext)等。</p>
 <p>/##THAT IS ALL.</p>
@@ -501,11 +530,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -598,15 +627,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

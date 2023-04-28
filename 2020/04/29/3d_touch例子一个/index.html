@@ -126,43 +126,146 @@
 </ul>
 <h5 id="2-如何设置（静态设置）"><a title="2) 如何设置（静态设置）" class="headerlink" href="#2-如何设置（静态设置）"></a>2) 如何设置（静态设置）</h5><p> 根据apple官方文档api的介绍:（Define static quick actions in your app’s Info.plist file in the UIApplicationShortcutItems array.）也就是在info.plist中有的UIApplicationShortcutItems节点下面需要定义快捷按钮(图标用的是系统的)：</p>
 <p>  info.plist:  </p>
-  
+<pre><code>&lt;key&gt;UIApplicationShortcutItems&lt;/key&gt;
+  &lt;array&gt;
+      &lt;dict&gt;
+          &lt;key&gt;UIApplicationShortcutItemIconType&lt;/key&gt;
+          &lt;string&gt;UIApplicationShortcutIconTypeSearch&lt;/string&gt;
+          &lt;key&gt;UIApplicationShortcutItemSubtitle&lt;/key&gt;
+          &lt;string&gt;shortcutSubtitle1&lt;/string&gt;
+          &lt;key&gt;UIApplicationShortcutItemTitle&lt;/key&gt;
+          &lt;string&gt;shortcutTitle1&lt;/string&gt;
+          &lt;key&gt;UIApplicationShortcutItemType&lt;/key&gt;
+          &lt;string&gt;$(PRODUCT_BUNDLE_IDENTIFIER).First&lt;/string&gt;
+          &lt;key&gt;UIApplicationShortcutItemUserInfo&lt;/key&gt;
+          &lt;dict&gt;
+              &lt;key&gt;firstShorcutKey1&lt;/key&gt;
+              &lt;string&gt;firstShortcutKeyValue1&lt;/string&gt;
+          &lt;/dict&gt;
+      &lt;/dict&gt;
+      &lt;dict&gt;
+          &lt;key&gt;UIApplicationShortcutItemIconType&lt;/key&gt;
+          &lt;string&gt;UIApplicationShortcutIconTypeShare&lt;/string&gt;
+          &lt;key&gt;UIApplicationShortcutItemSubtitle&lt;/key&gt;
+          &lt;string&gt;shortcutSubtitle2&lt;/string&gt;
+          &lt;key&gt;UIApplicationShortcutItemTitle&lt;/key&gt;
+          &lt;string&gt;shortcutTitle2&lt;/string&gt;
+          &lt;key&gt;UIApplicationShortcutItemType&lt;/key&gt;
+          &lt;string&gt;$(PRODUCT_BUNDLE_IDENTIFIER).Second&lt;/string&gt;
+          &lt;key&gt;UIApplicationShortcutItemUserInfo&lt;/key&gt;
+          &lt;dict&gt;
+              &lt;key&gt;secondShortcutKey1&lt;/key&gt;
+              &lt;string&gt;secondShortcutValue1&lt;/string&gt;
+          &lt;/dict&gt;
+      &lt;/dict&gt;
+  &lt;/array&gt;
+</code></pre>
 <p> appDelegate impl:</p>
 <ul>
 <li>obj-c:</li>
 </ul>
- 
+<pre><code>-(void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler&#123;
 
+
+&#125;
+</code></pre>
 <ul>
 <li>swift:</li>
 </ul>
+<pre><code>func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: Bool -&gt; Void)&#123;
 
-
+&#125;
+</code></pre>
 <h5 id="3）动态设置"><a title="3）动态设置" class="headerlink" href="#3）动态设置"></a>3）动态设置</h5><ul>
 <li>obj-c:</li>
 </ul>
+<pre><code>UIApplication *app = [UIApplication sharedApplication]; 
+//1.获取shortcutItems
+NSArray *existingShortcutItems = [app shortcutItems];
 
+//2.获取第0个shortcutItem  
+UIApplicationShortcutItem *oldItem = [existingShortcutItems objectAtIndex: 0];  
 
+//3.更新shortcutItems
+//将旧的shortcutItem改变为可修改类型shortcutItem  
+UIMutableApplicationShortcutItem *mutableItem = [oldItem mutableCopy];  
+
+//修改shortcutItem的显示标题  
+[mutableItem setLocalizedTitle: @“Share”];
+
+//根据旧的shortcutItems生成可变shortcutItems数组  
+NSMutableArray *updatedShortcutItems = [existingShortcutItems mutableCopy];  
+
+//修改可变shortcutItems数组中对应index下的元素为新的shortcutItem  
+[updatedShortcutItems replaceObjectAtIndex: 0 withObject: mutableItem];  
+
+//修改应用程序对象的shortcutItems为新的数组  
+[app setShortcutItems: updatedShortcutItems];
+</code></pre>
 <ul>
 <li>swift:</li>
 </ul>
-
-
+<pre><code>
+ let shortcut3 = UIMutableApplicationShortcutItem(type: "Third", localizedTitle: "Play", localizedSubtitle: "Will Play an item", icon: UIApplicationShortcutIcon(type: .Play), userInfo: [
+                    AppDelegate.applicationShortcutUserInfoIconKey: UIApplicationShortcutIconType.Play.rawValue
+                ]
+            )
+            
+            let shortcut4 = UIMutableApplicationShortcutItem(type: "Third", localizedTitle: "Pause", localizedSubtitle: "Will Pause an item", icon: UIApplicationShortcutIcon(type: .Pause), userInfo: [
+                    AppDelegate.applicationShortcutUserInfoIconKey: UIApplicationShortcutIconType.Pause.rawValue
+                ]
+            )
+            
+            // Update the application providing the initial 'dynamic' shortcut items.
+            application.shortcutItems = [shortcut3, shortcut4]
+            
+</code></pre>
 <h5 id="自定义设置3D-touch图标"><a title="自定义设置3D touch图标" class="headerlink" href="#自定义设置3D-touch图标"></a>自定义设置3D touch图标</h5><p>官方文档给出三个必要条件：<br><br>1.使用UIApplicationShortcutItemIconFile类型声明<br><br>2. 提供的图片必须是35*35的像素<br>3. 图片的颜色必须是单色(single color)</p>
 <p>sample:</p>
-
-
-<p>customer_3DTouch：<br><img alt="customer_3DTouch" src="http://7xqayq.com1.z0.glb.clouddn.com/image05763BBD-7CDE-40C9-99BB-584B16C00D0B.png">  </p>
+<pre><code>&lt;dict&gt;
+            &lt;key&gt;UIApplicationShortcutItemIconFile&lt;/key&gt;
+            &lt;string&gt;customer_3DTouch&lt;/string&gt;
+            &lt;key&gt;UIApplicationShortcutItemSubtitle&lt;/key&gt;
+            &lt;string&gt;shortcutSubtitle3&lt;/string&gt;
+            &lt;key&gt;UIApplicationShortcutItemTitle&lt;/key&gt;
+            &lt;string&gt;shortcutTitle3&lt;/string&gt;
+            &lt;key&gt;UIApplicationShortcutItemType&lt;/key&gt;
+            &lt;string&gt;$(PRODUCT_BUNDLE_IDENTIFIER).Second&lt;/string&gt;
+            &lt;key&gt;UIApplicationShortcutItemUserInfo&lt;/key&gt;
+            &lt;dict&gt;
+                &lt;key&gt;thirdShortcutKey1&lt;/key&gt;
+                &lt;string&gt;thirdShortcutValue1&lt;/string&gt;
+            &lt;/dict&gt;
+        &lt;/dict&gt;
+                     
+</code></pre>
+<p>customer_3DTouch：<br><img loading="lazy" alt="customer_3DTouch" src="http://7xqayq.com1.z0.glb.clouddn.com/image05763BBD-7CDE-40C9-99BB-584B16C00D0B.png">  </p>
 <h4 id="二，3D-touch的peek-amp-pop"><a title="二，3D touch的peek&amp;pop" class="headerlink" href="#二，3D-touch的peek-amp-pop"></a>二，3D touch的peek&amp;pop</h4><p>实现3D touch的peek和pop需要三步：  </p>
 <ol>
 <li>ios9以后在UIViewController里添加了一个UIViewControllerPreviewingDelegate协议，需要实现这个delegate</li>
 <li>注册开启使用peek&amp;pop，在哪里用，sourceView就写哪个view</li>
 </ol>
-
-
+<pre><code>[self registerForPreviewingWithDelegate:self sourceView:homeCell];
+</code></pre>
 <p>3, 重载两个方法</p>
+<pre><code>- (nullable UIViewController *)previewingContext:(id &lt;UIViewControllerPreviewing&gt;)previewingContext viewControllerForLocation:(CGPoint)location&#123;
+    
+     Show3DViewController *childVC = (Show3DViewController *)InstantiateControllerFromXIB([Show3DViewController class]);
+//     UIViewController *childVC = [[UIViewController alloc] init];
+    
+    childVC.preferredContentSize = CGSizeMake(0.0f,300.0f);
+    
+    CGRect rect = CGRectMake(10, location.y - 10, self.view.frame.size.width - 20,20);
+    previewingContext.sourceRect = rect;
+    return childVC;
+&#125;
 
 
+- (void)previewingContext:(id &lt;UIViewControllerPreviewing&gt;)previewingContext commitViewController:(UIViewController *)viewControllerToCommit&#123;
+    
+     [self showViewController:viewControllerToCommit sender:self]; 
+&#125;
+</code></pre>
 <ul>
 <li>实例<br><br><a target="_blank" rel="noopener" href="https://github.com/huguiqi/demos/tree/master/obj-c/Objc_demo">peek&amp;pop的例子</a></li>
 </ul>
@@ -202,18 +305,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/2016.1_jetbrains注册与破解/" title="2016.1_JetBrains注册与破解">
+ <a href="/2020/04/29/3月份面试题po出/" title="三月份的面试题目">
   <strong>上一篇：</strong><br/>
   <span>
-  2016.1_JetBrains注册与破解</span>
+  三月份的面试题目</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/2）/"  title="2）">
+<a href="/2020/04/29/@synthesize和@dynamic区别/"  title="synthesize和 dynamic区别">
  <strong>下一篇：</strong><br/> 
- <span>2）
+ <span>synthesize和 dynamic区别
 </span>
 </a>
 </div>
@@ -490,11 +593,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -587,15 +690,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

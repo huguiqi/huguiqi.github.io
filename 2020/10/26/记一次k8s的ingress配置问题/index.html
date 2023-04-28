@@ -144,10 +144,27 @@ spec:
 <p>以下是k8s官网例子的链接：</p>
 <p><a target="_blank" rel="noopener" href="https://v1-16.docs.kubernetes.io/zh/docs/concepts/services-networking/ingress/#ingress-%e8%b5%84%e6%ba%90">https://v1-16.docs.kubernetes.io/zh/docs/concepts/services-networking/ingress/#ingress-%e8%b5%84%e6%ba%90</a></p>
 <h1 id="正确的域名分列配置"><a title="正确的域名分列配置" class="headerlink" href="#正确的域名分列配置"></a>正确的域名分列配置</h1><p>正确的域名分列配置：</p>
-
-
-
-
+<pre><code class="yaml">apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: rewrite
+  namespace: default
+spec:
+  rules:
+  - host: foo.bar.com
+    http:
+      paths:
+      - backend:
+          serviceName: service1
+          servicePort: 4200
+        path: /foo(/|$)(.*)
+      - backend:
+          serviceName: service2
+          servicePort: 8080
+        path: /bar(/|$)(.*)  
+</code></pre>
 <p>以上配置进入访问时最终将转发解析到foo.bar.com下:</p>
 <ul>
 <li><code>foo.bar.com/foo</code> rewrites to <code>foo.bar.com/</code></li>
@@ -480,11 +497,11 @@ spec:
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -577,15 +594,15 @@ spec:
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

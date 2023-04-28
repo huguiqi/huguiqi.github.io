@@ -14,12 +14,12 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="准备RPM包下载地址     download.sh:     安装  初始化数据库默认数据目录： &#x2F;var&#x2F;lib&#x2F;pgsql&#x2F;10&#x2F;data&#x2F;   自定义目录   修改service环境变量修改Environment:PGDATA的数据目录为&#x2F;opt&#x2F;PostgreSQL&#x2F;data   修改postgres用户的环境变量PGDATA   启动  登录  查看当前数据目录  修改密码  数据库登">
+    <meta name="description" content="准备RPM包下载地址 postgresql10-10.4-1PGDG.rhel7.x86_64.rpm postgresql10-contrib-10.4-1PGDG.rhel7.x86_64.rpm postgresql10-libs-10.4-1PGDG.rhel7.x86_64.rpm postgresql10-server-10.4-1PGDG.rhel7.x86_64.rpm  down">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS7下使用RPM安装PostgreSQL10">
 <meta property="og:url" content="http://clockcoder.com/2022/01/11/CentOS7%E4%B8%8B%E4%BD%BF%E7%94%A8RPM%E5%AE%89%E8%A3%85PostgreSQL10/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="准备RPM包下载地址     download.sh:     安装  初始化数据库默认数据目录： &#x2F;var&#x2F;lib&#x2F;pgsql&#x2F;10&#x2F;data&#x2F;   自定义目录   修改service环境变量修改Environment:PGDATA的数据目录为&#x2F;opt&#x2F;PostgreSQL&#x2F;data   修改postgres用户的环境变量PGDATA   启动  登录  查看当前数据目录  修改密码  数据库登">
+<meta property="og:description" content="准备RPM包下载地址 postgresql10-10.4-1PGDG.rhel7.x86_64.rpm postgresql10-contrib-10.4-1PGDG.rhel7.x86_64.rpm postgresql10-libs-10.4-1PGDG.rhel7.x86_64.rpm postgresql10-server-10.4-1PGDG.rhel7.x86_64.rpm  down">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pg.sjk66.com/static/attach/psql/01.png">
 <meta property="og:image" content="https://pg.sjk66.com/static/attach/psql/02.png">
@@ -119,104 +119,145 @@
 		</div>
 		
 		<h2 id="准备RPM包"><a title="准备RPM包" class="headerlink" href="#准备RPM包"></a>准备RPM包</h2><p><a target="_blank" rel="noopener" href="https://yum.postgresql.org/10/redhat/rhel-7-x86_64/repoview/postgresqldbserver10.group.html">下载地址</a></p>
-
-
-
-
+<pre><code>postgresql10-10.4-1PGDG.rhel7.x86_64.rpm
+postgresql10-contrib-10.4-1PGDG.rhel7.x86_64.rpm
+postgresql10-libs-10.4-1PGDG.rhel7.x86_64.rpm
+postgresql10-server-10.4-1PGDG.rhel7.x86_64.rpm
+</code></pre>
 <p>download.sh:</p>
+<pre><code class="shell">wget https://yum.postgresql.org/10/redhat/rhel-7-x86_64/postgresql10-10.7-1PGDG.rhel7.x86_64.rpm
 
+wget https://yum.postgresql.org/10/redhat/rhel-7-x86_64/postgresql10-contrib-10.7-1PGDG.rhel7.x86_64.rpm
 
+wget https://yum.postgresql.org/10/redhat/rhel-7-x86_64/postgresql10-libs-10.7-1PGDG.rhel7.x86_64.rpm
 
-
-<h2 id="安装"><a title="安装" class="headerlink" href="#安装"></a>安装</h2>
-
+wget https://yum.postgresql.org/10/redhat/rhel-7-x86_64/postgresql10-server-10.7-1PGDG.rhel7.x86_64.rpm
+</code></pre>
+<h2 id="安装"><a title="安装" class="headerlink" href="#安装"></a>安装</h2><pre><code class="sh">rpm -ivh *.rpm
+</code></pre>
 <h2 id="初始化数据库"><a title="初始化数据库" class="headerlink" href="#初始化数据库"></a>初始化数据库</h2><p>默认数据目录： /var/lib/pgsql/10/data/</p>
-
-
+<pre><code>/usr/pgsql-10/bin/postgresql-10-setup initdb
+</code></pre>
 <p>自定义目录</p>
-
-
+<pre><code>mkdir -p /opt/PostgreSQL/data
+chmod 755 -R /opt/PostgreSQL/data
+chown postgres:postgres -R /opt/PostgreSQL
+su postgres
+/usr/pgsql-10/bin/initdb --encoding=UTF-8  --local=zh_CN.UTF8 --username=postgres --pwprompt --pgdata=/opt/PostgreSQL/data
+</code></pre>
 <h2 id="修改service环境变量"><a title="修改service环境变量" class="headerlink" href="#修改service环境变量"></a>修改service环境变量</h2><p>修改Environment:PGDATA的数据目录为/opt/PostgreSQL/data</p>
-
-
+<pre><code>vim /usr/lib/systemd/system/postgresql-10.service
+systemctl daemon-reload
+</code></pre>
 <p>修改postgres用户的环境变量PGDATA</p>
-
-
-<h1 id="启动"><a title="启动" class="headerlink" href="#启动"></a>启动</h1>
-
-<h2 id="登录"><a title="登录" class="headerlink" href="#登录"></a>登录</h2>
-
-<h2 id="查看当前数据目录"><a title="查看当前数据目录" class="headerlink" href="#查看当前数据目录"></a>查看当前数据目录</h2>
-
-<h2 id="修改密码"><a title="修改密码" class="headerlink" href="#修改密码"></a>修改密码</h2>
-
+<pre><code>su postgres
+vi ~/.bash_profile
+</code></pre>
+<h1 id="启动"><a title="启动" class="headerlink" href="#启动"></a>启动</h1><pre><code># 启动
+systemctl start postgresql-10.service
+# 开机启动
+systemctl enable postgresql-10.service
+# 关闭开机启动
+systemctl disable postgresql-10.service
+</code></pre>
+<h2 id="登录"><a title="登录" class="headerlink" href="#登录"></a>登录</h2><pre><code>su postgres
+psql -U postgres
+</code></pre>
+<h2 id="查看当前数据目录"><a title="查看当前数据目录" class="headerlink" href="#查看当前数据目录"></a>查看当前数据目录</h2><pre><code>show data_directory;
+----------------------
+ /opt/PostgreSQL/data
+(1 row)
+</code></pre>
+<h2 id="修改密码"><a title="修改密码" class="headerlink" href="#修改密码"></a>修改密码</h2><pre><code>postgres=# \password
+ALTER USER postgres WITH PASSWORD 'xxxxx';
+</code></pre>
 <h1 id="数据库登录权限设置"><a title="数据库登录权限设置" class="headerlink" href="#数据库登录权限设置"></a>数据库登录权限设置</h1><p><code>vim $PGDATA/pg_hba.conf</code> 权限相关配置:</p>
+<pre><code># TYPE  DATABASE        USER            ADDRESS                 METHOD
 
-
+# "local" is for Unix domain socket connections only
+local   all             all                                     md5
+# IPv4 local connections:
+#host    all             all             127.0.0.1/32            trust
+host    all             all             0.0.0.0/0               md5
+# IPv6 local connections:
+#host    all             all             ::1/128                 trust
+host    all             all             ::0/0                 md5
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+#local   replication     all                                     trust
+#host    replication     all             127.0.0.1/32            trust
+#host    replication     all             ::1/128                 trust
+host   replication     repl          slave         trust
+</code></pre>
 <p>设置trust，本地可以使用psql -U postgres直接登录服务器<br>设置peer，本地可以使用 <code>psql -h 127.0.0.1 -d postgres -U postgres</code> 直接登录服务器<br>设置password，使用用户名密码登录</p>
 <p><code>$PGDATA/postgresql.conf</code>  数据库相关配置</p>
-
-
+<pre><code>listen_addresses = '*'
+posrt = 5432
+</code></pre>
 <p>设置监听任意IP, 允许任意ip连接数据库<br>更多权限说明，见<a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/10/static/auth-methods.html">官方文档</a></p>
-<h2 id="新建superAdmin"><a title="新建superAdmin" class="headerlink" href="#新建superAdmin"></a>新建superAdmin</h2>
-
-
-
+<h2 id="新建superAdmin"><a title="新建superAdmin" class="headerlink" href="#新建superAdmin"></a>新建superAdmin</h2><pre><code class="shell">createuser -P -s -e sonar
+Enter password for new role: sonar
+Enter it again: sonar
+CREATE ROLE joe PASSWORD 'md5b5f5ba1a423792b526f799ae4eb3d59e' SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;
+</code></pre>
 <h2 id="其它pgsql命令"><a title="其它pgsql命令" class="headerlink" href="#其它pgsql命令"></a>其它pgsql命令</h2><p>要以 SSL 模式连接，可以像下面这样：</p>
-
-
+<pre><code>psql -U user -h host "dbname=db sslmode=require"
+</code></pre>
 <h3 id="切换到另一个数据库"><a title="切换到另一个数据库" class="headerlink" href="#切换到另一个数据库"></a>切换到另一个数据库</h3><p>当连接上一个数据库后，还可以切换到另一个数据库上，甚至使用不同的用户进行切换。一旦切换连接，当前的连接将被关闭。</p>
-
-
+<pre><code>\c dbname username
+</code></pre>
 <p>如果省略 <code>username</code>，将使用当前用户。</p>
-
-
+<pre><code>sjk66=# \c postgres
+用户 postgres 的口令：
+您现在已经连接到数据库 "postgres",用户 "postgres".
+postgres=#
+</code></pre>
 <h3 id="列出所有可用的数据库"><a title="列出所有可用的数据库" class="headerlink" href="#列出所有可用的数据库"></a>列出所有可用的数据库</h3><p>要列出当前服务器上，所有的数据库，可以使用 <code>\l</code> 命令：</p>
-
-
+<pre><code>\l
+</code></pre>
 <h3 id="列出所有可用的表"><a title="列出所有可用的表" class="headerlink" href="#列出所有可用的表"></a>列出所有可用的表</h3><p>要列出当前数据库中，所有的表，可以使用 <code>\dt</code> 命令：</p>
-
-
+<pre><code>\dt
+</code></pre>
 <h3 id="描述表"><a title="描述表" class="headerlink" href="#描述表"></a>描述表</h3><p>要获取表的描述，诸如字段、数据库类型等，可以使用以下命令：</p>
-
-
-<h3 id="列出所有可用的-schema"><a title="列出所有可用的 schema" class="headerlink" href="#列出所有可用的-schema"></a>列出所有可用的 schema</h3>
-
-<h3 id="列出所有可用的函数"><a title="列出所有可用的函数" class="headerlink" href="#列出所有可用的函数"></a>列出所有可用的函数</h3>
-
-<h3 id="列出所有视图"><a title="列出所有视图" class="headerlink" href="#列出所有视图"></a>列出所有视图</h3>
-
-<h3 id="再次执行上一个命令"><a title="再次执行上一个命令" class="headerlink" href="#再次执行上一个命令"></a>再次执行上一个命令</h3>
-
-<h3 id="查看命令记录"><a title="查看命令记录" class="headerlink" href="#查看命令记录"></a>查看命令记录</h3>
-
+<pre><code>\d table_name
+</code></pre>
+<h3 id="列出所有可用的-schema"><a title="列出所有可用的 schema" class="headerlink" href="#列出所有可用的-schema"></a>列出所有可用的 schema</h3><pre><code>\dn
+</code></pre>
+<h3 id="列出所有可用的函数"><a title="列出所有可用的函数" class="headerlink" href="#列出所有可用的函数"></a>列出所有可用的函数</h3><pre><code>\df
+</code></pre>
+<h3 id="列出所有视图"><a title="列出所有视图" class="headerlink" href="#列出所有视图"></a>列出所有视图</h3><pre><code>\du
+</code></pre>
+<h3 id="再次执行上一个命令"><a title="再次执行上一个命令" class="headerlink" href="#再次执行上一个命令"></a>再次执行上一个命令</h3><pre><code>\g
+</code></pre>
+<h3 id="查看命令记录"><a title="查看命令记录" class="headerlink" href="#查看命令记录"></a>查看命令记录</h3><pre><code>\s
+</code></pre>
 <p>如果要将命令记录保存到一个文件中，可以：</p>
-
-
+<pre><code>\s 文件名
+</code></pre>
 <h3 id="获取帮助"><a title="获取帮助" class="headerlink" href="#获取帮助"></a>获取帮助</h3><p>获取所有可用的 psql 命令：</p>
-
-
+<pre><code>\?
+</code></pre>
 <p>查看某个 PostgreSQL 语句的帮助信息：</p>
-
-
+<pre><code>\h 语句
+</code></pre>
 <p>比如：</p>
-
-
+<pre><code>\h CREATE TABLE
+</code></pre>
 <h3 id="开启查询执行时间"><a title="开启查询执行时间" class="headerlink" href="#开启查询执行时间"></a>开启查询执行时间</h3><p>要开启查询执行时间功能， 使用 <code>\timing</code> 命令：</p>
-
-
+<pre><code>\timing 
+</code></pre>
 <p>再次执行该命令，会把该功能关闭。</p>
-<h3 id="使用编辑器编辑命令"><a title="使用编辑器编辑命令" class="headerlink" href="#使用编辑器编辑命令"></a>使用编辑器编辑命令</h3>
-
-<p><img alt="psql" src="https://pg.sjk66.com/static/attach/psql/01.png"></p>
-<p><img alt="psql" src="https://pg.sjk66.com/static/attach/psql/02.png"></p>
+<h3 id="使用编辑器编辑命令"><a title="使用编辑器编辑命令" class="headerlink" href="#使用编辑器编辑命令"></a>使用编辑器编辑命令</h3><pre><code>\e
+</code></pre>
+<p><img loading="lazy" alt="psql" src="https://pg.sjk66.com/static/attach/psql/01.png"></p>
+<p><img loading="lazy" alt="psql" src="https://pg.sjk66.com/static/attach/psql/02.png"></p>
 <p>更常用的情景是，使用编辑器来编辑函数：</p>
-
-
+<pre><code>\ef [函数名]
+</code></pre>
 <h3 id="切换输出选项"><a title="切换输出选项" class="headerlink" href="#切换输出选项"></a>切换输出选项</h3><p><code>\a</code>：将字段对齐输出切换为不对齐输出</p>
 <p><code>\H</code>：将使用 HTML 格式输出</p>
-<h3 id="退出-psql"><a title="退出 psql" class="headerlink" href="#退出-psql"></a>退出 psql</h3>
-
+<h3 id="退出-psql"><a title="退出 psql" class="headerlink" href="#退出-psql"></a>退出 psql</h3><pre><code>\q
+</code></pre>
 <p>postgres=# \du</p>
 <p>参考文章：</p>
 <p><a target="_blank" rel="noopener" href="https://pg.sjk66.com/postgresql/psql.html">https://pg.sjk66.com/postgresql/psql.html</a></p>
@@ -545,11 +586,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -642,15 +683,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

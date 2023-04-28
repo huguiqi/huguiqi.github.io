@@ -142,7 +142,7 @@
 
 <p>/JMeter（后面的文章中将使用%JMeter%来引用这个目录）目录下。</p>
 <p>现在，请使用%JMeter%/bin下面的jmeter.bat批处理文件来启动JMeter的可视化界面，下面的工作都将在这个可视化界面界面上进行操作。下面的图片是JMeter的可视化界面的屏幕截图。</p>
-<p><br><strong>图一： JMeter打开时的屏幕截图</strong><br><img src="/JMeter.resources/C8F26B0C-7D0C-46B8-A82E-1C89A88AE852.png"><br><span>2.3 建立测试计划（Test Plan）</span></p>
+<p><br><strong>图一： JMeter打开时的屏幕截图</strong><br><img loading="lazy" src="/JMeter.resources/C8F26B0C-7D0C-46B8-A82E-1C89A88AE852.png"><br><span>2.3 建立测试计划（Test Plan）</span></p>
 <p>测试计划描述了执行测试过程中JMeter的执行过程和步骤，一个完整的测试计划包括一个或者多个线程组(Thread<br>Groups)、逻辑控制（Logic Controller）、实例产生控制器（Sample Generating<br>Controllers）、侦听器(Listener)、定时器（Timer）、比较（Assertions）、配置元素（Config<br>Elements）。打开JMeter时，它已经建立一个默认的测试计划,一个JMeter应用的实例只能建立或者打开一个测试计划。</p>
 <p>现在我们开始填充一个测试计划的内容，这个测试计划向一个jsp文件和一个servlet发出请求，我们需要JMeter模拟五个请求者（也就是五个线程），每个请求者连续请求两次，下面的章节介绍了详细的操作步骤。</p>
 <p><span>2.4 增加负载信息设置</span></p>
@@ -150,27 +150,27 @@
 <p>1. 选中可视化界面中左边树的Test Plan节点，单击右键，选择Add’Thread<br>Group，界面右边将会出现他的设置信息框。</p>
 <p>2. Thread Group有三个和负载信息相关的参数：<br> Number of Threads： 设置发送请求的用户数目<br> Ramp-up period：<br>每个请求发生的总时间间隔，单位是秒。比如你的请求数目是5，而这个参数是10，那么每个请求之间的间隔就是10／5，也就是2秒<br> Loop Count： 请求发生的重复次数，如果选择后面的forever（默认），那么<br>请求将一直继续，如果不选择forever，而在输入框中输入数字，那么请求将重复<br>指定的次数，如果输入0，那么请求将执行一次。</p>
 <p>根据我们演示例子的设计，我们应该将Number of Threads设置为5，Ramp-up<br>period设置为0（也就是同时并发请求），不选中forever，在Loop<br>Count后面的输入框中输入2，设置后的屏幕截图如下：</p>
-<p><br><strong>图二：设置好参数的Thread Group。</strong><br><img src="/JMeter.resources/69E53055-210B-4437-BEEE-9D1E908C8DAF.png"><br><span>2.5 增加默认Http属性（可选）</span></p>
+<p><br><strong>图二：设置好参数的Thread Group。</strong><br><img loading="lazy" src="/JMeter.resources/69E53055-210B-4437-BEEE-9D1E908C8DAF.png"><br><span>2.5 增加默认Http属性（可选）</span></p>
 <p>实际的测试工作往往是针对同一个服务器上Web应用展开的,所以Jmeter提供了这样一种设置,<br>在默认Http属性设置需要被测试服务器的相关属性，以后的http请求设置中就可以忽略这些相同参数的设置,减少设置参数录入的时间。</p>
 <p>我们这里将采用这种属性。你可以通过下面的步骤来设置默认http属性：</p>
 <p>1. 选中可视化界面中左边树的Test Plan节点，单击右键，选择Add’config<br>element’http request defaults，界面右边将会出现他的设置信息框。</p>
 <p>2. 默认http属性的主要参数说明如下：<br> protocal：发送测试请求时使用的协议<br> server name or ip：被测试服务器的ip地址或者名字<br> path：<br>默认的起始位置。比如将path设置为／jmeter，那么所有的http请求的url中都将增加／jmeter路径。<br> port number： 服务器提供服务的端口号</p>
 <p>我们的测试计划将针对本机的Web服务器上的Web应用进行测试，所以protocal应该是http，ip使用<br>localhost，因为这个web应用发布的context路径是／jmeter，所以这里的path设置为／jmeter，因为使用Tomcat服务<br>器，所以port number是8080。设置后的屏幕截图如下：</p>
-<p><br><strong>图三： 测试计划中使用的默认Http参数</strong><br><img src="/JMeter.resources/956F0C66-281B-4B31-96CB-79DAAEE653A6.png"><br><span>2.6 增加Http请求</span></p>
+<p><br><strong>图三： 测试计划中使用的默认Http参数</strong><br><img loading="lazy" src="/JMeter.resources/956F0C66-281B-4B31-96CB-79DAAEE653A6.png"><br><span>2.6 增加Http请求</span></p>
 <p>现在我们需要增加http请求了，他也是我们测试的内容主体部分。你可以通过下面的步骤来增加性的http请求：</p>
 <p>1. 选中可视化界面中左边树的Thread<br>Group节点，单击右键，选择Add’sampler’http<br>request，界面右边将会出现他的设置信息框。</p>
 <ol start="2">
 <li>他的参数和2.5中介绍的http属性差不多，增加的属性中有发送http时方法的选择，你可以选择为get或者post。</li>
 </ol>
 <p>我们现在增加两个http<br>请求，因为我们设置了默认的http属性，所以和默认http属性中相同的属性不再重复设置。设置后的屏幕截图如下：</p>
-<p><br><strong>图四：设置好的jsp测试请求</strong><br><img src="/JMeter.resources/733230BF-26F7-4FA2-98CB-7CD7778E201F.png"><br><br><strong>图五：设置好的Servlet测试请求（带参数）</strong><br><img src="/JMeter.resources/E9C43E1A-94C4-4869-BDA2-1A05F8DC4487.png"><br><span>2.7 增加Listener</span></p>
+<p><br><strong>图四：设置好的jsp测试请求</strong><br><img loading="lazy" src="/JMeter.resources/733230BF-26F7-4FA2-98CB-7CD7778E201F.png"><br><br><strong>图五：设置好的Servlet测试请求（带参数）</strong><br><img loading="lazy" src="/JMeter.resources/E9C43E1A-94C4-4869-BDA2-1A05F8DC4487.png"><br><span>2.7 增加Listener</span></p>
 <p>增加listener是为了记录测试信息并且可以使用Jmeter提供的可视化界面查看测试结果，里面有好几种结果分析方<br>式可供选择，你可以根据自己习惯的分析方式选择不同的结果显示方式，我们这里使用表格的形式来查看和分析测试结果。你可以通过下面的步骤来增加<br>listener：</p>
 <p>1. 选中可视化界面中左边树的Test<br>Plan节点，单击右键，选择Add’listener’view result in<br>table，界面右边将会出现他的设置信息和结果显示框。</p>
 <p>2. 你可以设置界面上面的filename属性设置将测试结果保存到某个文件中<br>界面下面将使用表格显示测试结果，表格的第一列sampleno显示请求执行的顺序和编号，url显示请求发送的目标，sample－ms列显示这个请求完成耗费的时间，最后的success列显示改请求是否成功执行。</p>
 <p>界面的最下面你还可以看到一些统计信息，最关心的应该是Average吧，也就是相应的平均时间。</p>
 <p><span>2.8 开始执行测试计划</span></p>
 <p>现在你可以通过单击菜单栏run -&gt;<br>Start开始执行测试计划了。下面这两个图是作者第一次、第二次执行该测试计划的结果图:</p>
-<p><br><strong>图六：第一次执行后的结果显示</strong><br><img src="/JMeter.resources/A93AC134-2D8B-4AAA-B537-CB6B28083DFA.png"><br><br><strong>图七：第二次执行的结果显示</strong><br><img src="/JMeter.resources/05473A8C-4BB8-4992-984F-CA1E1E1D1379.png"><br>大家可以看到第一次执行时的几个大时间值均来自于jsp<br>request，这可以通过下面的理由进行解释：jsp执行前都需要被编译成.class文件。所以第二次的结果才是正常的结果。</p>
+<p><br><strong>图六：第一次执行后的结果显示</strong><br><img loading="lazy" src="/JMeter.resources/A93AC134-2D8B-4AAA-B537-CB6B28083DFA.png"><br><br><strong>图七：第二次执行的结果显示</strong><br><img loading="lazy" src="/JMeter.resources/05473A8C-4BB8-4992-984F-CA1E1E1D1379.png"><br>大家可以看到第一次执行时的几个大时间值均来自于jsp<br>request，这可以通过下面的理由进行解释：jsp执行前都需要被编译成.class文件。所以第二次的结果才是正常的结果。</p>
 <p><a target="_blank" rel="noopener" href="http://www.ibm.com/developerworks/cn/java/l-jmeter/#ibm-pcon">回页首</a></p>
 <p><span>总结</span></p>
 <p>JMeter用于进行供能或者性能测试，通过使用JMeter提供的供能，我们可以可视化的制定测试计划：包括规定使用什么样的负载、测试什么内容、传入的参数，同时，他提供了好多种图形化的测试结果显示方式，使我们能够简单的开始测试工作和分析测试结果。</p>
@@ -212,10 +212,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/JAVA正则表达式，过滤HTML，替换HTML标签！/" title="JAVA正则表达式，过滤HTML，替换HTML标签！">
+ <a href="/2020/04/29/GCD（Grand Central Dispatch）和Block 使用-浅析/" title="GCD（Grand Central Dispatch）和Block 使用-浅析">
   <strong>上一篇：</strong><br/>
   <span>
-  JAVA正则表达式，过滤HTML，替换HTML标签！</span>
+  GCD（Grand Central Dispatch）和Block 使用-浅析</span>
 </a>
 </div>
 
@@ -500,11 +500,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -597,15 +597,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

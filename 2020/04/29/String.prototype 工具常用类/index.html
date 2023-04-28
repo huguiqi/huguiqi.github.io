@@ -14,12 +14,12 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="String.prototype 工具常用类                     String.prototype.ChineseLength&#x3D;function()&amp;nbsp;&amp;nbsp; {&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return this.replace(&#x2F;[^\x00-\xff]&#x2F;g,”**“)">
+    <meta name="description" content="String.prototype 工具常用类&#x2F;**     * 扩展基础类     * 得到字符串的长度，包括中文和英文     **&#x2F;    String.prototype.charlen &#x3D; function() &amp;#123;     var arr &#x3D; this.match(&#x2F;[^\x00-\xff]&#x2F;ig);     return this.length + (arr &#x3D;&#x3D; null ?">
 <meta property="og:type" content="article">
 <meta property="og:title" content="String.prototype 工具常用类">
 <meta property="og:url" content="http://clockcoder.com/2020/04/29/String.prototype%20%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E7%B1%BB/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="String.prototype 工具常用类                     String.prototype.ChineseLength&#x3D;function()&amp;nbsp;&amp;nbsp; {&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; return this.replace(&#x2F;[^\x00-\xff]&#x2F;g,”**“)">
+<meta property="og:description" content="String.prototype 工具常用类&#x2F;**     * 扩展基础类     * 得到字符串的长度，包括中文和英文     **&#x2F;    String.prototype.charlen &#x3D; function() &amp;#123;     var arr &#x3D; this.match(&#x2F;[^\x00-\xff]&#x2F;ig);     return this.length + (arr &#x3D;&#x3D; null ?">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
 <meta property="article:modified_time" content="2023-02-16T11:41:07.241Z">
@@ -114,592 +114,667 @@
 		
 		</div>
 		
-		<h1 id="String-prototype-工具常用类"><a title="String.prototype 工具常用类" class="headerlink" href="#String-prototype-工具常用类"></a>String.prototype 工具常用类</h1>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		<h1 id="String-prototype-工具常用类"><a title="String.prototype 工具常用类" class="headerlink" href="#String-prototype-工具常用类"></a>String.prototype 工具常用类</h1><pre><code class="&#123;style=&quot;font-size:">/**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 得到字符串的长度，包括中文和英文
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  String.prototype.charlen = function() &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var arr = this.match(/[^\x00-\xff]/ig);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return this.length + (arr == null ? 0 : arr.length);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">&lt;!--more--&gt;
+</code></pre>
 <blockquote>
-
-
+<pre><code class="&#123;style=&quot;font-size:">// 返回字符串的长度，一个中文算2个字节(英文字母和英文标点符号一个字符占一个字节，全部把页面字符串转成字节长度，以便与数据库字段长度相匹配)  
+</code></pre>
 <p>String.prototype.ChineseLength=function()&nbsp;&nbsp;<br> {&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return this.replace(/[^\x00-\xff]/g,”**“).length;&nbsp;&nbsp;</p>
-
+<pre><code class="&#123;style=&quot;font-size:">&#125;;  
+</code></pre>
 </blockquote>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 格式化字符串$&#123;0&#125; -&gt; 参考printf %s
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  String.prototype.format = function() &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var args = arguments;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return this.replace(/\$\&#123;(\d+)\&#125;/g,              
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    function(m, i)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     return args[i];
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    &#125;);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125; 
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 字符串首尾去空格
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  String.prototype.trim = function() &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return this.replace(/(^\s*)|(\s*$)/g, "");
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 字符串包含字符串判断
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  String.prototype.contains = function(sub) &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return this.indexOf(sub) != -1;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 字符串比较大小
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  String.prototype.compare = function(b) &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(!b)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    return -1;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(this.length != b.length)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    return this.length - b.length;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var i = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for (; i &lt; this.length; i++)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    var val = this.charCodeAt(i) - b.charCodeAt(i);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if(val != 0)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     return val;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 替换字符
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  String.prototype.replaceLen = function(start, len, replaced) &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(!len)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    return this;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(start &gt;= this.length)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    return this;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var returnSeg = '';
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var returnSeg2 = '';
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var i = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for (; i &lt; this.length; i++)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    var c = this.charAt(i);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if(i &lt; start)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     returnSeg += c;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if(i &gt;= start + len)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     returnSeg2 += c;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return returnSeg + replaced + returnSeg2;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 替换字符，这个在替换填入比较有用，比如***天***小时 替换为 &lt;input /&gt;天&lt;input /&gt;小时
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  String.prototype.replaceChar = function(target, replaced, start) &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(!target)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    return this;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(!start)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    start = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var returnVal = this.substring(0, start);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var index = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for (var i = start; i &lt; this.length; i++) &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    var c = this.charAt(i);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    target = typeof target == 'function' ? target.call(this, index) : target;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if (c == target) &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     returnVal += typeof replaced == 'function' ? replaced.call(this, index) : replaced;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     while (i &lt; this.length - 1 &amp;&amp; this.charAt(i + 1) == c) &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">      i++;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     index++;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    &#125;else&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     returnVal += c;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return returnVal;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 克隆复制（简单copy而已）
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Array.prototype.clone = function()&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var arr = [];
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var i = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for(; i &lt; this.length; i++)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    switch(typeof this[i])&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     case 'object':
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">      var obj = &#123;&#125;;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">      for(key in this[i])
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">       obj[key] = this[i][key];
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">      arr.push(obj);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">      break;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     default:
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">      arr.push(this[i]);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">      break;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return arr;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 清空
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Array.prototype.clear = function() &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   this.splice(0, this.length);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 数组包含元素
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Array.prototype.contains = function(el) &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var i;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for(i = 0; i &lt; this.length; i++) &#123;  
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if(this[i] == el)  
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     return true;  
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;  
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return false;  
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 数组添加数组
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Array.prototype.merge = function(arr) &#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(arr)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    var i;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    for(i = 0; i &lt; arr.length; i++) &#123;  
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     this.push(arr[i]);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    &#125;  
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 根据值和属性获取到数组的对象下标
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Array.prototype.indexOf = function(val, field)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var i = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for(; i &lt; this.length; i++)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if(this[i] &amp;&amp; (field ? this[i][field] == val : this[i] == val))&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     return i;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return -1;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 最后一个下标
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Array.prototype.lastIndexOf = function(val, field)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var i = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var max = -1;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for(; i &lt; this.length; i++)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if(this[i] &amp;&amp; (field ? this[i][field] == val : this[i] == val))&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     max = i;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return max;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 数组唯一
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Array.prototype.unique = function(field)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var arr = [];
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var i = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for(; i &lt; this.length; i++)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    var val = field ? this[i][field] : this[i];
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    var index = this.lastIndexOf(val, field);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if(index == i)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     arr.push(this[i]);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return arr;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 数组最大值
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Array.prototype.max = function(field)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var result = -1;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var i = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for(; i &lt; this.length; i++)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    var val = field ? this[i][field] : this[i];
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if(val &gt; result)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     result = val;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return result;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 数组最小值
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Array.prototype.min = function(field)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var result = -1;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var i = 0;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   for(; i &lt; this.length; i++)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    var val = field ? this[i][field] : this[i];
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    if(val &lt; result)
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">     result = val;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return result;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  /**
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 扩展基础类
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   * 日期格式化
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   **/
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Date.prototype.format = function(pat)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var year = this.getFullYear();
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var month = this.getMonth() + 1;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var day = this.getDate();
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var hour = this.getHours();
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var minute = this.getMinutes();
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var second = this.getSeconds();
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   // 两位补齐
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   month = month &gt; 9 ? month : "0" + month;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   day = day &gt; 9 ? day : "0" + day;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   hour = hour &gt; 9 ? hour : "0" + hour;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   minute = minute &gt; 9 ? minute : "0" + minute;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   second = second &gt; 9 ? second : "0" + second;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(!pat)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    pat = "yyyy-MM-dd";
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   pat = pat.replace(/yyyy/g, year);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   pat = pat.replace(/MM/g, month);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   pat = pat.replace(/dd/g, day);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   pat = pat.replace(/HH/gi, hour);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   pat = pat.replace(/mm/g, minute);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   pat = pat.replace(/ss/g, second);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return pat;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  // 减去时差的毫秒数（取决于使用的浏览器的locale设置）
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Date.prototype.getTime2 = function()&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">//   return this.getTime();
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return this.getTime() - this.getTimezoneOffset() / 60 * 3600 * 1000;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  // 日期相差天数
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Date.prototype.diff = function(date)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return Math.ceil((this - date) / (1000 * 60 * 60 * 24));
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  // 日期加减计算
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Date.prototype.add = function(days)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return new Date(this.getTime() + days * (1000 * 60 * 60 * 24));
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  // 日期加减计算
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Date.prototype.addMonth = function(months)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var day = this.getDate();
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var month = this.getMonth() + 1;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var year = this.getFullYear();
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   month += months;  
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(month &gt; 12)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    year += Math.floor(month / 12);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    month = month % 12;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return Date.parse(month + '/' + day + '/' + year);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  // 解析字符串，以默认 pat = "yyyy-MM-dd"的格式，而不是MM/dd/yyyy
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Date.parse2 = function(str, pat)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   if(str == null || str == '')
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">    return new Date();
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   var rstr = str.replace(/(\d&#123;4&#125;)([-\./])(\d&#123;1,2&#125;)\2(\d&#123;1,2&#125;)/, "$3/$4/$1");
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return new Date(Date.parse(rstr));
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  // 解析字符串，json date obj
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  // 减去时差的毫秒数（取决于使用的浏览器的locale设置）
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  Date.parse3 = function(obj)&#123;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">//   return new Date(obj.time);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">   return new Date(obj.time - new Date().getTimezoneOffset() / 60 * 3600 * 1000);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">//   var str = obj.year + '-' + (obj.month + 1) + '-' + obj.date + ' ' + 
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">//    obj.hours + ':' + obj.minutes + ':' + obj.seconds;
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">//   return Date.parse2(str);
+</code></pre>
+<pre><code class="&#123;style=&quot;font-size:">  &#125;
+</code></pre>
 <p><span lang="EN-US">&nbsp;&nbsp;</span></p>
 <p><span style="font-size: 16px;">其中日期部分是为了和后台</span><span style="font-size: 16px;" lang="EN-US">json-lib</span><span style="font-size: 16px;">交互用，用了时间戳。</span></p>
 <div style="font-size: 16px;">
@@ -816,18 +891,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/TCP_IP中的长链接与短链接/" title="TCP_IP中的长链接与短链接">
+ <a href="/2020/04/29/StoryBoard学习博客/" title="StoryBoard学习博客">
   <strong>上一篇：</strong><br/>
   <span>
-  TCP_IP中的长链接与短链接</span>
+  StoryBoard学习博客</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/UIBezierPath使用/"  title="UIBezierPath使用">
+<a href="/2020/04/29/TCP_IP中的长链接与短链接/"  title="TCP_IP中的长链接与短链接">
  <strong>下一篇：</strong><br/> 
- <span>UIBezierPath使用
+ <span>TCP_IP中的长链接与短链接
 </span>
 </a>
 </div>
@@ -1104,11 +1179,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -1201,15 +1276,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

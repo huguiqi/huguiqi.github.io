@@ -14,12 +14,12 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="docker安装了iptalbes以后，出现的悲剧与解决方案iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。 情况是这样的：     从昨天晚上到今天中午，各种折腾，因为有原来的很多数据，怕丢，所以一直在尝试启动。 网上有说最简单的方式是把docker彻底卸载，重新安装，我是懒人，所以就这么干了： 卸载do">
+    <meta name="description" content="docker安装了iptalbes以后，出现的悲剧与解决方案iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。 情况是这样的：  [root@localhost ~]# docker ps -a CONTAINER ID        IMAGE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker安装了iptalbes以后，出现的悲剧与解决方案">
 <meta property="og:url" content="http://clockcoder.com/2020/04/29/iptables%E4%B8%8Edocker%E7%9A%84%E4%BD%9C%E6%AD%BB%E7%A2%B0%E6%92%9E/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="docker安装了iptalbes以后，出现的悲剧与解决方案iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。 情况是这样的：     从昨天晚上到今天中午，各种折腾，因为有原来的很多数据，怕丢，所以一直在尝试启动。 网上有说最简单的方式是把docker彻底卸载，重新安装，我是懒人，所以就这么干了： 卸载do">
+<meta property="og:description" content="docker安装了iptalbes以后，出现的悲剧与解决方案iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。 情况是这样的：  [root@localhost ~]# docker ps -a CONTAINER ID        IMAGE">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
 <meta property="article:modified_time" content="2023-02-16T11:41:07.520Z">
@@ -116,8 +116,20 @@
 		
 		<h1 id="docker安装了iptalbes以后，出现的悲剧与解决方案"><a title="docker安装了iptalbes以后，出现的悲剧与解决方案" class="headerlink" href="#docker安装了iptalbes以后，出现的悲剧与解决方案"></a>docker安装了iptalbes以后，出现的悲剧与解决方案</h1><p>iptalbe是在docker之后安装的，系统是fedora20,安装完iptable以后，gitlab服务器不能访问了，端口都无法指向了。</p>
 <p>情况是这样的：</p>
-
-
+<pre><code>
+[root@localhost ~]# docker ps -a
+CONTAINER ID        IMAGE                                                              COMMAND                  CREATED             STATUS                       PORTS                                                   NAMES
+5e6daed2ae2c        sameersbn/gitlab:8.6.4                                             "/sbin/entrypoint.sh "   4 days ago          Up 4 days                    443/tcp, 0.0.0.0:10023-&gt;22/tcp, 0.0.0.0:10081-&gt;80/tcp   wwwgitlab
+782e02f14fb3        sameersbn/gitlab:8.6.4                                             "/sbin/entrypoint.sh "   4 days ago          Exited (128) 3 minutes ago                                                           gitlab
+7a3f275fa634        sameersbn/redis:latest                                             "/sbin/entrypoint.sh"    4 days ago          Up 4 days                    6379/tcp                                                gitlab-redis
+6960c6b73115        sameersbn/postgresql:9.4-18                                        "/sbin/entrypoint.sh"    4 days ago          Up 4 days                    5432/tcp                                                gitlab-postgresql
+2a6c5aea692f        67ea261296f44beeadd200de86260adb4732fc386ed7833e15aa964bc0053b6f   "/bin/sh -c 'pip inst"   4 weeks ago         Exited (2) 4 weeks ago                                                               insane_fermi
+[root@localhost ~]# docker start 782
+Error response from daemon: Cannot start container 782: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 10080 -j DNAT --to-destination 172.17.0.26:80 ! -i docker0: iptables: No chain/target/match by that name.
+ (exit status 1)
+Error: failed to start containers: [782]
+[root@localhost ~]# docker rm 782
+</code></pre>
 
 
 <p>从昨天晚上到今天中午，各种折腾，因为有原来的很多数据，怕丢，所以一直在尝试启动。</p>
@@ -195,18 +207,18 @@ fatal: index-pack failed
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/javascript 原型编程详解/" title="javascript 原型编程详解">
+ <a href="/2020/04/29/iphone开发学习笔记/" title="iphone开发学习笔记">
   <strong>上一篇：</strong><br/>
   <span>
-  javascript 原型编程详解</span>
+  iphone开发学习笔记</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/javascript中处理json技巧/"  title="javascript中处理json技巧">
+<a href="/2020/04/29/iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD/"  title="iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD">
  <strong>下一篇：</strong><br/> 
- <span>javascript中处理json技巧
+ <span>iOS多线程编程技术之NSThread、Cocoa NSOperation、GCD
 </span>
 </a>
 </div>
@@ -483,11 +495,11 @@ fatal: index-pack failed
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -580,15 +592,15 @@ fatal: index-pack failed
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

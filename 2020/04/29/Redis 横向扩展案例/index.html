@@ -119,7 +119,7 @@
 		<h1 id="Redis-横向扩展案例"><a title="Redis 横向扩展案例" class="headerlink" href="#Redis-横向扩展案例"></a>Redis 横向扩展案例</h1><h2 id="0x01-背景介绍"><a title="0x01 背景介绍" class="headerlink" href="#0x01-背景介绍"></a>0x01 背景介绍</h2><p>A 项目采集其它项目生成的数据，数据保存一定时间，并且不需要持久化。故 A<br>项目使用单点 Redis 做缓存。长期以来，该 Redis 实例在高峰期间的 QPS 高达<br>100K，甚至一度达到<br>120K。某天晚上，终于崩溃了。这也印证了「<strong>墨菲定律</strong>」，事情如果有变坏的可能，不管这种可能性有多小，它总会发生（Anything<br>that can go wrong will go<br>wrong）。所以，平时的运维过程，千万不要抱有侥幸心理，有问题就第一时间反应，有隐患就及时处理。</p>
 <hr>
 <h2 id="0x02-分析解决"><a title="0x02 分析解决" class="headerlink" href="#0x02-分析解决"></a>0x02 分析解决</h2><h3 id="2-1-初步分析"><a title="2.1 初步分析" class="headerlink" href="#2-1-初步分析"></a>2.1 初步分析</h3><p>单点 Redis<br>实例崩溃的现象就是新的连接不能建立，超时严重，数据不能及时读取。查看系统日志，发现有大量形如「kernel:<br>Possible SYN flooding on port xxxx. Sending<br>cookies」的日志。我们很快排查了系统遭受攻击的可能性。查看端口占用情况，确实是被<br>Redis 消耗了。分析监控数据和端口数情况，此时的 Redis 连接数达到了<br>7K，QPS 已经达到 100K。现在亟待解决的问题就是连接数高的问题。另外，针对<br>QPS 过高的问题，确认是否可以使用 Redis 管道技术。</p>
-<p><img alt="QPS of Redis at Crash time" src="http://i.imgur.com/OFlADoe.png"></p>
+<p><img loading="lazy" alt="QPS of Redis at Crash time" src="http://i.imgur.com/OFlADoe.png"></p>
 <p>经过和研发沟通，得知程序采用 Nginx Lua 实现。Lua<br>是一个简洁、轻量、可扩展的脚本语言，也是号称性能最高的脚本语言。使用<br>Nginx Lua，再加上 LuaRedisModule 模块，就可以原生地和 Redis<br>建立请求，并解析响应。但真实的项目中采用的是 lua-resty-redis，这是一个为<br>ngx_lua 设计的，基于 cosocket API 的 Redis Lua 客户端。</p>
 
 <p>程序中使用了如下设置：</p>
@@ -188,10 +188,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/SVN分支与合并/" title="SVN分支与合并">
+ <a href="/2020/04/29/Oracle中TO_DATE格式/" title="Oracle中TO_DATE格式">
   <strong>上一篇：</strong><br/>
   <span>
-  SVN分支与合并</span>
+  Oracle中TO_DATE格式</span>
 </a>
 </div>
 
@@ -476,11 +476,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -573,15 +573,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

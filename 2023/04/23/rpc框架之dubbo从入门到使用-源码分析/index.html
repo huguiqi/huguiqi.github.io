@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://clockcoder.com/images/1682242484220-513127a8-23a4-4259-aedc-5f316be1d453.png">
 <meta property="og:image" content="http://clockcoder.com/images/1682244844479-e97e81c9-1118-4bae-8a32-de9c93270006.png">
 <meta property="article:published_time" content="2023-04-23T10:35:01.320Z">
-<meta property="article:modified_time" content="2023-04-23T10:44:06.167Z">
+<meta property="article:modified_time" content="2023-04-27T06:49:46.506Z">
 <meta property="article:author" content="sam">
 <meta property="article:tag" content="rpc">
 <meta property="article:tag" content="dubbo">
@@ -128,7 +128,7 @@
 		</div>
 		
 		<h1 id="rpc框架之dubbo从入门到使用-源码分析"><a title="rpc框架之dubbo从入门到使用-源码分析" class="headerlink" href="#rpc框架之dubbo从入门到使用-源码分析"></a>rpc框架之dubbo从入门到使用-源码分析</h1><p><a name="Core6"></a></p>
-<h1 id="了解-Dubbo-核心概念和架构"><a title="了解 Dubbo 核心概念和架构" class="headerlink" href="#了解-Dubbo-核心概念和架构"></a>了解 Dubbo 核心概念和架构</h1><p><img alt="image.png" src="/images/1681803160577-1923842c-abbd-4243-888f-9f9078c2e77a.png"></p>
+<h1 id="了解-Dubbo-核心概念和架构"><a title="了解 Dubbo 核心概念和架构" class="headerlink" href="#了解-Dubbo-核心概念和架构"></a>了解 Dubbo 核心概念和架构</h1><p><img loading="lazy" alt="image.png" src="/images/1681803160577-1923842c-abbd-4243-888f-9f9078c2e77a.png"></p>
 <p>以上是 Dubbo 的工作原理图，从抽象架构上分为两层：<strong>服务治理抽象控制面</strong> 和 <strong>Dubbo 数据面</strong> 。</p>
 <ul>
 <li><strong>服务治理控制面</strong>。服务治理控制面不是特指如注册中心类的单个具体组件，而是对 Dubbo 治理体系的抽象表达。控制面包含协调服务发现的注册中心、流量管控策略、Dubbo Admin 控制台等，如果采用了 Service Mesh 架构则还包含 Istio 等服务网格控制面。</li>
@@ -144,10 +144,10 @@
 <li>Dubbo 作为 <strong>服务开发框架</strong> 约束了微服务定义、开发与调用的规范，定义了服务治理流程及适配模式</li>
 <li>Dubbo 作为 <strong>RPC 通信协议实现</strong> 解决服务间数据传输的编解码问题</li>
 </ul>
-<p><img alt="image.png" src="/images/1681803695395-88fc63a0-d5f5-43d1-986f-9afdead4bec8.png"></p>
+<p><img loading="lazy" alt="image.png" src="/images/1681803695395-88fc63a0-d5f5-43d1-986f-9afdead4bec8.png"></p>
 <p><a target="_blank" rel="noopener" href="https://cn.dubbo.apache.org/zh-cn/overview/what/overview/">参考官网介绍</a></p>
 <p><a name="VPbIT"></a></p>
-<h2 id="dubbo框架总体架构"><a title="dubbo框架总体架构" class="headerlink" href="#dubbo框架总体架构"></a>dubbo框架总体架构</h2><p><img alt="image.png" src="/images/1681804179462-8f75c97e-a24b-4c68-a08f-a8612ffc82a9.png"></p>
+<h2 id="dubbo框架总体架构"><a title="dubbo框架总体架构" class="headerlink" href="#dubbo框架总体架构"></a>dubbo框架总体架构</h2><p><img loading="lazy" alt="image.png" src="/images/1681804179462-8f75c97e-a24b-4c68-a08f-a8612ffc82a9.png"></p>
 <p><a name="gLAdv"></a></p>
 <h5 id="节点角色说明"><a title="节点角色说明" class="headerlink" href="#节点角色说明"></a>节点角色说明</h5><table>
 <thead>
@@ -179,7 +179,7 @@
 </tbody></table>
 <p><a target="_blank" rel="noopener" href="https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/concepts-and-architecture/overall-architecture/">官网介绍架构页面</a></p>
 <p><a name="kkETu"></a></p>
-<h2 id="代码架构"><a title="代码架构" class="headerlink" href="#代码架构"></a>代码架构</h2><p><img alt="image.png" src="/images/1681804493997-0c46f7ce-7e5a-45e2-a48d-bef0466807eb.png"></p>
+<h2 id="代码架构"><a title="代码架构" class="headerlink" href="#代码架构"></a>代码架构</h2><p><img loading="lazy" alt="image.png" src="/images/1681804493997-0c46f7ce-7e5a-45e2-a48d-bef0466807eb.png"></p>
 <p>图例说明：</p>
 <ul>
 <li>图中左边淡蓝背景的为服务消费方使用的接口，右边淡绿色背景的为服务提供方使用的接口，位于中轴线上的为双方都用到的接口。</li>
@@ -208,7 +208,7 @@
 <li>Registry 和 Monitor 实际上不算一层，而是一个独立的节点，只是为了全局概览，用层的方式画在一起。</li>
 </ul>
 <p><a name="PLbEb"></a></p>
-<h2 id="模块分包"><a title="模块分包" class="headerlink" href="#模块分包"></a>模块分包</h2><p><img alt="image.png" src="/images/1681804662125-e2fe926c-640c-4591-997c-93c6694a6c2b.png"></p>
+<h2 id="模块分包"><a title="模块分包" class="headerlink" href="#模块分包"></a>模块分包</h2><p><img loading="lazy" alt="image.png" src="/images/1681804662125-e2fe926c-640c-4591-997c-93c6694a6c2b.png"></p>
 <p>模块说明：</p>
 <ul>
 <li><strong>dubbo-common 公共逻辑模块</strong>：包括 Util 类和通用模型。</li>
@@ -228,7 +228,7 @@
 <li>Serialize 层放在 common 模块中，以便更大程度复用。</li>
 </ul>
 <p><a name="HuIGL"></a></p>
-<h2 id="依赖关系"><a title="依赖关系" class="headerlink" href="#依赖关系"></a>依赖关系</h2><p><img alt="image.png" src="/images/1681804908444-d9820cce-f3ac-4997-a1dd-e593ab781dfa.png"></p>
+<h2 id="依赖关系"><a title="依赖关系" class="headerlink" href="#依赖关系"></a>依赖关系</h2><p><img loading="lazy" alt="image.png" src="/images/1681804908444-d9820cce-f3ac-4997-a1dd-e593ab781dfa.png"></p>
 <p>图例说明：</p>
 <ul>
 <li>图中小方块 Protocol, Cluster, Proxy, Service, Container, Registry, Monitor 代表层或模块，蓝色的表示与业务有交互，绿色的表示只对 Dubbo 内部交互。</li>
@@ -237,7 +237,7 @@
 <li>图中只包含 RPC 的层，不包含 Remoting 的层，Remoting 整体都隐含在 Protocol 中。</li>
 </ul>
 <p><a name="zXgJE"></a></p>
-<h2 id="调用链"><a title="调用链" class="headerlink" href="#调用链"></a>调用链</h2><p><img alt="image.png" src="/images/1681805961476-7beaa91f-2f00-445b-a667-3cdd9f155516.png"></p>
+<h2 id="调用链"><a title="调用链" class="headerlink" href="#调用链"></a>调用链</h2><p><img loading="lazy" alt="image.png" src="/images/1681805961476-7beaa91f-2f00-445b-a667-3cdd9f155516.png"></p>
 <p><a name="AK46A"></a></p>
 <h2 id="领域模型"><a title="领域模型" class="headerlink" href="#领域模型"></a>领域模型</h2><p>在 Dubbo 的核心领域模型中：</p>
 <ul>
@@ -250,25 +250,95 @@
 <p>从dubbo给出的官方例子入手</p>
 <p><a name="Ya8vO"></a></p>
 <h3 id="启动一个服务端-provide"><a title="启动一个服务端(provide)" class="headerlink" href="#启动一个服务端-provide"></a>启动一个服务端(provide)</h3><p>GreetingsService.java:</p>
+<pre><code class="java">  public interface GreetingsService &#123;
 
-
+      String sayHi(String name);
+  &#125;
+</code></pre>
 <p>GreetingsServiceImpl.java:</p>
-
-
+<pre><code class="java">  public class GreetingsServiceImpl implements GreetingsService &#123;
+      @Override
+      public String sayHi(String name) &#123;
+          return "hi, " + name + " I am provider";
+      &#125;
+  &#125;
+</code></pre>
 <p><br></p>
 <p>启动一个Provide<br>MainAppllication.java：</p>
+<pre><code>public class MainApplication &#123;
 
+    public static void main(String[] args) &#123;
+        // 定义具体的服务
+        ServiceConfig&lt;GreetingsService&gt; service = new ServiceConfig&lt;&gt;();
+        service.setInterface(GreetingsService.class);
+        service.setRef(new GreetingsServiceImpl());
 
-
+        // 启动 Dubbo
+        DubboBootstrap.getInstance()
+                .application("first-dubbo-provider")
+                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+                .protocol(new ProtocolConfig("dubbo", -1))
+                .service(service)
+                .start()
+                .await();
+    &#125;
+&#125;
+</code></pre>
 <p>根据启动dubbo服务端的代码，整理了调用时序图如下：</p>
-<p><img alt="dubbo-explor.drawio.png" src="/images/1682241560101-ebd7bf04-2b6a-4e7a-8328-129222a396a6.png"></p>
+<p><img loading="lazy" alt="dubbo-explor.drawio.png" src="/images/1682241560101-ebd7bf04-2b6a-4e7a-8328-129222a396a6.png"></p>
 <p>所以从上图可看出，暴露服务的工作其实主要集中在ServiceConfig.doExportUrl(local,false)这个方法上。</p>
 <p>Protocol是服务域，也就是Invoker的入口，是门面。<br>所以，this.protocolSPI.export((Invoker)invoker);才是真正执行暴露服务的底层方法。</p>
 <p>我们再进入到里面的实现看看，做了些什么：</p>
-<p><img alt="image.png" src="/images/1682242484220-513127a8-23a4-4259-aedc-5f316be1d453.png"></p>
+<p><img loading="lazy" alt="image.png" src="/images/1682242484220-513127a8-23a4-4259-aedc-5f316be1d453.png"></p>
 <p>进入实现层，AbstractProxyProtocol.java 是个抽象类：</p>
+<pre><code class="java">public &lt;T&gt; Exporter&lt;T&gt; export(final Invoker&lt;T&gt; invoker) throws RpcException &#123;
+    final String uri = serviceKey(invoker.getUrl());
+    Exporter&lt;T&gt; exporter = (Exporter)this.exporterMap.get(uri);
+    if (exporter != null &amp;&amp; Objects.equals(exporter.getInvoker().getUrl(), invoker.getUrl())) &#123;
+        return exporter;
+    &#125; else &#123;
+        final Runnable runnable = this.doExport(this.proxyFactory.getProxy(new Invoker&lt;T&gt;() &#123;
+            public Class&lt;T&gt; getInterface() &#123;
+                return invoker.getInterface();
+            &#125;
 
+            public Result invoke(Invocation invocation) throws RpcException &#123;
+                Map var10000 = RpcContext.getServiceContext().getObjectAttachments();
+                Objects.requireNonNull(invocation);
+                var10000.forEach(invocation::setObjectAttachment);
+                return invoker.invoke(invocation);
+            &#125;
 
+            public URL getUrl() &#123;
+                return invoker.getUrl();
+            &#125;
+
+            public boolean isAvailable() &#123;
+                return invoker.isAvailable();
+            &#125;
+
+            public void destroy() &#123;
+                invoker.destroy();
+            &#125;
+        &#125;, true), invoker.getInterface(), invoker.getUrl());
+        Exporter&lt;T&gt; exporter = new AbstractExporter&lt;T&gt;(invoker) &#123;
+            public void afterUnExport() &#123;
+                AbstractProxyProtocol.this.exporterMap.remove(uri);
+                if (runnable != null) &#123;
+                    try &#123;
+                        runnable.run();
+                    &#125; catch (Throwable var2) &#123;
+                        this.logger.warn("4-1", "", "", var2.getMessage(), var2);
+                    &#125;
+                &#125;
+
+            &#125;
+        &#125;;
+        this.exporterMap.put(uri, exporter);
+        return exporter;
+    &#125;
+&#125;
+</code></pre>
 <blockquote>
 <p>代码分析</p>
 </blockquote>
@@ -276,13 +346,71 @@
 <li>final String uri = serviceKey(invoker.getUrl()); //从Map中取URL信息，用于配置客户端请求的协议信息(调用的类，方法，参数、协议等)</li>
 <li>final Runnable runnable = this.doExport(this.proxyFactory.getProxy(…)</li>
 </ol>
-<p>这个方法是构建一个线程任务，通过调用AbstractProxyProtocol类的实例方法<code>doExport(...)</code>得到，它的实现类默认是：GrpcProtocol.java<br><br><img alt="image.png" src="/images/1682244844479-e97e81c9-1118-4bae-8a32-de9c93270006.png"></p>
+<p>这个方法是构建一个线程任务，通过调用AbstractProxyProtocol类的实例方法<code>doExport(...)</code>得到，它的实现类默认是：GrpcProtocol.java<br><br><img loading="lazy" alt="image.png" src="/images/1682244844479-e97e81c9-1118-4bae-8a32-de9c93270006.png"></p>
 <p>进入GrpcProtocol.java实现类：</p>
+<pre><code>protected &lt;T&gt; Runnable doExport(T proxiedImpl, Class&lt;T&gt; type, URL url) throws RpcException &#123;
+    String key = url.getAddress();
+    ProtocolServer protocolServer = (ProtocolServer)this.serverMap.computeIfAbsent(key, (k) -&gt; &#123;
+        DubboHandlerRegistry registry = new DubboHandlerRegistry();
+        NettyServerBuilder builder = (NettyServerBuilder)NettyServerBuilder.forPort(url.getPort()).fallbackHandlerRegistry(registry);
+        Server originalServer = GrpcOptionsUtils.buildServerBuilder(url, builder).build();
+        GrpcRemotingServer remotingServer = new GrpcRemotingServer(originalServer, registry);
+        return new AbstractProxyProtocol.ProxyProtocolServer(this, remotingServer);
+    &#125;);
+    GrpcRemotingServer grpcServer = (GrpcRemotingServer)protocolServer.getRemotingServer();
+    FrameworkServiceRepository serviceRepository = this.frameworkModel.getServiceRepository();
+    ProviderModel providerModel = serviceRepository.lookupExportedService(url.getServiceKey());
+    if (providerModel == null) &#123;
+        throw new IllegalStateException("Service " + url.getServiceKey() + "should have already been stored in service repository, but failed to find it.");
+    &#125; else &#123;
+        Object originalImpl = providerModel.getServiceInstance();
+        Class&lt;?&gt; implClass = originalImpl.getClass();
 
+        try &#123;
+            Method method = implClass.getMethod("setProxiedImpl", type);
+            method.invoke(originalImpl, proxiedImpl);
+        &#125; catch (Exception var12) &#123;
+            throw new IllegalStateException("Failed to set dubbo proxied service impl to stub, please make sure your stub was generated by the dubbo-protoc-compiler.", var12);
+        &#125;
+
+        grpcServer.getRegistry().addService((BindableService)originalImpl, url.getServiceKey());
+        if (!grpcServer.isStarted()) &#123;
+            grpcServer.start();
+        &#125;
+
+        return () -&gt; &#123;
+            grpcServer.getRegistry().removeService(url.getServiceKey());
+        &#125;;
+    &#125;
+&#125;
+</code></pre>
 <p>可以看到，暴露服务的最底层实现是通过Netty实现的，这里先不讨论Netty服务的原理。<br><br>回来到抽象类的export方法，看这行代码：</p>
 <p>生成代理，并实现一个Invoker实现，定义了invoke方法的调用（反射）：</p>
+<pre><code>this.proxyFactory.getProxy(new Invoker&lt;T&gt;() &#123;
+            public Class&lt;T&gt; getInterface() &#123;
+                return invoker.getInterface();
+            &#125;
 
+            public Result invoke(Invocation invocation) throws RpcException &#123;
+                Map var10000 = RpcContext.getServiceContext().getObjectAttachments();
+                Objects.requireNonNull(invocation);
+                var10000.forEach(invocation::setObjectAttachment);
+                return invoker.invoke(invocation);
+            &#125;
 
+            public URL getUrl() &#123;
+                return invoker.getUrl();
+            &#125;
+
+            public boolean isAvailable() &#123;
+                return invoker.isAvailable();
+            &#125;
+
+            public void destroy() &#123;
+                invoker.destroy();
+            &#125;
+        &#125;, true)
+</code></pre>
 <p><strong>那基本上就了然了，就是说，dubbo通过netty作为底层服务通信，然后从netty服务中取得client端发起的请求信息后，再通过proxy进行反射调用Provide端的实现类。</strong><br></p>
 <blockquote>
 <p>javassist来说执行动态生成的Wrapper#invokeMethod</p>
@@ -605,11 +733,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -702,15 +830,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

@@ -161,8 +161,13 @@
 <p>过时是因为最新的gitlabe9.8.3的<code>/etc/gitlab/gitlab.rb</code>里面的配置已经没有了<code>external_port "8888"</code>这个配置；</p>
 <p>但也不妨碍，官网也说了，其实这个<code>external_url</code>是叫Web server settings,那我们顺藤摸瓜。。。。。</p>
 <p>他的思路是，修改编译好的<code>/var/opt/gitlab/gitlab-rails/etc/gitlab.yml</code>文件：</p>
-
-
+<pre><code>## GitLab settings
+  gitlab:
+    ## Web server settings (note: host is the FQDN, do not include http://)
+    host: 15d29359y2.imwork.net
+    port: 8001 ##原来是80
+    https: false
+</code></pre>
 <p>修改好了后保存，然后执行(重启不会重新编译yml文件)：</p>
 <pre><code>sudo gitlab-ctl restart
 </code></pre>
@@ -203,18 +208,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/git中reset与revert的使用/" title="git中reset与revert的使用">
+ <a href="/2020/04/29/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/" title="git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog">
   <strong>上一篇：</strong><br/>
   <span>
-  git中reset与revert的使用</span>
+  git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog/"  title="git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog">
+<a href="/2020/04/29/git中reset与revert的使用/"  title="git中reset与revert的使用">
  <strong>下一篇：</strong><br/> 
- <span>git生成ssh key及本地解决多个ssh key的问题 - Bubblings Blog
+ <span>git中reset与revert的使用
 </span>
 </a>
 </div>
@@ -491,11 +496,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -588,15 +593,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

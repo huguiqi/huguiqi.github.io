@@ -129,17 +129,42 @@
 <h2 id="背景说明"><a title="背景说明" class="headerlink" href="#背景说明"></a>背景说明</h2><p>公司有新老机房并行问题，最终新机房将会完全替换掉老机房。</p>
 <p>目前新老机房都有部署rabbimq集群，新老机房都有应用在调用各自的rabbitmq集群，现在要解决的是，新老机房都会互相调用，所产生的message消费与生产可以互联。</p>
 <p>如图：</p>
-<p><img alt="img" src="/images/007S8ZIlgy1gir4sbufo4j30rm0d848e.png"></p>
+<p><img loading="lazy" alt="img" src="/images/007S8ZIlgy1gir4sbufo4j30rm0d848e.png"></p>
 <p>我们现在使用的方案就是用feduration插件</p>
 <h2 id="使用插件"><a title="使用插件" class="headerlink" href="#使用插件"></a>使用插件</h2><p>实现集群与集群间的数据同步；节点与节点之间的通信；</p>
 <p>Federation插件是一个在不需要cluster，而broker之间传输消息的高性能插件。</p>
 <p>Federation插件可以在broker或者cluster之间传输消息，链接的双方可以使用不同的users和virtual hosts、或者双方的rabbitmq和erlang版本不一致。Federation插件使用的是AMQP协议通信，可以接受不连续的传输。</p>
 <h2 id="Federation演示"><a title="Federation演示" class="headerlink" href="#Federation演示"></a>Federation演示</h2><p>准备两个RabbitMQ， 我使用的是docker安装，hostname分别是 rabbitmq1、rabbitmq2。</p>
 <p>docker-compose.yml:</p>
-
-
-
-
+<pre><code>version: '3'
+services:
+  rabbitmq1:
+    image: hgq/rabbitmq_federation:v1.0
+    container_name: rabbitmq1
+    restart: always
+    hostname: myRabbitmq1
+    ports:
+      - 15672:15672
+      - 5672:5672
+    volumes:
+      - ./data1:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root123456
+  rabbitmq2:
+    image: hgq/rabbitmq_federation:v1.0
+    container_name: rabbitmq2
+    restart: always
+    hostname: myRabbitmq2
+    ports:
+      - 15673:15672
+      - 5673:5672
+    volumes:
+      - ./data2:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root123456
+</code></pre>
 <p>这里面的镜像是我自己打好的，安装了插件和必要工具包的镜像。</p>
 <h2 id="插件安装"><a title="插件安装" class="headerlink" href="#插件安装"></a>插件安装</h2><p>rabbitmq-plugins enable rabbitmq_federation</p>
 <p>rabbitmq-plugins enable rabbitmq_federation_management</p>
@@ -147,24 +172,24 @@
 <p>apt-get install net-tools</p>
 <p>apt-get install vim</p>
 <p>apt-get install inetutils-ping</p>
-<h2 id="配置federation"><a title="配置federation" class="headerlink" href="#配置federation"></a>配置federation</h2><h3 id="新建policy"><a title="新建policy" class="headerlink" href="#新建policy"></a>新建policy</h3><p><img alt="image-20200911133937733" src="/images/007S8ZIlgy1gir4mw0nhxj315u0cwmyp.png"></p>
-<p><img alt="image-20200911134043885" src="/images/007S8ZIlgy1gir4o52pz3j31ae0fg75y.png"></p>
-<h2 id="新建桥接stream"><a title="新建桥接stream" class="headerlink" href="#新建桥接stream"></a>新建桥接stream</h2><p><img alt="image-20200911134140482" src="/images/007S8ZIlgy1gir4oaypkhj312k0qagnp.png"></p>
+<h2 id="配置federation"><a title="配置federation" class="headerlink" href="#配置federation"></a>配置federation</h2><h3 id="新建policy"><a title="新建policy" class="headerlink" href="#新建policy"></a>新建policy</h3><p><img loading="lazy" alt="image-20200911133937733" src="/images/007S8ZIlgy1gir4mw0nhxj315u0cwmyp.png"></p>
+<p><img loading="lazy" alt="image-20200911134043885" src="/images/007S8ZIlgy1gir4o52pz3j31ae0fg75y.png"></p>
+<h2 id="新建桥接stream"><a title="新建桥接stream" class="headerlink" href="#新建桥接stream"></a>新建桥接stream</h2><p><img loading="lazy" alt="image-20200911134140482" src="/images/007S8ZIlgy1gir4oaypkhj312k0qagnp.png"></p>
 <p><strong>注意：在填写uri时，如果默认的guest账号未开启远程服务，则建议重新新建一个账号，新建账号默认是开启了远程访问</strong></p>
 <h2 id="建立可远程访问的用户"><a title="建立可远程访问的用户" class="headerlink" href="#建立可远程访问的用户"></a>建立可远程访问的用户</h2><p>命令行：</p>
-
-
-
-
-
-
-<p><img alt="image-20200909151455601" src="/images/007S8ZIlgy1gikf6a3mx8j30x40d8ab6.png"></p>
+<pre><code>rabbitmqctl add_user test test
+rabbitmqctl set_user_tags test administrator
+rabbitmqctl set_permissions -p / test ".*" ".*" ".*"
+</code></pre>
+<pre><code class="bash">rabbitmqctl set_permissions -p "custom-vhost" "username" ".*" ".*" ".*"
+</code></pre>
+<p><img loading="lazy" alt="image-20200909151455601" src="/images/007S8ZIlgy1gikf6a3mx8j30x40d8ab6.png"></p>
 <p>修改账号密码： rabbitmqctl change_password test test</p>
-<h2 id="在集群1中rabbitmq建立exchange"><a title="在集群1中rabbitmq建立exchange" class="headerlink" href="#在集群1中rabbitmq建立exchange"></a>在集群1中rabbitmq建立exchange</h2><p><img alt="image-20200909144842075" src="/images/007S8ZIlgy1gikef1vwe5j30xm0fu75m.png"></p>
-<h2 id="在集群1中建立queue，并绑定到-test-federation-topic-的exchange上"><a title="在集群1中建立queue，并绑定到 test.federation.topic 的exchange上" class="headerlink" href="#在集群1中建立queue，并绑定到-test-federation-topic-的exchange上"></a>在集群1中建立queue，并绑定到 test.federation.topic 的exchange上</h2><p><img alt="image-20200909145006088" src="/images/007S8ZIlgy1gikeggk7glj31ki05oab4.png"></p>
-<h3 id="绑定到test-federation-topic-交换机"><a title="绑定到test.federation.topic 交换机" class="headerlink" href="#绑定到test-federation-topic-交换机"></a>绑定到test.federation.topic 交换机</h3><p><img alt="image-20200909145148133" src="/images/007S8ZIlgy1gikei87m83j311s0a2gmi.png"></p>
+<h2 id="在集群1中rabbitmq建立exchange"><a title="在集群1中rabbitmq建立exchange" class="headerlink" href="#在集群1中rabbitmq建立exchange"></a>在集群1中rabbitmq建立exchange</h2><p><img loading="lazy" alt="image-20200909144842075" src="/images/007S8ZIlgy1gikef1vwe5j30xm0fu75m.png"></p>
+<h2 id="在集群1中建立queue，并绑定到-test-federation-topic-的exchange上"><a title="在集群1中建立queue，并绑定到 test.federation.topic 的exchange上" class="headerlink" href="#在集群1中建立queue，并绑定到-test-federation-topic-的exchange上"></a>在集群1中建立queue，并绑定到 test.federation.topic 的exchange上</h2><p><img loading="lazy" alt="image-20200909145006088" src="/images/007S8ZIlgy1gikeggk7glj31ki05oab4.png"></p>
+<h3 id="绑定到test-federation-topic-交换机"><a title="绑定到test.federation.topic 交换机" class="headerlink" href="#绑定到test-federation-topic-交换机"></a>绑定到test.federation.topic 交换机</h3><p><img loading="lazy" alt="image-20200909145148133" src="/images/007S8ZIlgy1gikei87m83j311s0a2gmi.png"></p>
 <p>绑定成功：</p>
-<p><img alt="image-20200909145224200" src="/images/007S8ZIlgy1gikeiudealj311w0cymyb.png"></p>
+<p><img loading="lazy" alt="image-20200909145224200" src="/images/007S8ZIlgy1gikeiudealj311w0cymyb.png"></p>
 <h2 id="注意事项"><a title="注意事项" class="headerlink" href="#注意事项"></a>注意事项</h2><ol>
 <li><p>federation插件只作同步，针对不同集群同步过去的消息</p>
 </li>
@@ -500,11 +525,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -597,15 +622,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

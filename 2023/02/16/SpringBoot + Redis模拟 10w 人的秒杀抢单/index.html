@@ -28,8 +28,8 @@
 <meta property="article:modified_time" content="2023-02-20T09:56:19.949Z">
 <meta property="article:author" content="sam">
 <meta property="article:tag" content="redis">
-<meta property="article:tag" content="分布式锁">
 <meta property="article:tag" content="jedis">
+<meta property="article:tag" content="分布式锁">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://clockcoder.com/images/008i3skNly1gz68prkhjwj30il055q3m.png">
 <meta name="twitter:creator" content="@XiaoheiSpring">
@@ -122,13 +122,17 @@
 		
 		<h1 id="SpringBoot-Redis模拟-10w-人的秒杀抢单！"><a title="SpringBoot + Redis模拟 10w 人的秒杀抢单！" class="headerlink" href="#SpringBoot-Redis模拟-10w-人的秒杀抢单！"></a>SpringBoot + Redis模拟 10w 人的秒杀抢单！</h1><p>本篇内容主要讲解的是redis分布式锁，这个在各大厂面试几乎都是必备的，下面结合模拟抢单的场景来使用她；本篇不涉及到的redis环境搭建，快速搭建个人测试环境，这里建议使用docker；本篇内容节点如下：</p>
 <h2 id="Jedis的nx生成锁"><a title="Jedis的nx生成锁" class="headerlink" href="#Jedis的nx生成锁"></a>Jedis的nx生成锁</h2><p>如何删除锁<br>模拟抢单动作(10w个人开抢)<br>jedis的nx生成锁<br>对于java中想操作redis，好的方式是使用jedis，首先pom中引入依赖：</p>
-
-
-
-
+<pre><code class="xml">&lt;dependency&gt;
+  &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+  &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
 <p>因为我用的是：</p>
-
-
+<pre><code class="xml">&lt;dependency&gt;
+   &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+   &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
 <p>它包含了jedis客户端依赖包。</p>
 <p>对于分布式锁的生成通常需要注意如下几个方面：</p>
 <ul>
@@ -140,44 +144,172 @@
 </li>
 </ul>
 <p>下面来上段setnx操作的代码：</p>
+<pre><code class="java">@Autowired
+    private JedisConnectionFactory jedisConnectionFactory;
 
+    private Jedis getJedis() &#123;
+        JedisConnection  jedisConnection = (JedisConnection)jedisConnectionFactory.getConnection();
+        return jedisConnection.getNativeConnection();
+    &#125;
 
-
-
-
-
+    public boolean setnx(String key, String val) &#123;
+        Jedis jedis = this.getJedis();
+        try &#123;
+            if (jedis == null) &#123;
+                return false;
+            &#125;
+            String ret = jedis.set(key, val, "NX", "PX", 1000 * 60);
+            if (StringUtils.isEmpty(ret))&#123;
+                return false;
+            &#125;else
+                return ret.equalsIgnoreCase("ok");
+        &#125; catch (Exception ex) &#123;
+            log.error("setnx error!!,key=&#123;&#125;,val=&#123;&#125;",key,val,ex);
+        &#125; finally &#123;
+            if (jedis != null) &#123;
+                jedis.close();
+            &#125;
+        &#125;
+        return false;
+    &#125;
+</code></pre>
 <p>这里注意点在于jedis的set方法，其参数的说明如：</p>
 <ul>
 <li>NX：是否存在key，存在就不set成功</li>
 <li>PX：key过期时间单位设置为毫秒（EX：单位秒）</li>
 </ul>
 <p>setnx如果失败直接封装返回false即可，下面我们通过一个get方式的api来调用下这个setnx方法：</p>
-
-
-
-
+<pre><code class="java">@GetMapping("/setnx/&#123;key&#125;/&#123;val&#125;")
+public boolean setnx(@PathVariable String key, @PathVariable String val) &#123;
+   return jedisCommand.setnx(key, val);
+&#125;
+</code></pre>
 <p>访问如下测试url，正常来说第一次返回了true，第二次返回了false，由于第二次请求的时候redis的key已存在，所以无法set成功</p>
-<p><img alt="图片" src="/images/008i3skNly1gz68prkhjwj30il055q3m.png"></p>
+<p><img loading="lazy" alt="图片" src="/images/008i3skNly1gz68prkhjwj30il055q3m.png"></p>
 <p>由上图能够看到只有一次set成功，并key具有一个有效时间，此时已到达了分布式锁的条件。</p>
 <h2 id="如何删除锁"><a title="如何删除锁" class="headerlink" href="#如何删除锁"></a>如何删除锁</h2><p>上面是创建锁，同样的具有有效时间，但是我们不能完全依赖这个有效时间，场景如：有效时间设置1分钟，本身用户A获取锁后，没遇到什么特殊情况正常生成了抢购订单后，此时其他用户应该能正常下单了才对，但是由于有个1分钟后锁才能自动释放，那其他用户在这1分钟无法正常下单（因为锁还是A用户的），因此我们需要A用户操作完后，主动去解锁：</p>
+<pre><code class="java">    public int delnx(String key, String val) &#123;
+        Jedis jedis = this.getJedis();
+        try &#123;
+            if (jedis == null) &#123;
+                return 0;
+            &#125;
+        //if redis.call('get','orderkey')=='1111' then return redis.call('del','orderkey') else return 0 end
+        StringBuilder sbScript = new StringBuilder();
+        sbScript.append("if redis.call('get','").append(key).append("')").append("=='").append(val).append("'").
+                append(" then ").
+               append("    return redis.call('del','").append(key).append("')").
+                append(" else ").
+                append("    return 0").
+                append(" end");
 
-
-
-
+        return Integer.valueOf(jedis.eval(sbScript.toString()).toString());
+    &#125; catch (Exception ex) &#123;
+            log.error("delnx error!!,key=&#123;&#125;,value=&#123;&#125;",key,val,ex);
+    &#125; finally &#123;
+        if (jedis != null) &#123;
+            jedis.close();
+        &#125;
+   &#125;
+    return 0;
+    &#125;
+</code></pre>
 <p>这里也使用了jedis方式，直接执行lua脚本：根据val判断其是否存在，如果存在就del；<br>其实个人认为通过jedis的get方式获取val后，然后再比较value是否是当前持有锁的用户，如果是那最后再删除，效果其实相当；只不过直接通过eval执行脚本，这样避免多一次操作了redis而已，缩短了原子操作的间隔。(如有不同见解请留言探讨)；同样这里创建个get方式的api来测试：</p>
-
-
-
-
-
-
+<pre><code class="java">@GetMapping("/delnx/&#123;key&#125;/&#123;val&#125;")
+public int delnx(@PathVariable String key, @PathVariable String val) &#123;
+   return jedisCommand.delnx(key, val);
+&#125;
+</code></pre>
 <p>注意的是delnx时，需要传递创建锁时的value，因为通过et的value与delnx的value来判断是否是持有锁的操作请求，只有value一样才允许del；</p>
 <h2 id="模拟抢单动作（10w个人开抢）"><a title="[模拟抢单动作（10w个人开抢）]" class="headerlink" href="#模拟抢单动作（10w个人开抢）"></a>[模拟抢单动作（10w个人开抢）]</h2><p>有了上面对分布式锁的粗略基础，我们模拟下10w人抢单的场景，其实就是一个并发操作请求而已，由于环境有限，只能如此测试；如下初始化10w个用户，并初始化库存，商品等信息，如下代码：</p>
+<pre><code>//总库存
+    private long nKuCuen = 0;
+    //商品key名字
+    private String shangpingKey = "computer_key";
+    //获取锁的超时时间 秒
+    private int timeout = 30 * 1000;
 
+    @GetMapping("/qiangdan")
+    public List&lt;String&gt; qiangdan() &#123;
 
+        //抢到商品的用户
+        List&lt;String&gt; shopUsers = new ArrayList&lt;&gt;();
+
+        //构造很多用户
+        List&lt;String&gt; users = new ArrayList&lt;&gt;(100000);
+        IntStream.range(0, 100000).parallel().forEach(b -&gt; &#123;
+            users.add("神牛-" + b);
+        &#125;);
+
+        //初始化库存
+        nKuCuen = 10;
+
+        //模拟开抢
+        users.parallelStream().forEach(b -&gt; &#123;
+            String shopUser = qiang(b);
+            if (!StringUtils.isEmpty(shopUser)) &#123;
+                shopUsers.add(shopUser);
+            &#125;
+        &#125;);
+
+        return shopUsers;
+    &#125;
+</code></pre>
 <p>有了上面10w个不同用户，我们设定商品只有10个库存，然后通过并行流的方式来模拟抢购，如下抢购的实现：</p>
+<pre><code>/**
+     * 模拟抢单动作
+     *
+     * @param b
+     * @return
+     */
+    private String qiang(String b) &#123;
+        //用户开抢时间
+        long startTime = System.currentTimeMillis();
 
+        //未抢到的情况下，30秒内继续获取锁
+        while ((startTime + timeout) &gt;= System.currentTimeMillis()) &#123;
+            //商品是否剩余
+            if (nKuCuen &lt;= 0) &#123;
+                break;
+            &#125;
+            if (jedisCommand.setnx(shangpingKey, b)) &#123;
+                //用户b拿到锁
+                logger.info("用户&#123;&#125;拿到锁...", b);
+                try &#123;
+                    //商品是否剩余
+                    if (nKuCuen &lt;= 0) &#123;
+                        break;
+                    &#125;
 
+                    //模拟生成订单耗时操作，方便查看：神牛-50 多次获取锁记录
+                    try &#123;
+                        TimeUnit.SECONDS.sleep(1);
+                    &#125; catch (InterruptedException e) &#123;
+                        e.printStackTrace();
+                    &#125;
+
+                    //抢购成功，商品递减，记录用户
+                    nKuCuen -= 1;
+
+                    //抢单成功跳出
+                    logger.info("用户&#123;&#125;抢单成功跳出...所剩库存：&#123;&#125;", b, nKuCuen);
+
+                    return b + "抢单成功，所剩库存：" + nKuCuen;
+                &#125; finally &#123;
+                    logger.info("用户&#123;&#125;释放锁...", b);
+                    //释放锁
+                    jedisCommand.delnx(shangpingKey, b);
+                &#125;
+            &#125; else &#123;
+                //用户b没拿到锁，在超时范围内继续请求锁，不需要处理
+//                if (b.equals("神牛-50") || b.equals("神牛-69")) &#123;
+//                    logger.info("用户&#123;&#125;等待获取锁...", b);
+//                &#125;
+            &#125;
+        &#125;
+        return "";
+    &#125;
+</code></pre>
 <p>这里实现的逻辑是：</p>
 <p>1、parallelStream()：并行流模拟多用户抢购</p>
 <p>2、(startTime + timeout) &gt;= System.currentTimeMillis()：判断未抢成功的用户，timeout秒内继续获取锁</p>
@@ -185,12 +317,14 @@
 <p>4、jedisCom.setnx(shangpingKey, b)：用户获取抢购锁</p>
 <p>5、获取锁后并下单成功，最后释放锁：jedisCom.delnx(shangpingKey, b)</p>
 <p>再来看下记录的日志结果：</p>
-<p><img alt="图片" src="/images/008i3skNly1gz68sbgcmcj30je0c7aba.png"></p>
+<p><img loading="lazy" alt="图片" src="/images/008i3skNly1gz68sbgcmcj30je0c7aba.png"></p>
 <p>最终返回抢购成功的用户：</p>
-<p><img alt="图片" src="/images/008i3skNgy1gz68tch07vj30jl01qmxc.png"></p>
+<p><img loading="lazy" alt="图片" src="/images/008i3skNgy1gz68tch07vj30jl01qmxc.png"></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/huguiqi/springboot-jedis-sample">实现代码地址</a></p>
 <h2 id="集成jedis遇到的问题"><a title="集成jedis遇到的问题" class="headerlink" href="#集成jedis遇到的问题"></a>集成jedis遇到的问题</h2><p>在模拟测试10万人秒杀时，遇到一个jedis关闭时的连接池报错：</p>
-<pre><code><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">JedisException:Could not return the resource to the pool 。。。IllegalStateException: Invalidated object not currently part of this pool</span><br></pre></td></tr></table></figure>
+<pre><code>``` 
+    JedisException:Could not return the resource to the pool 。。。IllegalStateException: Invalidated object not currently part of this pool
+```
 </code></pre>
 <p>我 <a target="_blank" rel="noopener" href="https://blog.csdn.net/beguile/article/details/80614651">参考此文章</a> ，表示需要显示的将jedisPool进行资源回收处理，但是根据我的实践，并未起效果，所以根本原因并不是线程池未回收导致</p>
 <p>所以继续找了下原因，感觉还是jedis里的连接状态与实际不一致导致的。</p>
@@ -247,8 +381,28 @@
 <li>ps: 由于springboot 2.x 就默认将lettuce替换了jedis，为了防止包冲突，将lettuce exclude掉 *</li>
 </ul>
 <p>然后再将RedisConfig.java进行改造：</p>
+<pre><code>    @Bean
+    JedisConnectionFactory jedisConnectionFactory() &#123;
 
+        // 设置最大600个连接
+        jedisPoolConfig.setMaxTotal(600);
+        jedisPoolConfig.setMaxIdle(300);
+        jedisPoolConfig.setTestOnBorrow(true);
+        jedisPoolConfig.setTestOnReturn(false);
 
+        JedisClientConfiguration.JedisPoolingClientConfigurationBuilder jpcf = (JedisClientConfiguration.JedisPoolingClientConfigurationBuilder) JedisClientConfiguration.builder();
+        jpcf.poolConfig(jedisPoolConfig);
+        JedisClientConfiguration jedisClientConfiguration = jpcf.build();
+
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName("10.105.141.164");
+        redisStandaloneConfiguration.setPort(16379);
+        redisStandaloneConfiguration.setPassword("redis123");
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration,jedisClientConfiguration);
+
+        return jedisConnectionFactory;
+    &#125;
+</code></pre>
 <p>JedisCommand.java中将jedis.set方法改成:</p>
 <pre><code>SetParams setParams = SetParams.setParams().nx().px(1000 * 60);
 String ret = jedis.set(key, val, setParams);
@@ -268,10 +422,21 @@ String ret = jedis.set(key, val, setParams);
 <p>再次启动并执行后，发现并没有解决这个问题，那看来jedis的socket关闭后，无法重新进行连接了。<br>我看了jedis 3.3的close方法，和jedis 9.3.0的没有什么区别，并不是那位大哥说的那样。<br>我将jedis改成方法级别变量后，就不再出现这个问题了。</p>
 <p>那还有种办法，是不是可以将jedis里的datasource生成，让它走主逻辑，就可以重新建立连接呢?<br>看源码，jedis里的datasource就是：Pool 类型，也就是个线程池，这说明我配置的线程池没起效？<br>原因：<br>由于我在JedisCommand类中使用的<code>JedisConnectionFactory</code> 类去获取Jedis实例的，而<code>JedisConnectionFactory</code>本身就不是线程池，是连接工厂类，所以我一直拿的是连接，并不是连接池</p>
 <p>解决，RedisConfig.java中加入：</p>
-
-
+<pre><code class="@Bean">    JedisPool jedisPool()&#123;
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        // 设置最大60个连接
+        jedisPoolConfig.setMaxTotal(600);
+        jedisPoolConfig.setMaxIdle(300);
+        jedisPoolConfig.setTestOnBorrow(true);
+        jedisPoolConfig.setTestOnReturn(false);
+        JedisPool pool = new JedisPool(jedisPoolConfig, "10.105.141.164",16379,1000,"redis123");
+        return pool;
+    &#125;
+</code></pre>
 <p>JedisCommand.java修改：</p>
-
+<pre><code class="private">            return jedisPool.getResource();
+    &#125;
+</code></pre>
 <p>将Jedis实例从池中获取，作为共享静态变量经测试还是会报错，至此，得出结论，不能将Jedis作为共享实例来使用，因为调用<code>jedis.close()</code>后，client的socket的就断了，而且在关闭socket之前已经将线程连接还给了线程池。</p>
 <p>正确使用jedis：<br>       1. jedis即用即取,用完就关<br>       2. jedis实例不可作为共享变量来使用,调用close后，无法重连获取连接<br>       3. jedis实例其实就是JedisPool中的客户端连接，不应该为作共享变量来使用</p>
 <p>总结下来解决方案：</p>
@@ -290,7 +455,7 @@ String ret = jedis.set(key, val, setParams);
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/redis/">redis</a><a href="/tags/分布式锁/">分布式锁</a><a href="/tags/jedis/">jedis</a>
+  <span></span> <a href="/tags/redis/">redis</a><a href="/tags/jedis/">jedis</a><a href="/tags/分布式锁/">分布式锁</a>
   </div>
 
 </div>
@@ -601,11 +766,11 @@ String ret = jedis.set(key, val, setParams);
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -698,15 +863,15 @@ String ret = jedis.set(key, val, setParams);
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

@@ -14,12 +14,12 @@
     
     <meta name="baidu-site-verification" content="zBj0BDqjSV" />
     
-    <meta name="description" content="实现JS的Map类两种方式：  简单的Object     实现map的缓存功能  UtilMap.js:       很多自以为nodejs就直接支持map，或者说js直接就直接map，那是不完全对的，应该说是对json对象的支持很好。。。。。。">
+    <meta name="description" content="实现JS的Map类两种方式：  简单的Object  function Map()&amp;#123;&amp;#125; Map.prototype.get &#x3D; function(key)&amp;#123;     return this[key]; &amp;#125;; Map.prototype.set &#x3D; function(key,val)&amp;#123;     this[key]&#x3D;val; &amp;#125;;  &#x2F;&#x2F; v">
 <meta property="og:type" content="article">
 <meta property="og:title" content="实现JS的Map类">
 <meta property="og:url" content="http://clockcoder.com/2020/04/29/%E5%AE%9E%E7%8E%B0js%E7%9A%84map%E7%B1%BB/index.html">
 <meta property="og:site_name" content="小黑的技术博客">
-<meta property="og:description" content="实现JS的Map类两种方式：  简单的Object     实现map的缓存功能  UtilMap.js:       很多自以为nodejs就直接支持map，或者说js直接就直接map，那是不完全对的，应该说是对json对象的支持很好。。。。。。">
+<meta property="og:description" content="实现JS的Map类两种方式：  简单的Object  function Map()&amp;#123;&amp;#125; Map.prototype.get &#x3D; function(key)&amp;#123;     return this[key]; &amp;#125;; Map.prototype.set &#x3D; function(key,val)&amp;#123;     this[key]&#x3D;val; &amp;#125;;  &#x2F;&#x2F; v">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-28T16:00:00.000Z">
 <meta property="article:modified_time" content="2023-02-16T11:41:07.999Z">
@@ -118,8 +118,18 @@
 <ul>
 <li>简单的Object</li>
 </ul>
+<pre><code>function Map()&#123;&#125;
+Map.prototype.get = function(key)&#123;
+    return this[key];
+&#125;;
+Map.prototype.set = function(key,val)&#123;
+    this[key]=val;
+&#125;;
 
-
+// var m = new Map();
+// m.set('name','foo');
+// console.log(stringify(m)); // &#123;"name":"foo"&#125;
+</code></pre>
 <ul>
 <li>实现map的缓存功能</li>
 </ul>
@@ -127,9 +137,134 @@
 
 
 
+<pre><code>/**
+ *	An object that maps keys to values. A map cannot contain duplicate keys;
+ *	each key can map to at most one value.
+ *	@author	Todd Ditchendorf
+ */
+Map = function (o) &#123;
+/*	if (o &amp;&amp; !(o instanceof Object)) &#123;
+        throw new Error("IllegalArgumentException: Map's " +
+                    "constructor's only argument must be an Object");
+    &#125;*/
+    this._obj = (o) ? (o) : new Object();
+&#125;;
 
+/**
+ *	Associates the specified value with the specified key in this map.
+ *	@param	Object key	New key to enter,
+ *	@param	Object Value	New value to enter.
+ *	@returns Object
+ */
+Map.prototype.put = function (key,value) &#123;
+    this._obj[key] = value;
+&#125;;
 
+/**
+ *	Returns the value to which this map maps the specified key.
+ *	@param	Object key	Get the value for this key in this Map.
+ *	@returns Object
+ */
+Map.prototype.get = function (key) &#123;
+    if (!this._obj[key]) return null;
+    return this._obj[key];
+&#125;;
 
+/**
+ *	Returns the number of key-value mappings in this map.
+ *	@returns number
+ */
+Map.prototype.size = function () &#123;
+    var count = 0;
+    for (var key in this._obj)
+        count++;
+    return count;
+&#125;;
+
+/**
+ *	Returns true if this map contains no key-value mappings.
+ *	@returns	boolean
+ */
+Map.prototype.isEmpty = function () &#123;
+    return this.size() == 0;
+&#125;;
+
+/**
+ *	Returns a string representation of this map.
+ *	@returns String
+ */
+Map.prototype.toString = function () &#123;
+    var buff = new StringBuffer();
+    count = 0;
+    for ( var key in this._obj ) &#123;
+        buff.append(key).append(" = ").append(this._obj[key])
+            .append(count == this.size() - 1 ? "" : "\r\n");
+        count++;
+    &#125;
+    return buff.toString();
+&#125;;
+
+/**
+ *	Returns true if this map contains a mapping for the specified  key.
+ *	@param	Object	key	Testing this Map for key with this value.
+ *	@returns	boolean
+ */
+Map.prototype.containsKey = function (key) &#123;
+    if (this._obj[key] !== undefined) &#123;
+        return true;
+    &#125;
+    return false;
+&#125;;
+
+/**
+ *	Returns true if this map maps one or more keys to the  specified value.
+ *	@param	Object	value	Testing this Map for key with this value.
+ *	@returns	boolean
+ */
+Map.prototype.containsValue = function (value) &#123;
+    for (var key in this._obj) &#123;
+        if (this._obj[key] == value) &#123;
+            return true;
+        &#125;
+    &#125;
+    return false;
+&#125;;
+
+/**
+ *	Removes the mapping for this key from this map if it is present
+ *	@param	Object	key	Testing this Map for key with this value.
+ *	@returns	boolean
+ */
+Map.prototype.remove = function (key) &#123;
+    if (this.containsKey(key)) &#123;
+        delete this._obj[key];
+    &#125;
+&#125;;
+
+/**
+ *	Returns a set view of the values contained in this map.
+ *	@returns	Array
+ */
+Map.prototype.keySet = function () &#123;
+    var keys = [];
+    for (var key in this._obj) &#123;
+        keys.push(key);
+    &#125;
+    return keys;
+&#125;;
+
+/**
+ *	Returns a collection view of the values contained in this map.
+ *	@returns	Collection
+ */
+Map.prototype.values = function () &#123;
+    var values = new Collection();
+    for (var key in this._obj) &#123;
+        values.add(this._obj[key]);
+    &#125;
+    return values;
+&#125;;
+</code></pre>
 <p>很多自以为nodejs就直接支持map，或者说js直接就直接map，那是不完全对的，应该说是对json对象的支持很好。。。。。。</p>
   
 	</div>
@@ -167,18 +302,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2020/04/29/安装服务器nodejs环境/" title="docker 换国内镜像">
+ <a href="/2020/04/29/如何设置mysql在局域网中访问/" title="如何设置mysql在局域网中访问">
   <strong>上一篇：</strong><br/>
   <span>
-  docker 换国内镜像</span>
+  如何设置mysql在局域网中访问</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2020/04/29/对象序列化框架/"  title="对象序列化框架">
+<a href="/2020/04/29/安装服务器nodejs环境/"  title="docker 换国内镜像">
  <strong>下一篇：</strong><br/> 
- <span>对象序列化框架
+ <span>docker 换国内镜像
 </span>
 </a>
 </div>
@@ -455,11 +590,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -552,15 +687,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

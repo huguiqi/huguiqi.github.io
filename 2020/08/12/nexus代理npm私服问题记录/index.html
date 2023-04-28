@@ -136,30 +136,65 @@
 <li>写邮件向安全审批并找sre开通外网白名单</li>
 <li>需要在.npmrc文件中设置：</li>
 </ol>
-
-
+<pre><code class="properties">registry=http://xx.com/repository/npm-public/
+sass-binary-site=http://xx.com/repository/npm-sass
+_auth="YWRtaW46MmNMamtUd2ZuZnVqUmc3Zw=="
+</code></pre>
 <p>或者在执行代码编译时，加入如下代码：</p>
+<pre><code>npm set registry http://xx.com/repository/npm-public
 
-
-
-
+npm config set registry "http://xx.com/repository/npm-public/"
+npm config set proxy ""
+npm config set sass-binary-site="http://xx.com/repository/npm-sass"
+</code></pre>
 <p><em>注意，使用第二种方式也必须在.npmrc文件中将_auth加上，否则会导致node_sass无法下载</em></p>
 <ol start="3">
 <li>node_sass依赖构件无法从代理镜像下载问题(3和6本质上是一个问题)</li>
 </ol>
 <p>总是出现如下报错：</p>
+<pre><code class="javascript">&gt; node-sass@4.14.1 install /home/jenkins/workspace/xx-hzh5/hzh5-ptalb-build/v4/node_modules/node-sass
+&gt; node scripts/install.js
+
+Downloading binary from http://xx.com/repository/npm-sass-node/v4.14.1/linux-x64-64_binding.node
+Cannot download "http://xx.com/repository/npm-sass/v4.14.1/linux-x64-64_binding.node": 
+
+HTTP error 404 Not Found
+
+Hint: If github.com is not accessible in your location
+      try setting a proxy via HTTP_PROXY, e.g. 
+
+      export HTTP_PROXY=http://example.com:1234
+
+or configure npm proxy via
+
+      npm config set proxy http://example.com:8080
+
+&gt; core-js@2.6.11 postinstall /home/jenkins/workspace/xx-hzh5/hzh5-ptalb-build/v4/node_modules/core-js
+&gt; node -e "try&#123;require('./postinstall')&#125;catch(e)&#123;&#125;"
 
 
+&gt; javascript-obfuscator@1.9.0 postinstall /home/jenkins/workspace/xx-hzh5/hzh5-ptalb-build/v4/node_modules/javascript-obfuscator
+&gt; opencollective || exit 0
 
+                   Thanks for installing javascript-obfuscator 
+                 Please consider donating to our open collective
+                        to help us maintain this package.
+                                         
+                                         
+          Donate: https://opencollective.com/javascript-obfuscator/donate
+                                         
 
+&gt; node-sass@4.14.1 postinstall /home/jenkins/workspace/xx-hzh5/hzh5-ptalb-build/v4/node_modules/node-sass
+&gt; node scripts/build.js
+</code></pre>
 <p>这个地方搞了我很久，差不多搞了我一天，后面还尝试手动上传包到nexus，但是也失败了，好像后台报什么id不存在，貌似是无法手动上传，最终还是往镜像下载的方向去看，最后看了nexues后台报错日志：</p>
-<p><img alt="image-20200812111656669" src="/images/007S8ZIlgy1ghnuy1gouhj319u0l0q96.png"></p>
+<p><img loading="lazy" alt="image-20200812111656669" src="/images/007S8ZIlgy1ghnuy1gouhj319u0l0q96.png"></p>
 <p>这个就是6的问题。</p>
 <p>没办法，只能向安全部门申请外网访问白名单。</p>
 <p>端口开通以后，再试一遍，终于构建成功了：</p>
-<p><img alt="image-20200812112342546" src="/images/007S8ZIlgy1ghnv52kaalj31620cwgn1.png"></p>
+<p><img loading="lazy" alt="image-20200812112342546" src="/images/007S8ZIlgy1ghnv52kaalj31620cwgn1.png"></p>
 <p>到nexus上看看包下载下来没有：</p>
-<p><img alt="image-20200812111853259" src="/images/007S8ZIlgy1ghnv01w3e5j30ra0bqgme.png"></p>
+<p><img loading="lazy" alt="image-20200812111853259" src="/images/007S8ZIlgy1ghnv01w3e5j30ra0bqgme.png"></p>
 <p>很明显，已经下载到库里了。</p>
 <ol start="4">
 <li>代理镜像配置问题，是个小坑</li>
@@ -167,18 +202,16 @@
 <p>我代理的是github的npm第三方库，用的是taobao的镜像作代理，地址是：<a target="_blank" rel="noopener" href="https://npm.taobao.org/mirrors/node-sass/">https://npm.taobao.org/mirrors/node-sass/</a></p>
 <p>我厂用的nexus版本是：OSS 3.22.1-02</p>
 <p>配置的node_sass的代理文件类型必须raw:</p>
-<p><img alt="image-20200812112901514" src="/images/007S8ZIlgy1ghnvalrqp3j30va09wdgm.png"></p>
+<p><img loading="lazy" alt="image-20200812112901514" src="/images/007S8ZIlgy1ghnvalrqp3j30va09wdgm.png"></p>
 <p>proxy地址必须是：<a target="_blank" rel="noopener" href="https://npm.taobao.org/mirrors/node-sass">https://npm.taobao.org/mirrors/node-sass</a></p>
-<p><img alt="image-20200812112940989" src="/images/007S8ZIlgy1ghnvbaci5sj30qs0a2my6.png"></p>
+<p><img loading="lazy" alt="image-20200812112940989" src="/images/007S8ZIlgy1ghnvbaci5sj30qs0a2my6.png"></p>
 <ol start="5">
 <li>node_sass代理地址权限问题,npm install 的时候返回如下：</li>
 </ol>
-<p><img alt="image-20200812135309568" src="/images/007S8ZIlgy1ghnzgkzyzyj31os07u0uf.png"></p>
+<p><img loading="lazy" alt="image-20200812135309568" src="/images/007S8ZIlgy1ghnzgkzyzyj31os07u0uf.png"></p>
 <p>在npm install 之前，还必须将_auth的权限码放到.npmrc文件中。</p>
-<h3 id="权限码生成方式："><a title="权限码生成方式：" class="headerlink" href="#权限码生成方式："></a>权限码生成方式：</h3>
-
-
-
+<h3 id="权限码生成方式："><a title="权限码生成方式：" class="headerlink" href="#权限码生成方式："></a>权限码生成方式：</h3><pre><code class="shell">echo -n 'myuser:mypassword' | openssl base64
+</code></pre>
 <p>或者使用命令：npm addUser </p>
 <p>这种方式虽然简单，但是可能会暴露密码，如果你不想把密码给编译团队，就给权限码就行了。</p>
 <p><a target="_blank" rel="noopener" href="https://blog.sonatype.com/using-nexus-3-as-your-repository-part-2-npm-packages">参考地址1</a></p>
@@ -510,11 +543,11 @@
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -607,15 +640,15 @@
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			

@@ -169,9 +169,9 @@ console.error('Error caught by catch block:', e);
 &#125;);
 </code></pre>
 <p>执行完了以后，就会触发：uncaughtException方法，但不会立马退出，用pm2监控了他的内存使用情况，从19M到 50.309 MB的内存占用，估计随着时间的增加，内存会一直攀升。</p>
-<p><img alt="image" src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/10004.png"></p>
+<p><img loading="lazy" alt="image" src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/10004.png"></p>
 <h3 id="使用domain模块捕捉异常"><a title="使用domain模块捕捉异常" class="headerlink" href="#使用domain模块捕捉异常"></a>使用domain模块捕捉异常</h3><h2 id="使用pm2来解决程序异步异常自动退出"><a title="使用pm2来解决程序异步异常自动退出" class="headerlink" href="#使用pm2来解决程序异步异常自动退出"></a>使用pm2来解决程序异步异常自动退出</h2><p>当有异步异常导致服务进程自动退出时，pm2会自动重启应用程序，我请求了两次有异步异常的接口(会导致程序退出)，每请求一次，完了后，在终端执行：<code>pm2 show testExpress</code>,得到如下结果：</p>
-<p><img alt="image" src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0003.png"></p>
+<p><img loading="lazy" alt="image" src="https://raw.githubusercontent.com/huguiqi/blogCode/master/postImg/0003.png"></p>
 <p>这是为什么？不要问我为什么，这是因为pm2 0.7.1 开始，对因为异步异常触发uncaughtException方法导致的程序退出作了优化，只要进程退出，就会通过pm2自动重启当前程序，如果你用了nodejs的cluster自带的负载均衡，则会重启当前分配的服务。</p>
 <p>所以，正确的对uncaughtException的处理是：</p>
 <pre><code>process.on('uncaughtException', function(err) &#123;
@@ -196,9 +196,44 @@ try &#123;
 <p>那配合pm2一起使用，绝对神作。。。。</p>
 <p>对于一般的异步异常，不会导致程序退出的业务异常，则用domain来解决：</p>
 <p>比如这个异步异常：</p>
+<pre><code>app.get('/', function (req, res) &#123;
+    // if(!req.params.name)
+    //     throw new Error('sync exception'); // 抛出一个同步异常
+    //
+    setTimeout(function () &#123;
+        throw new Error('async exception'); // 抛出一个异步异常
+    &#125;, 1000);
 
+&#125;);
+</code></pre>
 <p>这个自定义的error异常，不会导致程序退出，也就不会调用uncaughtException方法。</p>
+<pre><code>// 使用 domain 来捕获大部分异常
+app.use(function (req, res, next) &#123;
+    var reqDomain = domain.create();
+    reqDomain.on('error', function (err) &#123; // 下面抛出的异常在这里被捕获,只有异步异常
+        res.send("&#123;'code':10000,'msg':'error'&#125;"); // 成功给用户返回了 500
+        try &#123;
+            // 强制退出机制
+            var killTimer = setTimeout(function () &#123;
+                process.exit(1);
+            &#125;, 30000);
+            killTimer.unref(); // 非常重要
+        
+            // 自动退出机制，停止接收新链接，等待当前已建立连接的关闭
+            server.close(function () &#123;
+                // 此时所有连接均已关闭，此时 Node 会自动退出，不需要再调用
+                process.exit(1); //来结束进程
+            &#125;);
+        &#125; catch(e) &#123;
+            console.log('err', e.stack);
+        &#125;
 
+    &#125;);
+
+    reqDomain.run(next);
+
+&#125;);
+</code></pre>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -244,9 +279,9 @@ try &#123;
 
 
 <div class="next">
-<a href="/2020/04/29/obj-c排序算法/"  title="obj-c排序算法">
+<a href="/2020/04/29/obj-c 常用字符串处理方法/"  title="obj-c 常用字符串处理方法">
  <strong>下一篇：</strong><br/> 
- <span>obj-c排序算法
+ <span>obj-c 常用字符串处理方法
 </span>
 </a>
 </div>
@@ -523,11 +558,11 @@ try &#123;
 		  
 		
 		  
-			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
 		  
 		
 		  
@@ -620,15 +655,15 @@ try &#123;
 			
 		
 			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
 			
 		
 			
