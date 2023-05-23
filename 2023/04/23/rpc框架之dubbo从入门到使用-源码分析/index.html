@@ -29,10 +29,13 @@
 <meta property="og:image" content="http://clockcoder.com/images/1681804908444-d9820cce-f3ac-4997-a1dd-e593ab781dfa.png">
 <meta property="og:image" content="http://clockcoder.com/images/1681805961476-7beaa91f-2f00-445b-a667-3cdd9f155516.png">
 <meta property="og:image" content="http://clockcoder.com/images/1682241560101-ebd7bf04-2b6a-4e7a-8328-129222a396a6.png">
+<meta property="og:image" content="http://clockcoder.com/images/1683253419695-9fc7c4a0-be56-45fe-ada0-af06f1fb60ac.png">
 <meta property="og:image" content="http://clockcoder.com/images/1682242484220-513127a8-23a4-4259-aedc-5f316be1d453.png">
 <meta property="og:image" content="http://clockcoder.com/images/1682244844479-e97e81c9-1118-4bae-8a32-de9c93270006.png">
+<meta property="og:image" content="http://clockcoder.com/images/1683352201307-493127a0-4a91-455e-90ed-d4d79c564820.png">
+<meta property="og:image" content="http://clockcoder.com/images/1683357207728-c49aceb1-0891-4147-91b1-c0e81328605e.png">
 <meta property="article:published_time" content="2023-04-23T10:35:01.320Z">
-<meta property="article:modified_time" content="2023-04-27T06:49:46.506Z">
+<meta property="article:modified_time" content="2023-05-23T12:10:29.617Z">
 <meta property="article:author" content="sam">
 <meta property="article:tag" content="rpc">
 <meta property="article:tag" content="dubbo">
@@ -123,7 +126,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#rpc%E6%A1%86%E6%9E%B6%E4%B9%8Bdubbo%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E4%BD%BF%E7%94%A8-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">rpc框架之dubbo从入门到使用-源码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%86%E8%A7%A3-Dubbo-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%92%8C%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">了解 Dubbo 核心概念和架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo-%E6%95%B0%E6%8D%AE%E9%9D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">Dubbo 数据面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">dubbo框架总体架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2%E8%AF%B4%E6%98%8E"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">节点角色说明</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="toc-number">2.3.</span> <span class="toc-text">代码架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E5%B1%82%E8%AF%B4%E6%98%8E"><span class="toc-number">2.4.</span> <span class="toc-text">各层说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%AF%B4%E6%98%8E"><span class="toc-number">2.5.</span> <span class="toc-text">关系说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%88%86%E5%8C%85"><span class="toc-number">2.6.</span> <span class="toc-text">模块分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="toc-number">2.7.</span> <span class="toc-text">依赖关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">2.8.</span> <span class="toc-text">调用链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.9.</span> <span class="toc-text">领域模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RPC%E4%BC%A0%E8%BE%93%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">2.10.</span> <span class="toc-text">RPC传输层实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%AB%AF-provide"><span class="toc-number">2.10.1.</span> <span class="toc-text">启动一个服务端(provide)</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#rpc%E6%A1%86%E6%9E%B6%E4%B9%8Bdubbo%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E4%BD%BF%E7%94%A8-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">rpc框架之dubbo从入门到使用-源码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%86%E8%A7%A3-Dubbo-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%92%8C%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">了解 Dubbo 核心概念和架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo-%E6%95%B0%E6%8D%AE%E9%9D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">Dubbo 数据面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">dubbo框架总体架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2%E8%AF%B4%E6%98%8E"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">节点角色说明</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="toc-number">2.3.</span> <span class="toc-text">代码架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E5%B1%82%E8%AF%B4%E6%98%8E"><span class="toc-number">2.4.</span> <span class="toc-text">各层说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%AF%B4%E6%98%8E"><span class="toc-number">2.5.</span> <span class="toc-text">关系说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%88%86%E5%8C%85"><span class="toc-number">2.6.</span> <span class="toc-text">模块分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="toc-number">2.7.</span> <span class="toc-text">依赖关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">2.8.</span> <span class="toc-text">调用链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.9.</span> <span class="toc-text">领域模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RPC%E4%BC%A0%E8%BE%93%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">2.10.</span> <span class="toc-text">RPC传输层实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%AB%AF-provide"><span class="toc-number">2.10.1.</span> <span class="toc-text">启动一个服务端(provide)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8client%E7%AB%AF%E8%B0%83%E7%94%A8Provider%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.10.2.</span> <span class="toc-text">使用client端调用Provider接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#netty%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="toc-number">2.11.</span> <span class="toc-text">netty通信原理</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -288,6 +291,9 @@
 <p><img loading="lazy" alt="dubbo-explor.drawio.png" src="/images/1682241560101-ebd7bf04-2b6a-4e7a-8328-129222a396a6.png"></p>
 <p>所以从上图可看出，暴露服务的工作其实主要集中在ServiceConfig.doExportUrl(local,false)这个方法上。</p>
 <p>Protocol是服务域，也就是Invoker的入口，是门面。<br>所以，this.protocolSPI.export((Invoker)invoker);才是真正执行暴露服务的底层方法。</p>
+<p>protocolSPI的填充实例是AbstractProxyProtocol对象。</p>
+<p>AbstractProxyProtocol类图表示如下：</p>
+<p><img loading="lazy" alt="img" src="/images/1683253419695-9fc7c4a0-be56-45fe-ada0-af06f1fb60ac.png"></p>
 <p>我们再进入到里面的实现看看，做了些什么：</p>
 <p><img loading="lazy" alt="image.png" src="/images/1682242484220-513127a8-23a4-4259-aedc-5f316be1d453.png"></p>
 <p>进入实现层，AbstractProxyProtocol.java 是个抽象类：</p>
@@ -411,12 +417,319 @@
             &#125;
         &#125;, true)
 </code></pre>
-<p><strong>那基本上就了然了，就是说，dubbo通过netty作为底层服务通信，然后从netty服务中取得client端发起的请求信息后，再通过proxy进行反射调用Provide端的实现类。</strong><br></p>
+<p><strong>那基本上就了然了，就是说，dubbo通过netty作为底层服务通信，然后从netty服务中取得client端发起的请求信息后，再通过proxy进行反射调用Provide端的实现类。(export-&gt;proxy-&gt;proxyFactory-&gt;Invoker）</strong></p>
+<p>以上实现类在provider端会将实现地址和、参数和服务名分别注册本地会保存在exporterMap和serverMap中，而在🕊️中，我们设置了用于注册中心的Kafka地址，所以，这些服务、参数和用于反射的类、方法等信息都存储在Kafka中。只有在client端发起rpc调用时，通过netty传送给client端，拿到后才会触发Invoker反射调用（延迟调用的callback语法）。</p>
 <blockquote>
 <p>javassist来说执行动态生成的Wrapper#invokeMethod</p>
 </blockquote>
-<p>通讯层是netty</p>
-<p><a target="_blank" rel="noopener" href="https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/concepts-and-architecture/code-architecture/#%E8%B0%83%E7%94%A8%E9%93%BE">官方文档</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7213211041764425788">参考文章</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/382200101">参考文章2</a></p>
+<h3 id="使用client端调用Provider接口"><a title="使用client端调用Provider接口" class="headerlink" href="#使用client端调用Provider接口"></a>使用client端调用Provider接口</h3><pre><code class="java">@Test
+    public void test() &#123;
+        ReferenceConfig&lt;GreetingsService&gt; reference = new ReferenceConfig&lt;&gt;();
+        reference.setApplication(new ApplicationConfig("first-dubbo-consumer"));
+        reference.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        reference.setInterface(GreetingsService.class);
+        GreetingsService service = reference.get();
+        String message = service.sayHi("dubbo");
+        Assertions.assertEquals(message, "hi, dubbo");
+    &#125;
+</code></pre>
+<p><strong>代码分析：</strong></p>
+<p>1）声明客户端服务名称：first-dubbo-consumer</p>
+<p>\2) 设置注册中心地址</p>
+<p>3）获取GreetingsService的实现类（通过反射）</p>
+<p>第三步中调用如下代码生成反射代理类：</p>
+<pre><code class="java">private T createProxy(Map&lt;String, String&gt; referenceParameters) &#123;
+    if (this.shouldJvmRefer(referenceParameters)) &#123;
+        this.createInvokerForLocal(referenceParameters);
+    &#125; else &#123;
+        this.urls.clear();
+        this.meshModeHandleUrl(referenceParameters);
+        if (StringUtils.isNotEmpty(this.url)) &#123;
+            this.parseUrl(referenceParameters);
+        &#125; else if (!"injvm".equalsIgnoreCase(this.getProtocol())) &#123;
+            this.aggregateUrlFromRegistry(referenceParameters);
+        &#125;
+
+        this.createInvokerForRemote();
+    &#125;
+
+    if (logger.isInfoEnabled()) &#123;
+        logger.info("Referred dubbo service: [" + (String)referenceParameters.get("interface") + "]." + (Boolean.parseBoolean((String)referenceParameters.get("generic")) ? " it's GenericService reference" : " it's not GenericService reference"));
+    &#125;
+
+    URL consumerUrl = new ServiceConfigURL("consumer", (String)referenceParameters.get("register.ip"), 0, (String)referenceParameters.get("interface"), referenceParameters);
+    URL consumerUrl = consumerUrl.setScopeModel(this.getScopeModel());
+    consumerUrl = consumerUrl.setServiceModel(this.consumerModel);
+    MetadataUtils.publishServiceDefinition(consumerUrl, this.consumerModel.getServiceModel(), this.getApplicationModel());
+    return this.proxyFactory.getProxy(this.invoker, ProtocolUtils.isGeneric(this.generic));
+&#125;
+</code></pre>
+<p><strong>代码分析：</strong></p>
+<p>这里面目测最重要的就两个方法，<code>this.createInvokerForLocal(referenceParameters);</code>和 <code>this.createInvokerForRemote();</code></p>
+<ul>
+<li>this.createInvokerForLocal(referenceParameters):</li>
+</ul>
+<pre><code class="java">private void createInvokerForLocal(Map&lt;String, String&gt; referenceParameters) &#123;
+    URL url = new ServiceConfigURL("injvm", "127.0.0.1", 0, this.interfaceClass.getName(), referenceParameters);
+    URL url = url.setScopeModel(this.getScopeModel());
+    url = url.setServiceModel(this.consumerModel);
+    Invoker&lt;?&gt; withFilter = this.protocolSPI.refer(this.interfaceClass, url);
+    List&lt;Invoker&lt;?&gt;&gt; invokers = new ArrayList();
+    invokers.add(withFilter);
+    this.invoker = Cluster.getCluster(url.getScopeModel(), "failover").join(new StaticDirectory(url, invokers), true);
+    if (logger.isInfoEnabled()) &#123;
+        logger.info("Using in jvm service " + this.interfaceClass.getName());
+    &#125;
+
+&#125;
+</code></pre>
+<p>目测<code>Invoker&lt;?&gt; withFilter = this.protocolSPI.refer(this.interfaceClass, url);</code>这段代码是从SPI协议类获取Invoker对象，进行反射，那么，与注册中心通信并获取反射需要的必要信息一定在这里面。</p>
+<pre><code class="java">public &lt;T&gt; Invoker&lt;T&gt; refer(Class&lt;T&gt; type, URL url) throws RpcException &#123;
+    return this.protocolBindingRefer(type, url);
+&#125;
+</code></pre>
+<p>再往下看：</p>
+<pre><code class="java">public &lt;T&gt; Invoker&lt;T&gt; protocolBindingRefer(Class&lt;T&gt; serviceType, URL url) throws RpcException &#123;
+    this.checkDestroyed();
+this.optimizeSerialization(url);
+DubboInvoker&lt;T&gt; invoker = new DubboInvoker(serviceType, url, this.getClients(url), this.invokers);
+this.invokers.add(invoker);
+return invoker;
+&#125;
+</code></pre>
+<p>在这个方法里，就已经获取到了DubboInvoker对象，那这个是关键代码：</p>
+<pre><code>DubboInvoker&lt;T&gt; invoker = new DubboInvoker(serviceType, url, this.getClients(url), this.invokers);
+</code></pre>
+<p>这段代码目测只有<code>this.getClients(url)</code>跟通信有关，故再探：</p>
+<pre><code class="java">private ExchangeClient[] getClients(URL url) &#123;
+    int connections = url.getParameter("connections", 0);
+if (connections == 0) &#123;
+    String shareConnectionsStr = StringUtils.isBlank(url.getParameter("shareconnections", (String)null)) ? ConfigurationUtils.getProperty(url.getOrDefaultApplicationModel(), "shareconnections", "1") : url.getParameter("shareconnections", (String)null);
+    connections = Integer.parseInt(shareConnectionsStr);
+    List&lt;ReferenceCountExchangeClient&gt; shareClients = this.getSharedClient(url, connections);
+    ExchangeClient[] clients = new ExchangeClient[connections];
+    Objects.requireNonNull(shareClients);
+    Arrays.setAll(clients, shareClients::get);
+    return clients;
+&#125; else &#123;
+    ExchangeClient[] clients = new ExchangeClient[connections];
+
+    for(int i = 0; i &lt; clients.length; ++i) &#123;
+        clients[i] = this.initClient(url);
+    &#125;
+
+    return clients;
+&#125;
+&#125;
+</code></pre>
+<p>嗯，再目测看看<code>getsharedClient</code>方法:</p>
+<pre><code class="java">private List&lt;ReferenceCountExchangeClient&gt; getSharedClient(URL url, int connectNum) &#123;
+    String key = url.getAddress();
+    Object clients = this.referenceClientMap.get(key);
+    List typedClients;
+    if (clients instanceof List) &#123;
+        typedClients = (List)clients;
+        if (this.checkClientCanUse(typedClients)) &#123;
+            this.batchClientRefIncr(typedClients);
+            return typedClients;
+        &#125;
+    &#125;
+
+    typedClients = null;
+    synchronized(this.referenceClientMap) &#123;
+        while(true) &#123;
+            clients = this.referenceClientMap.get(key);
+            if (clients instanceof List) &#123;
+                typedClients = (List)clients;
+                if (this.checkClientCanUse(typedClients)) &#123;
+                    this.batchClientRefIncr(typedClients);
+                    return typedClients;
+                &#125;
+
+                this.referenceClientMap.put(key, PENDING_OBJECT);
+                break;
+            &#125;
+
+            if (clients != PENDING_OBJECT) &#123;
+                this.referenceClientMap.put(key, PENDING_OBJECT);
+                break;
+            &#125;
+
+            try &#123;
+                this.referenceClientMap.wait();
+            &#125; catch (InterruptedException var21) &#123;
+            &#125;
+        &#125;
+    &#125;
+
+    boolean var18 = false;
+
+    try &#123;
+        var18 = true;
+        connectNum = Math.max(connectNum, 1);
+        if (CollectionUtils.isEmpty(typedClients)) &#123;
+            typedClients = this.buildReferenceCountExchangeClientList(url, connectNum);
+            var18 = false;
+        &#125; else &#123;
+            for(int i = 0; i &lt; typedClients.size(); ++i) &#123;
+                ReferenceCountExchangeClient referenceCountExchangeClient = (ReferenceCountExchangeClient)typedClients.get(i);
+                if (referenceCountExchangeClient != null &amp;&amp; !referenceCountExchangeClient.isClosed()) &#123;
+                    referenceCountExchangeClient.incrementAndGetCount();
+                &#125; else &#123;
+                    typedClients.set(i, this.buildReferenceCountExchangeClient(url));
+                &#125;
+            &#125;
+
+            var18 = false;
+        &#125;
+    &#125; finally &#123;
+        if (var18) &#123;
+            synchronized(this.referenceClientMap) &#123;
+                if (typedClients == null) &#123;
+                    this.referenceClientMap.remove(key);
+                &#125; else &#123;
+                    this.referenceClientMap.put(key, typedClients);
+                &#125;
+
+                this.referenceClientMap.notifyAll();
+            &#125;
+        &#125;
+    &#125;
+
+    synchronized(this.referenceClientMap) &#123;
+        if (typedClients == null) &#123;
+            this.referenceClientMap.remove(key);
+        &#125; else &#123;
+            this.referenceClientMap.put(key, typedClients);
+        &#125;
+
+        this.referenceClientMap.notifyAll();
+        return typedClients;
+    &#125;
+&#125;
+</code></pre>
+<p>以上代码大意是，先从本地cache中拿，拿不到就从注册中心取，那只要看这段代码就行：</p>
+<p>typedClients = this.buildReferenceCountExchangeClientList(url, connectNum);</p>
+<p>准确的说，看这个方法就行,<code>buildReferenceCountExchangeClient</code>:</p>
+<pre><code class="java">private ReferenceCountExchangeClient buildReferenceCountExchangeClient(URL url) &#123;
+    ExchangeClient exchangeClient = this.initClient(url);
+ReferenceCountExchangeClient client = new ReferenceCountExchangeClient(exchangeClient, "dubbo");
+int shutdownTimeout = ConfigurationUtils.getServerShutdownTimeout(url.getScopeModel());
+client.setShutdownWaitTime(shutdownTimeout);
+return client;
+&#125;
+</code></pre>
+<p>马上就要看到真相了，再看看<code>initClient</code>方法:</p>
+<pre><code class="java">private ExchangeClient initClient(URL url) &#123;
+    String str = url.getParameter("client", url.getParameter("server", "netty"));
+if (StringUtils.isNotEmpty(str) &amp;&amp; !url.getOrDefaultFrameworkModel().getExtensionLoader(Transporter.class).hasExtension(str)) &#123;
+    throw new RpcException("Unsupported client type: " + str + ", supported client type is " + StringUtils.join(url.getOrDefaultFrameworkModel().getExtensionLoader(Transporter.class).getSupportedExtensions(), " "));
+&#125; else &#123;
+    try &#123;
+        URL url = new ServiceConfigURL("dubbo", url.getUsername(), url.getPassword(), url.getHost(), url.getPort(), url.getPath(), url.getAllParameters());
+        url = url.addParameter("codec", "dubbo");
+        url = url.addParameterIfAbsent("heartbeat", String.valueOf(60000));
+        return (ExchangeClient)(url.getParameter("lazy", false) ? new LazyConnectExchangeClient(url, this.requestHandler) : Exchangers.connect(url, this.requestHandler));
+    &#125; catch (RemotingException var4) &#123;
+        throw new RpcException("Fail to create remoting client for service(" + url + "): " + var4.getMessage(), var4);
+    &#125;
+&#125;
+&#125;
+</code></pre>
+<p>这段代码说要拿netty服务器这些参数字段：<code>String str = url.getParameter("client", url.getParameter("server", "netty"))</code></p>
+<p>说明provider默认是netty服务。</p>
+<p>再看这段代码：</p>
+<pre><code class="java">return (ExchangeClient)(url.getParameter("lazy", false) ? new LazyConnectExchangeClient(url, this.requestHandler) : Exchangers.connect(url, this.requestHandler));
+</code></pre>
+<p>真相出来了。。。。。</p>
+<p><code>Exchangers.connect(url, this.requestHandler)</code>:</p>
+<pre><code class="java">public static ExchangeClient connect(URL url, ExchangeHandler handler) throws RemotingException &#123;
+    if (url == null) &#123;
+        throw new IllegalArgumentException("url == null");
+    &#125; else if (handler == null) &#123;
+        throw new IllegalArgumentException("handler == null");
+    &#125; else &#123;
+        return getExchanger(url).connect(url, handler);
+    &#125;
+&#125;
+</code></pre>
+<p>再进入HeaderExchanger类的connect方法：</p>
+<pre><code class="plain">public ExchangeClient connect(URL url, ExchangeHandler handler) throws RemotingException &#123;
+    return new HeaderExchangeClient(Transporters.connect(url, new ChannelHandler[]&#123;new DecodeHandler(new HeaderExchangeHandler(handler))&#125;), true);
+&#125;
+</code></pre>
+<p>再看<code>Transporters.connect()</code>方法:</p>
+<pre><code class="java">public static Client connect(URL url, ChannelHandler... handlers) throws RemotingException &#123;
+    if (url == null) &#123;
+        throw new IllegalArgumentException("url == null");
+    &#125; else &#123;
+        Object handler;
+        if (handlers != null &amp;&amp; handlers.length != 0) &#123;
+            if (handlers.length == 1) &#123;
+                handler = handlers[0];
+            &#125; else &#123;
+                handler = new ChannelHandlerDispatcher(handlers);
+            &#125;
+        &#125; else &#123;
+            handler = new ChannelHandlerAdapter();
+        &#125;
+
+        return getTransporter(url).connect(url, (ChannelHandler)handler);
+    &#125;
+&#125;
+</code></pre>
+<p>最后再进去<code>getTransporter(url).connect(url, (ChannelHandler)handler)</code>这个实现，发现大部分都是Netty的实现：</p>
+<p><img loading="lazy" alt="img" src="/images/1683352201307-493127a0-4a91-455e-90ed-d4d79c564820.png"></p>
+<p>通过调试，发现它的实现是：<code>org.apache.dubbo.remoting.transport.netty4.NettyClient.java</code></p>
+<p><img loading="lazy" alt="img" src="/images/1683357207728-c49aceb1-0891-4147-91b1-c0e81328605e.png"></p>
+<ul>
+<li>this.createInvokerForRemote():</li>
+</ul>
+<pre><code class="java">private void createInvokerForRemote() &#123;
+    if (this.urls.size() == 1) &#123;
+        URL curUrl = (URL)this.urls.get(0);
+        this.invoker = this.protocolSPI.refer(this.interfaceClass, curUrl);
+        if (!UrlUtils.isRegistry(curUrl) &amp;&amp; !curUrl.getParameter("unloadClusterRelated", false)) &#123;
+            List&lt;Invoker&lt;?&gt;&gt; invokers = new ArrayList();
+            invokers.add(this.invoker);
+            this.invoker = Cluster.getCluster(this.getScopeModel(), "failover").join(new StaticDirectory(curUrl, invokers), true);
+        &#125;
+    &#125; else &#123;
+        List&lt;Invoker&lt;?&gt;&gt; invokers = new ArrayList();
+        URL registryUrl = null;
+        Iterator var3 = this.urls.iterator();
+
+        while(var3.hasNext()) &#123;
+            URL url = (URL)var3.next();
+            invokers.add(this.protocolSPI.refer(this.interfaceClass, url));
+            if (UrlUtils.isRegistry(url)) &#123;
+                registryUrl = url;
+            &#125;
+        &#125;
+
+        if (registryUrl != null) &#123;
+            String cluster = registryUrl.getParameter("cluster", "zone-aware");
+            this.invoker = Cluster.getCluster(registryUrl.getScopeModel(), cluster, false).join(new StaticDirectory(registryUrl, invokers), false);
+        &#125; else &#123;
+            if (CollectionUtils.isEmpty(invokers)) &#123;
+                throw new IllegalArgumentException("invokers == null");
+            &#125;
+
+            URL curUrl = ((Invoker)invokers.get(0)).getUrl();
+            String cluster = curUrl.getParameter("cluster", "failover");
+            this.invoker = Cluster.getCluster(this.getScopeModel(), cluster).join(new StaticDirectory(curUrl, invokers), true);
+        &#125;
+    &#125;
+
+&#125;
+</code></pre>
+<p>local和remote方法大同小异，createInvoderForLocal()是创建本地调用的反射Invoker，而createInvokerForRemote()就是创建远程调用的反射Invoker。</p>
+<p><a target="_blank" rel="noopener" href="https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/concepts-and-architecture/code-architecture/#%E8%B0%83%E7%94%A8%E9%93%BE">官方文档</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7213211041764425788">参考文章</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/382200101">参考文章2</a></p>
+<p><a target="_blank" rel="noopener" href="https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/quick-start/brief/">快速学习文档</a></p>
+<p>那么，知道了通讯层是netty，那我再学习一下netty的通讯原理就行了。</p>
+<h2 id="netty通信原理"><a title="netty通信原理" class="headerlink" href="#netty通信原理"></a>netty通信原理</h2><p>待更。。。。。。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -481,7 +794,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#rpc%E6%A1%86%E6%9E%B6%E4%B9%8Bdubbo%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E4%BD%BF%E7%94%A8-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">rpc框架之dubbo从入门到使用-源码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%86%E8%A7%A3-Dubbo-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%92%8C%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">了解 Dubbo 核心概念和架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo-%E6%95%B0%E6%8D%AE%E9%9D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">Dubbo 数据面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">dubbo框架总体架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2%E8%AF%B4%E6%98%8E"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">节点角色说明</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="toc-number">2.3.</span> <span class="toc-text">代码架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E5%B1%82%E8%AF%B4%E6%98%8E"><span class="toc-number">2.4.</span> <span class="toc-text">各层说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%AF%B4%E6%98%8E"><span class="toc-number">2.5.</span> <span class="toc-text">关系说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%88%86%E5%8C%85"><span class="toc-number">2.6.</span> <span class="toc-text">模块分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="toc-number">2.7.</span> <span class="toc-text">依赖关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">2.8.</span> <span class="toc-text">调用链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.9.</span> <span class="toc-text">领域模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RPC%E4%BC%A0%E8%BE%93%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">2.10.</span> <span class="toc-text">RPC传输层实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%AB%AF-provide"><span class="toc-number">2.10.1.</span> <span class="toc-text">启动一个服务端(provide)</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#rpc%E6%A1%86%E6%9E%B6%E4%B9%8Bdubbo%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E4%BD%BF%E7%94%A8-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">rpc框架之dubbo从入门到使用-源码分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%86%E8%A7%A3-Dubbo-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E5%92%8C%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">了解 Dubbo 核心概念和架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo-%E6%95%B0%E6%8D%AE%E9%9D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">Dubbo 数据面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dubbo%E6%A1%86%E6%9E%B6%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">dubbo框架总体架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E8%A7%92%E8%89%B2%E8%AF%B4%E6%98%8E"><span class="toc-number">2.2.0.0.1.</span> <span class="toc-text">节点角色说明</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84"><span class="toc-number">2.3.</span> <span class="toc-text">代码架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E5%B1%82%E8%AF%B4%E6%98%8E"><span class="toc-number">2.4.</span> <span class="toc-text">各层说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E8%AF%B4%E6%98%8E"><span class="toc-number">2.5.</span> <span class="toc-text">关系说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%88%86%E5%8C%85"><span class="toc-number">2.6.</span> <span class="toc-text">模块分包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="toc-number">2.7.</span> <span class="toc-text">依赖关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">2.8.</span> <span class="toc-text">调用链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.9.</span> <span class="toc-text">领域模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RPC%E4%BC%A0%E8%BE%93%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-number">2.10.</span> <span class="toc-text">RPC传输层实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%AB%AF-provide"><span class="toc-number">2.10.1.</span> <span class="toc-text">启动一个服务端(provide)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8client%E7%AB%AF%E8%B0%83%E7%94%A8Provider%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.10.2.</span> <span class="toc-text">使用client端调用Provider接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#netty%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="toc-number">2.11.</span> <span class="toc-text">netty通信原理</span></a></li></ol></li></ol>
  
   </div>
 
