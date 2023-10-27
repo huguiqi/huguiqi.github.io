@@ -1,0 +1,1341 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+  <meta name="keywords" content="胡小黑,架构师,资深软件工程师,object-c,swift,java,node,小黑,技术,大牛,阿里巴巴,腾讯,旅游">
+  
+  
+    <title>搭建国密nginx服务器并打成docker镜像 | 小黑的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sam">
+    
+    <meta name="baidu-site-verification" content="zBj0BDqjSV" />
+    
+    <meta name="description" content="搭建国密nginx服务器并打成docker镜像    国密实验室官网： https:&#x2F;&#x2F;www.gmssl.cn&#x2F;gmssl&#x2F;index.jsp?go&#x3D;gmsdk https:&#x2F;&#x2F;www.gmcrt.cn&#x2F;gmcrt&#x2F;index.jsp 搭建国密nginx服务器gmssl-testCentos7.Dockerfile: FROM centos:centos7.9.2009 ENV LANG&#x3D;C.U">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建国密nginx服务器并打成docker镜像">
+<meta property="og:url" content="http://clockcoder.com/2023/10/25/%E6%90%AD%E5%BB%BA%E5%9B%BD%E5%AF%86nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E6%89%93%E6%88%90docker%E9%95%9C%E5%83%8F/index.html">
+<meta property="og:site_name" content="小黑的技术博客">
+<meta property="og:description" content="搭建国密nginx服务器并打成docker镜像    国密实验室官网： https:&#x2F;&#x2F;www.gmssl.cn&#x2F;gmssl&#x2F;index.jsp?go&#x3D;gmsdk https:&#x2F;&#x2F;www.gmcrt.cn&#x2F;gmcrt&#x2F;index.jsp 搭建国密nginx服务器gmssl-testCentos7.Dockerfile: FROM centos:centos7.9.2009 ENV LANG&#x3D;C.U">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://clockcoder.com/images/image-20231025164813634.png">
+<meta property="og:image" content="http://clockcoder.com/images/image-20231027141234980.png">
+<meta property="article:published_time" content="2023-10-25T05:51:21.003Z">
+<meta property="article:modified_time" content="2023-10-27T06:13:03.047Z">
+<meta property="article:author" content="sam">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="国密">
+<meta property="article:tag" content="Gmssl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://clockcoder.com/images/image-20231025164813634.png">
+<meta name="twitter:creator" content="@XiaoheiSpring">
+<link rel="publisher" href="109318125124422212783">
+
+    
+    <link rel="alternative" href="/atom.xml" title="小黑的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7265659350794760"
+     crossorigin="anonymous"></script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="小黑的技术博客" title="小黑的技术博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="小黑的技术博客">小黑的技术博客</a></h1>
+				<h2 class="blog-motto">不积跬步无以至千里</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li><a href="http://clockcoder.com">副站</a></li>
+					<li>
+ 					
+						<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="on" class="st-default-search-input"  name="q" maxlength="30" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2023/10/25/搭建国密nginx服务器并打成docker镜像/" title="搭建国密nginx服务器并打成docker镜像" itemprop="url">搭建国密nginx服务器并打成docker镜像</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/109318125124422212783?rel=author" title="sam" target="_blank" itemprop="author">sam</a>
+		
+  <p class="article-time">
+    <time datetime="2023-10-25T05:51:21.003Z" itemprop="datePublished"> 发表于 2023-10-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%9B%BD%E5%AF%86nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E6%89%93%E6%88%90docker%E9%95%9C%E5%83%8F"><span class="toc-number">1.</span> <span class="toc-text">搭建国密nginx服务器并打成docker镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%9B%BD%E5%AF%86nginx%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">搭建国密nginx服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gmssl-test"><span class="toc-number">1.1.1.</span> <span class="toc-text">gmssl-test</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GM-nginx"><span class="toc-number">1.1.2.</span> <span class="toc-text">GM-nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%94%AF%E6%8C%81gmssl%E7%9A%84nginx%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">启动支持gmssl的nginx服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%87%AA%E7%AD%BE%E5%90%8D%E7%9B%B8%E5%85%B3%E8%AF%81%E4%B9%A6"><span class="toc-number">1.2.1.</span> <span class="toc-text">生成服务器自签名相关证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8nginx%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">启动nginx服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E5%AE%83%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.3.</span> <span class="toc-text">其它客户端如何调用服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87gmcurl%E8%BF%9B%E8%A1%8C%E6%B5%8B%E8%AF%95%E8%B0%83%E7%94%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">通过gmcurl进行测试调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8gmcurl%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.2.</span> <span class="toc-text">使用gmcurl遇到的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%9B%BD%E5%AF%86%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%9B%E8%A1%8C%E8%B0%83%E7%94%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">通过国密浏览器进行调用</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="搭建国密nginx服务器并打成docker镜像"><a title="搭建国密nginx服务器并打成docker镜像" class="headerlink" href="#搭建国密nginx服务器并打成docker镜像"></a>搭建国密nginx服务器并打成docker镜像</h1><blockquote>
+<blockquote>
+</blockquote>
+</blockquote>
+<p>国密实验室官网：</p>
+<p><a target="_blank" rel="noopener" href="https://www.gmssl.cn/gmssl/index.jsp?go=gmsdk">https://www.gmssl.cn/gmssl/index.jsp?go=gmsdk</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.gmcrt.cn/gmcrt/index.jsp">https://www.gmcrt.cn/gmcrt/index.jsp</a></p>
+<h2 id="搭建国密nginx服务器"><a title="搭建国密nginx服务器" class="headerlink" href="#搭建国密nginx服务器"></a>搭建国密nginx服务器</h2><h3 id="gmssl-test"><a title="gmssl-test" class="headerlink" href="#gmssl-test"></a>gmssl-test</h3><p>Centos7.Dockerfile:</p>
+<pre><code class="dockerfile">FROM centos:centos7.9.2009
+ENV LANG=C.UTF-8
+RUN yum install -y wget
+RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+RUN yum makecache
+
+# Install tools
+RUN yum update -y &amp;&amp; \
+    yum reinstall -y glibc-common &amp;&amp; \
+    yum install -y telnet net-tools &amp;&amp; \
+    yum clean all &amp;&amp; \
+    rm -rf /tmp/* rm -rf /var/cache/yum/*
+# Define default command.
+
+CMD ["bash"]
+</code></pre>
+<p>Build docker Image:</p>
+<pre><code class="bash">docker build -t centos7:test .
+</code></pre>
+<p>使用国密gmssl官方源码编译: <a target="_blank" rel="noopener" href="https://gitcode.com/mirrors/guanzhi/GmSSL.git">https://gitcode.com/mirrors/guanzhi/GmSSL.git</a></p>
+<pre><code class="bash">git clone https://gitcode.com/mirrors/guanzhi/GmSSL.git
+</code></pre>
+<p>切换到branch: <code>GmSSL-v2</code>:</p>
+<pre><code class="bash">git checkout GmSSL-v2
+</code></pre>
+<p>编写build.sh:</p>
+<pre><code>#!/bin/bash
+#
+# This script has been tested on CentOS 7 &amp;&amp; Ubuntu 12.04.3
+#
+# By: huguiqi &lt;guiqi.hu@163.com&gt; (https://clockcoder.top)
+#
+# Note: Does not run `make install` unless run with `INSTALL=true`.
+
+
+BUILD_ROOT=/var/local
+
+
+echo $BUILD_ROOT
+
+cd $BUILD_ROOT/GmSSL
+
+./config --prefix=/usr/local/gmssl
+
+make &amp;&amp; make install
+</code></pre>
+<p>Dockerfile.gmssl2:</p>
+<pre><code class="dockerfile">FROM centos7:test1
+LABEL maintainer='NGINX Docker Maintainers &lt;guiqi_hu@@163.com&gt;'
+LABEL author=huguiqi
+#RUN export https_proxy=http://192.168.1.143:7890 http_proxy=http://192.168.1.143:7890 all_proxy=socks5://192.168.1.143:7890
+
+RUN cat /proc/version &amp;&amp; uname -a
+ENV LD_LIBRARY_PATH=/usr/local/gmssl/lib:$LD_LIBRARY_PATH
+
+RUN yum install -y gcc  pcre pcre-dev pcre-devel zlib zlib-devel make openssl openssl-devel kernel-headers kernel-devel
+VOLUME /tmp
+RUN pwd &amp;&amp; ls -a
+COPY GmSSL.tar.gz /tmp
+RUN cd /tmp &amp;&amp; tar xzvf GmSSL.tar.gz -C /var/local
+RUN ls -a /var/local
+COPY gmsslBuild.sh /var/local/GmSSL
+RUN ls -la /var/local/GmSSL
+
+RUN sh /var/local/GmSSL/gmsslBuild.sh
+
+RUN /usr/local/gmssl/bin/gmssl version
+</code></pre>
+<p>Build image:</p>
+<pre><code class="bash">docker build -t gmssl2-test:1.0 .
+</code></pre>
+<h3 id="GM-nginx"><a title="GM-nginx" class="headerlink" href="#GM-nginx"></a>GM-nginx</h3><p>Dockerfile:</p>
+<pre><code class="dockerfile">FROM gmssl2-test:1.0
+
+LABEL maintainer='NGINX Docker Maintainers &lt;guiqi_hu@@163.com&gt;'
+LABEL author=huguiqi
+
+ENV gmssl=/usr/local/gmssl
+
+RUN mkdir -p /var/local/nginx/nginx
+VOLUME /tmp
+RUN pwd &amp;&amp; ls -a
+COPY nginx-1.25.2.tar.gz /tmp
+RUN cd /tmp &amp;&amp; tar --no-same-owner -xzvf nginx-1.25.2.tar.gz -C /var/local/nginx
+RUN ls -a /var/local/nginx/nginx-1.25.2
+COPY buildGMNginx.sh /var/local/nginx/nginx-1.25.2
+RUN ls -la /var/local/nginx/nginx-1.25.2
+
+RUN echo user/local!! `pwd` &amp;&amp; ls /usr/local/gmssl -la
+RUN echo gmssl.include:&amp;&amp; ls -la /usr/local/gmssl/include
+
+COPY conf.openssl /var/local/nginx/nginx-1.25.2/auto/lib/openssl/conf
+RUN ls -la /var/local/nginx/nginx-1.25.2/auto
+RUN cd /var/local/nginx/nginx-1.25.2 &amp;&amp; sh buildGMNginx.sh
+
+RUN ln -s /usr/local/nginx/sbin/nginx /usr/bin/nginx
+RUN ln -s /usr/local/gmssl/bin/gmssl /usr/bin/gmssl
+RUN /usr/local/nginx/sbin/nginx -V
+RUN gmssl version
+
+WORKDIR /usr/local/nginx/sbin
+# Start Nginx and keep it running background and start php
+CMD nginx -g "daemon off;"
+
+#EXPOSE 443
+EXPOSE 80 443
+</code></pre>
+<p>测试gmssl:</p>
+<p><img loading="lazy" alt="image-20231025164813634" src="/images/image-20231025164813634.png"></p>
+<p>Build Image:</p>
+<pre><code class="bash">docker build -t gm-nginx-test:1.0 .
+</code></pre>
+<h2 id="启动支持gmssl的nginx服务器"><a title="启动支持gmssl的nginx服务器" class="headerlink" href="#启动支持gmssl的nginx服务器"></a>启动支持gmssl的nginx服务器</h2><h3 id="生成服务器自签名相关证书"><a title="生成服务器自签名相关证书" class="headerlink" href="#生成服务器自签名相关证书"></a>生成服务器自签名相关证书</h3><p>整理成脚本如下``genCert.sh`：</p>
+<pre><code class="bash">#!/bin/bash
+
+echo openssl path is: $gmssl
+
+cp $gmssl/ssl/openssl.cnf /usr/local/certs
+output=/usr/local/certs/openssl.cnf
+echo "# 这个配置必加，否则 gmssl 会报错的。openssl 则无需。
+[ v3enc_req ]
+basicConstraints = CA:FALSE
+keyUsage = keyAgreement, keyEncipherment, dataEncipherment
+" &gt;&gt; $output
+
+# 自定义CA证书签发
+gmssl ecparam -genkey -name sm2p256v1 -out rootca.key
+gmssl req -new -x509 -sm3 -key  rootca.key  -out  rootcasm2.cer -days 10000 -subj '/C=CN/O=HUB/OU=HUGUIQI_SM2'
+
+
+# Server签名证书
+gmssl ecparam -genkey -name sm2p256v1 -noout -out server.key
+gmssl req -new -SM3 -key server.key -out server.csr -subj "/C=CN/ST=ShangHai/L=ShangHai/O=zaxh/CN=tom/emailAddress=guiqi_hu@163.com"
+gmssl x509 -req -SM3 -days 3650 -in server.csr -extfile openssl.cnf -extensions v3_req -CA rootcasm2.cer -CAkey rootca.key -set_serial 1000000001 -out server.cer
+
+
+# Server加密证书
+gmssl ecparam -genkey -name sm2p256v1 -noout -out server_en.key
+gmssl req -new -SM3 -key server_en.key -out server_en.csr -subj "/C=CN/ST=ShangHai/L=ShangHai/O=zaxh/CN=tom/emailAddress=guiqi_hu@163.com"
+gmssl x509 -req -SM3 -days 3650 -in server_en.csr -extfile openssl.cnf -extensions v3enc_req -CA rootcasm2.cer -CAkey rootca.key -set_serial 1000002001 -out server_en.cer
+
+# 注意，client的证书主要用来客户端调用和验证gm服务器是否搭建正确
+# Client签名证书
+gmssl ecparam -genkey -name sm2p256v1 -noout -out client.key
+gmssl req -new -key client.key -out client.req -subj "/C=CN/O=HUB/OU=HUGUIQI_SM2/CN=client"
+gmssl x509 -req -SM3 -days 3650 -in client.req -extfile openssl.cnf -extensions v3_req -CA rootcasm2.cer -CAkey rootca.key -CAcreateserial  -out client.cer
+
+# client加密证书
+gmssl ecparam -genkey -name sm2p256v1 -noout -out client_en.key
+gmssl req -new -key client_en.key -out client_en.req -subj "/C=CN/O=HUB/OU=HUGUIQI_SM2/CN=client"
+gmssl x509 -req -SM3 -days 3650 -in client_en.req -CA rootcasm2.cer -extfile openssl.cnf -extensions v3enc_req -CAkey rootca.key -CAcreateserial  -out client_en.cer
+</code></pre>
+<h3 id="启动nginx服务器"><a title="启动nginx服务器" class="headerlink" href="#启动nginx服务器"></a>启动nginx服务器</h3><p>Dockerfile:</p>
+<pre><code class="dockerfile">FROM gm-nginx-test:1.0
+LABEL maintainer='NGINX Docker Maintainers &lt;guiqi_hu@@163.com&gt;'
+LABEL author=huguiqi
+
+COPY index.html /usr/local/nginx/html
+COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+COPY gmssl-ng2.conf /usr/local/nginx/conf.d/default.conf
+RUN mkdir -p /usr/local/certs
+
+WORKDIR /usr/local/certs
+
+RUN rm -rf *
+
+COPY genCert.sh ./
+#COPY certs /usr/local/certs
+RUN echo 生成证书 &amp;&amp; sh ./genCert.sh
+RUN ls /usr/local/certs
+
+CMD nginx -g "daemon off;"
+</code></pre>
+<p>gmssl-ng2.conf:</p>
+<pre><code class="bash">server &#123;
+
+    ssl_certificate      "/usr/local/certs/server.cer";
+    ssl_certificate_key  "/usr/local/certs/server.key";
+    ssl_certificate      "/usr/local/certs/server_en.cer";
+    ssl_certificate_key  "/usr/local/certs/server_en.key";
+
+    listen      443 ssl;
+    listen      80;
+    server_name localhost;
+    keepalive_timeout  70;
+
+    ssl_session_cache    shared:SSL:5m;
+    ssl_session_timeout  5m;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECC-SM4-SM3:ECDHE-SM4-SM3:SM2-WITH-SMS4-SM3:ECDHE-SM2-WITH-SMS4-GCM-SM3:HIGH:!aNULL:!MD5:!RC4:!DHE;
+    # ssl_ciphers  HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers  on;
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+
+    location / &#123;
+            root   html;
+            index  index.html index.htm;
+        &#125;
+&#125;
+</code></pre>
+<p>docker-compose-gm.yml:</p>
+<pre><code>version: '2'
+services:
+  gm-nginx:
+    build:
+      context: gm-nginx
+    restart: always
+    container_name: gm-nginx-server
+    hostname: gm-nginx-server
+    image: gm-nginx-server
+    ports:
+      - 80:80
+      - 443:443
+
+networks:
+  default:
+    external:
+      name: zaxhNetwork
+</code></pre>
+<p>启动：</p>
+<pre><code class="shell">docker-compose -f docker-compose-gm.yml up -d --build
+</code></pre>
+<p>启动完成后，查看测试一下：</p>
+<pre><code class="shell">docker exec gm-nginx-server bash -c "gmssl s_client -connect localhost:443 -key client.key -cert client.cer -CAfile rootcasm2.cer"
+</code></pre>
+<p>执行测试后，返回：</p>
+<pre><code class="shell">CONNECTED(00000003)
+---
+Certificate chain
+ 0 s:/C=CN/ST=ShangHai/L=ShangHai/O=zaxh/CN=tom/emailAddress=guiqi_hu@163.com
+   i:/C=CN/O=HUB/OU=HUGUIQI_SM2
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIBrjCCAVSgAwIBAgIEO5rKATAKBggqgRzPVQGDdTAxMQswCQYDVQQGEwJDTjEM
+MAoGA1UECgwDSFVCMRQwEgYDVQQLDAtIVUdVSVFJX1NNMjAeFw0yMzEwMjcwMjU1
+MDFaFw0zMzEwMjQwMjU1MDFaMHExCzAJBgNVBAYTAkNOMREwDwYDVQQIDAhTaGFu
+Z0hhaTERMA8GA1UEBwwIU2hhbmdIYWkxDTALBgNVBAoMBHpheGgxDDAKBgNVBAMM
+A3RvbTEfMB0GCSqGSIb3DQEJARYQZ3VpcWlfaHVAMTYzLmNvbTBZMBMGByqGSM49
+AgEGCCqBHM9VAYItA0IABGeQaT+8xQJi7HEj6FVg0xhCaw/ERxUyXdFPwy1aNB7s
+pKXPUqG8XiiGGnakDob4gfpjB2/vFQ2CiDm/+QIRyPSjGjAYMAkGA1UdEwQCMAAw
+CwYDVR0PBAQDAgXgMAoGCCqBHM9VAYN1A0gAMEUCIQD9TQbjsnFR+29jwoFwo7OC
+3MYqrQxoVibUpvROZVZLwQIgTpGJDczMZWYnkyfEilqEDqjWYUNW/YttZ+ROD+7V
+vuo=
+-----END CERTIFICATE-----
+subject=/C=CN/ST=ShangHai/L=ShangHai/O=zaxh/CN=tom/emailAddress=guiqi_hu@163.com
+issuer=/C=CN/O=HUB/OU=HUGUIQI_SM2
+---
+No client certificate CA names sent
+Peer signing digest: SM3
+Server Temp Key: ECDH, SM2, 256 bits
+---
+SSL handshake has read 924 bytes and written 322 bytes
+Verification: OK
+---
+New, TLSv1.2, Cipher is ECDHE-SM2-WITH-SMS4-GCM-SM3
+Server public key is 256 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-SM2-WITH-SMS4-GCM-SM3
+    Session-ID: AD333DE26F3611F37C214B70BD56D72F6DDDB25D9F9284A952B06E72FC53DD8C
+    Session-ID-ctx:
+    Master-Key: 4BCD32FE8983487A58CA08A0FE29CDFEF01FE95BE088BE35AA7357FEF1AC2937DDDC065F88506DC4F7A80ED5B1A78407
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+    0000 - f8 16 80 5e 40 5e 79 c7-15 86 0b 5b 3a 78 f3 c5   ...^@^y....[:x..
+    0010 - 85 b1 d3 cb d1 92 13 d4-a9 2d ea d9 58 6d c3 52   .........-..Xm.R
+    0020 - 49 28 59 c5 b9 b8 bd ea-d2 06 c5 05 7a bd bd c9   I(Y.........z...
+    0030 - 72 bd 82 65 15 11 0f 82-7e e1 19 ce 81 ed 90 7c   r..e....~......|
+    0040 - c2 30 59 f3 be 89 64 11-d2 7d b6 44 7c 87 25 50   .0Y...d..&#125;.D|.%P
+    0050 - d5 fe 6e bf 34 79 8d 14-ca 4e 95 dc 2f 61 04 87   ..n.4y...N../a..
+    0060 - fd 0a dd 29 a1 ff 04 15-ad 52 f5 36 33 bd 39 30   ...).....R.63.90
+    0070 - 23 dd 71 fe e5 74 43 6a-e1 07 8a 03 26 21 e9 aa   #.q..tCj....&amp;!..
+    0080 - f7 53 d7 a3 f8 03 66 41-85 89 c4 04 65 bd 09 e3   .S....fA....e...
+    0090 - 57 84 80 41 22 67 eb ff-67 7c 46 6c 1d 5d 8a 9d   W..A"g..g|Fl.]..
+    00a0 - 13 cb cc 15 9c d5 59 2f-b1 09 84 03 84 f3 6d e5   ......Y/......m.
+
+    Start Time: 1698384290
+    Timeout   : 7200 (sec)
+    Verify return code: 0 (ok)
+    Extended master secret: yes
+---
+</code></pre>
+<p>命令行debug信息返回：</p>
+<pre><code class="shell">[GMTLS_DEBUG] set sm2 signing certificate
+[GMTLS_DEBUG] set sm2 signing private key
+depth=1 C = CN, O = HUB, OU = HUGUIQI_SM2
+verify return:1
+depth=0 C = CN, ST = ShangHai, L = ShangHai, O = zaxh, CN = tom, emailAddress = guiqi_hu@163.com
+verify return:1
+DONE
+</code></pre>
+<p>说明测试国密服务器say hello成功，可以正常使用。</p>
+<h2 id="其它客户端如何调用服务器"><a title="其它客户端如何调用服务器" class="headerlink" href="#其它客户端如何调用服务器"></a>其它客户端如何调用服务器</h2><p>这台服务器所在服务器的IP为：192.168.1.199，端口号443，开启了https</p>
+<p>正常的curl和wget都不可以直接访问: <code>curl -i -v https://192.168.1.199</code>访问返回为：</p>
+<pre><code class="shell">* About to connect() to 192.168.1.199 port 443 (#0)
+*   Trying 192.168.1.199...
+* Connected to 192.168.1.199 (192.168.1.199) port 443 (#0)
+* Initializing NSS with certpath: sql:/etc/pki/nssdb
+*   CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: none
+* NSS error -12286 (SSL_ERROR_NO_CYPHER_OVERLAP)
+* Cannot communicate securely with peer: no common encryption algorithm(s).
+* Closing connection 0
+curl: (35) Cannot communicate securely with peer: no common encryption algorithm(s).
+</code></pre>
+<p>必须下载gmcurl工具进行测试：</p>
+<p><a target="_blank" rel="noopener" href="https://www.gmssl.cn/gmssl/down/gmcurl">下载地址</a></p>
+<p>国密实验室地址：<a target="_blank" rel="noopener" href="https://www.gmssl.cn/gmssl/index.jsp">https://www.gmssl.cn/gmssl/index.jsp</a></p>
+<p><strong>国密版curl</strong><br>基于curl-7.82.0移植，支持单向认证/双向认证。<br>相关参数:<br>–gmssl, 启用国密SSL协议<br>–cert, 指定双向认证签名证书<br>–key, 指定双向认证签名私钥<br>–cert2, 指定双向认证加密证书<br>–key2, 指定双向认证加密私钥</p>
+<p>使用示例:<br>1）单向国密SSL<br>gmcurl –gmssl -k <a target="_blank" rel="noopener" href="https://ebssec.boc.cn/">https://ebssec.boc.cn/</a><br>2）证书校验<br>gmcurl –gmssl –cacert boc.ca.pem <a target="_blank" rel="noopener" href="https://ebssec.boc.cn/">https://ebssec.boc.cn/</a><br>3）双向国密SSL<br>gmcurl –gmssl –cert sm2.user01.sig.crt.pem –key sm2.user01.sig.key.pem <br>–cert2 sm2.user01.enc.crt.pem –key2 sm2.user01.enc.key.pem <br>–cacert sm2.ca.pem <a target="_blank" rel="noopener" href="https://demo.gmssl.cn:1443/">https://demo.gmssl.cn:1443/</a><br>注释1：user01相关密钥通过”国密数字证书”生成<br>注释2：windows下使用’^’符号来分行</p>
+<p><strong>运行环境</strong><br>WindowsXP及以后版本<br>Centos7/8版本<br>MacOS/x86_64版本<br>本地下载: 参见“<a>国密工具下载</a>”。</p>
+<h3 id="通过gmcurl进行测试调用"><a title="通过gmcurl进行测试调用" class="headerlink" href="#通过gmcurl进行测试调用"></a>通过gmcurl进行测试调用</h3><p>执行单向认证：</p>
+<pre><code class="shell">gmcurl --gmssl -k https://192.168.1.199 -i -v
+</code></pre>
+<p>返回成功：</p>
+<pre><code class="shell">GM Version: 1.0.1 Ported by www.gmssl.cn
+GM options:
+--gmssl, use TLCP protocol
+--cert,  use sm2 sig pem cert
+--key,   use sm2 sig pem key
+--cert2, use sm2 enc pem cert
+--key2,  use sm2 enc pem key
+*   Trying 127.0.0.1:443...
+* Connected to 127.0.0.1 (127.0.0.1) port 443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ECC-SM4-CBC-SM3
+* (101) (OUT), , Unknown (1):
+* (101) (IN), , Unknown (2):
+* (101) (IN), , Unknown (11):
+* (101) (IN), , Unknown (12):
+* (101) (IN), , Unknown (14):
+* (101) (OUT), , Unknown (16):
+* (101) (OUT), , Change cipher spec (1):
+* (101) (OUT), , Unknown (20):
+* (101) (IN), , Unknown (20):
+* SSL connection using GMSSLv1.1 / ECC-SM4-CBC-SM3
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: C=CN; ST=ShangHai; L=ShangHai; O=zaxh; CN=tom; emailAddress=guiqi_hu@163.com
+*  start date: Oct 27 02:55:01 2023 GMT
+*  expire date: Oct 24 02:55:01 2033 GMT
+*  issuer: C=CN; O=HUB; OU=HUGUIQI_SM2
+*  SSL certificate verify result: unable to get local issuer certificate (20), continuing anyway.
+&gt; GET / HTTP/1.1
+&gt; Host: 127.0.0.1
+&gt; User-Agent: curl/7.82.0
+&gt; Accept: */*
+&gt;
+* Mark bundle as not supporting multiuse
+&lt; HTTP/1.1 200 OK
+HTTP/1.1 200 OK
+&lt; Server: nginx/1.25.2
+Server: nginx/1.25.2
+&lt; Date: Fri, 27 Oct 2023 05:36:06 GMT
+Date: Fri, 27 Oct 2023 05:36:06 GMT
+&lt; Content-Type: text/html
+Content-Type: text/html
+&lt; Content-Length: 181
+Content-Length: 181
+&lt; Last-Modified: Thu, 12 Oct 2023 03:08:02 GMT
+Last-Modified: Thu, 12 Oct 2023 03:08:02 GMT
+&lt; Connection: keep-alive
+Connection: keep-alive
+&lt; ETag: "65276312-b5"
+ETag: "65276312-b5"
+&lt; Accept-Ranges: bytes
+Accept-Ranges: bytes
+
+&lt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+&lt;title&gt;我是测试&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;是左岸前端页面测试&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+* Connection #0 to host 127.0.0.1 left intact
+</code></pre>
+<h3 id="使用gmcurl遇到的问题"><a title="使用gmcurl遇到的问题" class="headerlink" href="#使用gmcurl遇到的问题"></a>使用gmcurl遇到的问题</h3><p>执行 <code>gmcurl --gmssl -k https://192.168.1.199 -i -v</code> 经常会返回这样的报错，但不是一直报错，多请求几次，就又可以正常请求了：</p>
+<pre><code>GM Version: 1.0.1 Ported by www.gmssl.cn
+GM options:
+--gmssl, use TLCP protocol
+--cert,  use sm2 sig pem cert
+--key,   use sm2 sig pem key
+--cert2, use sm2 enc pem cert
+--key2,  use sm2 enc pem key
+*   Trying 127.0.0.1:443...
+* Connected to 127.0.0.1 (127.0.0.1) port 443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ECC-SM4-CBC-SM3
+* (101) (OUT), , Unknown (1):
+* (101) (IN), , Unknown (2):
+* (101) (IN), , Unknown (11):
+* (101) (IN), , Unknown (12):
+* (101) (IN), , Unknown (14):
+* (101) (OUT), , Unknown (16):
+* (101) (OUT), , Change cipher spec (1):
+* (101) (OUT), , Unknown (20):
+* (101) (IN), , decrypt error (563):
+* error:1409441B:SSL routines:ssl3_read_bytes:tlsv1 alert decrypt error
+* Closing connection 0
+</code></pre>
+<p>但是多请求几次，就又可以正常访问了，网上找了很多资料，发现都解决不了，最后有一个说法感觉比较靠谱：</p>
+<blockquote>
+<p>是客户端和服务端使用gmssl版本不一致导致的，gmssl 基于 openssl 1.1.0d ，client基于新的1.1.1 之后版本，layer层有更改。<br>回退 client版本可用</p>
+</blockquote>
+<p>我下载的最新的gmcurl版本可能就是基于gmssl 1.1.1之后的版本打包的工具。</p>
+<p>解决方式：</p>
+<pre><code>1. 只能由官方去彻底解决这个问题了
+1. 通过java客户端可以正常调用，不影响服务器之间访问
+</code></pre>
+<p>官方github问题,到目前还是open状态：<a target="_blank" rel="noopener" href="https://github.com/guanzhi/GmSSL/issues/939">https://github.com/guanzhi/GmSSL/issues/939</a></p>
+<h3 id="通过国密浏览器进行调用"><a title="通过国密浏览器进行调用" class="headerlink" href="#通过国密浏览器进行调用"></a>通过国密浏览器进行调用</h3><p><img loading="lazy" alt="image-20231027141234980" src="/images/image-20231027141234980.png"></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45548465/article/details/124913456">参考文章</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F-%E8%BF%90%E7%BB%B4/">系统&运维</a>►<a class="article-category-link" href="/categories/%E7%B3%BB%E7%BB%9F-%E8%BF%90%E7%BB%B4/%E9%95%9C%E5%83%8F/">镜像</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Docker/">Docker</a><a href="/tags/国密/">国密</a><a href="/tags/Gmssl/">Gmssl</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://clockcoder.com/2023/10/25/%E6%90%AD%E5%BB%BA%E5%9B%BD%E5%AF%86nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E6%89%93%E6%88%90docker%E9%95%9C%E5%83%8F/" data-title="搭建国密nginx服务器并打成docker镜像 | 小黑的技术博客" data-tsina="1601653200" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2023/05/23/利用AI制作workflow/"  title="利用AI制作alfred的workflow">
+ <strong>下一篇：</strong><br/> 
+ <span>利用AI制作alfred的workflow
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2023/10/25/搭建国密nginx服务器并打成docker镜像/" data-title="搭建国密nginx服务器并打成docker镜像" data-url="http://clockcoder.com/2023/10/25/%E6%90%AD%E5%BB%BA%E5%9B%BD%E5%AF%86nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E6%89%93%E6%88%90docker%E9%95%9C%E5%83%8F/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%9B%BD%E5%AF%86nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E6%89%93%E6%88%90docker%E9%95%9C%E5%83%8F"><span class="toc-number">1.</span> <span class="toc-text">搭建国密nginx服务器并打成docker镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%9B%BD%E5%AF%86nginx%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">搭建国密nginx服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gmssl-test"><span class="toc-number">1.1.1.</span> <span class="toc-text">gmssl-test</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GM-nginx"><span class="toc-number">1.1.2.</span> <span class="toc-text">GM-nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%94%AF%E6%8C%81gmssl%E7%9A%84nginx%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">启动支持gmssl的nginx服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%87%AA%E7%AD%BE%E5%90%8D%E7%9B%B8%E5%85%B3%E8%AF%81%E4%B9%A6"><span class="toc-number">1.2.1.</span> <span class="toc-text">生成服务器自签名相关证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8nginx%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">启动nginx服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E5%AE%83%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.3.</span> <span class="toc-text">其它客户端如何调用服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87gmcurl%E8%BF%9B%E8%A1%8C%E6%B5%8B%E8%AF%95%E8%B0%83%E7%94%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">通过gmcurl进行测试调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8gmcurl%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.2.</span> <span class="toc-text">使用gmcurl遇到的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%9B%BD%E5%AF%86%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%9B%E8%A1%8C%E8%B0%83%E7%94%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">通过国密浏览器进行调用</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="github-card">
+<p class="asidetitle">Github 名片</p>
+<div class="github-card" data-github="huguiqi" data-width="220" data-height="119" data-theme="medium">
+<script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js" ></script>
+</div>
+  </div>
+
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AFNetWork3-1/" title="AFNetWork3.1">AFNetWork3.1<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/AI/" title="AI">AI<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Alcatraz/" title="Alcatraz">Alcatraz<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IT-运维/" title="IT&amp;运维">IT&amp;运维<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/" title="activiti">activiti<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/AI/chatGPT/" title="chatGPT">chatGPT<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/devops/" title="devops">devops<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/docker/" title="docker">docker<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rpc/dubbo/" title="dubbo">dubbo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/git/" title="git">git<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/github-博客/" title="github 博客">github 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/hexo插件/" title="hexo插件">hexo插件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/iOS/" title="iOS">iOS<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ios-Developer/" title="ios Developer">ios Developer<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/java/" title="java">java<sup>11</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/javascript/" title="javascript">javascript<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/" title="k8s">k8s<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/" title="kafka">kafka<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/maven/" title="maven">maven<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/k8s/minikube/" title="minikube">minikube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/node/" title="node">node<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/kafka/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/postgresql/" title="postgresql">postgresql<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/python/" title="python">python<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rabbitmq/" title="rabbitmq">rabbitmq<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/redis/" title="redis">redis<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/review/" title="review">review<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/rpc/" title="rpc">rpc<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/skywalking/" title="skywalking">skywalking<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/sonarqube/" title="sonarqube">sonarqube<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springCloud/" title="springCloud">springCloud<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springboot/" title="springboot">springboot<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/activiti/springboot/" title="springboot">springboot<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/springcloud/" title="springcloud">springcloud<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/xcode/" title="xcode">xcode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术/" title="专业技术">专业技术<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/专业技术-印象笔记/" title="专业技术(印象笔记)">专业技术(印象笔记)<sup>222</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/分布式/" title="分布式">分布式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端技术/" title="前端技术">前端技术<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/加密解密/" title="加密解密">加密解密<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/区块链/加密货币/" title="加密货币">加密货币<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/区块链/" title="区块链">区块链<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/延迟队列/" title="延迟队列">延迟队列<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/感悟/" title="感悟">感悟<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/杂谈/" title="杂谈">杂谈<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/消息中间件/" title="消息中间件">消息中间件<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/破解/" title="破解">破解<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/科学上网/" title="科学上网">科学上网<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/站内搜索-博客/" title="站内搜索 博客">站内搜索 博客<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/管理/" title="管理">管理<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统/" title="系统">系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-工具/" title="系统&amp;工具">系统&amp;工具<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/" title="系统&amp;运维">系统&amp;运维<sup>34</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/网络配置/" title="网络配置">网络配置<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络配置/" title="网络配置">网络配置<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/路由器/" title="路由器">路由器<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/软件规划/" title="软件规划">软件规划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/系统-运维/镜像/" title="镜像">镜像<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/随笔/" title="随笔">随笔<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试整理/" title="面试整理">面试整理<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/面试题/" title="面试题">面试题<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/从印象笔记导入/" title="从印象笔记导入">从印象笔记导入<sup>222</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/k8s/" title="k8s">k8s<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/springboot/" title="springboot">springboot<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/随笔/" title="随笔">随笔<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/docker/" title="docker">docker<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/redis/" title="redis">redis<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nginx/" title="nginx">nginx<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hexo/" title="hexo">hexo<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/chatGPT/" title="chatGPT">chatGPT<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AI/" title="AI">AI<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/spring-cloud/" title="spring cloud">spring cloud<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/面试题/" title="面试题">面试题<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Rejected/" title="Rejected">Rejected<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/rabbitMQ/" title="rabbitMQ">rabbitMQ<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/路由器/" title="路由器">路由器<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/nexus/" title="nexus">nexus<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ReactNative/" title="ReactNative">ReactNative<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/postgresql/" title="postgresql">postgresql<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jdk/" title="jdk">jdk<sup>2</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://clockcoder.com" target="_blank" title="承接手机app、微信、web开发">找人做软件</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+<div class="doubanshow">
+<p class="asidetitle">豆瓣秀</p>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/64698454/?show=collection&amp;n=12&amp;columns=3&amp;hidelogo=yes&amp;hideself=yes&amp;cat=book|movie" ></script>
+</div>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1601653200&verifier=bd864c6a&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Sam.This is my Blog. <br/>
+			Anything that can go wrong will go wrong</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/1601653200" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/huguiqi" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		<a href="https://twitter.com/XiaoheiSpring" target="_blank" class="icon-twitter" title="twitter"></a>
+		
+		
+		<a href="https://www.facebook.com/sam.hu.7334" target="_blank" class="icon-facebook" title="facebook"></a>
+		
+		
+		<a href="https://www.linkedin.com/in/小黑-胡-ab83b992" target="_blank" class="icon-linkedin" title="linkedin"></a>
+		
+		
+		<a href="https://www.douban.com/people/64698454" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="http://www.zhihu.com/people/hu-xiao-hei-53" target="_blank" class="icon-zhihu" title="知乎"></a>
+		
+		
+		<a href="https://plus.google.com/109318125124422212783?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:guiqi.hu@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="http://blog.huguiqi.com." target="_blank" title="sam">sam</a> © 2023 
+		
+		<a href="/about" target="_blank" title="sam">sam</a>
+		
+		
+		</p>
+</div>
+
+ <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','qtnHgvQyg5N9h4en-9wA','2.0.0');
+</script>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"小黑_spring"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'huguiqicom';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f5971877c7b77f98074be3ddabf34fbe";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
